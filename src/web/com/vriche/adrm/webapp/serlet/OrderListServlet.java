@@ -255,12 +255,12 @@ public class OrderListServlet extends HttpServlet
 //			System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>realSum>>>>>>>>>>>>>"+ realSum);
 //			System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>moneyIn>>>>>>>>>>>>>"+ moneyIn);
 
-		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>posStart>>>>>>>>>>>>>"+ posStart);
-		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>total_count>>>>>>>>>>>>>"+ total_count);
-		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>count>>>>>>>>>>>>>"+ count);
-		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>scrollTop>>>>>>>>>>>>>"+ scrollTop);
-		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>fromEdit>>>>>>>>>>>>>"+ fromEdit);
-		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>orderStates>>>>>>>>>>>>>"+ orderStates);
+//		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>posStart>>>>>>>>>>>>>"+ posStart);
+//		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>total_count>>>>>>>>>>>>>"+ total_count);
+//		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>count>>>>>>>>>>>>>"+ count);
+//		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>scrollTop>>>>>>>>>>>>>"+ scrollTop);
+//		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>fromEdit>>>>>>>>>>>>>"+ fromEdit);
+//		System.out.println("getAuthorList2>root>>>>>>>>>>>>>>>>>>>>>>orderStates>>>>>>>>>>>>>"+ orderStates);
 
 
 	   response.setContentType("text/xml; charset=UTF-8"); 
@@ -413,6 +413,10 @@ public class OrderListServlet extends HttpServlet
 		int k = 0;
 		while (it.hasNext()){
 			Order order = (Order)it.next();
+			
+			Long orgId = order.getOrgId();
+//			System.out.println("*******************************************orgId********************  "+ orgId);
+			
 			row = xmldoc.createElementNS(null,"row");
 			row.setAttributeNS(null,"id",order.getId().toString());
 			
@@ -523,6 +527,8 @@ public class OrderListServlet extends HttpServlet
 //				mp.put("orgId","1") ;
 //			}
 			
+			
+			mp.put("orgId",orgId) ;
 			mp.put("id",order.getId());
 			strQueryString = StringUtil.map2QueryString(mp);
 

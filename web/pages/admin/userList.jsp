@@ -255,8 +255,8 @@
 	                      </tr>	 						    
 						    
 						   <tr> <!-- ²¿ÃÅÃû -->
-	                        <td nowrap="nowrap" class="requiredInput"><fmt:message key="branchForm.name"/></td>	
-	                        <td><select id="branchId"></td>	      
+	                        <td nowrap="nowrap" class="dataLabel"><fmt:message key="branchForm.name"/></td>	
+	                        <td><select id="branchId"/></td>	      
 	                         <td>&nbsp;</td>	                      
 	                      </tr>
 	                      

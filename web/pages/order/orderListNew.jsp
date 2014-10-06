@@ -79,7 +79,7 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/PublishArrangeManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/OrderDetailManager.js'/>"></script>
 
-
+<script type="text/javascript" src="<c:url value='/scripts/ext/3.2.0/plus/MessageBox.js'/>"></script>
 
 
 

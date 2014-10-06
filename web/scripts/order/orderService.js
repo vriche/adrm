@@ -3979,7 +3979,7 @@ function save_Order(){
 	 
     var resource_sort = getSelectParamFromAttribute($("resourceSortId"),"paramvalue");
     var customerCategoryId  = getValueFromStoreById(Ext.getCmp('customerName'),"customerCategoryId");
-			order.obj.tempStr = orgId +","+ resource_sort +","+ customerCategoryId;
+	order.obj.tempStr = orgId +","+ resource_sort +","+ customerCategoryId;
     var isOrderChanged = order.isChanged(orderBackUp,order.obj,_app_params.sysParam);
 
 
@@ -7170,6 +7170,7 @@ function search_adver_cont(model){
 }
 
 function add_new_OrderDetail_more(){
+
 	var orderCategoryMain = getSelectParamFromAttribute($("categoryId"),"calculateauto");//根据付款分配应收 
 	var orderCategoryMainId = $("categoryId").value;//根据付款分配应收 
     var cmdCustomer = Ext.getCmp("customerName");
@@ -7182,10 +7183,14 @@ function add_new_OrderDetail_more(){
 //	var orderCheckState =  $("paymentId").value;
 //	var isEdit = getEditOrderStates(colIndex,$("isCkecked").value);
 	
+	var resource_sort = getSelectParamFromAttribute($("resourceSortId"),"paramvalue");
 	
+	//alert(resource_sort);
 	
 	var paramObj={
 			orgId:orgId, 
+			year:$("order_year").value,
+			resource_sort:resource_sort,
 			orderId:order.obj.id,
 			orderCategoryMain:orderCategoryMain,
 			orderCategoryMainId:orderCategoryMainId,

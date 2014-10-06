@@ -146,7 +146,7 @@ public class OrgManagerImpl extends BaseManager implements OrgManager {
 		System.out.println("orgId>>>>>>>>>>>>>>>>>>>>ttttttttttvvvvv>>>>>>>>>>>>>>>>>>>>>>>>>>>" + orgId);
      
 		Org org2 = new Org();
-		org2.setParentId("0");
+//		org2.setParentId("0");
 
 		if(SysParamUtil.useMoreCarrierSortParam()){
 			if(!UserUtil.isSuperUser() || orgId>0){
@@ -162,6 +162,8 @@ public class OrgManagerImpl extends BaseManager implements OrgManager {
 		
 		
 		List ls = dao.getOrgs(org2);
+		
+		System.out.println("ls.size>>>>>>>>>>>>>>>>>>>>ttttttttttvvvvv>>>>>>>>>>>>>>>>>>>>>>>>>>>" + ls.size());
 		
 		for (Iterator it = ls.iterator();it.hasNext();){
 			 	Org org = (Org)it.next();

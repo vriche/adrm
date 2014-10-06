@@ -49,6 +49,8 @@ public interface UserDao extends Dao {
     
     public List getSysUserByRoleId(Long roleId);
     
+    public List getSysUserByRoleIdOrgId(Map mp);
+    
     public List getUsersByBranchId(User user);
     
     public List getUsersOwnerByBranchId(Map mp);

@@ -638,6 +638,31 @@ public class UserUtil {
 		
 	}
 	
+	public static  List getUserOrgsObjSub(String loginUser){
+		
+		loginUser = (loginUser == null||"".equals(loginUser))?UserUtil.getCurrentPrincipalUser():loginUser;
+		Map mp = (Map)Constants.APPLACTION_MAP.get(Constants.GLOBAL_CUSRUSER_ORGS_OBJ);
+		Object obj = mp.get(loginUser);
+		
+//		log.info(">>>>>>>>>>>>>getUserOrgsObj>>>>>>>>>777777777777777777777777777>>>>>>>" +loginUser);
+		List lsNew = new ArrayList();
+		if(obj != null){
+			List ls = (List)mp.get(loginUser);
+//			log.info(">>>>>>>>>>>>>getUserOrgsObj>>>>>>>>>777777777777777777777777777>>>>>>>" +ls.size());
+//			log.info(">>>>>>>>>>>>>getUserOrgsObj>>>>>>>>>777777777777777777777777777>>>>>>>" +((Org)ls.get(0)).toString());
+			for(Iterator it = ls.iterator();it.hasNext();){
+				Org org = (Org)it.next();
+				if(!"0".equals(org.getParentId())){
+					lsNew.add(org);
+				}
+			}
+			return lsNew;
+		}else{
+			return new ArrayList();
+		}
+		
+	}
+	
 	public static String getUserOrgs(String loginUser){
 		List ls = getUserOrgsObj(loginUser);
 	    String s1 ="";

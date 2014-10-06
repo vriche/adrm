@@ -398,11 +398,15 @@ function load_default(){
 
 function loadDataUserCheckBox(user){
 
-	var rescsArrays = user.getSysUserColByRoleId(user.roleId);
-//    	alert(rescsArrays);
+//	var rescsArrays = user.getSysUserColByRoleId(user.roleId);
+	
+
+	//alert(user.roleId);
+	var rescsArrays = user.getSysUserColByRoleIdOrgId(user.roleId,user.obj.version);
+    	//alert(rescsArrays);
     refreshUserCheckBox(mygrid);
 //	refreshCheckBox(this.tableName);
-//	alert(rescsArrays);
+
 	putValuesInUserCheckBox2(mygrid,rescsArrays);
 }
 
@@ -413,6 +417,7 @@ function loadDataResCheckBox(res){
 //	putValuesInUserCheckBox2(mygrid2,rescsArrays);	
 	
 	if(res.roleId > 0){
+		
 	    var rescsArrays = sysResource.getSysResourceColByRoleId(res.roleId);  
 	    refreshUserCheckBox(mygrid2);
 		putValuesInUserCheckBox2(mygrid2,rescsArrays);
@@ -483,6 +488,14 @@ function putValuesInUserCheckBox2(grid,values){
 		for(var i=0; i<len;i++){
 			var id= values[i];
 			grid.cells(id,0).setValue(1);
+			
+//			try{
+//				grid.cells(id,0).setValue(1);
+//			}catch(err){
+//				
+//			}
+
+			
 		}
 	
 	}		
@@ -552,6 +565,12 @@ function getSysResourceTable(obj){
 function getSysUserTable(obj){
 	obj.mygrid = mygrid;
 	obj.model =1;
+	
+//alert(obj.branchId);
+//alert(branchId);
+	
+	
+
 	obj.getUsersByBranchId(); 
 	
 	obj.callbakfn =function(){
@@ -646,10 +665,13 @@ function loadDataCheckBox(){
 	
 	var selectedItemId =  role.tree.dhtmlTree.getSelectedItemId();
 	
-//	alert(selectedItemId);
+
 	
 	
 	var selectedType = role.tree.dhtmlTree.getUserData(selectedItemId,"type");
+	
+
+	
 	
 	if(selectedType != 1 ){
 		if($("radioResources").checked) {
@@ -665,8 +687,12 @@ function loadDataCheckBox(){
 			loadDataUserCheckBox(user);
 		}		 
 	}else{
+		
+	
+		
 		if($("radioResources").checked) {
 //			refreshCheckBox(sysResource.tableName);
+		
 			 refreshUserCheckBox(mygrid2);
 		}else{
 			 refreshUserCheckBox(mygrid);

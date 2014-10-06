@@ -409,7 +409,11 @@
 		order by UPPER(u.username)
     </select>	
 	
-
+	<select id="getSysUserByRoleIdOrgId" resultMap="userResult">
+		select distinct u.* from tb_sys_user u, tb_sys_user_role ur,tb_sys_user_branch ub,tb_sys_branch bran 
+        where (ur.user_id = u.id) and (ub.user_id = u.id)  and (bran.sys_branch_id = ub.branch_id) and  ur.role_id=#roleId#   and bran.sys_org_id =#orgId# 
+		order by UPPER(u.username)
+    </select>	
 
     <delete id="deleteUser" parameterClass="java.lang.Long">
     <![CDATA[

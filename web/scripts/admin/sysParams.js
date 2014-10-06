@@ -350,7 +350,11 @@ function _make_order_cateMain_select(orgId,selectItemId,event,callBackFun,select
 
 
 function _make_order_cateMain_select2(rederId,elname,width,fieldLabel,emptyText,orgId,event,callBackFun,defValue,xtype){
-	var objs_temp = _app_params.orderCateMain[orgId*1-1];
+	//console.log( _app_params.orderCateMain);
+	//var objs_temp = _app_params.orderCateMain[orgId*1-1];
+	
+	var objs_temp = eval('_app_params.orderCateMain.orgId_'+orgId);
+
 	var objs = new Array();
 	for(var i = 0;i<objs_temp.length;i++){
 		var obj = objs_temp[i];
@@ -396,7 +400,9 @@ function _make_order_cateMain_select2(rederId,elname,width,fieldLabel,emptyText,
 
 
 function showOrg_prompt_whith_comboBox(func){
-	var objs = _app_params.rights.userOrgs;
+	
+//	var objs = _app_params.rights.userOrgsub;
+	var objs = _app_params.rights.userOrgsub;
 	var data = [];
 	for(var i = 0;i < objs.length; i++){data.push([objs[i].id,objs[i].name]);} 
 	var store = new Ext.data.SimpleStore({ fields: ['id', 'name'],data : data });  

@@ -636,7 +636,7 @@ public class SysParamUtil {
 //		              log.info(">>>>>>>>>>>>>getGlobalParams userOrgIds>>>>>>>>>>>>>>>>" +userOrgIds);
 		              
 		              List lsOrgs = UserUtil.getUserOrgsObj(loginName);
-		              
+		              List lsOrgsub = UserUtil.getUserOrgsObjSub(loginName);
 //		              log.info(">>>>>>>>>>>>>getGlobalParams lsOrgs>>>>>>>>>>>>>>>>" +lsOrgs.size());
 		              
 		              String user_rights = StringUtil.null2String(u.getAddress().getProvince());
@@ -650,6 +650,8 @@ public class SysParamUtil {
 		              String isInc = user_rights.indexOf("1")>-1?"1":"0";
 		              String isCuik = user_rights.indexOf("2")>-1?"1":"0"; 
 		              rightsMap.put("userOrgs",lsOrgs);
+		              rightsMap.put("userOrgsub",lsOrgsub);
+		              
 		              rightsMap.put("userOrgIds",userOrgIds);
 		              rightsMap.put("incomeMessageAlert",isInc);
 		              rightsMap.put("cuikMessageAlert",isCuik);
@@ -790,13 +792,14 @@ public class SysParamUtil {
                 User u = UserUtil.getUserByUserName(loginName);
                 String userOrgIds = UserUtil.getUserOrgs(loginName);
                 List lsOrgs = UserUtil.getUserOrgsObj(loginName);
+                List lsOrgsub = UserUtil.getUserOrgsObjSub(loginName);
                 
-//                log.info(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
+               
+                System.out.println(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
 
                 String user_rights = StringUtil.null2String(u.getAddress().getProvince());
                 
-              
-                
+            
                 long end3 = System.currentTimeMillis();
 //                System.out.println("UserUtil.getUserByUserName>>>>>>>>   "+ (end3 -end2) +"Ãë");
 
@@ -806,18 +809,26 @@ public class SysParamUtil {
                 UserUtil.isGrandedRes(loginName,rightsMap); 
            
 //                Map rightsMap =  UserUtil.getGrandedResFromMapByUerName(loginName); 
-                log.info(">>>>>>>>>>>>>getGlobalParams>>>rightsMap>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +rightsMap.size());
-                
-          
-                
+                log.info(">>>>>>>>>>>>>1111111111111111111 2222222222222222        333333333333333333      >>>rightsMap>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +rightsMap.size());
+                System.out.println(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
+                System.out.println(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
+                System.out.println(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
+                System.out.println(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
+                System.out.println(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
+                System.out.println(">>>>>>>>>>>>>getGlobalParams>>>lsOrgs>>>>>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>" +lsOrgs.size());
+
+                       
                 
                 
                 String isInc = user_rights.indexOf("1")>-1?"1":"0";
                 String isCuik = user_rights.indexOf("2")>-1?"1":"0"; 
                 rightsMap.put("userOrgs",lsOrgs);
+                rightsMap.put("userOrgsub",lsOrgsub);
                 rightsMap.put("userOrgIds",userOrgIds);
                 rightsMap.put("incomeMessageAlert",isInc);
                 rightsMap.put("cuikMessageAlert",isCuik);
+                
+                
                 
                 long end4 = System.currentTimeMillis();
                 

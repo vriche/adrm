@@ -436,7 +436,11 @@ callOnLoad(init);
 
 function load_data(id){
 	 var url = mygrid.getUserData(id,"href");
+//	 var orgId = mygrid.getUserData(id,"orgId");
      var param = $H(url.toQueryParams());
+     
+//     var orgId = config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value; 	
+//     param.orgId = orgId;
 	 param.set("scrollTop",mygrid.objBox.scrollTop);
 	 url =  ctxPath + "editOrder.html?" + param.toQueryString();	
 	 self.location =url;	
@@ -1240,13 +1244,38 @@ function resetMatterNameText(ev){
 
 function add_new_OrderDetail_more(){
 //	var orderCategoryMain = getSelectParamFromAttribute($("categoryId"),"calculateauto");//根据付款分配应收
-	var paramObj={
-			orgId: config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value,  
-			orderId:0,
-			fromModel:2
-	}      
-    build_more_paraArray =  get_fast_sign_order_win(ctxPath,paramObj);
-    build_more_paraArray.show();
+	var orgCount = _app_params.rights.userOrgs.length;
+	var orgId =  config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value;
+	var resource_sort = $("carType").value;
+
+	function func(oid){
+		
+		if(oid) orgId = oid;
+		
+		var paramObj={
+				orgId: orgId,  
+				resource_sort:resource_sort,
+				orderId:0,
+				year:$("order_year").value,
+				fromModel:2
+		}      
+	    build_more_paraArray =  get_fast_sign_order_win(ctxPath,paramObj);
+	    build_more_paraArray.show();
+	}
+	
+
+	 checkOrg(func);
+
+}
+
+function checkOrg(func){
+	var orgCount = _app_params.rights.userOrgs.length;
+	var orgId =  config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value;
+	if(orgCount > 1 && config_oneOrgMoreSuborgsParam != '1' && orgId =='1'){
+		showOrg_prompt_whith_comboBox(func);
+	}else{
+		func();
+	}
 }
 
 
@@ -1733,13 +1762,20 @@ function rest_query_order(){
 }
 
 
-function addNewOrder(){
-	var paramObj = getLoadDataParams(null,true);
-	var url = ctxPath +  "editOrder.html?"+$H(paramObj).toQueryString();
-	parent.location.href = url;
+function addNewOrder(){ 
+	var orgId =  config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value;
+	function func(oid){
+		if(oid) orgId = oid;
+		var paramObj = getLoadDataParams(null,true);
+		paramObj.orgId = orgId;
+		var url = ctxPath +  "editOrder.html?"+$H(paramObj).toQueryString();
+		parent.location.href = url;	
+	}
+	
+	checkOrg(func);
 
 }
-
+  
 
 function displaySearchDiv(){
 	var oDiv = $("theDivSearch");	

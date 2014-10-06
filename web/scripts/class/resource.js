@@ -190,36 +190,50 @@ Resource.prototype.getResourceSelectFromMap3 = function(obj,el,width,event,callb
 
 
 
+//Resource.prototype.makeSelectHtml= function(objs,name,width,event){
+//    var div = document.createElement("div");
+//    var span = document.createElement("span");
+//    var parnetNode = $(name).parentNode;
+//    
+//    div.setAttribute("style","position:relative;");
+//    span.setAttribute("style","margin-left:100px;width:18px;overflow:hidden;");
+//    
+//    DWRUtil.removeAllOptions(name);
+//    
+//    var select = $(name);
+//
+//    for(var i = 0;i< objs.length;i++){
+//    
+//	   var  option = new Option(objs[i].resourceName, objs[i].id);
+////	   option.setAttribute("position",objs[i].value);
+//	   option.isManual = objs[i].isManual;
+//	   select.options.add(option);
+//    }
+//
+////	select.setAttribute("style","width:138px;margin-left:-100px;font-size:12px;");
+//	select.setAttribute("style","width:" + width +"px;margin-left:-100px;CURSOR: pointer;");
+//	
+//	select.setAttribute("onChange","javascript:"+ event +"(this)");
+//	
+//	div.appendChild(span);
+//	span.appendChild(select);
+//	parnetNode.appendChild(div);
+// }
 Resource.prototype.makeSelectHtml= function(objs,name,width,event){
-    var div = document.createElement("div");
-    var span = document.createElement("span");
+  
     var parnetNode = $(name).parentNode;
-    
-    div.setAttribute("style","position:relative;");
-    span.setAttribute("style","margin-left:100px;width:18px;overflow:hidden;");
-    
     DWRUtil.removeAllOptions(name);
-    
     var select = $(name);
-
     for(var i = 0;i< objs.length;i++){
-    
 	   var  option = new Option(objs[i].resourceName, objs[i].id);
-//	   option.setAttribute("position",objs[i].value);
 	   option.isManual = objs[i].isManual;
 	   select.options.add(option);
     }
 
-//	select.setAttribute("style","width:138px;margin-left:-100px;font-size:12px;");
 	select.setAttribute("style","width:" + width +"px;margin-left:-100px;CURSOR: pointer;");
-	
 	select.setAttribute("onChange","javascript:"+ event +"(this)");
-	
-	div.appendChild(span);
-	span.appendChild(select);
-	parnetNode.appendChild(div);
+	parnetNode.appendChild(select);
  }
-
 
 
 Resource.prototype.getResourceByIdFromMap = function(obj,callBackFun){

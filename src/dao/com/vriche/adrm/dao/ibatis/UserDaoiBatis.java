@@ -129,6 +129,12 @@ public class UserDaoiBatis extends BaseDaoiBATIS implements UserDao {
 	public List getSysUserByRoleId(Long roleId) {
 		return getSqlMapClientTemplate().queryForList("getSysUserByRoleId", roleId);
 	}
+	
+	public List getSysUserByRoleIdOrgId(Map mp) {
+		return getSqlMapClientTemplate().queryForList("getSysUserByRoleIdOrgId", mp);
+	}
+	
+	
 
 	/**
      * Convenience method to delete roles

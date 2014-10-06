@@ -115,6 +115,7 @@
 
 
 <script type="text/javascript" src="<c:url value='/scripts/ext/3.2.0/plus/ComboBoxTree.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/ext/3.2.0/plus/MessageBox.js'/>"></script>
 
 <title><fmt:message key="orderDetail.title"/></title>
 <content tag="heading"><fmt:message key="orderDetail.heading"/></content>

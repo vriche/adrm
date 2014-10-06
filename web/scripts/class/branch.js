@@ -333,12 +333,22 @@ Branch.prototype.addNewRow = function(mode,editRow){
 	DWREngine.setAsync(true);	
 	
 	function setValueFun(objs){
-		 makeSelectHtml(objs,name,event);
+		// makeSelectHtml(objs,name,event);
+		makeSelectHtmlWidth(objs,name,event,100)
 		 if(callBakFun) callBakFun();
 	}
 }    
    
-
+ Branch.prototype.makeSelect2 = function(obj,name,event,callBakFun) {
+		DWREngine.setAsync(false);
+		BranchManager.getBranchSelect(obj,setValueFun);
+		DWREngine.setAsync(true);	
+		
+		function setValueFun(objs){
+			makeSelectHtmlWidth(objs,name,event,155)
+			 if(callBakFun) callBakFun();
+		}
+	}  
 
 /***********************************************
 * 		       Ê÷ÐÎ´¦Àí                               
@@ -532,6 +542,9 @@ Branch.prototype.removeBranchList = function(id,delRow,parentId,branch){
 		
    }
 }
+
+
+
 
 
 

@@ -480,7 +480,20 @@ User.prototype.getSysUserColByRoleId = function(roleId){
 	var propertyName = "id";
 	var str = new Array();
 	DWREngine.setAsync(false);
-	UserManager.getSysUserColByRoleId(getFun,roleId,propertyName);	
+	UserManager.getSysUserColByRoleId(roleId,propertyName,getFun);	
+	DWREngine.setAsync(true);
+	
+	function getFun(strArray){
+		str = strArray;
+	}
+	return str;
+}
+
+User.prototype.getSysUserColByRoleIdOrgId = function(roleId,orgId){
+	var propertyName = "id";
+	var str = new Array();
+	DWREngine.setAsync(false);
+	UserManager.getSysUserColByRoleIdOrgId(roleId,orgId,propertyName,getFun);	
 	DWREngine.setAsync(true);
 	
 	function getFun(strArray){
@@ -512,6 +525,8 @@ User.prototype.getUsersByBranchId = function(callBak_Fun){
 
     if (page.pageSize > 0){
 		var size = this.getUsersByBranchIdCount(obj);
+		
+		
 		page.size = size;
 
 		if(obj.branchId!=branchId){
@@ -519,6 +534,7 @@ User.prototype.getUsersByBranchId = function(callBak_Fun){
 			page.pageIndex = 1;
 		}
 		page.MakePageNav(page.pageIndex,page.pageInfo);
+		
 
 		//UserManager.getUsersByBranchIdPage(OBJ.fillTalbe,obj,page.pageIndex,page.pageSize);
 //		UserManager.getUserListByBranchIds(OBJ.fillTalbe,obj,page.pageIndex,page.pageSize);

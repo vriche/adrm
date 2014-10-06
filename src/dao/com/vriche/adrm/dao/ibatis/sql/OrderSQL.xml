@@ -368,6 +368,8 @@
 				
 				left outer join tb_order_category OC 
 			 on   DT.order_category_id = OC.order_category_id
+			 
+		
 		
 				Inner join tb_sys_user U 
 			 on O.user_id = U.id
@@ -520,9 +522,10 @@
 			</isNotEmpty>
 
 			<isNotEmpty prepend="AND" property="matterName">
-				<![CDATA[ MT.name like '%$matterName$%']]>
+				<![CDATA[ (MT.name like '%$matterName$%' or MT.edit like '%$matterName$%')]]>
 			</isNotEmpty>
 						
+	
 			
 
 			<isNotNull property="MatterIdList">
@@ -568,6 +571,9 @@
 		
 	
 	<resultMap id="orderResult_groupBy_test"   class="order">
+	
+	
+	    <result property="orgId" column="orgId"/>
         <result property="id" column="order_id"/>
 		<result property="contractId" column="contract_id" nullValue="0"/>
         <result property="orderCode" column="order_code" nullValue=""/>
@@ -593,6 +599,7 @@
 		<!-- result property="orderPublic.moneyIn" column="order_id" select="getIncomeUsedByOrderId"/  -->
 		<result property="orderPublic.moneyIn"  column="money_in"/>
 		<result property="orderPublic.matterName"  column="matter_name"/>
+		<result property="orderPublic.matterEdit"  column="matter_edit"/>
 		<result property="orderMeno" column="order_meno" />
 		<result property="publishMemo" column="publish_memo" nullValue=""/>
 		
@@ -619,7 +626,8 @@
 		
 				ifnull(min(DT.publish_start),0) as publish_start_date, 
 				ifnull(max(DT.publish_end),0) as publish_end_date,
-		        MT.name as matter_name 
+		        MT.name as matter_name,  
+		        MT.edit as matter_edit  
 		<include refid="orderResult_groupBy_where_from"/>
 		<include refid="orderResult_groupBy_where"/>
 		
@@ -669,7 +677,7 @@
              </isNotEmpty -->
 			 
 			<isNotEmpty prepend="AND" property="matterName">
-				<![CDATA[ matter_name like '%$matterName$%']]>
+				<![CDATA[( matter_name like '%$matterName$%' or matter_edit like '%$matterName$%')]]>
 			</isNotEmpty>
 
 			<isNotEmpty prepend="AND" property="arrears" >
@@ -708,6 +716,8 @@
 		    CON.code as contract_code,
 		    S.name as checkedState,  
 		    MT.name as matter_name,	
+		    MT.edit as matter_edit,	
+		    OC.sys_org_id orgId,
 
 			ifnull(min(DT.publish_start),0) as publish_start_date, 
 			ifnull(max(DT.publish_end),0) as publish_end_date, 
@@ -744,7 +754,7 @@
 			</isEqual>					
 			 
 			<isNotEmpty prepend="AND" property="matterName">
-				<![CDATA[ matter_name like '%$matterName$%']]>
+				<![CDATA[(matter_name like '%$matterName$%' or  matter_edit like '%$matterName$%')]]>
 			</isNotEmpty>
 			
 			
@@ -1021,9 +1031,11 @@
 		    C.customer_name,
 			C.customer_category_id as customerCategoryId,
 		    CON.code as contract_code,
+		     OC.sys_org_id orgId,
+		     
 		    S.name as checkedState,  
 		    MT.name as matter_name,	
-
+ 			MT.edit as matter_edit,	
 		    ifnull(min(DT.publish_start),0) as publish_start_date, 
 		    ifnull(max(DT.publish_end),0) as publish_end_date,
 		    ifnull(sum(DT.sum_times),0) as sum_times, 
@@ -1082,7 +1094,7 @@
              </isNotEmpty -->
 			 
 			<isNotEmpty prepend="AND" property="matterName">
-				<![CDATA[ matter_name like '%$matterName$%']]>
+				<![CDATA[( matter_name like '%$matterName$%' or  matter_edit like '%$matterName$%' )]]>
 			</isNotEmpty>
 
 			<isNotEmpty prepend="AND" property="arrears" >
@@ -1092,7 +1104,7 @@
 			<isNotEmpty prepend="AND" property="noArrears">
 				 <![CDATA[ money_realpay = ifnull(money_in,0) and  money_realpay >0 ]]>
 			</isNotEmpty>		
-			
+			 
 			<isNotEmpty prepend="AND" property="zero" >
 				 <![CDATA[ money_realpay = 0  ]]>
 			</isNotEmpty>
@@ -1620,7 +1632,7 @@
 		    C.customer_category_id as customerCategoryId,
 		    CON.code as contract_code,
 		    S.name as checkedState,
-		
+		    OC.sys_org_id orgId,
 
 		    min(DT.publish_start) as publish_start_date, 
 		    max(DT.publish_end) as publish_end_date,
@@ -1630,7 +1642,8 @@
 			sum(DT.sys_price*DT.sum_times) as money_base, 
 			sum(DT.money_realpay) as money_realpay,	
 			sum(DT.money_in) as money_in,
-            MT.name as matter_name	
+            MT.name as matter_name,
+            MT.edit as matter_edit	
 		 
 		 from tb_order O  
 		 

@@ -56,7 +56,9 @@ MediaOrg.prototype.makeSelectItemAnalyze = function(obj,name,event){
 	//DWREngine.setAsync(true);
 	
 	function fillFun(objs){
-		makeSelectHtmlAnalyze(objs,name,event);
+		//makeSelectHtmlAnalyze(objs,name,event);
+		makeSelectHtmlWidth(objs,name,event,100);
+		
 	}
 }
 

@@ -513,7 +513,7 @@ function selectUserRel(){
     }
     
     
-    
+   
 
 
 //	popupcenter.url ="selectPopup/selectUserRel.html?id=" + parentUserId;
@@ -1137,10 +1137,10 @@ function getSysUser(branchId,userId,orgId){
 		  orgId = selectedItemId.substring(0,selectedItemId.indexOf('_'));
 	}	
 	
-	
+
 
 	branch.orgId = orgId;
-	branch.makeSelect(branch,branch.selectName);
+	branch.makeSelect2(branch,branch.selectName);
 	$("orgId").value = orgId;
 
 	user.reset();

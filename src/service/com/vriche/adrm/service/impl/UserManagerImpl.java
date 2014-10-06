@@ -253,6 +253,29 @@ public class UserManagerImpl extends BaseManager implements UserManager {
 			}
 		}
 		return s;
+	}	
+	
+	public String[] getSysUserColByRoleIdOrgId(String roleId,String orgId,String propertyName) {
+//		System.out.println(">>>>>>>>>>>>>>roleId"+roleId);
+		Map mp = new HashMap();
+		mp.put("roleId", roleId);
+		mp.put("orgId", orgId);
+		List ls = dao.getSysUserByRoleIdOrgId(mp);
+		
+//		System.out.println(">>>>>>>>>>>>>>size"+ls.size());
+		
+		int size = ls.size();
+		String[] s = new String[size];
+		
+		int j = 0;
+		for (Iterator it = ls.iterator();it.hasNext();){
+			try {
+				s[j++] = (String) BeanUtils.getProperty(it.next(),propertyName) ;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return s;
 	}		
 	
 	

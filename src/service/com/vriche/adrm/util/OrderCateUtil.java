@@ -118,6 +118,9 @@ public static  Map getOrderCateMain_Map(){
 //			System.out.println("orderCategory>>>>>>>>>>>>>bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb>>>>>"+orderCategoryList.size() ); 
 //			mp.put(orgId,orderCategoryList);
 		}
+		
+		System.out.println("orderCategory>>>>>>>>>         654321         >>>>"+mpp.size() ); 
+		
 		return mpp;
 	}
 }

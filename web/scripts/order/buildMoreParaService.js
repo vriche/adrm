@@ -121,16 +121,26 @@ var build_more_paraArray;
 	 	tag_orderDetail_save =  _app_params.rights.tag_orderDetail_save;
 		tag_orderList_new =  _app_params.rights.tag_orderList_new;		
 		
+		order_year = getParamFromUrl(srcStr,"year");
+		if(order_year==null) order_year = _app_params.serviceDate.year;
 		
 		startDate1 = _app_params.serviceDate.defStartDate;
 		startDate2 = _app_params.serviceDate.def;
-		endDate1 = _app_params.serviceDate.defEndDate;		
+		endDate1 = _app_params.serviceDate.defEndDate;	
 
-		order_year = _app_params.serviceDate.year;
 		priceTypeId = config_autoPriceTypeParam;
-				
+	
+		
+		if(order_year != startDate2.substring(0,4)){
+			startDate2 = order_year+"0101";
+			endDate1 = order_year+"0131";
+		}
+		
+		
+		
 		order_id = getParamFromUrl(srcStr,"orderId");
 		orgId = getParamFromUrl(srcStr,"orgId");
+		resource_sort = getParamFromUrl(srcStr,"resource_sort");
 		orderCategoryMain = getParamFromUrl(srcStr,"orderCategoryMain");
 		orderCategoryMainId = getParamFromUrl(srcStr,"orderCategoryMainId");
 		orderCkeckState = getParamFromUrl(srcStr,"orderCkeckState");
@@ -145,8 +155,9 @@ var build_more_paraArray;
 		sum_money = getParamFromUrl(srcStr,"sumMoney");
 		sum_times = getParamFromUrl(srcStr,"sumTimes");
 		order_code = getParamFromUrl(srcStr,"orderCode");
+		
 //		order_check_state = getParamFromUrl(srcStr,"orderCkeckState");
-    
+			
 		
 		isOrderEditState = order_id > 0;
 
@@ -513,8 +524,14 @@ var build_more_paraArray;
 	
 //	var monthDetailComboBox = report.getFtiterSort('month_detail_cmd_id','分月显示:',80,null,true);
 
-
-    var defValue = (isOrderEditState && fromModel ==1)? orderCategoryMainId:config_orderModCategoryParam;
+//   alert('isOrderEditState_'+isOrderEditState)
+   
+//    alert('fromModel_'+fromModel)
+	
+    var defValue = (isOrderEditState && fromModel ==1)||orderCategoryMainId ? orderCategoryMainId:config_orderModCategoryParam;
+    
+   
+    
 	var cateMain_com = _make_order_cateMain_select2(null,'categoryId_for_paraArray',70,null,null,orgId,null,null,defValue,true);
   
 	
@@ -543,7 +560,7 @@ var build_more_paraArray;
 	cust.obj.orgId = orgId;
 	var cutCmd = cust.get_custumer_for_order2('remote',180,300,'customerName_for_paraArray',null,'请选择客户...',true);
 
-	var cmdYear = myUtils.getComYear('year_for_paraArray','年份',50,_app_params.serviceDate.year,true) 
+	var cmdYear = myUtils.getComYear('year_for_paraArray','年份',50,order_year,true) ;
 	
 
 //,paymoney_text,totalTime_text
@@ -584,17 +601,21 @@ var build_more_paraArray;
  	
  		
  		if(fromModel == 1){  //订单编辑
-			if(orderBackUp.orderDetailsObj.length != mygrid1.getRowsNum()){
+ 			if(orderBackUp.orderDetailsObj){
+ 				if(orderBackUp.orderDetailsObj.length != mygrid1.getRowsNum()){
 					 var url = parent.location.href;
 				     var param = $H(url.toQueryParams());
 				     param.set("id",order_id);
 					 url =  ctxPath + "editOrder.html?" + param.toQueryString();	
 					 parent.location.href = url;
 					 parent.build_more_paraArray.destroy();
-			}else{
-				build_more_paraArray.destroy();
-			}
-			
+				}else{
+					build_more_paraArray.destroy();
+				} 				
+ 			}else{
+ 				build_more_paraArray.destroy();
+ 			}
+
 		}else{
 			build_more_paraArray.destroy();
 		}
@@ -790,14 +811,18 @@ function reset_grid1_sumPay(rowId,cellIndex,wasChanged){
 						appRae = appRae ==""?0:appRae;
 						moneyBalance= moneyBalance ==""?0:moneyBalance;
 						
+						
+//						alert('config_orderCalculateModel_'+config_orderCalculateModel)
 //						alert('stantPrice_'+stantPrice)
 //						alert('favace_'+favace)
 //						alert('appRae_'+appRae)
+//						alert('calculateauto_key_'+calculateauto_key)
+//						alert('calculateauto_'+calculateauto)
 					
 					if(config_orderCalculateModel == 0){
 						relpay = stantPrice*favace*(1+appRae*1)+moneyBalance;
 					}
-						
+//						alert('relpay_'+relpay)	
 						
 					sumTime = sumTime ==""?0:sumTime;	
 					relpay = relpay ==""?0:relpay;
@@ -815,12 +840,16 @@ function reset_grid1_sumPay(rowId,cellIndex,wasChanged){
 					sum_pay = sum_pay ==0?"":sum_pay;
 				
 //	             alert('3 relpay_'+relpay)
+	             
+//	              alert('3 orderCategoryMain_'+orderCategoryMain)
 			
 					if(orderCategoryMain != 0){
 
 						relpay = (calculateauto == 1)?ForDight(relpay,2):"";
 						sum_pay = (calculateauto == 1)?ForDight(sum_pay,2):"";
 					
+//						 alert('3 calculateauto_'+calculateauto) 
+//						  alert('3 relpay_'+relpay)
 						
 						if(config_orderCalculateModel == 0){
 							mygrid1.cells(rowId,realPrice_cindex).setValue(relpay);
@@ -2876,6 +2905,8 @@ function setBasePrices(resourceIds,matterOj,callFun){
 		var realPrice_cindex = mygrid1.getColIndexById('realPrice');
 		
 		
+		
+		
 		for(var i=0;i<count;i++){
 			  var row_id = mygrid1.selectedRows[i].idd;
 			  var rsId = mygrid1.getUserData(row_id,"resourceId");
@@ -3139,10 +3170,10 @@ function removeGrid1NewRow(){
 
 function grid1_groupBy(ColId)
 {
-	alert(ColId);
+//	alert(ColId);
 	mygrid1.unGroup();
 	if(ColId == 0){
-		alert(ColId);
+//		alert(ColId);
 		mygrid2.unGroup();
 	}else{
 		mygrid2.groupBy(ColId);
@@ -3197,6 +3228,8 @@ function set_grid2_month_times(td,bak_value,curValue){
 
 //				var  relpay = mygrid1.cells(grid1_row_id,realPrice_cindex).getValue();
 //				relpay = relpay ==""?0:relpay;
+				
+				
 				
 
 				bak_value = bak_value == ""|| bak_value == "&nbsp;"?0:bak_value*1;	
@@ -4365,11 +4398,19 @@ function save_more_orderDetail(opt){
 	if(!isPass) {return false;};
 	var obj = order.obj;
 
+
+	
 	var customerId = toolbar.getComponent("customerName_for_paraArray").getValue();
 	var userId = toolbar.getComponent("userId_for_paraArray").getValue();
 	var year = toolbar.getComponent("year_for_paraArray").getValue();
 	var categoryId = toolbar.getComponent("categoryId_for_paraArray").getValue();
 	var orderCategoryMain = getValueFromStoreById(toolbar.getComponent("categoryId_for_paraArray"),"calculateAuto");
+	
+	var customerCategoryId  = getValueFromStoreById(toolbar.getComponent("customerName_for_paraArray"),"customerCategoryId");
+	
+	obj.tempStr = orgId +","+ resource_sort +","+ customerCategoryId;
+	
+//	alert(obj.tempStr);  
 	
 	obj.id = isOrderEditState?order_id:null;
 	obj.orderCode = isOrderEditState?order_code:null; 
@@ -4394,14 +4435,16 @@ function save_more_orderDetail(opt){
 	obj.customer =  (new Customer()).obj;
 	obj.customer.customerName  = toolbar.getComponent("customerName_for_paraArray").getRawValue();
 	
-	
+
 //	obj.orderDetails =  get_order_details(obj);
 //	alert(obj.toSource())
 //	var orderDetailsObj = get_order_details(obj);
 	obj.orderDetailsObj = get_order_details(obj);
-	
+
 //	console.log(obj);
 //	alert(obj.toSource())
+	
+
 	
 	if(obj.orderDetailsObj.length == 0){
 		if(opt == 1){
@@ -4412,6 +4455,8 @@ function save_more_orderDetail(opt){
 	}
 
 	var saveOrderFun = function(or){
+		
+		
 
 				if(fromModel == 1){  //订单编辑
 					 var url = parent.location.href;
@@ -4458,6 +4503,9 @@ function save_more_orderDetail(opt){
 		return obj;
 	}else{
 		Ext.getBody().mask('数据加载中……', 'x-mask-loading');
+		
+//		alert(999);
+		
 		order.saveOrderMoreDetails(obj,orderBackUp,saveOrderFun);
 	}
 
