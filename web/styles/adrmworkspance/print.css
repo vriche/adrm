@@ -1,0 +1,134 @@
+#header, #nav, #sub, #sub h2, #footer, #local {
+    display: none;
+}
+
+#main, #content, .table {
+    width: 100%;
+}
+
+
+
+
+
+.admin-tool-add{
+    background-image: url(../../image/print/add.png) !important;
+}
+.admin-tool-delete{
+    background-image: url(../../image/print/delete.png) !important;
+}
+.admin-tool-edit{
+    background-image: url(../../image/print/edit.png) !important;
+}
+.admin-tool-save{
+    background-image: url(../../image/print/save.png) !important;
+}
+.admin-tool-up{
+    background-image: url(../../image/print/up.png) !important;
+}
+.admin-tool-down{
+    background-image: url(../../image/print/down.png) !important;
+}
+.admin-tool-query{
+    background-image: url(../../image/print/query.png) !important;
+}
+.admin-tool-print{
+    background-image: url(../../image/print/print.png) !important;
+}
+.admin-tool-view{
+    background-image: url(../../image/print/view.png) !important;
+}
+.admin-tool-export-xls{
+    background-image: url(../../image/print/export_xls.png) !important;
+}
+.admin-tool-export-pdf{
+    background-image: url(../../image/print/export_pdf.png) !important;
+}
+.admin-tool-chart{
+    background-image: url(../../image/print/chart.png) !important;
+}
+.admin-tool-check{
+    background-image: url(../../image/print/check.png) !important;
+}
+.admin-tool-return{
+    background-image: url(../../image/print/return.png) !important;
+}
+.admin-tool-refresh{
+    background-image: url(../../image/print/refresh.png) !important;
+}
+.admin-tool-copy{
+    background-image: url(../../image/print/copy.png) !important;
+}
+.admin-tool-query{
+    background-image: url(../../image/search.gif) !important;
+}
+.admin-tool-prove{
+    background-image: url(../../image/search.gif) !important;
+}
+
+
+
+
+
+.ux-icon-combo-icon {
+        background-repeat: no-repeat;
+        background-position: 0 50%;
+        width: 18px;
+        height: 14px;
+ }
+ 
+    /* X-BROWSER-WARNING: this is not being honored by Safari */
+ .ux-icon-combo-input {
+        padding-left: 25px;
+        text-indent: 25%;
+        font-weight:bold;
+        font-size:12px;
+}
+ 
+.x-form-field-wrap .ux-icon-combo-icon {
+        top: 3px;
+        left: 5px;
+}
+.ux-icon-combo-item {
+        background-repeat: no-repeat ! important;
+        background-position: 3px 50% ! important;
+        padding-left: 24px ! important;
+}
+
+
+
+
+
+.x-tree-node-collapsed .x-tree-node-icon{background-image:url(../../image/print/chart.png);}  
+.x-tree-node-expanded .x-tree-node-icon{background-image:url(../../image/print/chart.png);}  
+.x-tree-node-leaf .x-tree-node-icon{background-image:url(../../image/print/chart.png);}  
+
+
+
+
+/*!
+ * Ext JS Library 3.1.0
+ * Copyright(c) 2006-2009 Ext JS, LLC
+ * licensing@extjs.com
+ * http://www.extjs.com/license
+ */
+.x-grid3-summary-row {
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    color:#333;
+    background: #f1f2f4;
+}
+.x-grid3-summary-row .x-grid3-cell-inner {
+    font-weight:bold;
+    padding-bottom:4px;
+}
+.x-grid3-cell-first .x-grid3-cell-inner {
+    padding-left:16px;
+}
+.x-grid-hide-summary .x-grid3-summary-row {
+    display:none;
+}
+.x-grid3-summary-msg {
+    padding:4px 16px;
+    font-weight:bold;
+}
+

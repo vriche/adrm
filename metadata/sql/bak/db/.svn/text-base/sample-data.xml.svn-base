@@ -1,0 +1,1605 @@
+<?xml version="1.0" encoding="GBK"?>
+<dataset>
+  <table name='app_user'>
+    <column>id</column>
+    <column>username</column>
+    <column>password</column>
+    <column>first_name</column>
+    <column>last_name</column>
+    <column>address</column>
+    <column>city</column>
+    <column>country</column>
+    <column>email</column>
+    <column>phone_number</column>
+    <column>postal_code</column>
+    <column>province</column>
+    <column>website</column>
+    <column>password_hint</column>
+    <column>version</column>
+    <column>account_enabled</column>
+    <column>account_expired</column>
+    <column>account_locked</column>
+    <column>credentials_expired</column>
+    <row>
+      <value>1</value>
+      <value>tomcat</value>
+      <value>536c0b339345616c1b33caf454454d8b8a190d6c</value>
+      <value>Tomcat</value>
+      <value>User</value>
+      <value></value>
+      <value>Denver</value>
+      <value>US</value>
+      <value>matt_raible@yahoo.com</value>
+      <value></value>
+      <value>80210</value>
+      <value>CO</value>
+      <value>http://jakarta.apache.org/tomcat</value>
+      <value><![CDATA[A male kitty.]]></value>
+      <value>1</value>
+      <value>Y</value>
+      <value>N</value>
+      <value>N</value>
+      <value>N</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>mraible</value>
+      <value>536c0b339345616c1b33caf454454d8b8a190d6c</value>
+      <value>Matt</value>
+      <value>Raible</value>
+      <value></value>
+      <value>Denver</value>
+      <value>US</value>
+      <value>matt@raibledesigns.com</value>
+      <value></value>
+      <value>80210</value>
+      <value>CO</value>
+      <value>http://raibledesigns.com</value>
+      <value><![CDATA[Not a female kitty.]]></value>
+      <value>1</value>
+      <value>Y</value>
+      <value>N</value>
+      <value>N</value>
+      <value>N</value>
+    </row>
+  </table>
+  <table name='role'>
+    <column>id</column>
+    <column>name</column>
+    <column>description</column>
+    <row>
+      <value>1</value>
+      <value>admin</value>
+      <value><![CDATA[Administrator role (can edit Users)]]></value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>user</value>
+      <value><![CDATA[Default role for all Users]]></value>
+    </row>
+  </table>
+  <table name='user_role'>
+    <column>user_id</column>
+    <column>role_id</column>
+    <row>
+      <value>1</value>
+      <value>2</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+    </row>
+  </table>
+  
+  
+ 
+	
+	
+<table name="tb_customer_industry_type">
+    <column>customer_industry_type_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>memo</column>
+    <column>name</column>
+    <column>code</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>industry-1</value>
+      <value>001</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>industry-2</value>
+      <value>002</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>industry-3</value>
+      <value>003</value>
+    </row>
+  </table>	
+
+  <!--Customer-START-->
+  <table name='tb_customer_info'>
+    <column>customer_id</column>
+    <column>account_address</column>
+    <column>account_bank</column>
+    <column>account_name</column>
+    <column>account_number</column>
+    <column>credit_account</column>
+    <column>credit_span</column>
+    <column>customer_category_id</column>
+    <column>customer_level</column>
+    <column>customer_name</column>
+    <column>state</column>
+    <column>delay_days</column>
+    <column>discount_rate</column>
+    <column>fax</column>
+    <column>help_code</column>
+    <column>industry_type_id</column>
+    <column>memo</column>
+    <column>owner_agent</column>
+    <column>parent_id</column>
+    <column>payment_expire_days</column>
+    <column>telephone</column>
+    <column>web_site</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>version</column>
+    <row>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1209729229</value>
+        <value>722720694</value>
+        <value>1</value>
+        <value>395423875</value>
+        <value>1</value>
+        <value>149377367</value>
+        <value>611019169</value>
+        <value>2.5215393E36</value>
+        <value>1</value>
+        <value>VkFsKsHmCpAdBxAl</value>
+        <value>5312272580868094976</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1813087286</value>
+        <value>1</value>
+        <value>1</value>
+        <value>6370473473369364480</value>
+        <value>2006-10-21</value>
+        <value>2572606496043700224</value>
+        <value>2006-10-21</value>
+        <value>1</value>
+    </row>
+    <row>
+        <value>2</value>
+        <value>2</value>
+        <value>2</value>
+        <value>2</value>
+        <value>2</value>
+        <value>1387397234</value>
+        <value>952272928</value>
+        <value>UyMuVvUfBlVjVxLxTrOxIjEnTeJnOkGe</value>
+        <value>1824286727</value>
+        <value>2</value>
+        <value>1716415568</value>
+        <value>829347281</value>
+        <value>1.5244528E38</value>
+        <value>2</value>
+        <value>WqXqQcHyRmGoNmHc</value>
+        <value>5994068734172800000</value>
+        <value>2</value>
+        <value>2</value>
+        <value>2</value>
+        <value>1164210980</value>
+        <value>2</value>
+        <value>2</value>
+        <value>4530948558112184320</value>
+        <value>2006-10-21</value>
+        <value>6820785137425150976</value>
+        <value>2006-10-21</value>
+        <value>1</value>
+    </row>
+   
+  </table>
+  <!--Customer-END-->
+	
+	
+ <table name="tb_adver_matter">
+    <column>tape_code</column>
+    <column>adver_matter_id</column>
+    <column>version</column>
+    <column>name</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>memo</column>
+    <column>enable</column>
+    <column>edit</column>
+    <column>length</column>
+    <column>adver_product_brand_id</column>
+    <column>customer_id</column>
+    <column>adver_matter_type</column>
+    <row>
+      <value>TAP001</value>
+      <value>1</value>
+      <value>1</value>
+      <value>aaaaaa</value>
+      <value>7472276541280301056</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>7587805231066254336</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>3</value>
+      <value>159517170</value>
+      <value>e</value>
+      <value>5</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>TAP002</value>
+      <value>2</value>
+      <value>1</value>
+      <value>n</value>
+      <value>5184822731993128960</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>5522716861325284352</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>3</value>
+      <value>337046395</value>
+      <value>e</value>
+      <value>10</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>TAP003</value>
+      <value>3</value>
+      <value>1</value>
+      <value>3</value>
+      <value>6438646109355702272</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1371599050944258048</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>2</value>
+      <value>834421347</value>
+      <value>e</value>
+      <value>15</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+    </row>
+  </table>
+	
+		
+	
+<table name="tb_ad_resource_carrier">
+    <column>ad_resource_carrier_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>enable</column>
+    <column>carrier_name</column>
+    <column>alias_name</column>
+    <column>parent_id</column>
+    <column>node_level</column>
+    <column>display_no</column>
+    <column>nodePath</column>
+    <column>memo</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>99108542</value>
+      <value>channel-1</value>
+      <value>T1</value>
+      <value>0</value>
+      <value>0</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>295506170</value>
+      <value>channel-2</value>
+      <value>T2</value>
+      <value>0</value>
+      <value>0</value>
+      <value>2</value>
+      <value>1</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1066801761</value>
+      <value>channel-1-1</value>
+      <value>T3</value>
+      <value>1</value>
+      <value>1</value>
+      <value>3</value>
+      <value>1</value>
+      <value>1</value>
+    </row>
+  </table>	
+	
+	
+ <table name="tb_ad_resource_info">
+    <column>ad_resource_info_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>memo</column>
+    <column>ad_resource_carrier_id</column>
+    <column>ad_resource_type</column>
+    <column>ad_resource_propertiy_time</column>
+    <column>pro_resource_id</column>
+    <column>pro_resource_memo</column>
+    <column>display_no</column>
+    <column>is_closed</column>
+    <column>is_overweight</column>
+    <column>is_validate</column>
+    <column>is_seralized</column>
+    <column>is_Manual</column>
+    <column>resource_name</column>
+    <column>enable</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <value>7814727755739119616</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>3371338511058712576</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>1589305287</value>
+      <value>164928122</value>
+      <value>2521651358561345536</value>
+      <value>1</value>
+      <value>1971167614</value>
+      <value>2116323782</value>
+      <value>1772506969</value>
+      <value>734895166</value>
+      <value>2116277630</value>
+      <value>144118261</value>
+      <value>pos1</value>
+      <value>1973379739</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <value>3122689486314374144</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>8440484269788146688</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>114815041</value>
+      <value>146006630</value>
+      <value>360296882221411328</value>
+      <value>1</value>
+      <value>1136055759</value>
+      <value>1938913619</value>
+      <value>1623786999</value>
+      <value>545913487</value>
+      <value>2118692788</value>
+      <value>415118753</value>
+      <value>pos2</value>
+      <value>524660763</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <value>5440087636709179392</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>4874476819979982848</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>340718481</value>
+      <value>1850783392</value>
+      <value>1029437933376222208</value>
+      <value>1</value>
+      <value>1228948263</value>
+      <value>900211877</value>
+      <value>553844002</value>
+      <value>521800595</value>
+      <value>2059011638</value>
+      <value>506035795</value>
+      <value>pos3</value>
+      <value>734552001</value>
+    </row>
+  </table>	
+	
+	
+  <table name="tb_ad_resource_specific">
+    <column>ad_resource_specific_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>memo</column>
+    <column>position</column>
+    <column>name</column>
+    <column>over_rate</column>
+    <row>
+      <value>1</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>???</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>0</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>2</value>
+      <value>???</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>0</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>3</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>4</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>4</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>5</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>5</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>6</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>6</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+		  
+    <row>
+      <value>7</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>7</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>8</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>8</value>
+      <value>???</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>9</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>9</value>
+      <value>???</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>10</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>A</value>
+      <value>???</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>11</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>B</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>12</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>C</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>13</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>D</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>14</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>E</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>15</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>F</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>16</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>G</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>17</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>H</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+    <row>
+      <value>18</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>I</value>
+      <value>????</value>
+      <value>0.2</value>
+    </row>
+  </table>
+	
+	
+ <table name="tb_ad_resource_workspan">
+    <column>ad_resource_workspan_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>memo</column>
+    <column>ad_resource_carrier_id</column>
+    <column>ad_resource_info_id</column>
+    <column>ad_resource_type</column>
+    <column>ad_resource_propertiy_time</column>
+    <column>broadcast_start_time</column>
+    <column>begin_date</column>
+    <column>end_date</column>
+    <column>broadcast_end_time</column>
+    <column>sun_length</column>
+    <column>mon_length</column>
+    <column>tue_length</column>
+    <column>thi_length</column>
+    <column>wen_length</column>
+    <column>fri_length</column>
+    <column>sat_length</column>
+    <row>
+      <value>1</value>
+      <value>0</value>
+      <value>1</value>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <value><![CDATA[2006-06-01 15:00:00.0]]></value>
+      <value>20060601</value>
+      <value>20061231</value>
+      <value><![CDATA[2006-06-01 15:30:00.0]]></value>
+      <value>200</value>
+      <value>200</value>
+      <value>200</value>
+      <value>200</value>
+      <value>200</value>
+      <value>200</value>
+      <value>200</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>0</value>
+      <value>1</value>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <value><![CDATA[0002-11-30 16:00:00.0]]></value>
+      <value>20060101</value>
+      <value>20060531</value>
+      <value><![CDATA[2006-06-01 16:30:00.0]]></value>
+      <value>300</value>
+      <value>300</value>
+      <value>300</value>
+      <value>300</value>
+      <value>300</value>
+      <value>300</value>
+      <value>300</value>
+    </row>
+  </table>
+	
+ <table name="tb_ad_resource_day_info">
+    <column>ad_resource_day_info_id</column>
+    <column>ad_resource_carrier_id</column>
+    <column>ad_resource_info_id</column>
+    <column>ad_resource_type</column>
+    <column>ad_resource_propertiy_time</column>
+    <column>ad_resource_workspan_id</column>
+    <column>publish_date</column>
+    <column>ad_resource_specific</column>
+    <column>total</column>
+    <column>used</column>
+    <row>
+      <value>1</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>20060101</value>
+      <null/>
+      <value>300</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>2</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>20060102</value>
+      <null/>
+      <value>300</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>3</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>20060103</value>
+      <null/>
+      <value>300</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>4</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>20060104</value>
+      <null/>
+      <value>300</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>5</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>20060105</value>
+      <null/>
+      <value>300</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>6</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>20060106</value>
+      <null/>
+      <value>300</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>7</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>20060107</value>
+      <null/>
+      <value>300</value>
+      <value>0</value>
+    </row>
+  </table>	
+	
+	
+	
+	
+	
+	
+  
+
+  
+  
+  
+  <!--OrderCategory-START-->
+  <table name="tb_order_category">
+    <column>order_category_id</column>
+    <column>version</column>
+    <column>name</column>
+    <column>parent_id</column>
+    <column>node_level</column>
+    <column>node_path</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>value</column>
+    <column>calculate_auto</column>
+    <column>displayNo</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <value>??</value>
+      <value>0</value>
+      <value>0</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>272071337</value>
+      <value>true</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <value>???</value>
+      <value>0</value>
+      <value>0</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>217411943</value>
+      <value>true</value>
+      <null/>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <value>????</value>
+      <value>0</value>
+      <value>0</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>693950072</value>
+      <value>true</value>
+      <value>3</value>
+    </row>
+    <row>
+      <value>4</value>
+      <value>0</value>
+      <value>??</value>
+      <value>1</value>
+      <value>2</value>
+      <value/>
+      <value>1</value>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <value>false</value>
+      <null/>
+    </row>
+    <row>
+      <value>5</value>
+      <value>0</value>
+      <value>??</value>
+      <value>1</value>
+      <value>2</value>
+      <value/>
+      <value>1</value>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <value>false</value>
+      <null/>
+    </row>
+    <row>
+      <value>6</value>
+      <value>0</value>
+      <value>????</value>
+      <value>1</value>
+      <value>2</value>
+      <value/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>false</value>
+      <null/>
+    </row>
+    <row>
+      <value>7</value>
+      <value>0</value>
+      <value>???</value>
+      <value>1</value>
+      <value>2</value>
+      <value/>
+      <value>1</value>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <value>false</value>
+      <null/>
+    </row>
+    <row>
+      <value>8</value>
+      <value>0</value>
+      <value>????</value>
+      <value>2</value>
+      <value>2</value>
+      <value/>
+      <value>1</value>
+      <null/>
+      <value>1</value>
+      <null/>
+      <null/>
+      <value>false</value>
+      <null/>
+    </row>
+  </table>
+  <!--OrderCategory-END-->
+  
+  
+  
+  
+  
+  
+  <!--Contract-START-->
+   <table name="tb_contract">
+    <column>contract_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>owner</column>
+    <column>code</column>
+    <column>customer_id</column>
+    <column>sign_user</column>
+    <column>sign_headship</column>
+    <column>contract_money_sum</column>
+    <column>contract_money_exec</column>
+    <column>money_in_sum</column>
+    <column>csign_date</column>
+    <column>contract_state</column>
+    <column>start_date</column>
+    <column>end_date</column>
+    <column>contract_type</column>
+    <column>notify_days</column>
+    <column>is_limit_order</column>
+    <column>contract_sort</column>
+    <column>user_id</column>
+    <column>osign_date</column>
+    <column>memo</column>
+    <column>memo_renew</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>15</value>
+      <value>xx</value>
+      <value>1</value>
+      <value>30</value>
+      <value>15</value>
+      <value>0.0</value>
+      <value>6.0</value>
+      <value>0.0</value>
+      <value>409348958</value>
+      <value>0</value>
+      <value>20061021</value>
+      <value>1543598247</value>
+      <value>0</value>
+      <value>15</value>
+      <value>true</value>
+      <value>0</value>
+      <value>1</value>
+      <value>15</value>
+      <value>cccccccc</value>
+      <value>meno</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>2</value>
+      <value>5.0</value>
+      <value>5.0</value>
+      <value>5.0</value>
+      <value>442145777</value>
+      <value>1</value>
+      <value>687950632</value>
+      <value>1514643204</value>
+      <value>1</value>
+      <value>45</value>
+      <value>true</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1443180385</value>
+      <value>d</value>
+      <value>d</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <value>9222261256402907136</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>3</value>
+      <value>5.0</value>
+      <value>5.0</value>
+      <value>5.0</value>
+      <value>1193115626</value>
+      <value>2</value>
+      <value>1512658348</value>
+      <value>572265784</value>
+      <value>2</value>
+      <value>60</value>
+      <value>true</value>
+      <value>0</value>
+      <value>1</value>
+      <value>146074279</value>
+      <value>d</value>
+      <value>d</value>
+    </row>
+  </table>
+  <!--Contract-END-->
+ 
+	
+	
+	
+	
+	 <!--Order-START-->
+   <table name="tb_order">
+    <column>order_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>order_code</column>
+    <column>relation_code</column>
+    <column>contract_id</column>
+    <column>customer_id</column>
+    <column>order_category_id</column>
+    <column>user_id</column>
+    <column>order_meno</column>
+    <column>order_money_sum</column>
+    <column>order_money_in</column>
+    <column>is_ckecked</column>
+    <column>publish_memo</column>
+    <column>publish_start_date</column>
+    <column>publish_end_date</column>
+    <column>sum_times</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <value>3479420327364676608</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>7443142486587337728</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>2</value>
+      <value>2</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>2</value>
+      <value>1.4873179E38</value>
+      <value>1.066394E38</value>
+      <value>true</value>
+      <value>2</value>
+      <value>560013770</value>
+      <value>74014879</value>
+      <value>1996561526</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <value>549545342200117248</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>6528482342005933056</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>2121</value>
+      <value>2323</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>3.251899E38</value>
+      <value>1.7650426E36</value>
+      <value>true</value>
+      <value>1</value>
+      <value>1862210390</value>
+      <value>1919946258</value>
+      <value>186076310</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <value>1984751832235576320</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>8000713001797328896</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>6.012168E37</value>
+      <value>3.2425926E38</value>
+      <value>true</value>
+      <value>1</value>
+      <value>1239466700</value>
+      <value>1281776137</value>
+      <value>1713540148</value>
+    </row>
+  </table>
+  <!--Order-END-->
+	
+	<!--OrderDetail-START-->
+ <table name="tb_order_detail">
+    <column>order_detail_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>order_id</column>
+    <column>order_category_id</column>
+    <column>ad_resource_carrier_id</column>
+    <column>ad_resource_type</column>
+    <column>ad_resource_info_id</column>
+    <column>ad_resource_workspan_id</column>
+    <column>ad_resource_specific_id</column>
+    <column>adver_matter_type</column>
+    <column>adver_matter_id</column>
+    <column>matter_length</column>
+    <column>customer_industry_type_id</column>
+    <column>publish_memo</column>
+    <column>ad_resource_price_type</column>
+    <column>sys_price</column>
+    <column>exec_price</column>
+    <column>sum_times</column>
+    <column>money_base</column>
+    <column>app_rate</column>
+    <column>favour_rate</column>
+    <column>money_balance</column>
+    <column>money_realpay</column>
+    <column>money_in</column>
+    <column>is_ckecked</column>
+    <column>publish_start_date</column>
+    <column>publish_end_date</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>memo1</value>
+      <value>1798281844</value>
+      <value>3.3962392E38</value>
+      <value>2.1137307E38</value>
+      <value>0</value>
+      <value>1.9384852E38</value>
+      <value>0.2</value>
+      <value>3.1985084E38</value>
+      <value>5.0</value>
+      <value>1.321222E38</value>
+      <value>3.3574345E38</value>
+      <value>true</value>
+      <value>2069850281</value>
+      <value>244697557</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>memo2</value>
+      <value>1485129800</value>
+      <value>2.8649072E38</value>
+      <value>1.9196325E38</value>
+      <value>0</value>
+      <value>9.969941E37</value>
+      <value>0.3</value>
+      <value>1.8685238E37</value>
+      <value>10.0</value>
+      <value>1.9570507E38</value>
+      <value>1.2458963E38</value>
+      <value>true</value>
+      <value>1615217108</value>
+      <value>2030262457</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value><![CDATA[2006-10-17 00:00:00.0]]></value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>memo3</value>
+      <value>1</value>
+      <value>3.2265634E38</value>
+      <value>1.7132486E38</value>
+      <value>-2147483648</value>
+      <value>2.581488E38</value>
+      <value>0.4</value>
+      <value>1.25488E38</value>
+      <value>15.0</value>
+      <value>4.0285008E36</value>
+      <value>1.9178215E38</value>
+      <value>true</value>
+      <value>1298217212</value>
+      <value>1707806790</value>
+    </row>
+  </table>
+  <!--OrderDetail-END-->
+	
+	 <!--OrderDayInfo-START-->
+  <table name='tb_order_day_info'>
+    <column>order_day_info_id</column>
+    <column>version</column>
+    <column>order_id</column>
+    <column>order_detail_id</column>
+    <column>publish_date</column>
+    <column>ad_length</column>
+    <column>day_standard_price</column>
+    <column>day_rel_income</column>
+    <column>ad_day_times</column>
+    <column>ad_resource_specific</column>
+    <column>is_published</column>
+    <row>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1273049006</value>
+        <value>BpGnQfQcDrTwNnYbAmEjLvYsOyKzXeNf</value>
+        <value>2.5438533E38</value>
+        <value>1.2143301E38</value>
+        <value>1522884253</value>
+        <value>PdA</value>
+        <value>594317554</value>
+    </row>
+    <row>
+        <value>2</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1784225714</value>
+        <value>UmRxSbQiSaEpCsDpPtQnYbBhIzHdPrNo</value>
+        <value>2.9930525E38</value>
+        <value>3.1204875E38</value>
+        <value>975996661</value>
+        <value>ReC</value>
+        <value>1291467806</value>
+    </row>
+    <row>
+        <value>3</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1</value>
+        <value>1424936440</value>
+        <value>SuJgPoCrQgDhWxWzEnYsKrVkPjCoPsXk</value>
+        <value>3.8510234E37</value>
+        <value>3.1737592E38</value>
+        <value>977772920</value>
+        <value>CyW</value>
+        <value>435778042</value>
+    </row>
+  </table>
+  <!--OrderDayInfo-END-->
+	
+	 <!--ContractPayment-START-->
+  <table name="tb_contract_payment">
+    <column>contract_payment_id</column>
+    <column>version</column>
+    <column>create_by</column>
+    <column>create_date</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>income_mode_id</column>
+    <column>pay_number</column>
+    <column>pay_date</column>
+    <column>contract_id</column>
+    <column>order_id</column>
+    <column>money_pay</column>
+    <column>money_in</column>
+    <column>urgency_alert</column>
+    <column>memo</column>
+    <row>
+      <value>1</value>
+      <value>1</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>4014419203281061888</value>
+      <value>2</value>
+      <value>887230304</value>
+      <value>1</value>
+      <value>1</value>
+      <null/>
+      <value>2.690491E38</value>
+      <value>true</value>
+      <value>2</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>1</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>7275264715676720128</value>
+      <value>3</value>
+      <value>332754394</value>
+      <value>1</value>
+      <value>2</value>
+      <null/>
+      <value>1.7261497E38</value>
+      <value>true</value>
+      <value>2</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>1</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>3630394399186332672</value>
+      <value>3</value>
+      <value>1258605425</value>
+      <value>1</value>
+      <value>3</value>
+      <null/>
+      <value>1.7842148E38</value>
+      <value>true</value>
+      <value>2</value>
+    </row>
+    <row>
+      <value>4</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>3</value>
+      <value>1</value>
+      <null/>
+      <value>1.0</value>
+      <value>true</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>5</value>
+      <value>0</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <value>11</value>
+      <value>1</value>
+      <value>3</value>
+      <null/>
+      <null/>
+      <null/>
+      <value>false</value>
+      <value/>
+    </row>
+  </table>
+  <!--ContractPayment-END-->
+	
+	 <!--OrderLog-START-->
+  <table name='tb_order_log'>
+    <column>order_log_id</column>
+    <column>operate_model</column>
+    <column>operate_model_function</column>
+    <column>operate_type</column>
+    <column>link_path</column>
+    <column>client_ip</column>
+    <column>modify_by</column>
+    <column>modify_date</column>
+    <column>version</column>
+    <row>
+        <value>1</value>
+        <value>1227499236</value>
+        <value>598689225</value>
+        <value>1703939882</value>
+        <value>2</value>
+        <value>2</value>
+        <value>7781655372949442560</value>
+        <value>2006-10-17</value>
+        <value>1</value>
+    </row>
+    <row>
+        <value>2</value>
+        <value>1854631721</value>
+        <value>146750072</value>
+        <value>1338182250</value>
+        <value>2</value>
+        <value>2</value>
+        <value>8356762103318077440</value>
+        <value>2006-10-17</value>
+        <value>1</value>
+    </row>
+    <row>
+        <value>3</value>
+        <value>364157914</value>
+        <value>2085080493</value>
+        <value>1577895394</value>
+        <value>2</value>
+        <value>2</value>
+        <value>404814170531860480</value>
+        <value>2006-10-17</value>
+        <value>1</value>
+    </row>
+  </table>
+  <!--OrderLog-END-->
+	
+</dataset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>财务管理</title><link rel="STYLESHEET" type="text/css" href="common/styles.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+	
+</head>
+
+<body>
+<script>
+	function openFull(el){
+		el.nextSibling.style.display=='none'?el.nextSibling.style.display='block':el.nextSibling.style.display='none'
+	}
+	function expandAll(fl){
+		var elAr = document.getElementsByTagName("DIV");
+		for(var i=2;i<elAr.length;i++){
+			if(elAr[i].className=='block'){
+				if(fl)
+					elAr[i].style.display = "";
+				else
+					elAr[i].style.display = "none";
+			}
+		}
+	}
+</script>
+<div>
+<table width="88%%" border="0" align="left">
+  <tr>
+    <td><table width="100%" border="0">
+        <tr>
+            <td><div align="center"><font color="#006699" size="3"><strong>2.3、财务管理</strong></font></div></td>
+        </tr>
+        <tr>
+            <td><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;广告单位的入款管理和广告播出单的到款分配，其中播出单的到款分配的依据是广告单位必须有相应的入款，否则不能进行到款分配。 
+              打印广告播出证明及收费通知单。系统提供各单位广告在指定日期内各天的播放情况、月播次数、月播金额、累计实收金额、累计实播金额、欠（余）款等信息，所有数据由系统分析、统计、汇总，用户不用进行任何人工计算。<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;财务管理子系统还提供多种多样的查询，可以很方便的查询合同的到款情况、播出单到款分配情况，单位的欠款情况，业务员的进帐情况等等。<br>
+              </font></td>
+        </tr>
+        <tr>
+            <td><font color="#006699" size="2"><strong><font size="3"><a name="menu_browsers">2.3.1、到款入录</a></font><a name="menu_browsers"></a></strong></font></td>
+        </tr>
+        <tr>
+            <td><p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本功能对广告客户的到款情况，到款的使用情况进行集成化管理，可以一目了然的掌握客户的每一笔到款情况以及每一笔到款的使用情况。系统针对客户的类别可以设定为“<font color="#000000">单频道</font>”或是“<font color="#000000">多频道</font>”。并且提供多种排序规则，使查看更方便。页面如下图</font></p>
+             	
+              <p><img src="./codebase/imgs/money.jpg" width="389" height="240"/> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击“<font color="#000000">到款录入</font>”快捷图或点击“<font color="#000000">财务管理</font>”中的“<font color="#000000">到款入录</font>”进入到款入录浏览页面<br>
+                如图：</font> </p>
+              <p>&nbsp;<img src="./codebase/imgs/money6.jpg" width="615" height="181"/> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;到款入录中显示内容包括：“<font color="#000000">到款日期</font>”，“<font color="#000000">收入编号</font>”，“<font color="#000000">客户</font>”，“<font color="#000000">业务员</font>”，“<font color="#000000">到款金额</font>”，“<font color="#000000">到款类型</font>”，“<font color="#000000">到款用途</font>”等。点击内容标题名称可对查询结果进行排序。不同内容支持不同的排序规则。比如：“<font color="#999999">业务员</font>”是按姓名的首字的拼音顺序拼序。“<font color="#000000">到款金额</font>”是按数字的大小排序。页面中还提供按<font color="#000000">“客户名称”，“开始时间，结束时间”</font>等查询条件。可单独使用也可组合使用。鼠标双击“客户名称”编辑框，在弹出的客户信息表中，选择要查询的客户信息。点击“查询”按钮，显示相关信息。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/money2.jpg" width="427" height="82"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面中提功的<font color="#000000">“预览”，“打印”</font>按钮。可以预览，打印页面显示的内容。“<font color="#000000">导出</font>”按钮，可以导出Excel表格。点击“<font color="#000000">预览</font>”如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/money7.jpg" width="427" height="366"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击“<font color="#000000">打印</font>”，会从连续的打印机上打印出如上图中的内容提要。点击“<font color="#000000">导出</font>”。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/money8.jpg" width="557" height="209"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统会提示选择“<font color="#000000">打开方式</font>”和“<font color="#000000">保存文件</font>”。如选择用“<font color="#000000">Excel</font>”打开，效果如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/money9.jpg" width="557" height="209"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如想添加一笔到款。点击到款浏览页面中的“<font color="#000000">添加</font>”按钮进入添加页面，如果是“<font color="#000000">单频道</font>”用户。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/money4.jpg" width="557" height="209"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果是“多频道”用户。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/money10.jpg" width="557" height="209"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在文本框中填写相关内容（红字为必填项）。内容包括<font color="#000000">“客户”，“业务员”，“收入编号”。“到款日期</font>”，<font color="#000000">“到款类型”，“到款金额”，“到款用途”，“备注”</font>等内容。填写完毕后，点击保存。完成一笔到款的录入。 
+                在到款入录浏览页面中，点击某一笔到款入录信息，进入到款修信息详细页面。如图：</font><br>
+              </p>
+              <p>&nbsp;<img src="./codebase/imgs/money5.jpg" width="557" height="209"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面显示相关到款信息。可以在此修改，编辑到款信息。也可以点击“<font color="#000000">删除</font>”按钮，删除此笔到款。删除时确定此笔金额无效，或没有被使用。否则会造成数据库中数据的不完整。影响后面的“到款分配”，和各种统计等信息。 
+                “<font color="#000000">多频道</font>”情况略有不同。在输入基本到款信息后，在右侧的“<font color="#000000">频道选项</font>”中选择频道“<font color="#000000">频道名称</font>”，与分配金额。如图：</font></p>
+            
+			       <p>&nbsp;<img src="./codebase/imgs/money11.jpg" width="557" height="209"/></p>
+             </td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0">
+        <tr>
+            <td><font color="#006699" size="3"><strong><a name="menu_guide">2.3.2、到款分配</a></strong></font></td>
+        </tr>
+        <tr>
+            <td><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;到款分配的功能是根据单位待播广告的播出金额，对单位到款进行具体的分配，就是说每条广告应该使用单位到款的多少款项用来无欠款播出。</font></td>
+        </tr>
+        <tr>
+          <td><table width="100%" border="0">
+                <tr>
+                  <td >&nbsp;<img src="./codebase/imgs/income.jpg" width="339" height="127"/></td>
+                  <td><font color="#009999" size="2">点击“<font color="#000000">财务管理</font>”中的“<font color="#000000">到款分配</font>”进入到款分配页面。如图：</font></td>
+                </tr>
+              </table></td>
+        </tr>
+        <tr>
+            <td><p><img src="./codebase/imgs/income2.jpg" width="621" height="211"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在页面左侧有一树状结构。首先会看到“<font color="#000000">客户信息</font>”下有<font color="#000000">“代理客户”，“直接客户”，“其它客户</font>”三个结点。 
+                分别代表三种客户类型。点击结点前的加号，会打开结点，展开结点中的内容。内容为广告客户的名称。不同的类型结点包含的客户类型不同。 
+                如图：</font></p>
+              <p><img src="./codebase/imgs/income3.jpg" width="619" height="247"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单位入款的分配采用系统自动分配管理，自动调整的方法。用户在左侧选择有到款的单位，屏幕右侧会出现“到款信息”与 
+                “<font color="#000000">付款信息</font>”上下两部分，选择屏幕上发的“ <font color="#FFFFCC">分配</font>”。 
+                然后在“到款信息”中选择需要分配的金额，在“<font color="#000000">付款信息</font> ”中选择需要收款的选项。点击“<font color="#000000">分配</font>”系统会根据合同下的订单的播出情况自动进行分配和调整。特别是在套播合同或固定总金额合同中，由于不同频道，不同时段，不同折扣等多种原因，人工分款很难保证准确性，此时就可采用系统自动分款。当合同拥有分配款时，由于订单排期或者单价等信息的更改，导致分配的款项超过了合同的总金额，此时，需要进行合同的返款处理，以保证合同的分配款与合同总金额的一致，保证广告播出款的正确使用。使用时在左侧选择需要的客户。选择屏幕上发的“ 
+                <font color="#000000">返还</font>”， 然后屏幕右侧显示“<font color="#000000">到款信息</font>”，“<font color="#000000">付款信息</font>”。在“<font color="#000000">到款信息</font>”中选择需要分配的选项，然后再“<font color="#000000">付款信息</font>”中指定需要被分配的选项。点击“分配”实行自动分配。 
+                财务点击“销售订单”进入为财务定制的订单查看页面。如图：<br>
+                </font> </p>
+              <p>&nbsp; <img src="./codebase/imgs/income4.jpg" width="625" height="335"/></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提供了同业务员相同的查询条件，并添加了<font color="#000000">“预览”，“打印”，“export”</font>按钮，可根据不同的查询结果，预览，打印查询结果。导出Excel表格。</font></p></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+
+</div></body>
+</html>

@@ -1,0 +1,88 @@
+8
+
+dir
+660
+svn://121.28.83.134:80/src1/adrm_2.0/src/service/mreml2/schema/importprogramlistservice
+svn://121.28.83.134:80/src1
+
+
+
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+MyImportProgramListServiceCallbackHandler.java
+file
+674
+
+
+
+2013-12-04T08:18:36.772601Z
+da3f2d59e7a69bbfd41cf9bb7761c6d9
+2013-12-04T09:37:42.497621Z
+674
+lxz
+
+ImportProgramListServiceSkeleton.java
+file
+
+
+
+
+2013-11-30T14:47:01.414830Z
+d8228820f4c8f5c1f1d81a5ad51d707b
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ImportProgramListServiceSkeletonInterface.java
+file
+
+
+
+
+2013-11-30T11:32:16.368230Z
+48a85058737a9aa94c853213a4b780eb
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ImportProgramListServiceMessageReceiverInOut.java
+file
+
+
+
+
+2013-11-30T11:32:16.364226Z
+13f9a54152f343fc6bedfa535812d718
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ImportProgramListServiceCallbackHandler.java
+file
+
+
+
+
+2013-11-30T11:32:16.359222Z
+25716c916c431627bbf7b380cf04330f
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ImportProgramListServiceStub.java
+file
+672
+
+
+
+2013-12-04T06:15:49.998755Z
+ba331ee804a5d39baadbf46632e63bba
+2013-11-30T15:23:00.615669Z
+660
+lxz
+

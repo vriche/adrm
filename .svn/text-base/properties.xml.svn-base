@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <!-- Directory structure of the project -->
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="dist.dir" value="${basedir}/dist"/>
+    <property name="test.dir" value="${build.dir}/test"/>
+    <!-- Directories for code coverage sampling -->
+    <property name="coverage.dir" value="${test.dir}/coverage"/>
+    <property name="out.instr.dir" value="${test.dir}/outinstr"/>
+    
+    <!-- Default options for code-generation, compiling and junit-testing -->
+    <property name="javac.debug" value="true"/>
+    <property name="compile.deprecation" value="true"/>
+    <!-- build.compiler - seems to be issues using jikes and JDK 1.4 is just as fast-->
+    <property name="build.compiler" value="modern"/>
+    <property name="junit.fork" value="true"/>
+    <property name="junit.showoutput" value="true"/>
+    <property name="xdoclet.force" value="false"/>
+ 
+    <!-- Load user overrides -->
+    <property file="${user.home}/.${ant.project.name}-build.properties"/>
+    <property file="${user.home}/.build.properties"/>
+    <!-- Library versions and JARs -->
+    <property name="lib.dir" location="lib"/>
+    <property file="${lib.dir}/lib.properties"/>
+	
+	
+
+    <property file="build.properties"/>
+    <property file="web/WEB-INF/classes/mail.properties"/>
+	
+	<property name="CATALINA_HOME" value="C:\vriche\java\jakarta-tomcat-5.0.28"/>
+
+
+
+    <!-- Application options that will likely vary between applications -->
+    <property name="http.port" value="8080"/>
+    <property name="dao.type" value="ibatis"/>
+    <property name="jsp.2" value="false"/>
+    <property name="jsp.precompile" value="false"/>
+
+    <!-- Properties for running unit tests with tomcat -->
+    <property name="tomcat.server" value="localhost"/>
+    <property name="tomcat.manager.url" value="http://${tomcat.server}:${http.port}/manager"/>
+    <property name="tomcat.username" value="admin"/>
+    <property name="tomcat.password" value="admin"/>
+
+    <!-- Defaults for database.properties 192.168.1.100 -->
+    <property name="database.jar" location="${mysql.jar}"/>
+    <property name="database.type" value="mysql"/>
+    <property name="database.name" value="adrm"/>  
+	<property name="database.name1" value="quartz"/>  
+    <property name="database.host" value="localhost"/>
+    <property name="database.username" value="root"/>
+    <property name="database.password" value="root"/>
+
+    <!-- database URL for creating other dbs - used in db-create target -->
+    <property name="database.admin.url" value="jdbc:${database.type}://${database.host}/mysql"/>
+    <property name="database.admin.username" value="root"/>
+    <property name="database.admin.password" value="root"/>
+    <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+    <property name="database.driver_class" value="com.mysql.jdbc.Driver"/>
+    <property name="database.url"  value="jdbc:${database.type}://${database.host}/${database.name}?useUnicode=true&amp;amp;characterEncoding=gbk"/>
+	<property name="database.url1"  value="jdbc:${database.type}://${database.host}/${database.name1}?useUnicode=true&amp;amp;characterEncoding=gbk"/>
+    <property name="database.show_sql" value="true"/>
+    <property name="database.schema" value=""/>
+
+    <!-- Build and deploy properties -->
+    <property environment="env"/>
+    <property name="env.COMPUTERNAME" value="${env.HOSTNAME}"/>
+
+    <!-- property name="tomcat.home" value="${env.CATALINA_HOME}"/ -->
+	<property name="tomcat.home" value="${CATALINA_HOME}"/>
+    <!-- The target directory for building the packed web application -->
+    <property name="webapp.dist" value="${dist.dir}/webapps"/>
+    <!-- The target directory for building the unpacked web application -->
+    <property name="webapp.target" value="${build.dir}/${webapp.name}"/>
+    <!-- Should Java compilations set the debug compiler option? -->
+    <property name="compile.debug" value="true"/>
+    <!-- Should Java compilations set the deprecation compiler option? -->
+    <property name="compile.deprecation" value="false"/>
+    <!-- Should Java compilations set the optimize compiler option? -->
+    <property name="compile.optimize" value="false"/>
+    <!-- The source directory for the whole project -->
+    <property name="src" value="${basedir}/src"/>
+    <property name="tar.user" value="ant"/>
+    <property name="tar.group" value="ant"/>
+    <property name="tar.mode" value="644"/>
+	
+	
+	<!-- jarsign -->
+	<property name="jarsigner.tar" value="web/reports/signer"/>
+	<property name="jarsigner" value="jarsigner"/>
+	<property name="jarsigner.home" value="${env.JAVA_HOME}/bin"/>
+	<property name="keystore" value="vriche.store"/>
+    <property name="storepass" value="123456"/>
+	<property name="alias" value="vriche"/>
+    <property name="report.jar" value="report.jar"/>	
+	
+	<!-- ftp -->	
+	<property name="ftp.ip" value="192.168.1.11"/>
+	<property name="ftp.username" value="lxz"/>
+	<property name="ftp.password" value="vriche0987"/>
+	<property name="ftp.remotedir" value="/var/www/html"/>	
+	
+
+
+
+
+    <!-- =================================================================== -->
+    <!-- Classpaths                                                          -->
+    <!-- =================================================================== -->
+
+    <path id="xdoclet.classpath">
+        <pathelement location="${log4j.jar}"/>
+        <pathelement location="${commons-logging.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
+        <fileset dir="${spring.dir}" includes="acegi*.jar"/>
+        <fileset dir="${xdoclet.dir}" includes="*.jar"/>
+        <fileset dir="${velocity.dir}" includes="*.jar"/>
+    </path>
+
+    <!-- Hibernate -->
+    <path id="hibernate.classpath">
+        <pathelement location="${hibernate.jar}"/>
+        <fileset dir="${hibernate.dir}/lib" includes="*.jar"/>
+        <pathelement location="${database.jar}"/>
+        <pathelement location="${commons-beanutils.jar}"/>
+        <pathelement location="${commons-lang.jar}"/>
+        <path location="${build.dir}/dao/classes"/>
+    </path>
+
+    <!-- iBatis -->
+    <path id="ibatis.classpath">
+        <fileset dir="${ibatis.dir}" includes="*.jar"/>
+        <pathelement location="${database.jar}"/>
+        <pathelement location="${commons-beanutils.jar}"/>
+        <pathelement location="${commons-lang.jar}"/>
+        <path location="${build.dir}/dao/classes"/>
+		
+
+    </path>
+
+    <!-- DAO -->
+    <path id="dao.compile.classpath">
+        <path refid="hibernate.classpath"/>
+        <path refid="ibatis.classpath"/>
+        <pathelement location="${commons-lang.jar}"/>
+        <pathelement location="${commons-logging.jar}"/>
+		<pathelement location="${commons-collections.jar}"/>
+        <fileset dir="${spring.dir}" includes="*.jar"/>
+		<pathelement location="${servletapi.jar}"/>	
+    </path>
+    <path id="dao.test.classpath">
+        <path refid="dao.compile.classpath"/>
+        <pathelement location="${dbunit.jar}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
+        <pathelement location="${log4j.jar}"/>
+    </path>
+
+    <!-- Service -->
+    <path id="service.compile.classpath">
+        <path refid="dao.compile.classpath"/>
+        <pathelement location="${dist.dir}/${webapp.name}-dao.jar"/>
+        <fileset dir="${javamail.dir}" includes="*.jar"/>
+        <pathelement location="${commons-beanutils.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
+		<pathelement location="${commons-net.jar}"/>
+		<pathelement location="${pinyin4j.jar}"/>
+        <fileset dir="${spring.dir}" includes="*.jar"/>
+        <fileset dir="${velocity.dir}" includes="*.jar"/>
+		<pathelement location="${displaytag.jar}"/>	
+		<pathelement location="${commons-validator.jar}"/>
+		<pathelement location="${aspectj.jar}"/>
+		<pathelement location="${jakarta-oro.jar}"/>
+		
+		<pathelement location="${jfreechart.jar}"/>
+		<pathelement location="${jasperreport.jar}"/>
+		<pathelement location="${jcommon.jar}"/>	
+		<pathelement location="${dwr.jar}"/>
+		<pathelement location="${servletapi.jar}"/>	
+		<pathelement location="${poi-final.jar}"/>
+		<pathelement location="${maverick.jar}"/>
+		
+		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${smack.jar}"/>
+		
+		<pathelement location="${quartz.jar}"/>
+		<pathelement location="${hsql.jar}"/>
+		<pathelement location="${derby.jar}"/>
+		
+		<pathelement location="${commons-compress.jar}"/>
+		<pathelement location="${commons-io.jar}"/>
+		
+		<pathelement location="${xfire.jar}"/>
+		<pathelement location="${jdom.jar}"/>
+		<pathelement location="${wsdl4j.jar}"/>
+		<pathelement location="${xbean-spring.jar}"/>
+		<pathelement location="${wstx-asl.jar}"/>
+		<pathelement location="${jsr173_api.jar}"/>		
+		<pathelement location="${j2ssh.jar}"/>
+		
+		<pathelement location="${struts.jar}"/>
+		
+		<pathelement location="${jxl-2.1.jar}"/>		
+		<pathelement location="${jaxb-api.jar}"/>	
+		<pathelement location="${jsr181-api.jar}"/>	
+		
+		<pathelement location="${jsr173-api.jar}"/>	
+		
+		
+		
+		<!-- pathelement location="${axis.jar}"/>		
+		<pathelement location="${commons-discovery.jar}"/>	
+		<pathelement location="${jaxrpc.jar}"/>			
+		<pathelement location="${saaj.jar}"/>		
+		<pathelement location="${wsdl4j.jar}"/ -->	
+		
+		<!-- pathelement location="${axis2-kernel.jar}"/>
+		<pathelement location="${axis2-adb.jar}"/>	
+		<pathelement location="${axiom-api.jar}"/>	
+		<pathelement location="${axiom-imp.jar}"/>	
+		<pathelement location="${wsdl4j.jar}"/ -->
+		
+		<fileset dir="${axis2test.dir}" includes="*.jar"/>
+		
+    </path>
+	
+	
+    <path id="service.test.classpath">
+        <path refid="service.compile.classpath"/>
+		
+		<pathelement location="${aspectj.jar}"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${log4j.jar}"/>
+        <pathelement location="${jakarta-oro.jar}"/>
+        <pathelement location="${dumbster.jar}"/>
+        <pathelement location="${jmock.jar}"/>
+        <path location="test/dao"/>
+    </path>
+
+    <!-- Web -->
+    <path id="web.compile.classpath">
+        <pathelement location="${dist.dir}/${webapp.name}-dao.jar"/>
+        <pathelement location="${dist.dir}/${webapp.name}-service.jar"/>
+		<pathelement location="${aspectj.jar}"/>
+        <pathelement location="${struts.jar}"/>
+        <pathelement location="${strutsmenu.jar}"/>
+		<pathelement location="${dwr.jar}"/>
+        <pathelement location="${displaytag.jar}"/>
+        <pathelement location="${jakarta-oro.jar}"/>
+        <pathelement location="${commons-digester.jar}"/>
+        <pathelement location="${commons-logging.jar}"/>
+		<pathelement location="${commons-logging-api.jar}"/>
+        <pathelement location="${commons-beanutils.jar}"/>
+        <pathelement location="${commons-collections.jar}"/>
+        <pathelement location="${commons-fileupload.jar}"/>
+        <pathelement location="${commons-lang.jar}"/>
+        <pathelement location="${commons-validator.jar}"/>
+		<pathelement location="${commons-net.jar}"/>
+		<pathelement location="${commons-httpclient.jar}"/>
+        <pathelement location="${servletapi.jar}"/>
+        <pathelement location="${jasperreport.jar}"/>
+		
+		<pathelement location="${itext.jar}"/>
+		<pathelement location="${iTextAsian.jar}"/>
+		<pathelement location="${poi-final.jar}"/>
+		<pathelement location="${jxl-2.1.jar}"/>			
+		<pathelement location="${jdt-compiler.jar}"/>		
+		<pathelement location="${png-encoder.jar}"/>	
+		<pathelement location="${jfreechart.jar}"/>	
+		<pathelement location="${jcommon.jar}"/>	
+		<pathelement location="${hsql.jar}"/>
+		
+		<pathelement location="${xerces.jar}"/>	
+
+		<path refid="ibatis.classpath"/>				
+        <fileset dir="${javamail.dir}" includes="*.jar"/>
+        <fileset dir="${spring.dir}" includes="*.jar"/>
+        <fileset dir="${jstl.dir}/lib" includes="jstl.jar"/>
+		
+		<fileset dir="${axis2test.dir}" includes="*.jar"/>
+		
+    </path>
+	
+    <path id="web.test.classpath">
+        <path refid="web.compile.classpath"/>
+        <path refid="service.test.classpath"/>
+        <pathelement location="${strutstestcase.jar}"/>
+        <fileset dir="${webtest.dir}/lib" includes="*.jar"/>
+    </path>
+
+    <path id="jspc.classpath">
+        <path refid="dao.compile.classpath"/>
+        <pathelement location="${commons-logging.jar}"/>
+        <pathelement location="${commons-validator.jar}"/>
+        <pathelement location="${clickstream.jar}"/>
+        <pathelement location="${displaytag.jar}"/>
+        <pathelement location="${sitemesh.jar}"/>
+        <pathelement location="${strutsmenu.jar}"/>
+        <fileset dir="${jstl.dir}/lib" includes="*.jar"/>
+        <fileset dir="${struts.dir}" includes="*.jar"/>
+        <fileset dir="${spring.dir}" includes="*.jar"/>
+        <fileset dir="${tomcat.home}/common/lib" includes="*.jar"/>
+        <path location="${build.dir}/web/classes"/>
+    </path>
+
+    <path id="emma.libs">
+        <pathelement location="${emma.dir}/emma.jar"/>
+        <pathelement location="${emma.dir}/emma_ant.jar"/>
+    </path>
+
+    <path id="all.sources">
+        <pathelement path="src/dao"/>
+        <pathelement path="src/service"/>
+        <pathelement path="src/web"/>
+    </path>
+
+    <taskdef resource="emma_ant.properties" classpathref="emma.libs"/>
+
+    <property name="inheritAll" value="true"/>
+
+    <!-- this macro is called by tasks that depend on a database.properties -->
+    <macrodef name="generate-database-properties">
+        <sequential>
+            <echo>generating database.properties from build.properties</echo>
+            <propertyfile comment="Hibernate Configuration for JUnit tests"
+                file="${basedir}/database.properties">
+                <entry key="hibernate.dialect" value="${hibernate.dialect}"/>
+                <entry key="hibernate.connection.driver_class" value="${database.driver_class}"/>
+                <entry key="hibernate.connection.url" value="${database.url}"/>
+                <entry key="hibernate.connection.username" value="${database.username}"/>
+                <entry key="hibernate.connection.password" value="${database.password}"/>
+                <entry key="hibernate.connection.show_sql" value="${database.show_sql}"/>
+                <entry key="dao.type" value="${dao.type}"/>
+            </propertyfile>
+            <replace file="database.properties" token="amp;" value=""/>
+            <property file="database.properties"/>
+        </sequential>
+    </macrodef>
+
+</project>

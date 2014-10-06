@@ -1,0 +1,376 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts
+svn://121.28.83.134:80/src1
+
+
+
+2013-04-15T07:51:08.733858Z
+539
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+dhtmlxTree
+dir
+
+dhtmlxCombo
+dir
+
+prototype.js
+file
+
+
+
+
+2013-05-17T07:36:36.933959Z
+1812bbfa7e83874dcab3ba0aa1d99e47
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+sample
+dir
+
+crm
+dir
+
+dhtmlxToolbar
+dir
+
+login.js
+file
+
+
+
+
+2013-05-17T07:36:36.949587Z
+deb61023610971555ba7c261b5a60717
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+calendar.js
+file
+
+
+
+
+2013-05-17T07:36:36.949587Z
+220e43219d06ec40785ae2aafcd095f9
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+dhtmlxMenu
+dir
+
+components
+dir
+
+dhtmlxTreeGrid
+dir
+
+winjs
+dir
+
+effects.js
+file
+
+
+
+
+2013-05-17T07:36:36.949587Z
+4f4c0003381c7b581c1cd4e65cfb7b7a
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+info
+dir
+
+bak
+dir
+
+slider.js
+file
+
+
+
+
+2013-05-17T07:36:36.949587Z
+e841aca127d7bfd6ba801edbcaeba258
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+merm
+dir
+
+ext
+dir
+
+tools
+dir
+
+lytebox.js
+file
+
+
+
+
+2013-05-17T07:36:36.949587Z
+03fbb70152db1993f8a94bc106d5144b
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+builder.js
+file
+
+
+
+
+2013-05-17T07:36:36.965211Z
+93b3efff932f1a20d4550838ef636077
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+assets
+dir
+
+selectbox.js
+file
+
+
+
+
+2013-05-17T07:36:36.965211Z
+673b09750d1457d766a2d6627d5b9ee5
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+tab
+dir
+
+dhtmlxGrid
+dir
+
+sdmenu.js
+file
+
+
+
+
+2013-05-17T07:36:36.965211Z
+7cddfb6d2b86ac750465afbf071761ce
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+workFlow
+dir
+
+contract
+dir
+
+document
+dir
+
+clocks
+dir
+
+controls.js
+file
+
+
+
+
+2013-05-17T07:36:36.965211Z
+7aedcf3e02f97b26208192e7434baaa3
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+product
+dir
+
+validator.jsp
+file
+
+
+
+
+2013-05-17T07:36:36.965211Z
+fb56b405f0751a0a84108ad51b8bfc80
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+samples_tree.xml
+file
+
+
+
+
+2013-05-17T07:36:36.965211Z
+c2af902ed60addb8e5ec218962247277
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+generic.js
+file
+681
+
+
+
+2013-12-12T08:33:02.656285Z
+58163799477ccf8d8a4adf6be667cbaa
+2013-12-25T02:08:48.466087Z
+681
+lxz
+
+admin
+dir
+
+common
+dir
+
+analyzesum
+dir
+
+superTables
+dir
+
+helpdhtmlxTree
+dir
+
+adres
+dir
+
+customer
+dir
+
+adver
+dir
+
+analyze
+dir
+
+finance
+dir
+
+prototypeUI
+dir
+
+swfupload
+dir
+
+class
+dir
+
+docs_tree.xml
+file
+
+
+
+
+2013-05-17T07:36:36.980837Z
+086bb5dce3bd17ffc247ce641fe6bb70
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+fusionCharts
+dir
+
+CalendarPopup.js
+file
+
+
+
+
+2013-05-17T07:36:36.980837Z
+3b244b50731fb312d9f32257f3e707ee
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+dhtml
+dir
+
+calendar
+dir
+
+order
+dir
+
+scriptaculous.js
+file
+
+
+
+
+2013-05-17T07:36:36.980837Z
+b105c2b2b7ab40f56350f2e0e96dad68
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+global.js
+file
+603
+
+
+
+2013-07-31T00:07:48.303085Z
+5de825535537949453fc1e5d67d03177
+2013-07-31T09:54:03.126992Z
+603
+lxz
+
+README.txt
+file
+
+
+
+
+2013-05-17T07:36:36.996462Z
+086dc224a85cbc2ea824a100953d05ef
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+dhtmlxTabbar
+dir
+
+dragdrop.js
+file
+
+
+
+
+2013-05-17T07:36:36.996462Z
+6676a89b0846d29b19f8b2aa86ef5f4f
+2012-11-24T05:32:05.899594Z
+6
+lxz
+

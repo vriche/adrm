@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://MREML2/schema/ImportProgramListService" xmlns:tns1="http://MREML2/schema/ProgramListParameter" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://MREML2/schema/ImportProgramListService" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">
+  <types>
+    <xsd:schema>
+			<xsd:import namespace="http://MREML2/schema/ProgramListParameter" schemaLocation="ProgramListParameter.xsd"/>
+		</xsd:schema>
+  </types>
+  <message name="ImportProgramListRequest">
+    <part name="ImportProgramListRequest" element="tns1:ImportProgramListRequest">
+    </part>
+  </message>
+  <message name="ImportProgramListResponse">
+    <part name="ImportProgramListResponse" element="tns1:ImportProgramListResponse">
+    </part>
+  </message>
+  <portType name="ImportProgramList">
+    <operation name="ImportProgramList">
+      <input message="tns:ImportProgramListRequest">
+    </input>
+      <output message="tns:ImportProgramListResponse">
+    </output>
+    </operation>
+  </portType>
+  <binding name="ImportProgramListHttpBinding" type="tns:ImportProgramList">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ImportProgramList">
+      <soap:operation soapAction="ImportProgramList"/>
+      <input>
+        <soap:body parts="ImportProgramListRequest" use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ImportProgramListService">
+    <port name="ImportProgramListServiceHttpPort" binding="tns:ImportProgramListHttpBinding">
+      <soap:address location="http://Server:8080/ADP/services/ImportProgramListService"/>
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PublishArrangeDetailSQL">
+    <typeAlias alias="publishArrangeDetail" type="com.vriche.adrm.model.PublishArrangeDetail"/>
+
+	<cacheModel id="publishArrangeDetail-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addPublishArrangeDetail"/>
+		<flushOnExecute statement="updatePublishArrangeDetail"/>
+		<flushOnExecute statement="deletePublishArrangeDetail"/>
+		<flushOnExecute statement="deletePublishArrangeDetails"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	  
+    <parameterMap id="addParam" class="publishArrangeDetail">
+					<parameter property="ctrBroSort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="adverTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <!-- parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matterEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <!-- parameter property="matterId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="matterLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matterName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="orderDayId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <!-- parameter property="orderDetailId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="ownerUserId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="ownerUserName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="publishArrangeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="publishSort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="specificName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="specificValue" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tapeCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+					
+		
+		
+		
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="publishArrangeDetail">
+        <parameter property="adverTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <!-- parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matterEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <!--  parameter property="matterId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="matterLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matterName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="orderDayId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <!--  parameter property="orderDetailId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="ownerUserId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="ownerUserName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="publishSort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="specificName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="specificValue" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tapeCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+
+    <resultMap id="publishArrangeDetailResult" class="publishArrangeDetail">
+		<result property="resourceId" column="resource_id"/>
+		<result property="publishDate" column="publish_date"/>
+        <result property="adverTimes" column="adver_times"/>
+        <result property="contractId" column="contract_id"/>
+        <result property="customerId" column="customer_id"/>
+		<result property="customerName" column="customer_name"/>
+        <result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+        <result property="id" column="arrange_detail_id"/>
+        <result property="matterEdit" column="matter_edit"/>
+        <result property="matterId" column="matter_id"/>
+        <result property="matterLength" column="matter_length"/>
+        <result property="matterName" column="matter_name"/>
+        <result property="orderDayId" column="order_day_info_id"/>
+        <result property="orderDetailId" column="order_detail_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="ownerUserId" column="owner_user_id"/>
+        <result property="publishArrangeId" column="arrange_id"/>
+        <result property="publishMemo" column="publish_memo"/>
+        <result property="publishSort" column="publish_sort"/>
+        <result property="specificName" column="specific_name"/>
+        <result property="specificValue" column="specific_value"/>
+        <result property="tapeCode" column="tape_code"/>
+    </resultMap>
+	
+	<resultMap id="publishArrangeDetailResults" class="publishArrangeDetail">
+		<result property="resourceId" column="resource_id"/>
+		<result property="publishDate" column="publish_date"/>
+		<result property="matterName" column="matter_name"/>
+        <result property="id" column="arrange_detail_id"/>
+        <result property="matterEdit" column="matter_edit"/>
+        <result property="matterId" column="matter_id"/>
+        <result property="matterLength" column="matter_length"/>
+		<result property="specificName" column="memo"/>
+		<result property="publishSort" column="publish_sort"/>
+    </resultMap>
+	
+	 <resultMap id="publishArrangeDetailResult_extends" extends="publishArrangeDetailResult" class="publishArrangeDetail">
+		<result property="orderCode" column="order_code"/>
+		<result property="spaceAdver" column="is_space_adver"/>
+		<result property="orgId" column="sys_org_id"/> 
+    </resultMap>
+	
+    <select id="getPublishArrangeDetailsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_published_arrang_detail 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="adverTimes">
+			(adver_times = #adverTimes#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractId">
+			(contract_id = #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id = #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerName">
+			(customer_name = #customerName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(arrange_detail_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterEdit">
+			(matter_edit = #matterEdit#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterId">
+			(matter_id = #matterId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterLength">
+			(matter_length = #matterLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterName">
+			(matter_name = #matterName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderDayId">
+			(order_day_info_id = #orderDayId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderDetailId">
+			(order_detail_id = #orderDetailId#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="orderId">
+			(order_id = #orderId#)
+			</isNotEmpty -->
+			<isNotEmpty prepend="AND" property="ownerUserId">
+			(owner_user_id = #ownerUserId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ownerUserName">
+			(owner_user_name = #ownerUserName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishArrangeId">
+			(arrange_id = #publishArrangeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishMemo">
+			(publish_memo = #publishMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishSort">
+			(publish_sort = #publishSort#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="specificName">
+			(specific_name = #specificName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="specificValue">
+			(specific_value = #specificValue#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tapeCode">
+			(tape_code like #tapeCode#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+	
+
+    <select id="getPublishArrangeDetails" resultMap="publishArrangeDetailResult">
+    <![CDATA[
+        select * from tb_published_arrang_detail 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="adverTimes">
+			(adver_times = #adverTimes#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractId">
+			(contract_id = #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id = #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerName">
+			(customer_name = #customerName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(arrange_detail_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterEdit">
+			(matter_edit = #matterEdit#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterId">
+			(matter_id = #matterId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterLength">
+			(matter_length = #matterLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterName">
+			(matter_name = #matterName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderDayId">
+			(order_day_info_id = #orderDayId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderDetailId">
+			(order_detail_id = #orderDetailId#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="orderId">
+			(order_id = #orderId#)
+			</isNotEmpty -->
+			<isNotEmpty prepend="AND" property="ownerUserId">
+			(owner_user_id = #ownerUserId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ownerUserName">
+			(owner_user_name = #ownerUserName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishArrangeId">
+			(arrange_id = #publishArrangeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishMemo">
+			(publish_memo = #publishMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishSort">
+			(publish_sort = #publishSort#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="specificName">
+			(specific_name = #specificName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="specificValue">
+			(specific_value = #specificValue#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tapeCode">
+			(tape_code = #tapeCode#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+	    <select id="getPublishArrangeDetailsByIdLists" parameterClass="java.util.Map" resultMap="publishArrangeDetailResults">
+      <![CDATA[
+		    select distinct arw.ad_resource_workspan_id resource_id,arw.memo, arw.broadcast_start_time publish_date,
+				  od.adver_matter_id matter_id,pad.matter_edit,pad.matter_length,pad.arrange_detail_id,pad.matter_name,pad.publish_sort
+		       
+		   from tb_published_arrang_detail pad		
+		   
+		   left outer join  tb_order_day_info odi
+				 on  pad.order_day_info_id = odi.order_day_info_id
+		  left outer join  tb_order_detail od
+				 on  odi.order_detail_id = od.order_detail_id
+		  left outer join  tb_ad_resource_specific ars
+             on  od.ad_resource_specific_id = ars.ad_resource_specific_id
+		  left outer join  tb_order o
+             on  od.order_id = o.order_id		
+		  left outer join  tb_ad_resource_day_info ard
+			 on  od.ad_resource_info_id = ard.ad_resource_info_id
+		  left outer join  tb_ad_resource_info ari
+			 on  od.ad_resource_info_id = ari.ad_resource_info_id	
+		  left outer join  tb_ad_resource_carrier arc
+			 on  ari.ad_resource_carrier_id= arc.ad_resource_carrier_id			  
+		  left outer join tb_ad_resource_workspan arw
+		     on ard.ad_resource_workspan_id=arw.ad_resource_workspan_id
+    ]]>	
+		
+	  <dynamic prepend="WHERE">
+		
+		<isNotEmpty prepend="AND" property="carrierId">
+			(arc.parent_id = #carrierId#)
+		</isNotEmpty>	
+		  		
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(odi.publish_date = #PublishDate#)
+		</isNotEmpty>	
+		  
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(od.need_publish = 1)
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(o.is_ckecked = 3)
+		</isNotEmpty>		  
+       </dynamic>   
+		
+		order by ars.position ASC
+  </select>
+	
+  <resultMap id="publishArrangeDetailResults4" class="publishArrangeDetail">
+		<result property="publishDate" column="publish_date"/>
+		<result property="customerName" column="name"/>
+        <result property="matterEdit" column="matter_edit"/>
+        <result property="matterLength" column="matter_length"/>
+        <result property="matterName" column="matter_name"/>
+        <result property="publishMemo" column="resource_meno"/>
+        <result property="specificName" column="specific_name"/>
+        <result property="tapeCode" column="tape_code"/>
+	    <result property="resourceName" column="resource_name"/>
+	  
+    </resultMap>
+	
+  <select id="getPublishArrangeDetailsByIdLists4" parameterClass="java.util.Map" resultMap="publishArrangeDetailResults4">
+      <![CDATA[	       
+		    select ar.name,
+			  pa.publish_date,
+			  pad.matter_name,
+			  pad.matter_edit,
+			  pad.matter_length,
+			  pad.tape_code,
+			  ARW.broadcast_start_time  as resource_meno,
+		      pad.specific_name, 
+		      pa.resource_name 
+		  
+		    from   tb_published_arrang_detail pad    
+		  
+					   left outer join   tb_published_arrang pa 
+				 on pa.arrange_id = pad.arrange_id
+		  
+		  		 		   left outer join tb_ad_resource_workspan ARW
+		on ARW.ad_resource_info_id = pa.resource_id 
+		  
+					   left outer join  tb_ad_resource_carrier arc
+				 on arc.ad_resource_carrier_id = pa.carrier_id
+		  
+					   left outer join  tb_ad_resource_channel  ar
+				 on arc.ad_resource_channel_id = ar.resource_mediaorg_id
+    ]]>	
+		
+	  <dynamic prepend="WHERE">
+		
+		<isNotEmpty prepend="AND" property="carrierId">
+			(arc.ad_resource_carrier_id = #carrierId#)
+		</isNotEmpty>	
+		  		
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(pa.publish_date = #PublishDate#)
+		</isNotEmpty>
+		  
+		 <isEqual prepend="AND" property="PublishDate" compareValue="1">	
+			   <![CDATA[ (ARW.begin_date <= #PublishDate# ) 	]]> 	
+			</isEqual>
+				 
+			<isEqual prepend="AND" property="PublishDate" compareValue="1">	
+			   <![CDATA[ (ARW.end_date >= #PublishDate#) 	]]> 	
+			</isEqual>	
+		  
+	</dynamic>   	
+	  
+	   <![CDATA[  order by if(ARW.broadcast_start_time<ar.value,ARW.broadcast_start_time+86400,ARW.broadcast_start_time)  ]]> 	
+	  
+	 
+	  
+	    
+  </select> 
+
+    <select id="getPublishArrangeDetail" resultMap="publishArrangeDetailResult">
+    <![CDATA[
+        select * from tb_published_arrang_detail
+         where arrange_detail_id = #value#
+    ]]>
+    </select>
+
+    <select id="getPublishArrangeDetailsByIdList" parameterClass="java.util.Map" resultClass="publishArrangeDetail">
+      <![CDATA[
+		    select 
+		        RES.ad_resource_info_id AS resourceId,
+		        ODD.publish_date AS publishDate,
+		        0 AS publishArrangeId,
+		        0 AS id,
+		        O.is_ckecked AS publishSort,
+		        CUT.customer_id AS customerId,
+		        CN.contract_id AS contractId,
+				O.order_id AS orderId,
+		        DT.order_detail_id AS orderDetailId,
+		        ODD.order_day_info_id AS orderDayId,
+				DT.adver_matter_id AS matterId,
+		        USER.id AS ownerUserId,
+		        SP.position as specificValue,
+		        DT.is_space_adver AS isSpaceAdver,
+		  
+		        USER.first_name as firstName,
+		        USER.last_name as lastName,
+		        CUT.customer_name AS customerName,
+		        MATT.tape_code AS tapeCode,
+		        MATT.name AS matterName,
+		        MATT.EDIT AS matterEdit,
+		        MATT.length AS matterLength,
+				ODD.ad_day_times AS adverTimes,	
+			    DT.publish_memo AS publishMemo,	
+				SP.name AS specificName,
+		        O.order_code AS orderCode,
+		        CUT.sys_org_id AS orgId,
+		        DT.is_space_adver as spaceAdver
+	
+			from tb_order_day_info ODD 
+		
+		        left outer join  tb_order_detail DT
+             on  DT.order_detail_id = ODD.order_detail_id
+
+				left outer join  tb_order O
+             on  O.order_id = DT.order_id	
+		
+				left outer join  tb_contract CN
+             on  CN.contract_id	= O.contract_id
+		
+				left outer join  tb_ad_resource_specific SP
+             on  SP.ad_resource_specific_id = DT.ad_resource_specific_id
+		
+				left outer join  tb_customer_info CUT
+             on  CUT.customer_id = O.customer_id	
+		
+				left outer join  tb_sys_user USER
+             on  USER.id = O.user_id	
+		
+				left outer join  tb_adver_matter MATT
+             on  MATT.adver_matter_id = DT.adver_matter_id	
+		
+				left outer join  tb_ad_resource_info RES
+             on  RES.ad_resource_info_id = DT.ad_resource_info_id	
+ 
+    ]]>	
+		
+	  <dynamic prepend="WHERE"> 
+		<isNotNull property="ResourceIdList">
+       	 	<iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   		 RES.ad_resource_info_id = #ResourceIdList[]#
+		</iterate>
+		</isNotNull> 
+				
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(ODD.publish_date = #PublishDate# and ODD.ad_day_times > 0)
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="PublishStartDate">
+			(ODD.publish_date >= #PublishStartDate#)
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="PublishEndDate">
+			<![CDATA[(ODD.publish_date <= #PublishEndDate#) ]]> 
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(DT.need_publish = 1)
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="CheckFlag">
+			(O.is_ckecked = 3)
+		</isNotEmpty>
+		  
+<!--		<isNotEmpty prepend="AND" property="PublishDate">
+			(DT.money_realpay = DT.money_in)
+		</isNotEmpty>	
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(ODD.day_rel_income = ODD.day_rel_puton)
+		</isNotEmpty>	-->			  
+       </dynamic>   
+		
+		order by SP.position ASC
+  </select> 
+	
+	<select id="getPublishArrangeDetailsByIdListForPublishSort" parameterClass="java.util.Map" resultClass="publishArrangeDetail">
+      <![CDATA[    
+		 select   
+				AR.resource_id as resourceId,
+		        DT.ad_resource_info_id AS id,
+		        ODD.publish_date AS publishDate,
+		        AD.publish_sort AS publishSort,  
+		        0 AS id, 
+		        O.customer_id AS customerId,
+		        CN.contract_id AS contractId,
+				O.order_id AS orderId,
+		        DT.order_detail_id AS orderDetailId,
+		        ODD.order_day_info_id AS orderDayId,
+				DT.adver_matter_id AS matterId,
+		        USER.id AS ownerUserId,
+		        SP.position as specificValue,
+		        DT.is_space_adver AS isSpaceAdver,
+		  
+		        USER.first_name as firstName,
+		        USER.last_name as lastName,
+		        CUT.customer_name AS customerName,
+		        MATT.tape_code AS tapeCode,
+		        MATT.name AS matterName,
+		        MATT.EDIT AS matterEdit,
+		        MATT.length AS matterLength,
+				ODD.ad_day_times AS adverTimes,	
+			    DT.publish_memo AS publishMemo,	
+				SP.name AS specificName,
+		        O.order_code AS orderCode,
+		        DT.is_space_adver as spaceAdver
+		 		  
+		 from   tb_order_day_info ODD
+         
+         		left outer join  tb_published_arrang_detail AD
+         on  AD.order_day_info_id = ODD.order_day_info_id
+         
+         		left outer join  tb_published_arrang AR
+         on  AD.arrange_id = AR.arrange_id
+		 
+		        left outer join  tb_order_detail DT
+         on  DT.order_detail_id = ODD.order_detail_id
+		  
+				left outer join  tb_adver_matter MATT
+         on  MATT.adver_matter_id = DT.adver_matter_id  
+		  			 
+				left outer join  tb_ad_resource_specific SP
+         on  SP.ad_resource_specific_id = DT.ad_resource_specific_id
+
+				left outer join  tb_order O
+         on  O.order_id = DT.order_id	
+		  
+		 		left outer join  tb_customer_info CUT
+         on  CUT.customer_id = O.customer_id
+		  
+				left outer join  tb_contract CN
+         on  CN.contract_id	= O.contract_id				 
+
+				left outer join  tb_sys_user USER
+             on  USER.id = O.user_id
+		   ]]>	
+		
+	  <dynamic prepend="WHERE"> 
+		<isNotNull property="ResourceIdList">
+       	 	<iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   		 DT.ad_resource_info_id = #ResourceIdList[]#
+		</iterate>
+		</isNotNull> 
+				
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(ODD.publish_date = #PublishDate#)
+		</isNotEmpty>	
+		  
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(DT.need_publish = 1)
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(O.is_ckecked = 3)
+		</isNotEmpty>		  
+       </dynamic>   
+		
+		order by  AD.publish_sort
+  </select>
+	
+    <insert id="addPublishArrangeDetail" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_arrange_detail_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_published_arrang_detail (ctr_bro_sort,adver_times,customer_name,matter_edit,matter_length,matter_name,order_day_info_id,
+			owner_user_name,arrange_id,publish_memo,publish_sort,specific_name,specific_value,tape_code)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updatePublishArrangeDetail" parameterMap="updateParam">
+    <![CDATA[
+        update tb_published_arrang_detail set
+                   adver_times = ?,
+                   customer_name = ?,
+                   matter_edit = ?,
+                   matter_length = ?,
+                   matter_name = ?,
+                   order_day_info_id = ?,
+                   owner_user_name = ?,
+                   publish_memo = ?,
+                   publish_sort = ?,
+                   specific_name = ?,
+                   specific_value = ?,
+                   tape_code = ?
+        where arrange_detail_id = ?
+    ]]>
+    </update>
+
+    <delete id="deletePublishArrangeDetail">
+    <![CDATA[
+        delete from tb_published_arrang_detail
+         where arrange_detail_id = #value#
+    ]]>
+    </delete>
+	
+	
+   <select id="getDetailidByResourceIdDate" parameterClass="java.util.Map" resultClass="java.lang.Long">
+	     <![CDATA[  
+			select distinct AD.arrange_detail_id from tb_published_arrang_detail AD,tb_published_arrang AR
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   		AR.resource_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 	
+			
+		 <isNotNull prepend="AND" property="PublishDate">
+			   (AR.publish_date = #PublishDate#)
+		 </isNotNull>
+				
+	      <isNotNull prepend="AND" property="PublishDate">
+			   (AR.arrange_id  = AD.arrange_id)
+		 </isNotNull>
+		
+	    </dynamic>  	  
+  </select>  	
+	
+	
+   <select id="getArrangeIdByResourceIdDate" parameterClass="java.util.Map" resultClass="java.lang.Long">
+	     <![CDATA[  
+			select distinct AD.arrange_id from tb_published_arrang_detail AD,tb_published_arrang AR
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   		AR.resource_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 	
+			
+		 <isNotNull prepend="AND" property="PublishDate">
+			   (AR.publish_date = #PublishDate#)
+		 </isNotNull>
+
+	      <isNotNull prepend="AND" property="PublishDate">
+			   (AR.arrange_id  = AD.arrange_id)
+		 </isNotNull>		  
+	    </dynamic>  	  
+  </select>  	
+	
+   <update id="deletePublishArrangeDetails" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_published_arrang_detail 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PublishArrangeDetailIdList">
+       	  <iterate prepend="AND" property="PublishArrangeDetailIdList" open="(" close=")" conjunction="OR">
+		   			 arrange_detail_id = #PublishArrangeDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+				
+	      <isNotNull property="PublishArrangeIdList">
+       	  <iterate prepend="AND" property="PublishArrangeIdList" open="(" close=")" conjunction="OR">
+		   			 arrange_id = #PublishArrangeIdList[]#
+		  </iterate>
+		  </isNotNull> 				
+					
+          </dynamic>      
+  </update>  
+		
+    <select id="getPublishArrangeDetailsByIdLists3" parameterClass="java.util.Map" resultMap="publishArrangeDetailResult">
+     <![CDATA[  
+      
+		 select AR.resource_meno AS specific_value,
+		        AR.resource_id,
+		        ARW.broadcast_start_time as publish_date,
+				AD.*,
+		        CN.contract_id AS contract_id,
+		        O.customer_id AS customer_id,
+				O.order_id AS order_id,
+			    O.order_code AS order_code,
+		        DT.order_detail_id AS order_detail_id,
+		        DT.adver_matter_id AS matter_id,
+		        DT.is_space_adver AS is_space_adver,
+		        USER.id AS owner_user_id,
+		 		USER.first_name as first_name,
+		        USER.last_name as last_name
+		 		  
+		 from tb_published_arrang_detail AD
+		 
+		 		left outer join  tb_published_arrang AR
+         on  AD.arrange_id = AR.arrange_id
+		 
+		 left outer join tb_ad_resource_workspan ARW
+		     on AR.resource_id=ARW.ad_resource_info_id
+		 
+		 left outer join  tb_ad_resource_carrier CARR
+			 on  CARR.ad_resource_carrier_id = ARW.ad_resource_carrier_id
+		 
+		 left outer join  tb_ad_resource_channel C
+             on  CARR.ad_resource_channel_id = C.resource_mediaorg_id
+		 
+		        left outer join  tb_order_day_info ODD
+         on  AD.order_day_info_id = ODD.order_day_info_id
+		 
+		        left outer join  tb_order_detail DT
+         on  DT.order_detail_id = ODD.order_detail_id			 
+
+			 left outer join  tb_order O  
+         on  O.order_id = DT.order_id	
+		 
+				left outer join  tb_contract CN
+         on  CN.contract_id	= O.contract_id				 
+
+				left outer join  tb_sys_user USER
+             on  USER.id = O.user_id
+		 
+
+       ]]> 
+ 	 	  <dynamic prepend="WHERE">        
+			
+		 <isNotNull prepend="AND" property="PublishDate">
+			   (AR.publish_date = #PublishDate#)
+		 </isNotNull>
+		
+		<!-- isNotEmpty prepend="AND" property="PublishDate">
+			(DT.need_publish = 1)
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="PublishDate">
+			(O.is_ckecked = 3)
+		</isNotEmpty -->	
+						
+		<isNotNull prepend="AND" property="carrierId">
+			   (AR.carrier_id = #carrierId#)         
+		 </isNotNull>
+						
+	    </dynamic>
+		<![CDATA[  	
+			order by if(ARW.broadcast_start_time < C.value,ARW.broadcast_start_time+86400,ARW.broadcast_start_time),AD.publish_sort
+		]]> 
+  </select>  
+	
+	
+	
+	
+
+	
+    <select id="getPublishArrangeDetailsByIdListFromHistory" parameterClass="java.util.Map" resultMap="publishArrangeDetailResult_extends">
+     <![CDATA[  
+      
+		 select AD.*,
+		        AR.resource_id,
+		        AR.publish_date, 
+		        CN.contract_id AS contract_id,
+		        O.customer_id AS customer_id,
+				O.order_id AS order_id,
+			    O.order_code AS order_code,
+		        DT.order_detail_id AS order_detail_id,
+		        DT.adver_matter_id AS matter_id,
+		        DT.is_space_adver AS is_space_adver,
+				CUT.sys_org_id,
+		        USER.id AS owner_user_id,
+		 		USER.first_name as first_name,
+		        USER.last_name as last_name
+		 		  
+		 from tb_published_arrang_detail AD
+		 
+		 		left outer join  tb_published_arrang AR
+         on  AD.arrange_id = AR.arrange_id
+		 
+		        left outer join  tb_order_day_info ODD
+         on  AD.order_day_info_id = ODD.order_day_info_id
+		 
+		        left outer join  tb_order_detail DT
+         on  DT.order_detail_id = ODD.order_detail_id			 
+
+			 left outer join  tb_order O
+         on  O.order_id = DT.order_id	
+		 
+				left outer join  tb_contract CN
+         on  CN.contract_id	= O.contract_id				 
+
+				left outer join  tb_sys_user USER
+             on  USER.id = O.user_id
+		 
+		 left outer join tb_customer_info CUT on CUT.customer_id = O.customer_id
+		 
+
+       ]]> 
+ 	 	  <dynamic prepend="WHERE">
+				
+	     	 <isNotNull property="PublishArrangeIdList">
+				 <iterate prepend="AND" property="PublishArrangeIdList" open="(" close=")" conjunction="OR">
+					   AD.arrange_detail_id = #PublishArrangeIdList[]#
+			  </iterate>
+			  </isNotNull> 
+	  
+			
+			  <isNotNull property="ResourceIdList">
+				 <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+					   AR.resource_id = #ResourceIdList[]#
+			  </iterate>
+			  </isNotNull> 	
+				
+			 <isNotNull prepend="AND" property="PublishDate">
+				   (AR.publish_date = #PublishDate#)
+			 </isNotNull>
+						
+			<!-- isNotEmpty prepend="AND" property="PublishDate">
+				(DT.need_publish = 1)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="PublishDate">
+				(O.is_ckecked = 3)
+			</isNotEmpty -->				
+	    </dynamic>  	
+		
+  </select>  
+	<!--
+		        RES.ad_resource_info_id AS resourceId,
+		        ODD.publish_date AS publishDate,
+		        0 AS id,
+		        0 AS publishArrangeId,
+		        0 AS publishSort,
+		        CUT.customer_id AS customerId,
+		        CN.contract_id AS contractId,
+				O.order_id AS orderId,
+		        DT.order_detail_id AS orderDetailId,
+		        ODD.order_day_info_id AS orderDayId,
+				DT.adver_matter_id AS matterId,
+		        USER.id AS ownerUserId,
+		        SP.position as specificValue,
+
+		        USER.first_name+''+USER.last_name AS ownerUserName,
+		        CUT.customer_name AS customerName,
+		        MATT.tape_code AS tapeCode,
+		        MATT.name AS matterName,
+		        MATT.EDIT AS matterEdit,
+		        MATT.length AS matterLength,
+				ODD.ad_day_times AS adverTimes,	
+			    DT.publish_memo AS publishMemo,	
+				SP.name AS specificName		
+		
+		
+		
+		
+				RES.ad_resource_info_id AS resource_id,
+		        ODD.publish_date AS publish_date,
+		        0 AS arrange_id,
+		        0 AS arrange_detail_id,
+		        0 AS publish_sort,
+		        CUT.customer_id AS customer_id,
+		        CN.contract_id AS contract_id,
+				O.order_id AS order_id,
+		        DT.order_detail_id AS order_detail_id,
+		        ODD.order_day_info_id AS order_day_info_id,
+				DT.adver_matter_id AS matter_id,
+		        USER.id AS owner_user_id,
+		        SP.position as specific_value,
+		        USER.first_name as first_name,
+		        USER.last_name as last_name,
+		        CUT.customer_name AS customer_name,
+		        MATT.tape_code AS tape_code,
+		        MATT.name AS matter_name,
+		        MATT.EDIT AS matter_edit,
+		        MATT.length AS matter_length,
+				ODD.ad_day_times AS adver_times,	
+			    DT.publish_memo AS publish_memo,	
+				SP.name AS specific_name
+		
+		
+		-->
+	
+	
+	
+	<resultMap id="publishArrangeDetailResults_ForWebService" class="publishArrangeDetail">
+		<result property="matterName" column="matterName"/>
+		<result property="matterEdit" column="matterEdit"/>
+		<result property="matterLength" column="matterLength"/>
+		<result property="tapeCode" column="tapeCode"/>
+		<result property="publishSort" column="publishSort"/>
+		<result property="specificName" column="specificName"/>
+		<result property="orderId" column="orderId"/>
+		<result property="orderCode" column="orderCode"/>
+		<result property="resourceName" column="resourceName"/>
+		<result property="resourceId" column="resourceId"/>
+		<result property="total" column="total"/>
+		<result property="usedTime" column="usedTime"/>
+		<result property="id" column="customer_industry_type_id"/> 
+		<result property="tempId" column="arrange_detail_id"/> 
+		<result property="publishMemo" column="publish_memo"/>
+		<result property="ctrBroTime" column="ctr_bro_time"/>
+		<result property="ctrBroSort" column="ctr_bro_sort"/>
+		<result property="publishArrange.carrierName" column="channel_name"/>
+		<result property="publishArrange.resourceName" column="resource_memo"/>
+		<result property="publishArrange.resourceMeno" column="resource_memo"/>
+		<result property="publishArrange.publishDate" column="publish_date"/>
+		
+	
+	</resultMap>
+
+	<select id="getArrangedPublishForWebService" parameterClass="java.util.Map" resultMap="publishArrangeDetailResults_ForWebService">
+			
+		 select
+			AD.arrange_detail_id,  
+			AD.publish_memo,  
+			AD.ctr_bro_time,  
+			AD.ctr_bro_sort,  
+			AD.matter_name as matterName,
+			AD.matter_edit as matterEdit,
+			AD.matter_length as matterLength,
+			AD.tape_code as tapeCode,
+			AD.publish_sort as publishSort,
+			AD.specific_name as specificName,
+
+		
+			O.order_id as orderId,
+			O.order_code as orderCode,
+		    
+		  AM.adver_product_brand_id as customer_industry_type_id,
+		
+			AR.resource_name as resourceName,
+		 AR.resource_meno as resource_memo,
+			AR.publish_date as publish_date,
+		
+		  AR.resource_id as resourceId,
+     AR.resource_total_times as total, 
+			AR.resource_used_times as usedTime,
+		  C.name as channel_name 
+
+		 		  
+		 from tb_published_arrang_detail AD
+			
+			 inner join   tb_published_arrang AR
+         on  AD.arrange_id = AR.arrange_id
+			
+		        left outer join  tb_order_day_info ODD
+         on  AD.order_day_info_id = ODD.order_day_info_id
+		 
+		        left outer join  tb_order_detail DT
+         on  DT.order_detail_id = ODD.order_detail_id		
+		
+
+			 left outer join  tb_order O
+         on  O.order_id = DT.order_id	
+		
+				 left outer join tb_adver_matter AM 
+				 on DT.adver_matter_id = AM.adver_matter_id 
+
+				
+				 left outer join tb_ad_resource_workspan ARW
+		     on AR.resource_id=ARW.ad_resource_info_id
+		 
+		 				left outer join  tb_ad_resource_carrier CARR
+			 	on  CARR.ad_resource_carrier_id = ARW.ad_resource_carrier_id
+		 
+		 			left outer join  tb_ad_resource_channel C
+             on  CARR.ad_resource_channel_id = C.resource_mediaorg_id
+			
+
+						
+			 <dynamic prepend="WHERE">
+				 
+						 <isNotNull prepend="AND" property="publishDate">
+							      (AR.publish_date = #publishDate#)
+						 </isNotNull>
+				 
+						 <isNotNull prepend="AND" property="publishDate">
+						   <![CDATA[ (ARW.begin_date <= #publishDate# ) 	]]> 	
+						 </isNotNull>
+							 
+						 <isNotNull prepend="AND" property="publishDate">
+						   <![CDATA[ (ARW.end_date >= #publishDate#) 	]]> 	
+						 </isNotNull>
+				 
+
+							<isNotNull prepend="AND" property="publishDateStart">
+							      <![CDATA[  (AR.publish_date >= #publishDateStart#) 		]]> 
+						 </isNotNull>	
+				 
+							<isNotNull prepend="AND" property="publishDateEnd">
+							     <![CDATA[  (AR.publish_date <= #publishDateEnd#) 		]]> 
+						 </isNotNull>			 
+				 
+				 		
+						 
+						<isNotNull prepend="AND" property="carrierId">
+					   (AR.carrier_id = #carrierId#)         
+				 </isNotNull>		 			 
+				 
+						 
+							<isNotNull  property="opt">
+										<isEqual prepend="AND" property="opt" compareValue="2">	
+										       AD.ctr_bro_time is  null 
+										</isEqual>
+							</isNotNull>	
+						 
+						  <isNotNull property="ResourceIdList">
+								 <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+									   AR.resource_id = #ResourceIdList[]#
+							  </iterate>
+						  </isNotNull> 	
+	
+				 
+							<isNotNull property="orderDayIdList">
+								 <iterate prepend="AND" property="orderDayIdList" open="(" close=")" conjunction="OR">
+									   AD.order_day_info_id = #orderDayIdList[]#
+							  </iterate>
+						  </isNotNull> 	 			 
+				 
+							
+			</dynamic>  	
+		
+		<isNotNull  property="opt">
+			
+					<isEqual  property="opt" compareValue="1">	
+										      order by AD.ctr_bro_sort   
+					</isEqual>
+			
+					<isEqual  property="opt" compareValue="2">	
+										      order by C.resource_mediaorg_id,ARW.broadcast_start_time,AD.ctr_bro_sort   
+					</isEqual>						
+			
+		</isNotNull>	
+		
+		<isNull  property="opt">
+							order by C.resource_mediaorg_id,ARW.broadcast_start_time,AD.publish_sort  
+		</isNull>	
+		
+		 
+		
+  </select>  
+
+	
+	
+	
+	<select id="getArrangedPublishForBroZM" parameterClass="java.util.Map" resultMap="publishArrangeDetailResults_ForWebService">
+			
+		 select
+			AD.arrange_detail_id,  
+			AD.publish_memo,  
+			AD.ctr_bro_time,  
+			AD.ctr_bro_sort,  
+			AD.matter_name as matterName,
+			AD.matter_edit as matterEdit,
+			AD.matter_length as matterLength,
+			AD.tape_code as tapeCode,
+			AD.publish_sort as publishSort,
+			AD.specific_name as specificName,
+			O.order_id as orderId,
+			O.order_code as orderCode,
+		  AM.adver_product_brand_id as customer_industry_type_id,
+			AR.resource_name as resourceName,
+		 AR.resource_meno as resource_memo,
+			AR.publish_date as publish_date,
+		
+		  AR.resource_id as resourceId,
+     AR.resource_total_times as total, 
+			AR.resource_used_times as usedTime,
+		  C.name as channel_name 
+
+		 		  
+		 from tb_published_arrang_detail AD
+			
+			 inner join   tb_published_arrang AR
+         on  AD.arrange_id = AR.arrange_id
+			
+		        left outer join  tb_order_day_info ODD
+         on  AD.order_day_info_id = ODD.order_day_info_id
+		 
+		        left outer join  tb_order_detail DT
+         on  DT.order_detail_id = ODD.order_detail_id		
+		
+
+			 left outer join  tb_order O
+         on  O.order_id = DT.order_id	
+		
+				 left outer join tb_adver_matter AM 
+				 on DT.adver_matter_id = AM.adver_matter_id 
+
+				
+				 left outer join tb_ad_resource_workspan ARW
+		     on AR.resource_id=ARW.ad_resource_info_id
+		 
+		 				left outer join  tb_ad_resource_carrier CARR
+			 	on  CARR.ad_resource_carrier_id = ARW.ad_resource_carrier_id
+		 
+		 			left outer join  tb_ad_resource_channel C
+             on  CARR.ad_resource_channel_id = C.resource_mediaorg_id
+			
+
+						
+			 <dynamic prepend="WHERE">
+
+							<isNotNull prepend="AND" property="publishDateStart">
+							      <![CDATA[  (AR.publish_date >= #publishDateStart#) 		]]> 
+						 </isNotNull>	
+				 
+							<isNotNull prepend="AND" property="publishDateEnd">
+							     <![CDATA[  (AR.publish_date <= #publishDateEnd#) 		]]> 
+						 </isNotNull>			 
+				 
+	
+							<isNotNull property="orderDayIdList">
+								 <iterate prepend="AND" property="orderDayIdList" open="(" close=")" conjunction="OR">
+									   AD.order_day_info_id = #orderDayIdList[]# 
+							  </iterate>
+						  </isNotNull> 	 			 
+				 
+							
+			</dynamic>  	
+
+			order by AR.publish_date,ARW.broadcast_start_time 
+
+  </select>  
+		 
+</sqlMap>

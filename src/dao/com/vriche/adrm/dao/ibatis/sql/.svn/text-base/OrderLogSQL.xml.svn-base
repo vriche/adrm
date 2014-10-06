@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OrderLogSQL">
+	
+    <typeAlias alias="orderLog" type="com.vriche.adrm.model.OrderLog"/>
+
+	<cacheModel id="orderLog-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOrderLog"/>
+		<flushOnExecute statement="updateOrderLog"/>
+		<flushOnExecute statement="deleteOrderLog"/>
+		<flushOnExecute statement="deleteOrderLogs"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="orderLog">
+		<parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="log.clientIp" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <parameter property="log.modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="log.modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        
+		<parameter property="changeContent" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="orderDetailId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="orderLog">
+		<parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="log.clientIp" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="log.linkPath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="log.modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="log.modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="log.operateModel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="log.operateModelFunction" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="log.operateType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="orderLogResult" class="orderLog">
+        <result property="id" column="order_log_id"/>
+		<result property="orderDetailId" column="order_detail_id"/>
+		<result property="orderId" column="order_id"/>
+        <result property="log.clientIp" column="client_ip"/>
+        <result property="log.linkPath" column="link_path"/>
+        <result property="log.modifyBy" column="modify_by"/>
+        <result property="log.modifyDate" column="modify_date"/>
+        <result property="log.operateModel" column="operate_model"/>
+        <result property="log.operateModelFunction" column="operate_model_function"/>
+        <result property="log.operateType" column="operate_type"/>
+        <result property="version" column="version"/>
+		<result property="log.user.firstName" column="first_name"/>
+		<result property="log.user.lastName" column="last_name"/>
+		<result property="order.orderCode" column="order_code"/>
+		<result property="changeContent" column="change_content"/>
+    </resultMap>
+
+	<select id="getOrderLogLists" resultMap="orderLogResult">
+    <![CDATA[
+        select A.*,B.first_name,B.last_name,C.order_code 
+		from tb_order_log A 
+		left outer join tb_sys_user B 
+			on  A.modify_by=B.id
+		left outer join tb_order C
+			on  A.order_id=C.order_id
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+				<isNotEmpty prepend="AND" property="startDate">
+							<![CDATA[ (A.modify_date >= #startDate#)  ]]>
+				</isNotEmpty>	
+				
+				<isNotEmpty prepend="AND" property="endDate">
+							<![CDATA[ (A.modify_date <= #endDate#)  ]]>
+				</isNotEmpty>	
+			    <isNotEmpty prepend="AND" property="orderCodeFome">
+							<![CDATA[(C.order_code like '%$orderCodeFome$%')]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="modifyBy">
+							<![CDATA[(A.modify_by like #modifyBy#)]]>
+				</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOrderLogs" resultMap="orderLogResult">
+    <![CDATA[
+        select A.*,B.first_name,B.last_name,C.order_code 
+		from tb_order_log A 
+		left outer join tb_sys_user B 
+			on  A.modify_by=B.id
+		left outer join tb_order C
+			on  A.order_id=C.order_id
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(order_log_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderDetailId">
+			(order_detail_id like #orderDetailId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderId">
+			(order_id like #orderId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="log.clientIp">
+			(client_ip like #log.clientIp#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="log.linkPath">
+			(link_path like #log.linkPath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="log.modifyBy">
+			(modify_by like #log.modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="log.modifyDate">
+			(modify_date like #log.modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="log.operateModel">
+			(operate_model like #log.operateModel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="log.operateModelFunction">
+			(operate_model_function like #log.operateModelFunction#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="log.operateType">
+			(operate_type like #log.operateType#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOrderLogsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_order_log 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderLogIdList">
+       	  <iterate prepend="AND" property="OrderLogIdList" open="(" close=")" conjunction="OR">
+		   			 order_log_id = #OrderLogIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOrderLog" resultMap="orderLogResult">
+    <![CDATA[
+		select A.*,B.first_name,B.last_name,C.order_code 
+		from tb_order_log A 
+		left outer join tb_sys_user B 
+			on  A.modify_by=B.id
+		left outer join tb_order C
+			on  A.order_id=C.order_id
+
+         where order_log_id = #value#
+    ]]>
+    </select>
+	
+	
+	
+	<resultMap id="orderLogResult-for-getOrderLogLastModifyDate" class="orderLog">
+		<result property="orderDetailId" column="order_detail_id"/>
+        <result property="log.modifyDate" column="log_modify_date"/>
+    </resultMap>
+	
+	
+    <select id="getOrderLogLastModifyDate" resultMap="orderLogResult-for-getOrderLogLastModifyDate">
+    <![CDATA[
+		select  A.order_detail_id, max(A.modify_date) as log_modify_date 
+		
+		from tb_order_log A 
+		
+		left outer join tb_order C
+			on  A.order_id=C.order_id
+
+         where C.order_id = #value#
+    ]]>
+		group by A.order_detail_id	
+    </select>	
+
+
+
+    <insert id="addOrderLog" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_order_log_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_order_log (order_id,client_ip,modify_by,modify_date,change_content,order_detail_id)
+            values (?,?,?,?,?,?)
+        ]]>
+    </insert>
+
+    <update id="updateOrderLog" parameterMap="updateParam">
+    <![CDATA[
+        update tb_order_log set 
+				   order_id = ?,
+                   client_ip = ?,
+                   link_path = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   operate_model = ?,
+                   operate_model_function = ?,
+                   operate_type = ?,
+				   version = ? 
+        where order_log_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOrderLog">
+    <![CDATA[
+        delete from tb_order_log 
+         where order_log_id = #value#
+    ]]>
+    </delete>
+	
+	<delete id="deleteOrderLogList">
+    <![CDATA[
+        delete from tb_order_log 
+    ]]>
+		
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="startDate">
+						<![CDATA[ (modify_date >= #startDate#)  ]]>
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="endDate">
+						<![CDATA[ (modify_date <= #endDate#)  ]]>
+			</isNotEmpty>
+			</dynamic> 
+    </delete>
+   <update id="deleteOrderLogs" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_order_log 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderLogIdList">
+       	  <iterate prepend="AND" property="OrderLogIdList" open="(" close=")" conjunction="OR">
+		   			 order_log_id = #OrderLogIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

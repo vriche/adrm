@@ -1,0 +1,72 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts/ext/3.2.0/resources
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+charts.swf
+file
+
+
+
+
+2013-05-17T07:36:21.948807Z
+59c6e2c9ae7de87f11dd3db3336de8b6
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+
+images
+dir
+
+resources.jsb
+file
+
+
+
+
+2013-05-17T07:36:21.948807Z
+e2bce9932ba910dd0e151ace6d89e371
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+css
+dir
+
+expressinstall.swf
+file
+
+
+
+
+2013-05-17T07:36:21.964432Z
+8c4bdc47410fc7c000dcd1655e2f3a7a
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaProductUsedSQL">
+    <typeAlias alias="oaProductUsed" type="com.vriche.adrm.model.OaProductUsed"/>
+
+	<cacheModel id="oaProductUsed-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaProductUsed"/>
+		<flushOnExecute statement="updateOaProductUsed"/>
+		<flushOnExecute statement="deleteOaProductUsed"/>
+		<flushOnExecute statement="deleteOaProductUseds"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaProductUsed">
+        <parameter property="amends" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="attaint" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="playReturnDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="productId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="relReturnDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="returnNum" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="useDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="useMan" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="useNum" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaProductUsed">
+        <parameter property="amends" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="attaint" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="playReturnDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="productId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="relReturnDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="returnNum" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="useDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="useMan" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="useNum" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaProductUsedResult" class="oaProductUsed">
+        <result property="amends" column="amends"/>
+        <result property="attaint" column="attaint"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="product_used_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="playReturnDate" column="play_return_date"/>
+        <result property="productId" column="product_id"/>
+        <result property="relReturnDate" column="rel_return_date"/>
+        <result property="returnNum" column="return_num"/>
+        <result property="useDate" column="use_date"/>
+        <result property="useMan" column="use_man"/>
+		<result property="userUse" column="use_man" select="getUser"/>
+        <result property="useNum" column="use_num"/>
+        <result property="version" column="version"/>
+        <result property="product" column="product_id" select="getOaProductInfo"/>
+    </resultMap>
+	
+    <select id="getOaProductUsedsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_product_used 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="amends">
+			(amends like #amends#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="attaint">
+			(attaint like #attaint#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(product_used_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="playReturnDate">
+			(play_return_date like #playReturnDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="productId">
+			(product_id like #productId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="relReturnDate">
+			(rel_return_date like #relReturnDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="returnNum">
+			(return_num like #returnNum#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useDate">
+			(use_date like #useDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useMan">
+			(use_man like #useMan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useNum">
+			(use_num like #useNum#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaProductUseds" resultMap="oaProductUsedResult">
+    <![CDATA[
+        select * from tb_oa_product_used 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="amends">
+			(amends like #amends#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="attaint">
+			(attaint like #attaint#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(product_used_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="playReturnDate">
+			(play_return_date like #playReturnDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="productId">
+			(product_id like #productId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="relReturnDate">
+			(rel_return_date like #relReturnDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="returnNum">
+			(return_num like #returnNum#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useDate">
+			(use_date like #useDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useMan">
+			(use_man like #useMan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useNum">
+			(use_num like #useNum#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaProductUsedsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_product_used 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaProductUsedIdList">
+       	  <iterate prepend="AND" property="OaProductUsedIdList" open="(" close=")" conjunction="OR">
+		   			 product_used_id = #OaProductUsedIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaProductUsed" resultMap="oaProductUsedResult">
+    <![CDATA[
+        select * from tb_oa_product_used
+         where product_used_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaProductUsed" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_product_used_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_product_used (amends,attaint,create_by,create_date,modify_by,modify_date,play_return_date,product_id,rel_return_date,return_num,use_date,use_man,use_num)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaProductUsed" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_product_used set
+                   amends = ?,
+                   attaint = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   play_return_date = ?,
+                   product_id = ?,
+                   rel_return_date = ?,
+                   return_num = ?,
+                   use_date = ?,
+                   use_man = ?,
+                   use_num = ?,
+				   version = ?
+        where product_used_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaProductUsed">
+    <![CDATA[
+        delete from tb_oa_product_used
+         where product_used_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaProductUseds" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_product_used 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaProductUsedIdList">
+       	  <iterate prepend="AND" property="OaProductUsedIdList" open="(" close=")" conjunction="OR">
+		   			 product_used_id = #OaProductUsedIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

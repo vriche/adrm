@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using an evaluation version of JasperAssistant (http://www.jasperassistant.com) -->
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="carrierAllYearAnalyze_report" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.Rulers" value="true"/>
+	<property name="com.jasperassistant.designer.HGuides" value="2"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
+	<property name="com.jasperassistant.designer.Margins" value="true"/>
+	<property name="com.jasperassistant.designer.Grid" value="false"/>
+	<property name="com.jasperassistant.designer.SnapToGuides" value="true"/>
+	<parameter name="ReportTitle" class="java.lang.String">
+	</parameter>
+	<parameter name="BaseDir" class="java.io.File">
+	</parameter>
+	<parameter name="PublishDate" class="java.lang.String">
+	</parameter>
+	<field name="advName" class="java.lang.String">
+	</field>
+	<field name="day1" class="java.lang.String">
+	</field>
+	<field name="day2" class="java.lang.String">
+	</field>
+	<field name="day3" class="java.lang.String">
+	</field>
+	<field name="day4" class="java.lang.String">
+	</field>
+	<field name="day5" class="java.lang.String">
+	</field>
+	<field name="day6" class="java.lang.String">
+	</field>
+	<field name="day7" class="java.lang.String">
+	</field>
+	<field name="day8" class="java.lang.String">
+	</field>
+	<field name="day9" class="java.lang.String">
+	</field>
+	<field name="day10" class="java.lang.String">
+	</field>
+	<field name="day11" class="java.lang.String">
+	</field>
+	<field name="day12" class="java.lang.String">
+	</field>
+	<field name="day13" class="java.lang.String">
+	</field>
+	<title>
+		<band height="51">
+			<textField>
+				<reportElement positionType="Float" x="10" y="0" width="802" height="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="22" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="1" width="72" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[载体名称]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="72" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[一月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="127" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[二月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="182" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[三月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="237" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[四月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="347" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[六月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="402" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[七月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="457" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[八月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="512" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[九月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="567" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[十月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="622" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[十一月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="677" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[十二月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="732" y="1" width="70" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[合计]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="292" y="1" width="55" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[五月]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<elementGroup>
+			</elementGroup>
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="72" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{advName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="72" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day1})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="127" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day2})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="182" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day3})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="237" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day4})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="292" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day5})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="347" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day6})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="402" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day7})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="732" y="0" width="70" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day13})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="677" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day12})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="622" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day11})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="567" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day10})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="512" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day9})]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="457" y="0" width="55" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($F{day8})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25">
+			<textField>
+				<reportElement positionType="Float" x="337" y="0" width="55" height="25"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["第 "+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement positionType="Float" x="392" y="0" width="55" height="25"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{PAGE_NUMBER}+" 页"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

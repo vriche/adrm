@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="publish_report" language="java" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="30" bottomMargin="20">
+	<property name="com.jasperassistant.designer.Rulers" value="true"/>
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="true"/>
+	<property name="com.jasperassistant.designer.Margins" value="true"/>
+	<property name="com.jasperassistant.designer.Grid" value="true"/>
+	<property name="com.jasperassistant.designer.SnapToGuides" value="true"/>
+	<reportFont name="columHead" isDefault="false" fontName="宋体" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+	<reportFont name="colum" isDefault="false" fontName="sansserif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+	<parameter name="ReportTitle" class="java.lang.String">
+	</parameter>
+	<parameter name="BaseDir" class="java.io.File">
+	</parameter>
+	<parameter name="PublishDate" class="java.lang.String">
+	</parameter>
+	<field name="publishOrder" class="java.lang.String">
+	</field>
+	<field name="tapeCode" class="java.lang.String">
+	</field>
+	<field name="matterName" class="java.lang.String">
+	</field>
+	<field name="matterEdit" class="java.lang.String">
+	</field>
+	<field name="matterLength" class="java.lang.String">
+	</field>
+	<field name="appPosition" class="java.lang.String">
+	</field>
+	<field name="position" class="java.lang.String">
+	</field>
+	<variable name="positionNum" class="java.lang.Integer">
+		<initialValueExpression><![CDATA[($V{positionNum} != null)?(new Integer($V{positionNum}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
+	</variable>
+	<group name="PositionGroup">
+		<groupExpression><![CDATA[$F{position}]]></groupExpression>
+		<groupFooter>
+		<band height="20">
+			<textField>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="575" height="20" backcolor="#eeeeee"/>
+				<box border="1Point"/>
+				<textElement>
+					<font reportFont="columHead" fontName="宋体" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+			</textField>
+		</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="68">
+			<elementGroup>
+			<textField>
+				<reportElement positionType="Float" x="105" y="0" width="470" height="30"/>
+				<textElement>
+					<font fontName="宋体" size="22" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+			</elementGroup>
+			<staticText>
+				<reportElement positionType="Float" x="105" y="43" width="75" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[发布日期:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="255" y="43" width="75" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[打印日期:]]></text>
+			</staticText>
+			<image hyperlinkType="Reference">
+				<reportElement positionType="Float" x="6" y="3" width="73" height="65"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA[(new File($P{BaseDir}, "../../images/logo.jpg")).toString()]]></imageExpression>
+			</image>
+			<textField pattern="yyyyMMdd">
+				<reportElement positionType="Float" x="330" y="43" width="75" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement positionType="Float" x="180" y="43" width="75" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{PublishDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="14">
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<elementGroup>
+			</elementGroup>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="30" height="20" backcolor="#c0c0c0"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="columHead"/>
+				</textElement>
+				<text><![CDATA[序]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="255" y="0" width="150" height="20" backcolor="#c0c0c0"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="columHead"/>
+				</textElement>
+				<text><![CDATA[版本]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="30" y="0" width="75" height="20" backcolor="#c0c0c0"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="columHead"/>
+				</textElement>
+				<text><![CDATA[磁带号]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="105" y="0" width="150" height="20" backcolor="#c0c0c0"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="columHead"/>
+				</textElement>
+				<text><![CDATA[广告名称]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="405" y="0" width="37" height="20" backcolor="#c0c0c0"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="columHead"/>
+				</textElement>
+				<text><![CDATA[长度]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="442" y="0" width="37" height="20" backcolor="#c0c0c0"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="columHead"/>
+				</textElement>
+				<text><![CDATA[指定]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="479" y="0" width="96" height="20" backcolor="#c0c0c0"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="columHead"/>
+				</textElement>
+				<text><![CDATA[备注]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="30" height="20"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="colum" fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{publishOrder}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="30" y="0" width="75" height="20"/>
+				<box border="1Point"/>
+				<textElement>
+					<font reportFont="colum" fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "+$F{tapeCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="105" y="0" width="150" height="20"/>
+				<box border="1Point"/>
+				<textElement>
+					<font reportFont="colum" fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "+$F{matterName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="255" y="0" width="150" height="20"/>
+				<box border="1Point"/>
+				<textElement>
+					<font reportFont="colum" fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "+$F{matterEdit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="405" y="0" width="37" height="20"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="colum" fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{matterLength}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement positionType="Float" x="442" y="0" width="37" height="20"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font reportFont="colum" fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{appPosition}]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+			</elementGroup>
+			<elementGroup>
+			</elementGroup>
+			<staticText>
+				<reportElement x="479" y="0" width="96" height="20"/>
+				<box border="1Point"/>
+				<textElement>
+					<font reportFont="colum" fontName="宋体" pdfFontName="STSong-Light" isPdfEmbedded="true"/>
+				</textElement>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField>
+				<reportElement positionType="Float" x="105" y="17" width="150" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["第"+$V{PAGE_NUMBER}+"页"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement positionType="Float" x="255" y="17" width="150" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" / " + "共"+$V{PAGE_NUMBER}+"页"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

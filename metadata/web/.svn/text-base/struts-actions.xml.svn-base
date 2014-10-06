@@ -1,0 +1,409 @@
+    <!-- Forwards to the mainMenu tile definition -->
+    <action path="/mainMenu" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/mainMenu.jsp"/>
+
+   <!-- action path="/fusionChartsSave" type="org.apache.struts.actions.ForwardAction" 
+		parameter="/WEB-INF/pages/analyze/fusionChartsSave.jsp"/ -->
+
+
+
+    <!-- Action to flush cache -->
+    <action path="/flush" type="org.apache.struts.actions.ForwardAction" 
+		parameter="/WEB-INF/pages/admin/flushCache.jsp"/>
+
+
+
+
+    <!-- Forward to page to begin file upload -->
+    <action path="/selectFile" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/uploadForm.jsp"/>
+    <!-- Forward to view Active Users -->
+    <action path="/activeUsers" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/activeUsers.jsp"/>
+    <!-- Action to flush cache -->
+    <action path="/clickstreams" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/clickstreams.jsp"/>
+    <action path="/sysPermitManager" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/sysPermitList.jsp"/>
+    <action path="/roles" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/sysRoleList.jsp"/>
+    <action path="/selectPopup/selectUserRel" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/selectUserRel.jsp"/>
+	<action path="/selectPopup/selectUserCarrierRel" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/selectUserCarrierRel.jsp"/>
+	<action path="/selectPopup/selectCarrTreeResTypeRel" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/selectCarrTreeResTypeRel.jsp"/>
+	<action path="/selectPopup/selectUserCustomerRel" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/selectUserCustomerRel.jsp"/>
+	<action path="/selectPopup/selectUserBranch" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/selectUserBranch.jsp"/>
+
+	<action path="/selectPopup/selectMatterEditChange" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/selectMatterEditChange.jsp"/>
+
+	<action path="/selectPopup/selectMatters" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adver/selectMatters.jsp"/>
+
+	<action path="/selectPopup/selectCronmaker" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/cronmaker.jsp"/>
+
+
+    <action path="/publishArrangeDownload" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adver/publishArrangeDownload.jsp"/>
+    <action path="/matterListQuery" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adver/matterListQuery.jsp"/>
+    <action path="/publishInfos" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adver/publishInfoList.jsp"/>
+
+
+	 <action path="/incomeDetail" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/incomeDetail.jsp"/>
+
+	 <action path="/channIncome" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/channIncome.jsp"/>
+
+     <action path="/customerIncomeMoney" type="org.apache.struts.actions.ForwardAction"
+           parameter="/WEB-INF/pages/finance/customerIncomeMoney.jsp"/>
+
+     <action path="/orderFinanceList" type="org.apache.struts.actions.ForwardAction"
+           parameter="/WEB-INF/pages/finance/orderFinanceList.jsp"/>
+
+	 <action path="/contractPaymentList" type="org.apache.struts.actions.ForwardAction"
+           parameter="/WEB-INF/pages/finance/contractPaymentList.jsp"/>
+
+    <action path="/incomePulls" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/incomeCountList.jsp"/>
+
+    <action path="/foretArrearageView" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/foretArrearageView.jsp"/>
+
+    <action path="/customerUnify" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerUnify.jsp"/>
+
+	<action path="/customerForm1" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerForm1.jsp"/>
+
+	<action path="/customerForm2" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerForm2.jsp"/>
+
+
+	<action path="/orderListNew" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/orderListNew.jsp"/>
+
+
+
+	<action path="/statistic" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/statistic.jsp"/>
+
+	<action path="/adIncomeRelpayQiank" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/adIncomeRelpayQiank.jsp"/>
+
+	<action path="/ctrDataUpload" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/ctrdata/ctrDataUpload.jsp"/>
+
+	<action path="/adBroTimeInput" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/ctrdata/adBroTimeInput.jsp"/>
+
+
+
+
+    <action path="/selectPopup/customerAddressesList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerAddressesList.jsp"/>
+    <action path="/selectPopup/customerContractList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerContractList.jsp"/>
+    <action path="/selectPopup/customerContractPaymentList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerContractPaymentList.jsp"/>
+    <action path="/selectPopup/customerFeedbackInfoList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerFeedbackInfoList.jsp"/>
+    <action path="/selectPopup/customerIncomeList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerIncomeList.jsp"/>
+    <action path="/selectPopup/customerLinkHisotryList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerLinkHisotryList.jsp"/>
+    <action path="/selectPopup/customerLinkmanList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerLinkmanList.jsp"/>
+    <action path="/selectPopup/customerMatterList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerMatterList.jsp"/>
+    <action path="/selectPopup/customerOrderList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerOrderList.jsp"/>
+
+
+    <action path="/selectPopup/selectOrderCheckResult" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/workFlow/selectOrderCheckResult.jsp"/>
+    <action path="/selectPopup/selectCheckResult" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/workFlow/selectCheckResult.jsp"/>
+
+    <action path="/selectPopup/customerCarrierRel" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/customerCarrierRel.jsp"/>
+
+    <action path="/selectPopup/orderIndex" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/orderIndex.jsp"/>
+
+    <action path="/selectPopup/orderDetails" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/orderDetail.jsp"/>
+
+    <action path="/selectPopup/selectContractTargetMonth" type="org.apache.struts.actions.ForwardAction"
+        parameter="/selectPopup/selectContractTargetMonth.jsp"/>
+
+
+    <action path="/compages" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adres/packageList.jsp"/>
+
+	<action path="/selectPopup/selectCustomerRel" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/crm/selectCustomerRel.jsp"/>
+
+
+    <action path="/selectPopup/calculator" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/tools/calculator.jsp"/>
+
+    <action path="/selectPopup/displayScratchPad" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/tools/displayScratchPad.jsp"/>
+
+
+    <action path="/oaTeleExpensessQuery" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/info/oaTeleExpensessQuery.jsp"/>
+
+    <action path="/oaTeleExpensesChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/info/oaTeleExpensesChart.jsp"/>
+
+	<action path="/selectPopup/selectOaInfo" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/info/selectOaInfo.jsp"/>
+
+
+
+    <action path="/selectPopup/balanceMoney" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/balanceMoney.jsp"/>
+
+    <action path="/broReport" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/broReport.jsp"/>
+
+    <action path="/queryAdres" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adres/queryAdres.jsp"/>
+
+    <action path="/queryAdres2" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adres/queryAdres2.jsp"/>
+
+	<action path="/selectPopup/queryAdresChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adres/queryAdresChart.jsp"/>
+
+    <action path="/selectPopup/selectAutobro" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/selectAutobro.jsp"/>
+
+	 <action path="/resourceAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/resourceAnalyze.jsp"/>
+
+    <action path="/selectPopup/selectPayment" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/selectPayment.jsp"/>
+
+    <action path="/selectPopup/orderDetail" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/selectOrderDetail.jsp"/>
+
+    <action path="/specificQuery" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/specificQuery.jsp"/>
+
+    <action path="/resourceLimitQuery" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adres/resourceLimitQuery.jsp"/>
+
+    <action path="/selectPopup/updatePassword" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/updatePassword.jsp"/>
+
+    <action path="/selectPopup/selectOrderLog" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/selectOrderLog.jsp"/>
+
+	<action path="/selectPopup/contractPaymentForm" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/contractPaymentForm.jsp"/>
+
+	<action path="/fincecontraCtPaymentForm" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/contractPaymentForm.jsp"/>
+
+    <action path="/updatePassword" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/selectUpdatePassword.jsp"/>
+
+
+    <action path="/selectPopup/financeTarget" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/financeTarget.jsp"/>      
+
+	<action path="/selectPopup/checkForm" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adver/checkForm.jsp"/>
+
+	<action path="/selectPopup/checkAdver" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adver/checkAdver.jsp"/>
+
+	<action path="/selectPopup/regCustomerService" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/regCustomer.jsp"/>
+
+	<action path="/selectPopup/selectBranchs" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/branchList.jsp"/>
+
+	<action path="/selectPopup/selectRoles" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/sysRoleList.jsp"/>
+
+	<action path="/selectPopup/buildMorePara" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/order/buildMorePara.jsp"/>
+
+	<action path="/selectPopup/chartService" type="org.apache.struts.actions.ForwardAction"
+         parameter="/WEB-INF/pages/analyze/chartService.jsp"/>
+
+	<action path="/services/ImportMaterialService" type="org.apache.struts.actions.ForwardAction"
+         parameter="/samples/wss/ADP_ImportMaterialService.wsdl"/>
+
+
+
+	<action path="/orderCateFitter" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/orderCateFitter.jsp"/>
+
+
+    <action path="/financeTargetChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/financeTargetChart.jsp"/>             
+
+    <action path="/yearTargetAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/yearTargetAnalyze.jsp"/> 
+
+    <action path="/yearTargetAnalyzeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/yearTargetAnalyzeChart.jsp"/> 
+
+
+    <action path="/customerProductRelIncome" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/customerProductRelIncome.jsp"/>
+
+	<action path="/orderCategoryCarrier" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/orderCategoryCarrier.jsp"/>
+
+	<action path="/orderCategoryCustomer" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/orderCategoryCustomer.jsp"/>
+
+
+    <action path="/industryProductRelIncome" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/industryProductRelIncome.jsp"/>
+
+    <action path="/industryProductChannelRelIncome" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/industryProductChannelRelIncome.jsp"/>
+
+	<action path="/carrierBasalAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/carrierBasalAnalyze.jsp"/>
+
+    <action path="/advTypeProductRelIncome" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/advTypeProductRelIncome.jsp"/>
+
+    <action path="/customerAnalyzeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/customerAnalyzeChart.jsp"/>
+
+    <action path="/yearAnalyzeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/yearAnalyzeChart.jsp"/>
+
+    <action path="/carrierBasalChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/carrierBasalChart.jsp"/>
+
+    <action path="/orderCategoryCarrierChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/orderCategoryCarrierChart.jsp"/>
+
+    <action path="/orderCategoryCustomerChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/orderCategoryCustomerChart.jsp"/>
+
+	 <action path="/channIncomeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/channIncomeChart.jsp"/>
+
+    <action path="/businessAnalyzeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/businessAnalyzeChart.jsp"/>
+
+    <action path="/carrierScopAnalyzeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/carrierScopAnalyzeChart.jsp"/>
+
+    <action path="/carrierAllYearAnalyzeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/carrierAllYearAnalyzeChart.jsp"/>
+
+    <action path="/customerProductRelChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/customerProductRelChart.jsp"/>
+
+    <action path="/industryProductRelChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/industryProductRelChart.jsp"/>
+
+    <action path="/advTypeProductRelChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/advTypeProductRelChart.jsp"/>
+
+	<action path="/analyCarrierMatter" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/analyCarrierMatter.jsp"/>
+
+    <action path="/analyCarrierMatterChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/analyCarrierMatterChart.jsp"/> 
+
+	<action path="/resourceScopeAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/resourceScopeAnalyze.jsp"/> 
+
+	<action path="/resourceScopeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/resourceScopeChart.jsp"/> 
+
+	<action path="/customerAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/customerAnalyze.jsp"/>
+
+	<action path="/yearAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/yearAnalyze.jsp"/>
+
+	<action path="/businessAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/businessAnalyze.jsp"/>
+
+	<action path="/carrierScopeAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/carrierScopeAnalyze.jsp"/>
+	
+	<action path="/carrierAllYearAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/carrierAllYearAnalyze.jsp"/>
+
+	 <action path="/carrierTargetChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/carrierTargetChart.jsp"/> 
+
+	<action path="/resourceAdverAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/resourceAdverAnalyze.jsp"/> 
+
+
+	<action path="/brandAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/brandAnalyze.jsp"/> 
+
+	<action path="/areaCustomerAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/areaCustomerAnalyze.jsp"/> 
+
+	<action path="/customerCateAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/customerCateAnalyze.jsp"/> 
+
+	<action path="/areaCustomerChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/areaCustomerChart.jsp"/> 
+
+    <action path="/incomeAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/incomeListNew.jsp"/>
+
+
+
+
+    <action path="/carrierTarget" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/carrierTarget.jsp"/> 
+
+	<action path="/resourceAudienceAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/resourceAudienceAnalyze.jsp"/> 
+    
+    <action path="/industryProductChannelChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/industryProductChannelChart.jsp"/>
+
+    <action path="/customerYearAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/customerYearAnalyze.jsp"/>
+
+    <action path="/customerYearAnalyzeChart" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/customerYearAnalyzeChart.jsp"/>
+
+    <action path="/resourceLimitSearch61" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/adres/resourceLimitSearch61.jsp"/>
+
+    <action path="/orderDetailAnalyze" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/analyze/orderDetailAnalyze.jsp"/>
+
+    <action path="/incomes2" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/incomeListNew.jsp"/>
+
+
+    <action path="/jobAdmin" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/admin/jobAdmin.jsp"/>
+
+
+    <action path="/arrearsList" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/arrearsList.jsp"/>
+
+
+
+

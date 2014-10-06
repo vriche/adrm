@@ -1,0 +1,52 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/metadata
+svn://121.28.83.134:80/src1
+
+
+
+2013-05-17T07:06:23.212871Z
+543
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+sql
+dir
+
+liveupdate
+dir
+
+temp
+dir
+
+conf
+dir
+
+web
+dir
+
+readme
+dir
+
+ldif
+dir
+
+templates
+dir
+

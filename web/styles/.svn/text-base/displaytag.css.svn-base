@@ -1,0 +1,137 @@
+div.exportlinks {
+    margin: 5px 0px 10px 10px;
+    padding: 2px 4px 2px 0px;
+    width: 100%;
+}
+
+div.exportlinks a {
+    text-decoration: none;
+}
+
+div.exportlinks span {
+    background-repeat: no-repeat;
+}
+
+span.csv {
+    background-image: url(../images/ico_file_csv.png);
+}
+
+span.excel {
+    background-image: url(../images/ico_file_excel.png);
+}
+
+span.pdf {
+    background-image: url(../images/ico_file_pdf.png);
+}
+
+span.xml {
+    background-image: url(../images/ico_file_xml.png);
+}
+
+span.export {
+    cursor: pointer;
+    display: inline;
+    display: inline-block;
+    padding: 0 4px 1px 20px;
+}
+
+span.pagebanner {
+    display: none;
+    margin: 10px 0px 10px 0px;
+    padding: 2px 4px 2px 0px;
+    
+}
+
+span.pagelinks {
+    display: block;
+    font-size: .95em;
+    margin-bottom: 5px;
+    margin-top: -18px;
+    padding: 10px 4px 2px 0px;
+    text-align: right;
+    width: 100%;
+}
+
+.tableDisplay {
+	border:1px solid  #D6D6D6;WIDTH: 100%;
+	/* BORDER-RIGHT: 1px; cellpadding:5px;PADDING-RIGHT: 1px; BORDER-TOP: 1px; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; BORDER-LEFT: 1px; WIDTH: 100%; PADDING-TOP: 1px; BORDER-BOTTOM: 1px; background-color:White; */
+}
+
+
+
+th.sorted a, th.sortable a {
+    background-position: right;
+    display: block;
+    color: black;
+}
+
+.tableDisplay th.order1 a {
+    background-image: url(../images/arrow_down.png) !important;
+}
+
+.tableDisplay th.order2 a {
+    background-image: url(../images/arrow_up.png) !important;
+}
+
+div#main .tableHeaderImage { /* Tapestry */
+    position: absolute;
+    margin: 2px 0px 0px -5px;
+    background: transparent;
+    border: 0px;
+}
+
+.tableDisplay th.sortable {
+    /* background-image: url(../images/arrow_off.png);
+    /* BACKGROUND-COLOR: #D4D0C8; */
+    background-image:url(../image/grid/skin_modern_header.png);
+    height:25px;
+}
+
+
+.tableDisplay th.sorted {
+    /* background-color: #ffd; */
+    /* color: #000000; */
+    /* BACKGROUND-COLOR: #D8DFE7 */
+    BORDER-RIGHT: #c5c5c5 1pt solid; PADDING-RIGHT: 3pt; BORDER-TOP: #c5c5c5 1pt solid; FONT-WEIGHT: boder; VERTICAL-ALIGN: text-top; BORDER-LEFT: #c5c5c5 1pt solid; PADDING-TOP: 2pt; BORDER-BOTTOM: #c5c5c5 1pt solid; TEXT-ALIGN: left
+}
+
+.tableDisplay th.sorted a, .table th.sortable a {
+    background-position: right;
+    background-repeat: no-repeat;
+    display: block;
+   /* background-color: #ffd; */
+}
+
+.tableDisplay tr.even {
+    background: #eee;
+    border-top: 1px solid #c0c0c0;
+    color: #000000;
+}
+
+.tableDisplay tr.odd {
+    background: #fff;
+    border-top: 1px solid #c0c0c0;
+    color: #000000;
+}
+
+/* highlight .table row onmouseover */
+.tableDisplay tr.over {
+    border-bottom: 1px solid #C0C0C0;
+    border-top: 1px solid #C0C0C0;
+    color: #000000;
+    cursor: pointer;
+    background: #D4D0C8;
+}
+
+.detail th {
+    text-align: right;
+}
+
+.tableDisplay td.sortableRight {
+    height:20px;
+    text-align: right;
+}
+.tableDisplay td.sortableCenter {
+    height:20px;
+    text-align: center;
+}

@@ -1,0 +1,2546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ContractPaymentSQL">
+    <typeAlias alias="contractPayment" type="com.vriche.adrm.model.ContractPayment"/>
+	<typeAlias alias="contractPayment2" type="com.vriche.adrm.model.CContractPayment"/>
+	<typeAlias alias="OrderDayInfos" type="com.vriche.adrm.model.OrderDayInfos"/>
+
+	<cacheModel id="contractPayment-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addContractPayment"/>
+		<flushOnExecute statement="updateContractPayment"/>
+		<flushOnExecute statement="deleteContractPayment"/>
+		<flushOnExecute statement="deleteContractPayments"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="contractPayment">
+		<parameter property="resourceTypeId" jdbcType="INTEGER" javaType="java.lang.Long" />
+		<parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="incomePurposeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <!-- parameter property="moneyIn" jdbcType="VARCHAR" javaType="java.lang.Double" nullValue="0"/ -->
+        <parameter property="moneyPay" jdbcType="VARCHAR" javaType="java.lang.Double" nullValue="0"/>
+        <parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="payDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="payNumber" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="19991231"/>
+        <parameter property="urgencyAlert" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="contractPayment">
+		<parameter property="resourceTypeId" jdbcType="INTEGER" javaType="java.lang.Long" />
+		<parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="incomePurposeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <!-- parameter property="moneyIn" jdbcType="VARCHAR" javaType="java.lang.Double"/ -->
+        <parameter property="moneyPay" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="payDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="payNumber" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="urgencyAlert" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+	
+    <resultMap id="contractPaymentResult" class="contractPayment">
+		<result property="orgId" column="sys_org_id"/>
+		<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+		<result property="customerId" column="customer_id" nullValue="0"/>
+        <result property="contractId" column="contract_id"/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="contract_payment_id"/>
+        <result property="incomePurposeId" column="income_purpose_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyIn" column="contract_payment_id" select="getIncomeUsedByPaymentId" nullValue="0"/>
+        <result property="moneyPay" column="money_pay"/>
+        <result property="orderId" column="order_id" />
+        <result property="payDate" column="pay_date" nullValue="19991231"/>
+        <result property="payNumber" column="pay_number"/>
+        <result property="urgencyAlert" column="urgency_alert"/>
+        <result property="version" column="version"/>
+		<result property="contractCode" column="contractCode"/>
+		<result property="orderCode" column="orderCode"/>
+		<result property="customer" column="customer_id" select="getCustomerClass" />
+		<result property="incomePurpose.id" column="income_purpose_id"/>
+		<result property="incomePurpose.name" column="income_purpose_name"/>
+    </resultMap>
+
+    <resultMap id="contractPaymentResult-Copy" class="contractPayment">
+		<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+		<result property="customerId" column="customer_id" nullValue="0"/>
+        <result property="contractId" column="contract_id"/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="contract_payment_id"/>
+        <result property="incomePurposeId" column="income_purpose_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyPay" column="money_pay"/>
+        <result property="orderId" column="order_id" />
+        <result property="payDate" column="pay_date" nullValue="19991231"/>
+        <result property="payNumber" column="pay_number"/>
+        <result property="urgencyAlert" column="urgency_alert"/>
+        <result property="version" column="version"/>
+    </resultMap>	
+	
+	<select id="getContractPaymentsCopy" parameterClass="java.lang.Long"  resultMap="contractPaymentResult-Copy">  
+		 select * from  tb_contract_payment where order_id = #value# 
+	</select>	  	
+	
+	
+	
+    <resultMap id="contractPaymentResultForBalance" class="contractPayment2">
+		<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+		<result property="id" column="contract_payment_id"/>
+        <result property="contractId" column="contract_id"/>
+		<result property="orderId" column="order_id" />
+        <result property="moneyIn" column="money_in" nullValue="0"/>
+        <result property="moneyPay" column="money_pay" nullValue="0"/>
+        <result property="payDate" column="pay_date" nullValue="19991231"/>
+        <result property="payNumber" column="pay_number" nullValue="0"/>
+		<result property="contractCode" column="contract_code"/>
+		<result property="orderCode" column="order_code"/>
+		<result property="incomePurposeName" column="income_purpose_name"/>
+		<result property="matterName" column="matter_name"/>
+		<result property="customerId" column="customer_id"/>
+		<result property="memo" column="memo"/>
+		<result property="resourceType.name" column="resource_type_name"/>
+    </resultMap>	
+	
+
+  <resultMap id="contractPaymentResultForBalance2"   class="contractPayment2">
+			<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+			<result property="id" column="contract_payment_id"/>
+			<result property="contractId" column="contract_id"/>
+			<result property="orderId" column="order_id" />
+			<result property="moneyIn" column="money_in" nullValue="0"/>
+			<result property="moneyPay" column="money_pay" nullValue="0"/>
+			<result property="payDate" column="pay_date" nullValue="19991231"/>
+			<result property="payNumber" column="pay_number" nullValue="0"/>
+			<result property="contractCode" column="contract_code"/>
+			<result property="orderCode" column="order_code"/>
+			<result property="incomePurposeName" column="income_purpose_name"/>
+			<result property="matterName" column="matter_name"/>
+			<result property="customerId" column="customer_id"/>
+			<result property="memo" column="memo"/>
+			<result property="resourceType.name" column="resource_type_name"/>	  
+			<result property="resourceType.orgId" column="sys_org_id" nullValue="1"/>
+	</resultMap>	
+		
+	
+	
+	<resultMap id="ContractPaymentList" class="contractPayment">
+		<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+        <result property="moneyIn" column="money_in" nullValue="0"/>
+        <result property="customerName" column="customer_name" />
+        <result property="orderCode" column="order_code" nullValue=""/>
+        <result property="moneyPay" column="money_pay" nullValue="0"/>
+        <result property="payDate" column="pay_date"/>
+        <result property="orderId" column="order_id"/>
+        <result property="contractCode" column="code" nullValue=""/>
+		
+    </resultMap>
+
+	<select id="getContractPaymentsByMap" parameterClass="java.util.Map" resultMap="contractPaymentResult">
+    <![CDATA[
+        select pmt.*,CUT.sys_org_id,
+		  cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id 
+				left outer join tb_order ordd  
+					on pmt.contract_id = ordd.contract_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id
+				left outer join tb_order_detail dt  
+					on dt.order_id = ordd.order_id
+			 			    left outer join tb_customer_info CUT 
+					on CUT.customer_id = pmt.customer_id	
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>
+		   <isNotNull property="resourceIdList">
+		    <iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+		   			 dt.ad_resource_info_id = #resourceIdList[]#
+		    </iterate>
+			</isNotNull> 
+			<isNotEmpty prepend="AND" property="customerId">
+				(pmt.order_id = ordd.order_id or pmt.contract_id = cont.contract_id)  
+			</isNotEmpty>
+		</dynamic>
+		
+		group by pmt.contract_payment_id
+		order by pmt.pay_number
+		
+    </select>
+	
+	    <select id="getContractPaymentsByCarrierIdMap" parameterClass="java.util.Map" resultMap="contractPaymentResult">
+     <![CDATA[  
+        select pmt.* ,CUT.sys_org_id,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.contract_id = ordd.contract_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id	
+				left outer join tb_order_detail dt  
+					on dt.order_id = ordd.order_id
+		 
+		 						 			    left outer join tb_customer_info CUT 
+					on CUT.customer_id = pmt.customer_id	
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractPaymentIdList">
+       	  <iterate prepend="AND" property="ContractPaymentIdList" open="(" close=")" conjunction="OR">
+		   			 pmt.contract_payment_id = #ContractPaymentIdList[]#
+		  </iterate>
+		   <isNotEmpty prepend="AND" property="ContractPaymentIdList">
+				(pmt.order_id = ordd.order_id or pmt.contract_id = cont.contract_id)  
+			</isNotEmpty>
+		   <isNotNull property="resourceIdList">
+		    <iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+		   			 dt.ad_resource_info_id = #resourceIdList[]#
+		    </iterate>
+			</isNotNull> 
+		  </isNotNull> 
+          </dynamic>      
+		group by pmt.contract_payment_id
+		order by pmt.pay_number
+  </select>     
+	
+	<resultMap id="contractPaymentResultByResource" class="contractPayment">
+        <result property="contractId" column="contract_id" />
+		<result property="orderId" column="order_id" />
+    </resultMap>	
+	
+		<select id="getContractPaymentsByResource"  resultClass="java.lang.Long">
+		
+		SELECT distinct pmt.contract_payment_id
+		
+		FROM tb_contract_payment pmt
+			left outer join tb_order ordd 
+				on pmt.order_id = ordd.order_id
+			left outer join tb_order_detail dt  
+				on dt.order_id = ordd.order_id
+						left outer join tb_ad_resource_info ari 
+				on ari.ad_resource_info_id=dt.ad_resource_info_id
+			left outer join tb_ad_resource_carrier arc
+				on arc.ad_resource_carrier_id=ari.ad_resource_carrier_id
+
+		<dynamic prepend="WHERE"> 
+			<!--<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>					
+			-->
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					pmt.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>
+			
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					ordd.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull>				
+		
+								
+				
+			<isNotNull property="carrierIdList">
+		    	<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					arc.parent_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull> 
+			
+			
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 		
+			
+			
+			
+			
+			
+		</dynamic> 	
+		
+		<!-- group by pmt.contract_payment_id  on ordd.contract_id =  cont.contract_id -->
+	</select> 
+	<select id="getContractPaymentsOfContractByResource"  resultClass="java.lang.Long">
+		
+		SELECT distinct pmt.contract_payment_id
+		
+		FROM tb_contract_payment pmt
+			left outer join tb_contract cont 
+				on pmt.contract_id = cont.contract_id 
+			left outer join tb_order ordd 
+		        on ordd.contract_payment_id =  pmt.contract_payment_id 
+			left outer join tb_order_detail dt  
+				on dt.order_id = ordd.order_id
+			left outer join tb_ad_resource_info ari 
+				on ari.ad_resource_info_id=dt.ad_resource_info_id
+			left outer join tb_ad_resource_carrier arc
+				on arc.ad_resource_carrier_id=ari.ad_resource_carrier_id
+
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="customerId">
+				(pmt.contract_id != 0)
+			</isNotEmpty>	 
+			<!--<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>-->						
+				
+		    <isNotNull property="carrierIdList">
+		    	<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					arc.parent_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull>
+			
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					pmt.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>
+			
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					ordd.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull>	
+			
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 				
+			
+							
+		</dynamic> 	
+
+	</select> 	           
+		
+	
+	
+	<select id="getContractPaymentsForBalance"  resultMap="contractPaymentResultForBalance2">
+		
+       select 
+				pmt.ad_ad_resource_type_id,
+				rt.name as 	 resource_type_name,
+				pmt.contract_payment_id as contract_payment_id,
+				pmt.contract_id,
+				pmt.order_id,
+				pmt.pay_date,
+				pmt.pay_number,
+				cont.code as contract_code,
+				ordd.order_code as order_code, 
+				IFNULL(pmt.money_pay,0) as money_pay,
+				pmt.memo ,
+				IFNULL(sum(iu.money_in) ,0)as money_in,
+				inpuur.name as income_purpose_name,
+			  pmt.customer_id as customer_id,
+				mat.name as matter_name,
+				CUST.sys_org_id as sys_org_id    
+			 
+				from tb_contract_payment pmt
+			 
+					left outer join tb_contract cont 
+						on pmt.contract_id = cont.contract_id 
+			 
+				 
+				 		left outer join tb_order ordd  
+		
+					<isEqual property="haveContract" compareValue="1">  
+						on  ordd.order_id = pmt.order_id  or ordd.contract_payment_id =  pmt.contract_payment_id 
+       </isEqual> 			
+		
+					<isEqual property="haveContract" compareValue="0">  
+						on  ordd.order_id = pmt.order_id  
+       </isEqual> 				 
+
+				 
+				 
+			 	
+				left outer join tb_order_detail dt  
+						on dt.order_id = ordd.order_id 
+			 
+				 left outer join   tb_customer_info CUST 
+		                 on pmt.customer_id = CUST.customer_id 		 
+			 
+					left outer join tb_adver_matter mat 
+						on dt.adver_matter_id = mat.adver_matter_id
+			 
+					left outer join tb_order_day_info odi 
+						on odi.order_detail_id = dt.order_detail_id
+			 			 			 
+			 		left outer join tb_income_used iu
+		                  on (iu.payment_id  = pmt.contract_payment_id and iu.order_day_info_id = odi.order_day_info_id)
+
+					left outer join  tb_income_pull pll 
+		                 on pll.income_pull_id = iu.income_pull_id
+			 
+					left outer join  tb_income_purpose inpuur 
+						on pmt.income_purpose_id = inpuur.income_purpose_id	 
+			 
+			 					left outer join tb_ad_resource_type rt
+					on rt.ad_ad_resource_type_id= pmt.ad_ad_resource_type_id	
+
+
+		
+		
+ 	 	  <dynamic prepend="WHERE"> 
+				
+				
+			<!-- isNotEmpty prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#) 
+			</isNotEmpty -->				
+
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>						
+
+				
+			<isNotEmpty prepend="AND" property="orderCode">
+				(ordd.order_code like '%$orderCode$')
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="contractCode">
+				(cont.code  like '%$contractCode$')
+			</isNotEmpty>
+						
+
+								
+		<!--	<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>-->					
+			<isNotEmpty prepend="AND" property="version">
+				(pmt.version = #version#)
+			</isNotEmpty>				
+             
+
+			<isNotNull property="incPullIdList">
+				<iterate prepend="AND" property="incPullIdList" open="(" close=")" conjunction="OR">
+					pll.income_pull_id = #incPullIdList[]#
+				</iterate>
+			</isNotNull> 
+				
+			<isNotNull property="paymentIdList">
+				<iterate prepend="AND" property="paymentIdList" open="(" close=")" conjunction="OR">
+					pmt.contract_payment_id = #paymentIdList[]#
+				</iterate>
+			</isNotNull> 				
+						
+			<!-- isNotNull property="customerIdList">
+				
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					<isGreaterThan  property="customerIdList[]" compareValue="0">  
+						 pmt.customer_id = #customerIdList[]#
+					</isGreaterThan> 	
+				</iterate>
+				
+			</isNotNull -->
+				
+				
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					pmt.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>		
+				
+				
+				
+				
+				
+		 <isNotNull property="userIdList2">
+				 <iterate prepend="AND" property="userIdList2" open="(" close=")" conjunction="OR">
+						ordd.user_id = #userIdList2[]#
+			  </iterate>
+			</isNotNull> 								
+				
+				
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					ordd.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull>	
+				
+				
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 			
+						
+</dynamic>  
+			    
+		group by pmt.contract_payment_id
+			
+	 <dynamic prepend="HAVING"> 
+		 <isEqual  property="state" compareValue="1">
+			 <![CDATA[ money_pay<> money_in and money_pay>0 ]]> 
+		</isEqual>		 
+		 <isEqual  property="state" compareValue="2">
+			<![CDATA[ ( money_in > 0) ]]> 
+		</isEqual>	
+
+	 </dynamic>				
+			
+		order by pmt.order_id,pmt.contract_payment_id desc
+			
+  </select>   
+	
+	
+	
+	
+	<select id="getContractPaymentsForBalance_bak20130108"  resultMap="contractPaymentResultForBalance2">
+		 <![CDATA[  
+        	select 
+				pmt.ad_ad_resource_type_id,
+				rt.name as 	 resource_type_name,
+				pmt.contract_payment_id as contract_payment_id,
+				pmt.contract_id,
+				pmt.order_id,
+				pmt.pay_date,
+				pmt.pay_number,
+				cont.code as contract_code,
+				ordd.order_code as order_code, 
+				IFNULL(pmt.money_pay,0) as money_pay,
+				pmt.memo ,
+				IFNULL(sum(iu.money_in) ,0)as money_in,
+				inpuur.name as income_purpose_name,
+			  pmt.customer_id as customer_id,
+				mat.name as matter_name,
+				CUST.sys_org_id as sys_org_id    
+			 
+				from tb_contract_payment pmt
+			 
+					left outer join tb_contract cont 
+						on pmt.contract_id = cont.contract_id 
+			 
+					left outer join tb_order ordd  
+						on pmt.order_id = ordd.order_id or ordd.contract_payment_id =  pmt.contract_payment_id 
+			 	
+					left outer join tb_order_detail dt  
+						on dt.order_id = ordd.order_id 
+			 
+				 	left outer join tb_customer_info CUST 
+		                 on pmt.customer_id = CUST.customer_id 		 
+			 
+					left outer join tb_adver_matter mat 
+						on dt.adver_matter_id = mat.adver_matter_id
+			 
+					left outer join tb_order_day_info odi 
+						on odi.order_detail_id = dt.order_detail_id
+			 			 			 
+			 		left outer join tb_income_used iu
+		                  on (iu.payment_id  = pmt.contract_payment_id and iu.order_day_info_id = odi.order_day_info_id)
+
+					left outer join tb_income_pull pll 
+		                 on pll.income_pull_id = iu.income_pull_id
+			 
+					left outer join tb_income_purpose inpuur 
+						on pmt.income_purpose_id = inpuur.income_purpose_id	 
+			 
+			 					left outer join tb_ad_resource_type rt
+					on rt.ad_ad_resource_type_id= pmt.ad_ad_resource_type_id	
+
+			 
+	       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+				
+			<!-- isNotEmpty prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#) 
+			</isNotEmpty -->				
+				
+			
+				
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>						
+
+				
+			<isNotEmpty prepend="AND" property="orderCode">
+				(ordd.order_code like '%$orderCode$')
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="contractCode">
+				(cont.code  like '%$contractCode$')
+			</isNotEmpty>
+						
+
+								
+		<!--	<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>-->					
+			<isNotEmpty prepend="AND" property="version">
+				(pmt.version = #version#)
+			</isNotEmpty>				
+             
+
+			<isNotNull property="incPullIdList">
+				<iterate prepend="AND" property="incPullIdList" open="(" close=")" conjunction="OR">
+					pll.income_pull_id = #incPullIdList[]#
+				</iterate>
+			</isNotNull> 
+				
+			<isNotNull property="paymentIdList">
+				<iterate prepend="AND" property="paymentIdList" open="(" close=")" conjunction="OR">
+					pmt.contract_payment_id = #paymentIdList[]#
+				</iterate>
+			</isNotNull> 				
+						
+			<isNotNull property="customerIdList">
+				
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					<isGreaterThan  property="customerIdList[]" compareValue="0">  
+						 pmt.customer_id = #customerIdList[]#
+					</isGreaterThan> 	
+				</iterate>
+				
+			</isNotNull>
+				
+				
+		 <isNotNull property="userIdList2">
+				 <iterate prepend="AND" property="userIdList2" open="(" close=")" conjunction="OR">
+						ordd.user_id = #userIdList2[]#
+			  </iterate>
+			</isNotNull> 								
+				
+				
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					ordd.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull>	
+				
+				
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 			
+						
+</dynamic>  
+			    
+		group by pmt.contract_payment_id
+			
+	 <dynamic prepend="HAVING"> 
+		 <isEqual  property="state" compareValue="1">
+			 <![CDATA[ money_pay<> money_in and money_pay>0 ]]> 
+		</isEqual>		 
+		 <isEqual  property="state" compareValue="2">
+			<![CDATA[ ( money_in > 0) ]]> 
+		</isEqual>	
+
+	 </dynamic>				
+			
+		order by pmt.order_id,pmt.contract_payment_id desc
+			
+  </select>   
+	
+	
+	
+	
+	
+	
+	<select id="getContractPaymentsForBalance2"  resultMap="contractPaymentResultForBalance2">
+		 <![CDATA[  
+        	select 
+			    pmt.ad_ad_resource_type_id,
+			    rt.name as 	 resource_type_name,
+				pmt.contract_payment_id as contract_payment_id,
+			    pmt.contract_id,
+			    pmt.order_id,
+			    pmt.pay_date,
+				pmt.pay_number,
+   
+			    pmt.memo,
+				cont.code as contract_code,
+				ordd.order_code as order_code, 
+				pmt.money_pay,
+				sum(iu.money_in) as money_in,
+				inpuur.name as income_purpose_name,
+			    cont.customer_id as customer_id,
+				mat.name as matter_name,
+			    CUST.sys_org_id as sys_org_id      
+			 
+				from tb_contract_payment pmt
+			 
+					left outer join tb_contract cont 
+						on pmt.contract_id = cont.contract_id 
+			 
+					left outer join tb_order ordd  
+						
+			  on ordd.contract_payment_id =  pmt.contract_payment_id 
+			 	
+					left outer join tb_order_detail dt  
+						on dt.order_id = ordd.order_id
+			 
+			 				 	left outer join tb_customer_info CUST 
+		                 on pmt.customer_id = CUST.customer_id 		 
+			 
+					left outer join tb_adver_matter mat 
+						on dt.adver_matter_id = mat.adver_matter_id
+			 
+					left outer join tb_order_day_info odi 
+						on odi.order_detail_id = dt.order_detail_id
+			 			 			 
+			 		left outer join tb_income_used iu
+		                  on (iu.payment_id  = pmt.contract_payment_id and iu.order_day_info_id = odi.order_day_info_id)
+
+					left outer join tb_income_pull pll 
+		                 on pll.income_pull_id = iu.income_pull_id
+			 
+					left outer join tb_income_purpose inpuur 
+						on pmt.income_purpose_id = inpuur.income_purpose_id	 
+			 
+			 			 					left outer join tb_ad_resource_type rt
+					on rt.ad_ad_resource_type_id= pmt.ad_ad_resource_type_id	
+
+	       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>						
+				
+				
+			<isNotEmpty prepend="AND" property="customerId">
+				(pmt.contract_id!=0)
+			</isNotEmpty>	
+				
+			<isNotEmpty prepend="AND" property="contractCode">
+				(cont.code  like '%$contractCode$')
+			</isNotEmpty>
+									
+			<isNotEmpty prepend="AND" property="orderCode">
+				(ordd.order_code like '%$orderCode$')
+			</isNotEmpty>
+								
+			<!--<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>	-->				
+			<isNotEmpty prepend="AND" property="version">
+				(pmt.version = #version#)
+			</isNotEmpty>				
+
+
+			<isNotNull property="incPullIdList">
+				<iterate prepend="AND" property="incPullIdList" open="(" close=")" conjunction="OR">
+					pll.income_pull_id = #incPullIdList[]#
+				</iterate>
+			</isNotNull> 
+				
+			<isNotNull property="paymentIdList">
+				<iterate prepend="AND" property="paymentIdList" open="(" close=")" conjunction="OR">
+					pmt.contract_payment_id = #paymentIdList[]#
+				</iterate>
+			</isNotNull> 				
+						
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					<isGreaterThan  property="customerIdList[]" compareValue="0">  
+						 pmt.customer_id = #customerIdList[]#
+					</isGreaterThan> 	
+				</iterate>
+			</isNotNull>
+				
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					ordd.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull>	
+				
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 				
+						
+          </dynamic>  
+			    
+		group by pmt.contract_payment_id
+			
+	 <dynamic prepend="HAVING"> 
+		 <isEqual  property="state" compareValue="1">
+			 <![CDATA[  (round(money_pay) > ifnull(round(money_in),0)) ]]> 
+		</isEqual>		 
+		 <isEqual  property="state" compareValue="2">
+			<![CDATA[ ( ifnull(money_in,0) > 0) ]]> 
+		</isEqual>	
+
+	 </dynamic>				
+			
+		order by pmt.order_id,pmt.contract_payment_id desc
+			
+  </select>   
+	
+	
+	
+	
+	<select id="getContractPaymentsForBalance3"  resultMap="contractPaymentResultForBalance2">
+		 <![CDATA[  
+        	 select 
+			    pmt.ad_ad_resource_type_id,
+			    rt.name as 	 resource_type_name,
+				pmt.contract_payment_id as contract_payment_id,
+			    pmt.contract_id,
+			    pmt.order_id,
+			    pmt.pay_date,
+				pmt.pay_number,
+   
+			    pmt.memo,
+				''  as contract_code,
+				ordd.order_code as order_code, 
+				pmt.money_pay,
+				sum(iu.money_in) as money_in,
+				inpuur.name as income_purpose_name,
+			       ordd.customer_id as customer_id,
+				mat.name as matter_name,
+			    CUST.sys_org_id as sys_org_id  
+			 
+				from tb_contract_payment pmt
+	
+			 
+					left outer join tb_order ordd  
+						on ordd.order_id =  pmt.order_id 
+			 	
+					left outer join tb_order_detail dt  
+						on dt.order_id = ordd.order_id
+			 
+					left outer join tb_adver_matter mat 
+						on  mat.adver_matter_id = dt.adver_matter_id 
+			 
+			 
+			 		 left outer join tb_customer_info CUST 
+		                 on pmt.customer_id = CUST.customer_id 
+			 
+			 
+					left outer join tb_ad_resource_info ari 
+						on ari.ad_resource_info_id=dt.ad_resource_info_id
+			 
+					left outer join tb_ad_resource_carrier arc
+							on arc.ad_resource_carrier_id=ari.ad_resource_carrier_id			 
+			 
+					left outer join tb_order_day_info odi 
+						on odi.order_detail_id = dt.order_detail_id
+			 			 			 
+			 		left outer join tb_income_used iu
+		                  on (iu.payment_id  = pmt.contract_payment_id and iu.order_day_info_id = odi.order_day_info_id)
+
+					left outer join tb_income_pull pll 
+		                 on pll.income_pull_id = iu.income_pull_id
+			 
+					left outer join tb_income_purpose inpuur 
+						on pmt.income_purpose_id = inpuur.income_purpose_id	 
+			 
+			 		left outer join tb_ad_resource_type rt
+						on rt.ad_ad_resource_type_id= pmt.ad_ad_resource_type_id	
+
+	       ]]> 
+ 	 	  <dynamic prepend="WHERE">
+				
+			<isNotNull property="paymentIdList">
+				<iterate prepend="AND" property="paymentIdList" open="(" close=")" conjunction="OR">
+					pmt.contract_payment_id = #paymentIdList[]#
+				</iterate>
+			</isNotNull> 						 
+				
+			<isNotNull property="carrierIdList">
+		    	<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					arc.parent_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull>
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>						
+				
+									
+			<isNotEmpty prepend="AND" property="orderCode">
+				(ordd.order_code like '%$orderCode$')
+			</isNotEmpty>
+								
+			<!--<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>	-->				
+			<isNotEmpty prepend="AND" property="version">
+				(pmt.version = #version#)
+			</isNotEmpty>				
+
+
+			<isNotNull property="incPullIdList">
+				<iterate prepend="AND" property="incPullIdList" open="(" close=")" conjunction="OR">
+					pll.income_pull_id = #incPullIdList[]#
+				</iterate>
+			</isNotNull> 
+				
+
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					ordd.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>
+				
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					ordd.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull>	
+				
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 				
+						
+          </dynamic>  
+			    
+		group by pmt.contract_payment_id
+			
+	 <dynamic prepend="HAVING"> 
+		 <isEqual  property="state" compareValue="1">
+			 <![CDATA[  (round(money_pay) > ifnull(round(money_in),0)) ]]> 
+		</isEqual>		 
+		 <isEqual  property="state" compareValue="2">
+			<![CDATA[ ( ifnull(money_in,0) > 0) ]]> 
+		</isEqual>	
+
+	 </dynamic>				
+			
+		order by pmt.order_id,pmt.contract_payment_id desc
+		
+
+			
+  </select>   
+	
+	
+ <select id="getContractPaymentsForBalance4"  resultMap="contractPaymentResultForBalance2">
+		 <![CDATA[  
+        	select 
+			    pmt.ad_ad_resource_type_id,
+			    rt.name as 	 resource_type_name,
+				pmt.contract_payment_id as contract_payment_id,
+			    pmt.contract_id,
+			    pmt.order_id,
+			    pmt.pay_date,
+				pmt.pay_number,
+   
+			    pmt.memo,
+				cont.code as contract_code,
+				'' as order_code, 
+				pmt.money_pay,
+				sum(iu.money_in) as money_in,
+				inpuur.name as income_purpose_name,
+			         ordd.customer_id as customer_id,
+				mat.name as matter_name,
+			    CUST.sys_org_id as sys_org_id    
+			 
+				from tb_contract_payment pmt
+			 
+					left outer join tb_contract cont 
+						on  cont.contract_id = pmt.contract_id 
+			 
+					left outer join tb_order ordd  
+						on ordd.contract_payment_id =  pmt.contract_payment_id
+			      	
+					left outer join tb_order_detail dt  
+						on dt.order_id = ordd.order_id
+			 
+				 	left outer join tb_customer_info CUST 
+		                 on pmt.customer_id = CUST.customer_id 		 
+			 
+					left outer join tb_adver_matter mat  
+						on  mat.adver_matter_id = dt.adver_matter_id 
+			 
+					left outer join tb_ad_resource_info ari 
+						on ari.ad_resource_info_id=dt.ad_resource_info_id
+			 
+					left outer join tb_ad_resource_carrier arc
+							on arc.ad_resource_carrier_id=ari.ad_resource_carrier_id			 
+			 
+					left outer join tb_order_day_info odi 
+						on odi.order_detail_id = dt.order_detail_id  
+			 			 			 
+			 		left outer join tb_income_used iu
+		                  on (iu.payment_id  = pmt.contract_payment_id and iu.order_day_info_id = odi.order_day_info_id)
+
+					left outer join tb_income_pull pll 
+		                 on pll.income_pull_id = iu.income_pull_id  
+			 
+					left outer join tb_income_purpose inpuur 
+						on pmt.income_purpose_id = inpuur.income_purpose_id	 
+			 
+			 		left outer join tb_ad_resource_type rt
+						on rt.ad_ad_resource_type_id= pmt.ad_ad_resource_type_id	 
+
+	       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+			<isNotNull property="paymentIdList">
+				<iterate prepend="AND" property="paymentIdList" open="(" close=")" conjunction="OR">
+					pmt.contract_payment_id = #paymentIdList[]#
+				</iterate>
+			</isNotNull> 		
+				
+
+			<isNotNull property="carrierIdList">
+		    	<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					arc.parent_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull>
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>						
+				
+
+			<isNotEmpty prepend="AND" property="contractCode">
+				(cont.code  like '%$contractCode$')
+			</isNotEmpty>
+									
+
+		
+			<isNotEmpty prepend="AND" property="version">
+				(pmt.version = #version#)
+			</isNotEmpty>				
+
+
+			<isNotNull property="incPullIdList">
+				<iterate prepend="AND" property="incPullIdList" open="(" close=")" conjunction="OR">
+					pll.income_pull_id = #incPullIdList[]#
+				</iterate>
+			</isNotNull> 
+				
+		
+						
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					cont.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>
+				
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					ordd.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull>	
+				
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 				
+						
+          </dynamic>  
+			    
+		group by pmt.contract_payment_id
+			
+	 <dynamic prepend="HAVING"> 
+		 
+		 <isEqual  property="state" compareValue="1">
+			 <![CDATA[  (round(money_pay) > ifnull(round(money_in),0)) ]]> 
+		</isEqual>		 
+		 <isEqual  property="state" compareValue="2">
+			<![CDATA[ ( ifnull(money_in,0) > 0) ]]> 
+		</isEqual>	
+
+	 </dynamic>				
+			
+		order by pmt.order_id,pmt.contract_payment_id desc	
+			
+  </select>   	
+	
+	
+	
+	
+    <select id="getContractPaymentsForBalance_bak"  resultMap="contractPaymentResultForBalance">
+		 <![CDATA[  
+        	select 
+			    pmt.ad_ad_resource_type_id,
+			    rt.name as 	 resource_type_name,
+				pmt.contract_payment_id as contract_payment_id,
+			    pmt.contract_id,
+			    pmt.order_id,
+			    pmt.pay_date,
+				pmt.pay_number,
+				cont.code as contract_code,
+				ordd.order_code as order_code, 
+				pmt.money_pay,
+				sum(iu.money_in) as money_in,
+				inpuur.name as income_purpose_name,
+			    ordd.customer_id as customer_id,
+				mat.name as matter_name  
+			 
+				from tb_contract_payment pmt
+			 
+					left outer join tb_contract cont 
+						on pmt.contract_id = cont.contract_id 
+			 
+					left outer join tb_order ordd  
+						on (pmt.order_id = ordd.order_id or ordd.contract_id =  cont.contract_id)
+			 	
+					left outer join tb_order_detail dt  
+						on dt.order_id = ordd.order_id
+			 
+					left outer join tb_adver_matter mat 
+						on dt.adver_matter_id = mat.adver_matter_id
+			 
+					left outer join tb_order_day_info odi 
+						on odi.order_detail_id = dt.order_detail_id
+			 			 			 
+			 		left outer join tb_income_used iu
+		                  on (iu.payment_id  = pmt.contract_payment_id and iu.order_day_info_id = odi.order_day_info_id)
+
+					left outer join tb_income_pull pll 
+		                 on pll.income_pull_id = iu.income_pull_id
+			 
+					left outer join tb_income_purpose inpuur 
+						on pmt.income_purpose_id = inpuur.income_purpose_id	 
+			 
+			 			 					left outer join tb_ad_resource_type rt
+					on rt.ad_ad_resource_type_id= pmt.ad_ad_resource_type_id	
+	       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>		
+				
+			<isNotNull property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotNull> 						
+								
+			<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>					
+			<isNotEmpty prepend="AND" property="version">
+				(pmt.version = #version#)
+			</isNotEmpty>				
+		    <!--isNotEmpty prepend="AND" property="userId">
+				(ordd.user_id = #userId#)  
+			</isNotEmpty -->				
+		    <!-- isNotNull property="userIdList">
+		    	<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					I.user_id = #userIdList[]#
+				</iterate>
+			</isNotNull --> 					
+		    <!-- isNotNull property="resourceIdList">
+		    	<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+				dt.ad_resource_info_id = #resourceIdList[]#
+				</iterate>
+			</isNotNull --> 
+
+			<isNotNull property="incPullIdList">
+				<iterate prepend="AND" property="incPullIdList" open="(" close=")" conjunction="OR">
+					pll.income_pull_id = #incPullIdList[]#
+				</iterate>
+			</isNotNull> 
+				
+			<isNotNull property="paymentIdList">
+				<iterate prepend="AND" property="paymentIdList" open="(" close=")" conjunction="OR">
+					pmt.contract_payment_id = #paymentIdList[]#
+				</iterate>
+			</isNotNull> 				
+						
+				
+				
+			<!--isNotEmpty prepend="AND" property="version">
+			(ordd.version = #version#)
+			</isNotEmpty >
+			<isNotEmpty prepend="AND" property="version">
+			(dt.version = #version#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(odi.version = #version#)
+			</isNotEmpty>				
+			<isNotEmpty prepend="AND" property="version">
+			(iu.version = #version#)
+			</isNotEmpty>					
+			<isNotEmpty prepend="AND" property="version">
+			(pll.version = #version#)
+			</isNotEmpty -->					
+          </dynamic>  
+			    
+		group by pmt.contract_payment_id
+			
+	 <dynamic prepend="HAVING"> 
+		 <isEqual  property="state" compareValue="1">
+			 <![CDATA[  (money_pay > ifnull(money_in,0)) ]]> 
+		</isEqual>		 
+		 <isEqual  property="state" compareValue="2">
+			<![CDATA[ ( ifnull(money_in,0) > 0) ]]> 
+		</isEqual>	
+
+	 </dynamic>				
+			
+		order by pmt.order_id,pmt.contract_payment_id desc
+			
+  </select>   	
+
+	
+  <select id="getContractPaymentsByCarrierIdCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     <![CDATA[  
+        select count(*)
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id	
+				left outer join tb_order_detail dt  
+					on dt.order_id = ordd.order_id
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractPaymentIdList">
+       	  <iterate prepend="AND" property="ContractPaymentIdList" open="(" close=")" conjunction="OR">
+		   			 pmt.contract_payment_id = #ContractPaymentIdList[]#
+		  </iterate>
+		   <isNotEmpty prepend="AND" property="ContractPaymentIdList">
+				(pmt.order_id = ordd.order_id or pmt.contract_id = cont.contract_id)  
+			</isNotEmpty>
+		   <isNotNull property="resourceIdList">
+		    <iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+		   			 dt.ad_resource_info_id = #resourceIdList[]#
+		    </iterate>
+			</isNotNull> 
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+	
+    <select id="getContractPayments" parameterClass="contractPayment" resultMap="contractPaymentResult">
+    <![CDATA[
+        select pmt.* ,CUT.sys_org_id,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id
+		
+						 			    left outer join tb_customer_info CUT 
+					on CUT.customer_id = pmt.customer_id	
+
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>
+			  				  
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+			  				  
+			<isNotEmpty prepend="AND" property="contractId">
+			(pmt.contract_id = #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(pmt.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(pmt.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(pmt.contract_payment_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incomePurposeId">
+			(pmt.income_purpose_id = #incomePurposeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(pmt.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(pmt.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(pmt.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyIn">
+			(pmt.money_in  =  #moneyIn#)	
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyPay">
+			(pmt.money_pay = #moneyPay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderId">
+			(pmt.order_id = #orderId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(pmt.customer_id = #customerId#)
+			</isNotEmpty>		  
+			<isNotEmpty prepend="AND" property="payDate">
+			(pmt.pay_date = #payDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="payNumber">
+			(pmt.pay_number = #payNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="urgencyAlert">
+			(pmt.urgency_alert = #urgencyAlert#)
+			</isNotEmpty>
+			  
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       pmt.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>
+			<!-- isEqual prepend="AND" property="isWhere" compareValue="0">
+			(pmt.money_pay  = pmt.money_in)
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="1">
+			<![CDATA[
+				(pmt.money_pay  <> pmt.money_in)
+			]]>
+			</isEqual>			  
+			<isEqual prepend="AND" property="isWhere" compareValue="2">
+			<![CDATA[
+				(pmt.money_pay  > pmt.money_in)
+			]]>
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="3">
+			<![CDATA[
+				(pmt.money_pay  >= pmt.money_in)
+			]]>	
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="4">
+			<![CDATA[	
+				(pmt.money_pay  < pmt.money_in)
+			]]>	  
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="5">
+			<![CDATA[	
+				(pmt.money_pay  <= pmt.money_in)
+			]]>	  
+			</isEqual -->
+		</dynamic>
+		
+		 order by pmt.pay_number asc
+		
+    </select>
+	
+	<resultMap id="sysPriceResult"  class="contractPayment">
+		<result property="customer.discountRate" column="discountRate"/>
+		<result property="moneyPay" column="money_pay"/>
+    </resultMap>
+	
+	<select id="getOrderSysPrice" parameterClass="contractPayment" resultMap="sysPriceResult">
+    <![CDATA[
+         select  sum(pmt.money_pay) as money_pay ,
+				 sum(od.sys_price * od.sum_times) as discountRate
+		from tb_contract_payment pmt
+						left outer join tb_order_detail od  
+				 on od.order_id = pmt.order_id 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderId">
+			(pmt.order_id = #orderId#)
+			</isNotEmpty>
+		</dynamic>
+		 group by pmt.order_id
+		
+    </select>
+	
+	<select id="getOrderSysPriceInContract_bak" parameterClass="contractPayment" resultMap="sysPriceResult">
+    <![CDATA[
+         select  sum(money_realpay) as money_pay ,
+				 sum(sys_price * sum_times) as discountRate
+		from  tb_order_detail 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderId">
+			(order_id = #orderId#)
+			</isNotEmpty>
+		</dynamic>
+		 group by order_id
+		
+    </select>
+	
+	<select id="getOrderSysPriceInContract" parameterClass="contractPayment" resultClass="contractPayment">
+    <![CDATA[
+         select  money_realpay as moneyPay,
+		         parent_id as version,
+		         sys_price as moneyIn,
+		         sum_times as payNumber 
+		from  tb_order_detail 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderId">
+			(order_id = #orderId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+	
+	<resultMap id="contractPaymentResult_extends"  extends="contractPaymentResult" class="contractPayment">
+		<result property="customer.discountRate" column="discountRate"/>
+    </resultMap>
+	
+	<select id="getPaymentSysPrice" parameterClass="contractPayment" resultMap="contractPaymentResult_extends">
+    <![CDATA[
+         select pmt.* ,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+            sum(od.sys_price * od.sum_times) as discountRate,
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id
+				left outer join tb_order_detail od  
+					on od.order_id = pmt.order_id 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>	
+			  
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+			  			  
+			<isNotEmpty prepend="AND" property="contractId">
+			(pmt.contract_id = #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(pmt.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(pmt.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(pmt.contract_payment_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incomePurposeId">
+			(pmt.income_purpose_id = #incomePurposeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(pmt.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(pmt.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(pmt.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyIn">
+			(pmt.money_in  =  #moneyIn#)	
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyPay">
+			(pmt.money_pay = #moneyPay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderId">
+			(pmt.order_id = #orderId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(pmt.customer_id = #customerId#)
+			</isNotEmpty>		  
+			<isNotEmpty prepend="AND" property="payDate">
+			(pmt.pay_date = #payDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="payNumber">
+			(pmt.pay_number = #payNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="urgencyAlert">
+			(pmt.urgency_alert = #urgencyAlert#)
+			</isNotEmpty>
+		</dynamic>
+		 group by pmt.order_id,pmt.contract_payment_id
+		 order by pmt.pay_number asc
+		
+    </select>
+	
+	
+	<resultMap id="ContractPaymentUserId" class="contractPayment">
+		
+        <result property="userId" column="user_id"/> 
+    </resultMap>
+	
+	<select id="getUserIdByUserName"  resultMap="ContractPaymentUserId">
+     <![CDATA[  
+        
+		select sur.user_id as user_id
+		 
+		from  tb_sys_user_rel sur
+			 left outer join  tb_sys_user su on su.id = sur.parent_user_id
+		where  su.username =  #value#
+
+       ]]> 
+ 	 	  
+  </select>    
+	
+	
+	<resultMap id="ContractPaymentForm" class="contractPayment">
+		
+        <result property="moneyIn" column="money_in" nullValue="0"/>
+        <result property="customerName" column="customer_name" />
+        <result property="orderCode" column="order_code" nullValue=""/>
+        <result property="moneyPay" column="money_pay"/>
+        <result property="payDate" column="pay_date"/>
+        <result property="orderId" column="order_id"/>
+		<result property="contractId" column="contract_id"/>
+        <result property="contractCode" column="code" nullValue=""/>
+		<result property="contractSort" column="contract_sort" nullValue="0"/>
+		
+		<result property="orderUser.id" column="orderUserId" nullValue="0"/>
+		<result property="orderUser.username" column="username"/>
+		<result property="orderUser.firstName" column="first_name"/>
+		<result property="orderUser.lastName" column="last_name"/>
+		
+		<result property="id" column="contract_payment_id"/>
+		<result property="customerId" column="customer_id"/>
+		<result property="matter.name" column="matter_name"/>
+		<result property="resourceType.name" column="resource_type_name"/>
+		<result property="orgId" column="sys_org_id"/>
+
+    </resultMap>
+
+	
+	<!-- left outer join tb_income_used iu on cp.contract_payment_id = iu.payment_id -->
+	<select id="getContractPaymentForm"   resultMap="ContractPaymentForm">
+     <![CDATA[  
+        
+	select o.order_code as order_code,
+		 c.code as code,
+		 c.contract_sort as contract_sort,
+		 ci.customer_name as customer_name,
+		 ci.customer_id as customer_id,
+		 cp.contract_payment_id as contract_payment_id,
+		 cp.pay_date as pay_date,
+		 cp.money_pay as money_pay,
+		 sum(IFNULL( iu.money_in,0)) as money_in,
+		 IFNULL(o.order_id,0) as order_id,
+		 IFNULL(c.contract_id,0) as contract_id,
+		 mt.name as matter_name,	
+		 su.id as orderUserId, 
+		 su.first_name,
+		 su.last_name,
+		 su.username,
+		 ci.sys_org_id,
+		 rt.name as resource_type_name 
+
+	from  tb_contract_payment cp
+			
+		    left outer join tb_order o on o.order_id = cp.order_id 
+		    left outer join tb_customer_info ci on ci.customer_id = cp.customer_id
+		    left outer join tb_order_detail  iu on o.order_id  = iu.order_id
+		 	left outer join tb_adver_matter mt on mt.adver_matter_id = iu.adver_matter_id 
+            left outer join tb_sys_user su on su.id = o.user_id
+            left outer join tb_contract c on c.contract_id = cp.contract_id 
+		    left outer join tb_ad_resource_type rt on cp.ad_ad_resource_type_id = rt.ad_ad_resource_type_id  
+		 
+
+       ]]> 
+ 	 	  <dynamic prepend="WHERE">   
+				
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (cp.pay_date >= #startDate#) ]]>
+            </isGreaterThan> 	
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[ (cp.pay_date <= #endDate#) ]]>
+            </isGreaterThan> 	
+					
+				
+			<isEqual prepend="AND" property="contractSortId" compareValue="1">  
+				  <![CDATA[ ( c.code is null ) ]]>
+            </isEqual> 	
+								
+			<isEqual prepend="AND" property="contractSortId" compareValue="2">  
+				  <![CDATA[ (c.contract_sort = 0 or c.contract_sort = 2 ) ]]>
+            </isEqual> 					
+				
+			<isEqual prepend="AND" property="contractSortId" compareValue="3">  
+				  <![CDATA[ (c.contract_sort = 1) ]]>
+            </isEqual> 	
+				
+
+				
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					(su.id = #userIdList[]# or c.owner = #userIdList[]#)
+				</iterate>
+			 </isNotNull> 
+				
+			 <isNotEmpty prepend="AND" property="userId">
+				 <![CDATA[   (su.id = #userId#)  ]]> 
+			 </isNotEmpty>		
+
+			<!-- isNotEqual property="defaultALL" compareValue="1">  
+
+            </isNotEqual --> 				
+				
+				 	<isNotEmpty prepend="AND" property="date">
+					 <![CDATA[   (cp.pay_date <= #date#)  ]]> 
+				 </isNotEmpty>			
+				
+			 <isNotEmpty prepend="AND" property="customerName">
+				 <![CDATA[   (ci.customer_name like '%$customerName$%')  ]]> 
+			 </isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="year">
+				(cp.version = #year#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="orgId">
+				(ci.sys_org_id = #orgId#) 
+			</isNotEmpty>				
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(cp.ad_ad_resource_type_id = #resourceTypeId#) 
+			</isNotEmpty>				
+				
+				
+				
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       cp.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>	
+				
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					cp.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+				
+				
+		   <isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       ci.customer_category_id = #customerCates[]#
+				</iterate>
+		  </isNotNull>						
+										
+          </dynamic>   
+		
+			group by cp.contract_payment_id,c.code,o.order_code 
+		
+		
+		
+			<isNotEqual  property="defaultALL" compareValue="1">  
+				<![CDATA[ having money_pay-money_in >0.0000001 ]]> 
+            </isNotEqual> 
+		
+		order by ci.customer_id,cp.pay_date,o.order_code;
+  </select>    
+	
+	
+
+	<select id="getContractPaymentFormCount"   resultClass="contractPayment"> 
+    <![CDATA[  		  
+	select COUNT(*)  as payNumber, sum(A.money_pay) AS moneyPay,SUM(A.money_in) AS moneyIn  FROM 
+	
+	(select  cp.money_pay as money_pay,
+		 sum(IFNULL( iu.money_in,0)) as money_in 
+	from  tb_contract_payment cp
+			
+		    left outer join tb_order o on o.order_id = cp.order_id
+		    left outer join tb_customer_info ci on ci.customer_id = cp.customer_id
+		    left outer join tb_order_detail  iu on o.order_id  = iu.order_id
+		 	left outer join tb_adver_matter mt on mt.adver_matter_id = iu.adver_matter_id 
+            left outer join tb_sys_user su on su.id = o.user_id
+            left outer join tb_contract c on c.contract_id = cp.contract_id
+
+       ]]> 
+ 	 	  <dynamic prepend="WHERE">   
+				
+				
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (cp.pay_date >= #startDate#) ]]>
+            </isGreaterThan> 	
+				
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[ (cp.pay_date <= #endDate#) ]]>
+            </isGreaterThan> 	
+				
+			<isEqual prepend="AND" property="contractSortId" compareValue="1">  
+				  <![CDATA[ ( c.code is null ) ]]>
+            </isEqual> 	
+								
+			<isEqual prepend="AND" property="contractSortId" compareValue="2">  
+				  <![CDATA[ (c.contract_sort = 0 or c.contract_sort = 2 ) ]]>
+            </isEqual> 					
+				
+			<isEqual prepend="AND" property="contractSortId" compareValue="3">  
+				  <![CDATA[ (c.contract_sort = 1) ]]>
+            </isEqual> 			
+			
+					
+				
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					(su.id = #userIdList[]# or c.owner = #userIdList[]#)
+				</iterate>
+			 </isNotNull> 
+				
+			 <isNotEmpty prepend="AND" property="userId">
+				 <![CDATA[   (su.id = #userId#)  ]]> 
+			 </isNotEmpty>				
+			   
+			 <!-- isNotEmpty prepend="AND" property="date">
+				 <![CDATA[   (cp.pay_date <= #date#)  ]]> 
+			 </isNotEmpty -->
+				
+					
+				
+			 <isNotEmpty prepend="AND" property="date">
+					 <![CDATA[   (cp.pay_date <= #date#)  ]]> 
+			 </isNotEmpty>				
+				
+			 <isNotEmpty prepend="AND" property="customerName">
+				 <![CDATA[   (ci.customer_name like '%$customerName$%')  ]]> 
+			 </isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="orgId">
+				(ci.sys_org_id = #orgId#) 
+			</isNotEmpty>				
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(cp.ad_ad_resource_type_id = #resourceTypeId#) 
+			</isNotEmpty>						
+				
+			<isNotEmpty prepend="AND" property="year">
+				(cp.version = #year#)
+			</isNotEmpty>
+				
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       cp.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>	
+				
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					cp.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+				
+		   <isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       ci.customer_category_id = #customerCates[]#
+				</iterate>
+		  </isNotNull>					
+				
+										
+          </dynamic>   
+		
+			group by cp.contract_payment_id,c.code,o.order_code 
+
+			<isNotEqual  property="defaultALL" compareValue="1">  
+				<![CDATA[ having money_pay-money_in >0.0000001 ]]> 
+            </isNotEqual> 		
+		
+	
+		
+) as A 
+  </select>    	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="getContractPaymentList"  resultMap="ContractPaymentList">
+    <![CDATA[
+        select
+		   cp.ad_ad_resource_type_id,
+		   sum(IFNULL( iu.money_in,0)) as money_in,ci.customer_name as customer_name,o.order_code as order_code,cp.money_pay as money_pay ,cp.pay_date as pay_date,o.order_id as order_id,c.code as code
+			from  tb_contract_payment cp
+			
+		    left outer join tb_order o on o.order_id = cp.order_id
+			left outer join tb_customer_info ci on ci.customer_id = o.customer_id
+			left outer join tb_income_used iu on cp.contract_payment_id = iu.payment_id
+			left outer join tb_contract c on c.contract_id = cp.contract_id
+		    
+    ]]>	
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="customerName">
+				(ci.customer_name = #customerName#)
+			</isNotEmpty>	
+				
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(cp.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>		
+					  
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+						  
+		</dynamic>	
+			GROUP BY cp.contract_payment_id
+		<dynamic prepend="HAVING"> 
+			<isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[ min(cp.pay_date) >= #startDate# ]]>
+             </isNotEmpty> 
+			 <isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ max(cp.pay_date) <= #endDate# ]]>
+             </isNotEmpty>
+			 <isNotEmpty property="dates" prepend="AND">
+                    <![CDATA[ cp.money_pay-money_in >0 ]]>
+             </isNotEmpty>
+		</dynamic>	
+				ORDER BY cp.pay_date,ci.customer_id
+	</select>	
+	
+	<select id="getContractPaymentsCount" parameterClass="contractPayment" resultClass="java.lang.Integer">
+		<![CDATA[   
+		select count(*) from tb_contract_payment pmt 
+		]]>	
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="contractId">
+			(pmt.contract_id = #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(pmt.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(pmt.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(pmt.contract_payment_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incomePurposeId">
+			(pmt.income_purpose_id = #incomePurposeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(pmt.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(pmt.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(pmt.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyIn">
+			(pmt.money_in  =  #moneyIn#)	
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyPay">
+			(pmt.money_pay = #moneyPay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderId">
+			(pmt.order_id = #orderId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(pmt.customer_id = #customerId#)
+			</isNotEmpty>		  
+			<isNotEmpty prepend="AND" property="payDate">
+			(pmt.pay_date = #payDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="payNumber">
+			(pmt.pay_number = #payNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="urgencyAlert">
+			(pmt.urgency_alert = #urgencyAlert#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>	
+			  			  
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 		  
+			  
+			<!-- isEqual prepend="AND" property="isWhere" compareValue="0">
+			(pmt.money_pay  = pmt.money_in)
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="1">
+			<![CDATA[
+				(pmt.money_pay  <> pmt.money_in)
+			]]>
+			</isEqual>			  
+			<isEqual prepend="AND" property="isWhere" compareValue="2">
+			<![CDATA[
+				(pmt.money_pay  > pmt.money_in)
+			]]>
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="3">
+			<![CDATA[
+				(pmt.money_pay  >= pmt.money_in)
+			]]>	
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="4">
+			<![CDATA[	
+				(pmt.money_pay  < pmt.money_in)
+			]]>	  
+			</isEqual>
+			<isEqual prepend="AND" property="isWhere" compareValue="5">
+			<![CDATA[	
+				(pmt.money_pay  <= pmt.money_in)
+			]]>	  
+			</isEqual -->
+		</dynamic>
+		
+	</select>	
+	
+	
+    <select id="getContractPayments_nopay" parameterClass="contractPayment" resultMap="contractPaymentResult">
+    <![CDATA[
+        select pmt.* ,CUT.sys_org_id,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id
+		
+				 			    left outer join tb_customer_info CUT 
+					on CUT.customer_id = pmt.customer_id	
+
+		where pmt.money_in < pmt.money_pay
+					order by pmt.pay_date,pmt.pay_number desc
+	]]>	
+    </select>
+	
+	<select id="getContractPaymentsCount_nopay" parameterClass="contractPayment" resultClass="java.lang.Integer">
+		<![CDATA[   
+		select count(*) from tb_contract_payment pmt 
+			where pmt.money_in < pmt.money_pay
+		]]>	
+	</select>	
+		
+	
+    <select id="getContractPaymentsByIdList" parameterClass="java.util.Map" resultMap="contractPaymentResult">
+     <![CDATA[  
+        select pmt.* ,CUT.sys_org_id,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id	
+		 
+		 			    left outer join tb_customer_info CUT 
+					on CUT.customer_id = pmt.customer_id	
+		 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractPaymentIdList">
+       	  <iterate prepend="AND" property="ContractPaymentIdList" open="(" close=")" conjunction="OR">
+		   			 pmt.contract_payment_id = #ContractPaymentIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getContractPayment" resultMap="contractPaymentResult">
+    <![CDATA[
+        select pmt.* , CUT.sys_org_id,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+		        left outer join  tb_income_purpose inpuur
+					on pmt.income_purpose_id = inpuur.income_purpose_id
+		
+			    left outer join tb_customer_info CUT 
+					on CUT.customer_id = pmt.customer_id		
+		
+         where pmt.contract_payment_id = #value#
+    ]]>
+    </select>
+
+	
+	
+	
+	<resultMap id="resultContractPaymentByMap" class="contractPayment">
+		<result property="customerId" column="customer_id" nullValue="0"/>
+        <result property="contractId" column="contract_id"/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="contract_payment_id" nullValue="0"/>
+        <result property="incomePurposeId" column="income_purpose_id"/>
+        <result property="memo" column="memo" nullValue="0"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyIn" column="contract_payment_id" nullValue="0"/>
+        <result property="moneyPay" column="money_pay" nullValue="0"/>
+        <result property="orderId" column="order_id" />
+        <result property="payDate" column="pay_date" nullValue="19991231"/>
+        <result property="payNumber" column="pay_number"/>
+        <result property="urgencyAlert" column="urgency_alert"/>
+        <result property="version" column="version"/>
+		<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+    </resultMap>
+
+	
+	
+	  <select id="getContractPaymentByMap"  resultMap="resultContractPaymentByMap">
+        select pmt.* 
+		  from tb_contract_payment pmt 
+		  
+		  <dynamic prepend="WHERE"> 
+			  <isNotEmpty prepend="AND" property="resourceType">
+				(pmt.ad_ad_resource_type_id = #resourceType#)
+			  </isNotEmpty>
+			  
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+			  			  
+			  <isNotEmpty prepend="AND" property="memo">
+				(pmt.memo = #memo#)
+			  </isNotEmpty>
+			  
+			  <isNotEmpty prepend="AND" property="orderId">
+				(pmt.order_id = #orderId#)
+			  </isNotEmpty>
+			  
+			  <isNotEmpty prepend="AND" property="paymentId">
+				(pmt.contract_payment_id = #paymentId#)
+			  </isNotEmpty>
+			  
+			  <isNotEmpty prepend="AND" property="contractId">
+				(pmt.contract_id = #contractId#)
+			  </isNotEmpty>
+			  
+          </dynamic> 
+		  
+    </select>
+	
+	
+	
+	
+	
+    <select id="getContractPaymentsCountByIdList" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     <![CDATA[  
+      select count(*) from tb_contract_payment 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractPaymentIdList">
+       	  <iterate prepend="AND" property="ContractPaymentIdList" open="(" close=")" conjunction="OR">
+		   			 contract_payment_id = #ContractPaymentIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select> 	
+	
+    <select id="getOrderPaymentClass" resultClass="contractPayment">
+    <![CDATA[
+         select contract_payment_id as id,order_id as orderId,pay_date as payDate,money_pay as moneyPay
+		 from tb_contract_payment 
+         where order_id = #value#
+    ]]>
+    </select>		
+	
+	
+	<select id="getPaymentTable" resultClass="contractPayment">
+    <![CDATA[
+        select contract_payment_id as id,pay_number as payNumber,order_id as orderId,pay_date as payDate,money_pay as moneyPay
+		 from tb_contract_payment 
+         where order_id = #value#
+    ]]>
+    </select>	
+	
+	
+    <select id="getContractPaymentClass" resultClass="contractPayment">
+    <![CDATA[
+        select cpm.contract_payment_id as id,cpm.contract_id as contractId,cpm.pay_date as payDate,
+			cpm.money_pay as moneyPay,c.contract_money_sum as contractMoneySum
+		 from tb_contract_payment cpm
+		 left outer join tb_contract c
+		    on c.contract_id = cpm.contract_id
+         where contract_payment_id = #value#
+    ]]>
+    </select>	
+
+	
+    <select id="getMoneyPayByOrderId" resultClass="java.lang.Long">
+    <![CDATA[
+        select sum(cpm.money_pay)
+		 from tb_contract_payment cpm
+		 left outer join tb_order c
+		    on c.order_id = cpm.order_id
+         where c.order_id = #value#
+    ]]>
+    </select>
+	
+	
+	    <select id="getMoneyPayByOrderIdDouble" resultClass="java.lang.Double">
+    <![CDATA[
+        select sum(cpm.money_pay)
+		 from tb_contract_payment cpm
+		 left outer join tb_order c
+		    on c.order_id = cpm.order_id
+         where c.order_id = #value#
+    ]]>
+    </select>
+	
+	
+	 <select id="getMoneySumByContractId" resultClass="java.lang.Double">
+        select sum(money_pay) from tb_contract_payment  where contract_id = #value#
+    </select>
+	
+	
+	
+	<select id="getPaymentIdMaxByOidOrCid" parameterClass="contractPayment" resultClass="java.lang.Long">
+     <![CDATA[  
+      select max(contract_payment_id) from tb_contract_payment 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotEmpty prepend="AND" property="orderId">
+			(order_id = #orderId#)
+		  </isNotEmpty>
+		  <isNotEmpty prepend="AND" property="contractId">
+			(contract_id = #contractId#)
+		  </isNotEmpty>
+          </dynamic>      
+	</select>
+	
+	 <update id="updateNamberPayment" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_contract_payment set
+                   pay_number = #number#
+        where contract_payment_id = #payMentId#
+    ]]>
+    </update>
+	
+	  <update id="updatePayMoney" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_contract_payment set
+                   money_pay = #moneychange#,
+				   customer_id = #customerId#
+        where contract_payment_id = #paymentId#
+    ]]>
+    </update>
+		
+    <update id="updateMoneyIn" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_contract_payment set
+                   money_in = money_in - #moneyIn#
+        where contract_payment_id = #paymentId#
+    ]]>
+    </update>
+	
+	<update id="updateContractPaymentVersion" parameterClass="contractPayment">
+    <![CDATA[
+        update tb_contract_payment set
+                   version = #version#
+        where contract_id = #contractId#
+    ]]>
+    </update>
+	
+	
+	
+	
+	
+	
+	<resultMap id="contractPaymentResult_for_auto" class="contractPayment">
+		<result property="id" column="id"/>
+		<result property="payNumber" column="payNumber"/>
+		<result property="contractId" column="contractId"/>
+		<result property="contractSort" column="contractSort"/>
+		<result property="contractCode" column="contractCode"/>
+		<result property="payDate" column="payDate"/>
+		<result property="moneyPay" column="moneyPay"/>
+		<result property="customerId" column="customerId" nullValue="0"/>
+		<result property="customerName" column="customerName"/>
+		<result property="customerCategoryId" column="customerCategoryId"/>
+        <result property="moneyIn" column="id" select="getIncomeUsedByPaymentId" nullValue="0"/>
+		<result property="memo" column="memo" nullValue=""/>
+		<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+		<result property="resourceType.name" column="resource_type_name" nullValue=""/>
+		
+    </resultMap>	
+	
+    <select id="getContractPaymentAutoComplet" parameterClass="contractPayment" resultMap="contractPaymentResult_for_auto">
+    <![CDATA[
+		select 
+		    pmt.ad_ad_resource_type_id as ad_ad_resource_type_id,
+		    RST.name as resource_type_name,
+			contract_payment_id as id,
+			pay_number as payNumber,
+			cont.contract_id as contractId,
+			cont.contract_sort as contractSort,
+			cont.code as contractCode,
+			pay_date as payDate,
+			money_pay as moneyPay,
+			cont.customer_id as customerId,
+			cf.customer_name as customerName,
+			cf.customer_category_id as customerCategoryId,
+		    pmt.memo as memo
+		
+				FROM  tb_contract_payment pmt
+			  		left outer join tb_contract  cont
+							on pmt.contract_id = cont.contract_id
+					  left outer join tb_customer_info cf  
+							on cont.customer_id = cf.customer_id
+					left outer join  tb_ad_resource_type RST     
+			on  RST.ad_ad_resource_type_id = pmt.ad_ad_resource_type_id	
+		
+		
+			  
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="state">
+			(cont.contract_state = #state#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerId">
+			(pmt.customer_id = #customerId#)
+			</isNotEmpty>	
+			
+			
+		  <isNotNull property="carrierIdList">
+       		  <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					   cont.ad_resource_carrier_id = #carrierIdList[]#
+			  </iterate>
+		  </isNotNull> 	
+			
+		  <isNotNull property="contractSortIdList">
+       		  <iterate prepend="AND" property="contractSortIdList" open="(" close=")" conjunction="OR">
+					   cont.contract_sort = #contractSortIdList[]#
+			  </iterate>
+		  </isNotNull> 					
+					
+
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 			
+						
+			<isNotEmpty prepend="AND" property="version">
+			(cont.version = #version#)
+			</isNotEmpty>	
+			
+			<isNotEmpty prepend="AND" property="version">
+			(cont.code is not null)
+			</isNotEmpty>	
+					
+		</dynamic>
+		
+		group by pmt.contract_payment_id
+    </select>		
+	
+	<select id="getContractPaymentAutoComplet_bak" parameterClass="contractPayment" resultClass="contractPayment">
+    <![CDATA[
+		 select contract_payment_id as id,pay_number as payNumber,cont.contract_id as contractId,cont.contract_sort as contractSort,
+				cont.code as contractCode,pay_date as payDate,money_pay as moneyPay,cont.customer_id as customerId,
+				cf.customer_name as customerName,
+				cf.customer_category_id as customerCategoryId
+			FROM  tb_contract_payment pmt
+			  left outer join tb_contract  cont
+					on pmt.contract_id = cont.contract_id
+			  left outer join tb_customer_info cf
+					on cont.customer_id = cf.customer_id
+			  
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="state">
+			(cont.contract_state = #state#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerId">
+			(pmt.customer_id = #customerId#)
+			</isNotEmpty>	
+			
+		  <isNotNull property="carrierIdList">
+       	  <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+		   		cont.ad_resource_carrier_id = #carrierIdList[]#
+		  </iterate>
+		  </isNotNull> 			
+			
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+						<isNotEmpty prepend="AND" property="version">
+			(cont.version = #version#)
+			</isNotEmpty>	
+			
+			<isNotEmpty prepend="AND" property="version">
+			(cont.code is not null)
+			</isNotEmpty>	
+					
+		</dynamic>
+		
+		group by pmt.contract_payment_id
+    </select>
+		
+	<select id="getIncomePullsByOrderDetail" parameterClass="contractPayment" resultClass="contractPayment">
+    <![CDATA[
+		    select sum(od.money_realpay)-sum(od.money_in) moneyPay,rc.parent_id carrierId,o.user_id as userId  
+			from tb_order_detail od
+				left outer join tb_order o  on od.order_id = o.order_id
+				left outer join tb_ad_resource_info  ri
+			on od.ad_resource_info_id = ri.ad_resource_info_id
+				left outer join tb_ad_resource_carrier  rc
+			on ri.ad_resource_carrier_id = rc.ad_resource_carrier_id
+			  
+    ]]>
+		<dynamic prepend="WHERE">
+			<isNotNull property="paymentIdList">
+				<iterate prepend="AND" property="paymentIdList" open="(" close=")" conjunction="OR"> 
+					od.order_id = #paymentIdList[]# 
+				</iterate>
+			</isNotNull>
+			
+			<isNotEmpty prepend="AND" property="customerId">
+				(pmt.customer_id = #customerId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerId">
+				<![CDATA[(money_realpay >0) ]]>
+			</isNotEmpty>
+		</dynamic>
+		
+		   group by rc.parent_id,o.user_id 
+		   having moneyPay>0
+    </select>	
+	
+    <insert id="addContractPayment" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_contract_payment_id.NextVal AS id FROM DUAL
+        </selectKey-->
+
+        <![CDATA[
+            insert into tb_contract_payment (ad_ad_resource_type_id,customer_id,contract_id,create_by,create_date,income_purpose_id,memo,modify_by,modify_date,money_pay,order_id,pay_date,pay_number,urgency_alert,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+		
+    </insert>
+	
+	 
+	
+   <!-- insert id="addContractPayment" parameterClass="java.util.HashMap">
+
+        <![CDATA[
+            insert into tb_contract_payment (ad_ad_resource_type_id,customer_id,contract_id,create_by,create_date,income_purpose_id,memo,modify_by,modify_date,money_pay,order_id,pay_date,pay_number,urgency_alert,version)
+            values ( #resourceTypeId#,#customerId#,#contractId#,#createBy#,#createDate#,#incomePurposeId#,#memo#,#modifyBy#,#modifyDate#,#moneyPay#,#orderId#,#payDate#,#payNumber#,#urgencyAlert#,#version# )
+        ]]>
+		
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+		
+    </insert -->
+	
+	
+	
+
+    <update id="updateContractPayment" parameterMap="updateParam">
+    <![CDATA[
+        update tb_contract_payment set
+		           ad_ad_resource_type_id = ?,
+		           customer_id = ?,
+				   contract_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   income_purpose_id = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   money_pay = ?,
+                   order_id = ?,
+                   pay_date = ?,
+                   pay_number = ?,
+                   urgency_alert = ?,
+			       version = ? 
+        where contract_payment_id = ?
+    ]]>
+    </update>
+    <update id="updateContractPaymentMoneyIn" parameterClass="map">
+    <![CDATA[
+        update tb_contract_payment set
+                   money_in = #moneyIn#
+        where contract_payment_id = #id#
+    ]]>
+    </update>
+    <delete id="deleteContractPayment">
+    <![CDATA[
+        delete from tb_contract_payment
+         where contract_payment_id = #value#
+    ]]>
+    </delete>
+	
+   <update id="deleteContractPayments" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_contract_payment 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractPaymentIdList">
+       	  <iterate prepend="AND" property="ContractPaymentIdList" open="(" close=")" conjunction="OR">
+		   			 contract_payment_id = #ContractPaymentIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>  
+	
+	
+ <select id="getContractPaymentsDesc" parameterClass="contractPayment" resultMap="contractPaymentResult">
+    <![CDATA[
+        select pmt.* ,CUT.sys_org_id,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode, 
+		    inpuur.income_purpose_id as income_purpose_id,
+		    inpuur.name as income_purpose_name  
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+				left outer join tb_income_purpose inpuur 
+					on pmt.income_purpose_id = inpuur.income_purpose_id
+		
+						 			    left outer join tb_customer_info CUT 
+					on CUT.customer_id = pmt.customer_id	
+
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(pmt.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>
+			  				  
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					pmt.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 
+			  				  
+			<isNotEmpty prepend="AND" property="contractId">
+			(pmt.contract_id = #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(pmt.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(pmt.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(pmt.contract_payment_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incomePurposeId">
+			(pmt.income_purpose_id = #incomePurposeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(pmt.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(pmt.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(pmt.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyIn">
+			(pmt.money_in  =  #moneyIn#)	
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyPay">
+			(pmt.money_pay = #moneyPay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderId">
+			(pmt.order_id = #orderId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(pmt.customer_id = #customerId#)
+			</isNotEmpty>		  
+			<isNotEmpty prepend="AND" property="payDate">
+			(pmt.pay_date = #payDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="payNumber">
+			(pmt.pay_number = #payNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="urgencyAlert">
+			(pmt.urgency_alert = #urgencyAlert#)
+			</isNotEmpty>
+			  
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       pmt.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>
+
+		</dynamic>
+		
+		 order by pmt.pay_number desc
+		
+    </select>	
+	
+	
+</sqlMap>

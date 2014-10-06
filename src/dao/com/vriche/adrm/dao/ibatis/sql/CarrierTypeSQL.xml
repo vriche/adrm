@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CarrierTypeSQL">
+    <typeAlias alias="carrierType" type="com.vriche.adrm.model.CarrierType"/>
+
+	<cacheModel id="carrierType-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addCarrierType"/>
+		<flushOnExecute statement="updateCarrierType"/>
+		<flushOnExecute statement="deleteCarrierType"/>
+		<flushOnExecute statement="deleteCarrierTypes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="carrierType">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="nodePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="carrierType">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="nodePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="carrierTypeResult" class="carrierType">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no"/>
+        <result property="enable" column="enable"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="nodeLevel" column="node_level"/>
+        <result property="nodePath" column="nodePath"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="version" column="version"/>
+		<result property="id" column="ad_resource_carrier_type_id"/>
+		<result property="orgId" column="sys_org_id"/>
+    </resultMap>
+	
+	
+	<select id="getCarrierTypesByParentId" parameterClass="java.lang.String" resultMap="carrierTypeResult" >
+    <![CDATA[
+        select * from tb_ad_resource_carrier_type 
+		where parent_id = #value#
+    ]]>
+	</select>
+	
+	            
+    <select id="getCarrierTypesByLevel" parameterClass="java.lang.String" resultMap="carrierTypeResult">
+    <![CDATA[
+        select * from tb_ad_resource_carrier_type 
+         where node_level = #value#
+    ]]>
+    </select>		
+	
+
+	 <resultMap id="carrierTypeResult2" extends="carrierTypeResult"  class="carrierType">
+		<result property="org.name" column="orgName" nullValue=""/>
+    </resultMap>	
+	
+	
+    <select id="getCarrierTypes" resultMap="carrierTypeResult2" >
+    <![CDATA[
+        select A.*,B.name as orgName
+		
+		 from tb_ad_resource_carrier_type  A 
+		
+		left outer join tb_sys_org B on B.sys_org_id  = A.sys_org_id  
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(A.create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(A.create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(A.display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(A.enable like #enable#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(A.ad_resource_carrier_type_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(A.memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(A.modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(A.modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(A.name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(A.node_level like #nodeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodePath">
+			(A.nodePath like #nodePath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(A.parent_id like #parentId#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>	
+			  
+		</dynamic>
+    </select>
+	
+	
+    <select id="getCarrierTypesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_ad_resource_carrier_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CarrierTypeIdList">
+       	  <iterate prepend="AND" property="CarrierTypeIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_carrier_type_id = #CarrierTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getCarrierType" resultMap="carrierTypeResult">
+    <![CDATA[
+        select * from tb_ad_resource_carrier_type
+         where ad_resource_carrier_type_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addCarrierType" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.String" keyProperty="id" >
+            SELECT SEQ_ad_resource_carrier_type_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_ad_resource_carrier_type (sys_org_id,create_by,create_date,display_no,enable,memo,modify_by,modify_date,name,node_level,nodePath,parent_id)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateCarrierType" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_carrier_type set
+		           sys_org_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   display_no = ?,
+                   enable = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   node_level = ?,
+                   nodePath = ?,
+                   parent_id = ?,
+				   version = ?
+        where ad_resource_carrier_type_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteCarrierType">
+    <![CDATA[
+        delete from tb_ad_resource_carrier_type
+         where ad_resource_carrier_type_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteCarrierTypes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_carrier_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CarrierTypeIdList">
+       	  <iterate prepend="AND" property="CarrierTypeIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_carrier_type_id = #CarrierTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

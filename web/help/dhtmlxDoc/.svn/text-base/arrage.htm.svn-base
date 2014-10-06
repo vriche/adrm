@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>编播管理</title><link rel="STYLESHEET" type="text/css" href="common/styles.css">
+		  <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/> 
+</head>
+
+<body>
+<div>
+<table width="88%" border="0">
+    <tr>
+      <td><table width="100%" border="0">
+          <tr>
+            <td><h2 align="center">编播管理</h2></td>
+          </tr>
+          <tr>
+            <td> <h5>&nbsp;&nbsp;&nbsp;&nbsp;<font size="2">&nbsp;&nbsp;&nbsp;&nbsp;编播管理子系统对广告播出串联单进行管理，可对播出串联单进行编制、查询等处理。由计算机自动生成广告串联单，根据需要可进行手动调整。实现对已生成的广告串联单的查询、删除、提交和打印等操作<br>
+                广告串联单的编排是以在销售订单子系统中输入的播出排期表为基础，由系统自动生成的广告播出串联单，这一功能大大减轻了编排人员的工作量，提高了工作效率，同时也减少了漏播或错播的情况。<br>
+                编排时，系统检索符合指定媒体、段位和时间的广告，自动编排成串联单，并按照指定位置排序，编排人员也可以根据需要手动增加或修改。编排广告串联单的具体方法如下：</font><br>
+              </h5></td>
+          </tr>
+          <tr>
+            <td><h5><font color="#006699"><a name="tabbar_tabbar_mf">广告编播：</a></font></h5></td>
+          </tr>
+          <tr>
+            <td> <font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击“<font color="#000000">广告编排</font>”快捷图标或菜单中“<font color="#000000">编播管理</font>”的“<font color="#000000">广告编排</font>”进入编播页面。如图：</font></p> 
+              <p><img src="./codebase/imgs/array.jpg" width="463" height="278"></p>
+              <p><img src="./codebase/imgs/array2.jpg" width="636" height="217"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在页面上部是一系列操作按钮。包括<font color="#000000">“建立”，“保存”，“预览”，“打针”，“导出”，“删除”</font>等按钮。同时还有“<font color="#000000">播出日期”，“参照历史</font>”两个选项。左则显示一个树型结构，可以一级一级展开，展开后可以看到其中包括所拥有的“频道”，“频道中的载体”，“载体中的资源”。右则空白区是工作区，对建立起来的广告编播单进行编辑。</font></p>
+              <p><img src="./codebase/imgs/array4.jpg" width="676" height="362"> 
+              </p>
+              <p><font color="#000000" size="2">编排时具体操作如下</font><font color="#009999" size="2">：<br>
+                <font color="#000000">a.</font> 鼠标双击“<font color="#000000">播出日期</font>”编辑框，在弹出的日历表中选择播出日期，<br><br>
+                <font color="#000000">b.</font> 选择所需的载体，载体位于频道内。包含着广告资源信息。只有选择正确的载体级别，才能建立广告编排单。如图中的名为“<font color="#000000">白天</font>”的载体。在白天前面的的方框内点击鼠标左键，在方框中出现一个对钩，然后再用鼠标点击“<font color="#000000">白天</font>”字样。此时“<font color="#000000">白天</font>”变为暗色表示该载体已被选中，最后点击“<font color="#000000">建</font><font color="#FFFFCC">立</font>“屏幕右侧显示系统自动编排制做出的编排单如下图</font>：</p>
+              <p><img src="./codebase/imgs/array3.jpg" width="627" height="196"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中包括<font color="#000000">“栏目名称”，“磁带号”，“广告名称”，“版本”，“长度”，“指定”</font>等信息。在一个栏目里会包含很多条广告。<br><br>
+                <font color="#000000">c.</font> 根据需要，手动调整栏目中广告的位置。调整时，用鼠标点住要移动的广告项，然后拖动到需要的位置放开，该条广告就被移动到指定的位置。比如，左键点击需要拖动的广告项，如果要放置到其上方某一项上面时，把该条广告移动到那一项的上面，然后松开鼠标。如果要放置到其下方某一项的下面时，把该条广告移动到那一项的下面，然后松开鼠标，该条广告就被移动到指定的位置。当务员在编辑订单时，指定了广告位置，那么在“指定”信息中，就会出现指定信息。如<font color="#000000">“正一”，“正二”，“倒一”，“倒二”</font>等。被指定了位置的广告是不能被手动移动的。<br>
+                d. 调整完毕，点击“<font color="#000000">保存</font>”按钮，保存这一天的该载体的编播单。点击“<font color="#000000">预览</font>”，出现预览标签页面。如图：</font></p>
+              <p><img src="./codebase/imgs/array5.jpg" width="591" height="364"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在编播单中，不仅显示出编辑状态中的信息，还会在每个栏目末，显示<font color="#000000">“广告位置”，“总时长”，“占用时长”</font>等信息。在页头会显示“<font color="#000000">发布日期</font>”，<font color="#000000">“总用时”，“总条数”，“周期”，“编排人员”，“审核”</font>等信息。<br>
+                点击“<font color="#000000">打印</font>”按钮，从连接的打印机上打印出文档如编播单预览效果一致。点击“<font color="#000000">导出</font>”可以导出Excel表格。如图：</font></p>
+              <p><img src="./codebase/imgs/array6.jpg" width="575" height="559"> 
+              </p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#009999" size="2">&nbsp;系统中提功了“<font color="#000000">参照历史</font>”功能，可以参照以前保存过的编播单进行编辑工作。<br>
+                在图：<img src="./codebase/imgs/array7.jpg" width="157" height="21"> 
+                中，鼠标双击参照历史编辑框。以弹出的“日历表”中选择需要的日期。然后点击“<font color="#000000">参照历史</font>”按钮，可以参照查看历史记录中其他日期的编播。并且可在上面做修改操作。保存后为当前编播日期中的内容。不影响所使用的历史记录。<br>
+                </font> </p>
+              </td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td><table width="100%" border="0">
+          <tr> 
+            <td><font color="#006699" size="3"><strong><a name="编播下载">2.4.2、编播下载</a></strong></font></td>
+          </tr>
+          <tr> 
+            <td><p><font color="#009999" size="2">编播完毕后点击“<font color="#000000">播出下载</font>”进入播出下载页面，如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/load1.jpg" width="514" height="196"></p>
+              <p>&nbsp;<img src="./codebase/imgs/load2.jpg" width="627" height="122"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;在左上方"<font color="#000000">频道</font>"编辑框中双击鼠标选择"频道名称"，在"<font color="#000000">发布日期</font>" 
+                编辑框中双击鼠标选择日期。然后点击"查询"按钮。页面中显示出查询结果。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/load3.jpg" width="670" height="283"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括：<font color="#000000">“载体”，“资源”，“编排日期”，“编排人员”，“总时间”，“占用时间”，“剩余时间”，“饱和度”</font>等信息。如果信息较多，系统提供翻页功能，如图右下角，点击“<font color="#000000">下一页</font>”将进行“<font color="#000000">翻页</font>”在下一页显示内容。<br>
+                下载编播时点击“<font color="#000000">保存</font>”按钮，再点击“<font color="#000000">下载</font>”按钮。页面显示出如图：</font></p>
+              <p><img src="./codebase/imgs/load4.jpg" width="670" height="251"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提示保存文件。所保存文件提供给制作部门的大洋采带设备。如图：</font></p>
+              <p>&nbsp; <img src="./codebase/imgs/load5.jpg" width="407" height="587"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击图中右上方的<font color="#000000">“预览”，“打印”</font>按钮。可以查看，打印当前日期的串联单。点击<font color="#000000">“导出”</font>按钮，可以导出电子表格。使用如下：<br>
+                在左上方“<font color="#000000">频道</font>”编辑框中双击鼠标选择频道载体名称，然后点击 “<font color="#000000">预览</font>” 
+                按钮。出现预览页面。如下图： </font></p>
+              <p><img src="./codebase/imgs/load6.jpg" width="627" height="450"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括:<font color="#000000">“广告段位”，“播出时间”，“规定长度”，“段位长度”，“实际长度”，“饱和度”</font>等。<br>
+                最后还会统计。<font color="#000000">“总的规定长度”，“总的段位长度”，“总的饱和度”</font>。<br>
+                点击“<font color="#000000">导出</font>”按钮，可以导出电子表格。如图：</font></p>
+              <p><img src="./codebase/imgs/load7.jpg" width="627" height="614"> 
+              </p></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td><table width="100%" border="0">
+          <tr>
+            <td><font color="#006699" size="3"><strong><a name="广告素材">2.4.3、广告素材</a></strong></font></td>
+          </tr>
+          <tr>
+            <td><p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;包含与组成广告有关的信息。记录所有播出过的广告产品、品牌、内容等详细信息，及其所属单位、广告类别、广告形式等属性。</font></p>
+              
+                
+             
+             </td>
+          </tr>
+          <tr>
+            <td> <font color="#009999" size="2"><strong><font color="#006699"><a name="产品品牌">产品品牌</a></font></strong></font><font color="#006699"><strong>：</strong></font><br>
+              <font color="#009999" size="2">记录了产品品牌的相关信息。点击添加，可以添加新的产品品牌。选择个品牌，可以对它进行编辑。如图：</font><br>
+              <p><img src="./codebase/imgs/ab_resouce.jpg" width="612" height="92"></p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce2.jpg" width="591" height="130"></p>
+              <p><font color="#009999" size="2"><strong><font color="#006699"><a name="产品分类">产品分类：</a></font></strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记录了产品类别的相关信息。点击添加，可以添加新的产品类别。选择某个类别，可以对它进行编辑。</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce3.jpg" width="591" height="93"></p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce4.jpg" width="591" height="90"></p>
+              <p><font color="#009999" size="2"><strong><font color="#006699"><a name="广告素材下">广告素材：</a></font></strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记录了播出过的广告的名称，客户名称，长度等详细信息。点击“添加”可以加入新的素材。在查询时，可通过“客户信息”，“广告名称”等指定查询条件对所有素材进行指定查询。如图：</font></p>
+              <p><img src="./codebase/imgs/ab_resouce5.jpg" width="614" height="269"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                查询出的信息内容包括<font color="#000000">："广告名称"，"客户"，"类型"，"版本"，"长度"，"磁带编号"</font>等内容。 
+                鼠标双击"<font color="#000000">客户信息</font>"编辑框，选择客户信息。点击"<font color="#000000">查询</font>"按钮。页面显示该客户所拥有的广告。如图： 
+                </font> </p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce6.jpg" width="591" height="215"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;鼠标双击"广告名称"编辑框，选择广告名称。点击"<font color="#000000">查询</font>"按钮。页面显示该广告名称的广告。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce7.jpg" width="591" height="115"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在“<font color="#000000">广告类别</font>”下拉单中，选择广告类别，点击“<font color="#000000">查询</font>”按钮。页面显示该广告类别的广告。如图：</font></p>
+              </td>
+          </tr>
+          <tr>
+            <td>&nbsp;
+              <p><img src="./codebase/imgs/ab_resouce8.jpg" width="591" height="270"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;鼠标双击“<font color="#000000">广告版本</font>”编辑框，选择广告版本。点击“<font color="#000000">查询</font>”按钮。页面显示该广告版本的广告。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce9.jpg" width="591" height="139"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击“<font color="#000000">添加</font>”按钮，进入素材添加页面，如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce10.jpg" width="591" height="215"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括：<font color="#000000">“客户”，“广告名称”，“版本”，“长度”，“备注”，“磁带编号”，“类型”，“有效”</font>等信息。填写完毕，点击“<font color="#000000">保存</font>”按钮，保存信息。点击“<font color="#000000">取消</font>”按钮，取消信息的录入。 
+                点击查询出的素材信息的某项，进入编辑页面，如图：</font></p>
+              <p><img src="./codebase/imgs/ab_resouce11.jpg" width="591" height="215"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修改<font color="#000000">“广告名称”，“版本”，“ 
+                磁带编号”</font>时，修改完后，先点“<font color="#000000">强制保存</font>”，再点“<font color="#000000">保存</font>”。 
+                保存成功。“<font color="#000000">长度</font>”内容不允许修改。只有当该素材没有被使用时，才能够被删除。</font></p>
+              <p><font color="#009999" size="3"><strong><br>
+                <font color="#006699"><a name="素材分类">Ⅳ-3-4素材分类：</a></font></strong></font><font color="#009999" size="2"><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;记录了所有素材的分类。可以点击，“<font color="#000000">添加</font>”加入新的素材。</font></p>
+              <p><img src="./codebase/imgs/ab_resouce12.jpg" width="591" height="105"> 
+              </p>
+              <p>&nbsp;<img src="./codebase/imgs/ab_resouce13.jpg" width="591" height="129"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括<font color="#000000">“创建人”，“ 
+                创建日期”，“修改人”，“ 修改日期”，“名字”，“值”</font>等信息。填写完必，点击“<font color="#000000">保存</font>”按钮，保存信息，点击“<font color="#000000">取消</font>”， 
+                取消录入，返回上个页面。 </font></p></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</div>
+<h2 align="center">&nbsp;</h2>
+</body>
+</html>

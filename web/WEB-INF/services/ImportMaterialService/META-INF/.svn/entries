@@ -1,0 +1,88 @@
+8
+
+dir
+661
+svn://121.28.83.134:80/src1/adrm_2.0/web/WEB-INF/services/ImportMaterialService/META-INF
+svn://121.28.83.134:80/src1
+
+
+
+2013-11-30T15:24:47.234320Z
+661
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+ImportMaterialService.wsdl
+file
+
+
+
+
+2013-11-30T12:19:10.175341Z
+7b693acac79a256d4c0f476dca802205
+2013-11-30T15:24:47.234320Z
+661
+lxz
+
+services.xml
+file
+
+
+
+
+2013-11-30T12:19:10.178342Z
+da2691f210179bb46dbc9306ba596428
+2013-11-30T15:24:47.234320Z
+661
+lxz
+
+ADPServiceParameter.xsd
+file
+
+
+
+
+2013-11-30T12:19:10.171338Z
+a347d595ad17fd741118b8343b6bd759
+2013-11-30T15:24:47.234320Z
+661
+lxz
+
+ADFileInfoEntity.xsd
+file
+
+
+
+
+2013-11-30T12:19:10.164334Z
+f37843ba28224b6d8bb6105c2bc9f193
+2013-11-30T15:24:47.234320Z
+661
+lxz
+
+ADBroadcastListEntity.xsd
+file
+
+
+
+
+2013-11-30T12:19:10.160330Z
+dbbadda7f4d367be226d51600c5e590a
+2013-11-30T15:24:47.234320Z
+661
+lxz
+
+ADMaterialEntity.xsd
+file
+
+
+
+
+2013-11-30T12:19:10.167334Z
+d7ef7a60a7f71b1d1ec99399bb3b9e16
+2013-11-30T15:24:47.234320Z
+661
+lxz
+

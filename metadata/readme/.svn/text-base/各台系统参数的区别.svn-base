@@ -1,0 +1,190 @@
+
+             各台系统参数的区别
+        
+1、合同参数（0根据付款分配应收 1正常）     
+   contractSortParam
+   hntv sjz catv xmtv fztv
+   
+ 2、订单浏览方式（0不限制1根据用户归属）
+   orderViewModelParam   
+   hntv sjz catv xmtv fztv
+   
+ 3、分频道管理（0不分1分）
+    channelModelParam
+    采用分频道管理,用户管理中增加了一项频道用户归属，在所有统计和浏览都采取数据过滤
+    目前采用分频道的电视台有 hntv  xmtv
+    不采用的catv sjz
+    
+ 4、广告编排方式（1、2、3、4、5）
+   piblishModelParam
+   广告串联单的格式区别  hntv>5  sjz>1 catv>3 xmtv>4
+   
+ 5、串编文件接口类型 （1按载体第二级保存成文件、2按时段保存成文件）
+   piblishExportModelParam
+   生成的播出接口文件，生成方式区别
+   catv>1 sjz>2 xmtv>3
+   
+ 6、串编号生成方式（0手动1自动）
+   adverCodeModelParam
+   catv>0 sjz>1 hntv>1 xmtv>1
+   
+ 7、订单号生成方式（0手动、1自动）
+   orderCodeModelParam
+   目前全部自动
+   
+ 8、广告载体类别的显示控制(0不显示1显示默认1显示),用于订单界面上的下拉列表
+   orderCarrierTypeDisplayParam
+   xmtv>1  catv>0 sjz>0 hntv>0
+   
+   
+ 9、客户归属方式(0表示无归属，1表示有归属)
+   customerOwnerParam
+   目前都没用上
+   
+ 10、订单协约(0表示无效,1表示有效)
+    orderContractParam
+    目前都用，以后将成为默认订单类型
+    
+11、载体级别
+   carrierNodeLevelParam
+   用于广告资源维护 点出串联单的判断 其次是广告编排中，播出保存成接口文件名需要判断当前载体的级别
+   目前载体都使用2级分类
+   
+12、垫片类型
+   dianpianParam
+   广告编排用到 sjz>2,3,4   其它2,3
+   
+13、跨段位调整（0表示不允许,1表示允许）
+   stridePositionParam   
+   目前都不允许
+   
+14、在订单里是否可以新添客户（0不可以，1可以）
+   addCustomerInOrderParam
+   目前都可以
+   
+15、控制广告资源显示的侧重 广告段位显示名称或备注
+   resourceDisplayParam
+   hntv>1 其它都为0
+   
+16、是否需要频道划帐 0 不需要  1需要
+   channelPullParam
+   hntv>1 sjz>1 xmtv>0 catv>0
+   hntv 比较特殊,同时结合moreChannelNoPullParam 控制只划分到一个频道 
+   
+17、串编时是否显示没有广告的段位
+   isDisplayNoadResParam
+   sjz>1 hntv>1 xmtv>1 catv>0    
+   
+18、有指定也允许调整（示不允许,1表示允许）
+   specArowMoveParam
+    目前都不允许
+    
+19、多频道不划帐(默认0 启用1) 如果启用则在到款录入中会出现频道，划帐中只出现一个频道
+    moreChannelNoPullParam
+    hntv>1     其它都0
+    
+20、13令的时间限定
+	resourceReLimitParam
+	hntv>1  其它都为0
+
+21、审后订单允许修改广告素材长度除外
+    permitModAdverParam    
+    hntv>1  其它为0
+    
+22、新签订单默认的订单类别的设定
+    orderModCategoryParam   
+    hntv>18  xmtv>25其他0
+    
+23、是否开启订单日志
+    isOpenOrderOrgParam
+    hntv>1 sjz>1 xmtv>1 其它0
+    
+24、是否显示图表按钮（1显示）
+    isDisplayChartParam
+    sjz>1 hntv>1 xmtv>1    
+    
+ 25、是否显示用户客户隶属关系及客户载体隶属关系按钮（0可能不显示1显示） 
+   isUserCustomerRelParam
+    目前都没用
+   
+26、欠款统计方式(0{投放-分配},1{投放-到帐})  
+   arrearageMode
+   sjz>1 hntv>1 其它都0
+
+27、如何编排串联单(按显示顺序(0),还是播出入点(1)排序)
+   isArrangeOrderOrEntry
+   hntv>1  fztv>1其它0
+   
+28、到款提示，相关的业务员(如果财务录入一笔到款或修改一别到款，则提示相关的业务员) 格式（1,192.168.1.100,5222,domain.com,longin,PWD）
+   incomeMessageAlertParam 默认0不启用  如果启用 1,192.168.1.100,5222,domain.com,longin,PWD
+   fztv用其它不用
+   
+29、到款编号自动产生(0-手动，1-自动)
+   incomeCodeModelParam
+   目前都手动  fztv>1
+   
+30、是否由业务员平帐(0-否 1-是)
+   isSignUserBalance
+   fztv>1 其它还没用到，用到它只是在催款页面多出平帐按钮，还有在到款录入的界面体现
+   
+31、订单是否启用年份归属(0-否 1-是)
+   isUserOrderYearRel
+   hntv>1 catv>1 xmtv>1
+   
+32、统计中是否显示刊例金额列(0-否 1-是))
+   isDisplayStandPrice
+   hntv>1 其它0
+   
+33、是否试用频道属性(0-否 1-是) 如 地面频道、卫星频道的分类方法
+   isUseCarrierProty
+   hntv>1 其它都0 
+   
+34、建立串联单前，需要提示的订单状态、默认1(1未审批、2审核中、3通过、4被退回、5未通过)
+   publishOrderAlertStates
+   sjz>1, hntv>1, catv>1,
+   
+ 35、是否启用套装参数(启用1,不启用0)系统参数默认是0
+   signCompages 
+   xmtv>1 其它还没用
+   
+ 36、是否启用播出入点(启用1,不启用0)系统参数默认是0
+   withBroPoint
+   hntv>1 xmtv>1 如果原来没用启用后需要重新添加资源的播出入点
+   
+ 37、电视台特殊功能参数(若有指定特定电视台则设置为catv,sjztv,hntv,fztv,qztv,xmtv,其他设置为0);系统参数默认是0;
+   tvNameParam
+   
+38、订单不予提交，就能审核(需要提交(0),不提交(1))
+   withoutSubmit
+   fztv>1 xmtv>1
+   
+39、是否启用广告资源分类(启用1,不启用0)系统参数默认是0 
+   withResourceSort 它用于资源归属部门，统计中都有涉及到它
+   fztv>1 xmtv>1
+   
+
+  
+  
+  
+      
+   
+   
+    
+   
+  
+   
+    
+
+   
+   
+   
+   
+   
+   
+     
+    
+    
+    
+     
+   
+     

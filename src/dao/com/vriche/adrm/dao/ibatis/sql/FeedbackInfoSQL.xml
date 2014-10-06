@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FeedbackInfoSQL">
+    <typeAlias alias="feedbackInfo" type="com.vriche.adrm.model.FeedbackInfo"/>
+
+	<cacheModel id="feedbackInfo-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addFeedbackInfo"/>
+		<flushOnExecute statement="updateFeedbackInfo"/>
+		<flushOnExecute statement="deleteFeedbackInfo"/>
+		<flushOnExecute statement="deleteFeedbackInfos"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="feedbackInfo">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="dealDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="departmentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="feedContent" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="feeder" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="feedType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="satisfactoryDegree" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="submitDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="feedbackInfo">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="dealDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="departmentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="feedContent" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="feeder" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="feedType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="satisfactoryDegree" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="submitDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="feedbackInfoResult" class="feedbackInfo">
+		<result property="orgId" column="sys_org_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="dealDate" column="deal_date"/>
+        <result property="departmentId" column="department_id"/>
+        <result property="feedContent" column="feed_content"/>
+        <result property="feeder" column="feeder"/>
+        <result property="feedType" column="feed_type"/>
+        <result property="id" column="customer_feedback_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="satisfactoryDegree" column="satisfactory_degree"/>
+        <result property="submitDate" column="submit_date"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getFeedbackInfos" resultMap="feedbackInfoResult">
+  
+        select FB.*,CUST.sys_org_id
+		
+		 from tb_customer_feedback FB
+				left outer join tb_customer_info CUST 
+		   on FB.customer_id = CUST.customer_id
+
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(FB.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(FB.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(FB.customer_id = #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dealDate">
+			(FB.deal_date = #dealDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="departmentId">
+			(FB.department_id = #departmentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="feedContent">
+			(FB.feed_content = #feedContent#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="feeder">
+			(FB.feeder = #feeder#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="feedType">
+			(FB.feed_type = #feedType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(FB.customer_feedback_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(FB.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(FB.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(FB.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="satisfactoryDegree">
+			(FB.satisfactory_degree = #satisfactoryDegree#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="submitDate">
+			(FB.submit_date = #submitDate#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#)
+			</isNotEmpty>	
+			  
+			  
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUST.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 					  
+			  
+		</dynamic>
+    </select>
+	
+	
+	<select id="getFeedbackInfosCount" resultClass="java.lang.Integer">
+    <![CDATA[
+		select count(*) from tb_customer_feedback 
+								left outer join tb_customer_info CUST 
+		                 on tb_customer_feedback.customer_id = CUST.customer_id
+    ]]>	
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dealDate">
+			(deal_date like #dealDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="departmentId">
+			(department_id like #departmentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="feedContent">
+			(feed_content like #feedContent#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="feeder">
+			(feeder like #feeder#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="feedType">
+			(feed_type like #feedType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(customer_feedback_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="satisfactoryDegree">
+			(satisfactory_degree like #satisfactoryDegree#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="submitDate">
+			(submit_date like #submitDate#)
+			</isNotEmpty>
+			  
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#)
+			</isNotEmpty>	
+			  
+			  
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUST.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 					  
+		</dynamic>			
+	</select>	
+	
+	
+    <select id="getFeedbackInfosByIdList" parameterClass="java.util.Map">
+
+        select tb_customer_feedback.*,CUST.sys_org_id from tb_customer_feedback 
+					left outer join tb_customer_info CUST 
+		                 on tb_customer_feedback.customer_id = CUST.customer_id 
+
+ 	 	  <dynamic prepend="WHERE"> 
+	     	 <isNotNull property="FeedbackInfoIdList">
+				 <iterate prepend="AND" property="FeedbackInfoIdList" open="(" close=")" conjunction="OR">
+							tb_customer_feedback.customer_feedback_id = #FeedbackInfoIdList[]#
+			  </iterate>
+			  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getFeedbackInfo" resultMap="feedbackInfoResult">
+    <![CDATA[
+        select tb_customer_feedback.*,CUST.sys_org_id from tb_customer_feedback 
+					left outer join tb_customer_info CUST 
+		                 on tb_customer_feedback.customer_id = CUST.customer_id 
+         where tb_customer_feedback.customer_feedback_id = #value# 
+    ]]>
+    </select>
+
+    <insert id="addFeedbackInfo" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_customer_feedback_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_customer_feedback (create_by,create_date,customer_id,deal_date,department_id,feed_content,feeder,feed_type,memo,modify_by,modify_date,satisfactory_degree,submit_date)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateFeedbackInfo" parameterMap="updateParam">
+    <![CDATA[
+        update tb_customer_feedback set
+                   create_by = ?,
+                   create_date = ?,
+                   customer_id = ?,
+                   deal_date = ?,
+                   department_id = ?,
+                   feed_content = ?,
+                   feeder = ?,
+                   feed_type = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   satisfactory_degree = ?,
+                   submit_date = ?,
+				   version = ? 
+        where customer_feedback_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteFeedbackInfo">
+        delete from tb_customer_feedback where customer_feedback_id = #value#
+    </delete>
+	
+   <update id="deleteFeedbackInfos" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_customer_feedback 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="FeedbackInfoIdList">
+       	  <iterate prepend="AND" property="FeedbackInfoIdList" open="(" close=")" conjunction="OR">
+		   			 customer_feedback_id = #FeedbackInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

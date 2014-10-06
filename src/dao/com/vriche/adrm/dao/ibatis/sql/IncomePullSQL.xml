@@ -1,0 +1,1076 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="IncomePullSQL">
+    <typeAlias alias="incomePull" type="com.vriche.adrm.model.IncomePull"/>
+
+	<cacheModel id="incomePull-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addIncomePull"/>
+		<flushOnExecute statement="updateIncomePull"/>
+		<flushOnExecute statement="deleteIncomePull"/>
+		<flushOnExecute statement="deleteIncomePulls"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="incomePull">
+		<parameter property="resourceTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="incomeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyIn" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="moneyPull" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="resourceCarrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="incomePull">
+		<parameter property="resourceTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="incomeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyIn" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="moneyPull" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="resourceCarrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="incomePullResult" class="incomePull">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="income_pull_id"/>
+        <result property="incomeId" column="income_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyIn" column="money_in"/>
+        <result property="moneyPull" column="money_pull"/>
+        <result property="resourceCarrierId" column="ad_resource_carrier_id"/>
+        <result property="version" column="version"/>
+		<result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+    </resultMap>
+	
+	 <resultMap id="incomePullRecordResult" class="incomePull">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="income_pull_id"/>
+        <result property="incomeId" column="income_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyIn" column="{pullId=income_pull_id}" select="getIncomeUsedByIncomeIdForPull"/>
+        <result property="moneyPull" column="money_pull"/>
+        <result property="resourceCarrierId" column="ad_resource_carrier_id"/>
+		<result property="carrier.carrierName" column="carrier_name"/>
+        <result property="version" column="version"/>
+		<result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+		 <result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+    </resultMap>
+
+   <resultMap id="incomePullResultByCustomer" class="incomePull">
+		
+        <result property="income.customerId" column="customer_id"/>
+        <result property="income.incomeCode" column="income_code"/>
+        <result property="income.incomeDate" column="income_date" nullValue="19991231"/>
+        <result property="income.incomeModeId" column="income_mode_id"/>
+        <result property="income.incomeMoney" column="income_money" nullValue="0"/>
+		<!-- result property="incomeUsed" column="{inId=income_id,pullId=income_pull_id}" select="getIncomeUsedByIncomIdAndPullId"/ -->
+	    <!-- result property="income.incomeUsed" column="{pullId=income_pull_id}" select="getIncomeUsedByPullId" nullValue="0"/ -->
+        <result property="income.incomeUsed" column="money_in" nullValue="0"/>
+	    <result property="income.incomePurposeId" column="income_purpose_id"/>
+		<result property="income.memo" column="memo" nullValue=""/>
+        <!-- result property="version" column="version"/ -->
+	    <result property="income.incomePullDate" column="income_pull_date" nullValue="19991231"/>
+		<result property="income.incomeMode.name" column="incomeModeName" nullValue=""/>
+		<result property="income.incomePurpose.name" column="incomePurposeName" nullValue=""/>
+		<result property="income.customer.customerName" column="customerName" nullValue=""/>
+
+	   	<result property="income.userId" column="user_id"/>
+		<result property="income.user.firstName" column="firstName"/>
+		<result property="income.user.lastName" column="lastName"/>
+
+	   	<result property="carrier.carrierName" column="carrierName"/>
+	    <result property="resourceCarrierId" column="carrier_id" nullValue="0"/>
+	   	   
+	   <result property="id" column="income_pull_id"/>
+	   <result property="incomeId" column="income_id"/>
+	   <result property="moneyPull" column="money_pull" nullValue="0"/>
+	   <result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+
+    </resultMap>
+	
+		
+	<select id="getOrdersByIncomeId" parameterClass="java.lang.Long" resultClass="incomePull">
+        select o.order_code incomeCode,su.first_name firstName,su.last_name lastName,sum(iu.money_in) moneyIn,pll.ad_resource_carrier_id resourceCarrierId, rt.ad_ad_resource_type_id 
+		from tb_order o
+			left outer join tb_contract_payment pmt
+		on pmt.order_id = o.order_id
+			left outer join tb_income_used iu
+		on iu.payment_id = pmt.contract_payment_id
+			left outer join tb_income_pull pll
+		on pll.income_pull_id= iu.income_pull_id
+				left outer join tb_sys_user su
+		on o.user_id= su.id
+					left outer join tb_ad_resource_type rt
+		on rt.ad_ad_resource_type_id= pll.ad_ad_resource_type_id	
+		
+			where pll.income_id=#value#
+		group by pll.income_pull_id,o.order_id
+	</select>
+	
+	
+	
+	<resultMap id="incomePullResultByCustomer2" extends="incomePullResultByCustomer"  class="incomePull">
+		<result property="resourceTypeId" column="ad_ad_resource_type_id" nullValue=""/>
+		<result property="resourceType.name" column="resource_type_name" nullValue=""/>
+		<result property="resourceType.orgId" column="sys_org_id" nullValue="1"/>
+    </resultMap>	
+	
+	
+	
+	 <select id="getIncomePullsByCustomerId"  resultMap="incomePullResultByCustomer2">
+     <![CDATA[  	
+		 select
+				I.customer_id as customer_id,
+				I.income_code as income_code,
+                I.income_date as income_date,
+                I.income_mode_id as income_mode_id,
+                I.income_money as income_money,
+                I.income_purpose_id as income_purpose_id,
+                I.memo as memo,
+		        I.income_pull_date as  income_pull_date,
+                I.income_id as income_id,
+				I.user_id as user_id,
+		 
+				p.ad_resource_carrier_id as carrier_id,		 
+                p.income_pull_id as income_pull_id,
+		 
+		        p.ad_ad_resource_type_id as resource_type_id,	
+		 
+                p.money_pull as money_pull,
+                sum(IU.money_in)  as money_in,
+		       
+	
+				MODD.name as incomeModeName,
+				PUR.name as incomePurposeName, 
+				CUST.customer_name as customerName, 
+				US.first_name as firstName,
+				US.last_name as lastName,
+				rc.carrier_name as carrierName,
+				rt.ad_ad_resource_type_id,
+		        rt.name as resource_type_name, 
+		        CUST.sys_org_id as sys_org_id
+		 
+				
+		    ]]>  
+			 from tb_income_pull p
+		 
+				left outer join tb_income  I 
+		                 on p.income_id= I.income_id 
+		 
+				left outer join tb_income_used IU
+		                 on IU.income_pull_id  = p.income_pull_id
+		 
+				left outer join tb_income_mode MODD 
+		                 on I.income_mode_id = MODD.income_mode_id
+		 
+				left outer join tb_income_purpose PUR 
+		                 on I.income_purpose_id = PUR.income_purpose_id	
+		 
+				left outer join tb_customer_info CUST 
+		                 on I.customer_id = CUST.customer_id 
+
+				 <isEqual  property="id" compareValue="0">	
+						left outer join tb_sys_user US 
+							 on I.user_id = US.id
+				 </isEqual>
+				 
+				 <isEqual  property="id" compareValue="1">	
+						left outer join tb_sys_user US 
+								 on p.create_by = US.id
+				 </isEqual>		 
+		 
+		 
+				left outer join tb_ad_resource_carrier rc
+		                 on rc.ad_resource_carrier_id  = p.ad_resource_carrier_id
+		 
+		 		left outer join tb_ad_resource_type rt
+					on rt.ad_ad_resource_type_id= p.ad_ad_resource_type_id	
+
+		<dynamic prepend="WHERE"> 
+			
+			<!-- isNotEmpty prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#) 
+			</isNotEmpty -->				
+			
+			<isNotNull property="userIdList2">
+				 <iterate prepend="AND" property="userIdList2" open="(" close=")" conjunction="OR">
+							I.user_id = #userIdList2[]#
+			  </iterate>
+			</isNotNull> 				
+			
+			
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(p.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="income.customerId">
+				(I.customer_id = #income.customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incomeId">
+				(I.income_id = #incomeId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="version">
+				(I.version = #version#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+				(p.version = #version#)
+			</isNotEmpty>
+			<isNotNull property="customerIdList">
+				 <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+							(I.customer_id = #customerIdList[]#)
+			  </iterate>
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="customerName">
+				(CUST.customer_name like '%$customerName$%')
+			</isNotEmpty>			
+			<!--isNotEmpty prepend="AND" property="version">
+			(IU.version like #version#)
+			</isNotEmpty -->
+		</dynamic>   
+		 
+		 GROUP BY  p.income_pull_id 
+		 
+	 <dynamic prepend="HAVING"> 
+		 <isEqual  property="income.state" compareValue="1">
+			 <![CDATA[  (round(money_pull) > ifnull(round(money_in),0)) ]]>
+		</isEqual>		 
+		 <isEqual  property="income.state" compareValue="2">
+			<![CDATA[ ( ifnull(money_in,0) > 0) ]]> 
+		</isEqual>	
+	 </dynamic>	
+		 	order by I.income_date desc
+  </select>  
+	
+	
+	 <select id="getIncomePullsByCustomerId2"  resultMap="incomePullResultByCustomer2">
+     <![CDATA[  	
+		 select
+				I.customer_id as customer_id,
+				I.income_code as income_code,
+                I.income_date as income_date,
+                I.income_mode_id as income_mode_id,
+                I.income_money as income_money,
+                I.income_purpose_id as income_purpose_id,
+                I.memo as memo,
+		        I.income_pull_date as  income_pull_date,
+                I.income_id as income_id,
+				I.user_id as user_id,
+		 
+				p.ad_resource_carrier_id as carrier_id,		 
+                p.income_pull_id as income_pull_id,
+                p.money_pull as money_pull,
+                sum(IU.money_in)  as money_in,
+	
+				MODD.name as incomeModeName,
+				PUR.name as incomePurposeName, 
+				CUST.customer_name as customerName, 
+				US.first_name as firstName,
+				US.last_name as lastName,
+				rc.carrier_name as carrierName,
+				rt.ad_ad_resource_type_id,
+		        rt.name as resource_type_name, 
+		        CUST.sys_org_id as sys_org_id		 
+				
+		    ]]>  
+			 from tb_income_pull p
+		 
+				left outer join tb_income  I 
+		                 on p.income_id= I.income_id 
+		 
+				left outer join tb_income_used IU
+		                 on IU.income_pull_id  = p.income_pull_id
+		 
+				left outer join tb_income_mode MODD 
+		                 on I.income_mode_id = MODD.income_mode_id
+		 
+				left outer join tb_income_purpose PUR 
+		                 on I.income_purpose_id = PUR.income_purpose_id	
+		 
+				left outer join tb_customer_info CUST 
+		                 on I.customer_id = CUST.customer_id 
+		 
+		 	 	left outer join tb_ad_resource_type rt
+					on rt.ad_ad_resource_type_id= p.ad_ad_resource_type_id	
+		 
+		 
+		 <isEqual  property="version" compareValue="0">	
+				left outer join tb_sys_user US 
+		                 on I.user_id = US.id
+		 </isEqual>
+		 
+		 <isEqual  property="version" compareValue="1">	
+				left outer join tb_sys_user US 
+		                 on p.create_by = US.id
+		 </isEqual>
+		 
+				left outer join tb_ad_resource_carrier rc
+		                 on rc.ad_resource_carrier_id  = p.ad_resource_carrier_id
+
+   
+		<dynamic prepend="WHERE"> 
+			<!--isNotEmpty prepend="AND" property="income.customerId">
+			(I.customer_id = #income.customerId#)
+			</isNotEmpty -->
+			<!-- isNotEmpty prepend="AND" property="version">
+			(I.version = #version#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(p.version = #version#)
+			</isNotEmpty -->
+			
+			<!-- isNotEmpty prepend="AND" property="version">
+			(substring(I.income_pull_date,1,4) = #version#)
+			</isNotEmpty -->
+			
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(p.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>	
+			
+			<isNotNull property="customerIdList">
+				 <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+							(I.customer_id = #customerIdList[]#)
+			  </iterate>
+			</isNotNull>
+			
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       p.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>	
+			
+			<!-- isNotEmpty prepend="AND" property="customerName">
+				(CUST.customer_name like '%$customerName$%')
+			</isNotEmpty -->	
+			
+
+			
+			<!-- isEqual  property="version" compareValue="0">	
+				<isNotEmpty prepend="AND" property="firstName">
+					(I.user_id = #firstName# or (I.user_id != #firstName# and p.ad_resource_carrier_id =0))
+				</isNotEmpty>	
+				
+				<isNotNull property="income.carrierIdList">
+					 <iterate prepend="AND" property="income.carrierIdList" open="(" close=")" conjunction="OR">
+								(I.user_id = #income.carrierIdList[]#)
+					 </iterate>	
+				</isNotNull>	      
+			</isEqual>
+				
+				
+			<isEqual  property="version" compareValue="1">	
+				<isNotEmpty prepend="AND" property="firstName">
+					(p.create_by = #firstName# or (p.create_by != #firstName# and p.ad_resource_carrier_id =0))
+				</isNotEmpty>	
+				
+				<isNotNull property="income.carrierIdList">
+					 <iterate prepend="AND" property="income.carrierIdList" open="(" close=")" conjunction="OR">
+								(p.create_by = #income.carrierIdList[]#)
+					 </iterate>	
+				</isNotNull>				      
+			</isEqual -->	
+			
+			<isEqual  property="version" compareValue="0">	
+				
+				<isNotEmpty prepend="AND" property="firstName">
+					(I.user_id = #firstName#)
+				</isNotEmpty>	
+				
+				<isNotNull property="income.carrierIdList">
+						 <iterate prepend="AND" property="income.carrierIdList" open="(" close=")" conjunction="OR">
+									(I.user_id = #income.carrierIdList[]#)
+						 </iterate>	
+				</isNotNull>	
+			</isEqual>	
+			
+			<isEqual  property="version" compareValue="1">	
+				<isNotEmpty prepend="AND" property="firstName">
+					(p.create_by = #firstName#)
+				</isNotEmpty>	
+				
+				<isNotNull property="income.carrierIdList">
+						 <iterate prepend="AND" property="income.carrierIdList" open="(" close=")" conjunction="OR">
+									(p.create_by = #income.carrierIdList[]#)
+						 </iterate>	
+				</isNotNull>	
+			</isEqual>	
+					
+			<!--isNotEmpty prepend="AND" property="version">
+			(IU.version like #version#)
+			</isNotEmpty -->
+		</dynamic>   
+		 
+		 GROUP BY  p.income_pull_id 
+		 
+	 <dynamic prepend="HAVING"> 
+		 <isEqual  property="income.state" compareValue="1">
+			 <![CDATA[  (round(money_pull) > ifnull(round(money_in),0)) ]]>
+		</isEqual>		 
+		 <isEqual  property="income.state" compareValue="2">
+			<![CDATA[ ( ifnull(money_in,0) > 0) ]]> 
+		</isEqual>	
+	 </dynamic>	
+		 	order by I.income_date desc
+  </select>  	
+	
+	
+	
+
+	
+	
+	
+	 <select id="getCustomerFromIncomeNoInORrder"  parameterClass="java.util.Map"  resultClass="java.lang.String">
+     <![CDATA[  	
+		 select
+				distinct I.customer_id 
+		 
+		 from tb_income_pull p
+		 
+				left outer join tb_income  I 
+		                 on p.income_id= I.income_id 
+		 
+				left outer join tb_customer_info CUST 
+		                 on I.customer_id = CUST.customer_id  
+		 
+		 
+		 
+		 where I.customer_id not in(select distinct customer_id from tb_order)
+
+       ]]> 
+		<!--dynamic prepend="WHERE"> 
+			
+			<isNotNull property="customerIdList">
+				 <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="AND">
+							 <![CDATA[  (I.customer_id != #customerIdList[]#)   ]]> 
+			  </iterate>
+			</isNotNull>
+			
+			<isNotEmpty prepend="AND" property="customerName">
+				(CUST.customer_name like '%$customerName$%')
+			</isNotEmpty>	
+			
+			<isNotEmpty prepend="AND" property="userName">
+				(p.create_by = #userName# )
+			</isNotEmpty>	
+			
+			<isNotNull property="userIdList">
+				 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							(p.create_by = #userIdList[]#)
+			  </iterate>
+			</isNotNull>
+
+		</dynamic -->   
+		 
+
+		 	
+  </select>  	
+	
+	
+	
+	
+	
+	
+	  
+	
+	<resultMap id="incomePullRecordResult2" extends="incomePullRecordResult"  class="incomePull">
+		<result property="resourceType.name" column="resource_type_name" nullValue=""/>
+    </resultMap>	
+	
+    <select id="getIncomePulls" resultMap="incomePullRecordResult2">
+    <![CDATA[
+        select ip.*,u.first_name,u.last_name,rc.carrier_name, rt.ad_ad_resource_type_id,rt.name as resource_type_name 
+		
+		 from tb_income_pull ip 
+		
+				left outer join tb_ad_resource_carrier rc 
+			on ip.ad_resource_carrier_id = rc.ad_resource_carrier_id
+				left outer join tb_sys_user u
+			on ip.create_by =u.id
+				 left outer join tb_ad_resource_type rt
+			on rt.ad_ad_resource_type_id= ip.ad_ad_resource_type_id	
+		
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(ip.create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(ip.create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ip.income_pull_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incomeId">
+			(ip.income_id like #incomeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(ip.modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(ip.modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyIn">
+			(ip.money_in like #moneyIn#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyPull">
+			(ip.money_pull like #moneyPull#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceCarrierId">
+			(ip.ad_resource_carrier_id like #resourceCarrierId#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(ip.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>	
+						  
+			  
+		</dynamic>
+    </select>
+	
+	
+    <select id="getIncomePullsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_income_pull 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="IncomePullIdList">
+       	  <iterate prepend="AND" property="IncomePullIdList" open="(" close=")" conjunction="OR">
+		   			 income_pull_id = #IncomePullIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+	
+	
+	
+	
+	<resultMap id="customerIncomeAnalyzeResult" class="incomePull">
+        <result property="incomeDate" column="income_date"/>
+        <result property="incomeCode" column="income_code"/>
+        <result property="incomeMoney" column="income_money" nullValue="0"/>
+        <result property="carrier.carrierName" column="carrier_name"/>
+        <result property="moneyPull" column="money_pull" nullValue="0"/>
+        <result property="moneyIn" column="used_money_in" nullValue="0"/>
+        <result property="arrearMoney" column="arrearMoney" />
+        <result property="customerName" column="customer_name"/>
+        <result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+        <result property="purposeName" column="purposeName"/>
+		<result property="modeName" column="modeName"/>
+        <result property="memo" column="memo"/>
+		 <result property="resourceTypeId" column="ad_ad_resource_type_id"/>
+    </resultMap>
+	
+	<select id="getCustomerIncomeAnalyze" parameterClass="java.util.Map" resultMap="customerIncomeAnalyzeResult">
+
+       SELECT   i.income_date,
+				i.income_code,
+				i.income_money,
+		
+
+				<isEqual  property="isResourceSort" compareValue="1">
+							rt.name as carrier_name,
+				</isEqual>
+		
+				<isEqual  property="isResourceSort" compareValue="0">
+					
+		 			<isEqual  property="carrierAlisname" compareValue="1">
+								 rc.alias_name as carrier_name,
+					</isEqual>		  
+					 
+					 <isEqual  property="carrierAlisname" compareValue="0">
+								 rc.carrier_name,
+					 </isEqual>	
+				</isEqual>
+		
+
+		
+		
+		
+				ip.money_pull,
+				sum(iu.money_in) as used_money_in,
+				0 as arrearMoney,
+				ci.customer_name,
+				su.first_name,
+				su.last_name,
+				ipo.name as purposeName,
+				im.name as modeName,
+				i.memo,
+		        rt.ad_ad_resource_type_id 
+		
+		FROM tb_income_pull ip 
+
+		
+		left outer join tb_income i on i.income_id = ip.income_id
+		left outer join tb_income_purpose ipo on ipo.income_purpose_id = i.income_purpose_id
+		left outer join tb_income_mode im on i.income_mode_id = im.income_mode_id
+		left outer join tb_income_used iu on iu.income_pull_id = ip.income_pull_id
+		left outer join tb_customer_info ci on ci.customer_id = i.customer_id 
+		
+		left outer join  tb_ad_resource_type rt   on  rt.ad_ad_resource_type_id = ip.ad_ad_resource_type_id								
+		left outer join tb_ad_resource_carrier rc on ip.ad_resource_carrier_id = rc.ad_resource_carrier_id			
+		
+		
+		 <isEqual  property="version" compareValue="0">
+			left outer join tb_sys_user su on i.user_id = su.id
+		 </isEqual> 
+		
+		 <isEqual  property="version" compareValue="1">
+			left outer join tb_sys_user su on ip.create_by = su.id
+		 </isEqual> 
+		
+		
+		
+	
+		 <dynamic prepend="WHERE"> 
+			 
+			<isNotEmpty prepend="AND" property="customerId">
+				(ci.customer_id = #customerId#)
+			</isNotEmpty>	
+			 
+			<isNotNull property="customerIdList">
+				 <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+							ci.customer_id = #customerIdList[]#
+			  </iterate>
+			</isNotNull> 				 
+			 
+			 
+			 <isNotNull property="IncomePurposeIdList">
+       			  <iterate prepend="AND" property="IncomePurposeIdList" open="(" close=")" conjunction="OR">
+								ipo.income_purpose_id = #IncomePurposeIdList[]#
+				  </iterate>
+			  </isNotNull> 
+			 
+			 
+			 
+			<isEqual  property="isResourceSort" compareValue="0">
+				 <isNotNull property="carrierIdList">
+							 <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+										rc.ad_resource_carrier_id = #carrierIdList[]#
+						  </iterate>
+				  </isNotNull> 
+		     </isEqual> 	
+			 
+			 <isNotNull property="userId">
+					 <iterate prepend="AND" property="userId" open="(" close=")" conjunction="OR">
+							su.id = #userId[]#
+					 </iterate>
+			</isNotNull> 
+			 
+			<isNotNull property="UserIdList">
+				
+				 <isEqual  property="version" compareValue="0">
+					 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+								i.user_id = #UserIdList[]#
+					 </iterate>
+			     </isEqual> 
+
+				 <isEqual  property="version" compareValue="1">
+					 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+								ip.create_by = #UserIdList[]#
+					 </iterate>
+			     </isEqual> 				
+				
+			</isNotNull> 			 
+			 
+			 
+			 
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       ip.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>
+			 
+			 
+			 
+			 <isNotEqual  property="putYear" compareValue="1">
+				<isNotEmpty prepend="AND" property="startDate">
+					<![CDATA[(i.income_date >= #startDate#)]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="endDate">
+					<![CDATA[(i.income_date <= #endDate#)]]>
+				</isNotEmpty>
+			</isNotEqual>	
+			 
+			 
+			 
+			<isEqual  property="putYear" compareValue="1">
+				<isNotEmpty prepend="AND" property="startDate">
+					<![CDATA[(i.income_pull_date >= #startDate#)]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="endDate">
+					<![CDATA[(i.income_pull_date <= #endDate#)]]>
+				</isNotEmpty>
+			</isEqual>				 
+			 
+			
+			 
+			<isNotEmpty prepend="AND" property="resourceTypeId">
+				(ip.ad_ad_resource_type_id= #resourceTypeId#)
+			</isNotEmpty>				 
+			  	
+		</dynamic>      
+		
+	
+		
+		
+		group by ip.income_pull_id
+		
+		 <dynamic prepend="HAVING"> 
+			 <isNotEmpty prepend="AND" property="arrears" >
+				  <![CDATA[ip.money_pull-ifnull(used_money_in,0) >0 ]]>
+			 </isNotEmpty>
+   		 </dynamic>
+		
+		order by i.income_date desc,i.income_code 
+		
+    </select>
+	
+	
+	
+	<resultMap id="customerIncomePull_Result" class="incomePull">
+        <result property="moneyPull" column="money_pull" nullValue="0"/>
+        <result property="customerName" column="customer_name"/>
+    </resultMap>
+	
+	<select id="customerIncomePullResult" parameterClass="java.util.Map" resultMap="customerIncomePull_Result">
+		<![CDATA[	
+			
+
+	 select tci.customer_name as customer_name,
+		sum(od.day_rel_income) as money_pull
+			
+ 		from tb_order_day_info od 
+			
+			left outer join tb_order_detail tod 
+					on  tod.order_detail_id=od.order_detail_id 			
+						
+			left outer join tb_order tdo 
+					on  tod.order_id=tdo.order_id
+			
+			left outer join tb_customer_info  tci 
+					on  tci.customer_id=tdo.customer_id
+
+			left outer join tb_ad_resource_info tr 
+					on  tod.ad_resource_info_id =tr.ad_resource_info_id 
+			
+			]]>
+		<dynamic prepend="WHERE"> 	
+			
+			<isNotEmpty prepend="AND" property="startDate">
+				<![CDATA[ (od.publish_date >= #startDate#)  ]]>
+			</isNotEmpty>	
+			
+			<isNotEmpty prepend="AND" property="endDate">
+				<![CDATA[ (od.publish_date <= #endDate#)  ]]>
+			</isNotEmpty>	
+			
+			
+			<isNotNull property="userId">
+				 <iterate prepend="AND" property="userId" open="(" close=")" conjunction="OR">
+							(tdo.user_id = #userId[]#)
+			  </iterate>
+			</isNotNull> 
+			
+			<isNotNull property="UserIdList">
+					 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+								tdo.user_id = #UserIdList[]#
+					 </iterate>
+			</isNotNull> 			
+			
+			
+			
+			<isNotNull property="carrierIdList">
+				 <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+							(tr.ad_resource_carrier_id = #carrierIdList[]#)
+			  </iterate>
+			</isNotNull> 
+
+			<isNotEmpty prepend="AND" property="customerId">
+				(tci.customer_id = #customerId#)
+			</isNotEmpty>	
+			
+			<isNotNull property="customerIdList">
+				 <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+							tci.customer_id = #customerIdList[]#
+			  </iterate>
+			</isNotNull> 	
+			
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       tdo.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>						 
+			 			
+
+					  
+		</dynamic>
+		
+		GROUP BY tci.customer_id
+			
+    </select>		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+    <select id="getIncomePull" resultMap="incomePullResult">
+    <![CDATA[
+        select * from tb_income_pull
+         where income_pull_id = #value#
+    ]]>
+    </select>
+
+	<select id="checkIncomePullByIncomeUsed" resultMap="incomePullResult">
+    <![CDATA[
+        select * from tb_income_used
+         where income_pull_id = #value#
+    ]]>
+    </select>
+	
+    <insert id="addIncomePull" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_income_pull_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_income_pull (ad_ad_resource_type_id,create_by,create_date,income_id,modify_by,modify_date,money_in,money_pull,ad_resource_carrier_id,version)
+            values ( ?,?,?,?,?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateIncomePull" parameterMap="updateParam">
+    <![CDATA[
+        update tb_income_pull set
+		           ad_ad_resource_type_id = ?,
+                   income_id = ?,
+		           create_by = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   money_in = ?,
+                   money_pull = ?,
+                   ad_resource_carrier_id = ?,
+				   version = ? 
+        where income_pull_id = ?
+    ]]>
+    </update>
+	
+	
+	<update id="updateIncomePullMoney" parameterClass="incomePull">
+    <![CDATA[
+        update tb_income_pull set
+                   money_pull = #moneyPull#
+        where income_pull_id = #id#
+    ]]>
+    </update>
+	
+	<update id="updateIncomePullVersion" parameterClass="incomePull">
+    <![CDATA[
+        update tb_income_pull set
+                   version = #version#
+        where income_id = #incomeId#
+    ]]>
+    </update>
+
+    <delete id="deleteIncomePull">
+    <![CDATA[
+        delete from tb_income_pull
+         where income_pull_id = #value#
+    ]]>
+    </delete>
+	
+    <delete id="removeIncomePullByIncomeId">
+    <![CDATA[
+        delete from tb_income_pull
+         where income_id = #value#
+    ]]>
+    </delete>
+	
+   <update id="deleteIncomePulls" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_income_pull 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="IncomePullIdList">
+       	  <iterate prepend="AND" property="IncomePullIdList" open="(" close=")" conjunction="OR">
+		   			 income_pull_id = #IncomePullIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	
+	
+	
+	
+	
+<select id="getIncomePullsByCustomerId3"  parameterClass="java.util.Map" resultMap="incomePullResultByCustomer2">
+     <![CDATA[  	
+		 select
+				I.customer_id as customer_id,
+				I.income_code as income_code,
+                I.income_date as income_date,
+                I.income_mode_id as income_mode_id,
+                I.income_money as income_money,
+                I.income_purpose_id as income_purpose_id,
+                I.memo as memo,
+		        I.income_pull_date as  income_pull_date,
+                I.income_id as income_id,
+				I.user_id as user_id,
+		 
+				p.ad_resource_carrier_id as carrier_id,		 
+                p.income_pull_id as income_pull_id,
+                p.money_pull as money_pull,
+                sum(IU.money_in)  as money_in,
+	
+				MODD.name as incomeModeName,
+				PUR.name as incomePurposeName, 
+				CUST.customer_name as customerName, 
+				US.first_name as firstName,
+				US.last_name as lastName,
+				rc.carrier_name as carrierName,
+				rt.ad_ad_resource_type_id,
+		        rt.name as resource_type_name, 
+		        CUST.sys_org_id as sys_org_id		 
+				
+		    ]]>  
+			 from tb_income_pull p
+		 
+				left outer join tb_income  I 
+		                 on p.income_id= I.income_id 
+		 
+				left outer join tb_income_used IU
+		                 on IU.income_pull_id  = p.income_pull_id
+		 
+				left outer join tb_income_mode MODD 
+		                 on I.income_mode_id = MODD.income_mode_id
+		 
+				left outer join tb_income_purpose PUR 
+		                 on I.income_purpose_id = PUR.income_purpose_id	
+		 
+				left outer join tb_customer_info CUST 
+		                 on I.customer_id = CUST.customer_id 
+		 
+		 	 	left outer join tb_ad_resource_type rt
+					on rt.ad_ad_resource_type_id= p.ad_ad_resource_type_id	
+		 
+				left outer join tb_sys_user US 
+		                 on I.user_id = US.id
+
+				left outer join tb_ad_resource_carrier rc
+		                 on rc.ad_resource_carrier_id  = p.ad_resource_carrier_id
+
+   
+		<dynamic prepend="WHERE"> 
+
+
+			<isNotNull prepend="AND" property="version">
+				(p.version = #version#)
+			</isNotNull>
+					
+			<isNotNull prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#)
+			</isNotNull>					
+						
+			<isNotNull prepend="AND" property="signUserId">
+				(I.user_id = #signUserId#)
+			</isNotNull>	
+							
+			<isNotNull prepend="AND" property="resourceTypeId">
+				(p.ad_ad_resource_type_id = #resourceTypeId#)
+			</isNotNull>	
+				
+			<isNotNull prepend="AND" property="customerName">
+				(CUST.customer_name =  #customerName#)
+			</isNotNull>
+			
+		   <isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       CUST.customer_category_id = #customerCates[]#
+				</iterate>
+			</isNotNull>	
+						
+			<isNotEmpty property="resourceTypeIdList">
+		    	<iterate prepend="AND" property="resourceTypeIdList" open="(" close=")" conjunction="OR">
+					p.ad_ad_resource_type_id = #resourceTypeIdList[]#
+				</iterate>
+			</isNotEmpty> 								
+				
+			
+			<isNotNull property="customerIdList">
+				 <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+							(I.customer_id = #customerIdList[]#)
+			   </iterate>
+			</isNotNull>
+			
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					      (p.version = #yearIdList[]#)
+				</iterate>
+			</isNotNull>	
+				
+			<isNotNull property="userIdList">
+						 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+									(I.user_id = #userIdList[]#)
+						 </iterate>	
+			</isNotNull>	
+			
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (I.income_date >= #startDate#) ]]>
+            </isGreaterThan> 	
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[ (I.income_date <= #endDate#) ]]>
+            </isGreaterThan> 			
+		
+						
+
+		</dynamic>   
+		 
+		 GROUP BY  p.income_pull_id 
+
+		 order by I.income_date desc
+  </select>  		
+
+
+	
+	<resultMap  id="incomePullResult-getIncomePullByIncomeId"  extends="incomePullResult" class="incomePull">
+        <result property="resourceChannelId" column="channel_id"/>
+    </resultMap>
+		
+    <select id="getIncomePullByIncomeId" resultMap="incomePullResult-getIncomePullByIncomeId">
+        select  p.*, chanl.resource_mediaorg_id AS channel_id from tb_income_pull p 
+		left outer join tb_ad_resource_carrier rc on rc.ad_resource_carrier_id  = p.ad_resource_carrier_id
+		left outer join  tb_ad_resource_channel AS chanl 	ON chanl.resource_mediaorg_id = rc.ad_resource_channel_id	 
+		where p.income_id = #value#
+    </select>
+	
+	
+</sqlMap>

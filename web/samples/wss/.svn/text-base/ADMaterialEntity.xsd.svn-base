@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dayang.com/ADP/schema/ADMaterialEntity/1.0" targetNamespace="http://dayang.com/ADP/schema/ADMaterialEntity/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ADMaterialEntity" type="tns:ADMaterialEntityType">
+		<xs:annotation>
+			<xs:documentation>视音频实体</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ADMaterialEntityType">
+		<xs:sequence>
+			<xs:element name="MaterialID" type="xsd:string">
+				<xs:annotation>
+					<xs:documentation>素材ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialName" type="xsd:string">
+				<xs:annotation>
+					<xs:documentation>素材名称</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialType" type="xsd:int">
+				<xs:annotation>
+					<xs:documentation>素材类型（0-条目素材，1-段合并后素材）</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MediumType" type="xsd:int" default="1">
+				<xs:annotation>
+					<xs:documentation>源介质类型（1-蓝光，2-磁带，3-P2，4-目录文件）</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Standard" type="xsd:int">
+				<xs:annotation>
+					<xs:documentation>素材时长制式，0：Pal制：PAL（标清）1：N值：NTSC（标清）2：50I（高清）3：60I（高清)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TotalLength" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>总时长，单位：帧</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MarkIn" type="xsd:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>入点。对于含有视频的单位是帧，纯音频单位是采样点</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MarkOut" type="xsd:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>出点。对于含有视频的单位是帧，纯音频单位是采样点</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HDFlag" type="xsd:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>源高标清类型（1-标清，2-高清）</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AFD" type="xsd:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>源AFD信息，取值范围应该是0-15，参考《AFD信息全台网互联规范.docx》中的说明</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BusinessType" type="xsd:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>素材业务类型（0-商业广告，1-公益广告，2-商业公益广告，3-宣传片，4-特殊形式）</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubBusinessType" type="xsd:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>素材业务子类型（0-片尾贴片，1-特别鸣谢，2-平面广告，3-图片，4-网站广告，5-填字格）</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrePlayColumn" type="xsd:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>预播栏目</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrePlayChannel" type="xsd:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>预播频道</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xsd:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>总体描述</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExtendAttributesType">
+		<xs:sequence>
+			<xs:element name="ExtendAttribute" type="tns:ExtendAttributeType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExtendAttributeType">
+		<xs:sequence>
+			<xs:element name="AttributeID" type="xsd:string">
+				<xs:annotation>
+					<xs:documentation>扩展属性ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AttributeValue" type="xsd:string">
+				<xs:annotation>
+					<xs:documentation>扩展属性值</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaCalendarEventSQL">
+    <typeAlias alias="oaCalendarEvent" type="com.vriche.adrm.model.OaCalendarEvent"/>
+
+	<cacheModel id="oaCalendarEvent-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaCalendarEvent"/>
+		<flushOnExecute statement="updateOaCalendarEvent"/>
+		<flushOnExecute statement="deleteOaCalendarEvent"/>
+		<flushOnExecute statement="deleteOaCalendarEvents"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaCalendarEvent">
+		<parameter property="indexDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="indexTime" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="eventStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaCalendarEvent">
+		<parameter property="indexDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="indexTime" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="eventStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaCalendarEventResult" class="oaCalendarEvent">
+		<result property="indexDate" column="index_date"/>
+		<result property="indexTime" column="index_time"/>
+		<result property="type" column="type"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="calendar_event_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+        <result property="content" column="content"/>
+        <result property="eventStateId" column="event_state_id"/>
+		<result property="sysEventState" column="event_state_id" select="getSysEventState"/>
+        <result property="title" column="title"/>
+    </resultMap>
+	
+    <select id="getOaCalendarEventsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_calendar_event 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="indexDate">
+			(index_date like #indexDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="indexTime">
+			(index_time like #indexTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type">
+			(type like #type#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(calendar_event_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="content">
+			(content like #content#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eventStateId">
+			(event_state_id like #eventStateId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="title">
+			(title like #title#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaCalendarEvents" resultMap="oaCalendarEventResult">
+    <![CDATA[
+        select * from tb_oa_calendar_event 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="indexDate">
+			(index_date like #indexDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="indexTime">
+			(index_time like #indexTime#)
+			</isNotEmpty>  
+			<isNotEmpty prepend="AND" property="type">
+			(type like #type#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			<![CDATA[
+			(create_date like '%$createDate$%')
+			]]>	
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(calendar_event_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="content">
+			(content like #content#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eventStateId">
+			(event_state_id like #eventStateId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="title">
+			(title like #title#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaCalendarEventsByWeek" parameterClass="java.util.Map" resultMap="oaCalendarEventResult">
+    <![CDATA[
+        select * from tb_oa_calendar_event 
+			where index_date >= #beginDate# and index_date <= #lastDate#
+				and type = #type# and create_by = #createBy#
+    ]]>
+    </select>
+	
+	
+    <select id="getOaCalendarEventsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_calendar_event 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaCalendarEventIdList">
+       	  <iterate prepend="AND" property="OaCalendarEventIdList" open="(" close=")" conjunction="OR">
+		   			 calendar_event_id = #OaCalendarEventIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaCalendarEvent" resultMap="oaCalendarEventResult">
+    <![CDATA[
+        select * from tb_oa_calendar_event
+         where calendar_event_id = #value#
+    ]]>
+    </select>
+
+	
+    <select id="getOaCalendarEventsByDate" parameterClass="java.util.Map" resultMap="oaCalendarEventResult">	
+    <![CDATA[
+		select* from tb_oa_calendar_event
+		where index_date >= #beginDate#
+			and index_date <= #endDate#
+    ]]>
+    </select>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    <insert id="addOaCalendarEvent" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_calendar_event_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_calendar_event (index_date,index_time,type,create_by,create_date,modify_by,modify_date,content,event_state_id,title)
+            values ( ?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaCalendarEvent" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_calendar_event set
+				   index_date = ?,
+				   index_time = ?,
+		           type = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   content = ?,
+                   event_state_id = ?,
+                   title = ?,
+				   version = ?
+        where calendar_event_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaCalendarEvent">
+    <![CDATA[
+        delete from tb_oa_calendar_event
+         where calendar_event_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaCalendarEvents" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_calendar_event 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaCalendarEventIdList">
+       	  <iterate prepend="AND" property="OaCalendarEventIdList" open="(" close=")" conjunction="OR">
+		   			 calendar_event_id = #OaCalendarEventIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

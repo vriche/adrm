@@ -1,0 +1,52 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/samples/swfupload/plugins
+svn://121.28.83.134:80/src1
+
+
+
+2013-03-16T10:40:20.826726Z
+445
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+swfupload.queue.js
+file
+
+
+
+
+2013-05-17T07:36:47.200117Z
+59a3dcdc1bdde48db108a961734c6a21
+2013-03-16T10:40:20.826726Z
+445
+lxz
+
+swfupload.speed.js
+file
+
+
+
+
+2013-05-17T07:36:47.200117Z
+5f4f2ca149b6f4037bd342114c30092c
+2013-03-16T10:40:20.826726Z
+445
+lxz
+

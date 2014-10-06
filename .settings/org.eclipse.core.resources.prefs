@@ -1,0 +1,14 @@
+#Thu Jan 09 03:15:18 GMT 2014
+eclipse.preferences.version=1
+encoding//metadata/sql/sample-data.xml=UTF-8
+encoding//src/service/com/vriche/adrm/service/security=UTF-8
+encoding//src/service/com/vriche/adrm/util/FileUploadHelper.java=UTF-8
+encoding//src/service/com/vriche/adrm/util/ZipFileFilter.java=UTF-8
+encoding//web/WEB-INF/classes/ApplicationResources_zh_CN.properties=GBK
+encoding//web/WEB-INF/classes/displaytag_zh_CN.properties=GBK
+encoding//web/scripts/common/dwr-lib.js=UTF-8
+encoding//web/scripts/common/utils.js=UTF-8
+encoding//web/scripts/ext/3.2.0/ext-lang-zh_CN.js=UTF-8
+encoding//web/scripts/ext/3.2.0/plus/ComboBoxTree_bak.js=UTF-8
+encoding//web/scripts/ext/3.2.0/plus/TreeCheckNodeUI.js=UTF-8
+encoding//web/scripts/ext/ext-4.0.0/locale/ext-lang-zh_CN.js=UTF-8

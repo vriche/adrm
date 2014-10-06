@@ -1,0 +1,99 @@
+package com.vriche.adrm.dao.ibatis;
+
+import java.util.List;
+import java.util.Map;
+
+import com.vriche.adrm.dao.RoleDao;
+import com.vriche.adrm.model.Role;
+
+/**
+ * This class interacts with iBatis's SQL Maps to save/delete and
+ * retrieve Role objects.
+ *
+ * <p>
+ * <a href="RoleDaoiBatis.java.html"><i>View Source</i></a>
+ * </p>
+ *
+ * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
+ */
+public class RoleDaoiBatis extends BaseDaoiBATIS implements RoleDao {
+
+    public List getRoles(Role role) {
+        return getSqlMapClientTemplate().queryForList("getRoles", role);
+    }
+    
+    public List getRoless(Role role) {
+        return getSqlMapClientTemplate().queryForList("getRoless", role);
+    }
+    
+    public Role getRoleByName(String name) {
+        return (Role) getSqlMapClientTemplate().queryForObject("getRoleByName", name);
+    }
+ 
+    public Role getRoleByNameOrgId(String orgId,String name) {
+    	Role role = new Role();
+    	role.setOrgId(new Long(orgId));
+    	role.setName(name);
+        return (Role) getSqlMapClientTemplate().queryForObject("getRoleByNameOrgId", role);
+    }
+    
+
+	/* (non-Javadoc)
+	 * @see com.vriche.adrm.dao.RoleDao#getSysResourceRoles(java.lang.String)
+	 */
+	public List getSysResourceRoles(String sysResourceId) {
+		 return getSqlMapClientTemplate().queryForList("getSysResourceRoles", sysResourceId);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vriche.adrm.dao.RoleDao#getUserRoles(java.lang.String)
+	 */
+	public List getUserRoles(String userId) {
+		 return getSqlMapClientTemplate().queryForList("getUserRoles", userId);
+	}
+	
+	public List getUserRolesByOrg(Map mp) {
+		 return getSqlMapClientTemplate().queryForList("getUserRolesByOrg", mp);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vriche.adrm.dao.RoleDao#deleteSysResourcesByRole(java.lang.Long)
+	 */
+	public void deleteSysResourcesByRole(Long id) {
+		  getSqlMapClientTemplate().update("deleteSysResourcesByRole", id);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.vriche.adrm.dao.RoleDao#deleteUserByRole(java.lang.Long)
+	 */
+	public void deleteUserByRole(Long id) {
+		getSqlMapClientTemplate().update("deleteUserByRole", id);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.vriche.adrm.dao.RoleDao#getRoleById(java.lang.String)
+	 */
+	public Role getRoleById(Long id) {
+		 return (Role) getSqlMapClientTemplate().queryForObject("getRoleById", id);
+	}
+
+	public void saveRole(final Role role) {
+        if (role.getId() == null) {
+            getSqlMapClientTemplate().update("addRole", role);
+        } else {
+            getSqlMapClientTemplate().update("updateRole", role);
+        }
+    }
+
+    public void removeRole(String rolename) {
+        getSqlMapClientTemplate().update("deleteRole", rolename);
+    }
+
+	public void removeRoleById(Long id) {
+		getSqlMapClientTemplate().update("removeRoleById", id);
+		
+	}
+
+}

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using JasperAssistant (http://www.jasperassistant.com) -->
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="info_report" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
+	<property name="com.jasperassistant.designer.Grid" value="false"/>
+	<parameter name="ReportTitle" class="java.lang.String">
+	</parameter>
+	<parameter name="BaseDir" class="java.io.File">
+	</parameter>
+	<parameter name="PublishDate" class="java.lang.String">
+	</parameter>
+	<field name="publishOrder" class="java.lang.String">
+	</field>
+	<field name="postion" class="java.lang.String">
+	</field>
+	<field name="publishMemo" class="java.lang.String">
+	</field>
+	<field name="appPosition" class="java.lang.String">
+	</field>
+	<field name="matterEdit" class="java.lang.String">
+	</field>
+	<variable name="positionNum" class="java.lang.Integer">
+		<initialValueExpression><![CDATA[($V{positionNum} != null)?(new Integer($V{positionNum}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="77">
+			<elementGroup>
+			<textField>
+				<reportElement positionType="Float" x="104" y="0" width="449" height="30"/>
+				<textElement>
+					<font fontName="宋体" size="22" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+			</elementGroup>
+			<staticText>
+				<reportElement positionType="Float" x="104" y="51" width="80" height="25"/>
+				<textElement>
+					<font size="16" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[发布日期:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="291" y="50" width="80" height="25"/>
+				<textElement>
+					<font size="16" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[打印日期:]]></text>
+			</staticText>
+			<image isUsingCache="true" hyperlinkType="Reference">
+				<reportElement positionType="Float" x="0" y="5" width="73" height="65"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA[(new File($P{BaseDir}, "../../images/logo.jpg")).toString()]]></imageExpression>
+			</image>
+			<textField pattern="yyyyMMdd">
+				<reportElement positionType="Float" x="373" y="51" width="120" height="24"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement positionType="Float" x="187" y="51" width="102" height="24"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{PublishDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50">
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22">
+			<elementGroup>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="51" height="22"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[序号]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="50" y="0" width="70" height="22" backcolor="#808080"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[播出时段]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="120" y="0" width="81" height="22" backcolor="#808080"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[播出时间]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="200" y="0" width="54" height="22" backcolor="#808080"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[时长]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="253" y="0" width="253" height="22" backcolor="#808080"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[广告内容]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="505" y="0" width="50" height="22"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[备注]]></text>
+			</staticText>
+			</elementGroup>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="100">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="51" height="27"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{publishOrder}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="51" y="0" width="70" height="27"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "+$F{postion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="120" y="0" width="81" height="27"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "+$F{publishMemo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="200" y="0" width="54" height="27"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "+$F{appPosition}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="253" y="0" width="253" height="27"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{matterEdit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="506" y="0" width="50" height="27"/>
+				<box border="1Point" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement/>
+			</staticText>
+			<elementGroup>
+			</elementGroup>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField>
+				<reportElement positionType="Float" x="240" y="18" width="49" height="20"/>
+				<textElement>
+					<font size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["第"+$V{PAGE_NUMBER}+"页"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement positionType="Float" x="288" y="18" width="49" height="20"/>
+				<textElement>
+					<font size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["共"+$V{PAGE_NUMBER}+"页"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

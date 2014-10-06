@@ -1,0 +1,88 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>无定义 HTML 的 Event 事件</title>
+<script language="javascript">
+function getvalue(e){
+    if (!document.all){
+        winW = window.innerWidth;
+        winH = window.innerHeight;
+        curX = e.pageX - window.pageXOffset;
+        curY = e.pageY - window.pageYOffset;
+        mouX = e.pageX;
+        mouY = e.pageY;
+        broX = window.pageXOffset;
+        broY = window.pageYOffset;
+    }else{
+        winW = document.body.clientWidth;
+        winH = document.body.clientHeight;
+        curX = event.clientX;
+        curY = event.clientY;
+        mouX = event.clientX + document.body.scrollLeft;
+        mouY = event.clientY + document.body.scrollTop;
+        broX = document.body.scrollLeft;
+        broY = document.body.scrollTop;
+    }
+    alert(" 窗口可见宽度(winW): "+winW+"\n\n 窗口可见高度(winH): "+winH+"\n\n 距窗口左边距离(curX): "+curX+"\n\n 距窗口顶部距离(curY): "+curY+"\n\n 距页面左边距离(mouX): "+mouX+"\n\n 距页面顶部距离(mouY): "+mouY+"\n\n 页面滚动的宽度(broX): "+broX+"\n\n 页面滚动的高度(broY): "+broY);
+    return true;
+}
+document.onclick=getvalue;
+</script>
+</head>
+
+<body>
+<img src="" width="400" height="500">
+</body>
+</html>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>定义了 HTML's DOCTYPE 的  Event 事件</title>
+<script language="JavaScript" type="text/javascript">
+function getvalue(e){
+    if (!document.all){
+        winW = window.innerWidth;
+        winH = window.innerHeight;
+        curX = e.pageX - window.pageXOffset;
+        curY = e.pageY - window.pageYOffset;
+        mouX = e.pageX;
+        mouY = e.pageY;
+        broX = window.pageXOffset;
+        broY = window.pageYOffset;
+    }else{
+        winW = document.documentElement.clientWidth;
+        winH = document.documentElement.clientHeight;
+        curX = event.clientX;
+        curY = event.clientY;
+        mouX = event.clientX + document.documentElement.scrollLeft;
+        mouY = event.clientY + document.documentElement.scrollTop;
+        broX = document.documentElement.scrollLeft;
+        broY = document.documentElement.scrollTop;
+    }
+    alert(" 窗口可见宽度(winW): "+winW+"\n\n 窗口可见高度(winH): "+winH+"\n\n 距窗口左边距离(curX): "+curX+"\n\n 距窗口顶部距离(curY): "+curY+"\n\n 距页面左边距离(mouX): "+mouX+"\n\n 距页面顶部距离(mouY): "+mouY+"\n\n 页面滚动的宽度(broX): "+broX+"\n\n 页面滚动的高度(broY): "+broY);
+    return true;
+}
+document.onclick=getvalue;
+</script>
+</head>
+
+<body>
+<img src="" width="400" height="500" alt="" />
+</body>
+</html>
+
+
+
+
+<input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"> 
+<input name=txt1 onchange="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}">
+<input onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+
+只能是英文字符和数字 
+<input onkeyup="value=value.replace(/[\W]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+
+
+

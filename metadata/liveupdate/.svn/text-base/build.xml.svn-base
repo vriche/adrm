@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="deploy" name="liveupdate" basedir=".">  
+	
+	<available classname="org.apache.tools.ant.DynamicAttribute" property="ant-1.6.2"/>
+	 <fail unless="ant-1.6.2" message="AppFuse requires Ant 1.6.2 for faster unit testing"/>
+	
+	<property name="CATALINA_HOME" value="D:\java\tomcat\apache-tomcat-5.5.34"/>
+	<property name="tomcat.home" value="${CATALINA_HOME}"/>
+	<property name="tomcat.bin.dir" value="${CATALINA_HOME}\bin"/>
+	<property name="lib.dir" location="lib"/>
+	<property file="${lib.dir}/lib.properties"/>
+	<property name="tmp" location="temp"/>
+	
+	
+
+	
+    <!-- Properties for running unit tests with tomcat -->
+    <property name="tomcat.server" value="localhost"/>
+	<property name="http.port" value="8080"/>
+    <property name="tomcat.manager.url" value="http://${tomcat.server}:${http.port}/manager"/>
+    <property name="tomcat.username" value="admin"/>
+    <property name="tomcat.password" value="admin"/>	
+	<property name="tomcat.workpath" value="${tomcat.home}/work"/>	
+	
+	
+	<property name="webapp.name" value="dwr"/>
+	<property name="webapp.war" value="${webapp.name}.war"/>
+	<property name="webapp.path" value="${tomcat.home}/webapps"/>
+	
+	
+
+	
+    <path id="catalinaant.classpath">
+        <fileset dir="${catalina-ant.dir}" includes="*.jar"/>
+    </path>	
+
+
+	
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="${ant-contrib.jar}"/>
+	
+	
+	<!-- ============================================================== -->
+    <!-- Tomcat tasks - remove these if you don't have Tomcat installed -->
+    <!-- ============================================================== -->
+    <!-- taskdef file="${ant-contrib.dir}/tomcatTasks.properties">
+		<classpath>
+                <path refid="catalinaant.classpath"/>
+        </classpath>
+   </taskdef -->
+
+    <taskdef file="${ant-contrib.dir}/tomcatTasks.properties">
+        <classpath>
+            <fileset dir="${catalina-ant.dir}" includes="catalina-ant*.jar"/>
+        </classpath>
+    </taskdef>
+	
+    <target name="deploy" depends="getRemoteFile,copy-app-war" description="description"> </target>    
+	
+    <!-- target name="install" description="Install application in Tomcat"
+        depends="package-web">
+        <deploy url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"
+            war="file:${webapp.dist}/${webapp.war}"/>
+    </target -->
+	
+
+    <path id="jsch.classpath">
+        <pathelement location="${jsch.jar}"/>
+    </path>	
+	
+	
+	<target name="all">
+	    <sshexec host="121.28.83.134" username="root" password="stvay6598,." trust="true" command="ls"></sshexec>
+   </target>
+	
+	
+    <target name="stop-app" description="Stop Tomcat application">
+        <stop url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+    </target>
+		
+	<target name="clean-app" depends="stop-app">
+	  <delete file="${webapp.path}/${webapp.name}.war"/>
+	  <delete dir="${webapp.path}/${webapp.name}"/>
+	  <delete dir="${tomcat.workpath}"/>
+	</target>	
+	
+	<target name="getRemoteFile" >
+		<scp file="root:stvay6598,.@121.28.83.134:/home/temp/${webapp.name}.war" todir="${tmp}"  trust="true"></scp>
+	</target>
+	
+	<target name="copy-app-war" depends="undeploy-app">
+		  <copy todir="${webapp.path}" file="${tmp}/${webapp.name}.war"/>
+	</target>	
+	
+	      
+
+	<target name="reload-app" description="Reload application in Tomcat">
+        <reload url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+       </target>
+       
+       
+ 	<target name="start-app" description="Start Tomcat application">
+	     <start url="${tomcat.manager.url}"  
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+	</target>       
+       
+	
+    <target name="undeploy-app" description="Remove application in Tomcat" >
+        <undeploy url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+    </target>
+
+
+
+
+
+	
+	<target name="start-tomcat" depends="stop-tomcat">  
+            <!-- delete dir="${deploy.dir}" / -->  
+            <exec executable="cmd" dir="${tomcat.bin.dir}">  
+                <arg value="/c"/>  
+                <arg value="startup.bat"/>  
+            </exec>  
+     </target>  
+          
+     <target name="stop-tomcat" depends="getRemoteFile">  
+		    <sleep seconds="10" />
+            <exec executable="cmd " dir="${tomcat.bin.dir}" spawn="true">  
+                <arg value="/c" />  
+                <arg value="shutdown.bat" />  
+            </exec>  
+      </target>  
+
+    <target name="tomcat.start" description="tomcat starting....." depends="tomcat.stop,getRemoteFile">  
+          <exec executable="${tomcat.home}/bin/startup.bat" spawn="true" vmlauncher="false">  
+          <env key="CATALINA_HOME" value="${tomcat.home}" />  
+          <arg line="/c start ${tomcat.home}/bin/startup.bat" />  
+        </exec>         
+     </target>  
+		
+	<target name="tomcat.stop" >  
+    	<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true">  
+		<jvmarg value="-Dcatalina.home=${tomcat.home}"/>  
+		<arg line="stop"/>  
+		</java>  
+		<waitfor maxwait="5" maxwaitunit="second">  
+			  <available file="errors.log"/>  
+		</waitfor>  
+    </target>  
+	
+	
+	
+	<target name="startServer"  description="tomcat starting....." depends="stopServer,getRemoteFile">
+	    <exec executable="${tomcat.home}/bin/startup.bat" spawn="true" vmlauncher="false">
+	       <env key="CATALINA_HOME" value="${tomcat.home}" />
+	       <arg line="/c start ${tomcat.home}/bin/startup.bat" />
+	    </exec>
+	
+	    <waitfor maxwait="5" maxwaitunit="second">
+	    	<available file="errors.log"/>
+	    </waitfor>
+	</target>
+	
+	
+	<target name="stopServer" if="startServer">
+		<java jar="${tomcat.home}/bin/bootstrap.jar" fork="true">
+			<jvmarg value="-Dcatalina.home=${tomcat.home}"/>
+			<arg line="stop"/>
+		</java>
+		<waitfor maxwait="15" maxwaitunit="second">
+		    <available file="errors.log"/>
+		</waitfor>
+	</target>	
+	
+	
+	<condition property="startServer">
+		<and>
+		<isset property="serverState"/>
+		</and>
+	</condition>	
+
+	
+	
+</project>  

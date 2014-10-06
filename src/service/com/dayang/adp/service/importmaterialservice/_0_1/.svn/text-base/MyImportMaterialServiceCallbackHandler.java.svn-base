@@ -1,0 +1,35 @@
+package com.dayang.adp.service.importmaterialservice._0_1;
+
+import com.dayang.adp.schema.adpserviceparametertype._0_1.CommonResponseType;
+import com.dayang.adp.schema.adpserviceparametertype._0_1.ImportMaterialResponse;
+import com.dayang.adp.schema.adpserviceparametertype._0_1.MaterialServiceParameterResponseType;
+
+public class MyImportMaterialServiceCallbackHandler extends ImportMaterialServiceCallbackHandler {
+	
+	public void receiveResultimportMaterial(ImportMaterialResponse result) 
+	{
+		MaterialServiceParameterResponseType materialServiceParameterResponseType = result.getImportMaterialResponse();
+		CommonResponseType commonResponse = materialServiceParameterResponseType.getCommonResponse();
+		
+
+		//		<!-- 返回状态，0-成功，1-失败 -->
+		//		<ns4:Status>0</ns4:Status>
+				String staus = String.valueOf(commonResponse.getStatus());
+		//		<!-- 状态文字描述 -->
+		//		<ns4:Description>新增ID为44668221的素材信息成功。</ns4:Description>
+				String description = commonResponse.getDescription();
+
+				 System.out.println("/****************************************************************/");
+				 System.out.println("Status> " + staus);
+				 System.out.println("Description>" + description);                                            					
+				 System.out.println("/****************************************************************/");
+				 
+	} 
+	
+	
+	
+	 public synchronized void receiveErrorimportMaterial(Exception e) {
+		    System.out.println("CallbackHandler receive Error importMaterial..............................     " +e.getMessage());
+		   notify();
+	 }
+}

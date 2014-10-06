@@ -1,0 +1,1 @@
+load data infile 'adver.txt' into table tb_adver_matter  fields terminated by '|'

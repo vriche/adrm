@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <settings 
+		enhancementEnabled="true" 
+		maxTransactions="20"
+        maxRequests="200" 
+		maxSessions="30"
+
+		useStatementNamespaces="false"
+		lazyLoadingEnabled="true"
+	/>
+	 
+    <typeHandler jdbcType="BLOB" javaType="[B"  callback="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler" /> 
+
+    <!-- Identify all SQL Map XML files to be loaded by this SQL map. Relative to classpath -->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/LookupSQL.xml"/>
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/RoleSQL.xml"/>
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/UserSQL.xml"/>
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysResourceSQL.xml" />
+
+
+	<!-- ///////////////////////ad res/////////////////////// -->
+	
+    <!--Carrier-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CarrierSQL.xml" />
+    <!--Carrier-END-->
+    <!--Compages-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CompagesSQL.xml" />
+    <!--Compages-END-->
+    <!--Resource-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ResourceSQL.xml" />
+    <!--Resource-END-->
+    <!--Workspan-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/WorkspanSQL.xml" />
+    <!--Workspan-END-->
+    <!--DayInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/DayInfoSQL.xml" />
+    <!--DayInfo-END-->
+    <!--Price-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PriceSQL.xml" />
+    <!--Price-END-->
+    <!--PriceDetail-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PriceDetailSQL.xml" />
+    <!--PriceDetail-END-->
+    <!--Specific-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SpecificSQL.xml" />
+    <!--Specific-END-->
+    <!--PriceRegular-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PriceRegularSQL.xml" />
+    <!--PriceRegular-END-->
+    <!--PriceType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PriceTypeSQL.xml" />
+    <!--PriceType-END-->	
+    <!--ResourceChannel-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ResourceChannelSQL.xml" />
+    <!--ResourceChannel-END-->
+    <!--MediaOrg-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/MediaOrgSQL.xml" />
+    <!--MediaOrg-END-->
+    <!--ResourceType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ResourceTypeSQL.xml" />
+    <!--ResourceType-END-->	
+    <!--CarrierType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CarrierTypeSQL.xml" />
+    <!--CarrierType-END-->	
+	
+	<!-- ///////////////////////matter/////////////////////// -->
+	
+	<!--Brand-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/BrandSQL.xml" />
+    <!--Brand-END-->
+    <!--Matter-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/MatterSQL.xml" />
+    <!--Matter-END-->
+    <!--ProductCategory-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProductCategorySQL.xml" />
+    <!--ProductCategory-END-->
+    <!--PublishedInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PublishedInfoSQL.xml" />
+    <!--PublishedInfo-END-->
+    <!--PublishMemo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PublishMemoSQL.xml" />
+    <!--PublishMemo-END-->	
+	
+	
+	<!-- //////////////////crm////////////////////////// -->
+		
+	<!--Customer-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CustomerSQL.xml" />
+    <!--Customer-END-->
+    <!--Category-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CategorySQL.xml" />
+    <!--Category-END-->
+    <!--Industry-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/IndustrySQL.xml" />
+    <!--Industry-END-->
+    <!--AgentInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/AgentInfoSQL.xml" />
+    <!--AgentInfo-END-->
+    <!--LinkMan-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/LinkManSQL.xml" />
+    <!--LinkMan-END-->
+    <!--LinkHisotry-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/LinkHisotrySQL.xml" />
+    <!--LinkHisotry-END-->
+    <!--FeedbackInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/FeedbackInfoSQL.xml" />
+    <!--FeedbackInfo-END-->
+    <!--CustomerType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CustomerTypeSQL.xml" />
+    <!--CustomerType-END-->		
+    <!--CustomerAddress-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CustomerAddressSQL.xml" />
+    <!--CustomerAddress-END-->		
+	
+	
+	
+	<!-- //////////////////order////////////////////////// -->
+		
+	<!--OrderLog-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OrderLogSQL.xml"/>
+    <!--OrderLog-END-->
+    <!--OrderDetail-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OrderDetailSQL.xml"/>
+    <!--OrderDetail-END-->
+    <!--ContractPayment-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ContractPaymentSQL.xml"/>
+    <!--ContractPayment-END-->
+    <!--ContractTarget-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ContractTargetSQL.xml" />
+    <!--ContractTarget-END-->
+    <!--Order-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OrderSQL.xml"/>
+    <!--Order-END-->
+    <!--OrderCategory-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OrderCategorySQL.xml"/>
+    <!--OrderCategory-END-->
+    <!--OrderDayInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OrderDayInfoSQL.xml"/>
+    <!--OrderDayInfo-END-->
+    <!--Contract-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ContractSQL.xml"/>
+    <!--Contract-END-->
+	
+
+	<!-- //////////////////finace////////////////////////// -->
+		
+    <!--Income-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/IncomeSQL.xml" />
+    <!--Income-END-->
+    <!--IncomeMode-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/IncomeModeSQL.xml" />
+    <!--IncomeMode-END-->
+    <!--IncomePull-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/IncomePullSQL.xml" />
+    <!--IncomePull-END-->
+    <!--IncomePurpose-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/IncomePurposeSQL.xml" />
+    <!--IncomePurpose-END-->
+    <!--IncomeUsed-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/IncomeUsedSQL.xml" />
+    <!--IncomeUsed-END-->	
+		
+
+	<!-- //////////////////matter////////////////////////// -->    
+    <!--MatterType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/MatterTypeSQL.xml" />
+    <!--MatterType-END-->	
+    <!--Org-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OrgSQL.xml" />
+    <!--Org-END-->
+    <!--Branch-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/BranchSQL.xml" />
+    <!--Branch-END-->	
+    <!--SysEvent-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysEventSQL.xml" />
+    <!--SysEvent-END-->
+    <!--SysEventState-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysEventStateSQL.xml" />
+    <!--SysEventState-END-->
+    <!--SysEventType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysEventTypeSQL.xml" />
+    <!--SysEventType-END-->
+    <!--SysPromptMode-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysPromptModeSQL.xml" />
+    <!--SysPromptMode-END-->
+    <!--SysUserType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysUserTypeSQL.xml" />
+    <!--SysUserType-END-->	
+	
+	
+		
+	<!-- //////////////////docs////////////////////////// -->  
+	
+    <!--OaDocument-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaDocumentSQL.xml" />
+    <!--OaDocument-END-->
+    <!--OaDocumentCatalog-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaDocumentCatalogSQL.xml" />
+    <!--OaDocumentCatalog-END-->
+    <!--OaDocumentCatalogPermitType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaDocumentCatalogPermitTypeSQL.xml" />
+    <!--OaDocumentCatalogPermitType-END-->
+    <!--OaDocumentFile-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaDocumentFileSQL.xml" />
+    <!--OaDocumentFile-END-->	
+	
+	
+	<!-- //////////////////assets ////////////////////////// -->  
+    <!--OaAssets-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaAssetsSQL.xml" />
+    <!--OaAssets-END-->
+    <!--OaAssetsState-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaAssetsStateSQL.xml" />
+    <!--OaAssetsState-END-->
+    <!--OaAssetsType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaAssetsTypeSQL.xml" />
+    <!--OaAssetsType-END-->	
+	
+	
+	<!-- //////////////////work flow////////////////////////// -->  
+    <!--OaWorkFlow-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaWorkFlowSQL.xml" />
+    <!--OaWorkFlow-END-->
+    <!--OaWorkFlowCheck-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaWorkFlowCheckSQL.xml" />
+    <!--OaWorkFlowCheck-END-->
+    <!--OaWorkFlowCheckResult-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaWorkFlowCheckResultSQL.xml" />
+    <!--OaWorkFlowCheckResult-END-->
+    <!--OaWorkFlowType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaWorkFlowTypeSQL.xml" />
+    <!--OaWorkFlowType-END-->	
+    <!--OaApplyInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaApplyInfoSQL.xml" />
+    <!--OaApplyInfo-END-->	
+    <!--OaWorkFlowCheckState-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaWorkFlowCheckStateSQL.xml" />
+    <!--OaWorkFlowCheckState-END-->	
+    <!--OaWorkFlowMoveType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaWorkFlowMoveTypeSQL.xml" />
+    <!--OaWorkFlowMoveType-END-->
+	
+	
+		
+	<!-- //////////////////oa product ////////////////////////// -->  	
+    <!--OaProductInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaProductInfoSQL.xml" />
+    <!--OaProductInfo-END-->
+    <!--OaProductType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaProductTypeSQL.xml" />
+    <!--OaProductType-END-->
+    <!--OaProductUsed-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaProductUsedSQL.xml" />
+    <!--OaProductUsed-END-->
+	
+	    
+ 	<!-- //////////////////info ////////////////////////// -->    
+   <!--OaInfo-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaInfoSQL.xml" />
+    <!--OaInfo-END-->
+    <!--OaInfoType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaInfoTypeSQL.xml" />
+    <!--OaInfoType-END-->	
+	 
+	
+	<!-- ////////////////// tools ////////////////////////// -->   	
+    <!--OaAreaCity-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaAreaCitySQL.xml" />
+    <!--OaAreaCity-END-->
+    <!--OaAreaPc-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaAreaPcSQL.xml" />
+    <!--OaAreaPc-END-->	
+    <!--OaBusinessCard-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaBusinessCardSQL.xml" />
+    <!--OaBusinessCard-END-->
+    <!--OaBusinessCardType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaBusinessCardTypeSQL.xml" />
+    <!--OaBusinessCardType-END-->
+    <!--OaCalendarEvent-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaCalendarEventSQL.xml" />
+    <!--OaCalendarEvent-END-->
+   <!--OaScratchpad-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaScratchpadSQL.xml" />
+    <!--OaScratchpad-END-->    
+
+
+
+    <!--ResourceSort-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ResourceSortSQL.xml" />
+    <!--ResourceSort-END-->
+    <!--ContractTargetMonth-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ContractTargetMonthSQL.xml" />
+    <!--ContractTargetMonth-END-->
+    <!--OaTeleExpenses-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/OaTeleExpensesSQL.xml" />
+    <!--OaTeleExpenses-END-->
+    <!--SysMenu-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysMenuSQL.xml" />
+    <!--SysMenu-END-->
+    <!--SysParam-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysParamSQL.xml" />
+    <!--SysParam-END-->
+
+    <!--SysSequence-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/SysSequenceSQL.xml" />
+    <!--SysSequence-END-->
+    <!--PublishArrange-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PublishArrangeSQL.xml" />
+    <!--PublishArrange-END-->
+    <!--PublishArrangeDetail-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/PublishArrangeDetailSQL.xml" />
+    <!--PublishArrangeDetail-END-->
+	<!--UpdateSystemSQL-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/UpdateSystemSQL.xml" />
+    <!--UpdateSystemSQL-END-->
+	<!--AnalySQL-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/AnalySQL.xml" />
+    <!--AnalySQL-END-->
+	
+    <!--ForetArrearage-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ForetArrearageSQL.xml" />
+    <!--ForetArrearage-END-->
+    <!--ResourceLimit-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ResourceLimitSQL.xml" />
+    <!--ResourceLimit-END-->
+	
+	
+    <!--FinanceTarget-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/FinanceTargetSQL.xml" />
+    <!--FinanceTarget-END-->
+    
+    
+    <!--ProCustomerType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProCustomerTypeSQL.xml" />
+    <!--ProCustomerType-END-->
+    <!--ProCustomer-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProCustomerSQL.xml" />
+    <!--ProCustomer-END-->
+    <!--ProOrderType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProOrderTypeSQL.xml" />
+    <!--ProOrderType-END-->
+    <!--ProOrder-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProOrderSQL.xml" />
+    <!--ProOrder-END-->
+    <!--ProProgramType-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProProgramTypeSQL.xml" />
+    <!--ProProgramType-END-->
+    <!--ProProgram-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProProgramSQL.xml" />
+    <!--ProProgram-END-->
+    <!--ProProgramDetail-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProProgramDetailSQL.xml" />
+    <!--ProProgramDetail-END-->
+    <!--ProPublishPlan-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProPublishPlanSQL.xml" />
+    <!--ProPublishPlan-END-->
+    <!--ProAudienceRat-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProAudienceRatSQL.xml" />
+    <!--ProAudienceRat-END-->
+	<!--ProAnalyze-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProAnalyzeSQL.xml" />
+    <!--ProAnalyze-END-->
+	<!--ProFinance-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProFinanceSQL.xml" />
+    <!--ProFinance-END-->
+	<!--ProCheckIdea-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProCheckIdeaSQL.xml" />
+    <!--ProCheckIdea-END-->
+	<!--ProCheckIdea-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProExpenseTypeSQL.xml" />
+    <!--ProCheckIdea-END-->
+	<!--ProExpenseProgram-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProExpenseProgramSQL.xml" />
+    <!--ProExpenseProgram-END-->
+	<!--CustomerCarrierRel-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/CustomerCarrierRelSQL.xml" />
+    <!--CustomerCarrierRel-END-->
+	
+	<!--CustomerCarrierRel-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/AnalySumSQL.xml" />
+    <!--CustomerCarrierRel-END-->
+</sqlMapConfig>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

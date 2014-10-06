@@ -1,0 +1,146 @@
+DROP TABLE IF EXISTS `tb_sys_pinyin`;
+CREATE TABLE `tb_sys_pinyin` (     
+      `PY` varchar(1),     
+      `HZ1` varchar(1),  
+      `HZ2` varchar(1)
+) ; 
+
+INSERT   INTO   `tb_sys_pinyin`   (`PY`,`HZ1`,`HZ2`)   VALUES
+('A','吖','驁'),
+('B','八','簿'),
+('C','嚓','錯'),
+('D','咑','鵽'),
+('E','妸','樲'),
+('F','发','鰒'),
+('G','猤','腂'),
+('H','妎','夻'),
+('J','丌','攈'),
+('K','咔','穒'),
+('L','垃','鱳'),
+('M','嘸','旀'),
+('N','丆','桛'),
+('O','噢','漚'),
+('P','妑','曝'),
+('Q','七','囕'),
+('R','呥','鶸'),
+('S','仨','蜶'),
+('T','他','籜'),
+('W','屲','鶩'),
+('X','夕','鑂'),
+('Y','丫','韻'),
+('Z','帀','咗');
+
+
+
+****注意****
+此方法只适用于gbk的编码，其他的编码需要先转换成gbk的，可以用convert(words using gbk)
+
+还可以用函数处理
+CREATE FUNCTION firstPY(words varchar(255)) RETURNS mediumtext
+BEGIN
+declare fpy char(1);
+declare pc char(1);
+declare cc char(4);
+set @fpy = UPPER(left(words,1));
+set @pc = (CONVERT(@fpy USING gbk));
+set @cc = hex(@pc);
+if @cc >= "8140" and @cc <="FEA0" then
+begin
+select py into @fpy from tb_sys_pinyin where hz2>=@pc and hz1<=@pc;
+end;
+end if;
+Return @fpy;
+END 
+
+
+
+CREATE FUNCTION firstPY(words varchar(255)) RETURNS mediumtext
+BEGIN
+declare fpy char(1);
+declare pc char(1);
+declare cc char(4);
+
+declare i int;
+declare words_len int;
+declare pinyin varchar(8000);
+
+set @i = 1;
+set @words = UPPER(ltrim(rtrim(words)));
+set @words_len =LENGTH(@words);
+set @pinyin ='';
+
+while @i <= @words_len  DO
+        	set @fpy = substring(@words, @i, 1);
+              
+		set @pc = (CONVERT(@fpy USING gbk));
+		set @cc = hex(@pc);
+
+		if @cc >= "8140" and @cc <="FEA0" then
+			begin
+				select py into @fpy from tb_sys_pinyin where hz2>=@pc and hz1<=@pc;
+			end;
+		end if;
+       
+    
+                   set @pinyin =CONCAT(@pinyin,@fpy);
+    		   set @i = @i + 1;
+
+END WHILE;
+
+       
+	Return @pinyin;
+
+END
+
+
+
+
+
+
+
+
+
+
+
+BEGIN
+declare fpy char(1);
+declare pc char(1);
+declare cc char(4);
+
+declare i int;
+declare words_len int;
+declare pinyin varchar(8000);
+
+set @i = 1;
+set @words = UPPER(ltrim(rtrim(words)));
+set @words_len =LENGTH(@words);
+set @pinyin ='';
+
+while @i <= @words_len  DO
+        	set @fpy = substring(@words, @i, 1);
+              
+		set @pc = (CONVERT(@fpy USING gbk));
+		set @cc = hex(@pc);
+
+		if @cc >= "8140" and @cc <="FEA0" then
+			begin
+			
+
+SELECT ELT(INTERVAL(CONV(HEX(@fpy),16,10),0xB0A1,0xB0C5,0xB2C1,0xB4EE,0xB6EA,0xB7A2,0xB8C1,0xB9FE,0xBBF7,0xBFA6,0xC0AC
+,0xC2E8,0xC4C3,0xC5B6,0xC5BE,0xC6DA,0xC8BB,0xC8F6,0xCBFA,0xCDDA ,0xCEF4,0xD1B9,0xD4D1),
+'A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','W','X','Y','Z') INTO @fpy; 
+
+
+			end;
+		end if;
+       
+    
+                   set @pinyin =CONCAT(@pinyin,@fpy);
+    		   set @i = @i + 1;
+
+END WHILE;
+
+       
+	Return @pinyin;
+
+END

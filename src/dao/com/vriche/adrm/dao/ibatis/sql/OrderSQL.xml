@@ -1,0 +1,1973 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OrderSQL">
+	
+    <typeAlias alias="order" type="com.vriche.adrm.model.Order"/>
+	<typeAlias alias="orderPublic" type="com.vriche.adrm.model.OrderPublic"/>
+	<typeAlias alias="customer" type="com.vriche.adrm.model.Customer"/>	
+	<typeAlias alias="orderRetort" type="com.vriche.adrm.model.OrderColl"/>	
+	<!-- typeAlias alias="orderList" type="com.vriche.adrm.model.OrderList"/ -->	
+	
+
+	<cacheModel id="order-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOrder"/>
+		<flushOnExecute statement="updateOrder"/>
+		<flushOnExecute statement="deleteOrder"/>
+		<flushOnExecute statement="deleteOrders"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="order">
+		<parameter property="paymentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="categoryId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="isCkecked" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="orderCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="orderMeno" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="relationCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="userId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="order">
+		<parameter property="paymentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="categoryId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <!-- parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/ -->
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <!-- parameter property="isCkecked" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="orderCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="orderMeno" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="relationCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="userId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+
+
+	<resultMap id="order-base-Result" class="order">
+		<result property="paymentId" column="contract_payment_id"/>
+        <result property="categoryId" column="order_category_id" nullValue="0"/>
+        <result property="contractId" column="contract_id" nullValue="0"/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="customerId" column="customer_id" nullValue="0"/>
+        <result property="id" column="order_id"/>
+        <result property="isCkecked" column="is_ckecked" nullValue="0"/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="orderCode" column="order_code" nullValue=""/>
+        <result property="orderMeno" column="order_meno" nullValue=""/>
+        <result property="publishMemo" column="publish_memo" nullValue=""/>
+        <result property="relationCode" column="relation_code" nullValue=""/>
+        <result property="userId" column="user_id" nullValue="0"/>
+		<result property="version" column="version" nullValue="0"/>
+    </resultMap>
+	
+	
+	<resultMap id="orderResultCopy" extends="order-base-Result" class="order">
+		<result property="orgId" column="sys_org_id"/> 
+        <result property="customer.customerCategoryId" column="customer_category_id"/>
+		<result property="orderCategory.name" column="order_category_name"/>
+		<result property="orderCategory.calculateAuto" column="order_category_cal_auto"/>
+    </resultMap>	
+	
+	
+	
+    <resultMap id="orderResult-public" class="orderPublic">
+		<result property="publishStartDate" column="publish_start_date"/>
+	    <result property="publishEndDate" column="publish_end_date"/>
+        <result property="times" column="sum_times" nullValue="0"/>
+		<result property="moneyBase" column="money_base" nullValue="0"/>
+		<result property="moneyRealpay" column="money_realpay" nullValue="0"/>
+		<result property="moneyInPuton" column="money_relPuton" nullValue="0"/>
+		<!--manager no /-->
+		<result property="moneyIn" column="order_id" select="getIncomeUsedByOrderId"/>
+		<!--result property="matterName" column="order_id" select="getMatterNameByOrderId"/-->
+    </resultMap>	
+
+
+	<resultMap id="orderResult" extends="order-base-Result"  class="order">
+		<result property="orderState.name" column="checkedState" nullValue=""/>
+		<result property="user.firstName" column="first_name" nullValue=""/>
+		<result property="user.lastName" column="last_name" nullValue=""/>
+		<result property="user.username" column="username" nullValue=""/>
+		<result property="contract.code" column="code" nullValue=""/>
+		<!-- result property="contract" column="contract_id" select="getContractClass"/ -->
+		<result property="contractPayment" column="contract_payment_id" select="getContractPaymentClass"/>
+		<result property="contractPayment.moneyIn" column="contract_payment_id" select="getIncomeUsedByPaymentId"/>
+		<!-- result property="contractPayment" column="{paymentId=contract_payment_id, orderId=order_id}" select="getContractPaymentClass"/ -->
+		<!-- result property="orderPayment" column="order_id" select="getOrderPaymentClass"/ -->
+        <result property="customer.customerName" column="customer_name" nullValue=""/>
+		<result property="customer.customerCategoryId" column="customerCategoryId" nullValue=""/>
+		
+		<!-- result property="orderPublic" column="order_id" select="getOrderPublic-from-orderDayInfo"/ -->
+		<result property="orderPublic" column="order_id" select="getOrderPublic-from-orderDayInfo"/>
+		
+		
+    </resultMap>	
+	
+	
+	<resultMap id="resourceSpecific_order" class="order">
+		<result property="orderCode" column="order_Code"/>
+		<result property="id" column="order_id"/>
+		<result property="publishMemo" column="resource_name" />
+		<result property="orderMeno" column="memo" />
+		<result property="orderStates" column="specificname" />
+		<result property="matterId" column="mattername" />
+		<result property="categoryId" column="edit" />
+		
+		<result property="orderPublic.publishStartDate" column="start_date" />
+		<result property="orderPublic.publishEndDate" column="end_date" />
+	</resultMap>
+	
+	
+	
+<resultMap id="orderResult_groupBy" extends="order-base-Result"  class="order">
+		<result property="orderState.name" column="checkedState"/>
+		<result property="user.firstName" column="first_name"/>
+		<result property="user.lastName" column="last_name"/>
+		<result property="user.username" column="username"/>
+		<result property="contract.code" column="contract_code"/>
+		<!--result property="contractPayment.moneyIn" column="contract_payment_id" select="getIncomeUsedByPaymentId"/-->
+        <result property="customer.customerName" column="customer_name" />
+		<result property="customer.customerCategoryId" column="customerCategoryId"/>
+		
+		<result property="orderPublic.publishStartDate"  column="publish_start_date"/>
+		<result property="orderPublic.publishEndDate"  column="publish_end_date"/>
+		<result property="orderPublic.times"  column="sum_times"/>
+		<result property="orderPublic.moneyBase"  column="money_base"/>
+		<result property="orderPublic.moneyRealpay"  column="money_realpay"/>
+		<result property="orderPublic.moneyIn"  column="money_in"/>
+		<result property="orderPublic.matterName"  column="matter_name"/>
+    </resultMap>		
+	
+	<resultMap id="orderResult_groupBySum" class="order">
+		<result property="id" column="order_id"/>
+		<!-- result property="id"  column="size" nullValue="0"/ -->
+		<result property="orderPublic.moneyRealpay"  column="money_realpay" nullValue="0"/>
+		<result property="orderPublic.moneyIn"  column="money_in" nullValue="0"/>
+		
+		<result property="orderPublic.times" column="sum_times" nullValue="0"/>
+		<result property="orderPublic.useTime" column="sum_use_time" nullValue="0"/>
+		<result property="orderPublic.moneyBase"  column="money_base"/>
+		<!-- result property="orderPublic.moneyIn" column="order_id" select="getIncomeUsedByOrderId"/ -->
+		<result property="orderPublic.publishStartDate"  column="publish_start_date"/>
+		<result property="orderPublic.publishEndDate"  column="publish_end_date"/>
+	</resultMap>		
+	
+	
+	
+		
+	<select id="getOrdersCopy" parameterClass="java.lang.Long"  resultMap="orderResultCopy">  
+		 select O.*,C.sys_org_id,C.customer_category_id,OC.calculate_auto as order_category_cal_auto,OC.name as order_category_name  from  tb_order O
+						Inner join tb_customer_info C  on O.customer_id = C.customer_id 
+						left outer join tb_order_category OC  on   O.order_category_id = OC.order_category_id 
+		 where O.order_id = #value# 
+	</select>			
+		
+	
+	
+	<select id="getOrderPublic-from-orderDayInfo" resultMap="orderResult-public">	
+	<![CDATA[   
+		SELECT 
+			min(d.publish_date) as publish_start_date, 
+			max(d.publish_date) as publish_end_date,
+		    sum(d.ad_day_times) as sum_times, 
+			sum(DT.sys_price*d.ad_day_times) as money_base, 
+			sum(d.day_rel_income) as money_realpay,
+			0 as money_relPuton,
+		    #orderId# as  order_id
+		FROM tb_order_day_info d JOIN tb_order_detail DT
+		WHERE DT.order_detail_id = d.order_detail_id
+		AND DT.parent_id = 0
+		AND DT.order_id = #orderId#
+	]]>
+	</select>		
+	
+	
+	
+	
+	<select id="getOrdersCount" resultClass="java.lang.Integer">
+		<![CDATA[   
+		select count(*) from tb_order O 
+		]]>	
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="paymentId">
+			(O.contract_payment_id like #paymentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryId">
+			(O.order_category_id like #categoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractId">
+			(O.contract_id like #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(O.create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(O.create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(O.customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(O.order_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isCkecked">
+			(O.is_ckecked like #isCkecked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(O.modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(O.modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderCode">
+			(O.order_code like #orderCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="relationCode">
+			(O.relation_code like #relationCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+			(O.user_id like #userId#)
+			</isNotEmpty>
+			
+
+		</dynamic>
+		
+	</select>
+	
+	<select id="getOrdersByWorkFlowId" parameterClass="map" resultMap="order-base-Result">
+        <![CDATA[
+       	 select o.* from 
+			tb_order o,
+			tb_oa_work_flow_result_order ore,
+			tb_oa_work_flow_check ch 
+			where 
+			  ore.order_id = o.order_id 
+			  and ore.work_flow_check_id = ch.work_flow_check_id
+			  and ch.work_flow_id = #workFlowId#
+			  and ch.check_state_id = #stateId#
+			  and ore.checked = #checked#
+	        ]]>		
+    </select>
+
+	<select id="getOrderIdsByState4" parameterClass="java.util.Map" resultClass="order">
+		 <![CDATA[select order_id as id from tb_order where is_ckecked=#state# ]]>	
+    </select>		
+	
+	<select id="getOrderIdsByWorkFlowId" parameterClass="java.util.Map" resultClass="java.lang.String">
+        <![CDATA[
+       	 select distinct o.order_id as id from 
+			tb_order o,
+			tb_oa_work_flow_result_order ore,
+			tb_oa_work_flow_check ch 
+			where 
+			  ore.order_id = o.order_id 
+			  and ore.work_flow_check_id = ch.work_flow_check_id
+			  and ch.work_flow_id = #workFlowId#
+			  and ch.check_state_id = #state#
+			  and ore.checked = #checked#
+	        ]]>
+		 order by o.order_id desc
+    </select>	
+	
+    <select id="getOrdersByUsers" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     <![CDATA[  
+      select distinct O.order_id as id 
+		 from tb_order O 
+		 			 left outer join tb_order_detail DT 
+			 on DT.order_id = O.order_id
+
+		 				 left outer join tb_ad_resource_info RI
+			 on RI.ad_resource_info_id = DT.ad_resource_info_id 
+		 
+		 		 
+		 			left outer join tb_customer_info C 
+				 on O.customer_id = C.customer_id
+		 
+		 
+		 
+       ]]> 
+		<dynamic prepend="WHERE"> 
+						
+			<isNotNull property="UserIdList">
+				 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+							O.user_id = #UserIdList[]#
+			  </iterate>
+			</isNotNull> 
+					
+			<isNotEmpty prepend="AND" property="stateId">
+				(O.is_ckecked = #stateId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orderCode">
+				(O.order_code like '%$orderCode$')
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerName">
+				(C.customer_name like '%$customerName$%')
+			</isNotEmpty>			
+					
+			
+			<isNotEmpty prepend="AND" property="version">
+				(O.version = #version#)
+			</isNotEmpty>			
+				
+			<isNotEmpty prepend="AND" property="userId">
+				(O.user_id = #userId#)
+			</isNotEmpty>   
+			 
+			
+			<isNotNull property="resourceIdList">
+					<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+							DT.ad_resource_info_id = #resourceIdList[]#
+				</iterate>
+			</isNotNull>
+			
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					        ifnull(RI.ad_resource_carrier_id,-1) = #carrierIdList[]#
+				</iterate>
+			</isNotNull>			
+												
+		</dynamic> 
+		order by O.order_id desc
+  </select>   
+ 
+
+		<sql id="orderResult_groupBy_where_from">
+	
+	from tb_order O  
+		 
+				 left outer join tb_order_detail DT 
+			 on DT.order_id = O.order_id AND DT.parent_id = 0  
+		
+			<isNotEmpty prepend="AND" property="version">
+				(DT.version = #version#)
+			</isNotEmpty>
+				
+				 left outer join tb_contract CON 
+			 on O.contract_id = CON.contract_id
+
+				
+				left outer join tb_order_category OC 
+			 on   DT.order_category_id = OC.order_category_id
+		
+				Inner join tb_sys_user U 
+			 on O.user_id = U.id
+		
+		 
+				Inner join tb_customer_info C 
+			 on O.customer_id = C.customer_id 
+
+		 		 Inner join tb_oa_work_flow_check_state S
+		     on O.is_ckecked = S.check_state_id
+		 
+				 left outer join tb_adver_matter MT
+			 on MT.adver_matter_id = DT.adver_matter_id 
+		
+				left outer join tb_ad_resource_info RI
+			 on RI.ad_resource_info_id = DT.ad_resource_info_id 
+		
+		
+				
+		</sql>
+	
+	
+	
+	
+	<sql id="orderResult_groupBy_where">
+		
+		    
+
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="orgId">
+				(C.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			
+			<!-- isNotNull property="orgIdList">
+					<iterate prepend="AND" property="orgIdList" open="(" close=")" conjunction="OR">
+							   BR.sys_org_id = #orgIdList[]#
+					</iterate>
+			</isNotNull -->		
+
+			<!-- isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (O.version >= substring(#startDate#,1,4)) ]]>
+            </isGreaterThan> 	
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (O.version <= substring(#endDate#,1,4)) ]]>
+            </isGreaterThan --> 
+			
+	
+			
+				<isNotEmpty prepend="AND" property="version">
+					  (O.version = #version#)
+				</isNotEmpty>	
+			
+				<isNotNull property="yearIdList">
+					<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+							   O.version = #yearIdList[]#
+					</iterate>
+				</isNotNull>		
+					
+			
+	<isGreaterThan  property="startDate" compareValue="0">  
+				
+			<isNotEmpty prepend="AND" property="orderMeno">
+				(O.order_meno like '%$orderMeno$%')
+			</isNotEmpty>
+			
+			<isNotNull property="OrderStates">
+				 <iterate prepend="AND" property="OrderStates" open="(" close=")" conjunction="OR">
+							O.is_ckecked = #OrderStates[]#
+			  </iterate>
+			</isNotNull> 
+			
+			<isNotNull property="orderCategoryIds">
+				 <iterate prepend="AND" property="orderCategoryIds" open="(" close=")" conjunction="OR">
+							OC.order_category_id = #orderCategoryIds[]#
+			  </iterate>
+			</isNotNull> 
+			
+			<isNotNull property="UserIdList">
+				 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+							O.user_id = #UserIdList[]#
+			  </iterate>
+			</isNotNull> 	
+		
+		
+			<isNotNull property="UserIdList2">
+				 <iterate prepend="AND" property="UserIdList2" open="(" close=")" conjunction="OR">
+							O.user_id = #UserIdList2[]#
+			  </iterate>
+			</isNotNull> 	
+				
+
+		  <!-- isNotNull property="OrderIdList">
+						 <iterate prepend="AND" property="OrderIdList" open="(" close=")" conjunction="OR">
+									O.order_id = #OrderIdList[]#
+					  </iterate>
+			</isNotNull --> 
+		
+						
+			<isNotEmpty prepend="AND" property="stateId">
+				(O.is_ckecked = #stateId#)
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="customerId">
+				(O.customer_id = #customerId#)
+			</isNotEmpty>
+			
+		   <isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					       O.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>	
+			
+			<isNotEmpty prepend="AND" property="orderCode">
+				(O.order_code like '%$orderCode$')
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="relationCode">
+				(O.relation_code like '%$relationCode$%')
+			</isNotEmpty>	
+			
+		   <isNotEmpty prepend="AND" property="createBy">
+				(O.create_by = #createBy#)
+			</isNotEmpty>			
+			
+			<isEqual prepend="AND" property="publishMemo" compareValue="1">	
+			      <![CDATA[ O.publish_memo ='' ]]> 
+			</isEqual>
+			
+			<isEqual prepend="AND" property="publishMemo" compareValue="2">	
+			      <![CDATA[ O.publish_memo != '']]>  
+			</isEqual>	
+			
+			
+						
+		   <isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       C.customer_category_id = #customerCates[]#
+				</iterate>
+			</isNotNull>		
+			
+
+			<isNotEmpty prepend="AND" property="customerName">
+				(C.customer_name like '%$customerName$%')
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="contractCode">
+				(CON.code like '%$contractCode$')
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ MT.name like '%$matterName$%']]>
+			</isNotEmpty>
+						
+			
+
+			<isNotNull property="MatterIdList">
+				 <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
+							DT.adver_matter_id = #MatterIdList[]#
+			  </iterate>
+			</isNotNull>
+			
+			
+			<isNotNull property="resourceIdList">
+					<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+							DT.ad_resource_info_id = #resourceIdList[]#
+				</iterate>
+			</isNotNull> 			
+			
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					        ifnull(RI.ad_resource_carrier_id,-1) = #carrierIdList[]#
+				</iterate>
+			</isNotNull>			
+			
+
+
+				<isNotEmpty prepend="AND" property="carrierType">
+					(DT.resource_sort_id = #carrierType#) 
+				</isNotEmpty>	
+         
+						
+			
+									
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				<![CDATA[ (DT.publish_start > 0) ]]>
+     </isGreaterThan> 
+			
+	</isGreaterThan> 
+
+		</dynamic> 
+		 	
+		
+		
+	</sql>
+	
+		
+	
+	<resultMap id="orderResult_groupBy_test"   class="order">
+        <result property="id" column="order_id"/>
+		<result property="contractId" column="contract_id" nullValue="0"/>
+        <result property="orderCode" column="order_code" nullValue=""/>
+        <result property="relationCode" column="relation_code" nullValue=""/>
+		<result property="isCkecked" column="is_ckecked" nullValue="0"/>
+		<result property="customerId" column="customer_id" nullValue="0"/>
+
+		
+		<result property="orderState.name" column="checkedState"/>
+		<result property="user.firstName" column="first_name"/>
+		<result property="user.lastName" column="last_name"/>
+		<result property="user.username" column="username"/>
+		<result property="contract.code" column="contract_code"/>
+        <result property="customer.customerName" column="customer_name" />
+		<result property="customer.customerCategoryId" column="customerCategoryId"/>
+		
+		<result property="orderPublic.publishStartDate"  column="publish_start_date" nullValue="0"/>
+		<result property="orderPublic.publishEndDate"  column="publish_end_date" nullValue="0"/>
+		<result property="orderPublic.times"  column="sum_times" nullValue="0"/>
+		<result property="orderPublic.moneyBase"  column="money_base"/>
+		<result property="orderPublic.moneyRealpay"  column="money_realpay"/>
+	 <result property="orderPublic.useTime" column="sum_use_time" nullValue="0"/>
+		<!-- result property="orderPublic.moneyIn" column="order_id" select="getIncomeUsedByOrderId"/  -->
+		<result property="orderPublic.moneyIn"  column="money_in"/>
+		<result property="orderPublic.matterName"  column="matter_name"/>
+		<result property="orderMeno" column="order_meno" />
+		<result property="publishMemo" column="publish_memo" nullValue=""/>
+		
+    </resultMap>	
+	
+	
+	
+	<resultMap id="orderResult_totalsize"   class="order">
+		<result property="orderPublic.publishStartDate"  column="publish_start_date" nullValue="0"/>
+		<result property="orderPublic.publishEndDate"  column="publish_end_date" nullValue="0"/>
+		<result property="orderPublic.moneyRealpay"  column="money_realpay"/>
+		<result property="orderPublic.moneyIn"  column="money_in"/>
+    </resultMap>	
+	
+	<select id="getOrdersPageByUsersCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select    count(aaa.publish_start_date) 
+
+		 from (
+		
+		 select ifnull(sum(DT.money_realpay),0) as money_realpay,	
+			    ifnull(sum(DT.money_in),0) as money_in,
+		
+		 ifnull(sum(DT.sys_price*DT.sum_times),1) as money_base,
+		
+				ifnull(min(DT.publish_start),0) as publish_start_date, 
+				ifnull(max(DT.publish_end),0) as publish_end_date,
+		        MT.name as matter_name 
+		<include refid="orderResult_groupBy_where_from"/>
+		<include refid="orderResult_groupBy_where"/>
+		
+		
+		 GROUP BY O.order_id 
+		
+		<dynamic prepend="HAVING"> 
+			
+			<!-- isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ publish_start_date >= #startDate# ]]>
+            </isGreaterThan> 				
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[  publish_end_date <= #endDate# ]]>
+            </isGreaterThan --> 
+			
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (
+					  (publish_start_date >= #startDate#   and  publish_start_date <= #endDate# )  
+					  or (publish_end_date >= #startDate#  and publish_end_date <= #endDate# )
+					  or (publish_start_date <= #startDate#  and publish_end_date >= #endDate# )
+					  )]]>
+			</isGreaterThan>	
+			
+						
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_start_date = 0
+			</isEqual>
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_end_date = 0
+			</isEqual>					
+			
+			
+			
+				 <isNotEmpty property="orderRate1" prepend="AND">
+                    <![CDATA[ (money_realpay/money_base)*100 >= #orderRate1# ]]>
+				</isNotEmpty> 
+			 <isNotEmpty property="orderRate2" prepend="AND">
+                    <![CDATA[ (money_realpay/money_base)*100 <= #orderRate2# ]]>
+      </isNotEmpty>		
+				 
+			 <!--isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[ publish_start_date >= #startDate# ]]>
+             </isNotEmpty> 
+			 <isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ publish_end_date <= #endDate# ]]>
+             </isNotEmpty -->
+			 
+			<isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ matter_name like '%$matterName$%']]>
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="arrears" >
+				 <![CDATA[ money_realpay > ifnull(money_in,0)  and money_realpay >0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="noArrears">
+				 <![CDATA[ money_realpay = ifnull(money_in,0) and  money_realpay >0 ]]>
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="zero" >
+				 <![CDATA[ money_realpay = 0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="nozero">
+				 <![CDATA[ money_realpay >0 ]]>
+			</isNotEmpty>	 
+			
+			<isNotEmpty prepend="AND" property="orderRelPay">
+				 <![CDATA[ money_realpay = #orderRelPay# ]]>
+			</isNotEmpty>	 
+	</dynamic>		
+		
+		) as aaa 
+	</select>
+
+
+	
+	<select id="getOrdersPageByUsersCount2" parameterClass="java.util.Map" resultMap="orderResult_groupBy_test">
+
+		 select 
+		    O.order_id,O.contract_id,O.order_code,O.relation_code,O.is_ckecked,O.customer_id,O.order_meno,O.publish_memo,
+		    U.first_name,U.last_name,U.username,
+		    C.customer_name,
+			C.customer_category_id as customerCategoryId,
+		    CON.code as contract_code,
+		    S.name as checkedState,  
+		    MT.name as matter_name,	
+
+			ifnull(min(DT.publish_start),0) as publish_start_date, 
+			ifnull(max(DT.publish_end),0) as publish_end_date, 
+		
+		  ifnull(sum(DT.sum_times),0) as sum_times, 
+			ifnull(sum(DT.sum_times*MT.length),0) as sum_use_time, 
+			ifnull(sum(DT.sys_price*DT.sum_times),0) as money_base, 
+			ifnull(sum(DT.money_realpay),0) as money_realpay,	
+			ifnull(sum(DT.money_in),0) as money_in
+		
+			<include refid="orderResult_groupBy_where_from"/>
+			<include refid="orderResult_groupBy_where"/>
+		
+		 GROUP BY O.order_id 
+		
+		<dynamic prepend="HAVING"> 
+			
+
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (
+					  (publish_start_date >= #startDate#   and  publish_start_date <= #endDate# )  
+					  or (publish_end_date >= #startDate#  and publish_end_date <= #endDate# )
+					  or (publish_start_date <= #startDate#  and publish_end_date >= #endDate# )
+					  )]]>
+			</isGreaterThan>	
+			
+
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_start_date = 0
+			</isEqual>
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_end_date = 0
+			</isEqual>					
+			 
+			<isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ matter_name like '%$matterName$%']]>
+			</isNotEmpty>
+			
+			
+			<isNotEmpty property="orderRate1" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 >= #orderRate1# ]]>
+			</isNotEmpty> 
+			
+			<isNotEmpty property="orderRate2" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 <= #orderRate2# ]]>
+     </isNotEmpty>				
+			
+
+			<isNotEmpty prepend="AND" property="arrears" >
+				 <![CDATA[ money_realpay > ifnull(money_in,0)  and money_realpay >0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="noArrears">
+				 <![CDATA[ money_realpay = ifnull(money_in,0) and  money_realpay >0 ]]>
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="zero" >
+				 <![CDATA[ money_realpay = 0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="nozero">
+				 <![CDATA[ money_realpay >0 ]]>
+			</isNotEmpty>	 
+			
+			<isNotEmpty prepend="AND" property="orderRelPay">
+				 <![CDATA[ money_realpay = #orderRelPay# ]]>
+			</isNotEmpty>	 
+	</dynamic>		
+		
+		order by O.order_code desc 
+		
+	</select>
+
+	<select id="getOrdersPageByUsersCount_bakk" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	
+		select distinct O.order_id 
+
+			from tb_order O  
+
+			left outer join tb_order_detail DT 
+				 on DT.order_id = O.order_id 
+
+			left outer join tb_order_category OC 
+				 on   DT.order_category_id = OC.order_category_id
+		
+			left outer join tb_customer_info C 
+				 on O.customer_id = C.customer_id 
+
+			left outer join tb_adver_matter MT
+				 on MT.adver_matter_id = DT.adver_matter_id 
+		
+			left outer join tb_ad_resource_info RI
+				 on RI.ad_resource_info_id = DT.ad_resource_info_id		
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (O.version >= substring(#startDate#,1,4)) ]]>
+            </isGreaterThan> 	
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (O.version <= substring(#endDate#,1,4)) ]]>
+            </isGreaterThan> 		
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (DT.publish_start >= #startDate#) ]]>
+            </isGreaterThan> 				
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[ (DT.publish_end <= #endDate#) ]]>
+            </isGreaterThan> 			
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      <![CDATA[ (DT.publish_start  = 0) ]]>
+			</isEqual>			
+			
+			<isNotNull property="UserIdList">
+				 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+							O.user_id = #UserIdList[]#
+			  </iterate>
+			</isNotNull> 
+
+			<isNotNull property="OrderStates">
+				 <iterate prepend="AND" property="OrderStates" open="(" close=")" conjunction="OR">
+							O.is_ckecked = #OrderStates[]#
+			  </iterate>
+			</isNotNull> 
+			
+			<isNotNull property="orderCategoryIds">
+				 <iterate prepend="AND" property="orderCategoryIds" open="(" close=")" conjunction="OR">
+							O.order_category_id = #orderCategoryIds[]#
+			  </iterate>
+			</isNotNull> 
+			
+
+			
+			<isNotEmpty prepend="AND" property="stateId">
+				(O.is_ckecked like #stateId#)
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="customerId">
+				(O.customer_id like #customerId#)
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="orderCode">
+				(O.order_code like '%$orderCode$')
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="relationCode">
+				(O.relation_code like '%$relationCode$%')
+			</isNotEmpty>	
+			
+			<isNotEmpty prepend="AND" property="createBy">
+				(O.create_by like #createBy#)
+			</isNotEmpty>					
+			
+			<isNotNull property="MatterIdList">
+				 <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
+							DT.adver_matter_id = #MatterIdList[]#
+			  </iterate>
+			</isNotNull>
+			
+			
+			<isNotNull property="resourceIdList">
+					<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+							DT.ad_resource_info_id = #resourceIdList[]#
+				</iterate>
+			</isNotNull> 			
+			
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					        ifnull(RI.ad_resource_carrier_id,-1) = #carrierIdList[]#
+				</iterate>
+			</isNotNull>
+	
+			<isNotEmpty prepend="AND" property="customerName">
+				(C.customer_name like '%$customerName$%')
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ MT.name like '%$matterName$%']]>
+			</isNotEmpty>	
+			
+
+
+			 <!--isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[  ifnull(DT.publish_start,0) >= #startDate# ]]>
+             </isNotEmpty --> 
+			
+			 <!--isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ ifnull(DT.publish_end,0) <= #endDate# ]]>
+             </isNotEmpty -->
+			
+
+			 
+			<isNotEmpty prepend="AND" property="arrears" >
+				 <![CDATA[ DT.money_realpay -  DT.money_in > 0  and DT.money_realpay >0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="noArrears">
+				 <![CDATA[ DT.money_realpay = DT.money_in and  DT.money_realpay >0 ]]>
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="zero" >
+				 <![CDATA[ money_realpay = 0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="nozero">
+				 <![CDATA[ money_realpay >0 ]]>
+			</isNotEmpty>
+				
+		</dynamic> 
+		
+	
+	</select>		
+	
+
+	
+	<select id="getOrdersPageByUserSum"  resultMap="orderResult_groupBySum">
+		
+
+		 select O.order_id,
+				ifnull(sum(DT.money_realpay),0) as money_realpay,	
+			    ifnull(sum(DT.money_in),0) as money_in,
+				 ifnull(sum(DT.sys_price*DT.sum_times),1) as money_base,
+		
+			  ifnull(sum(DT.sum_times),0) as sum_times, 
+			ifnull(sum(DT.sum_times*MT.length),0) as sum_use_time, 	
+		
+		
+				ifnull(min(DT.publish_start),0) as publish_start_date, 
+				ifnull(max(DT.publish_end),0) as publish_end_date
+
+			<include refid="orderResult_groupBy_where_from"/>
+			<include refid="orderResult_groupBy_where"/>
+		
+		 GROUP BY O.order_id 
+		
+		<dynamic prepend="HAVING"> 
+			
+			<!-- isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ publish_start_date >= #startDate# ]]>
+            </isGreaterThan> 				
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[  publish_end_date <= #endDate# ]]>
+            </isGreaterThan --> 
+			
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (
+					  (publish_start_date >= #startDate#   and  publish_start_date <= #endDate# )  
+					  or (publish_end_date >= #startDate#  and publish_end_date <= #endDate# )
+					  or (publish_start_date <= #startDate#  and publish_end_date >= #endDate# )
+					  )]]>
+            </isGreaterThan>			
+			
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_start_date = 0
+			</isEqual>
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_end_date = 0
+			</isEqual>				
+			
+					<isNotEmpty property="orderRate1" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 >= #orderRate1# ]]>
+			</isNotEmpty> 
+			
+			<isNotEmpty property="orderRate2" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 <= #orderRate2# ]]>
+     </isNotEmpty>					
+				 
+			 <!--isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[ publish_start_date >= #startDate# ]]>
+             </isNotEmpty> 
+			 <isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ publish_end_date <= #endDate# ]]>
+             </isNotEmpty -->
+			 
+			<!-- isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ matter_name like '%$matterName$%']]>
+			</isNotEmpty -->
+
+			<isNotEmpty prepend="AND" property="arrears" >
+				 <![CDATA[ money_realpay > ifnull(money_in,0)  and money_realpay >0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="noArrears">
+				 <![CDATA[ money_realpay = ifnull(money_in,0) and  money_realpay >0 ]]>
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="zero" >
+				 <![CDATA[ money_realpay = 0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="nozero">
+				 <![CDATA[ money_realpay >0 ]]>
+			</isNotEmpty>	
+			 
+			<isNotEmpty prepend="AND" property="orderRelPay">
+				 <![CDATA[ money_realpay = #orderRelPay# ]]>
+			</isNotEmpty>	
+		</dynamic>		
+		
+		
+		
+   </select>  
+	
+	<select id="getOrdersPageByUsers" parameterClass="java.util.Map" resultMap="orderResult_groupBy_test">
+		 select 
+		    O.order_id,O.contract_id,O.order_code,O.relation_code,O.is_ckecked,O.customer_id,O.order_meno,O.publish_memo,
+		    U.first_name,U.last_name,U.username,
+		    C.customer_name,
+			C.customer_category_id as customerCategoryId,
+		    CON.code as contract_code,
+		    S.name as checkedState,  
+		    MT.name as matter_name,	
+
+		    ifnull(min(DT.publish_start),0) as publish_start_date, 
+		    ifnull(max(DT.publish_end),0) as publish_end_date,
+		    ifnull(sum(DT.sum_times),0) as sum_times, 
+				ifnull(sum(DT.sum_times*MT.length),0) as sum_use_time, 
+			ifnull(sum(DT.sys_price*DT.sum_times),0) as money_base, 
+			ifnull(sum(DT.money_realpay),0) as money_realpay,	
+			ifnull(sum(DT.money_in),0) as money_in
+
+		<include refid="orderResult_groupBy_where_from"/>
+				 
+		<include refid="orderResult_groupBy_where"/>
+		
+		 GROUP BY O.order_id 
+		
+		<dynamic prepend="HAVING"> 
+			
+			<!-- isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ publish_start_date >= #startDate# ]]>
+            </isGreaterThan> 				
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[  publish_end_date <= #endDate# ]]>
+            </isGreaterThan --> 
+			
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (
+					  (publish_start_date >= #startDate#   and  publish_start_date <= #endDate# )  
+					  or (publish_end_date >= #startDate#  and publish_end_date <= #endDate# )
+					  or (publish_start_date <= #startDate#  and publish_end_date >= #endDate# )
+					  )]]>
+            </isGreaterThan>					
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_start_date = 0
+			</isEqual>
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_end_date = 0
+			</isEqual>					
+			
+			
+			
+			
+				<isNotEmpty property="orderRate1" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 >= #orderRate1# ]]>
+			</isNotEmpty> 
+			
+			<isNotEmpty property="orderRate2" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 <= #orderRate2# ]]>
+     </isNotEmpty>			
+				 
+			 <!--isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[ publish_start_date >= #startDate# ]]>
+             </isNotEmpty> 
+			 <isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ publish_end_date <= #endDate# ]]>
+             </isNotEmpty -->
+			 
+			<isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ matter_name like '%$matterName$%']]>
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="arrears" >
+				 <![CDATA[ money_realpay > ifnull(money_in,0)  and money_realpay >0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="noArrears">
+				 <![CDATA[ money_realpay = ifnull(money_in,0) and  money_realpay >0 ]]>
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="zero" >
+				 <![CDATA[ money_realpay = 0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="nozero">
+				 <![CDATA[ money_realpay >0 ]]>
+			</isNotEmpty>	
+			 
+			<isNotEmpty prepend="AND" property="orderRelPay">
+				 <![CDATA[ money_realpay = #orderRelPay# ]]>
+			</isNotEmpty>			 
+	</dynamic>		
+		
+		order by O.order_code desc 
+		 
+  </select>   	
+	
+	
+	
+	<resultMap id="orderResult_groupBy_test3"   class="order">
+ 		<result property="id" column="order_id"/>
+		<result property="orderPublic.moneyRealpay"  column="money_realpay"/>
+		<result property="orderPublic.moneyIn"  column="money_in"/>
+		<result property="orderPublic.useTime" column="sum_use_time" nullValue="0"/>
+		<result property="orderPublic.publishStartDate"  column="publish_start_date" nullValue="0"/>
+		<result property="orderPublic.publishEndDate"  column="publish_end_date" nullValue="0"/>
+	</resultMap>		
+	
+
+	
+	<select id="getOrdersPageByUsersForRelPayIndate" parameterClass="java.util.Map" resultMap="orderResult_groupBy_test3">
+		
+		 select 
+		
+            O.order_id,
+		    ifnull(min(ODD.publish_date),0) as publish_start_date, 
+		    ifnull(max(ODD.publish_date),0) as publish_end_date,
+			sum(ODD.ad_day_times*MT.length) as sum_use_time, 
+			sum(ODD.day_rel_income) as money_realpay,
+			sum(ODD.day_rel_puton) as money_in 
+		
+			from tb_order_day_info ODD 
+		
+							inner  join tb_order_detail DT 
+			 on DT.order_detail_id = ODD.order_detail_id	
+		
+						inner  join tb_adver_matter MT
+			 on MT.adver_matter_id = DT.adver_matter_id 
+
+				 inner  join tb_order O  
+ 			on DT.order_id = O.order_id AND DT.parent_id = 0  
+
+				 inner  join tb_order_category OC 
+			 on   DT.order_category_id = OC.order_category_id
+		
+
+				Inner join tb_customer_info C 
+			 on O.customer_id = C.customer_id 
+
+		
+				 inner  join tb_ad_resource_info RI
+			 on RI.ad_resource_info_id = DT.ad_resource_info_id 
+		
+
+		
+
+		<dynamic prepend="WHERE"> 
+
+				<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+					  <![CDATA[ (ODD.publish_date >= #startDate#) ]]>
+				</isGreaterThan> 	
+				  
+				<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+					  <![CDATA[ (ODD.publish_date <=  #endDate#) ]]>
+				</isGreaterThan> 
+			
+	    <isNotNull property="OrderIdList">
+						 <iterate prepend="AND" property="OrderIdList" open="(" close=")" conjunction="OR">
+									DT.order_id = #OrderIdList[]#
+					  </iterate>
+				</isNotNull> 
+			
+			<isNotNull property="resourceIdList">
+					<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+							DT.ad_resource_info_id = #resourceIdList[]#
+				</iterate>
+			</isNotNull> 			
+			
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					        ifnull(RI.ad_resource_carrier_id,-1) = #carrierIdList[]#
+				</iterate>
+				
+			</isNotNull>	
+							
+			<isNotEmpty prepend="AND" property="customerId">
+				(O.customer_id = #customerId#)
+			</isNotEmpty>	
+			
+		   <isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       C.customer_category_id = #customerCates[]#
+				</iterate>
+			</isNotNull>		
+			
+
+			<isNotEmpty prepend="AND" property="customerName">
+				(C.customer_name like '%$customerName$%')
+			</isNotEmpty>
+			
+				<isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ MT.name like '%$matterName$%']]>
+			</isNotEmpty>		
+			
+			<isNotNull property="UserIdList">
+				 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+							O.user_id = #UserIdList[]#
+			  </iterate>
+			</isNotNull> 	
+		
+		
+			<isNotNull property="UserIdList2">
+				 <iterate prepend="AND" property="UserIdList2" open="(" close=")" conjunction="OR">
+							O.user_id = #UserIdList2[]#
+			  </iterate>
+			</isNotNull> 				
+			
+			
+			
+			
+			
+			
+			
+		</dynamic> 
+		
+		 GROUP BY O.order_id  
+
+		 
+  </select>   		
+	
+	
+	
+	
+	
+		
+		
+   <resultMap id="resource_orderRetort" class="orderRetort">
+	    <result property="orderCode" column="order_code" nullValue=""/>
+	    <result property="contractId" column="contract_code" nullValue=""/>
+        <result property="customerName" column="customer_name" nullValue=""/>
+	    <result property="moneyRealpay"  column="money_realpay" nullValue="0"/>
+		<result property="startDate"  column="publish_start_date" nullValue=""/>
+		<result property="endDate"  column="publish_end_date" nullValue=""/>
+	   	<result property="isCkecked" column="checkedState" nullValue=""/>
+	    <result property="matterName"  column="matter_name" nullValue=""/>
+	    <result property="moneyIn"  column="money_in" nullValue="0"/>
+	    <result property="firstName" column="first_name" nullValue=""/>
+	    <result property="lastName" column="last_name" nullValue=""/>
+	</resultMap>
+	
+	<select id="getOrdersForReport" parameterClass="java.util.Map" resultMap="resource_orderRetort">
+		 select 
+		    O.order_id,O.contract_id,O.order_code,O.relation_code,O.is_ckecked,O.customer_id,
+		    U.first_name,
+		    U.last_name,
+	        U.username,
+		    C.customer_name,
+			C.customer_category_id as customerCategoryId,
+		    CON.code as contract_code,
+		    S.name as checkedState,  
+		
+
+		    ifnull(min(DT.publish_start),0) as publish_start_date, 
+		    ifnull(max(DT.publish_end),0) as publish_end_date,
+		    ifnull(sum(DT.sum_times),0) as sum_times, 
+			ifnull(sum(DT.sys_price*DT.sum_times),0) as money_base, 
+			ifnull(sum(DT.money_realpay),0) as money_realpay,	
+			ifnull(sum(DT.money_in),0) as money_in,
+            MT.name as matter_name	
+		
+		
+		<include refid="orderResult_groupBy_where_from"/>
+		 
+		<include refid="orderResult_groupBy_where"/>
+		
+		 GROUP BY O.order_id 
+		
+		<dynamic prepend="HAVING"> 
+			
+			<!-- isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ publish_start_date >= #startDate# ]]>
+            </isGreaterThan> 				
+			<isGreaterThan prepend="AND" property="endDate" compareValue="0">  
+				  <![CDATA[  publish_end_date <= #endDate# ]]>
+            </isGreaterThan --> 
+			
+			<isGreaterThan prepend="AND" property="startDate" compareValue="0">  
+				  <![CDATA[ (
+					  (publish_start_date >= #startDate#   and  publish_start_date <= #endDate# )  
+					  or (publish_end_date >= #startDate#  and publish_end_date <= #endDate# )
+					  or (publish_start_date <= #startDate#  and publish_end_date >= #endDate# )
+					  )]]>
+            </isGreaterThan>				
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_start_date = 0
+			</isEqual>
+			
+			<isEqual prepend="AND" property="startDate" compareValue="0">	
+			      publish_end_date = 0
+			</isEqual>					
+				 
+			
+				<isNotEmpty property="orderRate1" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 >= #orderRate1# ]]>
+			</isNotEmpty> 
+			
+			<isNotEmpty property="orderRate2" prepend="AND">
+					<![CDATA[ money_realpay/IF(money_base=0,1,money_base)*100 <= #orderRate2# ]]>
+     </isNotEmpty>			
+			
+			 <!--isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[ publish_start_date >= #startDate# ]]>
+             </isNotEmpty> 
+			 <isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ publish_end_date <= #endDate# ]]>
+             </isNotEmpty -->
+			 
+			<isNotEmpty prepend="AND" property="matterName">
+				<![CDATA[ matter_name like '%$matterName$%']]>
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="arrears" >
+				 <![CDATA[ money_realpay > ifnull(money_in,0)  and money_realpay >0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="noArrears">
+				 <![CDATA[ money_realpay = ifnull(money_in,0) and  money_realpay >0 ]]>
+			</isNotEmpty>		 
+			
+			<isNotEmpty prepend="AND" property="zero" >
+				 <![CDATA[ money_realpay = 0  ]]>
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="nozero">
+				 <![CDATA[ money_realpay >0 ]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orderRelPay">
+				 <![CDATA[ money_realpay = #orderRelPay# ]]>
+			</isNotEmpty>			 
+	</dynamic>		
+		
+		order by O.order_id desc 
+		 
+  </select>   	
+ 		
+	
+	
+	<select id="getOrdersByCheckState" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+	<![CDATA[
+		SELECT count(*)
+		FROM tb_order where is_ckecked=1
+	]]>
+	</select> 
+	
+	
+
+	
+ <select id="getOrdersByIdListCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<![CDATA[
+		select count(*) from tb_order
+	]]>
+		<dynamic prepend="WHERE"> 
+			
+			<isNotNull property="OrderIdList">
+			  <iterate prepend="AND" property="OrderIdList" open="(" close=")" conjunction="OR">
+							order_id = #OrderIdList[]#
+			  </iterate>
+			</isNotNull> 
+			<isNotEmpty prepend="AND" property="orderCode">
+				(order_code like '%$orderCode$')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+				(user_id like #userId#)
+		    </isNotEmpty>	
+		</dynamic>    		
+	</select>	
+	
+
+
+	<statement id="getOrderLogsByOrderId" parameterClass="java.lang.Long" resultMap="OrderLogSQL.orderLogResult">
+		  select * 
+			 from tb_order_log 
+			 where  order_id = #value#
+	</statement>	
+
+
+	
+	<select id="getOrderDetailXMLByOrderId" parameterClass="java.lang.Long" resultClass="xml" xmlResultName="orderDetailXML">
+		<![CDATA[     
+		 select order_detail_id as id,create_by as createBy  
+			 from tb_order_detail 
+			 where  order_detail_id = #value#
+		]]>
+	</select>
+
+	<statement id="getPaymentsByOrderId" parameterClass="java.lang.Long" resultMap="ContractPaymentSQL.contractPaymentResult">
+        select pmt.* ,
+		    cont.code as contractCode,
+		    ordd.order_code as orderCode,
+		    inpuur.name as  incomePurposeName  		
+			from tb_contract_payment pmt
+				left outer join tb_contract cont 
+					on pmt.contract_id = cont.contract_id
+				left outer join tb_order ordd  
+					on pmt.order_id = ordd.order_id
+		        left outer join  tb_income_purpose inpuur
+					on pmt.income_purpose_id = inpuur.income_purpose_id
+			 where  pmt.order_id = #value#
+	</statement>
+	
+	
+	
+	
+	
+	<select id="getCustomersByLoginUser"  parameterClass="java.util.Map"  resultClass="java.lang.String">
+		  select distinct CUST.customer_id from tb_order O  
+				left outer join tb_sys_user U  on O.user_id = U.id 
+				left outer join tb_customer_info CUST  on O.customer_id = CUST.customer_id  
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="userName">
+			(U.id = #userName#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerName">
+				(CUST.customer_name like '%$customerName$%')
+			</isNotEmpty>
+			
+			<isNotNull property="userIdList">
+				 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							(U.id = #userIdList[]#)
+			  </iterate>
+			</isNotNull>
+			
+			<isNotEmpty prepend="AND" property="year">
+			(O.version = #year#)
+			</isNotEmpty>
+			
+		</dynamic>
+	</select> 
+
+	
+	
+   <resultMap id="orderResult_test" extends="orderResult"  class="order">
+	        <result property="customer.orgId" column="sys_org_id" nullValue="1"/>
+    </resultMap>		
+	
+	
+	
+	
+    <select id="getOrders"  resultMap="orderResult_test">
+    <![CDATA[
+		 select O.*,U.*,C.*,CON.code,S.name as checkedState,  
+			C.customer_category_id as customerCategoryId   
+			from tb_order O  
+				 left outer join tb_sys_user U 
+			 on O.user_id = U.id
+				 left outer join tb_customer_info C 
+			 on O.customer_id = C.customer_id 
+				 left outer join tb_contract CON 
+			 on O.contract_id = CON.contract_id
+		 		 left outer join tb_oa_work_flow_check_state S
+		     on O.is_ckecked = S.check_state_id		 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="paymentId">
+			(O.contract_payment_id like #paymentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryId">
+			(O.order_category_id like #categoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractId">
+			(O.contract_id like #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(O.create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(O.create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(O.customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(O.order_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isCkecked">
+			(O.is_ckecked like #isCkecked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(O.modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(O.modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderCode">
+			(O.order_code like '%$orderCode$')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="relationCode">
+			(O.relation_code like #relationCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+			(O.user_id like #userId#)
+			</isNotEmpty>  
+		</dynamic>
+
+		order by O.order_id desc
+    </select>
+	
+	
+	<resultMap id="orderResultForBroReport" extends="order-base-Result"  class="order">
+		<result property="orderState.name" column="checkedState" nullValue=""/>
+		<result property="user.firstName" column="first_name" nullValue=""/>
+		<result property="user.lastName" column="last_name" nullValue=""/>
+		<result property="user.username" column="username" nullValue=""/>
+		<result property="contract.code" column="code" nullValue=""/>
+		<result property="contractPayment" column="contract_payment_id" select="getContractPaymentClass"/>
+		<result property="contractPayment.moneyIn" column="contract_payment_id" select="getIncomeUsedByPaymentId"/>
+        <result property="customer.customerName" column="customer_name" nullValue=""/>
+		<result property="customer.customerCategoryId" column="customerCategoryId" nullValue=""/>
+		
+		<result property="publishMemo" column="matterName" nullValue=""/>
+		
+		<result property="orderPublic" column="order_id" select="getOrderPublic-from-orderDayInfo"/>
+		
+    </resultMap>
+	
+	
+	
+	<select id="getOrderForReport"  resultMap="orderResultForBroReport">
+    <![CDATA[
+		 select O.*,U.*,C.*,CON.code,S.name as checkedState, MT.name as matterName, 
+			C.customer_category_id as customerCategoryId   
+			from tb_order O  
+				 left outer join tb_sys_user U 
+			 on O.user_id = U.id
+				 left outer join tb_customer_info C 
+			 on O.customer_id = C.customer_id 
+				 left outer join tb_contract CON 
+			 on O.contract_id = CON.contract_id
+		     		 left outer join tb_order_detail TD
+		     	 on O.order_id = TD.order_id
+		     	 	 left outer join tb_adver_matter MT
+				 on MT.adver_matter_id = TD.adver_matter_id 
+					  left outer join tb_ad_resource_info RI 
+				on RI.ad_resource_info_id = TD.ad_resource_info_id 
+						left outer join tb_ad_resource_carrier RC  
+				on	RC.ad_resource_carrier_id = RI.ad_resource_carrier_id	
+						 left outer join tb_oa_work_flow_check_state S
+		     	 on O.is_ckecked = S.check_state_id	
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="paymentId">
+			(O.contract_payment_id like #paymentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryId">
+			(O.order_category_id like #categoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractId">
+			(O.contract_id like #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(O.create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(O.create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(O.customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(O.order_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isCkecked">
+			(O.is_ckecked like #isCkecked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(O.modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(O.modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderCode">
+			(O.order_code like '%$orderCode$')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="relationCode">
+			(O.relation_code like #relationCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+			(O.user_id like #userId#)
+			</isNotEmpty> 
+			<isNotEmpty prepend="AND" property="matterId">
+			(MT.name like #matterId#)
+			</isNotEmpty>  
+			<isNotNull property="carrierIds">
+				 <iterate prepend="AND" property="carrierIds" open="(" close=")" conjunction="OR">
+							RI.ad_resource_carrier_id = #carrierIds[]#
+				  </iterate>
+			</isNotNull> 
+			
+		</dynamic>
+		group by O.order_id
+		order by O.order_id desc
+    </select>
+	
+    <select id="getOrdersByIdList" parameterClass="java.util.Map" resultMap="orderResult_groupBy_test">
+     <![CDATA[  
+    	select 
+		    O.order_id,O.contract_id,O.order_code,O.relation_code,O.is_ckecked,O.customer_id,O.order_meno,O.publish_memo,
+		    U.first_name,U.last_name,U.username,
+		    C.customer_name,
+		    C.customer_category_id as customerCategoryId,
+		    CON.code as contract_code,
+		    S.name as checkedState,
+		
+
+		    min(DT.publish_start) as publish_start_date, 
+		    max(DT.publish_end) as publish_end_date,
+		    sum(DT.sum_times) as sum_times, 
+
+		 	ifnull(sum(DT.sum_times*MT.length),0) as sum_use_time, 
+			sum(DT.sys_price*DT.sum_times) as money_base, 
+			sum(DT.money_realpay) as money_realpay,	
+			sum(DT.money_in) as money_in,
+            MT.name as matter_name	
+		 
+		 from tb_order O  
+		 
+				 left outer join tb_contract CON 
+			 on O.contract_id = CON.contract_id
+		 		 
+				 left outer join tb_order_detail DT 
+			 on DT.order_id = O.order_id
+		 
+				 left outer join tb_sys_user U 
+			 on O.user_id = U.id
+		 
+				 left outer join tb_customer_info C 
+			 on O.customer_id = C.customer_id 
+
+		 		 left outer join tb_oa_work_flow_check_state S
+		     on O.is_ckecked = S.check_state_id
+		 
+				 left outer join tb_adver_matter MT
+			 on MT.adver_matter_id = DT.adver_matter_id 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderIdList">
+       	  <iterate prepend="AND" property="OrderIdList" open="(" close=")" conjunction="OR">
+		   		O.order_id = #OrderIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		  <!--isNotEmpty prepend="AND" property="orderCode">
+				(O.order_code like '%$orderCode$%')
+			</isNotEmpty>
+		  <isNotEmpty prepend="AND" property="userId">
+				(O.user_id like #userId#)
+		  </isNotEmpty -->
+          </dynamic>  
+		GROUP BY O.order_id  
+		order by O.order_code desc
+  </select>     
+
+    <select id="getOrder" resultMap="orderResult">
+    <![CDATA[
+		 select O.*,
+		U.*,
+		C.*,
+		CON.code,
+		S.name as checkedState,
+		C.customer_category_id as customerCategoryId
+
+			from tb_order O  
+				 left outer join tb_sys_user U 
+			 on O.user_id = U.id
+				 left outer join tb_customer_info C 
+			 on O.customer_id = C.customer_id 
+				 left outer join tb_contract CON 
+			 on O.contract_id = CON.contract_id 
+		 		 left outer join tb_oa_work_flow_check_state S
+		     on O.is_ckecked = S.check_state_id
+
+         where O.order_id = #value#
+    ]]>
+    </select>
+	
+	
+	
+
+	
+	<resultMap id="order-Result-getOrderForEdit" class="order">
+		<result property="id" column="order_id"/>
+        <result property="orderCode" column="order_code" nullValue=""/>
+        <result property="relationCode" column="relation_code" nullValue=""/>
+        <result property="contractId" column="contract_id" nullValue="0"/>
+        <result property="customerId" column="customer_id" nullValue="0"/>
+        <result property="categoryId" column="order_category_id" nullValue="0"/>
+        <result property="userId" column="user_id" nullValue="0"/>
+        <result property="orderMeno" column="order_meno" nullValue=""/>
+		<result property="paymentId" column="contract_payment_id"/>
+        <result property="isCkecked" column="is_ckecked" nullValue="0"/>
+        <result property="publishMemo" column="publish_memo" nullValue=""/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="version" column="version" nullValue="0"/>
+		
+		<result property="user.id" column="user_id"/>
+		<result property="user.username" column="user_name" nullValue=""/>	
+		<result property="user.firstName" column="first_name" nullValue=""/>
+		<result property="user.lastName" column="last_name" nullValue=""/>
+		
+		
+		<result property="modUser.id" column="modify_by"/>
+		<result property="modUser.username" column="mod_user_name" nullValue=""/>	
+		<result property="modUser.firstName" column="mod_first_name" nullValue=""/>
+		<result property="modUser.lastName" column="mod_last_name" nullValue=""/>
+		
+		
+			
+		<result property="orderState.name" column="checked_state" nullValue=""/>
+		<result property="orderCategory.name" column="order_category_name" nullValue=""/>
+		<result property="orderCategory.calculateAuto" column="order_category_cal_auto" nullValue=""/>
+		
+				
+        <result property="customer.customerName" column="customer_name" nullValue=""/>
+		<result property="customer.customerCategoryId" column="customer_category_id" nullValue=""/>		
+
+		<result property="contract.contractSort" column="contract_sort" nullValue="-1"/>
+		<result property="contract.code" column="contract_code" nullValue=""/>
+		<result property="contract.moneySum" column="contract_moneySum" nullValue="0"/>
+		<result property="contract.startDate" column="contract_start_date" nullValue="19991231"/>
+		<result property="contract.endDate" column="contract_end_date" nullValue="19991231"/>
+		
+		<result property="contractPayment.moneyPay" column="contract_payment_moneypay" nullValue="0"/>
+		<result property="contractPayment.payDate" column="contract_payment_payDate" nullValue="19991231"/>
+		<result property="contractPayment.moneyIn" column="contract_payment_id" select="getIncomeUsedByPaymentId"/>
+		
+		<result property="orderPublic" column="order_id" select="getOrderPublic-from-orderDayInfo"/>
+		
+    </resultMap>
+		
+	
+
+	        
+
+
+	
+	<select id="getOrderForEdit" resultMap="order-Result-getOrderForEdit">
+
+		select
+		
+		O.*,
+		
+		OC.name as order_category_name,
+		OC.calculate_auto as order_category_cal_auto,
+		
+		U.id as user_id,
+		U.username as user_name,
+		U.first_name as first_name,
+		U.last_name as last_name,
+		
+		MU.username as mod_user_name,
+		MU.first_name as mod_first_name,
+		MU.last_name as mod_last_name,
+		
+		C.customer_name as customer_name,
+		C.customer_category_id as customer_category_id,
+		
+		CON.contract_sort as contract_sort,
+		CON.start_date as contract_start_date,
+		CON.end_date as contract_end_date,
+		CON.code as contract_code,
+		CON.contract_money_sum  as contract_moneySum,
+		
+		PAMT.money_pay as contract_payment_moneypay,
+		PAMT.pay_date as contract_payment_payDate,
+		
+		S.name as checked_state 
+
+			from tb_order O  
+				 inner join tb_sys_user U  on O.user_id = U.id 
+				 left outer join tb_sys_user MU  on O.modify_by = MU.id 
+				 inner join tb_customer_info C  on O.customer_id = C.customer_id 
+				 inner join tb_oa_work_flow_check_state S on O.is_ckecked = S.check_state_id 
+				 inner join tb_order_category OC on   O.order_category_id = OC.order_category_id 
+				 left outer join tb_contract CON on O.contract_id = CON.contract_id 	
+		         left outer join tb_contract_payment PAMT on PAMT.contract_payment_id = O.contract_payment_id 
+
+         where O.order_id = #value#
+    </select>
+
+    <insert id="addOrder" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_order_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_order (contract_payment_id,order_category_id,contract_id,create_by,create_date,customer_id,is_ckecked,modify_by,modify_date,order_code,order_meno,publish_memo,relation_code,user_id,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+		
+	   <selectKey resultClass="java.lang.Long" keyProperty="id">
+             SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+	
+	
+    <insert id="addOrderCopy" parameterClass="order">
+        <![CDATA[
+			 INSERT INTO tb_order
+				(version,create_by,create_date,modify_by,modify_date,order_code,relation_code,contract_id,order_category_id,user_id,order_meno,is_ckecked,publish_memo,contract_payment_id,customer_id) 
+                values(#version#,#createBy#,#createDate#,#modifyBy#,#modifyDate#,#orderCode#,#relationCode#,#contractId#,#categoryId#,#userId#,#orderMeno#,#isCkecked#,#publishMemo#,#paymentId#,#customerId#) 
+        ]]>
+		
+	   <selectKey resultClass="java.lang.Long" keyProperty="id">
+             SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>	
+	
+	
+
+    <update id="updateOrder" parameterMap="updateParam">
+    <![CDATA[
+        update tb_order set
+				   contract_payment_id = ?,
+                   order_category_id = ?,
+                   contract_id = ?,
+                   customer_id = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   order_code = ?,
+                   order_meno = ?,
+                   publish_memo = ?,
+                   relation_code = ?,
+                   user_id = ?,
+				   version = ?
+        where order_id = ?
+    ]]>
+    </update>
+	
+	<!--                   is_ckecked = ?,-->
+	
+    <update id="updateOrderStates" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_order set is_ckecked = #stateId#
+    ]]>
+		<dynamic prepend="WHERE"> 
+		<isNotNull property="OrderIdList">
+		  <iterate  property="OrderIdList" open="(" close=")" conjunction="OR">
+		   			 order_id = #OrderIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		</dynamic> 
+    </update>		
+	
+
+	
+    <delete id="deleteOrderByImport">
+    <![CDATA[
+        delete from tb_order
+         where publish_memo = #value#
+    ]]>
+    </delete>
+	
+    <delete id="deleteOrder">
+    <![CDATA[
+        delete from tb_order
+         where order_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOrders" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_order 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderIdList">
+       	  <iterate prepend="AND" property="OrderIdList" open="(" close=")" conjunction="OR">
+		   			 order_id = #OrderIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	<select id="getOrdersByCheckState2" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		SELECT count(*)
+		FROM tb_order where is_ckecked= #checkState# 
+
+		<isNotNull property="userIdList">
+					<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							user_id = #userIdList[]#
+				</iterate>
+		</isNotNull> 
+		
+		<isNotEmpty prepend="AND" property="year">
+				(version like #year#)
+		</isNotEmpty>
+	</select> 
+			
+	<select id="getOrderCodeByCheckState1" parameterClass="java.util.Map" resultClass="order">
+    <![CDATA[
+        select distinct o.order_id id,o.order_code orderCode,u.first_name orderMeno,u.last_name publishMemo from tb_order_day_info odi
+				left outer join tb_order_detail od
+							on odi.order_detail_id = od.order_detail_id
+				left outer join tb_order o
+							on od.order_id = o.order_id
+				left outer join tb_sys_user u
+						   on o.user_id = u.id
+		]]>	
+	  <dynamic prepend="WHERE">   
+		  
+		<isNotEmpty prepend="AND" property="publishDate">
+			<![CDATA[(odi.publish_date = #publishDate#)]]>	
+		</isNotEmpty>
+		  
+		<isNotEmpty prepend="AND" property="year">
+			<![CDATA[( o.version = #year#)]]>	
+		</isNotEmpty>
+		  
+		  
+		<isNotEmpty prepend="AND" property="year">
+			<![CDATA[( od.version = #year#)]]>	
+		</isNotEmpty>		  
+		  
+		<!-- isNotEmpty prepend="AND" property="checkState">
+			<![CDATA[(o.is_ckecked != #checkState#)]]>      
+		</ -->
+		  
+		<isNotNull property="checkState">
+       	 	<iterate prepend="AND" property="checkState" open="(" close=")" conjunction="OR">
+		   			 o.is_ckecked = #checkState[]#
+			</iterate>
+		</isNotNull>	  
+		  
+		<isNotNull property="resourceIdList">
+       	 	<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+		   			 od.ad_resource_info_id = #resourceIdList[]#
+			</iterate>
+		</isNotNull>		  	
+	  	</dynamic>
+    </select>
+	
+	
+  <select id="getOrderSignUsersForOpenFire" parameterClass="java.util.Map" resultClass="java.lang.String">
+     <![CDATA[  
+		 select distinct B.username as firstName from tb_order A
+			left outer join tb_sys_user B on A.user_id = B.id 
+		
+       ]]> 
+	  <dynamic prepend="WHERE">   
+	  		<isNotEmpty prepend="AND" property="customerId">
+				(A.customer_id = #customerId#)
+			</isNotEmpty>
+	</dynamic>
+  </select>
+	
+	
+	
+	<update id="updateOrderMemo" parameterClass="java.util.Map">
+    <![CDATA[ update tb_order set order_meno = #orderMemo#, publish_memo = #publishMemo#  ]]>
+		 where  order_id = #id# 
+    </update>	
+	
+</sqlMap>

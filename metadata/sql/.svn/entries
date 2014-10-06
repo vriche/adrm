@@ -1,0 +1,115 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/metadata/sql
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+hntv
+dir
+
+postgresql-create.sql
+file
+
+
+
+
+2013-05-17T07:33:55.863102Z
+2c8b323973c948442246134ce3c9b46c
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+mysql.sql
+file
+
+
+
+
+2013-05-17T07:33:55.863102Z
+4686ee609abb45730822e8af23c988a6
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+insert
+dir
+
+mysql-create.sql
+file
+
+
+
+
+2013-05-17T07:33:55.863102Z
+202a5118f17eb268074651b586f712c1
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+temp
+file
+
+
+
+
+2013-05-17T07:33:55.863102Z
+8da87ea6bb22779782a02774c2b5c85a
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+noData
+dir
+
+Copy of sample-data.xml
+file
+
+
+
+
+2013-05-17T07:33:55.878728Z
+b723edd48ed5212f45f491ef9756220d
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+sample-data.xml
+file
+
+
+
+
+2013-05-17T07:33:55.878728Z
+56cade0278f0d5484594255a60f6937f
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+catv
+dir
+
+bak
+dir
+

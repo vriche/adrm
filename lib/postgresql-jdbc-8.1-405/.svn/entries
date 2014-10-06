@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/postgresql-jdbc-8.1-405
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:32:23.846523Z
+32
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+postgresql-jdbc3-8.1-405.jar
+file
+
+
+
+
+2013-05-17T07:35:14.898455Z
+2b699f0e686bcf7ec56bea16474ab2c2
+2012-11-24T07:32:23.846523Z
+32
+lxz
+has-props
+

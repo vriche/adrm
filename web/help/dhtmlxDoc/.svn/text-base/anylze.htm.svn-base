@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>统计分析</title><link rel="STYLESHEET" type="text/css" href="common/styles.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+</head>
+   
+<body>
+<div> 
+  <table width="88%" border="0">
+  <tr>
+    <td><h2 onclick="openFull(this)" align="center"><a name=combo_?>统计分析</a></h2>
+</td>
+  </tr>
+  <tr>
+      <td><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;客户统计，包括区间统计，全年统计，业务员统计。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;载体统计，包括区间统计，全年统计。<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;品牌统计，包括客户品牌投放量，行业品牌投放量，广告类型品牌投放量</font><br></td>
+  </tr>
+  <tr>
+      <td><p><font color="#009999" size="3"><strong><font color="#006699"><a name="客户统计">2.5.1、客户统计</a></font></strong></font><br>
+          <font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动统计出有业务往来的客户在一段时间内的投放金额，投放时长。减轻了工作人员的工作量，加快了工作效率和准确率</font><font color="#009999">。</font><br>
+          <font color="#009999" size="2"><strong><font color="#006699"><a name="区间统计">区间统计</a>：</font></strong></font><font size="2"><br>
+          <font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计一段时间客户的投放信息。如图：点击菜单中“<font color="#000000">客户统计</font>”中的“<font color="#000000">区间统计</font>”进入区间统</font></font><font color="#009999">计</font>。</p>
+        <p><img src="./codebase/imgs/analyze.jpg" width="495" height="205"></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze2.jpg" width="678" height="170"></p>
+        <p><font color="#009999" size="3">&nbsp;&nbsp;&nbsp;&nbsp;<font size="2">&nbsp;&nbsp;鼠标双击“<font color="#000000">开始时间</font>”与“<font color="#000000">结束时间</font>”在弹出的“日历表”中指定“开始时间”与“结束时间”后。可以选择“<font color="#000000">显示列表</font>”或“<font color="#000000">显示图表</font>”程序会分别以不同形式显示，这时会显示所有的客户信息。 
+          如图：</font><br>
+          </font> </p>
+        <p><img src="./codebase/imgs/analyze3.jpg" width="696" height="229"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括：<font color="#000000">“客户名称”，“投放金额”，“到款金额”，“投放时长”</font>， 
+          等信息<br>
+          点击“<font color="#000000">业务员</font>“下拉列表，选择业务员姓名。点击“<font color="#000000">显示列表</font>”或“<font color="#000000">显示图表</font>”程序会分别以不同形式显示，这时会显示该业务员的客户信息。如图：</font></p>
+        <p><img src="./codebase/imgs/analyze4.jpg" width="696" height="224"> </p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击“<font color="#000000">频道</font>“下拉列表，选择频道名。点击“<font color="#000000">显示列表</font>”或“<font color="#000000">显示图表</font>”程序会分别以不同形式显示，这时会显示该频道的客户信息。如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze5.jpg" width="678" height="170"> 
+        </p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面中还提功<font color="#000000">“预览”，“打印”，“导出”</font>功能。点击“<font color="#000000">预览</font>”，显示当前页面的打印效果。如图：</font></p>
+        <p>&nbsp; <img src="./codebase/imgs/analyze6.jpg" width="678" height="425"> 
+        </p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击“<font color="#000000">导出</font>”按钮，导出Excel表单如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze7.jpg" width="678" height="453"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#006699">&nbsp;<a name="全年统计"><strong>全年统计</strong></a></font>： 
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可统计单一客户，也可统计批量客户在一年内的广告投放信息。其中先以季度为单位，最后会汇总为一年的信息。如图，点击菜单中“<font color="#000000">统计分析</font>”中“<font color="#000000">客户统计</font>”中的“<font color="#000000">全年统计</font>”进入全年统计页面： 
+          </font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze8.jpg" width="678" height="259"></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze9.jpg" width="678" height="174"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在“<font color="#000000">客户信息</font>”中指定要统计的客户名称，在下方的树状表中选择，在树状表中，可累加选择客户，就是可以选择多个客户。树中三个结点<font color="#000000">“代理客户”，“直接客户”，“其他客户</font>”代表三种客户性质，分别包括不同属性的客户，打开结点选择好要统计的客户。页面右侧上面，分别有<font color="#000000">“年份”，“业务员”，“频道”</font>三个下拉列表。和<font color="#000000">“显示全年”，“显示季度”，“显示图表”，“预览”，“打印”，“导出”</font>等几个按钮。 
+          首先选择<font color="#000000">“年份”，“业务员</font>”，“<font color="#000000">频道</font>”然后点击“<font color="#000000">显示全年</font>”按钮。显示出该业务员在选中年内的选中频道的信息，显示时以月为单位，最后合计表示全年的信息。如图： 
+          </font> </p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze10.jpg" width="678" height="170"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果选择<font color="#000000">“年份”，“业务员”，“频道”</font>后，点击“<font color="#000000">显示季度</font>”按钮。也显示出该业务员在选中年内的选中频道的信息，但显示时以季度为单位，最后合计表示全年的信息。如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze11.jpg" width="678" height="170"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果是单一客户，显示单一客户结果。如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze12.jpg" width="678" height="170"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果是累加客户，显示累加结果。</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze13.jpg" width="678" height="215"></p>
+        <p><font color="#006699" size="2"><strong><a name="业务员统计">业务员统计</a></strong></font><strong><font color="#009999" size="2">：</font></strong><font color="#009999" size="2"><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计某一时间段内，所有的业务员的业务状况。和“<font color="#000000">全年统计</font>”一样，可以不同形式显示。如图，在菜单中选择“<font color="#000000">统计分析</font>”-“<font color="#000000">客户统计</font>”-“<font color="#000000">业务员统计</font>”。进入业务员统计页面：</font></p>
+        <p><img src="./codebase/imgs/analyze14.jpg" width="578" height="237"> 
+        </p>
+        <p>&nbsp; <img src="./codebase/imgs/analyze15.jpg" width="678" height="229"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如图，在页面中提功了多种查询条件，显示方式和功能按钮。包括：<font color="#000000">“开始时间”，“结束时间”，</font>分“<font color="#000000">业务员</font>”查询，分“<font color="#000000">频道</font>”查询。可以分别显示“<font color="#000000">应收”，“到款</font>”。并有“<font color="#000000">预览</font>”，“<font color="#000000">打印</font>”，“<font color="#000000">导出</font>”功能按钮。 
+          使用时鼠标双击“<font color="#000000">开始时间</font>”，“<font color="#000000">结束时间</font>”编辑框，在弹的日历表中选择开始时间，结束时间。在“<font color="#000000">业务员</font>”， 
+          “<font color="#000000">频道</font>”下来列表中，选择业务员姓名，频道名称。点击“<font color="#000000">显示应收</font>”，如图：</font> 
+        </p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze16.jpg" width="678" height="170"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面中显示出该业务员在该时间段内在该频道的广告应收金额。如果没有选择“<font color="#000000">业务员</font>”， 
+          “<font color="#000000">频道</font>”那么系统将会显示出所有业务员，在所有频道的统计信息，如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze17.jpg" width="678" height="170"></p>
+        <p>&nbsp;<font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果没有选择“<font color="#000000">业务员</font>”，但有选择“<font color="#000000">频道</font>”那么系统将会显示出所有业务员在该频道的统计信息，如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze18.jpg" width="678" height="170"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果在选择好查询条件时，不点击“<font color="#000000">显示应收</font>”，而点击“<font color="#000000">显示到款</font>”。则显示到款方面信息，如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze19.jpg" width="678" height="170"></p>
+        <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面中有<font color="#000000">“预览”，“打印”，“导出”</font>功能按钮。可以预览，打印查询结果，导出Excel表单.如图：</font></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze20.jpg" width="678" height="255"></p>
+        <p>&nbsp;<img src="./codebase/imgs/analyze21.jpg" width="678" height="293"></p>
+      
+      </td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0">
+          <tr>
+            <td><font color="#009999" size="3"><strong><font color="#006699"><a name="载体统计">2.5.2、载体统计</a></font></strong></font></td>
+          </tr>
+          <tr>
+            <td><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动统计出载体在一段时间内的投放金额，投放时长的信息。减轻了工作人员的工作量，加快了工作效率和准确率。 
+              </font></td>
+          </tr>
+          <tr>
+            <td><p><font color="#009999" size="2"><strong><font color="#006699"><a name="载体区间统计">区间统计</a>：</font></strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以统计出某一时间段在（“<font color="#000000">开始时间</font>”与“<font color="#000000">结束时间</font>”中设定时间段）。内所有客户的投放金额与投放时间。结果可以列表或图形显示。如图，在菜单中选择“<font color="#000000">统计分析”-“载体统计”-“区间统计</font>”。进入统计页面：</font></p>
+              <img src="codebase/imgs/analyze22.jpg" width="515" height="242"> 
+              
+              <p>&nbsp;<img src="./codebase/imgs/analyze23.jpg" width="692" height="154"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在“<font color="#000000">广告资源</font>”中指定要统计的资源名称，在下方的树状表中选择资源，在树状表中，可累加选择资源，就是可以选择多个资源。树中广告资源结点下方先是广告载体的总分类，如图中的“电视”，在电视结点里是各个频道。频道中包括了具体使用到的广告载体。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze24.jpg" width="692" height="154"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;打开结点选择好要统计的载体。页面右侧上面分别有 
+                “开始时间”，“结束时间<font color="#000000">”编辑框， “业务员”，“频道”</font>二个下拉列表。和<font color="#000000">“显示列表”，“显示图表”，“预览”，“打印”，“导出”</font>等几个按钮。</font></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用时鼠标双击<font color="#000000">“开始时间”，“结束时间”</font>编辑框，在日历表中选择时间范围。在<font color="#000000">“业务员”， 
+                频道”</font>二个下拉列表选择业务员，频道名称，点击“<font color="#000000">显示列表</font>”，显示该业务员在当前时间范围内在该指定频道的所选载体的统计信息。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze25.jpg" width="670" height="195"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计内容包括：<font color="#000000">“载体名称”，“投放金额”，“到款金额”，“投入时长”</font>等信息。点击“<font color="#000000">预览</font>”，预览打印效果，“<font color="#000000">导出</font>”导出电子表格。如图：</font></p>
+              <p>&nbsp; <img src="./codebase/imgs/analyze26.jpg" width="692" height="213"></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze27.jpg" width="692" height="272"></p>
+              <p><font color="#009999" size="2"><strong><font color="#006699"><a name="载体全年统计">全年统计</a></font>：</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计全年的载体信息。其中以月为单位，先统计出每个月的，最后累加，得到全年的载体信息。使用时可统计单一载体，也可统计批量载体在一年内的广告投放信息。在“年份”中指定要统计的年份，在下方的树状表中选择载体，在树状表中，可累加选择载体，就是可以选择多个载体选择好要统计的客户后，分别点击<font color="#000000">“显示列表”，“显示图表”</font>。程序以不同形式显示结果。如果是单一客户，显示单一客户结果。如果是累加客户，显示累加结果。在菜单中的“统计分析”-“<font color="#000000">载体统计</font>”中选择“<font color="#000000">全年统计</font>”，进入全年统计页面，如图：</font></p>
+              <p><img src="./codebase/imgs/analyze28.jpg" width="625" height="202"> 
+              </p>
+              <p>&nbsp; <img src="./codebase/imgs/analyze30.jpg" width="654" height="239"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;全年统计页面如区间统计页面一样，在右侧有载体的树状结构可以选择载体。页面上方有“<font color="#000000">年份</font>”，“<font color="#000000">业务员</font>”，“<font color="#000000">频道</font>”三个下拉列表，“<font color="#000000">显示列表</font>”，“<font color="#000000">显示图表</font>”两个显示按钮，“<font color="#000000">预览</font>”，“<font color="#000000">打印</font>”，“<font color="#000000">导出</font>”等几个按钮。在右侧树状结构中选择要统计的载体，在下拉列表中选择<font color="#000000">“年份”，“业务员”，“频道”</font>点击“<font color="#000000">显示列表</font>”<br>
+                如图：</font><br>
+              </p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze31.jpg" width="692" height="154"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果不选择“<font color="#000000">业务员</font>”系统会统计出所有业务员的载体使用情况。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze32.jpg" width="692" height="154"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击“<font color="#000000">预览</font>”，预览打印效果，“<font color="#000000">导出</font>”导出电子表格。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze33.jpg" width="692" height="235"></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze34.jpg" width="692" height="212"></p>
+              <p>&nbsp;</p>
+			  </td>
+          </tr>
+        </table></td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0">
+          <tr>
+            <td><strong><font color="#006699" size="3"><a name="品牌统计">2.5.3、品牌统计</a></font></strong></td>
+          </tr>
+          <tr>
+            <td><p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分类别统计品牌的投放量，可以获得相同品牌在不同类别的下的统计信息，这样多角度的对品牌做比较。满足了多种业务，多种方面需求。使工作人员可以从多角度，多层次观察及时准确地得到需要资料。</font></p>
+              <p><font color="#009999" size="2"><strong><font color="#006699"><br>
+               <a name="客户品牌投放量">客户品牌投放量</a> ：</font></strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以客户为主的统计。统计出相对时间内客户所投放的所有广告信息，并对统计出的投放金额进行自动合计。在菜单中的<font color="#000000">“统计分析”-“品牌统计”</font>中选择“<font color="#000000">客户品牌投放量</font>”，进入客户品牌投放量页面，如图：</font><br>
+              </p></td>
+          </tr>
+          <tr>
+            <td><p>&nbsp;<img src="./codebase/imgs/analyze35.jpg" width="478" height="218"></p>
+           
+              <p>&nbsp;<img src="./codebase/imgs/analyze36.jpg" width="501" height="115"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面上面分别有<font color="#000000"> 
+                “开始时间”，“结束时间”</font>编辑框，<font color="#000000"> “业务员”，“频道”</font>二个下拉列表。和“<font color="#000000">显示列表</font>”，“<font color="#000000">显示图表</font>”<font color="#000000">，“预览”，“打印”，“导出”</font>等几个按钮。使用时鼠标双击<font color="#000000">“开始时间”，“结束时间”</font>编辑框，在日历表中选择时间范围。在<font color="#000000">“业务员”， 
+                频道”</font>二个下拉列表选择业务员，频道名称，点击“<font color="#000000">显示列表</font>”，显示该业务员在当前时间范围内在该指定频道的统计信息。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze37.jpg" width="568" height="183"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查询内容包括：<font color="#000000">“客户名称”，“广告品牌”，“投放金额”，“订单编号”</font>等信息。点击“<font color="#000000">预览</font>”，预览打印效果，“<font color="#000000">导出</font>”导出电子表格。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze38.jpg" width="501" height="309"></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze39.jpg" width="501" height="565"></p>
+              <p><font color="#009999" size="2"><strong><font color="#006699"><a name="行业品牌投放量">行业品牌投放量</a>：</font></strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以行业为主的统计，。统计出相对时间内各个行业所属相关品牌的投放的信息，并对统计出的投放金额进行自动合计。在菜单中的<font color="#000000">“统计分析”-“品牌统计”中选择“行业品牌投放量”</font>，进入行业品牌投放量页面，如图：</font><br>
+              </p>
+              <p>&nbsp; <img src="./codebase/imgs/analyze40.jpg" width="501" height="115"></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze41.jpg" width="501" height="115"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面上面分别有 
+                <font color="#000000">“开始时间”，“结束时间”编辑框， “业务员”，“频道”</font>二个下拉列表。和<font color="#000000">“行业总览”，“行业明细”，“显示图表”，“预览”，“打印”，“导出”</font>等几个按钮。<br>
+                使用时鼠标双击<font color="#000000">“开始时间”，“结束时间”</font>编辑框，在日历表中选择时间范围。在<font color="#000000">“业务员”， 
+                频道”</font>二个下拉列表选择业务员，频道名称，点击“<font color="#000000">行业总览</font>”，显示该业务员在当前时间范围内在该指定频道的行业统计信息。如图：</font></p>
+              <p><img src="./codebase/imgs/analyze42.jpg" width="587" height="209"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括：<font color="#000000">“行业类别”，“投放金额”，“行业/总行业”</font>。 
+                点击“<font color="#000000">预览</font>”，预览打印效果，“<font color="#000000">导出</font>”导出电子表格。如图：<br>
+                </font> </p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze43.jpg" width="501" height="263"></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze44.jpg" width="501" height="395"> 
+              </p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用时鼠标双击<font color="#000000">“开始时间”，“结束时间”</font>编辑框，在日历表中选择时间范围。在“<font color="#000000">业务员</font>”， 
+                <font color="#000000"> 频道</font>”二个下拉列表选择业务员，频道名称，点击“<font color="#000000">行业明细</font>”，显示该业务员在当前时间范围内在该指定频道的行业的更详细的统计信息。如图：</font></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze45.jpg" width="608" height="281"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括：<font color="#000000">“行业类别”，“广告品牌”，“ 
+                投放金额”，“订单编号”</font>。 点击“<font color="#000000">预览</font>”，预览打印效果，“<font color="#000000">导出</font>”导出电子表格。如图：</font><br>
+              </p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze46.jpg" width="501" height="392"> 
+              </p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze47.jpg" width="501" height="575"></p>
+              <p><font color="#009999" size="2"><strong><font color="#006699"><a name="广告类型品牌投放量">广告类型品牌投放量：</a></font></strong> 
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以广告类型为主的统计。统计出相对时间内投放的<font color="#000000">“广告类型”，” 
+                广告品牌”</font>的信息，并对统计出的投放金额进行自动合计。在菜单中的<font color="#000000">“统计分析”-“广告类型统计”</font>中选择“<font color="#000000">广告类型品牌投放量</font>”，进入广告类型品牌投放量页面，如图：</font><br>
+              </p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze48.jpg" width="501" height="194"></p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze49.jpg" width="565" height="149"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页面上面分别有<font color="#000000"> 
+                “开始时间”，“结束时间”</font>编辑框，<font color="#000000">“业务员”，“频道”</font>二个下拉列表。和“<font color="#000000">行业总览</font>”，“<font color="#000000">行业明细</font>”，“<font color="#000000">显示图表</font>”，“<font color="#000000">预览</font>”，“<font color="#000000">打印</font>”，“<font color="#000000">导出</font>”等几个按钮。使用时鼠标双击<font color="#000000">“开始时间”，“结束时间”</font>编辑框，在日历表中选择时间范围。在<font color="#000000">“业务员”， 
+                频道”</font>二个下拉列表选择业务员，频道名称，点击“<font color="#000000">行业总览</font>”，显示该业务员在当前时间范围内在该指定频道的品牌统计信息。如图：<br>
+                </font> </p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze50.jpg" width="576" height="241"></p>
+              <p><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括<font color="#000000">：“广告类型”，“广告品牌”，“投放金额”，“饱和度”，“订单编号”</font>。 
+                点击“<font color="#000000">预览</font>”，预览打印效果，“<font color="#000000">导出</font>”导出电子表格。如图</font></p>
+              <p><img src="./codebase/imgs/analyze51.jpg" width="501" height="378"> 
+              </p>
+              <p>&nbsp;<img src="./codebase/imgs/analyze52.jpg" width="501" height="491"> 
+              </p>
+              <p>&nbsp; </p></td>
+			  
+          </tr>
+        </table></td>
+  </tr>
+</table>
+
+</div>
+<a name=combo_?>
+<h2 onclick="openFull(this)" align="center">&nbsp;</h2>
+</a>
+</body>
+	</html>

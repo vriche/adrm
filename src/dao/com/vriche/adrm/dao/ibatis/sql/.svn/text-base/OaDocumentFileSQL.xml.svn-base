@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaDocumentFileSQL">
+    <typeAlias alias="oaDocumentFile" type="com.vriche.adrm.model.OaDocumentFile"/>
+
+	<cacheModel id="oaDocumentFile-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaDocumentFile"/>
+		<flushOnExecute statement="updateOaDocumentFile"/>
+		<flushOnExecute statement="deleteOaDocumentFile"/>
+		<flushOnExecute statement="deleteOaDocumentFiles"/>
+		<flushOnExecute statement="deleteOaDocumentFilesByDocumentId"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaDocumentFile">
+		<parameter property="documentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <!-- parameter property="documentCatalogId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="fileName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="filePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="picName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaDocumentFile">
+		<parameter property="documentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <!--parameter property="documentCatalogId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <parameter property="fileName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="filePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="picName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaDocumentFileResult" class="oaDocumentFile">
+		<result property="documentId" column="document_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="document_file_id"/>
+		<!-- result property="filePath" column="document_file_id"/ -->
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+        <!-- result property="documentCatalogId" column="document_catalog_id"/ -->
+        <result property="fileName" column="file_name"/>
+		<result property="filePath" column="file_path"/>
+        <result property="picName" column="pic_name"/>
+        <!-- result property="oaDocumentCatalog" column="document_catalog_id" select="getOaDocumentCatalog"/ -->
+    </resultMap>
+	
+    <select id="getOaDocumentFilesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_document_file 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(document_file_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fileName">
+			(file_name like #fileName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="filePath">
+			(file_path like #filePath#)
+			</isNotEmpty> 
+			<isNotEmpty prepend="AND" property="picName">
+			(pic_name like #picName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="documentId">
+			(document_id like #documentId#)
+			</isNotEmpty>			  
+		</dynamic>
+    </select>	
+
+    <select id="getOaDocumentFiles" resultMap="oaDocumentFileResult">
+    <![CDATA[
+        select * from tb_oa_document_file 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(document_file_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fileName">
+			(file_name like #fileName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="filePath">
+			(file_path like #filePath#)
+			</isNotEmpty>   
+			<isNotEmpty prepend="AND" property="picName">
+			(pic_name like #picName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="documentId">
+			(document_id like #documentId#)
+			</isNotEmpty>				  
+		</dynamic>
+    </select>
+	
+    <select id="getOaDocumentFilesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_document_file 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaDocumentFileIdList">
+       	  <iterate prepend="AND" property="OaDocumentFileIdList" open="(" close=")" conjunction="OR">
+		   			 document_file_id = #OaDocumentFileIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaDocumentFile" resultMap="oaDocumentFileResult">
+    <![CDATA[
+        select * from tb_oa_document_file
+         where document_file_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaDocumentFile" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_document_file_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_document_file (document_id,create_by,create_date,modify_by,modify_date,file_name,file_path,pic_name)
+            values ( ?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaDocumentFile" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_document_file set
+                   document_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   file_name = ?,
+				   file_path = ?,
+                   pic_name = ?,
+				   version = ?
+        where document_file_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaDocumentFile">
+    <![CDATA[
+        delete from tb_oa_document_file
+         where document_file_id = #value#
+    ]]>
+    </delete>
+	
+   <update id="deleteOaDocumentFiles" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_document_file 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaDocumentFileIdList">
+       	  <iterate prepend="AND" property="OaDocumentFileIdList" open="(" close=")" conjunction="OR">
+		   			 document_file_id = #OaDocumentFileIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	
+   <update id="deleteOaDocumentFilesByDocumentId" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_document_file 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaDocumentIdList">
+       	  <iterate prepend="AND" property="OaDocumentIdList" open="(" close=")" conjunction="OR">
+		   			 document_id = #OaDocumentIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update> 
+	
+</sqlMap>

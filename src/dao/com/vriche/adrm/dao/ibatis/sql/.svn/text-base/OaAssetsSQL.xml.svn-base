@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaAssetsSQL">
+    <typeAlias alias="oaAssets" type="com.vriche.adrm.model.OaAssets"/>
+
+	<cacheModel id="oaAssets-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaAssets"/>
+		<flushOnExecute statement="updateOaAssets"/>
+		<flushOnExecute statement="deleteOaAssets"/>
+		<flushOnExecute statement="deleteOaAssetss"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaAssets">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="purchaseDate" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="assetsCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="assetsName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="assetsStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="assetsTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="depreciation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="oldValue" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="provider" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="purchaseMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="standard" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="storage" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="surplusValue" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="useYearFixed" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="voucher" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaAssets">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="purchaseDate" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="assetsCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="assetsName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="assetsStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="assetsTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="depreciation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="oldValue" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="provider" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="purchaseMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="standard" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="storage" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="surplusValue" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="useYearFixed" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="voucher" jdbcType="VARCHAR" javaType="java.lang.String"/> 
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>    
+    </parameterMap>
+	
+    <resultMap id="oaAssetsResult" class="oaAssets">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="assets_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+        <result property="purchaseDate" column="purchase_date"/>
+        <result property="assetsCode" column="assets_code"/>
+        <result property="assetsName" column="assets_name"/>
+        <result property="assetsStateId" column="assets_state_id"/>
+        <result property="assetsTypeId" column="assets_type_id"/>
+        <result property="depreciation" column="depreciation"/>
+        <result property="memo" column="memo"/>
+        <result property="oldValue" column="old_value"/>
+        <result property="provider" column="provider"/>
+        <result property="purchaseMoney" column="purchase_money"/>
+        <result property="standard" column="standard"/>
+        <result property="storage" column="storage"/>
+        <result property="surplusValue" column="surplus_value"/>
+        <result property="useYearFixed" column="use_year_fixed"/>
+        <result property="voucher" column="voucher"/>
+        <result property="oaAssetsState" column="assets_state_id" select="getOaAssetsState"/>
+        <result property="oaAssetsType" column="assets_type_id" select="getOaAssetsType"/>
+        <result property="signUser" column="create_by" select="getUser"/>
+    </resultMap>
+	
+	
+    <select id="getOaAssetssCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_assets 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(assets_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="purchaseDate">
+			(purchase_date like #purchaseDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsCode">
+			(assets_code like #assetsCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsName">
+			(assets_name like #assetsName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsStateId">
+			(assets_state_id like #assetsStateId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsTypeId">
+			(assets_type_id like #assetsTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="depreciation">
+			(depreciation like #depreciation#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="oldValue">
+			(old_value like #oldValue#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="provider">
+			(provider like #provider#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="purchaseMoney">
+			(purchase_money like #purchaseMoney#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="standard">
+			(standard like #standard#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="storage">
+			(storage like #storage#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="surplusValue">
+			(surplus_value like #surplusValue#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useYearFixed">
+			(use_year_fixed like #useYearFixed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="voucher">
+			(voucher like #voucher#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaAssetss" resultMap="oaAssetsResult">
+    <![CDATA[
+        select * from tb_oa_assets 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(assets_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="purchaseDate">
+			(purchase_date like #purchaseDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsCode">
+			(assets_code like #assetsCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsName">
+			(assets_name like #assetsName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsStateId">
+			(assets_state_id like #assetsStateId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="assetsTypeId">
+			(assets_type_id like #assetsTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="depreciation">
+			(depreciation like #depreciation#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="oldValue">
+			(old_value like #oldValue#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="provider">
+			(provider like #provider#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="purchaseMoney">
+			(purchase_money like #purchaseMoney#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="standard">
+			(standard like #standard#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="storage">
+			(storage like #storage#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="surplusValue">
+			(surplus_value like #surplusValue#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="useYearFixed">
+			(use_year_fixed like #useYearFixed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="voucher">
+			(voucher like #voucher#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+	
+    <select id="getOaAssetssByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_assets 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaAssetsIdList">
+       	  <iterate prepend="AND" property="OaAssetsIdList" open="(" close=")" conjunction="OR">
+		   			 assets_id = #OaAssetsIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaAssets" resultMap="oaAssetsResult">
+    <![CDATA[
+        select * from tb_oa_assets
+         where assets_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaAssets" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_assets_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_assets (create_by,create_date,modify_by,modify_date,purchase_date,assets_code,assets_name,assets_state_id,assets_type_id,depreciation,memo,old_value,provider,purchase_money,standard,storage,surplus_value,use_year_fixed,voucher)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaAssets" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_assets set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   purchase_date = ?,
+                   assets_code = ?,
+                   assets_name = ?,
+                   assets_state_id = ?,
+                   assets_type_id = ?,
+                   depreciation = ?,
+                   memo = ?,
+                   old_value = ?,
+                   provider = ?,
+                   purchase_money = ?,
+                   standard = ?,
+                   storage = ?,
+                   surplus_value = ?,
+                   use_year_fixed = ?,
+                   voucher = ?,
+				   version = ?
+        where assets_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaAssets">
+    <![CDATA[
+        delete from tb_oa_assets
+         where assets_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaAssetss" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_assets 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaAssetsIdList">
+       	  <iterate prepend="AND" property="OaAssetsIdList" open="(" close=")" conjunction="OR">
+		   			 assets_id = #OaAssetsIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

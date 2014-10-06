@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProCustomerSQL">
+    <typeAlias alias="proCustomer" type="com.vriche.adrm.model.ProCustomer"/>
+
+	<cacheModel id="proCustomer-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProCustomer"/>
+		<flushOnExecute statement="updateProCustomer"/>
+		<flushOnExecute statement="deleteProCustomer"/>
+		<flushOnExecute statement="deleteProCustomers"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="proCustomer">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="typeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="accountAddress" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="fax" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="helpCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="linkmanName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="telephone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proCustomer">
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="typeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="accountAddress" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="fax" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="helpCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="linkmanName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="telephone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+    <resultMap id="proCustomerResult" class="proCustomer">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="typeId" column="customer_type_id"/>
+        <result property="accountAddress" column="account_address"/>
+        <result property="fax" column="fax"/>
+        <result property="helpCode" column="help_code"/>
+        <result property="linkmanName" column="linkman_name"/>
+        <result property="telephone" column="telephone"/>
+        <result property="version" column="version"/>
+    </resultMap>
+    <sql id="ProCustomer_where_fragment">
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerName">
+			(customer_name like '%$customerName$%')
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="typeId">
+			(customer_type_id like #typeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountAddress">
+			(account_address like '%$accountAddress$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(fax like #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="helpCode">
+			(help_code like '%$helpCode$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkmanName">
+			(linkman_name like #linkmanName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="telephone">
+			(telephone like #telephone#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(version like #version#)
+			</isNotEmpty>
+    </sql>
+     <sql id="ProCustomer_idList_fragment">
+	      <isNotNull property="ProCustomerIdList">
+       	  <iterate prepend="AND" property="ProCustomerIdList" open="(" close=")" conjunction="OR">
+		   			 id = #ProCustomerIdList[]#
+		  </iterate>
+		  </isNotNull> 
+    </sql>   
+    <select id="getProCustomersCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_customer 
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="ProCustomer_where_fragment"/>
+		</dynamic>  
+    </select>	
+	
+	
+	<select id="getProCustomersByIdList" resultMap="proCustomerResult">
+   <![CDATA[
+        select * from tb_pro_customer 
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<include refid="ProCustomer_where_fragment"/>
+		</dynamic>  
+    </select>
+	
+
+    <select id="getProCustomers" resultMap="proCustomerResult">
+    <![CDATA[
+		
+        select * from tb_pro_customer 
+		
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<include refid="ProCustomer_where_fragment"/>
+			
+			<isNotEmpty prepend="AND" property="customerName">
+			(customer_name like #customerName#)
+			</isNotEmpty>
+			
+		</dynamic> 
+    </select>
+    <select id="getProCustomersByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_pro_customer 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="ProCustomer_idList_fragment"/>
+          </dynamic>      
+  </select>     
+
+    <select id="getProCustomer" resultMap="proCustomerResult">
+    <![CDATA[
+        select * from tb_pro_customer
+         where id = #value#
+    ]]>
+    </select>
+
+    <insert id="addProCustomer" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+			
+        </selectKey-->
+        <![CDATA[
+            insert into tb_pro_customer (create_by,create_date,modify_by,modify_date,customer_name,customer_type_id,account_address,fax,help_code,linkman_name,telephone)
+            values ( ?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProCustomer" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_customer set
+                   modify_by = ?,
+                   modify_date = ?,
+                   customer_name = ?,
+                   customer_type_id = ?,
+                   account_address = ?,
+                   fax = ?,
+                   help_code = ?,
+                   linkman_name = ?,
+                   telephone = ?
+		
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProCustomer">
+    <![CDATA[
+        delete from tb_pro_customer
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteProCustomers" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_pro_customer 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="ProCustomer_idList_fragment"/>
+          </dynamic>      
+  </update>   
+</sqlMap>

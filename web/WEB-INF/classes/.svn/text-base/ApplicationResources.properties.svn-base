@@ -1,0 +1,2111 @@
+# -- messages used in decorators/default.jsp --
+webapp.name=AppFuse
+user.status=Logged in as: 
+user.logout=Logout
+
+user.oldPassword=Old Passwod
+user.newPassword=New Password
+
+
+
+#-- adrm button--
+
+
+adrm.index=desk
+adrm.refurbish=refurbish
+adrm.back=back
+adrm.forword=forword
+adrm.logout=logout
+
+
+# -- validator errors --
+errors.invalid={0} is invalid.
+errors.maxlength={0} can not be greater than {1} characters.
+errors.minlength={0} can not be less than {1} characters.
+errors.range={0} is not in the range {1} through {2}.
+errors.required={0} is a required field.
+errors.byte={0} must be an byte.
+errors.date={0} is not a date.
+errors.double={0} must be an double.
+errors.float={0} must be an float.
+errors.integer={0} must be a number.
+errors.long={0} must be an long.
+errors.short={0} must be an short.
+errors.creditcard={0} is not a valid credit card number.
+errors.email={0} is an invalid e-mail address.
+errors.phone={0} is an invalid phone number.
+errors.zip={0} is an invalid zip code.
+# -- for field level messages --
+errors.header=<span class="fieldError">
+errors.footer=</span>
+
+# -- other errors --
+errors.cancel=Operation cancelled.
+errors.detail={0}
+errors.general=<strong>The process did not complete. Details should follow.</strong>
+errors.token=Request could not be completed. Operation is not in sequence.
+errors.none=No error message was found, check your server logs.
+errors.password.mismatch=Invalid username and/or password, please try again.
+errors.conversion=An error occurred while converting web values to data values.
+errors.twofields=The {0} field has to have the same value as the {1} field.
+errors.existing.user=This username (<strong>{0}</strong>) or e-mail address (<strong>{1}</strong>) already exists.  Please try a different username.
+
+# -- success messages --
+user.added=User information for <strong>{0}</strong> has been added successfully.
+user.deleted=User Profile for <strong>{0}</strong> has been deleted successfully. 
+user.registered=You have successfully registered for access to this application. 
+user.saved=Your profile has been updated successfully.
+user.updated.byAdmin=User information for <strong>{0}</strong> has been successfully updated.
+newuser.email.message={0} has created an AppFuse account for you.  Your username and password information is below.
+reload.succeeded=Reloading options completed successfully.
+
+# -- error page messages --
+errorPage.title=An error has occurred
+errorPage.heading=Yikes!
+404.title=Page Not Found
+404.message=The page your requested was not found.  You might try returning to the <a href="{0}">Main Menu</a>. While you&#39;re here, how about a pretty picture to cheer you up?
+403.title=Access Denied
+403.message=Your current role does not allow you to view this page.  Please contact your system administrator if you believe you should have access.  In the meantime, how about a pretty picture to cheer you up?
+
+# -- login --
+login.title=Login
+login.heading=Login
+login.rememberMe=Remember Me
+login.signup=Not a member? <a href="{0}">Signup</a> for an account.
+login.passwordHint=Forgot your password?  Have your <a href="?" onmouseover="window.status='Have your password hint sent to you.'; return true" onmouseout="window.status=''; return true" title="Have your password hint sent to you." onclick="passwordHint(); return false">password hint e-mailed to you</a>.
+login.passwordHint.sent=The password hint for <strong>{0}</strong> has been sent to <strong>{1}</strong>.
+login.passwordHint.error=The username <strong>{0}</strong> was not found in our database.
+    
+# -- welcome --
+welcome.message=This application is designed to demonstrate the use of web application security, as well as how to use Hibernate with Struts and Struts Advanced features.  Most of the persistence layer for this application is generated using XDoclet.  You can find more information on how to build your own application from this one by reading the README file below.  <span class="attention">To login as a regular user (with the <strong>user</strong> role), the username/password combination is <strong>tomcat/tomcat</strong>.  To login as an <strong>admin</strong> user, use <strong>mraible/tomcat</strong>.</span>
+
+# -- mainMenu --
+mainMenu.title=Main Menu
+mainMenu.heading=Welcome!
+mainMenu.message=Congratulations, you have logged in successfully!  Now that you've logged in, you have the following options:
+mainMenu.activeUsers=Current Users
+
+# -- menu/link messages --
+menu.admin=Administration
+menu.admin.users=View Users
+menu.admin.reload=Reload Options
+
+menu.user=Edit Profile
+menu.selectFile=Upload A File
+menu.flushCache=Flush Cache
+menu.clickstream=Clickstream
+
+# -- form labels --
+label.username=Username
+label.password=Password
+
+# -- button labels --
+button.add=Add
+button.cancel=Cancel
+button.copy=Copy
+button.delete=Delete
+button.done=Done
+button.edit=Edit
+button.register=Signup
+button.save=Save
+button.search=Search
+button.upload=Upload
+button.view=View
+button.reset=Reset
+button.login=Login
+
+
+# -- general values --
+icon.information=Information
+icon.information.img=/images/iconInformation.gif
+icon.email=E-Mail
+icon.email.img=/images/iconEmail.gif
+icon.warning=Warning
+icon.warning.img=/images/iconWarning.gif
+date.format=MM/dd/yyyy
+
+# -- role form --
+roleForm.name=Name
+
+# -- user profile page --
+userProfile.title=User Settings
+userProfile.heading=User Profile
+userProfile.message=Please update your information using the form below.
+userProfile.admin.message=You can update this user's information using the form below.
+userProfile.showMore=View More Information
+userProfile.accountSettings=Account Settings
+userProfile.assignRoles=Assign Roles
+userProfile.cookieLogin=You cannot change passwords when logging in with the <strong>Remember Me</strong> feature.  Please logout and log back in to change passwords.
+
+# -- user form --
+userForm.addressForm.address=Address
+userForm.availableRoles=Available Roles
+userForm.addressForm.city=City
+userForm.addressForm.country=Country
+userForm.email=E-Mail
+userForm.firstName=First Name
+userForm.id=Id
+userForm.lastName=Last Name
+userForm.password=Password
+userForm.confirmPassword=Confirm Password
+userForm.phoneNumber=Phone Number
+userForm.addressForm.postalCode=Zip
+userForm.addressForm.province=State
+userForm.roles=Current Roles
+userForm.username=Username
+userForm.website=Website
+userForm.visitWebsite=visit
+userForm.passwordHint=Password Hint
+userForm.enabled=Enabled
+userForm.accountExpired=Expired
+userForm.accountLocked=Locked
+userForm.credentialsExpired=Password Expired
+
+userForm.oldPassword=Old Passwod
+userForm.newPassword=New Password
+
+# -- user list page --
+userList.title=User List
+userList.heading=Current Users
+userList.nousers=<span>No users found.</span>
+
+# -- user self-registration --
+signup.title=Sign Up
+signup.heading=New User Registration
+signup.message=Please enter your user information in the form below.
+signup.email.subject=AppFuse Account Information
+signup.email.message=You have successfully registered for access to AppFuse.  Your username and password information is below.
+
+# -- upload page messages --
+maxLengthExceeded=The file you are trying to upload is too big.  The maximum allowed size is 2 MB.
+upload.title=File Upload
+upload.heading=Upload A File
+upload.message=Note that the maximum allowed size of an uploaded file for this application is 2 MB. See the metadata/web/struts-controller.xml file (or the generated struts-config.xml) to change this value.
+uploadForm.name=Friendly Name
+uploadForm.file=File to Upload
+
+# -- display page messages -- 
+display.title=File Uploaded Successfully!
+display.heading=File Information
+
+# -- flushCache page --
+flushCache.title=Flush Cache
+flushCache.heading=Flush Successful!
+flushCache.message=All caches successfully flushed, returning you to your previous page in 2 seconds.
+
+# -- clickstreams page --
+clickstreams.title=All Clickstreams
+clickstreams.heading=All Clickstreams
+
+# -- viewstream page --
+viewstream.title=Stream Details
+viewstream.heading=Stream Information
+
+# -- active users page --
+activeUsers.title=Active Users
+activeUsers.heading=Current Users
+activeUsers.message=The following is a list of users that have logged in and their sessions have not expired.
+activeUsers.fullName=Full Name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -- ContractPayment-START
+
+# -- contractPayment form --
+contractPaymentForm.contractId=Contract Id
+contractPaymentForm.createBy=Create By
+contractPaymentForm.createDate=Create Date
+contractPaymentForm.id=Id
+contractPaymentForm.incomeModeId=Income Mode Id
+contractPaymentForm.memo=Memo
+contractPaymentForm.modifyBy=Modify By
+contractPaymentForm.modifyDate=Modify Date
+contractPaymentForm.moneyIn=Money In
+contractPaymentForm.moneyPay=Money Pay
+contractPaymentForm.orderId=Order Id
+contractPaymentForm.payDate=Pay Date
+contractPaymentForm.payNumber=Pay Number
+contractPaymentForm.urgencyAlert=Urgency Alert
+contractPaymentForm.version=Version
+
+contractPayment.added=ContractPayment has been added successfully.
+contractPayment.updated=ContractPayment has been updated successfully.
+contractPayment.deleted=ContractPayment has been deleted successfully.
+
+# -- contractPayment list page --
+contractPaymentList.title=ContractPayment List
+contractPaymentList.heading=ContractPayments
+
+# -- contractPayment detail page --
+contractPaymentDetail.title=ContractPayment Detail
+contractPaymentDetail.heading=ContractPayment Information
+
+# -- ContractPayment-END
+# -- Order-START
+
+# -- order form --
+orderForm.categoryId=Category Id
+orderForm.contractId=Contract Id
+orderForm.createBy=Create By
+orderForm.createDate=Create Date
+orderForm.customerId=Customer Id
+orderForm.id=Id
+orderForm.isCkecked=Is Ckecked
+orderForm.modifyBy=Modify By
+orderForm.modifyDate=Modify Date
+orderForm.moneyIn=Money In
+orderForm.moneySum=Money Sum
+orderForm.orderCode=Order Code
+orderForm.orderMeno=Order Meno
+orderForm.publishMemo=Publish Memo
+orderForm.relationCode=Relation Code
+orderForm.userId=User Id
+orderForm.version=Version
+orderForm.contractPayments=Contract Payments
+orderForm.orderDetails=Order Details
+orderForm.publishEndDate=Publish End Date
+orderForm.publishStartDate=Publish Start Date
+orderForm.printDate=stop Date
+orderForm.sumTimes=Sum Times
+
+order.added=Order has been added successfully.
+order.updated=Order has been updated successfully.
+order.deleted=Order has been deleted successfully.
+
+# -- order list page --
+orderList.title=Order List
+orderList.heading=Orders
+
+# -- order detail page --
+orderDetail.title=Order Detail
+orderDetail.heading=Order Information
+
+# -- Order-END
+# -- OrderCategory-START
+
+# -- orderCategory form --
+orderCategoryForm.calculateAuto=Calculate Auto
+orderCategoryForm.createBy=Create By
+orderCategoryForm.createDate=Create Date
+orderCategoryForm.displayNo=Display No
+orderCategoryForm.id=Id
+orderCategoryForm.modifyBy=Modify By
+orderCategoryForm.modifyDate=Modify Date
+orderCategoryForm.name=Name
+orderCategoryForm.nodeLevel=Node Level
+orderCategoryForm.nodePath=Node Path
+orderCategoryForm.parentId=Parent Id
+orderCategoryForm.value=Value
+orderCategoryForm.version=Version
+
+orderCategory.added=OrderCategory has been added successfully.
+orderCategory.updated=OrderCategory has been updated successfully.
+orderCategory.deleted=OrderCategory has been deleted successfully.
+
+# -- orderCategory list page --
+orderCategoryList.title=OrderCategory List
+orderCategoryList.heading=OrderCategorys
+
+# -- orderCategory detail page --
+orderCategoryDetail.title=OrderCategory Detail
+orderCategoryDetail.heading=OrderCategory Information
+
+# -- OrderCategory-END
+# -- OrderDayInfo-START
+
+# -- orderDayInfo form --
+orderDayInfoForm.adDayTimes=Ad Day Times
+orderDayInfoForm.adlength=Adlength
+orderDayInfoForm.dayRelIncome=Day Rel Income
+orderDayInfoForm.dayStandardPrice=Day Standard Price
+orderDayInfoForm.id=Id
+orderDayInfoForm.isPublished=Is Published
+orderDayInfoForm.orderDetailId=Order Detail Id
+orderDayInfoForm.orderId=Order Id
+orderDayInfoForm.publishDate=Publish Date
+orderDayInfoForm.resourceSpecific=Resource Specific
+orderDayInfoForm.version=Version
+
+orderDayInfo.added=OrderDayInfo has been added successfully.
+orderDayInfo.updated=OrderDayInfo has been updated successfully.
+orderDayInfo.deleted=OrderDayInfo has been deleted successfully.
+
+# -- orderDayInfo list page --
+orderDayInfoList.title=OrderDayInfo List
+orderDayInfoList.heading=OrderDayInfos
+
+# -- orderDayInfo detail page --
+orderDayInfoDetail.title=OrderDayInfo Detail
+orderDayInfoDetail.heading=OrderDayInfo Information
+
+# -- OrderDayInfo-END
+# -- OrderDetail-START
+
+# -- orderDetail form --
+orderDetailForm.appRate=App Rate
+orderDetailForm.carrierId=Carrier Id
+orderDetailForm.createBy=Create By
+orderDetailForm.createDate=Create Date
+orderDetailForm.execPrice=Exec Price
+orderDetailForm.favourRate=Favour Rate
+orderDetailForm.id=Id
+orderDetailForm.industryTypeId=Industry Type Id
+orderDetailForm.isCkecked=Is Ckecked
+orderDetailForm.matterId=Matter Id
+orderDetailForm.matterLength=Matter Length
+orderDetailForm.matteType=Matte Type
+orderDetailForm.modifyBy=Modify By
+orderDetailForm.modifyDate=Modify Date
+orderDetailForm.moneyBalance=Money Balance
+orderDetailForm.moneyIn=Money In
+orderDetailForm.moneyRealpay=Money Realpay
+orderDetailForm.orderCategoryId=Order Category Id
+orderDetailForm.orderId=Order Id
+orderDetailForm.publishMemo=Publish Memo
+orderDetailForm.resourceInfoId=Resource Info Id
+orderDetailForm.resourcePriceType=Resource Price Type
+orderDetailForm.resourceSpecificId=Resource Specific Id
+orderDetailForm.resourceType=Resource Type
+orderDetailForm.resourceWorkspanId=Resource Workspan Id
+orderDetailForm.moneyBase=Money Base
+orderDetailForm.sumTimes=Sum Times
+orderDetailForm.sysPrice=Sys Price
+orderDetailForm.orderDayInfos=Order Day Infos
+orderDetailForm.version=Version
+orderDetailForm.publishEndDate=Publish End Date
+orderDetailForm.publishStartDate=Publish Start Date
+
+orderDetail.added=OrderDetail has been added successfully.
+orderDetail.updated=OrderDetail has been updated successfully.
+orderDetail.deleted=OrderDetail has been deleted successfully.
+
+# -- orderDetail list page --
+orderDetailList.title=OrderDetail List
+orderDetailList.heading=OrderDetails
+
+# -- orderDetail detail page --
+orderDetailDetail.title=OrderDetail Detail
+orderDetailDetail.heading=OrderDetail Information
+
+# -- OrderDetail-END
+# -- OrderLog-START
+
+# -- orderLog form --
+orderLogForm.id=Id
+orderLogForm.logForm.clientIp=Client Ip
+orderLogForm.logForm.linkPath=Link Path
+orderLogForm.logForm.modifyBy=Modify By
+orderLogForm.logForm.modifyDate=Modify Date
+orderLogForm.logForm.operateModel=Operate Model
+orderLogForm.logForm.operateModelFunction=Operate Model Function
+orderLogForm.logForm.operateType=Operate Type
+orderLogForm.version=Version
+
+orderLog.added=OrderLog has been added successfully.
+orderLog.updated=OrderLog has been updated successfully.
+orderLog.deleted=OrderLog has been deleted successfully.
+
+# -- orderLog list page --
+orderLogList.title=OrderLog List
+orderLogList.heading=OrderLogs
+
+# -- orderLog detail page --
+orderLogDetail.title=OrderLog Detail
+orderLogDetail.heading=OrderLog Information
+
+# -- OrderLog-END
+# -- Contract-START
+
+# -- contract form --
+contractForm.code=Code
+contractForm.contractSort=Contract Sort
+contractForm.contractType=Contract Type
+contractForm.createBy=Create By
+contractForm.createDate=Create Date
+contractForm.csignDate=Csign Date
+contractForm.customerId=Customer Id
+contractForm.endDate=End Date
+contractForm.id=Id
+contractForm.isLimitOrder=Is Limit Order
+contractForm.memo=Memo
+contractForm.memoRenew=Memo Renew
+contractForm.modifyBy=Modify By
+contractForm.modifyDate=Modify Date
+contractForm.moneyExec=Money Exec
+contractForm.moneyIn=Money In
+contractForm.moneySum=Money Sum
+contractForm.notifyDays=Notify Days
+contractForm.osignDate=Osign Date
+contractForm.owner=Owner
+contractForm.signHeadship=Sign Headship
+contractForm.signUser=Sign User
+contractForm.startDate=Start Date
+contractForm.state=State
+contractForm.userId=User Id
+contractForm.version=Version
+contractForm.contractPayments=Contract Payments
+contractForm.orders=Orders
+contractForm.customer=Customer
+contractForm.customerName=Customer Name
+contractForm.customerMap=Customer Map
+
+contract.added=Contract has been added successfully.
+contract.updated=Contract has been updated successfully.
+contract.deleted=Contract has been deleted successfully.
+
+# -- contract list page --
+contractList.title=Contract List
+contractList.heading=Contracts
+
+# -- contract detail page --
+contractDetail.title=Contract Detail
+contractDetail.heading=Contract Information
+
+# -- Contract-END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -- Org-START
+
+# -- org form --
+orgForm.bankCode=Bank Code
+orgForm.bankName=Bank Name
+orgForm.createBy=Create By
+orgForm.createDate=Create Date
+orgForm.fax=Fax
+orgForm.id=Id
+orgForm.linkMan=Link Man
+orgForm.modifyBy=Modify By
+orgForm.modifyDate=Modify Date
+orgForm.name=Name
+orgForm.tel=Tel
+orgForm.version=Version
+orgForm.addressForm.address=Address
+orgForm.addressForm.city=City
+orgForm.addressForm.country=Country
+orgForm.addressForm.postalCode=Postal Code
+orgForm.addressForm.province=Province
+orgForm.branchs=Branchs
+
+org.added=Org has been added successfully.
+org.updated=Org has been updated successfully.
+org.deleted=Org has been deleted successfully.
+
+# -- org list page --
+orgList.title=Org List
+orgList.heading=Orgs
+
+# -- org detail page --
+orgDetail.title=Org Detail
+orgDetail.heading=Org Information
+
+# -- Org-END
+
+
+# -- Branch-START
+
+# -- branch form --
+branchForm.createBy=Create By
+branchForm.createDate=Create Date
+branchForm.displayNo=Display No
+branchForm.id=Id
+branchForm.modifyBy=Modify By
+branchForm.modifyDate=Modify Date
+branchForm.name=Name
+branchForm.org=Org
+branchForm.orgId=Org Id
+branchForm.parentId=Parent Id
+branchForm.treeLevel=Tree Level
+branchForm.version=Version
+branchForm.users=Users
+
+branch.added=Branch has been added successfully.
+branch.updated=Branch has been updated successfully.
+branch.deleted=Branch has been deleted successfully.
+
+# -- branch list page --
+branchList.title=Branch List
+branchList.heading=Branchs
+
+# -- branch detail page --
+branchDetail.title=Branch Detail
+branchDetail.heading=Branch Information
+
+# -- Branch-END
+# -- ContractTarget-START
+
+# -- contractTarget form --
+contractTargetForm.carrierId=Carrier Id
+contractTargetForm.contractId=Contract Id
+contractTargetForm.createBy=Create By
+contractTargetForm.createDate=Create Date
+contractTargetForm.id=Id
+contractTargetForm.industryTypeId=Industry Type Id
+contractTargetForm.memo=Memo
+contractTargetForm.modifyBy=Modify By
+contractTargetForm.modifyDate=Modify Date
+contractTargetForm.target=Target
+contractTargetForm.version=Version
+
+contractTarget.added=ContractTarget has been added successfully.
+contractTarget.updated=ContractTarget has been updated successfully.
+contractTarget.deleted=ContractTarget has been deleted successfully.
+
+# -- contractTarget list page --
+contractTargetList.title=ContractTarget List
+contractTargetList.heading=ContractTargets
+
+# -- contractTarget detail page --
+contractTargetDetail.title=ContractTarget Detail
+contractTargetDetail.heading=ContractTarget Information
+
+# -- ContractTarget-END
+# -- OaApplyInfo-START
+
+# -- oaApplyInfo form --
+oaApplyInfoForm.applyEnd=Apply End
+oaApplyInfoForm.applyStart=Apply Start
+oaApplyInfoForm.checkResult=Check Result
+oaApplyInfoForm.checkResultId=Check Result Id
+oaApplyInfoForm.createBy=Create By
+oaApplyInfoForm.createDate=Create Date
+oaApplyInfoForm.id=Id
+oaApplyInfoForm.modifyBy=Modify By
+oaApplyInfoForm.modifyDate=Modify Date
+oaApplyInfoForm.reason=Reason
+oaApplyInfoForm.version=Version
+oaApplyInfoForm.workFlowType=Work Flow Type
+oaApplyInfoForm.workFlowTypeId=Work Flow Type Id
+
+oaApplyInfo.added=OaApplyInfo has been added successfully.
+oaApplyInfo.updated=OaApplyInfo has been updated successfully.
+oaApplyInfo.deleted=OaApplyInfo has been deleted successfully.
+
+# -- oaApplyInfo list page --
+oaApplyInfoList.title=OaApplyInfo List
+oaApplyInfoList.heading=OaApplyInfos
+
+# -- oaApplyInfo detail page --
+oaApplyInfoDetail.title=OaApplyInfo Detail
+oaApplyInfoDetail.heading=OaApplyInfo Information
+
+# -- OaApplyInfo-END
+# -- OaAreaCity-START
+
+# -- oaAreaCity form --
+oaAreaCityForm.createBy=Create By
+oaAreaCityForm.createDate=Create Date
+oaAreaCityForm.id=Id
+oaAreaCityForm.modifyBy=Modify By
+oaAreaCityForm.modifyDate=Modify Date
+oaAreaCityForm.name=Name
+oaAreaCityForm.version=Version
+
+oaAreaCity.added=OaAreaCity has been added successfully.
+oaAreaCity.updated=OaAreaCity has been updated successfully.
+oaAreaCity.deleted=OaAreaCity has been deleted successfully.
+
+# -- oaAreaCity list page --
+oaAreaCityList.title=OaAreaCity List
+oaAreaCityList.heading=OaAreaCitys
+
+# -- oaAreaCity detail page --
+oaAreaCityDetail.title=OaAreaCity Detail
+oaAreaCityDetail.heading=OaAreaCity Information
+
+# -- OaAreaCity-END
+# -- OaAreaPc-START
+
+# -- oaAreaPc form --
+oaAreaPcForm.areaCityId=Area City Id
+oaAreaPcForm.ldCode=Ld Code
+oaAreaPcForm.postCode=Post Code
+oaAreaPcForm.createBy=Create By
+oaAreaPcForm.createDate=Create Date
+oaAreaPcForm.id=Id
+oaAreaPcForm.modifyBy=Modify By
+oaAreaPcForm.modifyDate=Modify Date
+oaAreaPcForm.name=Name
+oaAreaPcForm.version=Version
+oaAreaPcForm.oaAreaCity=Oa Area City
+
+oaAreaPc.added=OaAreaPc has been added successfully.
+oaAreaPc.updated=OaAreaPc has been updated successfully.
+oaAreaPc.deleted=OaAreaPc has been deleted successfully.
+
+# -- oaAreaPc list page --
+oaAreaPcList.title=OaAreaPc List
+oaAreaPcList.heading=OaAreaPcs
+
+# -- oaAreaPc detail page --
+oaAreaPcDetail.title=OaAreaPc Detail
+oaAreaPcDetail.heading=OaAreaPc Information
+
+# -- OaAreaPc-END
+# -- OaAssets-START
+
+# -- oaAssets form --
+oaAssetsForm.createBy=Create By
+oaAssetsForm.createDate=Create Date
+oaAssetsForm.id=Id
+oaAssetsForm.modifyBy=Modify By
+oaAssetsForm.modifyDate=Modify Date
+oaAssetsForm.version=Version
+oaAssetsForm.purchaseDate=Purchase Date
+oaAssetsForm.assetsCode=Assets Code
+oaAssetsForm.assetsName=Assets Name
+oaAssetsForm.assetsStateId=Assets State Id
+oaAssetsForm.assetsTypeId=Assets Type Id
+oaAssetsForm.depreciation=Depreciation
+oaAssetsForm.memo=Memo
+oaAssetsForm.oldValue=Old Value
+oaAssetsForm.provider=Provider
+oaAssetsForm.purchaseMoney=Purchase Money
+oaAssetsForm.standard=Standard
+oaAssetsForm.storage=Storage
+oaAssetsForm.surplusValue=Surplus Value
+oaAssetsForm.useYearFixed=Use Year Fixed
+oaAssetsForm.voucher=Voucher
+oaAssetsForm.oaAssetsState=Oa Assets State
+oaAssetsForm.oaAssetsType=Oa Assets Type
+oaAssetsForm.signUser=Sign User
+oaAssetsForm.oaProductInfos=Oa Product Infos
+
+oaAssets.added=OaAssets has been added successfully.
+oaAssets.updated=OaAssets has been updated successfully.
+oaAssets.deleted=OaAssets has been deleted successfully.
+
+# -- oaAssets list page --
+oaAssetsList.title=OaAssets List
+oaAssetsList.heading=OaAssetss
+
+# -- oaAssets detail page --
+oaAssetsDetail.title=OaAssets Detail
+oaAssetsDetail.heading=OaAssets Information
+
+# -- OaAssets-END
+# -- OaAssetsState-START
+
+# -- oaAssetsState form --
+oaAssetsStateForm.createBy=Create By
+oaAssetsStateForm.createDate=Create Date
+oaAssetsStateForm.id=Id
+oaAssetsStateForm.modifyBy=Modify By
+oaAssetsStateForm.modifyDate=Modify Date
+oaAssetsStateForm.name=Name
+oaAssetsStateForm.value=Value
+oaAssetsStateForm.version=Version
+
+oaAssetsState.added=OaAssetsState has been added successfully.
+oaAssetsState.updated=OaAssetsState has been updated successfully.
+oaAssetsState.deleted=OaAssetsState has been deleted successfully.
+
+# -- oaAssetsState list page --
+oaAssetsStateList.title=OaAssetsState List
+oaAssetsStateList.heading=OaAssetsStates
+
+# -- oaAssetsState detail page --
+oaAssetsStateDetail.title=OaAssetsState Detail
+oaAssetsStateDetail.heading=OaAssetsState Information
+
+# -- OaAssetsState-END
+# -- OaAssetsType-START
+
+# -- oaAssetsType form --
+oaAssetsTypeForm.createBy=Create By
+oaAssetsTypeForm.createDate=Create Date
+oaAssetsTypeForm.id=Id
+oaAssetsTypeForm.modifyBy=Modify By
+oaAssetsTypeForm.modifyDate=Modify Date
+oaAssetsTypeForm.name=Name
+oaAssetsTypeForm.value=Value
+oaAssetsTypeForm.version=Version
+
+oaAssetsType.added=OaAssetsType has been added successfully.
+oaAssetsType.updated=OaAssetsType has been updated successfully.
+oaAssetsType.deleted=OaAssetsType has been deleted successfully.
+
+# -- oaAssetsType list page --
+oaAssetsTypeList.title=OaAssetsType List
+oaAssetsTypeList.heading=OaAssetsTypes
+
+# -- oaAssetsType detail page --
+oaAssetsTypeDetail.title=OaAssetsType Detail
+oaAssetsTypeDetail.heading=OaAssetsType Information
+
+# -- OaAssetsType-END
+# -- OaBusinessCard-START
+
+# -- oaBusinessCard form --
+oaBusinessCardForm.birthdayDate=Birthday Date
+oaBusinessCardForm.birthdayMonth=Birthday Month
+oaBusinessCardForm.birthdayYear=Birthday Year
+oaBusinessCardForm.businessCardTypId=Business Card Typ Id
+oaBusinessCardForm.createBy=Create By
+oaBusinessCardForm.createDate=Create Date
+oaBusinessCardForm.firstName=First Name
+oaBusinessCardForm.fullName=Full Name
+oaBusinessCardForm.headship=Headship
+oaBusinessCardForm.id=Id
+oaBusinessCardForm.lastName=Last Name
+oaBusinessCardForm.mob=Mob
+oaBusinessCardForm.modifyBy=Modify By
+oaBusinessCardForm.modifyDate=Modify Date
+oaBusinessCardForm.oaBusinessCardType=Oa Business Card Type
+oaBusinessCardForm.sex=Sex
+oaBusinessCardForm.tel1=Tel1
+oaBusinessCardForm.tel2=Tel2
+oaBusinessCardForm.tel3=Tel3
+oaBusinessCardForm.version=Version
+oaBusinessCardForm.work=Work
+
+oaBusinessCard.added=OaBusinessCard has been added successfully.
+oaBusinessCard.updated=OaBusinessCard has been updated successfully.
+oaBusinessCard.deleted=OaBusinessCard has been deleted successfully.
+
+# -- oaBusinessCard list page --
+oaBusinessCardList.title=OaBusinessCard List
+oaBusinessCardList.heading=OaBusinessCards
+
+# -- oaBusinessCard detail page --
+oaBusinessCardDetail.title=OaBusinessCard Detail
+oaBusinessCardDetail.heading=OaBusinessCard Information
+
+# -- OaBusinessCard-END
+# -- OaBusinessCardType-START
+
+# -- oaBusinessCardType form --
+oaBusinessCardTypeForm.createBy=Create By
+oaBusinessCardTypeForm.createDate=Create Date
+oaBusinessCardTypeForm.id=Id
+oaBusinessCardTypeForm.modifyBy=Modify By
+oaBusinessCardTypeForm.modifyDate=Modify Date
+oaBusinessCardTypeForm.name=Name
+oaBusinessCardTypeForm.value=Value
+oaBusinessCardTypeForm.version=Version
+
+oaBusinessCardType.added=OaBusinessCardType has been added successfully.
+oaBusinessCardType.updated=OaBusinessCardType has been updated successfully.
+oaBusinessCardType.deleted=OaBusinessCardType has been deleted successfully.
+
+# -- oaBusinessCardType list page --
+oaBusinessCardTypeList.title=OaBusinessCardType List
+oaBusinessCardTypeList.heading=OaBusinessCardTypes
+
+# -- oaBusinessCardType detail page --
+oaBusinessCardTypeDetail.title=OaBusinessCardType Detail
+oaBusinessCardTypeDetail.heading=OaBusinessCardType Information
+
+# -- OaBusinessCardType-END
+# -- OaCalendarEvent-START
+
+# -- oaCalendarEvent form --
+oaCalendarEventForm.createBy=Create By
+oaCalendarEventForm.createDate=Create Date
+oaCalendarEventForm.id=Id
+oaCalendarEventForm.modifyBy=Modify By
+oaCalendarEventForm.modifyDate=Modify Date
+oaCalendarEventForm.version=Version
+oaCalendarEventForm.content=Content
+oaCalendarEventForm.eventStateId=Event State Id
+oaCalendarEventForm.title=Title
+
+oaCalendarEvent.added=OaCalendarEvent has been added successfully.
+oaCalendarEvent.updated=OaCalendarEvent has been updated successfully.
+oaCalendarEvent.deleted=OaCalendarEvent has been deleted successfully.
+
+# -- oaCalendarEvent list page --
+oaCalendarEventList.title=OaCalendarEvent List
+oaCalendarEventList.heading=OaCalendarEvents
+
+# -- oaCalendarEvent detail page --
+oaCalendarEventDetail.title=OaCalendarEvent Detail
+oaCalendarEventDetail.heading=OaCalendarEvent Information
+
+# -- OaCalendarEvent-END
+# -- OaDocument-START
+
+# -- oaDocument form --
+oaDocumentForm.createBy=Create By
+oaDocumentForm.createDate=Create Date
+oaDocumentForm.id=Id
+oaDocumentForm.modifyBy=Modify By
+oaDocumentForm.modifyDate=Modify Date
+oaDocumentForm.documentCode=Document Code
+oaDocumentForm.documentFileId=Document File Id
+oaDocumentForm.memo=Memo
+oaDocumentForm.title=Title
+oaDocumentForm.version=Version
+oaDocumentForm.oaDocumentFile=Oa Document File
+
+oaDocument.added=OaDocument has been added successfully.
+oaDocument.updated=OaDocument has been updated successfully.
+oaDocument.deleted=OaDocument has been deleted successfully.
+
+# -- oaDocument list page --
+oaDocumentList.title=OaDocument List
+oaDocumentList.heading=OaDocuments
+
+# -- oaDocument detail page --
+oaDocumentDetail.title=OaDocument Detail
+oaDocumentDetail.heading=OaDocument Information
+
+# -- OaDocument-END
+# -- OaDocumentCatalog-START
+
+# -- oaDocumentCatalog form --
+oaDocumentCatalogForm.createBy=Create By
+oaDocumentCatalogForm.createDate=Create Date
+oaDocumentCatalogForm.id=Id
+oaDocumentCatalogForm.modifyBy=Modify By
+oaDocumentCatalogForm.modifyDate=Modify Date
+oaDocumentCatalogForm.name=Name
+oaDocumentCatalogForm.version=Version
+oaDocumentCatalogForm.displayNo=Display No
+oaDocumentCatalogForm.nodeLevel=Node Level
+oaDocumentCatalogForm.parentId=Parent Id
+oaDocumentCatalogForm.permitTypeId=Permit Type Id
+oaDocumentCatalogForm.permitUsers=Permit Users
+oaDocumentCatalogForm.permitBranchs=Permit Branchs
+oaDocumentCatalogForm.permitRoles=Permit Roles
+
+oaDocumentCatalog.added=OaDocumentCatalog has been added successfully.
+oaDocumentCatalog.updated=OaDocumentCatalog has been updated successfully.
+oaDocumentCatalog.deleted=OaDocumentCatalog has been deleted successfully.
+
+# -- oaDocumentCatalog list page --
+oaDocumentCatalogList.title=OaDocumentCatalog List
+oaDocumentCatalogList.heading=OaDocumentCatalogs
+
+# -- oaDocumentCatalog detail page --
+oaDocumentCatalogDetail.title=OaDocumentCatalog Detail
+oaDocumentCatalogDetail.heading=OaDocumentCatalog Information
+
+# -- OaDocumentCatalog-END
+# -- OaDocumentCatalogPermitType-START
+
+# -- oaDocumentCatalogPermitType form --
+oaDocumentCatalogPermitTypeForm.createBy=Create By
+oaDocumentCatalogPermitTypeForm.createDate=Create Date
+oaDocumentCatalogPermitTypeForm.id=Id
+oaDocumentCatalogPermitTypeForm.modifyBy=Modify By
+oaDocumentCatalogPermitTypeForm.modifyDate=Modify Date
+oaDocumentCatalogPermitTypeForm.name=Name
+oaDocumentCatalogPermitTypeForm.version=Version
+
+oaDocumentCatalogPermitType.added=OaDocumentCatalogPermitType has been added successfully.
+oaDocumentCatalogPermitType.updated=OaDocumentCatalogPermitType has been updated successfully.
+oaDocumentCatalogPermitType.deleted=OaDocumentCatalogPermitType has been deleted successfully.
+
+# -- oaDocumentCatalogPermitType list page --
+oaDocumentCatalogPermitTypeList.title=OaDocumentCatalogPermitType List
+oaDocumentCatalogPermitTypeList.heading=OaDocumentCatalogPermitTypes
+
+# -- oaDocumentCatalogPermitType detail page --
+oaDocumentCatalogPermitTypeDetail.title=OaDocumentCatalogPermitType Detail
+oaDocumentCatalogPermitTypeDetail.heading=OaDocumentCatalogPermitType Information
+
+# -- OaDocumentCatalogPermitType-END
+# -- OaDocumentFile-START
+
+# -- oaDocumentFile form --
+oaDocumentFileForm.createBy=Create By
+oaDocumentFileForm.createDate=Create Date
+oaDocumentFileForm.id=Id
+oaDocumentFileForm.modifyBy=Modify By
+oaDocumentFileForm.modifyDate=Modify Date
+oaDocumentFileForm.version=Version
+oaDocumentFileForm.documentCatalogId=Document Catalog Id
+oaDocumentFileForm.fileName=File Name
+oaDocumentFileForm.picName=Pic Name
+oaDocumentFileForm.oaDocumentCatalog=Oa Document Catalog
+
+oaDocumentFile.added=OaDocumentFile has been added successfully.
+oaDocumentFile.updated=OaDocumentFile has been updated successfully.
+oaDocumentFile.deleted=OaDocumentFile has been deleted successfully.
+
+# -- oaDocumentFile list page --
+oaDocumentFileList.title=OaDocumentFile List
+oaDocumentFileList.heading=OaDocumentFiles
+
+# -- oaDocumentFile detail page --
+oaDocumentFileDetail.title=OaDocumentFile Detail
+oaDocumentFileDetail.heading=OaDocumentFile Information
+
+# -- OaDocumentFile-END
+# -- OaInfo-START
+
+# -- oaInfo form --
+oaInfoForm.content=Content
+oaInfoForm.createBy=Create By
+oaInfoForm.createDate=Create Date
+oaInfoForm.displayTimes=Display Times
+oaInfoForm.id=Id
+oaInfoForm.infoType=Info Type
+oaInfoForm.infoTypeId=Info Type Id
+oaInfoForm.modifyBy=Modify By
+oaInfoForm.modifyDate=Modify Date
+oaInfoForm.searchKey=Search Key
+oaInfoForm.title=Title
+oaInfoForm.version=Version
+
+oaInfo.added=OaInfo has been added successfully.
+oaInfo.updated=OaInfo has been updated successfully.
+oaInfo.deleted=OaInfo has been deleted successfully.
+
+# -- oaInfo list page --
+oaInfoList.title=OaInfo List
+oaInfoList.heading=OaInfos
+
+# -- oaInfo detail page --
+oaInfoDetail.title=OaInfo Detail
+oaInfoDetail.heading=OaInfo Information
+
+# -- OaInfo-END
+# -- OaInfoType-START
+
+# -- oaInfoType form --
+oaInfoTypeForm.createBy=Create By
+oaInfoTypeForm.createDate=Create Date
+oaInfoTypeForm.id=Id
+oaInfoTypeForm.modifyBy=Modify By
+oaInfoTypeForm.modifyDate=Modify Date
+oaInfoTypeForm.name=Name
+oaInfoTypeForm.value=Value
+oaInfoTypeForm.version=Version
+
+oaInfoType.added=OaInfoType has been added successfully.
+oaInfoType.updated=OaInfoType has been updated successfully.
+oaInfoType.deleted=OaInfoType has been deleted successfully.
+
+# -- oaInfoType list page --
+oaInfoTypeList.title=OaInfoType List
+oaInfoTypeList.heading=OaInfoTypes
+
+# -- oaInfoType detail page --
+oaInfoTypeDetail.title=OaInfoType Detail
+oaInfoTypeDetail.heading=OaInfoType Information
+
+# -- OaInfoType-END
+# -- OaProductInfo-START
+
+# -- oaProductInfo form --
+oaProductInfoForm.createBy=Create By
+oaProductInfoForm.createDate=Create Date
+oaProductInfoForm.fittings=Fittings
+oaProductInfoForm.id=Id
+oaProductInfoForm.memo=Memo
+oaProductInfoForm.modifyBy=Modify By
+oaProductInfoForm.modifyDate=Modify Date
+oaProductInfoForm.picture=Picture
+oaProductInfoForm.price=Price
+oaProductInfoForm.productType=Product Type
+oaProductInfoForm.productTypeId=Product Type Id
+oaProductInfoForm.provider=Provider
+oaProductInfoForm.quantity=Quantity
+oaProductInfoForm.stockDate=Stock Date
+oaProductInfoForm.stockUser=Stock User
+oaProductInfoForm.storageDate=Storage Date
+oaProductInfoForm.unit=Unit
+oaProductInfoForm.version=Version
+
+oaProductInfo.added=OaProductInfo has been added successfully.
+oaProductInfo.updated=OaProductInfo has been updated successfully.
+oaProductInfo.deleted=OaProductInfo has been deleted successfully.
+
+# -- oaProductInfo list page --
+oaProductInfoList.title=OaProductInfo List
+oaProductInfoList.heading=OaProductInfos
+
+# -- oaProductInfo detail page --
+oaProductInfoDetail.title=OaProductInfo Detail
+oaProductInfoDetail.heading=OaProductInfo Information
+
+# -- OaProductInfo-END
+# -- OaProductType-START
+
+# -- oaProductType form --
+oaProductTypeForm.createBy=Create By
+oaProductTypeForm.createDate=Create Date
+oaProductTypeForm.displayNo=Display No
+oaProductTypeForm.id=Id
+oaProductTypeForm.modifyBy=Modify By
+oaProductTypeForm.modifyDate=Modify Date
+oaProductTypeForm.name=Name
+oaProductTypeForm.nodeLevel=Node Level
+oaProductTypeForm.parentId=Parent Id
+oaProductTypeForm.version=Version
+
+oaProductType.added=OaProductType has been added successfully.
+oaProductType.updated=OaProductType has been updated successfully.
+oaProductType.deleted=OaProductType has been deleted successfully.
+
+# -- oaProductType list page --
+oaProductTypeList.title=OaProductType List
+oaProductTypeList.heading=OaProductTypes
+
+# -- oaProductType detail page --
+oaProductTypeDetail.title=OaProductType Detail
+oaProductTypeDetail.heading=OaProductType Information
+
+# -- OaProductType-END
+# -- OaProductUsed-START
+
+# -- oaProductUsed form --
+oaProductUsedForm.amends=Amends
+oaProductUsedForm.attaint=Attaint
+oaProductUsedForm.createBy=Create By
+oaProductUsedForm.createDate=Create Date
+oaProductUsedForm.id=Id
+oaProductUsedForm.modifyBy=Modify By
+oaProductUsedForm.modifyDate=Modify Date
+oaProductUsedForm.playReturnDate=Play Return Date
+oaProductUsedForm.productId=Product Id
+oaProductUsedForm.relReturnDate=Rel Return Date
+oaProductUsedForm.returnNum=Return Num
+oaProductUsedForm.useDate=Use Date
+oaProductUsedForm.useMan=Use Man
+oaProductUsedForm.useNum=Use Num
+oaProductUsedForm.version=Version
+oaProductUsedForm.product=Product
+
+oaProductUsed.added=OaProductUsed has been added successfully.
+oaProductUsed.updated=OaProductUsed has been updated successfully.
+oaProductUsed.deleted=OaProductUsed has been deleted successfully.
+
+# -- oaProductUsed list page --
+oaProductUsedList.title=OaProductUsed List
+oaProductUsedList.heading=OaProductUseds
+
+# -- oaProductUsed detail page --
+oaProductUsedDetail.title=OaProductUsed Detail
+oaProductUsedDetail.heading=OaProductUsed Information
+
+# -- OaProductUsed-END
+# -- OaScratchpad-START
+
+# -- oaScratchpad form --
+oaScratchpadForm.createBy=Create By
+oaScratchpadForm.createDate=Create Date
+oaScratchpadForm.id=Id
+oaScratchpadForm.modifyBy=Modify By
+oaScratchpadForm.modifyDate=Modify Date
+oaScratchpadForm.content=Content
+oaScratchpadForm.version=Version
+
+oaScratchpad.added=OaScratchpad has been added successfully.
+oaScratchpad.updated=OaScratchpad has been updated successfully.
+oaScratchpad.deleted=OaScratchpad has been deleted successfully.
+
+# -- oaScratchpad list page --
+oaScratchpadList.title=OaScratchpad List
+oaScratchpadList.heading=OaScratchpads
+
+# -- oaScratchpad detail page --
+oaScratchpadDetail.title=OaScratchpad Detail
+oaScratchpadDetail.heading=OaScratchpad Information
+
+# -- OaScratchpad-END
+# -- OaWorkFlow-START
+
+# -- oaWorkFlow form --
+oaWorkFlowForm.checkResult=Check Result
+oaWorkFlowForm.checkResultId=Check Result Id
+oaWorkFlowForm.createBy=Create By
+oaWorkFlowForm.createDate=Create Date
+oaWorkFlowForm.id=Id
+oaWorkFlowForm.isFlowLeve=Is Flow Leve
+oaWorkFlowForm.modifyBy=Modify By
+oaWorkFlowForm.modifyDate=Modify Date
+oaWorkFlowForm.name=Name
+oaWorkFlowForm.version=Version
+oaWorkFlowForm.workFlowType=Work Flow Type
+oaWorkFlowForm.workFlowTypeId=Work Flow Type Id
+oaWorkFlowForm.users=Users
+oaWorkFlowForm.orles=Roles
+
+oaWorkFlowForm.parentId=parentId
+oaWorkFlowForm.nodeLevel=nodeLevel
+oaWorkFlowForm.displayNo=displayNo
+oaWorkFlowForm.agreeFlowId=agreeFlowId
+oaWorkFlowForm.dissentFlowId=dissentFlowId
+oaWorkFlowForm.isFirstPoint=isFirstPoint
+oaWorkFlowForm.isEndPoint=isEndPoint
+oaWorkFlowForm.workFlowMoveTypeId=workFlowMoveTypeId
+
+oaWorkFlow.added=OaWorkFlow has been added successfully.
+oaWorkFlow.updated=OaWorkFlow has been updated successfully.
+oaWorkFlow.deleted=OaWorkFlow has been deleted successfully.
+
+# -- oaWorkFlow list page --
+oaWorkFlowList.title=OaWorkFlow List
+oaWorkFlowList.heading=OaWorkFlows
+
+# -- oaWorkFlow detail page --
+oaWorkFlowDetail.title=OaWorkFlow Detail
+oaWorkFlowDetail.heading=OaWorkFlow Information
+
+# -- OaWorkFlow-END
+# -- OaWorkFlowCheck-START
+
+# -- oaWorkFlowCheck form --
+oaWorkFlowCheckForm.id=Id
+oaWorkFlowCheckForm.createBy=Create By
+oaWorkFlowCheckForm.createDate=Create Date
+oaWorkFlowCheckForm.modifyBy=Modify By
+oaWorkFlowCheckForm.modifyDate=Modify Date
+oaWorkFlowCheckForm.version=Version
+oaWorkFlowCheckForm.checkIdea=Check Idea
+oaWorkFlowCheckForm.checkResult=Check Result
+oaWorkFlowCheckForm.checkResultId=Check Result Id
+oaWorkFlowCheckForm.checkUser=Check User
+oaWorkFlowCheckForm.checkUserId=Check User Id
+oaWorkFlowCheckForm.sysEvent=Sys Event
+oaWorkFlowCheckForm.workFlowType=Work Flow Type
+oaWorkFlowCheckForm.workFlowTypeId=Work Flow Type Id
+oaWorkFlowCheckForm.sysEventId=Sys Event Id
+
+oaWorkFlowCheckForm.checkStateId=Work Flow State Id
+oaWorkFlowCheckForm.workFlowId=Work Flow Id
+
+
+oaWorkFlowCheck.added=OaWorkFlowCheck has been added successfully.
+oaWorkFlowCheck.updated=OaWorkFlowCheck has been updated successfully.
+oaWorkFlowCheck.deleted=OaWorkFlowCheck has been deleted successfully.
+
+# -- oaWorkFlowCheck list page --
+oaWorkFlowCheckList.title=OaWorkFlowCheck List
+oaWorkFlowCheckList.heading=OaWorkFlowChecks
+
+# -- oaWorkFlowCheck detail page --
+oaWorkFlowCheckDetail.title=OaWorkFlowCheck Detail
+oaWorkFlowCheckDetail.heading=OaWorkFlowCheck Information
+
+# -- OaWorkFlowCheck-END
+# -- OaWorkFlowCheckResult-START
+
+# -- oaWorkFlowCheckResult form --
+oaWorkFlowCheckResultForm.createBy=Create By
+oaWorkFlowCheckResultForm.createDate=Create Date
+oaWorkFlowCheckResultForm.id=Id
+oaWorkFlowCheckResultForm.modifyBy=Modify By
+oaWorkFlowCheckResultForm.modifyDate=Modify Date
+oaWorkFlowCheckResultForm.name=Name
+oaWorkFlowCheckResultForm.value=Value
+oaWorkFlowCheckResultForm.version=Version
+
+oaWorkFlowCheckResult.added=OaWorkFlowCheckResult has been added successfully.
+oaWorkFlowCheckResult.updated=OaWorkFlowCheckResult has been updated successfully.
+oaWorkFlowCheckResult.deleted=OaWorkFlowCheckResult has been deleted successfully.
+
+# -- oaWorkFlowCheckResult list page --
+oaWorkFlowCheckResultList.title=OaWorkFlowCheckResult List
+oaWorkFlowCheckResultList.heading=OaWorkFlowCheckResults
+
+# -- oaWorkFlowCheckResult detail page --
+oaWorkFlowCheckResultDetail.title=OaWorkFlowCheckResult Detail
+oaWorkFlowCheckResultDetail.heading=OaWorkFlowCheckResult Information
+
+# -- OaWorkFlowCheckResult-END
+# -- OaWorkFlowType-START
+
+# -- oaWorkFlowType form --
+oaWorkFlowTypeForm.createBy=Create By
+oaWorkFlowTypeForm.createDate=Create Date
+oaWorkFlowTypeForm.displayNo=Display No
+oaWorkFlowTypeForm.id=Id
+oaWorkFlowTypeForm.modifyBy=Modify By
+oaWorkFlowTypeForm.modifyDate=Modify Date
+oaWorkFlowTypeForm.name=Name
+oaWorkFlowTypeForm.nodeLevel=Node Level
+oaWorkFlowTypeForm.parentId=Parent Id
+oaWorkFlowTypeForm.version=Version
+
+oaWorkFlowType.added=OaWorkFlowType has been added successfully.
+oaWorkFlowType.updated=OaWorkFlowType has been updated successfully.
+oaWorkFlowType.deleted=OaWorkFlowType has been deleted successfully.
+
+# -- oaWorkFlowType list page --
+oaWorkFlowTypeList.title=OaWorkFlowType List
+oaWorkFlowTypeList.heading=OaWorkFlowTypes
+
+# -- oaWorkFlowType detail page --
+oaWorkFlowTypeDetail.title=OaWorkFlowType Detail
+oaWorkFlowTypeDetail.heading=OaWorkFlowType Information
+
+# -- OaWorkFlowType-END
+
+# -- SysEvent-START
+
+# -- sysEvent form --
+sysEventForm.createBy=Create By
+sysEventForm.createDate=Create Date
+sysEventForm.eventstateid=Eventstateid
+sysEventForm.eventtypeid=Eventtypeid
+sysEventForm.id=Id
+sysEventForm.modifyBy=Modify By
+sysEventForm.modifyDate=Modify Date
+sysEventForm.promptstart=Promptstart
+sysEventForm.version=Version
+sysEventForm.eventState=Event State
+sysEventForm.eventStateId=Event State Id
+sysEventForm.eventType=Event Type
+sysEventForm.eventTypeId=Event Type Id
+sysEventForm.info=Info
+sysEventForm.infoId=Info Id
+sysEventForm.linkPath=Link Path
+sysEventForm.mesgMemo=Mesg Memo
+sysEventForm.promptEnd=Prompt End
+sysEventForm.promptMode=Prompt Mode
+sysEventForm.promptModeId=Prompt Mode Id
+sysEventForm.promptStart=Prompt Start
+
+sysEvent.added=SysEvent has been added successfully.
+sysEvent.updated=SysEvent has been updated successfully.
+sysEvent.deleted=SysEvent has been deleted successfully.
+
+# -- sysEvent list page --
+sysEventList.title=SysEvent List
+sysEventList.heading=SysEvents
+
+# -- sysEvent detail page --
+sysEventDetail.title=SysEvent Detail
+sysEventDetail.heading=SysEvent Information
+
+# -- SysEvent-END
+# -- SysEventState-START
+
+# -- sysEventState form --
+sysEventStateForm.createBy=Create By
+sysEventStateForm.createDate=Create Date
+sysEventStateForm.id=Id
+sysEventStateForm.modifyBy=Modify By
+sysEventStateForm.modifyDate=Modify Date
+sysEventStateForm.name=Name
+sysEventStateForm.value=Value
+sysEventStateForm.version=Version
+
+sysEventState.added=SysEventState has been added successfully.
+sysEventState.updated=SysEventState has been updated successfully.
+sysEventState.deleted=SysEventState has been deleted successfully.
+
+# -- sysEventState list page --
+sysEventStateList.title=SysEventState List
+sysEventStateList.heading=SysEventStates
+
+# -- sysEventState detail page --
+sysEventStateDetail.title=SysEventState Detail
+sysEventStateDetail.heading=SysEventState Information
+
+# -- SysEventState-END
+# -- SysEventType-START
+
+# -- sysEventType form --
+sysEventTypeForm.createBy=Create By
+sysEventTypeForm.createDate=Create Date
+sysEventTypeForm.id=Id
+sysEventTypeForm.modifyBy=Modify By
+sysEventTypeForm.modifyDate=Modify Date
+sysEventTypeForm.name=Name
+sysEventTypeForm.value=Value
+sysEventTypeForm.version=Version
+
+sysEventType.added=SysEventType has been added successfully.
+sysEventType.updated=SysEventType has been updated successfully.
+sysEventType.deleted=SysEventType has been deleted successfully.
+
+# -- sysEventType list page --
+sysEventTypeList.title=SysEventType List
+sysEventTypeList.heading=SysEventTypes
+
+# -- sysEventType detail page --
+sysEventTypeDetail.title=SysEventType Detail
+sysEventTypeDetail.heading=SysEventType Information
+
+# -- SysEventType-END
+# -- SysPromptMode-START
+
+# -- sysPromptMode form --
+sysPromptModeForm.createBy=Create By
+sysPromptModeForm.createDate=Create Date
+sysPromptModeForm.id=Id
+sysPromptModeForm.modifyBy=Modify By
+sysPromptModeForm.modifyDate=Modify Date
+sysPromptModeForm.name=Name
+sysPromptModeForm.value=Value
+sysPromptModeForm.version=Version
+
+sysPromptMode.added=SysPromptMode has been added successfully.
+sysPromptMode.updated=SysPromptMode has been updated successfully.
+sysPromptMode.deleted=SysPromptMode has been deleted successfully.
+
+# -- sysPromptMode list page --
+sysPromptModeList.title=SysPromptMode List
+sysPromptModeList.heading=SysPromptModes
+
+# -- sysPromptMode detail page --
+sysPromptModeDetail.title=SysPromptMode Detail
+sysPromptModeDetail.heading=SysPromptMode Information
+
+# -- SysPromptMode-END
+# -- SysUserType-START
+
+# -- sysUserType form --
+sysUserTypeForm.createBy=Create By
+sysUserTypeForm.createDate=Create Date
+sysUserTypeForm.id=Id
+sysUserTypeForm.modifyBy=Modify By
+sysUserTypeForm.modifyDate=Modify Date
+sysUserTypeForm.name=Name
+sysUserTypeForm.value=Value
+sysUserTypeForm.version=Version
+
+sysUserType.added=SysUserType has been added successfully.
+sysUserType.updated=SysUserType has been updated successfully.
+sysUserType.deleted=SysUserType has been deleted successfully.
+
+# -- sysUserType list page --
+sysUserTypeList.title=SysUserType List
+sysUserTypeList.heading=SysUserTypes
+
+# -- sysUserType detail page --
+sysUserTypeDetail.title=SysUserType Detail
+sysUserTypeDetail.heading=SysUserType Information
+
+# -- SysUserType-END
+# -- OaWorkFlowCheckState-START
+
+# -- oaWorkFlowCheckState form --
+oaWorkFlowCheckStateForm.createBy=Create By
+oaWorkFlowCheckStateForm.createDate=Create Date
+oaWorkFlowCheckStateForm.id=Id
+oaWorkFlowCheckStateForm.modifyBy=Modify By
+oaWorkFlowCheckStateForm.modifyDate=Modify Date
+oaWorkFlowCheckStateForm.name=Name
+oaWorkFlowCheckStateForm.value=Value
+oaWorkFlowCheckStateForm.version=Version
+
+oaWorkFlowCheckState.added=OaWorkFlowCheckState has been added successfully.
+oaWorkFlowCheckState.updated=OaWorkFlowCheckState has been updated successfully.
+oaWorkFlowCheckState.deleted=OaWorkFlowCheckState has been deleted successfully.
+
+# -- oaWorkFlowCheckState list page --
+oaWorkFlowCheckStateList.title=OaWorkFlowCheckState List
+oaWorkFlowCheckStateList.heading=OaWorkFlowCheckStates
+
+# -- oaWorkFlowCheckState detail page --
+oaWorkFlowCheckStateDetail.title=OaWorkFlowCheckState Detail
+oaWorkFlowCheckStateDetail.heading=OaWorkFlowCheckState Information
+
+# -- OaWorkFlowCheckState-END
+# -- OaWorkFlowMoveType-START
+
+# -- oaWorkFlowMoveType form --
+oaWorkFlowMoveTypeForm.createBy=Create By
+oaWorkFlowMoveTypeForm.createDate=Create Date
+oaWorkFlowMoveTypeForm.id=Id
+oaWorkFlowMoveTypeForm.modifyBy=Modify By
+oaWorkFlowMoveTypeForm.modifyDate=Modify Date
+oaWorkFlowMoveTypeForm.name=Name
+oaWorkFlowMoveTypeForm.value=Value
+oaWorkFlowMoveTypeForm.version=Version
+
+oaWorkFlowMoveType.added=OaWorkFlowMoveType has been added successfully.
+oaWorkFlowMoveType.updated=OaWorkFlowMoveType has been updated successfully.
+oaWorkFlowMoveType.deleted=OaWorkFlowMoveType has been deleted successfully.
+
+# -- oaWorkFlowMoveType list page --
+oaWorkFlowMoveTypeList.title=OaWorkFlowMoveType List
+oaWorkFlowMoveTypeList.heading=OaWorkFlowMoveTypes
+
+# -- oaWorkFlowMoveType detail page --
+oaWorkFlowMoveTypeDetail.title=OaWorkFlowMoveType Detail
+oaWorkFlowMoveTypeDetail.heading=OaWorkFlowMoveType Information
+
+# -- OaWorkFlowMoveType-END
+# -- SysResource-START
+
+# -- sysResource form --
+sysResourceForm.authorized=Authorized
+sysResourceForm.createBy=Create By
+sysResourceForm.createDate=Create Date
+sysResourceForm.id=Id
+sysResourceForm.memo=Memo
+sysResourceForm.modifyBy=Modify By
+sysResourceForm.modifyDate=Modify Date
+sysResourceForm.name=Name
+sysResourceForm.resString=Res String
+sysResourceForm.resType=Res Type
+sysResourceForm.roles=Roles
+sysResourceForm.version=Version
+
+sysResource.added=SysResource has been added successfully.
+sysResource.updated=SysResource has been updated successfully.
+sysResource.deleted=SysResource has been deleted successfully.
+
+# -- sysResource list page --
+sysResourceList.title=SysResource List
+sysResourceList.heading=SysResources
+
+# -- sysResource detail page --
+sysResourceDetail.title=SysResource Detail
+sysResourceDetail.heading=SysResource Information
+
+# -- SysResource-END
+# -- ResourceSort-START
+
+# -- resourceSort form --
+resourceSortForm.createBy=Create By
+resourceSortForm.createDate=Create Date
+resourceSortForm.enable=Enable
+resourceSortForm.id=Id
+resourceSortForm.memo=Memo
+resourceSortForm.modifyBy=Modify By
+resourceSortForm.modifyDate=Modify Date
+resourceSortForm.name=Name
+resourceSortForm.value=Value
+resourceSortForm.version=Version
+
+resourceSort.added=ResourceSort has been added successfully.
+resourceSort.updated=ResourceSort has been updated successfully.
+resourceSort.deleted=ResourceSort has been deleted successfully.
+
+# -- resourceSort list page --
+resourceSortList.title=ResourceSort List
+resourceSortList.heading=ResourceSorts
+
+# -- resourceSort detail page --
+resourceSortDetail.title=ResourceSort Detail
+resourceSortDetail.heading=ResourceSort Information
+
+# -- ResourceSort-END
+# -- ContractTargetMonth-START
+
+# -- contractTargetMonth form --
+contractTargetMonthForm.id=Id
+contractTargetMonthForm.contractTargetId=Contract Target Id
+contractTargetMonthForm.monthDate=Month Date
+contractTargetMonthForm.monthReal=Month Real
+contractTargetMonthForm.monthTarg=Month Targ
+contractTargetMonthForm.version=Version
+contractTargetMonthForm.contractTarget=Contract Target
+
+contractTargetMonth.added=ContractTargetMonth has been added successfully.
+contractTargetMonth.updated=ContractTargetMonth has been updated successfully.
+contractTargetMonth.deleted=ContractTargetMonth has been deleted successfully.
+
+# -- contractTargetMonth list page --
+contractTargetMonthList.title=ContractTargetMonth List
+contractTargetMonthList.heading=ContractTargetMonths
+
+# -- contractTargetMonth detail page --
+contractTargetMonthDetail.title=ContractTargetMonth Detail
+contractTargetMonthDetail.heading=ContractTargetMonth Information
+
+# -- ContractTargetMonth-END
+# -- OaTeleExpenses-START
+
+# -- oaTeleExpenses form --
+oaTeleExpensesForm.branchId=Branch Id
+oaTeleExpensesForm.createBy=Create By
+oaTeleExpensesForm.createDate=Create Date
+oaTeleExpensesForm.expenses=Expenses
+oaTeleExpensesForm.id=Id
+oaTeleExpensesForm.modifyBy=Modify By
+oaTeleExpensesForm.modifyDate=Modify Date
+oaTeleExpensesForm.registerDate=Register Date
+oaTeleExpensesForm.version=Version
+
+oaTeleExpenses.added=OaTeleExpenses has been added successfully.
+oaTeleExpenses.updated=OaTeleExpenses has been updated successfully.
+oaTeleExpenses.deleted=OaTeleExpenses has been deleted successfully.
+
+# -- oaTeleExpenses list page --
+oaTeleExpensesList.title=OaTeleExpenses List
+oaTeleExpensesList.heading=OaTeleExpensess
+
+# -- oaTeleExpenses detail page --
+oaTeleExpensesDetail.title=OaTeleExpenses Detail
+oaTeleExpensesDetail.heading=OaTeleExpenses Information
+
+# -- OaTeleExpenses-END
+# -- SysMenu-START
+
+# -- sysMenu form --
+sysMenuForm.action=Action
+sysMenuForm.altImage=Alt Image
+sysMenuForm.createBy=Create By
+sysMenuForm.createDate=Create Date
+sysMenuForm.description=Description
+sysMenuForm.displayNo=Display No
+sysMenuForm.forward=Forward
+sysMenuForm.height=Height
+sysMenuForm.id=Id
+sysMenuForm.image=Image
+sysMenuForm.location=Location
+sysMenuForm.modifyBy=Modify By
+sysMenuForm.modifyDate=Modify Date
+sysMenuForm.name=Name
+sysMenuForm.onclick=Onclick
+sysMenuForm.onmouseout=Onmouseout
+sysMenuForm.onmouseover=Onmouseover
+sysMenuForm.pageNum=Page Num
+sysMenuForm.parentId=Parent Id
+sysMenuForm.roles=Roles
+sysMenuForm.target=Target
+sysMenuForm.title=Title
+sysMenuForm.tooltip=Tooltip
+sysMenuForm.treeLevel=Tree Level
+sysMenuForm.version=Version
+sysMenuForm.width=Width
+
+sysMenu.added=SysMenu has been added successfully.
+sysMenu.updated=SysMenu has been updated successfully.
+sysMenu.deleted=SysMenu has been deleted successfully.
+
+# -- sysMenu list page --
+sysMenuList.title=SysMenu List
+sysMenuList.heading=SysMenus
+
+# -- sysMenu detail page --
+sysMenuDetail.title=SysMenu Detail
+sysMenuDetail.heading=SysMenu Information
+
+# -- SysMenu-END
+# -- SysParam-START
+
+# -- sysParam form --
+sysParamForm.createBy=Create By
+sysParamForm.createDate=Create Date
+sysParamForm.id=Id
+sysParamForm.memo=Memo
+sysParamForm.modifyBy=Modify By
+sysParamForm.modifyDate=Modify Date
+sysParamForm.name=Name
+sysParamForm.value=Value
+sysParamForm.version=Version
+
+sysParam.added=SysParam has been added successfully.
+sysParam.updated=SysParam has been updated successfully.
+sysParam.deleted=SysParam has been deleted successfully.
+
+# -- sysParam list page --
+sysParamList.title=SysParam List
+sysParamList.heading=SysParams
+
+# -- sysParam detail page --
+sysParamDetail.title=SysParam Detail
+sysParamDetail.heading=SysParam Information
+
+# -- SysParam-END
+# -- MatterType-START
+
+# -- matterType form --
+matterTypeForm.createBy=Create By
+matterTypeForm.createDate=Create Date
+matterTypeForm.id=Id
+matterTypeForm.modifyBy=Modify By
+matterTypeForm.modifyDate=Modify Date
+matterTypeForm.name=Name
+matterTypeForm.value=Value
+matterTypeForm.version=Version
+
+matterType.added=MatterType has been added successfully.
+matterType.updated=MatterType has been updated successfully.
+matterType.deleted=MatterType has been deleted successfully.
+
+# -- matterType list page --
+matterTypeList.title=MatterType List
+matterTypeList.heading=MatterTypes
+
+# -- matterType detail page --
+matterTypeDetail.title=MatterType Detail
+matterTypeDetail.heading=MatterType Information
+
+# -- MatterType-END
+# -- SysSequence-START
+
+# -- sysSequence form --
+sysSequenceForm.currentNext=Current Next
+sysSequenceForm.currentNextSys=Current Next Sys
+sysSequenceForm.format=Format
+sysSequenceForm.incrementNo=Increment No
+sysSequenceForm.name=Name
+sysSequenceForm.prefix=Prefix
+sysSequenceForm.id=Sequence I D
+sysSequenceForm.startNo=Start No
+sysSequenceForm.suffix=Suffix
+sysSequenceForm.version=Version
+
+sysSequence.added=SysSequence has been added successfully.
+sysSequence.updated=SysSequence has been updated successfully.
+sysSequence.deleted=SysSequence has been deleted successfully.
+
+# -- sysSequence list page --
+sysSequenceList.title=SysSequence List
+sysSequenceList.heading=SysSequences
+
+# -- sysSequence detail page --
+sysSequenceDetail.title=SysSequence Detail
+sysSequenceDetail.heading=SysSequence Information
+
+# -- SysSequence-END
+# -- PublishArrange-START
+
+# -- publishArrange form --
+publishArrangeForm.carrierId=Carrier Id
+publishArrangeForm.carrierName=Carrier Name
+publishArrangeForm.createBy=Create By
+publishArrangeForm.createDate=Create Date
+publishArrangeForm.filePath=File Path
+publishArrangeForm.id=Id
+publishArrangeForm.isEnable=Is Enable
+publishArrangeForm.isLocked=Is Locked
+publishArrangeForm.memo=Memo
+publishArrangeForm.modifyBy=Modify By
+publishArrangeForm.modifyDate=Modify Date
+publishArrangeForm.publishDate=Publish Date
+publishArrangeForm.resourceId=Resource Id
+publishArrangeForm.resourceMeno=Resource Meno
+publishArrangeForm.resourceName=Resource Name
+publishArrangeForm.resourceTotalTimes=Resource Total Times
+publishArrangeForm.resourceUsedTimes=Resource Used Times
+publishArrangeForm.version=Version
+publishArrangeForm.publishArrangeDetails=Publish Arrange Details
+
+publishArrange.added=PublishArrange has been added successfully.
+publishArrange.updated=PublishArrange has been updated successfully.
+publishArrange.deleted=PublishArrange has been deleted successfully.
+
+# -- publishArrange list page --
+publishArrangeList.title=PublishArrange List
+publishArrangeList.heading=PublishArranges
+
+# -- publishArrange detail page --
+publishArrangeDetail.title=PublishArrange Detail
+publishArrangeDetail.heading=PublishArrange Information
+
+# -- PublishArrange-END
+# -- PublishArrangeDetail-START
+
+# -- publishArrangeDetail form --
+publishArrangeDetailForm.adverTimes=Adver Times
+publishArrangeDetailForm.contractId=Contract Id
+publishArrangeDetailForm.customerId=Customer Id
+publishArrangeDetailForm.customerName=Customer Name
+publishArrangeDetailForm.id=Id
+publishArrangeDetailForm.matterEdit=Matter Edit
+publishArrangeDetailForm.matterId=Matter Id
+publishArrangeDetailForm.matterLength=Matter Length
+publishArrangeDetailForm.matterName=Matter Name
+publishArrangeDetailForm.orderDayId=Order Day Id
+publishArrangeDetailForm.orderDetailId=Order Detail Id
+publishArrangeDetailForm.orderId=Order Id
+publishArrangeDetailForm.ownerUserId=Owner User Id
+publishArrangeDetailForm.ownerUserName=Owner User Name
+publishArrangeDetailForm.publishArrangeId=Publish Arrange Id
+publishArrangeDetailForm.publishMemo=Publish Memo
+publishArrangeDetailForm.publishSort=Publish Sort
+publishArrangeDetailForm.specificName=Specific Name
+publishArrangeDetailForm.specificValue=Specific Value
+publishArrangeDetailForm.tapeCode=Tape Code
+
+publishArrangeDetail.added=PublishArrangeDetail has been added successfully.
+publishArrangeDetail.updated=PublishArrangeDetail has been updated successfully.
+publishArrangeDetail.deleted=PublishArrangeDetail has been deleted successfully.
+
+# -- publishArrangeDetail list page --
+publishArrangeDetailList.title=PublishArrangeDetail List
+publishArrangeDetailList.heading=PublishArrangeDetails
+
+# -- publishArrangeDetail detail page --
+publishArrangeDetailDetail.title=PublishArrangeDetail Detail
+publishArrangeDetailDetail.heading=PublishArrangeDetail Information
+
+# -- PublishArrangeDetail-END
+# -- ForetArrearage-START
+
+# -- foretArrearage form --
+foretArrearageForm.createBy=Create By
+foretArrearageForm.createDate=Create Date
+foretArrearageForm.customerName=Customer Name
+foretArrearageForm.endDate=End Date
+foretArrearageForm.id=Id
+foretArrearageForm.incomeCode=Income Code
+foretArrearageForm.incomeDate=Income Date
+foretArrearageForm.incomeMode=Income Mode
+foretArrearageForm.incomeMoney=Income Money
+foretArrearageForm.incomePurpose=Income Purpose
+foretArrearageForm.memo=Memo
+foretArrearageForm.modifyBy=Modify By
+foretArrearageForm.modifyDate=Modify Date
+foretArrearageForm.payDate=Pay Date
+foretArrearageForm.payMoney=Pay Money
+foretArrearageForm.startDate=Start Date
+foretArrearageForm.userName=User Name
+foretArrearageForm.version=Version
+
+foretArrearage.added=ForetArrearage has been added successfully.
+foretArrearage.updated=ForetArrearage has been updated successfully.
+foretArrearage.deleted=ForetArrearage has been deleted successfully.
+
+# -- foretArrearage list page --
+foretArrearageList.title=ForetArrearage List
+foretArrearageList.heading=ForetArrearages
+
+# -- foretArrearage detail page --
+foretArrearageDetail.title=ForetArrearage Detail
+foretArrearageDetail.heading=ForetArrearage Information
+
+# -- ForetArrearage-END
+# -- ResourceLimit-START
+
+
+
+	
+# -- resourceLimit form --
+resourceLimitForm.id=Id
+resourceLimitForm.carrierId=Carrier Id
+resourceLimitForm.startTime=Start Time
+resourceLimitForm.endTime=End Time
+resourceLimitForm.version=Version
+resourceLimitForm.carrier=Carrier
+resourceLimitForm.limitT=Limit T
+resourceLimitForm.limitTime=Limit Time
+resourceLimitForm.starT=Star T
+resourceLimitForm.starTh=Star Th
+resourceLimitForm.starTm=Star Tm
+resourceLimitForm.starTs=Star Ts
+
+resourceLimitForm.endT=End T
+resourceLimitForm.endTh=End Th
+resourceLimitForm.endTm=End Tm
+resourceLimitForm.endTs=End Ts
+
+resourceLimitForm.usedT=Used T
+
+resourceLimit.added=ResourceLimit has been added successfully.
+resourceLimit.updated=ResourceLimit has been updated successfully.
+resourceLimit.deleted=ResourceLimit has been deleted successfully.
+
+# -- resourceLimit list page --
+resourceLimitList.title=ResourceLimit List
+resourceLimitList.heading=ResourceLimits
+
+# -- resourceLimit detail page --
+resourceLimitDetail.title=ResourceLimit Detail
+resourceLimitDetail.heading=ResourceLimit Information
+
+# -- ResourceLimit-END
+# -- FinanceTarget-START
+
+# -- financeTarget form --
+financeTargetForm.id=Id
+financeTargetForm.carrierId=Carrier Id
+financeTargetForm.createBy=Create By
+financeTargetForm.createDate=Create Date
+financeTargetForm.modifyBy=Modify By
+financeTargetForm.modifyDate=Modify Date
+financeTargetForm.targetDateMonth=Target Date Month
+financeTargetForm.targetDateYear=Target Date Year
+financeTargetForm.targetMoney=Target Money
+financeTargetForm.version=Version
+financeTargetForm.carrier=Carrier
+financeTargetForm.tarMonths=Tar Months
+
+financeTarget.added=FinanceTarget has been added successfully.
+financeTarget.updated=FinanceTarget has been updated successfully.
+financeTarget.deleted=FinanceTarget has been deleted successfully.
+
+# -- financeTarget list page --
+financeTargetList.title=FinanceTarget List
+financeTargetList.heading=FinanceTargets
+
+# -- financeTarget detail page --
+financeTargetDetail.title=FinanceTarget Detail
+financeTargetDetail.heading=FinanceTarget Information
+
+# -- FinanceTarget-END
+
+
+# -- ProCustomerType-START
+
+# -- proCustomerType form --
+proCustomerTypeForm.createBy=Create By
+proCustomerTypeForm.createDate=Create Date
+proCustomerTypeForm.id=Id
+proCustomerTypeForm.modifyBy=Modify By
+proCustomerTypeForm.modifyDate=Modify Date
+proCustomerTypeForm.name=Name
+proCustomerTypeForm.version=Version
+
+proCustomerType.added=ProCustomerType has been added successfully.
+proCustomerType.updated=ProCustomerType has been updated successfully.
+proCustomerType.deleted=ProCustomerType has been deleted successfully.
+
+# -- proCustomerType list page --
+proCustomerTypeList.title=ProCustomerType List
+proCustomerTypeList.heading=ProCustomerTypes
+
+# -- proCustomerType detail page --
+proCustomerTypeDetail.title=ProCustomerType Detail
+proCustomerTypeDetail.heading=ProCustomerType Information
+
+# -- ProCustomerType-END
+# -- ProCustomer-START
+
+# -- proCustomer form --
+proCustomerForm.createBy=Create By
+proCustomerForm.createDate=Create Date
+proCustomerForm.id=Id
+proCustomerForm.modifyBy=Modify By
+proCustomerForm.modifyDate=Modify Date
+proCustomerForm.customerName=Customer Name
+proCustomerForm.proCustomerType=Pro Customer Type
+proCustomerForm.typeId=Type Id
+proCustomerForm.accountAddress=Account Address
+proCustomerForm.fax=Fax
+proCustomerForm.helpCode=Help Code
+proCustomerForm.linkmanName=Linkman Name
+proCustomerForm.telephone=Telephone
+proCustomerForm.version=Version
+
+proCustomer.added=ProCustomer has been added successfully.
+proCustomer.updated=ProCustomer has been updated successfully.
+proCustomer.deleted=ProCustomer has been deleted successfully.
+
+# -- proCustomer list page --
+proCustomerList.title=ProCustomer List
+proCustomerList.heading=ProCustomers
+
+# -- proCustomer detail page --
+proCustomerDetail.title=ProCustomer Detail
+proCustomerDetail.heading=ProCustomer Information
+
+# -- ProCustomer-END
+# -- ProOrderType-START
+
+# -- proOrderType form --
+proOrderTypeForm.createBy=Create By
+proOrderTypeForm.createDate=Create Date
+proOrderTypeForm.id=Id
+proOrderTypeForm.modifyBy=Modify By
+proOrderTypeForm.modifyDate=Modify Date
+proOrderTypeForm.name=Name
+proOrderTypeForm.value=Value
+proOrderTypeForm.version=Version
+
+proOrderType.added=ProOrderType has been added successfully.
+proOrderType.updated=ProOrderType has been updated successfully.
+proOrderType.deleted=ProOrderType has been deleted successfully.
+
+# -- proOrderType list page --
+proOrderTypeList.title=ProOrderType List
+proOrderTypeList.heading=ProOrderTypes
+
+# -- proOrderType detail page --
+proOrderTypeDetail.title=ProOrderType Detail
+proOrderTypeDetail.heading=ProOrderType Information
+
+# -- ProOrderType-END
+# -- ProOrder-START
+
+# -- proOrder form --
+proOrderForm.id=Id
+proOrderForm.programId=Program Id
+proOrderForm.program=Program
+proOrderForm.orderCode=Order Code
+proOrderForm.orderMeno=Order Meno
+proOrderForm.payMoney=Pay Money
+proOrderForm.payDate=Pay Date
+proOrderForm.paidMoney=Paid Money
+proOrderForm.paidDate=Paid Date
+proOrderForm.lessMoney=Less Money
+proOrderForm.moreMoney=More Money
+proOrderForm.orderTypeId=Order Type Id
+proOrderForm.proOrderType=Pro Order Type
+proOrderForm.relationCode=Relation Code
+proOrderForm.user=User
+proOrderForm.userId=User Id
+proOrderForm.version=Version
+proOrderForm.createBy=Create By
+proOrderForm.createDate=Create Date
+proOrderForm.modifyBy=Modify By
+proOrderForm.modifyDate=Modify Date
+
+proOrder.added=ProOrder has been added successfully.
+proOrder.updated=ProOrder has been updated successfully.
+proOrder.deleted=ProOrder has been deleted successfully.
+
+# -- proOrder list page --
+proOrderList.title=ProOrder List
+proOrderList.heading=ProOrders
+
+# -- proOrder detail page --
+proOrderDetail.title=ProOrder Detail
+proOrderDetail.heading=ProOrder Information
+
+# -- ProOrder-END
+# -- ProProgramType-START
+
+# -- proProgramType form --
+proProgramTypeForm.createBy=Create By
+proProgramTypeForm.createDate=Create Date
+proProgramTypeForm.id=Id
+proProgramTypeForm.modifyBy=Modify By
+proProgramTypeForm.modifyDate=Modify Date
+proProgramTypeForm.name=Name
+proProgramTypeForm.version=Version
+proProgramTypeForm.displayNo=Display No
+proProgramTypeForm.parentId=Parent Id
+proProgramTypeForm.treeLevel=Tree Level
+
+proProgramType.added=ProProgramType has been added successfully.
+proProgramType.updated=ProProgramType has been updated successfully.
+proProgramType.deleted=ProProgramType has been deleted successfully.
+
+# -- proProgramType list page --
+proProgramTypeList.title=ProProgramType List
+proProgramTypeList.heading=ProProgramTypes
+
+# -- proProgramType detail page --
+proProgramTypeDetail.title=ProProgramType Detail
+proProgramTypeDetail.heading=ProProgramType Information
+
+# -- ProProgramType-END
+# -- ProProgram-START
+
+# -- proProgram form --
+proProgramForm.proCustomer=Pro Customer
+proProgramForm.customerId=Customer Id
+proProgramForm.copyrightNum=Copyright Num
+proProgramForm.createBy=Create By
+proProgramForm.createDate=Create Date
+proProgramForm.endDate=End Date
+proProgramForm.id=Id
+proProgramForm.modifyBy=Modify By
+proProgramForm.modifyDate=Modify Date
+proProgramForm.proName=Pro Name
+proProgramForm.proProgramType=Pro Program Type
+proProgramForm.startDate=Start Date
+proProgramForm.typeId=Type Id
+proProgramForm.version=Version
+
+proProgram.added=ProProgram has been added successfully.
+proProgram.updated=ProProgram has been updated successfully.
+proProgram.deleted=ProProgram has been deleted successfully.
+
+# -- proProgram list page --
+proProgramList.title=ProProgram List
+proProgramList.heading=ProPrograms
+
+# -- proProgram detail page --
+proProgramDetail.title=ProProgram Detail
+proProgramDetail.heading=ProProgram Information
+
+# -- ProProgram-END
+
+# -- ProPublishPlan-START
+
+# -- proPublishPlan form --
+proPublishPlanForm.carrier=Carrier
+proPublishPlanForm.carrierId=Carrier Id
+proPublishPlanForm.createBy=Create By
+proPublishPlanForm.createDate=Create Date
+proPublishPlanForm.endDate=End Date
+proPublishPlanForm.endTime=End Time
+proPublishPlanForm.id=Id
+proPublishPlanForm.modifyBy=Modify By
+proPublishPlanForm.modifyDate=Modify Date
+proPublishPlanForm.programId=Program Id
+proPublishPlanForm.proProgram=Pro Program
+proPublishPlanForm.startDate=Start Date
+proPublishPlanForm.startTime=Start Time
+proPublishPlanForm.version=Version
+proPublishPlanForm.weeksPlan=Weeks Plan
+
+proPublishPlan.added=ProPublishPlan has been added successfully.
+proPublishPlan.updated=ProPublishPlan has been updated successfully.
+proPublishPlan.deleted=ProPublishPlan has been deleted successfully.
+
+# -- proPublishPlan list page --
+proPublishPlanList.title=ProPublishPlan List
+proPublishPlanList.heading=ProPublishPlans
+
+# -- proPublishPlan detail page --
+proPublishPlanDetail.title=ProPublishPlan Detail
+proPublishPlanDetail.heading=ProPublishPlan Information
+
+# -- ProPublishPlan-END
+# -- ProAudienceRat-START
+
+# -- proAudienceRat form --
+proAudienceRatForm.audienceDate=Audience Date
+proAudienceRatForm.audienceRat=Audience Rat
+proAudienceRatForm.audienceTime=Audience Time
+proAudienceRatForm.carrier=Carrier
+proAudienceRatForm.carrierId=Carrier Id
+proAudienceRatForm.id=Id
+proAudienceRatForm.version=Version
+
+proAudienceRat.added=ProAudienceRat has been added successfully.
+proAudienceRat.updated=ProAudienceRat has been updated successfully.
+proAudienceRat.deleted=ProAudienceRat has been deleted successfully.
+
+# -- proAudienceRat list page --
+proAudienceRatList.title=ProAudienceRat List
+proAudienceRatList.heading=ProAudienceRats
+
+# -- proAudienceRat detail page --
+proAudienceRatDetail.title=ProAudienceRat Detail
+proAudienceRatDetail.heading=ProAudienceRat Information
+
+# -- ProAudienceRat-END

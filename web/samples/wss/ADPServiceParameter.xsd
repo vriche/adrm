@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:tns="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1" xmlns:tns2="http://dayang.com/ADP/schema/ADBroadcastListEntity/1.0" xmlns:tns3="http://dayang.com/ADP/schema/ADMaterialEntity/1.0" xmlns:tns4="http://dayang.com/ADP/schema/ADFileInfoEntity/1.0" targetNamespace="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://dayang.com/ADP/schema/ADBroadcastListEntity/1.0" schemaLocation="ADBroadcastListEntity.xsd"/>
+	<xs:import namespace="http://dayang.com/ADP/schema/ADMaterialEntity/1.0" schemaLocation="ADMaterialEntity.xsd"/>
+	<xs:import namespace="http://dayang.com/ADP/schema/ADFileInfoEntity/1.0" schemaLocation="ADFileInfoEntity.xsd"/>
+	<xs:element name="QueryBroadcastListRequest" type="tns:QueryBroadcastListRequestType">
+		<xs:annotation>
+			<xs:documentation>查询广告播出单请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="QueryBroadcastListResponse" type="tns:QueryBroadcastListResponseType">
+		<xs:annotation>
+			<xs:documentation>查询广告播出单响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ImportBroadcastListRequest" type="tns:ImportBroadcastListRequestType">
+		<xs:annotation>
+			<xs:documentation>接收广告播出单请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ImportBroadcastListResponse" type="tns:ImportBroadcastListResponseType">
+		<xs:annotation>
+			<xs:documentation>接收广告播出单响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="UpdateMaterialRequest" type="tns:UpdateMaterialRequestType">
+		<xs:annotation>
+			<xs:documentation>素材及文件信息更新请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="UpdateMaterialResponse" type="tns:MaterialServiceParameterResponseType">
+		<xs:annotation>
+			<xs:documentation>素材及文件信息更新响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ImportMaterialRequest" type="tns:ImportMaterialRequestType">
+		<xs:annotation>
+			<xs:documentation>导入素材及文件信息请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ImportMaterialResponse" type="tns:MaterialServiceParameterResponseType">
+		<xs:annotation>
+			<xs:documentation>导入素材及文件信息响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="MaterialCallbackRequest" type="tns:MaterialCallbackRequestType">
+		<xs:annotation>
+			<xs:documentation>素材及文件信息回调请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="MaterialCallbackResponse" type="tns:MaterialServiceParameterResponseType">
+		<xs:annotation>
+			<xs:documentation>素材及文件信息回调响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="QueryMaterialRequest" type="tns:QueryMaterialRequestType">
+		<xs:annotation>
+			<xs:documentation>查询素材及文件信息请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="QueryMaterialResponse" type="tns:QueryMaterialResponseType">
+		<xs:annotation>
+			<xs:documentation>查询素材及文件信息响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="StartUploadProcessRequest" type="tns:StartUploadProcessRequestType">
+		<xs:annotation>
+			<xs:documentation>启动上载流程请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="StartUploadProcessResponse" type="tns:StartProcessResponseType">
+		<xs:annotation>
+			<xs:documentation>启动上载流程响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="StartCombineProcessRequest" type="tns:StartCombineProcessRequestType">
+		<xs:annotation>
+			<xs:documentation>启动合并流程请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="StartCombineProcessResponse" type="tns:StartProcessResponseType">
+		<xs:annotation>
+			<xs:documentation>启动合并流程响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="StartTransferProcessRequest" type="tns:StartTransferProcessRequestType">
+		<xs:annotation>
+			<xs:documentation>启动迁移流程请求</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="StartTransferProcessResponse" type="tns:StartProcessResponseType">
+		<xs:annotation>
+			<xs:documentation>启动迁移流程响应</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CommonRequestType">
+		<xs:sequence>
+			<xs:element name="RequestSystemID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>请求系统ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UserID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>请求用户ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UserName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>请求用户名称</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CommonResponseType">
+		<xs:sequence>
+			<xs:element name="Status" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>返回状态，0-成功，1-失败</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>状态文字描述</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExtendAttributesType">
+		<xs:sequence>
+			<xs:element name="ExtendAttribute" type="tns:ExtendAttributeType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExtendAttributeType">
+		<xs:sequence>
+			<xs:element name="AttributeID" type="xsd:string">
+				<xs:annotation>
+					<xs:documentation>扩展属性ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AttributeValue" type="xsd:string">
+				<xs:annotation>
+					<xs:documentation>扩展属性值</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QueryBroadcastListRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ChannelID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>频道ID，唯一标识</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlayDate" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>播出日期 yyyy-mm-dd</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QueryBroadcastListResponseType">
+		<xs:sequence>
+			<xs:element name="CommonResponse" type="tns:CommonResponseType">
+				<xs:annotation>
+					<xs:documentation>通用返回信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns2:ADBroadcastList" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>广告播出单</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImportBroadcastListRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExchangeType" type="xsd:int">
+				<xs:annotation>
+					<xs:documentation>交互类型，1-接收广告管理系统广告单，2-提交审核后的广告单，3-转发广告单给播出系统</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns2:ADBroadcastList">
+				<xs:annotation>
+					<xs:documentation>广告播出单</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImportBroadcastListResponseType">
+		<xs:sequence>
+			<xs:element name="CommonResponse" type="tns:CommonResponseType">
+				<xs:annotation>
+					<xs:documentation>通用返回信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdateMaterialRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UpdateOption" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>更新选项。1-内容处理后更新，2-第二版本素材生成后更新，3-段合并后更新，4-迁移后更新</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>状态。0-成功，1-失败</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>描述</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns4:ADFileInfoEntity" minOccurs="0"/>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MaterialServiceParameterResponseType">
+		<xs:sequence>
+			<xs:element name="CommonResponse" type="tns:CommonResponseType">
+				<xs:annotation>
+					<xs:documentation>通用返回信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImportMaterialRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ImportOption" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>导入选项。1-新增素材信息，2-只更新素材元数据信息，3-更新素材元数据并覆盖文件</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns3:ADMaterialEntity"/>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MaterialCallbackRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TargetSystem" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>通知目标系统。1-广告管理系统，2-播出系统，3-广告整备系统</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NotifyOption" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>通知选项。1-普通素材上载后通知，2-普通素材覆盖上载后通知，3-段文件合并后通知，4-段文件重新合并后通知，5-播出提取文件结果反馈</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>素材ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>播出提取文件状态。0-成功，1-失败</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>状态描述</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns4:ADFileInfoEntity" minOccurs="0"/>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QueryMaterialRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>素材ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaterialName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>素材名称</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QueryOption" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>查询选项。1-只查询备播区高码文件（播出系统选此项），2-只查询低码文件信息（广告管理系统选此项）</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QueryMaterialResponseType">
+		<xs:sequence>
+			<xs:element name="CommonResponse" type="tns:CommonResponseType">
+				<xs:annotation>
+					<xs:documentation>通用返回信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsExist" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>是否存在。0-不存在，1-存在</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>状态描述</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns4:ADFileInfoEntity" minOccurs="0"/>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StartProcessResponseType">
+		<xs:sequence>
+			<xs:element name="CommonResponse" type="tns:CommonResponseType">
+				<xs:annotation>
+					<xs:documentation>通用返回信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProcessInstanceID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>流程实例ID</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StartUploadProcessRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SourceFile" type="tns:SourceFileType">
+				<xs:annotation>
+					<xs:documentation>上载生成的源文件信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsNeedContentProcess" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>是否需要内容处理，0-不需要，1-需要</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsNeedTranscode" type="xsd:int">
+				<xs:annotation>
+					<xs:documentation>是否需要转码生成第二版本素材，0-不需要，1-需要</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TranscodeTargetFile" type="tns:TranscodeTargetFileType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>转码生成第二版本素材文件信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SourceFileType">
+		<xs:sequence>
+			<xs:element ref="tns4:ADFileInfoEntity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TranscodeTargetFileType">
+		<xs:sequence>
+			<xs:element ref="tns4:ADFileInfoEntity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StartCombineProcessRequestType">
+		<xs:sequence>
+			<xs:element name="CommonRequest" type="tns:CommonRequestType">
+				<xs:annotation>
+					<xs:documentation>请求者信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsNeedQC" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>合并后是否需要审核，0-不需要，1-需要</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CombineSourceFileGroup" type="tns:CombineSourceFileType">
+				<xs:annotation>
+					<xs:documentation>合并源文件组，段内的多条素材文件信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CombineTargetFile" type="tns:CombineTargetFileType">
+				<xs:annotation>
+					<xs:documentation>合并目标文件组，合并后的高码（也可包含低码）文件信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsNeedTransLowCode" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>是否需要转低码，0-不需要，1-需要</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsNeedKeyFrame" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>是否需要提取关键帧，0-不需要，1-需要</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="KeyFramePosition" type="tns:KeyFramePositionType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>关键帧信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CombineSourceFileType">
+		<xs:sequence>
+			<xs:element name="CombineSourceFileItem" type="tns:CombineFileItemType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>合并文件信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CombineFileItemType">
+		<xs:sequence>
+			<xs:element name="Index" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>合并文件序号，从0开始</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="tns4:ADFileInfoEntity"/>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CombineTargetFileType">
+		<xs:sequence>
+			<xs:element ref="tns4:ADFileInfoEntity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeyFramePositionType">
+		<xs:sequence>
+			<xs:element name="Position" type="xs:long" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>关键帧位置</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StartTransferProcessRequestType">
+		<xs:sequence>
+			<xs:element name="TransferSourceFile" type="tns:TransferSourceFileType">
+				<xs:annotation>
+					<xs:documentation>迁移源文件信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransferTargetFile" type="tns:TransferTargetFileType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>迁移目标文件信息</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>扩展属性</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TransferSourceFileType">
+		<xs:sequence>
+			<xs:element ref="tns4:ADFileInfoEntity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TransferTargetFileType">
+		<xs:sequence>
+			<xs:element ref="tns4:ADFileInfoEntity"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

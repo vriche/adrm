@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProAudienceRatSQL">
+    <typeAlias alias="proAudienceRat" type="com.vriche.adrm.model.ProAudienceRat"/>
+
+
+	<cacheModel id="proAudienceRat-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProAudienceRat"/>
+		<flushOnExecute statement="updateProAudienceRat"/>
+		<flushOnExecute statement="deleteProAudienceRat"/>
+		<flushOnExecute statement="deleteProAudienceRats"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="proAudienceRat">
+        <parameter property="audienceDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="audienceRat" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="audienceTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proAudienceRat">
+        <parameter property="audienceDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="audienceRat" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="audienceTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="proAudienceRatResult" class="proAudienceRat">
+        <result property="audienceDate" column="audience_date"/>
+        <result property="audienceRat" column="audience_rat"/>
+        <result property="audienceTime" column="audience_time"/>
+        <result property="carrierId" column="carrier_id"/>
+        <result property="id" column="id"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+	 <resultMap id="orderDetailResult_ext1" extends="proAudienceRatResult"  class="proAudienceRat">
+		<result property="carrier.carrierName" column="carrier_name"/>
+    </resultMap>
+	
+    <sql id="ProAudienceRat_where_fragment">
+		
+			<isNotEmpty prepend="AND" property="audienceDate">
+			(audience_date like #audienceDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="audienceRat">
+			(audience_rat like #audienceRat#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="audienceTime">
+			(audience_time like #audienceTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="carrierId">
+			(carrier_id like #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+		
+		
+		
+	
+			<isGreaterThan prepend="AND" property="paramClass.carrierId" compareValue="0">  
+				   <![CDATA[ (carrier_id like #paramClass.carrierId#) ]]>
+            </isGreaterThan> 			
+			
+			<isNotEmpty prepend="AND" property="paramClass.startDate">
+				 <![CDATA[ (audience_date >= #paramClass.startDate#) ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paramClass.endDate">
+				<![CDATA[ (audience_date <= #paramClass.endDate#) ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paramClass.startTime">
+				<![CDATA[ (audience_time >= #paramClass.startTime#) ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paramClass.endTime">
+				<![CDATA[ (audience_time <= #paramClass.endTime#) ]]>
+			</isNotEmpty>		
+		
+    </sql>
+	
+     <sql id="ProAudienceRat_idList_fragment">
+		 
+	      <isNotNull property="ProAudienceRatIdList">
+       	  <iterate prepend="AND" property="ProAudienceRatIdList" open="(" close=")" conjunction="OR">
+		   			 id = #ProAudienceRatIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		 
+
+		  <isNotEmpty prepend="AND" property="audienceDate">
+			(audience_date like #audienceDate#)
+		  </isNotEmpty>
+		 
+		 	 
+		 <isNotNull property="carrierIds">
+       	  <iterate prepend="AND" property="carrierIds" open="(" close=")" conjunction="OR">
+		   			 carrier_id = #carrierIds[]#
+		  </iterate>
+		  </isNotNull> 		 
+		 
+    </sql>   
+	
+	
+    <select id="getProAudienceRatsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_audience_rat 
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="ProAudienceRat_where_fragment"/>
+		</dynamic>  
+    </select>	
+
+    <select id="getProAudienceRats" resultMap="orderDetailResult_ext1">
+    <![CDATA[
+		  select tb_pro_audience_rat.*,
+				tb_ad_resource_carrier.carrier_name as carrier_name 
+		
+			 from tb_pro_audience_rat 
+		           left outer join tb_ad_resource_carrier
+		on tb_ad_resource_carrier.ad_resource_carrier_id=tb_pro_audience_rat.carrier_id
+    ]]>
+		<dynamic prepend="WHERE"> 
+		<include refid="ProAudienceRat_where_fragment"/>
+		</dynamic>  
+		
+		order by carrier_id,audience_date,audience_time
+    </select>
+	
+	
+    <select id="getProAudienceRatsByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select * from tb_pro_audience_rat 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="ProAudienceRat_idList_fragment"/>
+          </dynamic>      
+  </select>     
+
+    <select id="getProAudienceRat" resultMap="proAudienceRatResult">
+    <![CDATA[
+        select * from tb_pro_audience_rat
+         where id = #value#
+    ]]>
+    </select>
+
+    <insert id="addProAudienceRat" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_pro_audience_rat (audience_date,audience_rat,audience_time,carrier_id)
+            values ( ?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProAudienceRat" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_audience_rat set
+                   audience_date = ?,
+                   audience_rat = ?,
+                   audience_time = ?,
+                   carrier_id = ?, 
+				   version = ? 
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProAudienceRat">
+    <![CDATA[
+        delete from tb_pro_audience_rat
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteProAudienceRats" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_pro_audience_rat 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="ProAudienceRat_idList_fragment"/>
+          </dynamic>      
+  </update>   
+</sqlMap>

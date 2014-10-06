@@ -1,0 +1,206 @@
+    <project default="deploy" name="test" >  
+        <property file="./build.properties"/>  
+      
+        <target name="init">  
+      
+            <property name="debug" value="off" />  
+            <property name="optimize" value="on" />  
+            <property name="deprecation" value="on" />  
+      
+            <!--    classpath -->  
+            <path id="classpath">  
+      
+                <fileset dir="${jdk.lib.dir}">  
+                    <include name="**/*.jar"/>  
+                </fileset>  
+                <fileset dir="${tomcat.lib.dir}">  
+                    <include name="**/*.jar"/>  
+                </fileset>  
+                <fileset dir="${lib.dir}">  
+                    <include name="**/*.jar"/>  
+                </fileset>  
+                <!--<pathelement location="lib/"/>-->  
+            </path>  
+      
+        </target>  
+      
+      
+      
+        <!-- =================================================================== -->  
+        <!-- Help on usage -->  
+        <!-- =================================================================== -->  
+        <target name="usage" depends="init">  
+            <echo message="${release.name} Build file" />  
+            <echo message="-------------------------------------------------------------" />  
+            <echo message="" />  
+            <echo message=" available targets are:" />  
+            <echo message="" />  
+            <echo message=" jar --> generates the ${release.name}.jar file" />  
+            <echo message=" build --> compiles the source code" />  
+            <echo message=" javadoc --> generates the API documentation" />  
+            <echo message=" clean --> cleans up the directory" />  
+            <echo message="" />  
+            <echo message=" See the comments inside the build.xml file for more details." />  
+            <echo message="-------------------------------------------------------------" />  
+            <echo message="" />  
+            <echo message="" />  
+        </target>  
+      
+      
+    <!-- - - - - - - - - - - - - - - - - -   
+              target: delete                        
+             - - - - - - - - - - - - - - - - - -->  
+        <target name="delete">  
+                <delete dir="${deploy.dir}"   />  
+            <delete dir="${build.dir}" quiet="true"/>  
+            <delete dir="../sf" quiet="true"/>  
+                      
+        </target>  
+      
+        <!-- =================================================================== -->  
+        <!-- 准备源文件-->  
+        <!-- =================================================================== -->  
+        <target name="prepare-src" depends="init">  
+            <delete dir="${build.dir}" quiet="true"/>  
+      
+            <!-- create directories -->  
+            <mkdir dir="${build.dir}" />  
+            <mkdir dir="${build.src.dir}"/>  
+            <mkdir dir="${classes.dir}" />  
+            <mkdir dir="${package.dir}" />  
+            <mkdir dir="${package.dir}/WEB-INF" />  
+            <mkdir dir="${package.lib.dir}" />  
+            <!-- mkdir dir="${deploy.dir}" / -->  
+            <mkdir dir="${package.web.classes.dir}"/>  
+      
+            <!-- copy src files -->  
+            <copy todir="${build.src.dir}">  
+                <fileset dir="${src.dir}" />  
+            </copy>  
+      
+      
+        </target>  
+      
+      
+      
+        <!-- =================================================================== -->  
+        <!-- 编译源文件-->  
+        <!-- =================================================================== -->  
+        <target name="build" depends="prepare-src, copyWeb">  
+            <javac srcdir="${build.src.dir}" destdir="${classes.dir}" debug="${debug}" optimize="${optimize}">  
+                <classpath refid="classpath" />  
+            </javac>  
+            <copy todir="${package.web.classes.dir}">  
+                <fileset dir="${build.src.dir}" >  
+                    <!-- include name="**/*.xml"/ -->  
+                    <exclude name="**/*.java"/>  
+                </fileset>  
+            </copy>  
+        </target>  
+      
+        <!-- - - - - - - - - - - - - - - - - -   
+              target: copy web                        
+             - - - - - - - - - - - - - - - - - -->  
+        <target name="copyWeb">  
+            <copy todir="${package.dir}">  
+                <fileset dir="${web.dir}" >  
+                    <include name="**/*.*" />  
+                </fileset>  
+            </copy>  
+        </target>  
+      
+        <target name="jar" depends="build">  
+            <jar destfile="${package.lib.dir}/${release.name}.jar" basedir="${classes.dir}">  
+      
+            </jar>  
+        </target>  
+      
+      
+      
+        <!-- =================================================================== -->  
+        <!-- 打war包-->  
+        <!-- =================================================================== -->  
+      
+        <target name="war" depends=" jar,copyWeb">  
+            <war warfile="${build.dir}/${release.name}.war" webxml="${package.webinf.dir}/web.xml">  
+                <lib dir="${package.lib.dir}"/>  
+                <classes dir = "${package.web.classes.dir}"/>  
+                <fileset dir="${package.dir}">  
+                    <exclude name="**/*.jar"/>  
+                </fileset>  
+            </war>  
+    <!-- war 打包时，指明了 lib　的话，　需要去掉  jar 文件，　否则会　把 jar 打两份进 war 文件-->  
+        </target>  
+      
+      
+    <!--   
+        <target name="stopTomcat">  
+            <exec executable="${tomcat.bin.dir}/shutdown.bat" os="Windows 2000" />  
+        </target>  
+      
+        <target name="startTomcat" depends ="stopTomcat"  >  
+            <exec executable="${tomcat.bin.dir}/startup.bat" os="Windows 2000" />  
+        </target>  
+    -->  
+        <target name="start-tomcat">  
+            <delete dir="${deploy.dir}" />  
+            <exec executable="cmd" dir="${tomcat.bin.dir}">  
+                <arg value="/c"/>  
+                <arg value="startup.bat"/>  
+            </exec>  
+        </target>  
+          
+        <target name="stop-tomcat">  
+            <exec executable="cmd " dir="${tomcat.bin.dir}" spawn="true">  
+                <arg value="/c" />  
+                <arg value="shutdown.bat" />  
+            </exec>  
+        </target>  
+      
+      
+        <!-- =================================================================== -->  
+        <!-- 发布到本的resin和tomcat-->  
+        <!-- =================================================================== -->  
+      
+        <target name="publish" depends="war,clean">  
+      
+            <delete dir="${tomcat.apps.dir}/${release.name}"/>  
+            <copy todir="${tomcat.apps.dir}">  
+                <fileset file="${build.dir}/${release.name}.war" />  
+            </copy>  
+      
+        </target>  
+          
+        <!-- =================================   
+              target: deploy                
+             ================================= -->  
+        <target name="deploy" depends="stop-tomcat, publish,start-tomcat" description="description">  
+              
+        </target>  
+      
+        <!--   
+    <target name="SyncMain">   
+              <java classname="com.ce.synchronization.main.SyncMain" failonerror="true" fork="yes">   
+                  <classpath refid="classpath"/>   
+              </java>   
+    </target>   
+    -->  
+        <!-- =================================================================== -->  
+        <!-- 产生javadoc api 文档-->  
+        <!-- =================================================================== -->  
+        <target name="javadoc" depends="build">  
+            <mkdir dir="${build.javadocs}" />  
+            <javadoc packagenames="${packages}" sourcepath="${build.src}" destdir="${build.javadocs}" author="true" version="true" use="true" splitindex="true" windowtitle="${Name} API" doctitle="${Name}">  
+                <classpath refid="classpath" />  
+            </javadoc>  
+        </target>  
+        <!-- =================================================================== -->  
+        <!-- 清除临时文件-->  
+        <!-- =================================================================== -->  
+        <target name="clean" depends="init">  
+            <delete dir="${build.src}" quiet="true"/>  
+      
+        </target>  
+      
+      
+    </project>  

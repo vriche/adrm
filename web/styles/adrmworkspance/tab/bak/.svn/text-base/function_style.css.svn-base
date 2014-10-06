@@ -1,0 +1,20 @@
+.tab-pane-control.tab-pane {position:relative;    width:100%; margin-right:-2px;}
+
+.tab-pane-control .tab-row .tab {width:70px;height:19px;background:url(../images/tab.gif);position:relative;top:0;display:inline;float:left;    cursor:hand; margin:1px -1px 1px 2px;padding:    2px 0px 0px 0px;border:    0;z-index:1; white-space:    nowrap;    text-align:    center;}
+.tab-pane-control .tab-row .tab.selected {font-weight:bold;width:74px !important;    height:21px !important;background:    url(../images/tab.active.gif) !important;    background-repaet:    no-repeat;    border-bottom-width:    0;z-index:3;padding:3px 0 0 0;margin:    1px -3px -3px 0px; top:-3px;}
+.tab-pane-control .tab-row .tab.selected a{ font-weight:bold;}
+.tab-pane-control .tab-row .tab a {color:Black;font:12px "ËÎÌו";text-decoration:none;cursor:hand; line-height:19px}
+.tab-pane-control .tab-row .tab.hover {width:70px;height:19px;font:12px Tahoma;background:url(../images/tab.hover.gif);background-repaet:    no-repeat; cursor:hand;}
+
+//.tab-pane-control .tab-page {clear:both;border:1px solid rgb(145,155,156);background:#fdfdff;z-index:2;position:relative;top: -2px;font:12px "sans-serif, Tahoma"; color:Black; filter:progid:DXImageTransform.Microsoft.Gradient(StartColorStr=#fffefeff,EndColorStr=#fff3f5fb, GradientType=0)progid:DXImageTransform.Microsoft.Shadow(Color=#ffb6bccb, Strength=2, Direction=135);padding:5px;height:140px;}
+.tab-pane-control .tab-page {clear:both;border:1px solid rgb(145,155,156);background:#fdfdff;z-index:2;position:relative;top: -2px;font:12px "sans-serif, Tahoma"; color:Black; filter:progid:DXImageTransform.Microsoft.Gradient(StartColorStr=#fffefeff,EndColorStr=#fff3f5fb, GradientType=0)progid:DXImageTransform.Microsoft.Shadow(Color=#ffb6bccb, Strength=2, Direction=135);padding:0px;height:0px;}
+.tab-pane-control .tab-row {z-index:1;white-space:nowrap;}
+
+.tab-pane-control .tab-page ul {margin:7px 0;}
+.tab-pane-control .tab-page ul li{font-size:14px;padding-left:8px; list-style: url(../images/i2.gif) inside none; line-height:140%;}
+.tab-pane-control .tab-page ul li a{color:#1f3a87; text-decoration:none;}
+.tab-pane-control .tab-page ul li a:hover {text-decoration:underline;}
+.tab-pane-control .tab-page .more{clear:both; margin:0 10px; padding:5px 0 4px; font:12px verdana; background:url(../images/rul_hori_dot.gif) top repeat-x;}
+.tab-pane-control .tab-page .more a{float:right;color:#000;}
+
+.pubtimedate {font-size:12px;color:#999;}

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SysSequenceSQL">
+    <typeAlias alias="sysSequence" type="com.vriche.adrm.model.SysSequence"/>
+
+	<cacheModel id="sysSequence-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addSysSequence"/>
+		<flushOnExecute statement="updateSysSequence"/>
+		<flushOnExecute statement="deleteSysSequence"/>
+		<flushOnExecute statement="deleteSysSequences"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="sysSequence">
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="currentNext" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="currentNextSys" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="format" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="incrementNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="prefix" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="startNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="suffix" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="sysSequence">
+        <parameter property="currentNext" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="currentNextSys" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="format" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="incrementNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="prefix" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="startNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="suffix" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="sysSequenceResult" class="sysSequence">
+        <result property="currentNext" column="current_next"/>
+        <result property="currentNextSys" column="current_next_sys"/>
+        <result property="format" column="format"/>
+        <result property="incrementNo" column="increment_no"/>
+        <result property="name" column="name"/>
+        <result property="prefix" column="prefix"/>
+        <result property="id" column="sequence_id"/>
+        <result property="startNo" column="start_no"/>
+        <result property="suffix" column="suffix"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getSysSequencesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_sys_sequence 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="currentNext">
+			(current_next = #currentNext#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="currentNextSys">
+			(current_next_sys = #currentNextSys#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="format">
+			(format = #format#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incrementNo">
+			(increment_no = #incrementNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="prefix">
+			(prefix = #prefix#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sequence_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startNo">
+			(start_no = #startNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="suffix">
+			(suffix = #suffix#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="version">
+				(version = #version#)
+			</isNotEmpty>				  
+		</dynamic>
+    </select>	
+
+    <select id="getSysSequences" resultMap="sysSequenceResult">
+    <![CDATA[
+        select * from tb_sys_sequence 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="currentNext">
+			(current_next = #currentNext#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="currentNextSys">
+			(current_next_sys = #currentNextSys#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="format">
+			(format = #format#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incrementNo">
+			(increment_no = #incrementNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="prefix">
+			(prefix = #prefix#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sequence_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startNo">
+			(start_no = #startNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="suffix">
+			(suffix = #suffix#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+				(version = #version#)
+			</isNotEmpty>				  
+			  
+		</dynamic>
+    </select>
+    <select id="getSysSequencesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_sys_sequence 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysSequenceIdList">
+       	  <iterate prepend="AND" property="SysSequenceIdList" open="(" close=")" conjunction="OR">
+		   			 sequence_id = #SysSequenceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getSysSequence" resultMap="sysSequenceResult">
+    <![CDATA[
+        select * from tb_sys_sequence
+         where sequence_id = #value#
+    ]]>
+    </select>
+	
+	 <select id="getSysSequenceByObject" resultMap="sysSequenceResult">
+    <![CDATA[
+        select * from tb_sys_sequence
+    ]]>
+		 <dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="currentNext">
+			(current_next = #currentNext#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="currentNextSys">
+			(current_next_sys = #currentNextSys#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="format">
+			(format = #format#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="incrementNo">
+			(increment_no = #incrementNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="prefix">
+			(prefix = #prefix#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sequence_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startNo">
+			(start_no = #startNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="suffix">
+			(suffix = #suffix#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="version">
+				(version = #version#)
+			</isNotEmpty>				 
+		</dynamic>
+    </select>
+    <insert id="addSysSequence" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.String" keyProperty="id" >
+            SELECT SEQ_sequence_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_sys_sequence (version,current_next,current_next_sys,format,increment_no,name,prefix,start_no,suffix)
+            values ( ?,?,?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateSysSequence" parameterMap="updateParam">
+    <![CDATA[
+        update tb_sys_sequence set
+                   current_next = ?,
+                   current_next_sys = ?,
+                   format = ?,
+                   increment_no = ?,
+                   name = ?,
+                   prefix = ?,
+                   start_no = ?,
+                   suffix = ?
+        where sequence_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteSysSequence">
+    <![CDATA[
+        delete from tb_sys_sequence
+         where sequence_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteSysSequences" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_sys_sequence 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysSequenceIdList">
+       	  <iterate prepend="AND" property="SysSequenceIdList" open="(" close=")" conjunction="OR">
+		   			 sequence_id = #SysSequenceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

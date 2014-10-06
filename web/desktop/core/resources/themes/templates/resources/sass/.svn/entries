@@ -1,0 +1,52 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/resources/themes/templates/resources/sass
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+config.rb
+file
+
+
+
+
+2013-05-17T07:37:43.765553Z
+53e5404738858b39eb7b92ba8e7d7d90
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+my-ext-theme.scss
+file
+
+
+
+
+2013-05-17T07:37:43.765553Z
+e7613fff3168f2fbc0afa31e89f6b635
+2012-11-24T05:32:05.899594Z
+6
+lxz
+

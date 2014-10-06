@@ -1,0 +1,77 @@
+alter table tb_order_log drop column change_content;
+alter table tb_order_log add column change_content varchar(512) NOT NULL DEFAULT '';
+
+alter table tb_order_log drop column order_detail_id;
+alter table tb_order_log add column order_detail_id bigint(20) NOT NULL DEFAULT 0;
+
+alter table tb_oa_area_city drop column code;
+alter table tb_oa_area_city add column code varchar(20) NOT NULL DEFAULT '';
+
+alter table tb_customer_address modify column province bigint(20) NOT NULL DEFAULT '0';
+
+CREATE TABLE tb_finance_target (
+			  finance_target_id bigint(20) NOT NULL auto_increment,
+		      ad_resource_carrier_id bigint(20)  NOT NULL default 0,
+			  year int(4) NOT NULL  NOT NULL default '0',
+			  month int(4) NOT NULL  NOT NULL default '0',
+			  money double NOT NULL  NOT NULL default '0',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (finance_target_id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+delete from  tb_customer_address;
+
+
+alter table tb_finance_target drop foreign key fk_tb_finance_target_carrierid;
+ALTER TABLE tb_finance_target ADD CONSTRAINT fk_tb_finance_target_carrierid 
+		FOREIGN KEY (ad_resource_carrier_id) 
+		REFERENCES tb_ad_resource_carrier(ad_resource_carrier_id);
+
+alter table tb_customer_address drop foreign key fk_tb_customer_address_provincecityid;
+ALTER TABLE tb_customer_address ADD CONSTRAINT fk_tb_customer_address_provincecityid 
+		FOREIGN KEY (province) 
+		REFERENCES tb_oa_area_city(area_city_id);
+
+
+
+delete from  tb_oa_area_city;
+
+INSERT INTO tb_oa_area_city VALUES
+ (1,0,'北京',NULL,NULL,NULL,NULL,'CN.BJ'),
+(2,0,'上海',NULL,NULL,NULL,NULL,'CN.SH'),
+(3,0,'天津',NULL,NULL,NULL,NULL,'CN.TJ'),
+(4,0,'重庆',NULL,NULL,NULL,NULL,'CN.CQ'),
+(5,0,'河北省',NULL,NULL,NULL,NULL,'CN.HB'),
+(6,0,'河南省',NULL,NULL,NULL,NULL,'CN.HE'),
+(7,0,'湖北省',NULL,NULL,NULL,NULL,'CN.HU'),
+(8,0,'湖南省',NULL,NULL,NULL,NULL,'CN.HN'),
+(9,0,'山东省',NULL,NULL,NULL,NULL,'CN.SD'),
+(10,0,'山西省',NULL,NULL,NULL,NULL,'CN.SX'),
+(11,0,'江苏省',NULL,NULL,NULL,NULL,'CN.JS'),
+(12,0,'江西省',NULL,NULL,NULL,NULL,'CN.JX'),
+(13,0,'广东省',NULL,NULL,NULL,NULL,'CN.GD'),
+(14,0,'福建省',NULL,NULL,NULL,NULL,'CN.FJ'),
+(15,0,'浙江省',NULL,NULL,NULL,NULL,'CN.ZJ'),
+(16,0,'安徽省',NULL,NULL,NULL,NULL,'CN.AH'),
+(17,0,'四川省',NULL,NULL,NULL,NULL,'CN.SC'),
+(18,0,'贵州省',NULL,NULL,NULL,NULL,'CN.GZ '),
+(19,0,'云南省',NULL,NULL,NULL,NULL,'CN.YN'),
+(20,0,'海南省',NULL,NULL,NULL,NULL,'CN.HA'),
+(21,0,'陕西省',NULL,NULL,NULL,NULL,'CN.SA'),
+(22,0,'青海省',NULL,NULL,NULL,NULL,'CN.QH'),
+(23,0,'甘肃省',NULL,NULL,NULL,NULL,'CN.GS'),
+(24,0,'黑龙江省',NULL,NULL,NULL,NULL,'CN.HL'),
+(25,0,'辽宁省',NULL,NULL,NULL,NULL,'CN.LN'),
+(26,0,'吉林省',NULL,NULL,NULL,NULL,'CN.JL'),
+(27,0,'广西壮族自治区',NULL,NULL,NULL,NULL,'CN.GX'),
+(28,0,'内蒙古自治区',NULL,NULL,NULL,NULL,'CN.NM'),
+(29,0,'宁夏回族自治区',NULL,NULL,NULL,NULL,'CN.NX'),
+(30,0,'新疆维吾尔族自治区',NULL,NULL,NULL,NULL,'CN.XJ'),
+(31,0,'西藏自治区',NULL,NULL,NULL,NULL,'CN.XZ'),
+(32,0,'香港',NULL,NULL,NULL,NULL,'CN.HK'),
+(33,0,'澳门',NULL,NULL,NULL,NULL,'CN.MA'),
+(34,0,'台湾省',NULL,NULL,NULL,NULL,'CN.TA');

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="gb2312"?>
+<tree id="0">
+			<item id="dhtmlxTree1" text="客户管理" im0="dhtmlxtree_icon.gif" im1="dhtmlxtree_icon.gif" im2="dhtmlxtree_icon.gif" open="true">
+				<userdata name="url">
+					/adrm/help/dhtmlxDoc/
+				</userdata>
+				<userdata name="thisurl">
+					/adrm/help/dhtmlxDoc/customer.htm
+				</userdata>
+				<item text="客户信息" id="customer">
+					<userdata name="url">customer.htm</userdata>
+				</item>
+				<item text="联系人" id="linkMan">
+					<userdata name="url">customer.htm</userdata>
+				</item>
+				<item text="客户意见" id="advice">
+					<userdata name="url">customer.htm</userdata>
+					
+				</item>
+			</item>
+			<item id="dhtmlxGrid" text="订单管理" im0="dhtmlxgrid_icon.gif" im1="dhtmlxgrid_icon.gif" im2="dhtmlxgrid_icon.gif" open="true">
+				<userdata name="url">
+					/adrm/help/dhtmlxDoc/
+				</userdata>
+				<userdata name="thisurl">
+					/adrm/help/dhtmlxDoc/order.htm
+				</userdata>
+				<item text="合同信息" id="menu_mf">
+					<userdata name="url">order.htm</userdata>
+	
+				</item>
+				<item text="销售订单" id="grid_browsers">
+					<userdata name="url">order.htm</userdata>
+				</item>
+				<item text="资源查询" id="grid_keyboard">
+					<userdata name="url">order.htm</userdata>
+				</item>
+				<item text="办公审批" id="grid_init">
+					<userdata name="url">order.htm</userdata>
+		        						
+				</item>
+				<item text="播出证明" id="grid_handlers">
+					<userdata name="url">order.htm</userdata>
+				</item>
+			</item>
+			<item id="dhtmlxMenu" text="财务管理" im0="dhtmlxmenu_icon.gif" im1="dhtmlxmenu_icon.gif" im2="dhtmlxmenu_icon.gif" open="true">
+				<userdata name="url">
+					/adrm/help/dhtmlxDoc/
+				</userdata>
+				<userdata name="thisurl">
+					/adrm/help/dhtmlxDoc/money.htm
+
+				</userdata>
+				<item text="到款入录" id="menu_browsers">
+					<userdata name="url">money.htm</userdata>
+				</item>
+				<item text="但款分配" id="menu_guide">
+					<userdata name="url">money.htm</userdata>
+				</item>
+				
+				
+			</item>
+			<item id="dhtmlxTabbar" text="编播管理" im0="dhtmlxtabbar_icon.gif" im1="dhtmlxtabbar_icon.gif" im2="dhtmlxtabbar_icon.gif" open="true">
+				<userdata name="url">
+					/adrm/help/dhtmlxDoc/
+				</userdata>
+				<userdata name="thisurl">
+					/adrm/help/dhtmlxDoc/arrage.htm
+				</userdata>
+				<item text="广告编排" id="tabbar_tabbar_mf">
+					<userdata name="url">arrage.htm</userdata>
+				</item>
+				<item text="广告素材" im0="leaf_new.gif" id="tabbar_browsers">
+					<userdata name="url">arrage.htm</userdata>
+					<item text="产品品牌" id="tabbar_in"/>
+					<item text="产品分类" id="tabbar_inithtml"/>
+					<item text="广告素材" id="tabbar_scriptinit"/>
+					<item text="素材分类" id="tabbar_xmlinit"/>
+				</item>
+			</item>				
+			<item id="123" text="统计分析" im0="dhtmlxcombo_icon.gif" im1="dhtmlxcombo_icon.gif" im2="dhtmlxcombo_icon.gif" open="true">
+				<userdata name="url">
+					/adrm/help/dhtmlxDoc/
+				</userdata>
+				<userdata name="thisurl">
+					/adrm/help/dhtmlxDoc/anylze.htm
+				</userdata>
+				<item text="客户统计" id="客户统计">
+					<userdata name="url">anylze.htm</userdata>
+					<item text="区间统计" id="区间统计"/>
+					<item text="全年统计" id="全年统计"/>
+					<item text="业务员统计" id="业务员统计"/>
+				</item>
+				<item text="载体统计" id="载体统计">
+					<userdata name="url">anylze.htm</userdata>
+					<item text="区间统计" id="载体区间统计"/>
+					<item text="全年统计" id="载体全年统计"/>
+				</item>
+				<item text="品牌统计" id="品牌统计">
+					<userdata name="url">anylze.htm</userdata>
+					<item text="客户品牌投放量" id="客户品牌投放量">
+					</item>
+					<item text="行业品牌投放量" id="行业品牌投放量">
+					</item>
+					<item text="广告类型品牌投放量" id="广告类型品牌投放量">
+					</item>		
+				</item>
+				
+			</item>
+			<item id="sysManager" text="系统管理" im0="dhtmlxtoolbar_icon.gif" im1="dhtmlxtoolbar_icon.gif" im2="dhtmlxtoolbar_icon.gif" open="true">
+				<userdata name="url">
+					/adrm/help/dhtmlxDoc/
+				</userdata>
+				<userdata name="thisurl">
+					/adrm/help/dhtmlxDoc/admin.htm
+				</userdata>
+				
+				<item text="组织信息" id="组织信息">
+					<userdata name="url">admin.htm</userdata>
+				</item>
+				<item text="部门信息" id="部门信息">
+					<userdata name="url">admin.htm</userdata>
+				</item>
+				<item text="职务信息" id="职务信息">
+					<userdata name="url">admin.htm</userdata>
+					
+										
+				</item>
+				<item text="用户信息" id="用户信息">
+					<userdata name="url">admin.htm</userdata>
+				</item>
+				
+	        	 	<item text="权限控制" id="权限控制">
+	    	       			<userdata name="url">admin.htm</userdata>
+		         	</item>
+		         	
+	        	 	<item text="时段维护" id="时段维护">
+					<userdata name="url">admin.htm</userdata>
+				</item>
+				
+				<item text="系统工具" id="系统工具">
+					<userdata name="url">admin.htm</userdata>
+					<item text="流程管理" id="流程管理"/>
+					<item text="在线用户" id="在线用户"/>
+					<item text="重载选项" id="重载选项"/>
+					<item text="刷新缓存" id="刷新缓存"/>
+					<item text="访问记录" id="访问记录"/>
+				</item>
+				
+				
+				
+			</item>
+			
+
+		</tree>

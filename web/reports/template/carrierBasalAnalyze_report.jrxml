@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created using an evaluation version of JasperAssistant (http://www.jasperassistant.com) -->
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="carrierBasalAnalyze_report" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<property name="com.jasperassistant.designer.HGuides" value="2"/>
+	<property name="com.jasperassistant.designer.Rulers" value="true"/>
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
+	<property name="com.jasperassistant.designer.Margins" value="true"/>
+	<property name="com.jasperassistant.designer.Grid" value="false"/>
+	<property name="com.jasperassistant.designer.SnapToGuides" value="true"/>
+	<parameter name="ReportTitle" class="java.lang.String">
+	</parameter>
+	<parameter name="BaseDir" class="java.io.File">
+	</parameter>
+	<parameter name="PublishDate" class="java.lang.String">
+	</parameter>
+	<field name="resourceName" class="java.lang.String">
+	</field>
+	<field name="carrierName" class="java.lang.String">
+	</field>
+	<field name="relIncome" class="java.lang.Double">
+	</field>
+	<field name="sumTimes" class="java.lang.Double">
+	</field>
+	<field name="sumUsed" class="java.lang.String">
+	</field>
+	<title>
+		<band height="50">
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="555" height="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="22" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="135" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[行业类别 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="135" y="0" width="135" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[广告品牌]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="270" y="0" width="100" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[投放金额]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="370" y="0" width="100" height="25"/>
+				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[时间]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="470" y="0" width="74" height="25"/>
+				<box border="1Point"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[比例]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<elementGroup>
+			</elementGroup>
+			<textField>
+				<reportElement positionType="Float" x="0" y="0" width="135" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{resourceName}==null?"":$F{resourceName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="135" y="0" width="135" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{carrierName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="270" y="0" width="100" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{relIncome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="##0.###">
+				<reportElement positionType="Float" x="370" y="0" width="100" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{sumTimes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="470" y="0" width="74" height="20"/>
+				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="宋体" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{sumUsed}==null?"":$F{sumUsed}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25">
+			<textField>
+				<reportElement positionType="Float" x="140" y="0" width="160" height="25"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["第 "+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement positionType="Float" x="300" y="0" width="85" height="25"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="宋体" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{PAGE_NUMBER}+" 页"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

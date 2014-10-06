@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WorkspanSQL">
+    <typeAlias alias="workspan" type="com.vriche.adrm.model.Workspan"/>
+
+	<cacheModel id="workspan-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addWorkspan"/>
+		<flushOnExecute statement="updateWorkspan"/>
+		<flushOnExecute statement="deleteWorkspan"/>
+		<flushOnExecute statement="deleteWorkspans"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+	
+    <parameterMap id="addParam" class="workspan">
+        <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="beginDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="broadcastEndTime" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+        <parameter property="broadcastStartTime" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+        <parameter property="carrierId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+
+		<parameter property="monLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tueLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="wenLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="thiLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		 <parameter property="friLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="satLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="sunLength" jdbcType="VARCHAR" javaType="java.lang.String"/>		
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="workspan">
+        <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="beginDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="broadcastEndTime" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+        <parameter property="broadcastStartTime" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+        <parameter property="carrierId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="monLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tueLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="wenLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="thiLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="friLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="satLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="sunLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="workspanResult" class="workspan">
+        <result property="propertiyTime" column="ad_resource_propertiy_time"/>
+        <result property="beginDate" column="begin_date"/>
+        <result property="broadcastEndTime" column="broadcast_end_time"/>
+        <result property="broadcastStartTime" column="broadcast_start_time"/>
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="friLength" column="fri_length"/>
+        <result property="id" column="ad_resource_workspan_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="monLength" column="mon_length"/>
+        <result property="resourceId" column="ad_resource_info_id"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="satLength" column="sat_length"/>
+        <result property="sunLength" column="sun_length"/>
+        <result property="thiLength" column="thi_length"/>
+        <result property="tueLength" column="tue_length"/>
+        <result property="version" column="version"/>
+        <result property="wenLength" column="wen_length"/>
+    </resultMap>
+
+    <select id="getWorkspans" resultMap="workspanResult">
+    <![CDATA[
+        select * from tb_ad_resource_workspan 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(ad_resource_propertiy_time = #propertiyTime#) 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="beginDate">
+			(begin_date = #beginDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="broadcastEndTime">
+			(broadcast_end_time = #broadcastEndTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="broadcastStartTime">
+			(broadcast_start_time = #broadcastStartTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="carrierId">
+			(ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDate">
+			(end_date = #endDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="friLength">
+			(fri_length = #friLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ad_resource_workspan_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="monLength">
+			(mon_length = #monLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceId">
+			(ad_resource_info_id = #resourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="satLength">
+			(sat_length = #satLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sunLength">
+			(sun_length = #sunLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="thiLength">
+			(thi_length = #thiLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tueLength">
+			(tue_length = #tueLength#)   
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="wenLength">
+			(wen_length = #wenLength#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getWorkspansByIdList" parameterClass="java.util.Map" resultMap="workspanResult">
+     <![CDATA[              
+      select arc.parent_id  ad_resource_workspan_id,ari.ad_resource_propertiy_time,arc.ad_resource_channel_id ad_resource_carrier_id,ari.enable as ad_resource_type,arw.* from tb_ad_resource_workspan arw
+		 left outer join tb_ad_resource_carrier arc
+			 on arw.ad_resource_carrier_id=arc.ad_resource_carrier_id
+		 left outer join tb_ad_resource_info ari
+			 on arw.ad_resource_info_id=ari.ad_resource_info_id
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      	  <isNotNull property="WorkspanIdList">
+				 <iterate prepend="AND" property="WorkspanIdList" open="(" close=")" conjunction="OR">
+							ad_resource_workspan_id = #WorkspanIdList[]#
+			     </iterate>
+			  </isNotNull>
+				
+			<isNotEmpty prepend="AND" property="resourceType">
+				(ari.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="version">
+				(arw.version = #version#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="enable">
+				(ari.enable = #enable#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="PublishDate">           
+				<![CDATA[ arw.begin_date <= #PublishDate# ]]> 
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="PublishDate">   
+				<![CDATA[ (arw.end_date >= #PublishDate#)]]>         
+			</isNotEmpty>
+          </dynamic>
+		order by  arc.ad_resource_channel_id
+  </select>     
+
+    <select id="getWorkspan" resultMap="workspanResult">
+    <![CDATA[
+        select * from tb_ad_resource_workspan
+         where ad_resource_workspan_id = #value#
+    ]]>
+    </select>
+	
+	<select id="getWorkspansByResourceIdList" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     <![CDATA[  
+      select broadcast_start_time from tb_ad_resource_workspan
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      	  <isNotNull property="resourceIdList">
+				 <iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+							ad_resource_info_id = #resourceIdList[]#  
+			     </iterate>
+			  </isNotNull> 
+          </dynamic>      
+	 </select> 
+	
+	<select id="getWorkspanByResourceId" resultMap="workspanResult">
+    <![CDATA[
+        select * from tb_ad_resource_workspan
+         where ad_resource_info_id = #value# order by begin_date
+    ]]>
+    </select>
+
+	
+	<select id="getWorkspanCountByResourceId" resultClass="java.lang.Integer">
+    <![CDATA[
+		select count(*) from tb_ad_resource_workspan 
+		where  ad_resource_info_id = #value#
+    ]]>
+    </select>
+	
+	
+	
+    <insert id="addWorkspan" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_workspan_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_ad_resource_workspan (ad_resource_propertiy_time,begin_date,broadcast_end_time,broadcast_start_time,ad_resource_carrier_id,create_by,create_date,end_date,memo,modify_by,modify_date,ad_resource_info_id,ad_resource_type,mon_length,tue_length,wen_length,thi_length,fri_length,sat_length,sun_length,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateWorkspan" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_workspan set
+                   ad_resource_propertiy_time = ?,
+                   begin_date = ?,
+                   broadcast_end_time = ?,
+                   broadcast_start_time = ?,
+                   ad_resource_carrier_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   end_date = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   ad_resource_info_id = ?,
+                   ad_resource_type = ?,
+				   mon_length = ?,
+                   tue_length = ?,
+                   wen_length = ?,
+				   thi_length = ?,
+				   fri_length = ?,
+		           sat_length = ?,
+                   sun_length = ?,
+				   version = ? 
+        where ad_resource_workspan_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteWorkspan">
+    <![CDATA[
+        delete from tb_ad_resource_workspan
+         where ad_resource_workspan_id = #value#
+    ]]>
+    </delete>
+	
+   <update id="deleteWorkspans" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_workspan 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="WorkspanIdList">
+       	  <iterate prepend="AND" property="WorkspanIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_workspan_id = #WorkspanIdList[]#
+		  </iterate>
+		  </isNotNull> 
+				
+	      <isNotNull property="version">
+		   			 version = #version# 
+		  </isNotNull> 					
+          </dynamic>      
+  </update>   
+</sqlMap>

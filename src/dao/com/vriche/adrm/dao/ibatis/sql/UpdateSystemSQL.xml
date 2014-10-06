@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UpdateSystemSQL">
+	
+	<statement id="updateSystem_version_1" resultClass="java.lang.Integer">
+		update tb_sys_org set version = 1
+   </statement>
+	
+	<statement id="updateSystem_version_2" resultClass="java.lang.Integer">
+		update tb_sys_org set version = 2
+   </statement>
+	
+	<statement id="updateSystem_version_3" resultClass="java.lang.Integer">
+		update tb_sys_org set version = 3
+   </statement>
+	
+	<statement id="updateSystem_version_4" resultClass="java.lang.Integer">
+		update tb_sys_org set version = 4
+   </statement>	
+	
+	<statement id="updateSystem_version_5" resultClass="java.lang.Integer">
+		update tb_sys_org set version = 5
+   </statement>		
+	
+	<statement id="updateSystem_version_6" resultClass="java.lang.Integer">
+		update tb_sys_org set version = 6
+   </statement>		
+	
+	<statement id="updateSystem_version_7" resultClass="java.lang.Integer">
+		update tb_sys_org set version = 7
+   </statement>		
+	
+    <statement id="opinionFromTable" resultClass="java.lang.Integer">
+    <![CDATA[
+			select income_pull_date from tb_income
+	
+    ]]>
+    </statement>		
+	
+    <statement id="addCloumnFromTable" resultClass="java.lang.Integer">
+    <![CDATA[
+			  alter table tb_income add income_pull_date int(11)
+			
+    ]]>
+    </statement>	
+	
+	
+	
+	
+	
+	<statement id="opinionFromSysOry" resultClass="java.lang.Integer">
+    <![CDATA[
+			 select logo,logo_type from tb_sys_org
+    ]]>
+    </statement>
+
+	
+	<statement id="addLogo" resultClass="java.lang.Integer">
+    <![CDATA[
+			 alter table tb_sys_org add logo blob  not null	
+    ]]>
+    </statement>		
+	
+    <statement id="addLogoType" resultClass="java.lang.Integer">
+    <![CDATA[
+			  alter table tb_sys_org add logo_type varchar(128)
+			
+    ]]>
+    </statement>	
+	
+	
+	<statement id="get_tb_foret_arrearage" resultClass="java.lang.Integer">
+    <![CDATA[
+			 select count(*) from tb_foret_arrearage;	
+    ]]>
+    </statement>	
+	
+	<statement id="create_tb_foret_arrearage" resultClass="java.lang.Integer">
+    <![CDATA[
+			CREATE TABLE tb_foret_arrearage (
+			  fa_id bigint(20) NOT NULL auto_increment,
+			  version int(11) NOT NULL default '0',
+			  customer_name varchar(128) NOT NULL default '',
+			  income_code varchar(32) NOT NULL default '',
+			  income_date int(11) NOT NULL default '0',
+			  income_mode varchar(32) NOT NULL default '',
+			  income_money double NOT NULL default '0',
+			  income_purpose varchar(32) NOT NULL default '',
+			  memo varchar(255) default NULL,
+			  pay_date int(11) NOT NULL default '0',
+			  pay_money double NOT NULL default '0',
+			  user_name varchar(32) NOT NULL default '',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  PRIMARY KEY  (fa_id),
+			  UNIQUE KEY income_code (income_code)
+			) TYPE=InnoDB; 	
+    ]]>
+    </statement>
+	
+	
+	
+	
+	<statement id="updateSystem_1" resultClass="java.lang.Integer">
+		update tb_sys_sequence set suffix=2008 where name='sequence_tb_order'
+    </statement>	
+	<statement id="updateSystem_1_1" resultClass="java.lang.Integer">
+		update tb_sys_sequence set suffix=2008 where name='sequence_tb_contract'
+    </statement>		
+	
+	<statement id="updateSystem_2" resultClass="java.lang.Integer">
+		update tb_ad_resource_info set create_date='2008-01-01 17:41:26',version=2008
+    </statement>
+	<statement id="updateSystem_3" resultClass="java.lang.Integer">
+		update tb_ad_resource_workspan set version=2008
+    </statement>	
+	<statement id="updateSystem_4" resultClass="java.lang.Integer">
+		update tb_ad_resource_day_info set version=2008
+    </statement>
+	<statement id="updateSystem_5_1" resultClass="java.lang.Integer">
+		update tb_ad_resource_price set version=2008;
+    </statement>	
+	<statement id="updateSystem_5" resultClass="java.lang.Integer">
+		update tb_ad_resource_price_detail set version=2008
+    </statement>
+			
+	<statement id="updateSystem_6" resultClass="java.lang.Integer">
+		update tb_order set version=2008;
+    </statement>
+	<statement id="updateSystem_7" resultClass="java.lang.Integer">
+		update tb_order_detail set version=2008;
+    </statement>
+	<statement id="updateSystem_8" resultClass="java.lang.Integer">
+		update tb_order_day_info set version=2008;
+    </statement>
+
+
+
+	<statement id="updateSystem_9" resultClass="java.lang.Integer">
+		update tb_income set income_mode_id=1 where income_mode_id = 0
+    </statement>
+			
+	<statement id="updateSystem_10" resultClass="java.lang.Integer">
+		update tb_income set income_purpose_id=1 where income_purpose_id = 0
+    </statement>
+	<statement id="updateSystem_11" resultClass="java.lang.Integer">
+		update tb_income_used  set version = 2008;
+    </statement>
+	
+	<statement id="updateSystem_11_1" resultClass="java.lang.Integer">
+		update tb_income_pull A set 
+		A.version = (select substring(B.income_date,1,4) from tb_income B
+		where A.income_id = B.income_id);
+    </statement>	
+	
+	<statement id="updateSystem_11_2" resultClass="java.lang.Integer">
+		update tb_contract_payment  set version = 2008;
+    </statement>
+	
+	<statement id="updateSystem_11_3" resultClass="java.lang.Integer">
+		update tb_contract_payment A  set A.customer_id = (select B.customer_id from tb_order B where B.order_id = A.order_id);
+    </statement>		
+	
+	
+	
+	<statement id="updateSystem_12" resultClass="java.lang.Integer">
+		update tb_income_used A set
+		 A.income_pull_id = (select B.income_pull_id from tb_income_pull B
+		where A.income_id = B.income_id) WHERE ISNULL(A.income_pull_id);
+    </statement>
+	<statement id="updateSystem_12_0" resultClass="java.lang.Integer">
+		update tb_income  set version  =  substring(income_date,1,4);
+    </statement>
+	
+	<statement id="updateSystem_12_1" resultClass="java.lang.Integer">
+		delete from tb_income_pull  where income_id in (select b.income_id from tb_income b where b.customer_id=0);
+    </statement>
+	
+	<statement id="updateSystem_12_2" resultClass="java.lang.Integer">
+		delete from tb_income  where customer_id = 0 ;
+    </statement>	
+	
+
+
+	
+
+	<statement id="updateSystem_13" resultClass="java.lang.Integer">
+		alter table tb_order_detail modify column order_category_id bigint(20) NOT NULL DEFAULT '0';
+    </statement>
+	<statement id="updateSystem_14" resultClass="java.lang.Integer">
+		alter table tb_order modify column order_category_id bigint(20) NOT NULL DEFAULT '0';
+    </statement>
+	<statement id="updateSystem_15" resultClass="java.lang.Integer">
+		alter table tb_income_used drop column contract_id;
+    </statement>
+	<statement id="updateSystem_16" resultClass="java.lang.Integer">
+		alter table tb_income_used drop column order_id;
+    </statement>
+	<statement id="updateSystem_17" resultClass="java.lang.Integer">
+		alter table tb_income_used drop column order_detail_id;
+    </statement>
+	<statement id="updateSystem_18" resultClass="java.lang.Integer">
+		alter table tb_income_used drop column income_id;
+    </statement>
+	<statement id="updateSystem_19" resultClass="java.lang.Integer">
+		alter table tb_income_used drop column publish_date;
+    </statement>
+	
+
+	<statement id="updateSystem_19_0" resultClass="java.lang.Integer">
+		alter table tb_order_detail add column money_in double NOT NULL DEFAULT 0;
+    </statement>
+	<statement id="updateSystem_19_1" resultClass="java.lang.Integer">
+		alter table tb_order_detail add column publish_start int(11) NOT NULL DEFAULT 0;
+    </statement>
+	<statement id="updateSystem_19_2" resultClass="java.lang.Integer">
+		alter table tb_order_detail add column publish_end int(11) NOT NULL DEFAULT 0;
+    </statement>
+	<statement id="updateSystem_19_3" resultClass="java.lang.Integer">
+		alter table tb_order_detail add column sum_times int(5) NOT NULL DEFAULT 0;
+    </statement>			
+	<statement id="updateSystem_19_4" resultClass="java.lang.Integer">
+		delete from tb_order_detail where order_detail_id  not in (select distinct order_detail_id from tb_order_day_info);
+    </statement>		
+
+	<statement id="updateSystem_19_5" resultClass="java.lang.Integer">
+		update tb_order_detail A set A.publish_start = (select ifnull(min(B.publish_date),0) from tb_order_day_info B where A.order_detail_id = B.order_detail_id and ad_day_times>0);
+    </statement>
+	<statement id="updateSystem_19_6" resultClass="java.lang.Integer">
+		update tb_order_detail A set A.publish_end = (select ifnull(max(B.publish_date),0) from tb_order_day_info B where A.order_detail_id =B.order_detail_id and ad_day_times>0);
+    </statement>
+	<statement id="updateSystem_19_7" resultClass="java.lang.Integer">
+		update tb_order_detail A set A.sum_times = (select ifnull(sum(B.ad_day_times),0) from tb_order_day_info B where A.order_detail_id =B.order_detail_id);
+    </statement>	
+	<statement id="updateSystem_19_8" resultClass="java.lang.Integer">
+		update tb_order_detail A set A.money_realpay = (select sum(B.day_rel_income)  from tb_order_day_info B where A.order_detail_id =B.order_detail_id);
+    </statement>
+	<statement id="updateSystem_19_9" resultClass="java.lang.Integer">
+		update tb_order_detail A set A.money_in = (select AA.moneyin FROM 
+           (SELECT OD.order_detail_id,IFNULL(sum(IU.money_in),0) AS moneyin 
+				FROM  tb_order_detail DT 
+				left outer join tb_order_day_info OD 
+                      on OD.order_detail_id = DT.order_detail_id 
+				left outer join tb_income_used IU
+                       on IU.order_day_info_id = OD.order_day_info_id 
+           group by OD.order_detail_id)  AS AA WHERE AA.order_detail_id = A.order_detail_id);
+    </statement>	
+
+
+
+
+	
+	<statement id="updateSystem_20" resultClass="java.lang.Integer">
+		ALTER TABLE tb_order_detail ADD CONSTRAINT fk_orderdetail_adresourceinfo 
+		FOREIGN KEY (ad_resource_info_id) 
+		REFERENCES tb_ad_resource_info(ad_resource_info_id);
+    </statement>
+	
+	<statement id="updateSystem_21" resultClass="java.lang.Integer">
+		ALTER TABLE tb_order_detail ADD CONSTRAINT fk_orderdetail_advermatter 
+		FOREIGN KEY (adver_matter_id) 
+		REFERENCES tb_adver_matter(adver_matter_id);
+    </statement>
+	
+	<statement id="updateSystem_22" resultClass="java.lang.Integer">
+		ALTER TABLE tb_order_detail ADD CONSTRAINT fk_orderdetail_customerindustrytype 
+		FOREIGN KEY (customer_industry_type_id) 
+		REFERENCES tb_customer_industry_type(customer_industry_type_id);
+    </statement>
+	
+	<statement id="updateSystem_23" resultClass="java.lang.Integer">
+		ALTER TABLE tb_order_detail ADD CONSTRAINT fk_orderdetail_ordercategory 
+		FOREIGN KEY (order_category_id) 
+		REFERENCES tb_order_category(order_category_id);
+    </statement>
+		
+	<statement id="updateSystem_24" resultClass="java.lang.Integer">
+		ALTER TABLE tb_order ADD CONSTRAINT fk_order_ordercategory 
+		FOREIGN KEY (order_category_id) 
+		REFERENCES tb_order_category(order_category_id);
+    </statement>
+	
+	<statement id="updateSystem_25" resultClass="java.lang.Integer">
+		ALTER TABLE tb_order ADD CONSTRAINT fk_order_sysuser_sign 
+		FOREIGN KEY (user_id) 
+		REFERENCES tb_sys_user(id);
+    </statement>
+	
+	<statement id="updateSystem_26" resultClass="java.lang.Integer">
+		ALTER TABLE tb_income_used ADD CONSTRAINT fk_incomeused_orderdayinfo 
+		FOREIGN KEY (order_day_info_id)  
+		REFERENCES tb_order_day_info(order_day_info_id);
+    </statement>
+	
+	<statement id="updateSystem_27" resultClass="java.lang.Integer">
+		ALTER TABLE tb_income ADD CONSTRAINT fk_income_incomemode 
+		FOREIGN KEY (income_mode_id) 
+		REFERENCES tb_income_mode(income_mode_id);
+    </statement>
+	
+	
+	<statement id="updateSystem_28" resultClass="java.lang.Integer">
+		ALTER TABLE tb_income ADD CONSTRAINT fk_income_incomepurpose 
+		FOREIGN KEY (income_purpose_id) 
+		REFERENCES tb_income_purpose(income_purpose_id);
+    </statement>
+	
+	<statement id="updateSystem_29" resultClass="java.lang.Integer">
+		ALTER TABLE tb_income ADD CONSTRAINT fk_income_sysuser_sign 
+		FOREIGN KEY (user_id) 
+		REFERENCES tb_sys_user(id);
+    </statement>
+	
+	<statement id="updateSystem_30" resultClass="java.lang.Integer">
+		ALTER TABLE tb_income_used ADD CONSTRAINT fk_incomeused_incomepull 
+		FOREIGN KEY (income_pull_id)  
+		REFERENCES tb_income_pull(income_pull_id);
+    </statement>	
+	
+	<statement id="updateSystem_31" resultClass="java.lang.Integer">
+		ALTER TABLE tb_income ADD CONSTRAINT fk_income_customer 
+		FOREIGN KEY (customer_id) 
+		REFERENCES tb_customer_info(customer_id);		
+	</statement>
+	
+	<statement id="updateSystem_31_1" resultClass="java.lang.Integer">
+		ALTER TABLE tb_contract_payment ADD CONSTRAINT fk_contractpayment_customer 
+		FOREIGN KEY (customer_id) 
+		REFERENCES tb_customer_info(customer_id);		
+	</statement>	
+	
+
+	<statement id="updateSystem_32" resultClass="java.lang.Integer">
+		update tb_ad_resource_day_info set version = 2008 where version = 2;
+	</statement>
+	
+	<statement id="updateSystem_33" resultClass="java.lang.Integer">
+		 alter table tb_contract add ad_resource_carrier_id bigint(20)  NOT NULL default 0;
+	</statement>	
+	
+	<statement id="updateSystem_34" resultClass="java.lang.Integer">
+		 alter table tb_contract add  UNIQUE KEY unique_key_contract_code (code);
+	</statement>		
+	
+	<statement id="updateSystem_35" resultClass="java.lang.Integer">
+		 alter table tb_order add  UNIQUE KEY unique_key_order_code (order_code);
+	</statement>		
+
+ 	<statement id="updateSystem_36" resultClass="java.lang.Integer">
+		 alter table tb_published_arrang modify column resource_name varchar(128)  NOT NULL DEFAULT '';
+	</statement>	
+	
+ 	<statement id="updateSystem_37" resultClass="java.lang.Integer">
+		 update tb_ad_resource_carrier set version=2008 where node_level>1;
+	</statement>	
+	
+	
+	
+	
+	
+ 	<statement id="updateSystem_38" resultClass="java.lang.Integer">
+		CREATE TABLE tb_ad_resource_time_limit (
+		  id  bigint(20) NOT NULL AUTO_INCREMENT,
+		  version int(11) NOT NULL DEFAULT 0,
+		  start_time int(11) NOT NULL DEFAULT 0,
+		  end_time  int(11) NOT NULL DEFAULT 0,
+		  limit_time int(11) NOT NULL DEFAULT 0,
+		  ad_resource_carrier_id bigint(20) NOT NULL DEFAULT 0,
+		  PRIMARY KEY (id)
+		) ENGINE=InnoDB DEFAULT CHARSET=gbk; 
+	</statement>	
+	
+ 	<statement id="updateSystem_39" resultClass="java.lang.Integer">
+		ALTER TABLE tb_ad_resource_time_limit ADD CONSTRAINT fk_tb_adresourcetimelimit_carrierid 
+		FOREIGN KEY (ad_resource_carrier_id) 
+		REFERENCES tb_ad_resource_carrier(ad_resource_carrier_id);
+	</statement>	
+
+	<statement id="updateSystem_40" resultClass="java.lang.Integer">
+		update tb_ad_resource_workspan  set broadcast_end_time = broadcast_start_time;
+	</statement>		
+	<statement id="updateSystem_41" resultClass="java.lang.Integer">
+		update tb_ad_resource_workspan  set broadcast_start_time = 0;
+	</statement>		
+ 	<statement id="updateSystem_42" resultClass="java.lang.Integer">
+		alter table tb_ad_resource_workspan modify column broadcast_start_time int(11) NOT NULL DEFAULT '0';
+	</statement>	
+ 	<statement id="updateSystem_43" resultClass="java.lang.Integer">
+		 alter table tb_customer_info  modify column help_code varchar(30)  NOT NULL DEFAULT '';
+	</statement>	
+	
+ 	<statement id="updateSystem_44" resultClass="java.lang.Integer">
+		 update tb_ad_resource_info set is_overweight =1;
+	</statement>	
+	
+	
+	
+	
+
+	<statement id="updateSystem_45" resultClass="java.lang.Integer">
+		alter table tb_order_log add column change_content varchar(512) NOT NULL DEFAULT '';
+    </statement>
+	
+	<statement id="updateSystem_46" resultClass="java.lang.Integer">
+		alter table tb_order_log add column order_detail_id bigint(20) NOT NULL DEFAULT 0;
+    </statement>
+
+	<statement id="updateSystem_47" resultClass="java.lang.Integer">
+		update tb_customer_address set province = 0;
+    </statement>
+	
+	<statement id="updateSystem_48" resultClass="java.lang.Integer">
+		alter table tb_customer_address modify column province bigint(20) NOT NULL DEFAULT '0';
+    </statement>
+	
+ 	<statement id="updateSystem_59" resultClass="java.lang.Integer">
+		ALTER TABLE tb_customer_address ADD CONSTRAINT fk_tb_customer_address_provincecityid 
+		FOREIGN KEY (province) 
+		REFERENCES tb_oa_area_city(area_city_id);
+	</statement>	
+	
+
+	<statement id="updateSystem_50" resultClass="java.lang.Integer">
+		alter table tb_oa_area_city add column code varchar(20) NOT NULL DEFAULT '';
+    </statement>	
+			
+	
+	
+	<statement id="updateSystem_51" resultClass="java.lang.Integer">
+    <![CDATA[
+			CREATE TABLE tb_finance_target (
+			  finance_target_id bigint(20) NOT NULL auto_increment,
+		      ad_resource_carrier_id bigint(20)  NOT NULL default 0,
+			  year int(4) NOT NULL  NOT NULL default '0',
+			  month int(4) NOT NULL  NOT NULL default '0',
+			  money double NOT NULL  NOT NULL default '0',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (finance_target_id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+    ]]>
+    </statement>
+	
+ 	<statement id="updateSystem_52" resultClass="java.lang.Integer">
+		ALTER TABLE tb_finance_target ADD CONSTRAINT fk_tb_finance_target_carrierid 
+		FOREIGN KEY (ad_resource_carrier_id) 
+		REFERENCES tb_ad_resource_carrier(ad_resource_carrier_id);
+	</statement>	
+	
+	
+	
+		
+	
+</sqlMap>

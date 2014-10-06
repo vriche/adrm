@@ -1,0 +1,100 @@
+<XDtTagDef:tagDef namespace="Form" handler="org.example.antbook.xdoclet.FormTagsHandler1"/><XDtTagDef:tagDef namespace="MethodEx" handler="org.example.antbook.xdoclet.MethodExTagsHandler"/><?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+    
+/****************************************************************************     
+ * Created on                                      							*    
+ *                                                               			*
+ * @author <a href="mailto:hongxilin@yahoo.com.cn">hongxi</a>               *
+ *         Updated by hongxi (hongxilin@yahoo.com.cn)                       *
+ *                                                                          *
+ * @version  Vision:1.0														*
+ * 																			*
+ ***************************************************************************/ 
+ 
+function <XDtClass:className/>(){
+	//创建对象
+	this.obj ={
+	<XDtMethodEx:idField getType="columnName"/>:null,
+    <XDtForm:forAllFields>
+        <XDtForm:ifIsNotIdOrVersionField>
+        <XDtForm:fieldName/>:null,
+		</XDtForm:ifIsNotIdOrVersionField>
+    </XDtForm:forAllFields>
+		version:null
+	}
+    this.className = null;
+	this.tableName = null;	
+	this.tBody = null;
+	this.IdPrefix = null;
+	this.fillObjName = null;
+	this.pageInfo =""
+	this.pageSize ="20"
+	this.page = null;
+	
+	
+	return this;
+}
+
+//清空对象
+<XDtClass:className/>.prototype.reset = function(){
+    <XDtForm:forAllFields>
+    this.obj.<XDtForm:fieldName/> = null;
+    </XDtForm:forAllFields>	
+}
+
+//给对象赋值
+<XDtClass:className/>.prototype.setObject = function(sourObj){
+    <XDtForm:forAllFields>
+    this.obj.<XDtForm:fieldName/> = sourObj.<XDtForm:fieldName/>;
+    </XDtForm:forAllFields>	
+}
+
+
+/*******************************************
+*			对象的基本操作方法                
+*******************************************/
+
+<XDtClass:className/>.prototype.get<XDtClass:className/> = function(callBackFun){
+	<XDtClass:className/>Manager.get<XDtClass:className/>(callBackFun,this.obj.id);
+}
+/* 获得列表*/
+<XDtClass:className/>.prototype.get<XDtClass:className/>s = function(callBackFun,type){
+    var page = this.page;
+    var obj = this.obj;
+    if (page.pageSize > 0){
+    	function getCountFun(size){ 
+			page.size = size;
+			page.MakePageNav(page.pageIndex,page.pageInfo);
+			if(type ==2){
+				<XDtClass:className/>Manager.get<XDtClass:className/>sPageXML(callBackFun,obj,page.pageIndex,page.pageSize);
+			}else{
+				<XDtClass:className/>Manager.get<XDtClass:className/>sPage(callBackFun,obj,page.pageIndex,page.pageSize);
+			}
+			
+		}
+    	<XDtClass:className/>Manager.get<XDtClass:className/>Count(getCountFun,obj);	
+		
+    }else{
+    
+  		if(type ==2){
+				<XDtClass:className/>Manager.get<XDtClass:className/>sXML(callBackFun,obj);
+		}else{
+				<XDtClass:className/>Manager.get<XDtClass:className/>s(callBackFun,obj);
+		}     
+    
+  
+			
+    }
+}
+
+
+/* 保存*/
+<XDtClass:className/>.prototype.save<XDtClass:className/> = function(callBackFun){
+	<XDtClass:className/>Manager.save<XDtClass:className/>(this.obj,callBackFun);
+}
+/* 删除*/
+<XDtClass:className/>.prototype.remove<XDtClass:className/> = function(callBackFun){
+	<XDtClass:className/>Manager.remove<XDtClass:className/>(callBackFun,this.obj);	
+}
+

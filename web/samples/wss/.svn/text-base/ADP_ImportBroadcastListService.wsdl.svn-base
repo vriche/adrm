@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns1="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1" xmlns:tns="http://dayang.com/ADP/service/ImportBroadcastListService/0.1" targetNamespace="http://dayang.com/ADP/service/ImportBroadcastListService/0.1">
+	<types>
+		<xsd:schema>
+			<xsd:import namespace="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1" schemaLocation="ADPServiceParameter.xsd"/>
+		</xsd:schema>
+	</types>
+	<message name="ImportBroadcastListRequest">
+		<part name="ImportBroadcastListRequest" element="tns1:ImportBroadcastListRequest"/>
+	</message>
+	<message name="ImportBroadcastListResponse">
+		<part name="ImportBroadcastListResponse" element="tns1:ImportBroadcastListResponse"/>
+	</message>
+	<portType name="ImportBroadcastList">
+		<operation name="ImportBroadcastList">
+			<input message="tns:ImportBroadcastListRequest"/>
+			<output message="tns:ImportBroadcastListResponse"/>
+		</operation>
+	</portType>
+	<binding name="ImportBroadcastListHttpBinding" type="tns:ImportBroadcastList">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ImportBroadcastList">
+			<soap:operation soapAction="ImportBroadcastList"/>
+			<input>
+				<soap:body parts="ImportBroadcastListRequest" use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="ImportBroadcastListService">
+		<port name="ImportBroadcastListServiceHttpPort" binding="tns:ImportBroadcastListHttpBinding">
+			<soap:address location="http://Server:8080/ADP/services/ImportBroadcastListService"/>
+		</port>
+	</service>
+</definitions>

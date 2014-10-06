@@ -1,0 +1,10 @@
+netstat -tuwnpa
+
+service vsftpd status
+
+chkconfig --list|grep 
+chkconfig vsftpd on 开机重新启
+chkconfig vsftpd off 
+
+service vsftpd restart
+

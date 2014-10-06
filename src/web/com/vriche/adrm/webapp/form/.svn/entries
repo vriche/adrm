@@ -1,0 +1,52 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/src/web/com/vriche/adrm/webapp/form
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T04:14:11.185661Z
+5
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+UploadForm.java
+file
+
+
+
+
+2013-05-17T07:35:00.382076Z
+d9cb2ba971a21d4fcdb21ee1dfcfd107
+2012-11-24T04:14:11.185661Z
+5
+lxz
+
+BaseForm.java
+file
+
+
+
+
+2013-05-17T07:35:00.382076Z
+101a32f90e8d9f1340ade638c11e5988
+2012-11-24T04:14:11.185661Z
+5
+lxz
+

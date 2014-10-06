@@ -1,0 +1,70 @@
+CREATE DATABASE if not exists adrm_bak; 
+CREATE TABLE if not exists adrm_bak.tb_published_arrang (
+  arrange_id bigint(20) NOT NULL AUTO_INCREMENT,
+  version int(11) NOT NULL DEFAULT '0',
+  carrier_name varchar(20) DEFAULT NULL,
+  file_path varchar(128) DEFAULT NULL,
+  is_enable char(1) DEFAULT NULL,
+  is_locked char(1) DEFAULT NULL,
+  publish_date int(11) NOT NULL DEFAULT '0',
+  resource_id bigint(20) DEFAULT NULL,
+  resource_meno varchar(128) DEFAULT NULL,
+  resource_name varchar(128) NOT NULL DEFAULT '',
+  resource_total_times int(11) DEFAULT NULL,
+  resource_used_times int(11) DEFAULT NULL,
+  create_by bigint(20) DEFAULT NULL,
+  create_date datetime DEFAULT NULL,
+  modify_by bigint(20) DEFAULT NULL,
+  modify_date datetime DEFAULT NULL,
+  memo text,
+  carrier_id bigint(20) DEFAULT NULL,
+  is_arranged char(1) DEFAULT NULL,
+  before_hand int(5) NOT NULL DEFAULT 0,
+  PRIMARY KEY (arrange_id)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk; 
+
+CREATE TABLE if not exists adrm_bak.tb_published_arrang_detail (
+  arrange_detail_id bigint(20) NOT NULL AUTO_INCREMENT,
+  publish_sort int(11) DEFAULT NULL,
+  specific_value char(2) DEFAULT NULL,
+  order_day_info_id bigint(20) DEFAULT NULL,
+  customer_name varchar(50) DEFAULT NULL,
+  tape_code varchar(20) DEFAULT NULL,
+  matter_edit varchar(50) DEFAULT NULL,
+  matter_length varchar(10) DEFAULT NULL,
+  matter_name varchar(50) DEFAULT NULL,
+  specific_name varchar(10) DEFAULT NULL,
+  adver_times int(11) DEFAULT NULL,
+  owner_user_name varchar(20) DEFAULT NULL,
+  publish_memo varchar(20) DEFAULT NULL,
+  arrange_id bigint(20) DEFAULT NULL,
+  PRIMARY KEY (arrange_detail_id)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk; 
+
+alter table adrm_bak.tb_published_arrang_detail drop foreign key fk_tb_published_arrang_detail_published_arrang;
+ALTER TABLE adrm_bak.tb_published_arrang_detail ADD CONSTRAINT fk_tb_published_arrang_detail_published_arrang 
+		FOREIGN KEY (arrange_id) 
+		REFERENCES adrm_bak.tb_published_arrang(arrange_id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

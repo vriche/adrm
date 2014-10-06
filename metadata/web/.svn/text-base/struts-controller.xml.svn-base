@@ -1,0 +1,7 @@
+<!-- controller nocache="true" inputForward="true" maxFileSize="2M"/ -->
+
+<controller>
+  <set-property property="processorClass" value="org.springframework.web.struts.DelegatingRequestProcessor"/>
+  <set-property property="multipartClass"
+       value="com.vriche.adrm.webapp.ajaxupload.AjaxMultipartRequestHandler"/>
+ </controller>

@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PriceSQL">
+    <typeAlias alias="price" type="com.vriche.adrm.model.Price"/>
+    <typeAlias alias="priceDetail" type="com.vriche.adrm.model.PriceDetail"/>
+	
+	<cacheModel id="price-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addPrice"/>
+		<flushOnExecute statement="updatePrice"/>
+		<flushOnExecute statement="deletePrice"/>
+		<flushOnExecute statement="deletePrices"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="price">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="isDefault" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isUseRegular" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourcePriceType" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="price">
+        <parameter property="isDefault" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isUseRegular" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourcePriceType" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="priceResult-base" class="price">
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="ad_resource_price_id"/>
+        <result property="isDefault" column="is_default" nullValue="0"/>
+        <result property="isUseRegular" column="is_use_regular" nullValue="0"/>
+        <result property="memo" column="memo" nullValue=""/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyType" column="money_type" nullValue="0"/>
+        <result property="name" column="name" nullValue=""/>
+        <result property="resourcePriceType" column="ad_resource_price_type"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <resultMap id="priceResult" class="price">
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="ad_resource_price_id"/>
+        <result property="isDefault" column="is_default" nullValue="0"/>
+        <result property="isUseRegular" column="is_use_regular" nullValue="0"/>
+        <result property="memo" column="memo" nullValue=""/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyType" column="money_type" nullValue="0"/>
+        <result property="name" column="name" nullValue=""/>
+        <result property="priceDetails"  resultMap="PriceDetailSQL.priceDetailResult"/>
+        <result property="resourcePriceType" column="ad_resource_price_type"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+   <resultMap id="priceTypeResult-for-price" extends="priceResult-base" class="price">
+	   	<result property="priceType.priceTypeName" column="price_type_name" nullValue=""/>
+   </resultMap>
+	
+   <resultMap id="priceResult-getPriceByResourceLength" class="price">
+        <result property="resourcePriceType" column="ad_resource_price_type" nullValue="0"/>
+        <result property="priceDetail.price" column="price" nullValue="0"/>
+   </resultMap>
+	
+    <resultMap id="priceDetailResult-for-price" class="priceDetail">
+        <result property="id" column="ad_resource_price_detail_id"/>
+        <result property="length" column="length" nullValue="0"/>
+        <result property="price" column="price" nullValue="0"/>
+    </resultMap>
+	
+		
+    <select id="getPrices" resultMap="priceResult">
+    <![CDATA[
+        select A.*,B.*  from  
+			tb_ad_resource_price A,
+			tb_ad_resource_price_detail B,
+			tb_ad_resource_price_detail_rel R 
+		where A.ad_resource_price_id = R.ad_resource_price_id 
+			  AND B.ad_resource_price_detail_id = R.ad_resource_price_detail_id
+		
+    ]]>	
+		
+		
+			<isNotEmpty prepend="AND" property="version">
+			(A.version = #version#)
+			</isNotEmpty>
+
+		order by A.name
+   </select>	
+	
+	
+    <select id="getPricesForImport" resultMap="priceResult-base">
+		
+        select DISTINCT A.* from  	tb_ad_resource_price A 
+
+			LEFT OUTER JOIN 	tb_ad_resource_price_detail_rel R ON A.ad_resource_price_id = R.ad_resource_price_id  
+			
+			LEFT OUTER JOIN 	tb_ad_resource_price_detail B ON B.ad_resource_price_detail_id = R.ad_resource_price_detail_id
+			
+			LEFT OUTER JOIN 	  tb_ad_resource_price_rel RPR  ON  RPR.ad_resource_price_id = A.ad_resource_price_id
+			
+			LEFT OUTER JOIN 	  tb_ad_resource_info RS ON   RS.ad_resource_info_id = RPR.ad_resource_info_id
+			
+			LEFT OUTER JOIN 	   tb_ad_resource_carrier CARR  ON RS.ad_resource_carrier_id = CARR.ad_resource_carrier_id 
+			
+			LEFT OUTER JOIN 	    tb_ad_resource_carrier_type CATT  ON   CARR.ad_resource_carrier_type_id    =  CATT.ad_resource_carrier_type_id   
+
+ 
+	 <dynamic prepend="WHERE"> 	
+		 
+	      <isNotEmpty prepend="AND" property="version">
+				(A.version = #version#)
+		  </isNotEmpty>
+		
+		
+		  <isNotEmpty prepend="AND" property="orgId">
+				( CATT.sys_org_id = #orgId#)
+		  </isNotEmpty>	
+		 
+	 </dynamic>   	 
+
+		order by A.name
+   </select>		
+	
+	
+	
+    <select id="getPricesByResourceId"  resultMap="priceTypeResult-for-price">
+    <![CDATA[
+        select A.*,
+		      PT.price_type_name as price_type_name 
+		from  tb_ad_resource_price A join
+			tb_ad_resource_info B join
+			tb_ad_resource_price_rel R
+		left outer join tb_ad_resource_price_type PT 
+		on  PT.ad_resource_price_type_id = A.ad_resource_price_type  
+		where A.ad_resource_price_id = R.ad_resource_price_id 
+			  AND B.ad_resource_info_id = R.ad_resource_info_id 
+		and R.ad_resource_info_id=#value#
+    ]]>	
+   </select>	
+	
+	<select id="getPriceCountByResourceId" resultClass="java.lang.Integer">
+    <![CDATA[
+		select count(*)
+		from  tb_ad_resource_price A join
+			tb_ad_resource_info B join
+			tb_ad_resource_price_rel R
+		left outer join tb_ad_resource_price_type PT 
+		on  PT.ad_resource_price_type_id = A.ad_resource_price_type  
+		where A.ad_resource_price_id = R.ad_resource_price_id 
+			  AND B.ad_resource_info_id = R.ad_resource_info_id 
+		and R.ad_resource_info_id=#value#
+    ]]>
+    </select>
+    <!-- select id="getSysPriceByResourceId" parameterClass="java.util.Map" resultClass="java.lang.Double">
+    <![CDATA[
+		select B.price from 
+			 tb_ad_resource_price A,
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price_detail_rel R,
+			 tb_ad_resource_info RS,
+			 tb_ad_resource_price_rel RPR  
+		    WHERE  B.ad_resource_price_detail_id = R.ad_resource_price_detail_id
+	        AND A.ad_resource_price_id = R.ad_resource_price_id 
+			AND RS.ad_resource_info_id = RPR.ad_resource_info_id
+			AND A.ad_resource_price_id = RPR.ad_resource_price_id 
+	  		AND A.ad_resource_price_type = 4
+			AND RS.ad_resource_info_id = #resourceInfoId#
+			AND B.length = #length#
+    ]]>	
+   </select -->		
+	
+
+	
+    <select id="getPriceDetailByPriceId" resultMap="priceDetailResult-for-price">
+    <![CDATA[
+ 		select  B.* from 
+			 tb_ad_resource_price A,
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price_detail_rel R	
+		where A.ad_resource_price_id = R.ad_resource_price_id 
+			AND B.ad_resource_price_detail_id = R.ad_resource_price_detail_id 
+			AND R.ad_resource_price_id = #value# 
+    ]]>	
+   </select>	
+
+
+	<select id="getPriceByResourceLength" parameterClass="java.util.Map" resultMap="priceResult-getPriceByResourceLength">
+    <![CDATA[
+ 		select 
+			A.ad_resource_price_type,
+			B.price 
+		from 
+			 tb_ad_resource_price A,
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price_detail_rel R,
+			 tb_ad_resource_info RS,
+			 tb_ad_resource_price_rel RPR   	
+		where A.ad_resource_price_id = R.ad_resource_price_id 
+			AND B.ad_resource_price_detail_id = R.ad_resource_price_detail_id
+			AND RS.ad_resource_info_id = RPR.ad_resource_info_id
+			AND A.ad_resource_price_id = RPR.ad_resource_price_id 
+			AND RS.ad_resource_info_id = #resourceInfoId#
+			AND B.length = #length#
+    ]]>	
+   </select>		
+	
+	
+	<select id="getPriceByResourceIdAndLength" parameterClass="java.util.Map" resultClass="java.lang.Double">
+    <![CDATA[
+ 		select 
+			B.price 
+		from 
+			 tb_ad_resource_price A,
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price_detail_rel R,
+			 tb_ad_resource_info RS,
+			 tb_ad_resource_price_rel RPR   	
+		where A.ad_resource_price_id = R.ad_resource_price_id 
+			AND B.ad_resource_price_detail_id = R.ad_resource_price_detail_id
+			AND RS.ad_resource_info_id = RPR.ad_resource_info_id
+			AND A.ad_resource_price_id = RPR.ad_resource_price_id 
+			AND RS.ad_resource_info_id = #resourceInfoId#
+			AND B.length = #length#
+			And A.ad_resource_price_type = #resourcePriceId#
+
+    ]]>	
+   </select>
+	
+	
+  <select id="getPricesCompagesByResSysPrice"  parameterClass="java.util.Map" resultClass="java.lang.Double">
+    <![CDATA[
+		select sum(B.price) from 
+			 tb_ad_resource_price A,
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price_detail_rel R,
+			 tb_ad_resource_info RS,
+			 tb_ad_resource_price_rel RPR
+    ]]>	
+
+ 	 	  <dynamic prepend="WHERE"> 
+	      	  <isNotNull property="ResourceIdList">
+				 <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+							RS.ad_resource_info_id = #ResourceIdList[]#
+				  </iterate>
+			  </isNotNull>		
+          </dynamic>   
+			AND R.ad_resource_price_detail_id = B.ad_resource_price_detail_id 
+	        AND R.ad_resource_price_id = A.ad_resource_price_id  
+			AND RPR.ad_resource_info_id = RS.ad_resource_info_id
+			AND RPR.ad_resource_price_id =A .ad_resource_price_id 
+	  		AND A.ad_resource_price_type = #priceTypeId#
+		    AND B.length = #length#
+
+   </select>
+	
+		
+	<select id="getPriceByCompages" parameterClass="java.util.Map" resultClass="java.lang.Double">
+
+ 		select 
+			B.price 
+		from 
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price P,
+			 tb_ad_resource_price_detail_rel BP,
+			 tb_ad_resource_compages C,
+			 tb_ad_resource_compages_price_rel CP
+	
+		<dynamic prepend="WHERE"> 
+					
+			<isNotEmpty prepend="AND" property="id">
+				(CP.ad_resource_compages_id = #id# 
+				And P.is_default = 1 
+				AND BP.ad_resource_price_id = P.ad_resource_price_id 
+				AND BP.ad_resource_price_detail_id = B.ad_resource_price_detail_id
+				AND CP.ad_resource_price_id = P.ad_resource_price_id
+				AND CP.ad_resource_compages_id = C.ad_resource_compages_id
+				)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="length">
+				( B.length = #length#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="priceTypeId">
+				( P.ad_resource_price_type = #priceTypeId#)
+			</isNotEmpty>				
+		</dynamic>   	
+		
+		
+			
+
+   </select>	
+	
+	<select id="getPricesByCompagesId" resultMap="priceDetailResult-for-price">
+    <![CDATA[
+ 		select 
+			B.*
+		from 
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price P,
+			 tb_ad_resource_price_detail_rel BP,
+			 tb_ad_resource_compages C,
+			 tb_ad_resource_compages_price_rel CP
+		where BP.ad_resource_price_id = P.ad_resource_price_id 
+			AND BP.ad_resource_price_detail_id = B.ad_resource_price_detail_id
+			AND CP.ad_resource_price_id = P.ad_resource_price_id
+			AND CP.ad_resource_compages_id = C.ad_resource_compages_id
+			AND CP.ad_resource_compages_id = #value#
+    ]]>	
+   </select>	
+	
+	
+	
+	<select id="getPriceDetailIdByCompagesIdAndLength" parameterClass="java.util.Map" resultClass="java.lang.Long">
+    <![CDATA[	
+ 		select 
+			B.ad_resource_price_detail_id
+		from 
+			 tb_ad_resource_price_detail B,
+			 tb_ad_resource_price P,
+			 tb_ad_resource_price_detail_rel BP,
+			 tb_ad_resource_compages C,
+			 tb_ad_resource_compages_price_rel CP
+		where BP.ad_resource_price_id = P.ad_resource_price_id 
+			AND BP.ad_resource_price_detail_id = B.ad_resource_price_detail_id
+			AND CP.ad_resource_price_id = P.ad_resource_price_id
+			AND CP.ad_resource_compages_id = C.ad_resource_compages_id
+			And P.is_default = 1
+			AND CP.ad_resource_compages_id = #compagesId#
+			AND B.length = #length#
+    ]]>	
+   </select>	
+	
+	
+	
+
+		
+	
+    <select id="getPrices_bak" resultMap="priceResult">
+    <![CDATA[
+        select * from tb_ad_resource_price a,tb_ad_resource_price_detail b 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ad_resource_price_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isDefault">
+			(is_default like #isDefault#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isUseRegular">
+			(is_use_regular like #isUseRegular#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyType">
+			(money_type like #moneyType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourcePriceType">
+			(ad_resource_price_type like #resourcePriceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(ad_resource_type like #resourceType#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getPricesByIdList" parameterClass="java.util.Map"  resultMap="priceResult-base" >
+     <![CDATA[  
+      select * from tb_ad_resource_price 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceIdList">
+       	  <iterate prepend=" " property="PriceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_id = #PriceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getPrice" resultMap="priceResult-base">
+    <![CDATA[
+        select * from tb_ad_resource_price 
+		where ad_resource_price_id = #value#
+    ]]>
+    </select>
+	
+	
+
+	  <!-- select id="getPrice_resource_rels" resultClass="price">
+		   
+		  select 
+		  
+		     rel.ad_resource_info_id as id,
+		  
+		     rel.ad_resource_price_id as memo 
+		  
+		     from tb_ad_resource_price_rel as rel 
+
+			Inner Join  tb_ad_resource_price as prc on  rel.ad_resource_price_id = prc.ad_resource_price_id 
+
+			Inner Join  tb_ad_resource_price_type as pt on  pt.ad_resource_price_type_id = prc.ad_resource_price_type  and pt.price_type_name = #value# 
+    </select -->
+	
+		  <select id="getPrice_resource_rels" resultClass="price">
+		   
+		  select 
+		  
+		     rel.ad_resource_info_id as id,
+		  
+		     rel.ad_resource_price_id as memo 
+		  
+		     from tb_ad_resource_price_rel as rel 
+
+			  where rel.ad_resource_info_id in (select  ad_resource_info_id from tb_ad_resource_info where  version = #version# )
+    </select>
+	
+	
+	<select id="getPrice_resource_rels_for_copyRes" resultClass="price">
+		   
+		  select 
+	
+		     rel.ad_resource_price_id as id,
+		
+			 rel.ad_resource_info_id as memo 
+		  
+		     from tb_ad_resource_price_rel as rel 
+		
+		     Inner Join  tb_ad_resource_price as prc on  rel.ad_resource_price_id = prc.ad_resource_price_id and prc.version = #version#
+
+		    where rel.ad_resource_info_id in (select  ad_resource_info_id from tb_ad_resource_info where  version = #version# )
+    </select>
+	
+		
+  
+	
+	
+	
+
+    <insert id="addPrice" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_compages_id.NextVal AS id FROM DUAL
+        </selectKey-->
+
+        <![CDATA[
+            insert into tb_ad_resource_price (create_by,create_date,is_default,is_use_regular,memo,modify_by,modify_date,money_type,name,ad_resource_price_type,ad_resource_type,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+	 <insert id="addPriceResourceRel" parameterClass="java.util.Map">
+		   <![CDATA[
+		 	insert into tb_ad_resource_price_rel (ad_resource_info_id, ad_resource_price_id) 
+		    values (#resourceId#,#priceId#)
+		    ]]>
+	 </insert>
+	
+	
+	
+	 <insert id="addPriceCompagesRel" parameterClass="java.util.Map">
+		   <![CDATA[
+		 	insert into tb_ad_resource_compages_price_rel (ad_resource_compages_id, ad_resource_price_id) 
+		    values (#compagesId#,#priceId#)
+		    ]]>
+	 </insert>	
+	
+	
+	<delete id="deletePriceResourceRelByPriceIdAndResourceId" parameterClass="java.util.Map">
+		<![CDATA[
+        delete from tb_ad_resource_price_rel
+         where ad_resource_price_id = #priceId# and ad_resource_info_id = #resourceId#
+		  ]]>
+    </delete>	
+	
+	
+	
+    <delete id="deletePriceResourceRelByPriceId">
+		<![CDATA[
+        delete from tb_ad_resource_price_rel
+         where ad_resource_price_id = #priceId#
+		  ]]>
+    </delete>	
+	
+	
+    <delete id="deletePriceByPriceId">
+		<![CDATA[
+        delete from tb_ad_resource_price
+         where ad_resource_price_id = #priceId#
+		  ]]>
+    </delete>
+	
+   <delete id="deleteCompagesPriceRelByPriceId" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_ad_resource_compages_price_rel where ad_resource_price_id = #priceId#;
+    ]]>
+    </delete>
+	
+	
+	
+	
+   <delete id="deletePriceResourceRelByPriceIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+       delete from tb_ad_resource_price_rel
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceIdList">
+       	  <iterate prepend="AND" property="PriceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_id = #PriceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </delete>  	
+	
+
+    <update id="updatePrice" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_price set
+                   is_default = ?,
+                   is_use_regular = ?,
+		           memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   money_type = ?,
+                   name = ?,
+                   ad_resource_price_type = ?,
+                   ad_resource_type = ?,
+				   version = ? 
+        where ad_resource_price_id = ?
+    ]]>
+    </update>
+
+    <delete id="deletePrice">
+    <![CDATA[
+        delete from tb_ad_resource_price
+         where ad_resource_price_id = #value#
+    ]]>
+    </delete>
+	
+
+	
+	
+   <update id="deletePrices" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_price 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceIdList">
+       	  <iterate prepend="AND" property="PriceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_id = #PriceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

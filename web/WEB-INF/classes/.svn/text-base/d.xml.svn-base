@@ -1,0 +1,150 @@
+<beans default-autowire="byName">
+	
+	<!-- ======================== FILTER CHAIN ======================= -->
+	<bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">
+			<value>
+				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+				PATTERN_TYPE_APACHE_ANT
+			
+				/**=httpSessionContextIntegrationFilter,logoutFilter,authenticationProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
+			</value>
+		</property>
+	</bean>
+
+	<!-- ======================== httpSessionContextIntegrationFilter======================= -->
+	<bean id="httpSessionContextIntegrationFilter" class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
+
+	<!-- ================================ logoutFilter=============================== -->
+	<bean id="logoutFilter" class="org.acegisecurity.ui.logout.LogoutFilter">
+		<constructor-arg value="/user.do?method=login"/>
+		<constructor-arg>
+			<list>
+				<bean class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler"/>
+				<ref bean="customSessionLogoutHandler"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="customSessionLogoutHandler" class="com.itone.acegi.util.SessionLogoutHandler">
+		<property name="sessionRegistry" ref="sessionRegistry"/>
+	</bean>
+
+	<!-- ======================== authenticationProcessingFilter======================= -->
+	<bean id="authenticationProcessingFilter" class="com.itone.security.filter.UserAuthenticationProcessingFilter">
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="authenticationFailureUrl" value="/user.do?method=login"/>
+		<property name="defaultTargetUrl" value="/index.do?method=home"/>
+        <property name="filterProcessesUrl" value="/j_acegi_security_check"/>
+		<property name="userManager" ref="userManager"/>
+	</bean>
+
+	<bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+		<property name="providers">
+			<list>
+				<ref local="daoAuthenticationProvider"/>
+				<ref local="anonymousAuthenticationProvider"/>
+			</list>
+		</property>
+		<property name="sessionController" ref="concurrentSessionController"/>
+	</bean>
+
+	<bean id="daoAuthenticationProvider" class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="jdbcDaoImpl"/>
+		<property name="userCache" ref="userCache"/>
+		<property name="passwordEncoder" ref="passwordEncoder"/>
+	</bean>
+
+	<bean id="jdbcDaoImpl" class="org.acegisecurity.userdetails.jdbc.JdbcDaoImpl">
+		<property name="usersByUsernameQuery">
+			<value>select u.loginid,u.passwd,u.status from itone_users u where
+					u.status='1' and loginid = ?
+			</value>
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				select u.loginid,p.name from itone_users u,itone_roles r,itone_permissions
+				p,itone_user_role ur,itone_role_permis rp
+				where u.id=ur.user_id and r.id=ur.role_id and p.id=rp.permis_id and
+				r.id=rp.role_id and p.status='1' and u.loginid=?
+			</value>
+		</property>
+	</bean>
+
+	<bean id="userCache" class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+		<property name="cache" ref="userCacheBackend"/>
+	</bean>
+
+	<bean id="userCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager"/>
+		<property name="cacheName" value="userCache"/>
+	</bean>
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+
+	<bean id="resourceCache" class="com.itone.security.resourcedetails.ResourceCache">
+		<property name="cache" ref="resourceCacheBackend"/>
+	</bean>
+
+	<bean id="resourceCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager"/>
+		<property name="cacheName" value="resourceCache"/>
+	</bean>
+
+	<bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.Md5PasswordEncoder"/>
+
+	<bean id="anonymousAuthenticationProvider" class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+		<property name="key" value="foobar"/>
+	</bean>
+	
+	<bean id="concurrentSessionController" class="org.acegisecurity.concurrent.ConcurrentSessionControllerImpl">
+		<property name="maximumSessions" value="1"/>
+		<property name="sessionRegistry" ref="sessionRegistry"/>
+		<property name="exceptionIfMaximumExceeded" value="true"/>
+	</bean>
+
+	<bean id="sessionRegistry" class="org.acegisecurity.concurrent.SessionRegistryImpl"/>
+
+	<!-- ======================== anonymousProcessingFilter======================= -->
+	<bean id="anonymousProcessingFilter"class="org.acegisecurity.providers.anonymous.AnonymousProcessingFilter">
+		<property name="key" value="foobar"/>
+		<property name="userAttribute" value="guest,ROLE_ANONYMOUS"/>
+	</bean>
+
+	<!-- ======================== exceptionTranslationFilter======================= -->
+	<bean id="exceptionTranslationFilter" class="org.acegisecurity.ui.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint" ref="authenticationProcessingFilterEntryPoint"/>
+	</bean>
+
+	<bean id="authenticationProcessingFilterEntryPoint" class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+		<property name="loginFormUrl" value="/user.do?method=login"/>
+		<property name="forceHttps" value="false"/>
+	</bean>
+
+	<!-- ======================== filterInvocationInterceptor======================= -->
+	<bean id="filterInvocationInterceptor" class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="accessDecisionManager" ref="httpRequestAccessDecisionManager"/>
+		<property name="objectDefinitionSource" ref="filterDefinitionSource"/>
+	</bean>
+
+	<bean id="httpRequestAccessDecisionManager" class="org.acegisecurity.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false"/>
+		<property name="decisionVoters">
+			<list>
+				<ref bean="roleVoter"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roleVoter" class="org.acegisecurity.vote.RoleVoter">
+		<property name="rolePrefix" value="AUTH_"/>
+	</bean>
+
+	<bean id="filterDefinitionSource" class="com.itone.security.intercept.DBFilterInvocationDefinitionSource">
+		<property name="convertUrlToLowercaseBeforeComparison" value="true"/>
+		<property name="useAntPath" value="true"/>
+		<property name="acegiCacheManager" ref="acegiCacheManager"/>
+	</bean>
+
+</beans>

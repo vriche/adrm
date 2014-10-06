@@ -1,0 +1,274 @@
+<html>
+<head>
+<title>dhCombobox test</title>
+<script language="javascript">
+function dhCombobox(){
+ //author:dh20156;
+ var dh = this;
+
+ //返回实例名
+ this.clsName = null;
+
+ //定义目标对象
+ this.targetObj = null;
+
+ //定义提示框属性
+ this.popWidth = 0;
+ this.popHeight = 100;
+
+ //定义数据源（数组）
+ this.arrayData = [];
+
+ //定义匹配后的结果
+ var nowHtml = null;
+
+ //定义当前选定的结果
+ var i_selected = 0;
+
+ //定义光标键所在的位置
+ var i_move = i_selected;
+
+ //匹配用户输入字符结果
+ Array.prototype.contains = function(o) {
+  var tc = [];
+  var nc = 0;
+  for(var i = 0, l = this.length; i < l; i++) {
+   if(this[i].indexOf(o) >= 0){
+    if(this[i].indexOf(";") >= 0){
+     var tempData = this[i].split(";");
+     tc[nc++] = "<DIV id='cdiv"+nc+"' value=\""+tempData[1]+"\" onmouseover=\"parent."+dh.clsName+".mouse_over(this);\" onmouseout=\"parent."+dh.clsName+".mouse_out(this);\" onclick=\"parent."+dh.clsName+".select(this);\">"+tempData[0]+"</DIV>";
+    }else{
+     tc[nc++] = "<DIV id='cdiv"+nc+"' value=\""+this[i]+"\" onmouseover=\"parent."+dh.clsName+".mouse_over(this);\" onmouseout=\"parent."+dh.clsName+".mouse_out(this);\" onclick=\"parent."+dh.clsName+".select(this);\">"+this[i]+"</DIV>";
+    }
+    nc++;
+   }
+  }
+  if(nc>0){
+   nowHtml = tc.join("");
+   tc = null;
+  }else{
+   nowHtml = "";
+  }
+ }
+
+ //匹配
+ function searchKey(){
+  var begin = new Date().getTime();
+  var str = dh.targetObj.value;
+  if(str.replace(/\s/g,"") != ""){
+   dh.arrayData.contains(str);
+   showPop(nowHtml);
+   i_selected = 1;
+   getFocus();
+  }else{
+   if(dhpop.isOpen){
+    dhpop.hide();
+   }
+  }
+  st.value = (new Date().getTime() - begin)+"ms";
+ }
+
+ //按键处理
+ function pressKey(){
+  var kc = event.keyCode;
+  var obj = dhpop.document.all.fdiv;
+  if(obj == "[object]"){
+   var objcl = obj.childNodes.length;
+   switch(kc){
+    case 13: //回车
+     if(i_move > 0){
+      var oldchild = obj.childNodes[i_move-1];
+      dh.select(oldchild);
+      i_selected = i_move;
+      dh.targetObj.blur();
+     }
+     break;
+    case 33: //PgUp
+     obj.doScroll("scrollbarPageUp");
+     break;
+    case 34: //PgDn
+     obj.doScroll("scrollbarPageDown");
+     break;
+    case 38: //上箭头
+     if(objcl > 0 && i_move > 0){
+
+      if(i_move > 1){
+       var oldchild = obj.childNodes[i_move-1];
+       oldchild.style.background = "";
+       oldchild.style.color = "";
+      }
+
+      if(i_move > 1){
+       var objchild = obj.childNodes[i_move-2];
+       objchild.style.background = "highlight";
+       objchild.style.color = "highlighttext";
+       if(obj.scrollTop >= objchild.offsetTop){
+        objchild.scrollIntoView(true);
+       }
+      }
+
+      if(i_move > 2){
+       i_move--;
+      }else{
+       i_move = 1;
+      }
+      }
+     break;
+    case 40: //下箭头
+     if(objcl > 0 && i_move <= objcl){
+
+      if(i_move > 0 && i_move < objcl){
+       var oldchild = obj.childNodes[i_move-1];
+       oldchild.style.background = "";
+       oldchild.style.color = "";
+      }
+
+      if(i_move < objcl){
+       var objchild = obj.childNodes[i_move];
+       objchild.style.background = "highlight";
+       objchild.style.color = "highlighttext";
+       if(obj.scrollTop+dh.popHeight-objchild.offsetHeight-1 <= objchild.offsetTop){
+        objchild.scrollIntoView(true);
+       }
+      }
+
+      if(i_move < objcl){
+       i_move++;
+      }
+     }
+     break;
+    default : //其他键
+     if(!dhpop.isOpen){
+      if(nowHtml != null){
+       showPop(nowHtml);
+      }else{
+       showPop(popHtml);
+      }
+     }
+     i_move = 0;
+     break;
+   }
+  }
+ }
+
+ //选择匹配结果
+ this.select = function(obj){
+  this.targetObj.value = obj.value;
+  dhpop.hide();
+  this.targetObj.blur();
+  i_selected = 1;
+ }
+
+ //鼠标指向匹配结果事件
+ this.mouse_over = function(obj){
+  obj.style.background = "highlight";
+  obj.style.color = "highlighttext";
+ }
+
+ //鼠标离开匹配结果事件
+ this.mouse_out = function(obj){
+  obj.style.background = "";
+  obj.style.color = "";
+ }
+
+ //定义提示框
+ var dhpop = window.createPopup();
+
+ //弹出提示框
+ function showPop(str){
+  var objstr = dh.targetObj.value;
+  if(objstr.replace(/\s/g,"") != ""){
+   var dhpopBody = dhpop.document.body;
+
+   if(str != null){
+    dhpopBody.innerHTML = "<DIV id=\"fdiv\" style=\"width:"+(dh.popWidth-1)+";height:"+(dh.popHeight-1)+";overflow-y:auto;overflow-x:auto;cursor:default;\" onselectstart=\"return false\" oncontextmenu=\"return false\">"+str+"</DIV>";
+   }else{
+    dhpopBody.innerHTML = "";
+   }
+
+   if(!dhpop.isOpen){
+    var popObj = dh.targetObj;
+    var popLeft = 2;
+    var popTop = popObj.clientHeight+4;
+    var popWidth = dh.popWidth;
+    var popHeight = dh.popHeight;
+    dhpopBody.style.border = "1px solid buttonshadow";
+    dhpopBody.style.background = "lightyellow";
+    dhpopBody.style.fontFamily = "arial";
+    dhpopBody.style.fontSize = "12px";
+    dhpopBody.style.scrollbarFaceColor = "lightyellow";
+    dhpopBody.style.scrollbarShadowColor = "lightyellow";
+    dhpopBody.style.scrollbarBaseColor = "buttonface";
+    dhpopBody.style.scrollbarTrackColor = "black";
+    dhpopBody.style.scrollbarHighlightColor = "lightyellow";
+    dhpopBody.style.scrollbarDarkShadowColor = "buttonshadow";
+    dhpop.show(popLeft,popTop,popWidth,popHeight,popObj);
+   }
+  }
+ }
+
+ //获得选择的结果焦点
+ function getFocus(){
+  if(dhpop.isOpen){
+   var obj = dhpop.document.all.fdiv;
+   if(obj == "[object]"){
+    var objcl = obj.childNodes.length;
+    if(i_selected > 0 && objcl>0 && i_selected <= objcl){
+     var objchild = obj.childNodes[i_selected-1];
+     objchild.style.background = "highlight";
+     objchild.style.color = "highlighttext";
+     objchild.scrollIntoView(true);
+     i_move = i_selected;
+    }
+    if(objcl == 1){
+     var objchild = obj.childNodes[0];
+     objchild.style.background = "highlight";
+     objchild.style.color = "highlighttext";
+     objchild.scrollIntoView(true);
+     i_move = i_selected;
+    }
+   }
+  }
+ }
+
+ //对象实例化
+ this.setup = function(){
+  if(this.popWidth == 0){
+   this.popWidth = this.targetObj.clientWidth;
+  }
+  var targetObj = this.targetObj;
+  targetObj.onclick = function(){showPop(nowHtml);getFocus();}
+  targetObj.onkeydown = function(){pressKey();}
+  targetObj.onpropertychange = function(){searchKey();}
+ }
+}
+</script>
+</head>
+<body>
+<table>
+ <tr>
+  <td>
+   <input type="text" id="ipt"> <input type="text" id="st">
+  </td>
+ </tr>
+</table>
+
+<script defer>
+
+var ads = new Array();
+for(var i=0;i<10000;i++){
+ ads[i] = Math.random()*100000000+"";
+}
+
+var dhcomb = new dhCombobox();
+ dhcomb.clsName = "dhcomb";
+ dhcomb.targetObj = ipt;
+ dhcomb.arrayData = ads;
+dhcomb.setup();
+
+ads = null;
+
+</script>
+</body>
+</html>
+

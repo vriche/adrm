@@ -1,0 +1,1051 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UserSQL">
+
+    <typeAlias alias="user" type="com.vriche.adrm.model.User"/>
+	
+	<cacheModel id="user-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addUser"/>
+		<flushOnExecute statement="updateUser"/>
+		<flushOnExecute statement="deleteUser"/>
+		<property name="size" value="1000" />
+	</cacheModel>	
+	
+
+    <resultMap id="userResult" class="user">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="address.address" column="address"/>
+        <result property="address.city" column="city"/>
+        <result property="address.province" column="province"/>
+        <result property="address.country" column="country"/>
+        <result property="address.postalCode" column="postal_code"/>
+        <result property="email" column="email"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="website" column="website"/>
+        <result property="passwordHint" column="password_hint"/>
+        <result property="version" column="version"/>
+        <result property="enabled" column="account_enabled"/>
+        <result property="accountExpired" column="account_expired"/>
+        <result property="accountLocked" column="account_locked"/>
+        <result property="credentialsExpired" column="credentials_expired"/>
+
+        <!-- result property="roles" column="id" select="getUserRoles"/ -->
+    </resultMap>
+	
+	
+	<select id="getUserClass" resultClass="user">
+    <![CDATA[
+        select id as id,username as username,first_name as firstName,last_name as lastName
+		from tb_sys_user
+         where id = #value#
+    ]]>
+    </select>
+	
+
+    <insert id="addUser" parameterClass="user">
+    <![CDATA[
+        insert into
+        tb_sys_user (username, password, first_name, last_name, address,
+                  city, province, country, postal_code, email, phone_number,
+                  website, password_hint, version, account_enabled, account_expired,
+                  account_locked, credentials_expired)
+        values (#username#, #password#, #firstName#, #lastName#,
+                #address.address#, #address.city#, #address.province#,
+                #address.country#, #address.postalCode#, #email#, #phoneNumber#,
+                #website#, #passwordHint#, #version#, #enabled#, #accountExpired#,
+                #accountLocked#, #credentialsExpired#);
+    ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id" >
+            select last_insert_id();
+        </selectKey>
+    </insert>
+
+    <insert id="addUserRole" parameterClass="map">
+    <![CDATA[
+        insert into tb_sys_user_role (user_id, role_id)
+        values (#userId#, #roleId#);
+    ]]>
+    </insert>
+	
+
+
+    <update id="updateUser" parameterClass="user">
+    <![CDATA[
+        update tb_sys_user SET
+            username = #username#,
+            password = #password#,
+            first_name = #firstName#,
+            last_name = #lastName#,
+            address = #address.address#,
+            city = #address.city#,
+            province = #address.province#,
+            country = #address.country#,
+            postal_code = #address.postalCode#,
+            email = #email#,
+            phone_number = #phoneNumber#,
+            website = #website#,
+            password_hint = #passwordHint#,
+            version = #version#,
+            account_enabled = #enabled#,
+            account_expired = #accountExpired#,
+            account_locked = #accountLocked#,
+            credentials_expired = #credentialsExpired#
+        where id = #id#;
+    ]]>
+    </update>
+	
+	
+	
+	 <update id="updateUserPassword" parameterClass="map">
+    <![CDATA[
+        update tb_sys_user SET password = #password#  where username = #username#;
+    ]]>
+    </update>
+
+    <select id="getUser" resultMap="userResult">
+    <![CDATA[
+        select * from tb_sys_user where id=#id#; 
+    ]]>
+    </select>
+	
+	
+ 
+	
+	
+    <resultMap id="userResult22" extends="userResult"  class="user">
+		<result property="branchId" column="sys_branch_id" nullValue="0"/>
+    </resultMap>	
+	
+	<select id="getUserByOrg" parameterClass="map" resultMap="userResult22">
+    <![CDATA[
+        select u.*,b.sys_branch_id from tb_sys_user u 
+		
+		left outer join tb_sys_user_branch ub on  ub.user_id = u.id 
+		
+		left outer join tb_sys_branch b on ub.branch_id = b.sys_branch_id
+
+		left outer join tb_sys_org org on  org.sys_org_id  = b.sys_org_id  
+		
+    ]]>
+			<dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="orgId">
+				( org.sys_org_id  = #orgId#)
+			</isNotEmpty>
+		
+		
+			<isNotNull prepend="AND" property="userId">
+				(ub.user_id = #userId#)
+			</isNotNull>
+		
+			<isNotNull prepend="AND" property="branchId">
+				(b.sys_branch_id = #branchId#)
+			</isNotNull>
+				
+		</dynamic>		
+		
+    </select>
+	
+	 
+    
+    <select id="getUserByUsername" resultMap="userResult">
+    <![CDATA[
+        select * from tb_sys_user where username=#username#;
+    ]]>
+    </select>
+	
+
+
+  <resultMap id="userResult_branch" class="user">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="address.address" column="address"/>
+        <result property="address.city" column="city"/>
+        <result property="address.province" column="province"/>
+        <result property="address.country" column="country"/>
+        <result property="address.postalCode" column="postal_code"/>
+        <result property="email" column="email"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="website" column="website"/>
+        <result property="passwordHint" column="password_hint"/>
+        <result property="version" column="version"/>
+        <result property="enabled" column="account_enabled"/>
+        <result property="accountExpired" column="account_expired"/>
+        <result property="accountLocked" column="account_locked"/>
+        <result property="credentialsExpired" column="credentials_expired"/>
+		<result property="branchId" column="branch_id"/>
+        <!-- result property="roles" column="id" select="getUserRoles"/ -->
+    </resultMap>
+	
+    <select id="getUsers" resultMap="userResult_branch" cacheModel="user-cache">
+    <![CDATA[
+        select tb_sys_user.*, tb_sys_user_branch.branch_id from tb_sys_user left outer join tb_sys_user_branch on tb_sys_user_branch.user_id =tb_sys_user.id 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="username">
+			(username = #username#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="password">  
+			(password = #password#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="firstName">
+			(first_name = #firstName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastName">
+			(last_name = #lastName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.address">
+			(address = #address.address#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.city">
+			(city = #address.city#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.province">
+			(province = #address.province#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.country">
+			(country = #address.country#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.postalCode">
+			(postal_code = #address.postalCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="email">
+			(email = #email#)
+			</isNotEmpty>            
+ 			<isNotEmpty prepend="AND" property="phoneNumber">
+			(phone_number = #phoneNumber#)
+			</isNotEmpty>           
+			<isNotEmpty prepend="AND" property="website">
+			(website = #website#)
+			</isNotEmpty>            
+ 			<isNotEmpty prepend="AND" property="passwordHint">
+			(password_hint = #passwordHint#)
+			</isNotEmpty>           
+ 			<isNotEmpty prepend="AND" property="version">
+			(version = #version#)
+			</isNotEmpty>           
+			<isNotEmpty  prepend="AND" property="enabled">
+			(account_enabled = #enabled#)	  
+			</isNotEmpty>			  
+			<isNotEmpty prepend="AND" property="accountExpired">
+			(account_expired = #accountExpired#)	  
+			</isNotEmpty>				  
+			<isNotEmpty prepend="AND" property="accountLocked">
+			(account_locked = #accountLocked#)	  
+			</isNotEmpty>				  
+			<isNotEmpty prepend="AND" property="credentialsExpired">
+			(credentials_expired = #credentialsExpired#)	  
+			</isNotEmpty>			  
+		</dynamic>		
+		ORDER BY UPPER(username);
+    </select>
+	
+	
+    <select id="getUsersCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_sys_user
+    ]]>
+	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="username">
+			(username = #username#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="password">
+			(password = #password#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="firstName">
+			(first_name = #firstName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastName">
+			(last_name = #lastName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.address">
+			(address = #address.address#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.city">
+			(city = #address.city#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.province">
+			(province = #address.province#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.country">
+			(country = #address.country#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.postalCode">
+			(postal_code = #address.postalCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="email">
+			(email = #email#)
+			</isNotEmpty>            
+ 			<isNotEmpty prepend="AND" property="phoneNumber">
+			(phone_number = #phoneNumber#)
+			</isNotEmpty>           
+			<isNotEmpty prepend="AND" property="website">
+			(website = #website#)
+			</isNotEmpty>            
+ 			<isNotEmpty prepend="AND" property="passwordHint">
+			(password_hint = #passwordHint#)
+			</isNotEmpty>           
+ 			<isNotEmpty prepend="AND" property="version">
+			(version = #version#)
+			</isNotEmpty>           
+			<isNotEmpty  prepend="AND" property="enabled">
+			(account_enabled = #enabled#)	  
+			</isNotEmpty>			  
+			<isNotEmpty prepend="AND" property="accountExpired">
+			(account_expired = #accountExpired#)	  
+			</isNotEmpty>				  
+			<isNotEmpty prepend="AND" property="accountLocked">
+			(account_locked = #accountLocked#)	  
+			</isNotEmpty>				  
+			<isNotEmpty prepend="AND" property="credentialsExpired">
+			(credentials_expired = #credentialsExpired#)	  
+			</isNotEmpty>			  
+		</dynamic>		
+    </select>		
+	
+	
+	
+	<select id="getUsersByBranchId" resultMap="userResult">
+    <![CDATA[
+        select u.* from tb_sys_user u,tb_sys_branch b,tb_sys_user_branch ub 
+				where ub.branch_id = b.sys_branch_id  and ub.user_id = u.id
+    ]]>
+		<isNotEmpty prepend="AND" property="branchId">
+			(ub.branch_id = #branchId#)
+		</isNotEmpty>	
+		
+		order by UPPER(u.username)		  
+    </select>	
+	
+	
+	
+
+	
+	
+	
+	<select id="getUserBranchsCount"  parameterClass="map"  resultClass="user">	
+           select user_id as id
+			      ,count(branch_id) as branchsCount 
+		 from tb_sys_user_branch 
+		
+          group by user_id
+	</select>		
+	
+	<resultMap id="userResult_branch2" extends="userResult_branch"  class="user">
+		<result property="branchName" column="branch_name" nullValue=""/>
+		<result property="orgId" column="sys_org_id" nullValue="1"/>
+    </resultMap>	
+	
+	<select id="getUsersByBranchIdList" resultMap="userResult_branch2">
+    <![CDATA[
+        select u.*,b.sys_branch_id as branch_id,b.name as branch_name,b.sys_org_id  
+		 from tb_sys_user u,tb_sys_branch b,tb_sys_user_branch ub,tb_sys_org g  
+				where ub.branch_id = b.sys_branch_id  and ub.user_id = u.id and b.sys_org_id = g.sys_org_id 
+    ]]>
+		
+		<isNotNull property="branchIdList">
+       	  <iterate prepend="AND" property="branchIdList" open="(" close=")" conjunction="OR">
+		   			 ub.branch_id  = #branchIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		
+	    <isNotNull prepend="AND" property="orgId">
+			(g.sys_org_id  = #orgId#  or g.parent_id = #orgId# )
+		</isNotNull>		
+		
+		order by UPPER(u.username)		  
+    </select>
+	
+
+	<select id="getUsersByBranchIdCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_sys_user u,tb_sys_branch b,tb_sys_user_branch ub 
+				where ub.branch_id = b.sys_branch_id  and ub.user_id = u.id
+    ]]>
+		<isNotEmpty prepend="AND" property="branchId">
+			(ub.branch_id = #branchId#)
+		</isNotEmpty>			  
+
+    </select>	
+
+	
+	
+	
+	
+
+	
+	<select id="getUserByNamePwd" parameterClass="map" resultClass="java.lang.Integer">
+    <![CDATA[
+        select id from tb_sys_user  where password =#password# and username=#username#;
+    ]]>
+    </select>	
+	
+	
+    <select id="getUserIdsByRoleId" resultClass="java.lang.Integer">
+    <![CDATA[
+        select user_id as id from tb_sys_user_role  where role_id =#id#;
+    ]]>
+    </select>	
+	
+	<select id="getSysUserByRoleId" resultMap="userResult">
+		select u.* from tb_sys_user u, tb_sys_user_role ur
+        where (ur.user_id = u.id) and ur.role_id=#id# 
+		order by UPPER(u.username)
+    </select>	
+	
+
+
+    <delete id="deleteUser" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_sys_user where id = #id#; 
+    ]]>
+    </delete>
+	
+	<delete id="removeUserInBranch" parameterClass="user">
+    <![CDATA[
+        delete from tb_sys_user_branch where user_id = #id# and  branch_id = #branchId#;
+    ]]>
+    </delete>
+	
+	
+	
+
+    <delete id="deleteUserRoles" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_sys_user_role where user_id = #id#;
+    ]]>
+    </delete>
+	
+	
+	<select id="getUserRolesByOrgUser" parameterClass="map"  resultClass="java.lang.Long">
+		SELECT tb_sys_user_role.role_id
+		 FROM
+		tb_sys_user_role 
+		Inner Join tb_sys_role ON tb_sys_role.id = tb_sys_user_role.role_id 
+		where tb_sys_user_role.user_id  =#userId# and tb_sys_role.sys_org_id =#orgId# ;
+    </select>	
+ 
+	<delete id="deleteUserRolesByIdList" parameterClass="java.util.Map">
+		
+        delete from tb_sys_user_role 
+		
+		<dynamic prepend="WHERE"> 
+			<isNotNull property="roleIdList">
+				<iterate prepend="AND" property="roleIdList" open="(" close=")" conjunction="OR">
+					        role_id = #roleIdList[]#
+				</iterate>
+			</isNotNull>	
+			
+			<isNotNull prepend="AND"  property="userId">
+					        user_id = #userId#
+			</isNotNull>			
+			
+		</dynamic>   
+   
+    </delete>
+	
+	 
+	
+	
+	
+	<delete id="deleteCustomerUserRel" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_customer_user_rel where user_id = #id#;
+    ]]>
+    </delete>
+	
+	<select id="getUserRel" parameterClass="map" resultClass="java.lang.Long">
+ 
+        select user_id as id from tb_sys_user_rel  
+
+			<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="parentId">
+				(parent_user_id = #parentId#)
+			</isNotEmpty>
+		
+		
+			<isNotNull prepend="AND" property="orgId">
+				(sys_org_id = #orgId# )
+			</isNotNull>
+				
+			 <isNotNull property="orgIdList">
+       	  <iterate prepend="AND" property="orgIdList" open="(" close=")" conjunction="OR">
+		   			 sys_org_id = #orgIdList[]#
+		  			</iterate>
+		  </isNotNull> 				
+				
+	
+		</dynamic> 	
+
+    </select>
+	
+	<select id="getUserRelNoOrg"  resultClass="java.lang.Long">
+    <![CDATA[
+        select user_id as id from tb_sys_user_rel  where parent_user_id =#parentId# ;
+    ]]>
+    </select>
+	
+	
+	<select id="getUserCarrierRel" resultClass="java.lang.Long">
+    <![CDATA[
+        select carrier_id  from tb_sys_user_carrier_rel A 
+		 left outer join tb_ad_resource_carrier B 
+		     on B.ad_resource_carrier_id = A.carrier_id 
+		 where A.user_id =#userId#  
+		   order by B.ad_resource_channel_id 
+    ]]>
+    </select>
+	
+
+
+	
+	
+	<delete id="deleteUserCarrierRel" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_sys_user_carrier_rel  where user_id =#userId#;
+    ]]>
+    </delete>	
+	
+	<delete id="deleteUserCheck" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_oa_work_flow_check_user  where user_id =#userId#;
+    ]]>
+    </delete>	 
+	
+	<delete id="deleteUserComin" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_oa_work_flow_comin_user  where user_id =#userId#;
+    ]]>
+    </delete>		
+	
+	
+	
+		
+	
+	<resultMap id="userResult_for_getUsersByCarrier" class="user">
+        <result property="id" column="id"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+    </resultMap>
+	
+	
+	
+	
+	
+	<select id="getUsersByCarrier"  parameterClass="map" resultMap="userResult_for_getUsersByCarrier">
+
+			select distinct  U.id,U.first_name,U.last_name 
+			 FROM  tb_sys_user U 
+			
+			left outer join tb_sys_user_carrier_rel UCR
+				 on U.id = UCR.user_id 
+			
+			 left outer join  tb_sys_user_role UROL 
+				 on    U.id  = UROL.user_id 
+			
+			 left outer join   tb_sys_role SROL  
+				 on  UROL.role_id =  SROL.id 
+			
+			
+			 left outer join   tb_order OD
+				 on  UCR.user_id  = OD.user_id  
+	
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+				(UCR.carrier_id = #carrierId#)
+			</isNotEmpty>
+		
+		
+			<isNotNull prepend="AND" property="customerId">
+				(OD.customer_id = #customerId#)
+			</isNotNull>
+		
+		   <isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					        UCR.carrier_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull>	
+		</dynamic> 
+		order by UPPER(U.username)	  
+  
+    </select>
+	
+	
+	
+	<select id="getUsersAnalyze"  parameterClass="map" resultMap="userResult_for_getUsersByCarrier">
+
+			select distinct  U.id,U.first_name,U.last_name 
+			 FROM  tb_sys_user U 
+			
+		
+			
+			 left outer join  tb_sys_user_role UROL 
+				 on    U.id  = UROL.user_id 
+			
+			 left outer join   tb_sys_role SROL  
+				 on  UROL.role_id =  SROL.id 
+		
+			  left outer join   tb_sys_user_branch UB  
+				 on   U.id  = UB.user_id  
+		
+			 left outer join   tb_sys_branch  BRAN  
+				 on   UB.branch_id  = BRAN.sys_branch_id  		
+		
+
+			 left outer join   tb_order OD
+				 on  U.id  = OD.user_id  
+		
+			 			left outer join tb_order_detail DT 
+			 on DT.order_id = OD.order_id	
+		
+		 				 left outer join tb_ad_resource_info RI
+			 on RI.ad_resource_info_id = DT.ad_resource_info_id 		
+		
+				 				 left outer join tb_ad_resource_carrier CA
+			 on CA.ad_resource_carrier_id = RI.ad_resource_carrier_id 		
+	
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="orgId">
+				(BRAN.sys_org_id = #orgId#)
+			</isNotEmpty>
+						
+			
+		   <isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					CA.parent_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull>	
+			
+			
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					OD.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>	
+		
+		
+			<isNotNull prepend="AND" property="customerId">
+				(OD.customer_id = #customerId#)
+			</isNotNull>
+			
+			<isNotNull prepend="AND" property="fullName">
+				(concat(U.first_name,U.last_name )  like '%$fullName$%')
+			</isNotNull>		
+			
+			
+			
+		
+
+		</dynamic> 
+		order by UPPER(U.username)	  
+  
+    </select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="getUserByRole"  parameterClass="java.lang.String" resultMap="userResult">
+    <![CDATA[
+       select U.* from tb_sys_user U  join tb_sys_role SROL  join tb_sys_user_role UROL 
+		    WHERE  UROL.role_id =  SROL.id  AND  U.id  = UROL.user_id AND SROL.name =  #value#  
+		order by UPPER(U.username)	
+    ]]>
+    </select>	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	<delete id="deleteUserRel" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_sys_user_rel where user_id = #id# or parent_user_id = #id#;
+    ]]>
+    </delete>
+	
+	<delete id="deleteUserRelByParent" parameterClass="java.util.Map">
+    <![CDATA[
+        delete from tb_sys_user_rel where parent_user_id = #parentUserId# and sys_org_id =#orgId#;
+    ]]>
+    </delete>
+	
+    <insert id="saveUserRel" parameterClass="map">
+    <![CDATA[
+        insert into tb_sys_user_rel (sys_org_id,parent_user_id, user_id) 
+        values (#orgId#, #parentUserId#, #userId#);
+    ]]>
+    </insert>
+		
+	
+
+	
+    <insert id="saveUserCarrierRel" parameterClass="map">
+    <![CDATA[
+        insert into tb_sys_user_carrier_rel (user_id,carrier_id) 
+        values (#userId#,#carrierId#);
+    ]]>
+    </insert>
+	
+   <delete id="deleteRoleByUserIds" parameterClass="java.util.Map">
+    <![CDATA[
+        delete from tb_sys_user_role 
+    ]]>
+		<dynamic prepend="WHERE"> 
+	      <isNotNull property="UserIdList">
+       	  <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+		   			 user_id = #UserIdList[]#
+		  </iterate>
+		  </isNotNull>
+		  <isNotNull prepend="AND" property="roleId">
+		   			 role_id = #roleId#
+		  </isNotNull> 		
+		</dynamic>     
+    </delete>	
+	
+	
+	
+	<select id="getUserByIdList"  parameterClass="map" resultMap="userResult">
+
+       select U.* from tb_sys_user U  
+		
+		<dynamic prepend="WHERE"> 
+	      <isNotNull property="UserIdList">
+       	  <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+		   			 U.id = #UserIdList[]#
+		  </iterate>
+		</isNotNull> 	
+		</dynamic> 
+		order by UPPER(U.username)	
+ 
+    </select>	
+	
+	
+	<resultMap id="userResult_for_checkuser" class="user">
+        <result property="firstName" column="check_user"/>
+        <result property="lastName" column="comin_user"/>
+    </resultMap>
+	
+	
+	<select id="getComeInUserByUserId"  parameterClass="java.lang.Long" resultClass="java.lang.Long">
+      		SELECT B.user_id as  id  
+				FROM tb_oa_work_flow_check_user  AS A join tb_oa_work_flow_comin_user AS B
+				 where A.work_flow_id = B.work_flow_id and A.user_id  = #value#
+    </select>	
+	
+	
+
+	
+	
+	
+	<select id="getUserNameByCustomerId"  parameterClass="java.lang.Long" resultClass="user">
+			 SELECT   su.first_name as firstName,su.last_name as lastName
+             from tb_order o  
+					left outer join tb_sys_user su 
+				on o.user_id = su.id
+			where o.customer_id=#value#
+			group by su.username
+    </select>
+	
+	
+	
+	<select id="getUsersOwnerByBranchId" resultMap="userResult">
+    <![CDATA[
+ 		select  u.*,rel.parent_user_id  from tb_sys_user_rel   rel  
+		   left outer join tb_sys_user u on  rel.user_id=u.id 
+		   left outer join tb_sys_user_branch ub on ub.user_id=u.id 
+		  left outer join tb_sys_branch b on b.sys_branch_id=ub.branch_id  
+    ]]>
+		
+		<dynamic prepend="WHERE"> 	
+		<isNotEmpty prepend="AND" property="branchId">
+			(ub.branch_id = #branchId#)
+		</isNotEmpty>
+		</dynamic>	
+			
+		<dynamic prepend="HAVING"> 
+		<isNotEmpty prepend="AND" property="userName">
+			(parent_user_id in (select id from tb_sys_user where username = #userName#))
+		</isNotEmpty>	
+			
+		</dynamic>	
+		order by UPPER(u.username)		  
+    </select>	
+	
+	
+	
+	<select id="getUserCarrierSortList" resultClass="user">
+		SELECT 
+		tb_ad_resource_carrier_type.sys_org_id as orgId,
+		tb_sys_org.name as branchName,
+		tb_sys_user.username AS username,
+		tb_ad_resource_carrier_type.ad_resource_carrier_type_id as email,
+		tb_sys_user_carrier_rel.carrier_id as website,
+		tb_ad_resource_carrier_type.name as  firstName  
+		 
+		from tb_sys_user_carrier_rel 
+		
+		 join tb_sys_user  on tb_sys_user.id = tb_sys_user_carrier_rel.user_id 
+		 join tb_ad_resource_carrier on tb_ad_resource_carrier.ad_resource_carrier_id = tb_sys_user_carrier_rel.carrier_id
+		 join tb_ad_resource_carrier_type on tb_ad_resource_carrier.ad_resource_carrier_type_id = tb_ad_resource_carrier_type.ad_resource_carrier_type_id 
+	     join tb_sys_org on tb_sys_org.sys_org_id = tb_ad_resource_carrier_type.sys_org_id 
+		
+		order by tb_sys_org.sys_org_id 
+    </select>	
+	
+	
+
+  <select id="getUsersFromOrder"  parameterClass="map" resultMap="userResult_for_getUsersByCarrier">
+	  
+			select   distinct  U.id,U.first_name,U.last_name
+			 FROM    tb_order O
+	  
+			left outer join   tb_sys_user U 
+	  
+			<isEqual property="type" compareValue="1">	
+			     on  U.id  = O.user_id   
+			</isEqual>	  
+	  
+			<isEqual  property="type" compareValue="2">	
+			      on  U.id  = O.create_by 
+			</isEqual>		  
+	  
+			 left outer join   tb_sys_user_branch UB  
+				 on   U.id  = UB.user_id  
+		
+			 left outer join   tb_sys_branch  BRAN  
+				 on   UB.branch_id  = BRAN.sys_branch_id  	  
+
+	  		left outer join   tb_sys_org  ORG  
+				 on   ORG.sys_org_id  = BRAN.sys_org_id   	 	
+	  
+ 
+	  
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="orgId">
+				( BRAN.sys_org_id  = #orgId# or ORG.parent_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="year">
+				(O.version = #year#)
+			</isNotEmpty>			
+	
+					
+	    	 <isNotNull property="userIdList">
+					 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							U.id = #userIdList[]#
+				  </iterate>
+			 </isNotNull>
+
+			<isNotNull prepend="AND" property="fullName">
+				(concat(U.first_name,U.last_name )  like '%$fullName$%')
+			</isNotNull>		
+
+			
+			<isNotEmpty prepend="AND" property="customerId"> 
+				(O.customer_id = #customerId#)
+			</isNotEmpty>
+			
+
+		</dynamic> 
+		order by UPPER(U.username)	  
+  
+    </select>	
+	
+	
+ <select id="getUsersByOrgLimit"  parameterClass="map" resultMap="userResult_for_getUsersByCarrier">
+	  
+			select   distinct  U.id,U.first_name,U.last_name
+			 FROM    tb_sys_user U 
+
+			 left outer join   tb_sys_user_branch UB  
+				 on   U.id  = UB.user_id  
+		
+			 left outer join   tb_sys_branch  BRAN  
+				 on   UB.branch_id  = BRAN.sys_branch_id  	 
+	 
+	 
+	  		left outer join   tb_sys_org  ORG  
+				 on   ORG.sys_org_id  = BRAN.sys_org_id    
+	  
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="orgId">
+				( BRAN.sys_org_id  = #orgId# or ORG.parent_id = #orgId#)
+			</isNotEmpty>
+			
+			
+		   <isNotNull property="orgIdList">
+       	  <iterate prepend="AND" property="orgIdList" open="(" close=")" conjunction="OR">
+		   			 BRAN.sys_org_id = #orgIdList[]#
+		  			</iterate>
+		  </isNotNull> 		
+
+	    	 <isNotNull property="userIdList">
+					 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							U.id = #userIdList[]#
+				  </iterate>
+			 </isNotNull>
+
+			<isNotNull prepend="AND" property="fullName">
+				(concat(U.first_name,U.last_name )  like '%$fullName$%')
+			</isNotNull>		
+
+
+		</dynamic> 
+		order by UPPER(U.username)	  
+  
+    </select>	
+	
+	
+
+	
+  <select id="getUsersFromOrder_bak"  parameterClass="map" resultMap="userResult_for_getUsersByCarrier">
+	  
+			select   distinct  U.id,U.first_name,U.last_name
+			 FROM    tb_order OD
+	  
+			left outer join   tb_sys_user U 
+			<isEqual property="type" compareValue="1">	
+			     on  U.id  = OD.user_id   
+			</isEqual>	  
+			<isEqual  property="type" compareValue="2">	
+			      on  U.id  = OD.create_by 
+			</isEqual>		  
+	  
+			left outer join  tb_sys_user_rel REL 
+				 on    U.id  = REL.user_id
+
+		     left outer join   tb_sys_user U2
+				 on    U2.id  = REL.parent_user_id	  
+	  
+			 left outer join   tb_sys_user_branch UB  
+				 on   U.id  = UB.user_id  
+		
+			 left outer join   tb_sys_branch  BRAN  
+				 on   UB.branch_id  = BRAN.sys_branch_id  	  
+	  
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="orgId">
+				( BRAN.sys_org_id  = #orgId#)
+			</isNotEmpty>
+						
+			<!-- isNotNull prepend="AND" property="customerId">
+				(OD.customer_id = #customerId#)
+			</isNotNull -->
+			
+			<isNotNull prepend="AND" property="loginUser">
+				(U2.username = #loginUser#)
+			</isNotNull>			
+			
+			<isNotNull prepend="AND" property="fullName">
+				(concat(U.first_name,U.last_name )  like '%$fullName$%')
+			</isNotNull>		
+
+
+		</dynamic> 
+		order by UPPER(U.username)	  
+  
+    </select>	
+	
+	
+	
+	<select id="getUsersByIdList" parameterClass="java.util.Map" resultMap="userResult">
+
+      select * from tb_sys_user 
+   
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="userIdList">
+       	  <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+		   			 id = #userIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+
+   </select>     	
+	
+	
+		
+	<select id="getUser_Orgs"  resultClass="java.lang.String">
+      select distinct sys_org_id from tb_sys_user_rel where parent_user_id =#value#     
+   </select>   
+	
+	
+	
+	
+
+	<delete id="deleteUserCarrierRelByParent" parameterClass="java.util.Map">
+        delete from tb_sys_user_carrier_rel 
+		
+		<dynamic prepend="WHERE"> 
+				<isNotNull prepend="AND" property="userId">
+					(user_id = #userId# )
+				</isNotNull>
+				<isNotNull prepend="AND" property="orgId">
+					
+					  <![CDATA[
+					carrier_id in (
+						   select * from  (
+							SELECT distinct CA.ad_resource_carrier_id FROM 
+							tb_ad_resource_carrier_type CT 
+							Inner Join tb_ad_resource_carrier CA ON CT.ad_resource_carrier_type_id =CA.ad_resource_carrier_type_id
+							Inner Join tb_sys_user_carrier_rel REL ON CA.ad_resource_carrier_id = REL.carrier_id 
+									where CA.parent_id = 0 and CT.sys_org_id = #orgId# ) B 
+						)
+						]]>
+			
+				</isNotNull>					   
+			</dynamic>    
+		
+    </delete>
+	
+	
+	<select id="getUserIdsByOrg"  parameterClass="java.util.Map" resultClass="java.lang.Long">
+		
+			select distinct  U.id 
+			 FROM  tb_sys_user U 
+
+			 inner join   tb_sys_user_branch UB  
+				 on   U.id  = UB.user_id  
+		
+			 inner join   tb_sys_branch  BRAN  
+				 on   UB.branch_id  = BRAN.sys_branch_id  	
+		
+			<isNotNull property="orgIdList">
+					<iterate prepend="AND" property="orgIdList" open="(" close=")" conjunction="OR">
+							   BRAN.sys_org_id = #orgIdList[]#
+					</iterate>
+			</isNotNull>		
+		
+		
+    </select>		
+	
+		
+</sqlMap>

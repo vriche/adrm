@@ -1,0 +1,23 @@
+<decorators defaultdir="/decorators">
+    <excludes>
+        <pattern>/resources/*</pattern>
+		<pattern>/reports/*</pattern>
+		<pattern>/services/*</pattern>
+		<pattern>/servlet/*</pattern>
+		<pattern>/selectPopup/*</pattern>
+		<pattern>/upload/*</pattern>
+		<pattern>/samples/*</pattern>
+		<pattern>/help/*</pattern>
+		<pattern>/j_security_check</pattern>
+		<pattern>/login.jsp</pattern>
+		<pattern>/login.jsp?error=true</pattern>
+		<pattern>/signup.html</pattern>
+		<pattern>/readme.jsp</pattern>
+		<pattern>/merm/*</pattern>
+		<pattern>/blank.jsp</pattern>
+		<pattern>/desktop/*</pattern>
+    </excludes> 
+    <decorator name="default" page="adrm.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+</decorators>

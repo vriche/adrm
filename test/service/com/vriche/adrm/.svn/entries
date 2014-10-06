@@ -1,0 +1,34 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/test/service/com/vriche/adrm
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:18:13.058515Z
+11
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+service
+dir
+
+util
+dir
+

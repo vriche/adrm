@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProCheckIdea">
+    <typeAlias alias="proCheckIdea" type="com.vriche.adrm.model.ProCheckIdea"/>
+
+	<cacheModel id="proCheckIdea-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProCheckIdea"/>
+		<flushOnExecute statement="updateProCheckIdea"/>
+		<flushOnExecute statement="deleteProCheckIdea"/>
+		<flushOnExecute statement="deleteProCheckIdeas"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="proCheckIdea">
+		<parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="checkResult" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="checkIdea" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proCheckIdea">
+		<parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="checkResult" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="checkIdea" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+    <resultMap id="proCheckIdeaResult" class="proCheckIdea">
+		<result property="id" column="id"/>
+        <result property="programId" column="program_id"/>
+		<result property="checkResult" column="check_result"/>
+        <result property="checkIdea" column="check_idea"/>
+         
+		<result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+		<result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <sql id="ProCheckIdea_where_fragment">
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="programId">
+			(program_id like #programId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkResult">
+			(check_result like #checkResult#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkIdea">
+			(check_idea like #checkIdea#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="version">
+			(version like #version#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+    </sql>
+     <sql id="ProCheckIdea_idList_fragment">
+	      <isNotNull property="ProCheckIdeaIdList">
+       	  <iterate prepend="AND" property="ProCheckIdeaIdList" open="(" close=")" conjunction="OR">
+		   			 id = #ProCheckIdeaIdList[]#
+		  </iterate>
+		  </isNotNull> 
+    </sql>   
+    <select id="getProCheckIdea" resultMap="proCheckIdeaResult">
+    <![CDATA[
+        select * from tb_pro_check_idea	     
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="ProCheckIdea_where_fragment"/>
+		</dynamic>  
+    </select>
+	
+
+	<resultMap id="proCheckIdeasResult" class="proCheckIdea">
+		<result property="id" column="id"/>
+		<result property="carrierId" column="carrier_id"/>
+	    <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date" nullValue="0"/>
+		<result property="checkIdea" column="check_idea" nullValue="0"/>
+		<result property="checkResult" column="check_result" nullValue="0"/> 
+    </resultMap>
+	<select id="getProCheckIdeas" resultMap="proCheckIdeasResult">
+    <![CDATA[
+        select  *
+		
+		 from tb_pro_check_idea	  pci
+				left outer join  tb_sys_user_carrier_rel ucr
+         on pci.create_by =  ucr.user_id and pci.carrier_id =  ucr.carrier_id
+    ]]>
+		<dynamic prepend="WHERE"> 
+			
+ 	 	<isNotEmpty prepend="AND" property="programId">
+			(pci.program_id like #programId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="createBy">
+			(pci.create_by like #createBy#)
+			</isNotEmpty>
+		</dynamic>  
+		group by  pci.id 
+    </select>
+
+	<select id="getProCheckIdeasCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_check_idea
+		where id = #id#
+    ]]>
+    </select>	
+	
+
+    <select id="getProCheckIdeasByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_pro_check_idea 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="ProCheckIdea_idList_fragment"/>
+          </dynamic>     
+  </select>   
+
+    <insert id="addProCheckIdea" parameterMap="addParam">
+
+        <![CDATA[
+             insert into tb_pro_check_idea (program_id,carrier_id,check_result,check_idea,create_by,create_date,modify_by,modify_date)
+            values (?,?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProCheckIdea" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_check_idea set
+				   carrier_id = ?,
+                   check_result = ?,
+                   check_idea = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?
+
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProCheckIdea">
+    <![CDATA[
+        delete from tb_pro_check_idea
+         where id = #value#
+    ]]>
+    </delete>
+	
+   <update id="deleteProCheckIdeas" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_pro_check_idea 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="ProCheckIdea_idList_fragment"/>
+          </dynamic>      
+  </update>   
+</sqlMap>

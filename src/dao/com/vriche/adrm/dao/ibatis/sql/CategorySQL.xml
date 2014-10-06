@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CategorySQL">
+    <typeAlias alias="category" type="com.vriche.adrm.model.Category"/>
+
+	<cacheModel id="category-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addCategory"/>
+		<flushOnExecute statement="updateCategory"/>
+		<flushOnExecute statement="deleteCategory"/>
+		<flushOnExecute statement="deleteCategorys"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="category">
+        <parameter property="adResourcePriceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="categoryCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="categoryName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="treeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="category">
+        <parameter property="adResourcePriceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="categoryCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="categoryName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="treeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="categoryResult" class="category">
+        <result property="adResourcePriceType" column="ad_resource_price_type"/>
+        <result property="categoryCode" column="category_code" nullValue=""/>
+        <result property="categoryName" column="category_name" nullValue=""/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no" nullValue="0"/>
+        <result property="id" column="customer_category_id"/>
+        <result property="memo" column="memo" nullValue=""/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="parentId" column="parent_id" nullValue="0"/>
+        <result property="treeLevel" column="tree_level" nullValue="0"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+	
+    <select id="getCustomerCategorys" parameterClass="java.lang.String" resultMap="categoryResult">
+    <![CDATA[
+        select * 
+		from tb_customer_category 
+		where tree_level =#value#
+    ]]>	
+    </select>
+    <select id="getCategorys" resultMap="categoryResult">
+    <![CDATA[
+        select * from tb_customer_category 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="adResourcePriceType">
+			(ad_resource_price_type like #adResourcePriceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryCode">
+			(category_code like #categoryCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="categoryName">
+			(category_name like #categoryName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(customer_category_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="treeLevel">
+			(tree_level like #treeLevel#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getCategorysByIdList" parameterClass="java.util.Map" resultMap="categoryResult">
+     <![CDATA[  
+      select * from tb_customer_category 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CategoryIdList">
+       	  <iterate prepend="AND" property="CategoryIdList" open="(" close=")" conjunction="OR">
+		   			 customer_category_id = #CategoryIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getCategory" resultMap="categoryResult">
+    <![CDATA[
+        select * from tb_customer_category
+         where customer_category_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addCategory" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_customer_category_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_customer_category (ad_resource_price_type,category_code,category_name,create_by,create_date,display_no,memo,modify_by,modify_date,parent_id,tree_level)
+            values ( ?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateCategory" parameterMap="updateParam">
+    <![CDATA[
+        update tb_customer_category set
+                   ad_resource_price_type = ?,
+                   category_code = ?,
+                   category_name = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   display_no = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   parent_id = ?,
+                   tree_level = ?,
+				   version = ? 
+        where customer_category_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteCategory">
+    <![CDATA[
+        delete from tb_customer_category
+         where customer_category_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteCategorys" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_customer_category 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CategoryIdList">
+       	  <iterate prepend="AND" property="CategoryIdList" open="(" close=")" conjunction="OR">
+		   			 customer_category_id = #CategoryIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

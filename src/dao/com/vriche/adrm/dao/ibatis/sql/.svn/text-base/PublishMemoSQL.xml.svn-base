@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PublishMemoSQL">
+    <typeAlias alias="publishMemo" type="com.vriche.adrm.model.PublishMemo"/>
+
+	<cacheModel id="publishMemo-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addPublishMemo"/>
+		<flushOnExecute statement="updatePublishMemo"/>
+		<flushOnExecute statement="deletePublishMemo"/>
+		<flushOnExecute statement="deletePublishMemos"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="publishMemo">
+		<parameter property="value" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="publishMemo">
+		<parameter property="value" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="publishMemoResult" class="publishMemo">
+		<result property="value" column="value"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="adver_publish_memo_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getPublishMemos" resultMap="publishMemoResult">
+    <![CDATA[
+        select * from tb_adver_publish_memo 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(adver_publish_memo_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getPublishMemosByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_adver_publish_memo 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PublishMemoIdList">
+       	  <iterate prepend="AND" property="PublishMemoIdList" open="(" close=")" conjunction="OR">
+		   			 adver_publish_memo_id = #PublishMemoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getPublishMemo" resultMap="publishMemoResult">
+    <![CDATA[
+        select * from tb_adver_publish_memo
+         where adver_publish_memo_id = #value#
+    ]]>
+    </select>
+	<select id="getPublishMemosCount" resultClass="java.lang.Integer">
+		<![CDATA[
+			select count(*) from tb_adver_publish_memo 
+		]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(adver_publish_memo_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+    <insert id="addPublishMemo" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_adver_publish_memo_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_adver_publish_memo (value,create_by,create_date,modify_by,modify_date,name)
+            values ( ?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updatePublishMemo" parameterMap="updateParam">
+    <![CDATA[
+        update tb_adver_publish_memo set
+				   value = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+				   version = ? 
+        where adver_publish_memo_id = ?
+    ]]>
+    </update>
+
+    <delete id="deletePublishMemo">
+    <![CDATA[
+        delete from tb_adver_publish_memo
+         where adver_publish_memo_id = #value#
+    ]]>
+    </delete>
+   <update id="deletePublishMemos" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_adver_publish_memo 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PublishMemoIdList">
+       	  <iterate prepend="AND" property="PublishMemoIdList" open="(" close=")" conjunction="OR">
+		   			 adver_publish_memo_id = #PublishMemoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://MREML2/schema/ProgramList" xmlns:tns2="http://MREML2/schema/CommonDataType" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://MREML2/schema/ProgramList">
+    <xsd:import namespace="http://MREML2/schema/CommonDataType" schemaLocation="MreML2_CommonDataTypes.xsd"/>
+    <xsd:element name="BroadcastListEntity" type="tns:BroadcastListEntityType">
+        <xsd:annotation>
+            <xsd:documentation>播出节目单实体</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="BroadcastListEntityType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="ListID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>播出单ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PlayDate" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>播出日期。格式（yyyy-MM-dd）		</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ListType" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>1,未合并广告播出频道节目单，2广告单，3合并广告播出节目单，4播后节目单，5通知锁定播出单。					</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ChannelInfo" type="tns:ChannelInfoType"/>
+            <xsd:element name="ListName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>节目单名称，
+对于广告单可以参考命名原则：adList0, adList1, 这样区分一天内不同的广告单，对节目单，一天对应的单子依次为：ListA，ListB</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AuditInfo" type="tns:ExecuteActionType">
+                <xsd:annotation>
+                    <xsd:documentation>审核信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LastEditInfo" type="tns:ExecuteActionType">
+                <xsd:annotation>
+                    <xsd:documentation>末次修改信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Version" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>版本号，参考规则1,2,3。。。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ListItemCount" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>条目数，条目信息与实际数量是否一致</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="ListItem" type="tns:BroadcastListItemType">
+                <xsd:annotation>
+                    <xsd:documentation>节目单条目</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ExtendAttributes" nillable="true" type="tns2:ExtendAttributesType"/>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="BroadcastListItemType">
+        <xsd:annotation>
+            <xsd:documentation>播出节目单条目</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="ItemID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>串联单条目ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ItemName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>条目名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ItemIndex" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>条目序号</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ItemType" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>条目，条目组。条目组可以对应多个条目。0-正常条目
+，1-子条目 ，2-父条目，组条目</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PlayMode" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>播出方式：1-定播	2-顺播 3-手动触发 4-定插播出方式		5-相对插		6-连插,
+7-手工插播（广告单时选填，节目单必填）</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PlayDate" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>节目播出日期，格式yyyy-MM-dd，父节目是必填的，子条目非必填	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PlayTime" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>节目播出时间，格式HH:MM:SS:FF父节目是必填的，子条目非必填	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="InsertTime" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>相对插播时的相对时间，格式HH:MM:SS:FF相对插播时必填</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Duration" type="xsd:long">
+                <xsd:annotation>
+                    <xsd:documentation>如果未绑定节目代码，则是节目条目时长，单位帧。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ProgramInfo" type="tns:ProgramInfoType"/>
+            <xsd:element minOccurs="0" name="TapeInfo" type="tns:TapeInfoType">
+                <xsd:annotation>
+                    <xsd:documentation>磁带信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SendPlayType" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>送播类型：1-文件，2-磁带，3-介质，4-信号，5-制作打包</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SignalSource" type="tns:SignalSourceType">
+                <xsd:annotation>
+                    <xsd:documentation>播放设备信息。如果是子条目，不需要指定。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ColumnInfo" type="tns:ColumnInfoType"/>
+            <xsd:element name="SubItemCount" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>子条目数，子条目信息与实际数量是否一致</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="SubItem" type="tns:BroadcastListItemType">
+                <xsd:annotation>
+                    <xsd:documentation>当条目类型为素材组的时候才使用。目前只考虑一级嵌套。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SoundTrack" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>节目音频类型, 声道信息：
+0：未知； 1：单声道； 2：立体声；6：5.1环绕声+立体声</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ValidSystem" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>条目生效系统</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Description" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>条目注释</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ExtendAttributes" nillable="true" type="tns2:ExtendAttributesType"/>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ExecuteActionType">
+        <xsd:annotation>
+            <xsd:documentation>描述操作情况  	</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="UserID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>用户ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="UserName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>用户名</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ActionTime" nillable="true" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>动作时间。格式（yyyy-MM-dd HH:mm:ss）</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="SignalSourceType">
+        <xsd:sequence>
+            <xsd:element name="SignalType" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>播放设备类型：硬盘1，直播延播信号2，磁带3，蓝光盘4。	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="BakSignalType" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>备份播放设备类型，定义同SignalType</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SignalName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>设备名称。对信号来说，总编室可以使用名称指导，比如第5演播室。由播出编单对其进行细化，映射到具体设备上。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="SignalID" nillable="true" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>具体设备的ID，总编室如果不知道播出配置的话，可不指定，由播出细化。或者总编室和播出使用同样配置。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ChannelInfoType">
+        <xsd:sequence>
+            <xsd:element name="ChannelCode" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>频道代码</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ChannelName" nillable="true" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>频道名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ProgramInfoType">
+        <xsd:sequence>
+            <xsd:element name="ProgramCode" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>节目代码</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ClipID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>素材ID；或者是素材组ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ClipName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>素材名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>物理文件名称，如果采用全台统一命名规范，可采用： 资源id（标识体系号+泛节目代码+长文件位）
+此时，由总编室根据相同规则生成文件名	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="InPoint" type="xsd:long">
+                <xsd:annotation>
+                    <xsd:documentation>入点，单位帧.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Duration" type="xsd:long">
+                <xsd:annotation>
+                    <xsd:documentation>时长，单位帧。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ProgramType" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>节目类型。String，”PO”标识节目，”AD”表示广告，“NEWS”表示新闻，“MOVIE”表示电影，“SPECIALS”表示专题，“ANNOUNCEMENT”表示宣传片。</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HDFlag" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>高标清版本标识（0：标清，1：高清）	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AFD" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>AFD信息，待完善。在高标清混播时，需要指定上下变换的方式。比如是切边还是加黑条</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ExtendAttributes" nillable="true" type="tns2:ExtendAttributesType"/>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="TapeInfoType">
+        <xsd:sequence>
+            <xsd:element name="TapeCode" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>磁带代码</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ColumnInfoType">
+        <xsd:sequence>
+            <xsd:element name="ColumnCode" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>栏目代码</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ColumnName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>栏目名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ColumnType" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>0-常规栏目,1-栏目间广告段，2-栏目内广告段,3-点成本</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ColumnDuration" nillable="true" type="xsd:long">
+                <xsd:annotation>
+                    <xsd:documentation>栏目时长,单位帧</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProCustomerTypeSQL">
+    <typeAlias alias="proCustomerType" type="com.vriche.adrm.model.ProCustomerType"/>
+
+	<cacheModel id="proCustomerType-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProCustomerType"/>
+		<flushOnExecute statement="updateProCustomerType"/>
+		<flushOnExecute statement="deleteProCustomerType"/>
+		<flushOnExecute statement="deleteProCustomerTypes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="proCustomerType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proCustomerType">
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+    <resultMap id="proCustomerTypeResult" class="proCustomerType">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="version" column="version"/>
+    </resultMap>
+    <sql id="ProCustomerType_where_fragment">
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(version like #version#)
+			</isNotEmpty>
+    </sql>
+     <sql id="ProCustomerType_idList_fragment">
+	      <isNotNull property="ProCustomerTypeIdList">
+       	  <iterate prepend="AND" property="ProCustomerTypeIdList" open="(" close=")" conjunction="OR">
+		   			 id = #ProCustomerTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+    </sql>   
+    <select id="getProCustomerTypesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_customer_type 
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="ProCustomerType_where_fragment"/>
+		</dynamic>  
+    </select>	
+
+    <select id="getProCustomerTypes" resultMap="proCustomerTypeResult">
+    <![CDATA[
+        select * from tb_pro_customer_type 
+    ]]>
+		<include refid="ProCustomerType_where_fragment"/>
+    </select>
+    <select id="getProCustomerTypesByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_pro_customer_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="ProCustomerType_idList_fragment"/>
+          </dynamic>      
+  </select>     
+
+    <select id="getProCustomerType" resultMap="proCustomerTypeResult">
+    <![CDATA[
+        select * from tb_pro_customer_type
+         where id = #value#
+    ]]>
+    </select>
+
+    <insert id="addProCustomerType" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_pro_customer_type (create_by,create_date,modify_by,modify_date,name)
+            values ( ?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProCustomerType" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_customer_type set
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProCustomerType">
+    <![CDATA[
+        delete from tb_pro_customer_type
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteProCustomerTypes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_pro_customer_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="ProCustomerType_idList_fragment"/>
+          </dynamic>      
+  </update>   
+</sqlMap>

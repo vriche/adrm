@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/xerces
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:04:51.205983Z
+25
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+xerces-1.4.4.jar
+file
+
+
+
+
+2013-05-17T07:35:28.617916Z
+0f4cbe63b6a178034ec8d7d16194a0f3
+2012-11-24T07:04:51.205983Z
+25
+lxz
+has-props
+

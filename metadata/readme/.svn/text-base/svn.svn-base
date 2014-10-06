@@ -1,0 +1,12 @@
+ svnadmin hotcopy /svn/svndata/src1 /home/svn/src1  --clean-logs
+ svnadmin hotcopy /home/svn/src1 /svn/svndata/src1
+ 
+  svnadmin create /svn/svndata/src1
+   svnadmin recover /svn/svndata/src1
+  
+   killall svnserve
+    svnserve --listen-port 80 -d -r /svn/svndata
+    
+    
+    svnadmin recover /svn/svndata/src1 /home/svn/src1
+  

@@ -1,0 +1,64 @@
+8
+
+dir
+657
+svn://121.28.83.134:80/src1/adrm_2.0/src/service/com/dayang/adp/schema/admaterialentity/_1_0
+svn://121.28.83.134:80/src1
+
+
+
+2013-11-30T11:39:46.450130Z
+657
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+ADMaterialEntity.java
+file
+
+
+
+
+2013-11-30T12:08:15.516588Z
+b6a48a6759914340f3f03fc97fefe384
+2013-11-30T11:39:46.450130Z
+657
+lxz
+
+ADMaterialEntityType.java
+file
+
+
+
+
+2013-11-30T12:08:15.527596Z
+282b3fb24b367cf3b6e1e0213722fe59
+2013-11-30T11:39:46.450130Z
+657
+lxz
+
+ExtendAttributeTypeE.java
+file
+
+
+
+
+2013-11-30T12:08:15.537603Z
+cb189f024e78cc1c7023191854945d7c
+2013-11-30T11:39:46.450130Z
+657
+lxz
+
+ExtendAttributesTypeE.java
+file
+
+
+
+
+2013-11-30T12:08:15.532600Z
+99c1e3c42a136201560f78b8d921aeaf
+2013-11-30T11:39:46.450130Z
+657
+lxz
+

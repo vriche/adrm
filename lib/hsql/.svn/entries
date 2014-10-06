@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/hsql
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:38:44.258448Z
+24
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+hsql.jar
+file
+
+
+
+
+2013-05-17T07:35:13.742147Z
+c7a1219cfeb4c31fe6c996b73bb99da7
+2012-11-24T06:38:44.258448Z
+24
+lxz
+has-props
+

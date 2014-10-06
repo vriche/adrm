@@ -1,0 +1,70 @@
+<XDtTagDef:tagDef namespace="Form" handler="org.example.antbook.xdoclet.FormTagsHandler"/>
+<XDtTagDef:tagDef namespace="MethodEx" handler="org.example.antbook.xdoclet.MethodExTagsHandler"/>
+package <XDtForm:parentPackageName/>.service;
+
+import java.util.List;
+import java.util.Map;
+import com.ibatis.common.util.PaginatedList;
+
+import <XDtConfig:configParameterValue paramName="basePackageName"/>.service.Manager;
+import <XDtPackage:packageName/>.<XDtForm:className/>;
+import <XDtForm:parentPackageName/>.dao.<XDtForm:className/>Dao;
+
+public interface <XDtForm:className/>Manager extends Manager {
+
+    /**
+     * Setter for DAO, convenient for unit testing
+     */
+    public void set<XDtForm:className/>Dao(<XDtForm:className/>Dao <XDtForm:classNameLower/>DAO);
+
+    /**
+     * Retrieves all of the <XDtForm:classNameLower/>s
+     */
+    public List get<XDtForm:className/>s(<XDtForm:className/> <XDtForm:classNameLower/>);
+    
+     /**
+     * Retrieves all of the <XDtForm:classNameLower/>sCount
+     */
+    public String get<XDtForm:className/>sCount(<XDtForm:className/> <XDtForm:classNameLower/>);
+ 
+     /**
+     * Retrieves all of the <XDtForm:classNameLower/>sCount
+     */    
+    public List get<XDtForm:className/>sPage(<XDtForm:className/> <XDtForm:classNameLower/>,String pageIndex,String pageSize);
+     /**
+     * Retrieves all of the <XDtForm:classNameLower/>sPageXML
+     */   
+    public String get<XDtForm:className/>sPageXML(<XDtForm:className/> <XDtForm:classNameLower/>,String pageIndex,String pageSize);
+    
+     /**
+     * Retrieves all of the <XDtForm:classNameLower/>sByMap
+     */
+    public List get<XDtForm:className/>sByMap(final Map mp);
+    
+
+    /**
+     * Gets <XDtForm:classNameLower/>'s information based on <XDtMethodEx:idField getType="propertyName"/>.
+     * @param <XDtMethodEx:idField getType="propertyName"/> the <XDtForm:classNameLower/>'s <XDtMethodEx:idField getType="propertyName"/>
+     * @return <XDtForm:classNameLower/> populated <XDtForm:classNameLower/> object
+     */
+    public <XDtForm:className/> get<XDtForm:className/>(final String <XDtMethodEx:idField getType="propertyName"/>);
+
+    /**
+     * Saves a <XDtForm:classNameLower/>'s information
+     * @param <XDtForm:classNameLower/> the object to be saved
+     */
+    public String save<XDtForm:className/>(<XDtForm:className/> <XDtForm:classNameLower/>);
+
+    /**
+     * Removes a <XDtForm:classNameLower/> from the database by <XDtMethodEx:idField getType="propertyName"/>
+     * @param <XDtMethodEx:idField getType="propertyName"/> the <XDtForm:classNameLower/>'s <XDtMethodEx:idField getType="propertyName"/>
+     */
+    public void remove<XDtForm:className/>(final String <XDtMethodEx:idField getType="propertyName"/>);
+    
+     /**
+     * Removes a <XDtForm:classNameLower/> from the database by <XDtMethodEx:idField getType="propertyName"/>
+     * @param idList
+     */
+    public void remove<XDtForm:className/>s(final Map mp);
+}
+

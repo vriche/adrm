@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='GBK'?>
+
+<toolbar name=" " width="100%" disableType="image" absolutePosition="auto" toolbarAlign="left">
+
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconNewNewsEntry.gif" height="25" width="100px" id="1_new" tooltip="新添
+
+"  disableImage="../image/dhtmlXToolbar/iconNewNewsEntry_dis.gif">新添</ImageTextButton>
+	<divider id="div_1"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconDelete.gif" height="25" width="100px" id="2_delete" tooltip="删除" 
+
+disableImage="../image/dhtmlXToolbar/iconDelete_dis.gif">删除</ImageTextButton>
+	<divider id="div_2"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconSave.gif" height="25" width="100px" id="3_save" tooltip="保存"  
+
+disableImage="../image/dhtmlXToolbar/iconSave_dis.gif">保存</ImageTextButton>
+	<divider id="div_3"/>	
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconSearch.gif" height="25" width="100px" id="4_search" tooltip="搜索" 
+
+disableImage="../image/dhtmlXToolbar/iconSearch_dis.gif">搜索</ImageTextButton>
+	<divider id="div_4"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconPrint.gif" height="25" width="60px" id="5_print" tooltip="打印"  
+
+disableImage="../image/dhtmlXToolbar/iconPrint_dis.gif">打印</ImageTextButton>	
+	<divider id="div_5"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconView.gif" height="25" width="60px" id="6_view" tooltip="预览"  
+
+disableImage="../image/dhtmlXToolbar/iconView_dis.gif">预览</ImageTextButton>
+	<divider id="div_6"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconExport.gif" height="25" width="60px" id="7_export" tooltip="导出"  
+
+disableImage="../image/dhtmlXToolbar/iconExport_dis.gif">导出</ImageTextButton>		
+	<divider id="div_7"/>	
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconDelete.gif" height="25" width="60px" id="8_check" tooltip="提交审核" 
+
+ disableImage="../image/dhtmlXToolbar/iconDelete_dis.gif">提交审核</ImageTextButton>		
+	<divider id="div_8"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconDelete.gif" height="25" width="60px" id="9_check" tooltip="新签订单" 
+
+ disableImage="../image/dhtmlXToolbar/iconDelete_dis.gif">新签订单</ImageTextButton>		
+	<divider id="div_9"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconDelete.gif" height="25" width="60px" id="10_check" tooltip="编辑订单
+
+"  disableImage="../image/dhtmlXToolbar/iconDelete_dis.gif">编辑订单</ImageTextButton>		
+	<divider id="div_10"/>	
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconDelete.gif" height="25" width="60px" id="11_check" tooltip="取消"  
+
+disableImage="../image/dhtmlXToolbar/iconDelete_dis.gif">取消</ImageTextButton>		
+	<divider id="div_11"/>	
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconDelete.gif" height="25" width="60px" id="12_check" tooltip="付款信息
+
+"  disableImage="../image/dhtmlXToolbar/iconDelete_dis.gif">付款信息</ImageTextButton>		
+	<divider id="div_12"/>		
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconExport.gif" height="25" width="60px" id="13_import" tooltip="导入"  
+
+disableImage="../image/dhtmlXToolbar/iconExport_dis.gif">导入</ImageTextButton>		
+	<divider id="div_13"/>		
+
+	<ImageTextButton src="../image/dhtmlXToolbar/iconChart.gif" height="25" width="60px" id="14_chart" tooltip="图表"  
+
+disableImage="../image/dhtmlXToolbar/iconChart_dis.gif">图表</ImageTextButton>		
+	<divider id="div_14"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconChart.gif" height="25" width="60px" id="15_set" tooltip="配置"  
+
+disableImage="../image/dhtmlXToolbar/iconChart_dis.gif">配置</ImageTextButton>		
+	<divider id="div_15"/>
+	
+	<ImageTextButton src="../image/dhtmlXToolbar/iconChart.gif" height="25" width="60px" id="16_edit" tooltip="编辑"  
+
+disableImage="../image/dhtmlXToolbar/iconChart_dis.gif">编辑</ImageTextButton>		
+	<divider id="div_16"/>	
+
+</toolbar>

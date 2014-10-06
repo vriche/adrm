@@ -1,0 +1,597 @@
+					  <!--replace <br> with \n-->
+					 <bean:define id="memoRenew" name="contractForm" property="memoRenew" type="String"/>
+					 <%String realText2 = memoRenew.replaceAll("<br>","\n");%>
+					 <html:textarea property="memoRenew" cols="70%" rows="3" value="<%=realText2%>"></html:textarea>
+
+<bean:write name="contractList" property="customer.customerName"/>
+
+		<result property="orders" column="contract_id" select="getOrderByContractId"/>
+		
+		
+
+	<select id="getOrderByContractId" parameterClass="java.lang.Long" resultMap="or_resmap">
+		select order_code as orderCode 
+			 from tb_order 
+			 where  contract_id = #id#
+	</select>	
+	
+	
+			<result property="customerId" column="customer_id"/>	
+		<result property="customer" column="customer_id" select="getCustomerByCustomerId"/>
+		
+		
+				<result property="customer" column="customer_id" select="getCustomerByCustomerId"/>
+				
+				
+				 <bean:write name="contractList" property="customer.customerName"/>
+				 
+				 
+				         <parameter property="contractPayments" jdbcType="VARCHAR" javaType="java.util.Set"/>
+        <parameter property="orders" jdbcType="VARCHAR" javaType="java.util.Set"/>
+        
+        
+                <parameter property="contractPayments" jdbcType="VARCHAR" javaType="java.util.Set"/>
+        <parameter property="orders" jdbcType="VARCHAR" javaType="java.util.Set"/>
+        
+        
+        <c:out value="${contractList.customer.accountAddress}"/>
+	                    <c:forEach var="ct" items="${contractList.customer}">
+							<c:out value="${ct.accountAddress}"/>
+						</c:forEach>
+						
+			<result property="customer" resultMap="CustomerSQL.customerResult"/>
+								
+								
+			<result property="customer" column="customer_id" select="getCustomerByCustomerId"/>
+			
+			
+				<bean:write name="contractList" property="customer.accountAddress"/>
+				
+				
+		<display:table name="contractForm.orders" cellspacing="0" cellpadding="0" requestURI="" 
+		    defaultsort="1" id="users" pagesize="25" class="table" export="true">
+		    <display:column property="orderCode" sortable="true" titleKey="userForm.email" style="width: 25%" autolink="true" media="html"/>
+		    <display:column property="relationCode" sortable="true" titleKey="userForm.email" style="width: 25%" autolink="true" media="html"/>
+		    
+		    <display:setProperty name="paging.banner.item_name" value="order"/>
+		    <display:setProperty name="paging.banner.items_name" value="orders"/>
+		
+		    <display:setProperty name="export.excel.filename" value="User List.xls"/>
+		    <display:setProperty name="export.csv.filename" value="User List.csv"/>
+		    <display:setProperty name="export.pdf.filename" value="User List.pdf"/>
+		</display:table>
+		
+		
+		
+		        <adrm_order:label styleClass="desc" key="contractForm.customer"/>
+        <html:errors property="customer"/>
+        <html:text property="customer" styleId="customer" styleClass="text medium"/>
+		<c:out value="${customer[customerName]}"/>
+		<c:out value="${contractForm.customer[customerName]}"/>
+		 <html:text property="customer" styleId="signHeadship" styleClass="text medium"/>
+		 
+		 
+		 
+	<c:choose>
+        <c:when test='${param.p == "someValue"}'>
+            Generate this template text if p equals someValue
+        </c:when>
+        <c:otherwise>
+            Otherwise generate this template text
+        </c:otherwise>
+    </c:choose>
+    
+    
+    
+    <input Id="customer" class="text medium" type="text" value="<c:forEach var="customer" items="${contractForm.customer}" ><c:out value="${customer.customerName}"/></c:forEach>"/> 
+                                
+                                
+                                
+     <html:text property="customerForm.customerName" styleId="customerForm.customerName" styleClass="text medium"/>
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+             <c:when test="${param.from == 'list' or param.method == 'Add'}">
+       		<html:text property="contractId" styleId="contractId" styleClass="text medium"/>
+        </c:when>
+        <c:when test="${param.from == 'edit'">
+        	<input type="text" name="contractId" Class="text medium" value="<c:out value="${param.contractID}"/>"/>
+        </c:when>
+        
+                <html:errors property="contractId"/>
+                <c:when test="${param.from == 'list' or param.method == 'Add'}">
+       		<html:text property="contractId" styleId="contractId" styleClass="text medium"/>
+        </c:when>
+        <c:when test="${param.from == 'edit'">
+        	<input type="text" name="contractId" Class="text medium" value="<c:out value="${param.contractID}"/>"/>
+        </c:when>
+        
+    <c:when test="${param.method == 'edit'">
+        	<input type="text" name="contractId" Class="text medium" value="<c:out value="${param.contractID}"/>"/>
+        	
+        	
+    </c:when>
+    
+    
+            <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    
+    
+                       contract_id = ?,
+                       
+                       
+                       
+                       
+	public OrderDetailForm[] getOrderDetailForms(){
+    
+	    com.vriche.adrm.order.webapp.form.OrderDetailForm orderDetailForm; 
+	    
+	    OrderDetailForm[] forms = new OrderDetailForm[orderDetails.size()];
+	
+	    int i = 0;
+	    for (java.util.Iterator iter = orderDetails.iterator(); iter.hasNext();) {
+	        orderDetailForm = (com.vriche.adrm.order.webapp.form.OrderDetailForm) iter.next();
+	        forms[i] = orderDetailForm;
+	        i++;
+	    }
+	    return forms;
+    
+	}
+	
+	
+	function testSelect()  
+{  
+//    var chkbox = document.getElementsByName('slt');  
+//    var chkbox = $("treeBoxUserIncome").getElementsByTagName("input");
+     var chkbox = $("treeBoxUserIncome").getElementsByTagName("input");
+     
+    var nodes = $A(chkbox);  
+    tree = new dhtmlXTreeObject("treebox","100%","100%",0);
+             alert(tree.getElementsByTagName("input"));
+
+    var sltNodes = nodes.select(function(node)  
+    {  
+        return node.checked;  
+    });  
+    sltNodes.each(function(node)  
+    {  
+        alert(node.value);  
+    });  
+      
+}  
+
+
+
+
+//              k = {
+//                         "key1":{
+//                             username:"user1",
+//                            password:"password2"
+//                         },
+//                         "key2":{
+//                            username:"user2",
+//                            password:" password2"
+//                         }
+//                     };
+//                     
+//       var nodes = $H(k).values(); 
+//       alert(nodes);
+
+
+
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+alter table tb_customer_info  engine='MyISAM';
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+alter table tb_customer_info drop index tb_customer_info_index_name_org_2;
+
+
+
+ALTER TABLE tb_customer_info ADD INDEX tb_customer_info_index_name_org (customer_name,sys_org_id);
+ALTER TABLE tb_customer_info ADD UNIQUE tb_customer_info_index_unique_name_org (customer_name,sys_org_id);
+ALTER TABLE tb_customer_info ADD FULLTEXT tb_customer_info_index_fulltext_name (customer_name);
+
+
+drop index  tb_customer_info_index_name_org on tb_customer_info ;
+alter table tb_customer_info drop index customer_name;
+alter table tb_customer_info drop index help_code;
+ALTER TABLE tb_customer_info ADD UNIQUE tb_customer_info_index_unique_name_org (customer_name,sys_org_id);
+
+
+
+drop index  tb_customer_info_index_name_org on tb_customer_info ;
+ALTER TABLE tb_customer_info ADD UNIQUE tb_customer_info_index_name_org_2(customer_name,sys_org_id);
+
+
+alter table tb_customer_info  engine='MyISAM';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+alter table tb_customer_info change   column customer_category_id  customer_category_id2  bigint(20) NOT NULL DEFAULT 1;
+
+alter table tb_customer_info modify column customer_category_id  bigint(20) NOT NULL DEFAULT 1;
+
+alter table tb_customer_info add column customer_category_id   bigint(20) NOT NULL DEFAULT 1;
+
+ALTER TABLE tb_customer_info ADD CONSTRAINT fk_tb_customer_info_customer_category_id FOREIGN KEY (customer_category_id)  REFERENCES tb_customer_category(customer_category_id);
+
+update tb_customer_info set customer_category_id = customer_category_id2;
+
+alter table tb_customer_info drop column customer_category_id2;
+
+
+new Ext.FormPanel({
+       labelAlign: 'right',
+       frame:true,
+       title: 'Radio Group',
+       bodyStyle:'padding:5px 5px 0',
+       width: 400,
+       items: [
+             {
+                 layout:'column',
+                 items:[
+                     {
+                         layout: 'form',
+                         items: [new Ext.form.Radio({fieldLabel: '横向Radio Group',boxLabel:'opt1', name:'opt1'})]
+                     },
+                     {items: [new Ext.form.Radio({boxLabel:'opt2', name:'opt1'})]},
+                     {items: [new Ext.form.Radio({boxLabel:'opt3', name:'opt1'})]},
+                     {items: [new Ext.form.Radio({boxLabel:'opt3', name:'opt1'})]}
+                 ]
+             },
+             {
+                 layout: 'form',
+                 items: [
+                    new Ext.form.Radio({fieldLabel: '纵向Radio Group',boxLabel:'opt1', name:'opt2'}),
+                    new Ext.form.Radio({boxLabel:'opt2',labelSeparator:'', name:'opt2'}),
+                    new Ext.form.Radio({boxLabel:'opt3',labelSeparator:'', name:'opt2'}),
+                    new Ext.form.Radio({boxLabel:'opt3',labelSeparator:'', name:'opt2'})
+                 ]
+             }
+         ]
+     });
+
+
+
+
+
+
+
+
+
+
+
+
+Ext.override(Ext.form.ComboBox, {
+    doQuery : function(q, forceAll){
+        if(q === undefined || q === null){
+            q = '';
+        }
+        var qe = {
+            query: q,
+            forceAll: forceAll,
+            combo: this,
+            cancel:false
+        };
+        if(this.fireEvent('beforequery', qe)===false || qe.cancel){
+            return false;
+        }
+        q = qe.query;
+        forceAll = qe.forceAll;
+        if(forceAll === true || (q.length >= this.minChars)){
+            if(this.lastQuery !== q){
+                // change: Durlabh's change start
+                var lastQuery = this.lastQuery;
+                // change:
+                this.lastQuery = q;
+                if(this.mode == 'local'){
+                    this.selectedIndex = -1;
+                    if(forceAll){
+                        this.store.clearFilter();
+                    }else{
+                        this.store.filter(this.displayField, q);
+                    }
+                    this.onLoad();
+                }else{
+                    // change: Durlabh's change start
+                    var storeCount;
+                    if(this.store.snapshot) {
+                        storeCount = this.store.snapshot.length;
+                    } else {
+                        storeCount = this.store.getCount();
+                    }
+                    if(this.store.lastOptions && this.store.lastOptions.params) {
+                        var lastQuery = this.store.lastOptions.params[this.queryParam];
+                    }
+                    if(lastQuery != null
+                            && q.length >= lastQuery.length
+                            && q.substr(0, lastQuery.length) == lastQuery
+                            && this.store.getTotalCount() == storeCount) {
+
+                        this.selectedIndex = -1;
+                        this.store.filter(this.displayField, q);                        
+                        this.onLoad();
+                    }
+                    else {
+                        this.store.baseParams[this.queryParam] = q;
+                        this.store.load({
+                            params: this.getParams(q)
+                        });
+                    }
+                    // change:
+                    this.expand();
+                }
+            }else{
+                this.selectedIndex = -1;
+                this.onLoad();
+            }
+        }
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+//	 self.location = encodeURI(url);	
+//	 self.location = 'layout.htm';
+	 	
+//	 var frm = $("orderListForm");
+////	 frm.target = $("tarForm1");
+//	 frm.method ="post";
+//	 frm.action = url;
+//	 frm.submit();
+	 
+//	  var frm = $("tarForm1");
+//	   $("orderListForm_div").hide();
+//	  frm.src = url;
+////	  $("tarForm1").hegth="100%";
+//	  frm.show();
+	 
+	 
+//     var con = new Ext.data.DWRConnection();	 
+     
+//		 OrderManager.getOrderEditRedirect(function(data) {
+//		      alert(data);
+//		  },1,2);
+
+//	 	$("tarForm1").action = url;
+//	 	frm.submit();
+	 	
+//	  con.request(
+//				  {
+//				  url:OrderManager.getOrderEditRedirect,
+//				  params:{dwrParams:[1,2]},
+//				  callback:function(o,success,val){
+//					  	if(success){
+//					  		
+//					  		self.location = 'layout.htm';
+//					  		
+//					  		$("tarForm1").action = 
+//					  		
+//					  		Ext.MessageBox.hide();   
+//	                        Ext.MessageBox.alert("友情提示","信息保存成功");  
+//					  	}else{
+//					  		 Ext.MessageBox.hide();   
+//	                         Ext.MessageBox.alert("错误提示",val);  
+//					  	}
+//				  	}
+//				  	
+//				
+//				  }
+//		);	 
+//         var xmlHttp = new XMLHttpRequest();
+//         xmlHttp.open("POST","servlet/orderListServlet",true); //请求参数初始化
+//         xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+//         xmlHttp.send("isEditOrderModle="+url);//data包含要发送的数据。
+//         alert(xmlHttp)
+	 
+//	 Ext.Ajax.request({
+//                url:'servlet/orderListServlet',
+//                method:'POST',
+//                params:{'isEditOrderModle':1,'redirectUrl':url},
+//                success:function(resp,b,c){
+//                	
+//               	alert(responseText);alert(b);alert(c);
+////                    var respText = Ext.util.JSON.decode(resp.responseText);  
+////                    alert(respText);
+////                	$("tarForm1").innerHTML = resp.responseText;
+//                    
+//                }
+//         });
+	 
+	 
+	 
+//	  eval(url);
+//	 alert(id);alert(cellInd);alert(url);
+
+
+
+
+
+
+
+二、整体的框架
+
+1、最下面的是原始的Table。
+
+2、用左边的table覆盖在上层，命名为tableColumn。
+
+3、用上部的table覆盖在更上层，命名为tableHead。
+
+4、在左上角覆盖固定不动的table，命名为tableFix。
+
+自然在各自的外层都要用div框起来，以便后面的浮动和覆盖等等，所以结构的html如下：
+
+<div id="MyTable_tableLayout"> <div id="MyTable_tableFix"> <table id="MyTable_tableFixClone" border="1" cellspacing="0" cellpadding="0"></table> </div> <div id="MyTable_tableHead"> <table id="MyTable_tableHeadClone" border="1" cellspacing="0" cellpadding="0"></table> </div> <div id="MyTable_tableColumn"> <table id="MyTable_tableColumnClone" border="1" cellspacing="0" cellpadding="0"></table> </div> <div id="MyTable_tableData"> <table id="MyTable" border="1" cellspacing="0" cellpadding="0"></table> </div> </div> 
+function FixTable(TableID, FixColumnNumber, width, height) {
+    /// <summary>
+    ///     锁定表头和列
+    ///     <para> sorex.cnblogs.com </para>
+    /// </summary>
+    /// <param name="TableID" type="String">
+    ///     要锁定的Table的ID
+    /// </param>
+    /// <param name="FixColumnNumber" type="Number">
+    ///     要锁定列的个数
+    /// </param>
+    /// <param name="width" type="Number">
+    ///     显示的宽度
+    /// </param>
+    /// <param name="height" type="Number">
+    ///     显示的高度
+    /// </param>
+    if ($("#" + TableID + "_tableLayout").length != 0) {
+        $("#" + TableID + "_tableLayout").before($("#" + TableID));
+        $("#" + TableID + "_tableLayout").empty();
+    }
+    else {
+        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+    }
+ 
+    $('<div id="' + TableID + '_tableFix"></div>'
+    + '<div id="' + TableID + '_tableHead"></div>'
+    + '<div id="' + TableID + '_tableColumn"></div>'
+    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+ 
+ 
+    var oldtable = $("#" + TableID);
+ 
+    var tableFixClone = oldtable.clone(true);
+    tableFixClone.attr("id", TableID + "_tableFixClone");
+    $("#" + TableID + "_tableFix").append(tableFixClone);
+    var tableHeadClone = oldtable.clone(true);
+    tableHeadClone.attr("id", TableID + "_tableHeadClone");
+    $("#" + TableID + "_tableHead").append(tableHeadClone);
+    var tableColumnClone = oldtable.clone(true);
+    tableColumnClone.attr("id", TableID + "_tableColumnClone");
+    $("#" + TableID + "_tableColumn").append(tableColumnClone);
+    $("#" + TableID + "_tableData").append(oldtable);
+ 
+    $("#" + TableID + "_tableLayout table").each(function () {
+        $(this).css("margin", "0");
+    });
+ 
+ 
+    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+    HeadHeight += 2;
+    $("#" + TableID + "_tableHead").css("height", HeadHeight);
+    $("#" + TableID + "_tableFix").css("height", HeadHeight);
+ 
+ 
+    var ColumnsWidth = 0;
+    var ColumnsNumber = 0;
+    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+        ColumnsWidth += $(this).outerWidth(true);
+        ColumnsNumber++;
+    });
+    ColumnsWidth += 2;
+    if ($.browser.msie) {
+        switch ($.browser.version) {
+            case "7.0":
+                if (ColumnsNumber >= 3) ColumnsWidth--;
+                break;
+            case "8.0":
+                if (ColumnsNumber >= 2) ColumnsWidth--;
+                break;
+        }
+    }
+    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+ 
+ 
+    $("#" + TableID + "_tableData").scroll(function () {
+        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+    });
+ 
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "Silver" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "Silver" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "Silver" });
+    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+ 
+    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+    }
+    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+    }
+ 
+    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+}
+	 
+	 
+	 
+	 
+	     <mce:script language="javascript" type="text/javascript"><!--  
+         function toSettlement() {  
+             var signAmount = Ext.getCmp("SignAmount").getText();  
+             var changeTotalCount = Ext.getCmp("ChangeTotalCount").getValue();  
+             var changeTotalAmount = Ext.getCmp("ChangeTotalAmount").getValue();  
+      
+             var msgTemplate = "<div class=/"box order-dashboard/" style="/" mce_style="/""margin-bottom: 5px;/">"  
+                                 + "<div class=/"bd/">"  
+                                 + "<div class=/"trade-status/">"  
+                                 + "<b style="/" mce_style="/""font-size: 12px; color:orange;/">当前项目</b><br />"  
+                                 + "<hr />"  
+                                     + "<table border=/"0/" cellspacing=/"0/" cellpadding=/"0/" class=/"myTable/">"  
+                                     + "<tr>"  
+                                     + "<td style="/" mce_style="/""width: 30%/">"  
+                                     + "签订金额：{0}</td>"  
+                                     + "<td style="/" mce_style="/""width: 30%/">"  
+                                                        + "项目共变更{1}次"  
+                                                     + "</td>"  
+                                                     + "<td>"  
+                                                      + "变更成本为{2}:"  
+                                                     + "</td>"  
+                                     + "</tr></table>"  
+                                     + "</div></div></div><br/>"  
+                                     + "请输入当前项目的结算金额:";  
+             Ext.Msg.prompt("结算项目", String.format(msgTemplate, signAmount, changeTotalCount, changeTotalAmount), function (btn, text) {  
+             //........  
+             }, this, false, "10000");  
+         }  
+       
+    --></mce:script>  
+    
+    
+    resourceId1203_arrangeId_1,resourceId1203_arrangeId_2,resourceId1203_arrangeId_4,resourceId1203_arrangeId_3,resourceId1203_arrangeId_5,resourceId1203_arrangeId_6
+    
+    resourceId1203_arrangeId_1,resourceId1203_arrangeId_3,resourceId1203_arrangeId_4,resourceId1203_arrangeId_5,resourceId1203_arrangeId_2,resourceId1203_arrangeId_6
+    

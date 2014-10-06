@@ -1,0 +1,169 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/pages
+svn://121.28.83.134:80/src1
+
+
+
+2013-04-01T11:20:32.629742Z
+533
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+product
+dir
+
+mainMenu_bak.jsp
+file
+
+
+
+
+2013-05-17T07:36:44.262464Z
+943f4cb833a8b6b534a263ad63cbde6f
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+crm
+dir
+
+ctrdata
+dir
+
+loginForm.jsp
+file
+
+
+
+
+2013-05-17T07:36:44.262464Z
+74eb85e4849d056a6b2531152d72abe4
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+admin
+dir
+
+info
+dir
+
+adres
+dir
+
+menu.jsp
+file
+
+
+
+
+2013-05-17T07:36:44.262464Z
+d2bfbd47e2c671d3daa75b790d6a31dc
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+mainMenu_bak20071023.jsp
+file
+
+
+
+
+2013-05-17T07:36:44.262464Z
+63d3cfed48322f98b58fe1a620f10355
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+signup.jsp
+file
+
+
+
+
+2013-05-17T07:36:44.262464Z
+21048fc80f88ea75d31892746eecb71c
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+tools
+dir
+
+merm
+dir
+
+adver
+dir
+
+assets
+dir
+
+analyze
+dir
+
+finance
+dir
+
+mainMenu.jsp
+file
+577
+
+
+
+2013-07-03T09:09:18.207133Z
+c0a4d18b947bc21371ac78d63d957c5d
+2013-07-10T09:35:07.412647Z
+577
+lxz
+
+loginForm2.jsp
+file
+
+
+
+
+2013-05-17T07:36:44.278091Z
+7414fc935b2b2cb2e7e123939c57f850
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+workFlow
+dir
+
+order
+dir
+
+pickList.jsp
+file
+
+
+
+
+2013-05-17T07:36:44.278091Z
+0d431e5cd71d330fea94d78bd52b35ed
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+document
+dir
+

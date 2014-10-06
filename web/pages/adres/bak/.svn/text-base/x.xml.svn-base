@@ -1,0 +1,34 @@
+
+
+
+
+<?xml version="1.0"?>
+
+<tree id="0">
+	<item text="广告资源" id="books">
+		<userdata name="type">0</userdata>
+		
+		<item id='1'  text="channel-1">
+			
+			<userdata name="type">2</userdata>
+			
+			<item id='1' text="pos1">
+				<userdata name="type">4</userdata>
+		    </item>
+			
+			<item id='2' text="pos2">
+				<userdata name="type">4</userdata>
+			</item>
+				
+			<item id='3' text="pos3">
+				<userdata name="type">4</userdata>
+			</item>
+			
+		</item>
+		
+		<item id='2'  text="channel-2" >
+				<userdata name="type">2</userdata>
+		</item>
+		
+	</item>
+</tree>

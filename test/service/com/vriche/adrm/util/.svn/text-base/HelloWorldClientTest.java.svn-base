@@ -1,0 +1,46 @@
+package com.vriche.adrm.util;
+
+import junit.framework.TestCase;
+
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.codehaus.xfire.XFireFactory;
+import org.codehaus.xfire.client.Client;
+import org.codehaus.xfire.client.XFireProxyFactory;
+import org.codehaus.xfire.service.Service;
+import org.codehaus.xfire.service.binding.ObjectServiceFactory;
+
+
+import com.vriche.adrm.service.AdrmWebService;
+
+
+public class HelloWorldClientTest extends TestCase {
+
+	public static void main(String[] args)  throws  MalformedURLException,Exception {
+
+//		Service s = new ObjectServiceFactory().create(AdrmWebService.class);
+//		XFireProxyFactory xf = new XFireProxyFactory(XFireFactory.newInstance().getXFire());
+		String url="http://127.0.0.1:8080/adrm/services/webService?wsdl";
+		
+		
+		 Client client = new Client(new URL(url));
+		 Object[] results = client.invoke("getArrangedPublish", new Object[] { "1","20130101" });
+		 System.out.println(results[0]);
+ 
+	
+		        try
+		        {            
+		            
+//		        	AdrmWebService hs=(AdrmWebService) xf.create(s,url);
+//		            String st=hs.getArrangedPublish("1","20130101");
+//		            System.out.print(st);
+		        }
+		        catch(Exception e)
+		        {
+		            e.printStackTrace();
+		        }
+		    }
+
+}

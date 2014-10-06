@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RoleSQL">
+    
+    <typeAlias alias="role" type="com.vriche.adrm.model.Role"/>
+	
+	<!--resultMap id="RoleResult" class="role">
+        <result property="lable" column="lable"/>
+        <result property="id" column="id"/>
+        <result property="description" column="description"/>
+        <result property="name" column="name"/>
+    </resultMap -->
+
+    <select id="getRoleByNameOrgId" resultClass="role">
+    <![CDATA[
+        select * from tb_sys_role where name=#name# and sys_org_id =#orgId#;
+    ]]>
+    </select>
+	
+    <select id="getRoleByName" resultClass="role">
+    <![CDATA[
+        select * from tb_sys_role where name=#name#;
+    ]]>
+    </select>	
+	
+	
+	<select id="getRoleById" resultClass="role">
+    <![CDATA[
+        select * from tb_sys_role where id=#id#;
+    ]]>
+    </select>
+	
+	
+	
+    <select id="getRoless" resultClass="role">
+    <![CDATA[
+        select tb_sys_role.*  from tb_sys_role
+		
+		     left outer join tb_sys_org on tb_sys_org.sys_org_id  = tb_sys_role.sys_org_id  
+    ]]>
+		
+
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orgId">
+			(tb_sys_org.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(tb_sys_org.create_by = #orgAdminId#)
+			</isNotEmpty>	
+			
+			<isNotEmpty prepend="AND" property="name">
+			(tb_sys_role.name = #name#)
+			</isNotEmpty>			
+			
+			
+		</dynamic>
+		
+    </select>	
+	
+	<select id="getSysResourceRoles" resultClass="role">
+    <![CDATA[
+        select r.* from tb_sys_role r, tb_sys_resource_role rr
+        where (rr.role_id = r.id) and rr.resource_id=#id#;
+    ]]>
+    </select>	
+	
+    <select id="getUserRoles" resultClass="role">
+    <![CDATA[
+        select r.id, r.name, r.description, r.lable from tb_sys_role r, tb_sys_user_role ur
+        where (ur.role_id = r.id) and ur.user_id=#id#;
+    ]]>
+    </select>	
+	
+    <select id="getUserRolesByOrg" resultClass="role">
+        select r.id, r.name, r.description, r.lable from tb_sys_role r, tb_sys_user_role ur
+        where (ur.role_id = r.id) and ur.user_id=#userId# and r.sys_org_id=#orgId# ;
+    </select>		
+
+    <insert id="addRole" parameterClass="role">
+    <![CDATA[
+        insert into tb_sys_role (name, lable, description,sys_org_id) 
+        values (#name#, #lable#,#description#,#orgId#);
+    ]]>
+    </insert>
+    
+    <update id="updateRole" parameterClass="role">
+    <![CDATA[
+        update tb_sys_role set name=#name#, lable=#lable#,description=#description#
+        where id=#id#;
+    ]]>
+    </update>
+    
+    <delete id="deleteRole">
+    <![CDATA[
+        delete from tb_sys_role where name=#name#;
+    ]]>
+    </delete>
+	
+	 <delete id="removeRoleById">
+    <![CDATA[
+        delete from tb_sys_role where id=#id#;
+    ]]>
+    </delete>
+	
+	<delete id="deleteSysResourcesByRole" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_sys_resource_role where role_id = #id#;
+    ]]>
+    </delete>
+	
+	<delete id="deleteUserByRole" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_sys_user_role where role_id = #id#;
+    ]]>
+    </delete>	
+	
+	
+
+
+	
+</sqlMap>

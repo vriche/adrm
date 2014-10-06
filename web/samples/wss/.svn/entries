@@ -1,0 +1,88 @@
+8
+
+dir
+620
+svn://121.28.83.134:80/src1/adrm_2.0/web/samples/wss
+svn://121.28.83.134:80/src1
+
+
+
+2013-10-25T04:35:09.430306Z
+620
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+ADPServiceParameter.xsd
+file
+
+
+
+
+2013-10-25T05:03:28.209010Z
+0d18b203305d5c12cdb11a7aa465fabd
+2013-10-25T04:35:09.430306Z
+620
+lxz
+
+ADP_ImportBroadcastListService.wsdl
+file
+
+
+
+
+2013-10-25T05:03:28.240032Z
+93403d6f6b2a9e9295bd06fe8609a114
+2013-10-25T04:35:09.430306Z
+620
+lxz
+
+ADP_ImportMaterialService.wsdl
+file
+
+
+
+
+2013-10-25T05:03:28.234028Z
+1308e55001c8c09b8a587b1d61184cac
+2013-10-25T04:35:09.430306Z
+620
+lxz
+
+ADFileInfoEntity.xsd
+file
+
+
+
+
+2013-10-25T05:03:28.217016Z
+e7fe2e805771bcf51c8e16345d33a70a
+2013-10-25T04:35:09.430306Z
+620
+lxz
+
+ADBroadcastListEntity.xsd
+file
+
+
+
+
+2013-10-25T05:03:28.253040Z
+b484482adda9ece681b91c64b90a05a3
+2013-10-25T04:35:09.430306Z
+620
+lxz
+
+ADMaterialEntity.xsd
+file
+
+
+
+
+2013-10-25T05:03:28.225022Z
+f0ad2896a79b38086d036694fad901eb
+2013-10-25T04:35:09.430306Z
+620
+lxz
+

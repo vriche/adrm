@@ -1,0 +1,100 @@
+package com.vriche.adrm.util;
+import java.util.Map;
+import java.util.HashMap;
+import java.io.FileReader;
+import java.io.BufferedReader;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.w3c.dom.NamedNodeMap;
+import org.apache.xerces.parsers.DOMParser;
+
+public class ReadConfig {
+	/**
+	* DOM XML取得。 <br>
+	*
+	* @author aishame
+	* @version 1.0 2008/08/06
+	* @note 根据青鸟教材里的代码改进。
+	* 这个解释非常的灵活。
+	* 随便你怎么定义，她都能给你解释出来, 然后用map键值返回。像这样。
+	* <driver tag='oracle' login='true'>oracle.jdbc.driver.OracleDriver</driver>
+	* 从map里取得：tag<-->oracle,login<-->true,driver<-->oracle.jdbc.driver.OracleDriver
+	* 也就是说xml里的标签就是map里的键。
+	* 这就意味着在编程时取值只需要根据xml里的定义来。
+	* 由此说明这些代码的重用性很好！
+	* !~但是不支持中文。
+	*/
+	
+	static public Map  read(String xmlPath)throws NullPointerException,Exception{
+		FileReader reader=null;
+		BufferedReader in=null;
+		InputSource inputSource=null;
+		DOMParser parser=null;
+		Map conMap= new HashMap();
+		try{
+			reader = new FileReader(xmlPath);
+			in = new BufferedReader(reader);
+			inputSource = new InputSource(in);
+			//inputSource.setEncoding("gb2312");
+			parser = new DOMParser();
+			parser.parse(inputSource);
+			Document doc = parser.getDocument();
+			printElements(doc);
+			conMap= getElementAttributes(doc);
+			in.close();
+			reader.close();
+		}catch(Exception e){
+			throw e;
+		}
+		if(conMap==null){
+			throw new NullPointerException("Map is Null!");
+		}
+		return conMap;
+	}
+	
+	private static void printElements(Document doc){
+		System.out.println("element is->");
+		NodeList n1 = doc.getElementsByTagName("*");
+		Node n;
+		for(int i=0;i<n1.getLength();i++){
+			n=n1.item(i);
+			System.out.print(n.getNodeName()+",");
+		}
+	}
+	
+	private static Map  getElementAttributes(Document doc){
+		NodeList n1 = doc.getElementsByTagName("*");
+		Element e;
+		Attr attr;
+		NamedNodeMap nnm;
+		String attrname,key,value;
+		String attrval;
+		HashMap  map = new HashMap();
+		int i,len;
+		len = n1.getLength();
+		for(int j=0;j<len;j++){
+			e = (Element)n1.item(j);
+			key=e.getTagName();
+			value=e.getFirstChild().getNodeValue();
+			//System.out.println(key+"->"+value);
+			if(value.trim().length()>0){
+				map.put(key,value);
+			}
+			nnm = e.getAttributes();
+			if(nnm != null){
+				for(i=0;i<nnm.getLength();i++){
+					attr = (Attr)nnm.item(i);
+					attrname = attr.getName();
+					attrval = attr.getValue();
+					map.put(attrname,attrval);
+				}
+			}
+		}
+		return map;
+	}
+}

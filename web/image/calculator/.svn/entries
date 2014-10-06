@@ -1,0 +1,54 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/image/calculator
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+calculator_bak1.swf
+file
+
+
+
+
+2013-05-17T07:36:02.197782Z
+685e7527802e84dc0bed145b0cb790ed
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+
+calculator.swf
+file
+
+
+
+
+2013-05-17T07:36:02.197782Z
+6c7d0bbaf2ed0a422e06635a9dc84bf2
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+

@@ -1,0 +1,85 @@
+
+
+
+/***********************************
+ 清空业务数据，只保存系统基本信息
+
+***********************************/
+truncate table tb_oa_work_flow_result_apply;
+truncate table tb_oa_work_flow_result_order;
+truncate table tb_oa_work_flow_result_contract;
+truncate table tb_oa_work_flow_check;
+
+truncate table tb_income_used;
+truncate table tb_income_pull;
+truncate table tb_income;
+
+truncate table tb_contract_payment;
+truncate table tb_finance_target;
+truncate table tb_pro_finance;
+truncate table tb_contract_target_month;
+truncate table tb_contract_target;
+
+truncate table tb_published_arrang_detail;
+truncate table tb_published_arrang;
+truncate table tb_pro_publish_plan;
+truncate table tb_pro_publish_plan_detail;
+
+truncate table tb_order_log;
+truncate table tb_order_day_info;
+truncate table tb_order_detail;
+truncate table tb_order;
+truncate table tb_order_test;
+truncate table tb_pro_order;
+truncate table tb_contract;
+truncate table tb_adver_matter;
+
+truncate table tb_oa_work_flow_comin_user;
+truncate table tb_oa_work_flow_check_user;
+truncate table tb_customer_user_rel;
+truncate table tb_sys_user_rel;
+truncate table tb_customer_carrier_rel;
+--delete from tb_sys_user_branch where user_id > 1;
+--truncate table tb_sys_user_carrier_rel;
+--delete from tb_sys_user_role  where user_id > 1;
+--delete from tb_sys_user  where id > 1;
+--delete from tb_sys_branch where name <>'5';
+--delete from tb_sys_resource_role where role_id > 1;
+
+
+--delete from tb_sys_user_branch where user_id > 1;
+--truncate table tb_sys_user_carrier_rel;
+--delete from tb_sys_user_branch where branch_id >1
+--delete from tb_sys_resource_role where role_id > 1;
+--delete from tb_sys_user_role  where user_id > 1;
+
+
+
+--delete from tb_sys_role  where id > 1;
+--delete from tb_sys_branch where sys_branch_id>1
+--delete from tb_sys_user  where id > 1;
+
+
+
+truncate table tb_customer_link_man;
+truncate table tb_customer_link_hisotry;
+truncate table tb_customer_feedback;
+truncate table tb_customer_address;
+truncate table tb_customer_info;
+
+truncate table tb_ad_resource_compages_price_rel;
+truncate table tb_ad_resource_package_pos_rel;
+truncate table tb_ad_resource_compages;
+
+truncate table tb_ad_resource_price_rel;
+truncate table tb_ad_resource_price_detail_rel;
+truncate table tb_ad_resource_time_limit;
+truncate table tb_ad_resource_price_detail;
+truncate table tb_ad_resource_price;
+truncate table tb_ad_resource_day_info;
+truncate table tb_ad_resource_workspan;
+truncate table tb_ad_resource_info;
+truncate table tb_ad_resource_carrier;
+truncate table tb_sys_sequence;
+truncate table tb_oa_info;
+

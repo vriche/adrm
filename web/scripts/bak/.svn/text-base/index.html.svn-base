@@ -1,0 +1,758 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="MSThemeCompatible" content="No">
+<title>Ajax大赛参赛作品 谷祖林</title>
+<script language="JavaScript" type="text/javascript" src="prototype.js"></script>
+<script type="text/JavaScript">
+<!--
+
+/*
+作品名称:彪哥
+版本:1.1
+作者:谷祖林
+网名:llinzzi
+网址:http://onewww.net
+
+代码特点
+整个程序基于Ajax技术制作
+代码基于prototype1.4.(时间关系并没完全移植完全)
+代码分离 js css html 代码分离，可以用以任何自定义表格；
+
+操作方法
+一 编辑操作
+	<一> 键盘操作
+		1.Insert键增加一行，并复制最后一行内容，Delete键删除最后一行，该操作用以调节表格总大小；
+		2.Tab键横向移动光标，Enter键纵向移动光标，符合Excle用户习惯；
+	<二> 页面操作
+		1.全选 选择全部行，再次执行释放全部行；
+		2.复制所选 复制已经选择的行及其内容；
+		3.删除所选 删除已经选择的行；
+		4.清空所选 清除所有单元格(input)中的内容；
+		5.提交 利用ajax技术发送数据内容到服务器
+二 文件操作 (此处完全ajax技术完成)
+	<一> 保存
+		输入名字就可以进行保存操作
+		数据基于ajax技术传送到服务器,并有进度显示
+	<二> 打开
+		点击打开就可以打开文件列表,再次单击项目,就可以打开表格
+	
+三 智能操作
+	此功能为本作品的重点和特点
+	双击单元格将弹出菜单，菜单自动收集该列上所有不重复的已输入内容，为重复输入数据提供了方便；
+
+用途
+适合多用户大规模BS模式系统的录入，如业务订单等
+
+*/
+
+
+
+//////////////////////////////////////////变量—初始化///////////////////////////////////////
+var toBeColor = "#F8F9FC";
+var backColor = "#FFFFFF";
+var tableId = "tbData";
+
+var table;
+var tbody;
+var divShowInput;
+var fatinfo
+var alertinfo;
+
+window.onload=function(){
+	beginListen();
+	table = $(tableId);
+	tbody = table.getElementsByTagName("tbody")[0]; 
+	actionFill ();
+	otherFill();
+	creatDiv();
+	divShowInput = $("divShowInput");
+	fatinfo = $("fatinfo");
+	alertinfo = $("alertinfo");
+
+}
+
+function creatDiv(){
+	var filldiv = document.createElement("div");
+	filldiv.setAttribute("id","divShowInput");
+	var barp = document.createElement("p");
+	barp.setAttribute("id","barTitle");
+	barp.onclick=hideDiv;
+	var defComP = document.createElement("p");
+	defComP.setAttribute("id","defComP");
+	defComP.onclick=hideDiv;
+	var cleara = document.createElement("a");
+	cleara.setAttribute("href","javascript:void 0");
+	cleara.onclick=clearInput;
+	var clearatext = document.createTextNode("清空");
+	cleara.appendChild(clearatext);
+	defComP.appendChild(cleara);
+	var autoP = document.createElement("P");
+	autoP.setAttribute("id","autoFillP");
+	filldiv.appendChild(barp);
+	filldiv.appendChild(defComP);
+	filldiv.appendChild(autoP);
+	document.body.appendChild(filldiv);
+}
+
+//////////////////////////////////////////变量—_初始化///////////////////////////////////////
+
+
+//////////////////////////////////////////动作填充///////////////////////////////////////
+
+function actionFill (){
+	var lastinputs = tbody.lastChild.getElementsByTagName("input");
+	var lastinputsArr = $A(lastinputs);
+	lastinputsArr.each(function(input){
+		input.onfocus=stopListen;
+		input.onblur=beginListen;
+		input.ondblclick=showDiv;
+		input.onmouseover=onChangTrColor;
+		input.onmouseout=outChangTrColor;
+		input.onclick=readyedit;
+		input.onkeydown=gonext;
+		}
+	);
+}
+
+function otherFill (){
+	var Bt_selectAll = $("Bt_selectAll");
+	Bt_selectAll.setAttribute("href","javascript:void 0");
+	Bt_selectAll.onclick=selectAll;
+	var Bt_delSelect = $("Bt_delSelect");
+	Bt_delSelect.setAttribute("href","javascript:void 0");
+	Bt_delSelect.onclick=delSelect;
+	var Bt_copySelect = $("Bt_copySelect");
+	Bt_copySelect.setAttribute("href","javascript:void 0");
+	Bt_copySelect.onclick=copySelect;
+	var Bt_allclear = $("Bt_allclear");
+	Bt_allclear.setAttribute("href","javascript:void 0");
+	Bt_allclear.onclick=allClear;
+	var Bt_sendData = $("Bt_sendData");
+	Bt_sendData.setAttribute("href","javascript:void 0");
+	Bt_sendData.onclick=sendData;
+	var Bt_opentb = $("Bt_opentb");
+	Bt_opentb.setAttribute("href","javascript:void 0");
+	Bt_opentb.onclick=opentb;
+}
+
+//////////////////////////////////////////动作填充///////////////////////////////////////
+
+//////////////////////////////////////////处理鼠标事件///////////////////////////////////////
+//表格变色
+function onChangTrColor(event) {
+	var e = event || window.event;
+	var obj = Event.element(e);
+	obj.parentNode.style.backgroundColor = toBeColor;
+	obj.style.backgroundColor = toBeColor;
+	var inputs = obj.parentNode.parentNode.getElementsByTagName("input");
+	var inputs = obj.parentNode.parentNode.getElementsByTagName("input");
+	inputs = $A(inputs);
+	inputs.each(function(inp){
+		inp.style.backgroundColor = toBeColor;
+		inp.parentNode.style.backgroundColor = toBeColor;
+		}
+	);
+}
+
+function outChangTrColor(event) {
+	var e = event || window.event;
+	var obj = Event.element(e);
+	obj.parentNode.style.backgroundColor = backColor;
+	obj.style.backgroundColor = backColor;
+	var inputs = obj.parentNode.parentNode.getElementsByTagName("input");
+	inputs = $A(inputs);
+	inputs.each(function(inp){
+		inp.style.backgroundColor = backColor;
+		inp.parentNode.style.backgroundColor = backColor;
+		}
+	);
+}
+
+//////////////////////////////////////////处理鼠标事件///////////////////////////////////////
+
+//////////////////////////////////////////处理页面操作///////////////////////////////////////
+//复制所选
+function copySelect(){
+	var checkboxs = document.getElementsByName("checkbox");
+	checkboxs = $A(checkboxs);
+	checkboxs.each(function(chb){
+		if(chb.checked == true){
+			chb.checked = false;
+			copyTr(chb);
+			chb.checked = true;
+		}
+		}
+	);
+}
+
+function copyTr(obj) {
+	var Str = obj.parentNode.parentNode;
+	var tr =  Str.cloneNode(true);
+	tbody.appendChild(tr);
+	actionFill ();
+}
+
+//删除所选
+function delSelect(){
+	var checkboxs = document.getElementsByName("checkbox");
+	var tr = table.getElementsByTagName("tr");
+	
+	for (var i=0; i<checkboxs.length; i++) {
+		if(tr.length==2){
+		checkboxs[i].checked = false;
+		return;
+		}
+		if(checkboxs[i].checked==true){
+		removeTr(checkboxs[i]);
+		i=-1;
+		}
+	}
+}
+
+function removeTr(obj) {
+	var sTr = obj.parentNode.parentNode;
+	sTr.parentNode.removeChild(sTr);
+}
+
+//全选按钮
+function selectAll() {
+	var checkboxs = document.getElementsByName("checkbox");
+	var mark = true;
+	checkboxs = $A(checkboxs);
+	checkboxs.each(function(chb){
+		if (chb.checked==false){mark = false}
+		}
+	);
+
+	if (mark){
+		checkboxs.each(function(chb){
+			chb.checked = false;
+			}
+		);
+	}else{
+		checkboxs.each(function(chb){
+			chb.checked = true;
+			}
+		);
+	}
+}
+
+//鼠标点击聚焦
+function readyedit(event){
+	var e = event || window.event;
+	var obj = Event.element(e);
+	Field.select(obj);
+}
+
+//清空
+function allClear(){
+	var inputs = tbody.getElementsByTagName("input");
+	inputs = $A(inputs);
+	inputs.each(function(ip){
+		ip.value="";
+		}
+	);
+}
+
+//全部删除
+function allDel(){
+	var trs = tbody.getElementsByTagName("tr");
+		//alert(trs.length);
+		for(var i=1 ;i<=trs.length ;i++) {
+			if(typeof(trs[i])!="undefined"){
+				tbody.removeChild(trs[i]);
+				i=0;
+			}
+		}
+}
+
+//弹出信息框
+function jumpinfo(text){
+	fatinfo.style.display="block"
+	alertinfo.innerHTML=text;
+
+}
+
+//打开，列表
+function opentb() {
+	var timestamps =  new Date().getTime()+Math.random();
+	jumpinfo("正在加载");
+	var opentbAjax = new Ajax.Request('iget.asp?timestamps='+timestamps+"&act=getlist",{method: 'get',parameters:'',onFailure:loadErro,onComplete: showResponse});
+	
+	function loadErro(){
+		jumpinfo("加载失败,请检查网络");
+	}
+	
+	function showResponse(req){
+		var datainfo = eval('(' + req.responseText + ')');
+		jumpinfo("");
+		datainfo.table.each(function(tdinf){
+			var text = document.createTextNode(tdinf.name+"行数"+tdinf.trnum);
+			var a = document.createElement("a");
+			a.appendChild(text);
+			a.setAttribute("href","javascript:void 0");
+			a.onclick=function(){tdload(tdinf.name)};
+			alertinfo.appendChild(a);
+			}
+		);
+	
+	}
+}
+
+//加载表格数据
+function tdload(tdname){
+	allDel();
+	var timestamps =  new Date().getTime()+Math.random();
+	var getAjax = new Ajax.Request('iget.asp?timestamps='+timestamps+"&act=get",{method: 'post',parameters:'td='+tdname,onComplete: showResponse});
+	function showResponse(req){
+		var backtable = eval('(' + req.responseText + ')');
+		backtable.table.each(function(tb){
+			createtr(tb);	
+			}
+		);
+	delTr();	
+	}
+}
+
+function createtr(tb){
+	var inputs = tbody.lastChild.getElementsByTagName("input");
+	var inputsArr = $A(inputs);
+	var i = -1;
+	inputsArr.each(function(input){
+		input.value=tb.tr[i];
+		i++
+		}
+	);
+	addTr();	
+}
+//////////////////////////////////////////处理页面操作///////////////////////////////////////
+
+//////////////////////////////////////////处理键盘操作///////////////////////////////////////
+//键盘事件
+function beginListen(){
+	if(document.addEventListener){
+	document.addEventListener("keydown",keyDown,true);
+	}else{
+	document.attachEvent("onkeydown",keyDown);
+	}
+}
+function stopListen(){
+	if(document.removeEventListener){
+	document.removeEventListener("keydown",keyDown,true);
+	}else{
+	document.detachEvent("onkeydown",keyDown);
+	}
+}
+
+//处理键盘事件
+function keyDown(event){
+	var e = event || window.event;
+	if(e.keyCode==45){addTr()}
+	if(e.keyCode==46){delTr()}
+}
+
+//增加表格
+function addTr() {
+	var sTr = tbody.getElementsByTagName("tr")[0];
+	var tr =  sTr.cloneNode(true);
+	tbody.appendChild(tr);
+	actionFill ();
+}
+
+//删除表格
+function delTr() {
+	var tr = table.getElementsByTagName("tr");
+	if(tr.length==2){return;}
+	var lastTr = tr[tr.length-1];
+	lastTr.parentNode.removeChild(lastTr);
+	
+}
+
+//移动焦点
+function gonext(event) {
+	var e = event || window.event;
+	var obj = e.target || e.srcElement;
+	if(e.keyCode==13){
+		var nextobj = obj.parentNode.parentNode.nextSibling;
+		var objindex = obj.parentNode.cellIndex;
+		if(nextobj){
+			if (nextobj.nodeType==3){
+				var nextinput = nextobj.nextSibling.getElementsByTagName("input")[objindex];
+				nextinput.focus();
+				nextinput.select();
+			}else{
+				var nextinput = nextobj.getElementsByTagName("input")[objindex];
+				nextinput.focus();
+				nextinput.select();
+			}
+		}
+	}
+}
+
+//////////////////////////////////////////处理键盘操作///////////////////////////////////////
+
+//////////////////////////////////////////处理按钮事件///////////////////////////////////////
+//自动填充
+var currentObj;
+function showDiv(event) {
+	var e = event || window.event;
+	var obj = e.target || e.srcElement;
+	var eX = e.clientX;
+	var eY = e.clientY;
+	var sY = document.body.parentNode.scrollTop;
+	var dY = eY + sY;
+	var divShowInput = $("divShowInput");
+	divShowInput.style.top = dY + "px";
+	divShowInput.style.left = eX+"px";
+	divShowInput.style.display = "block";
+	hideListen();
+	currentObj = obj;
+	////智能菜单////
+	fixMenu();
+	//判断焦点位置
+	var tdOrder = obj.parentNode.cellIndex;
+
+	//填充标题标题
+	var tdTitleTr = $("tbData").getElementsByTagName("tr")[0];
+	var tdTitle = tdTitleTr.getElementsByTagName("td")[tdOrder];
+	$("barTitle").innerHTML = tdTitle.innerHTML;
+	//收集表格信息//判断重复
+	var trs = obj.parentNode.parentNode.parentNode.getElementsByTagName("tr");
+	var autoFillP = $("autoFillP");
+	var bankM = true;
+	for (var i = 0; i <  trs.length; i++ ){
+		var inputValue = trs[i].getElementsByTagName("td")[tdOrder].getElementsByTagName("input")[0].value;
+		if (inputValue != "") {
+			bankM = false;
+			var menus = autoFillP.getElementsByTagName("a");
+			if(menus.length > 0) {
+			var beliveM = true;
+				for (var j = 0; j < menus.length; j++ ){
+					if(menus[j].firstChild.nodeValue == inputValue) {
+						beliveM = false;
+					}
+				}
+				if(beliveM){
+					var Svalue = document.createElement("a");
+					Svalue.setAttribute("href","javascript:void 0");
+					Svalue.onclick = function () {fillInput(this)};
+					var Stext = document.createTextNode(inputValue);
+					Svalue.appendChild(Stext);
+					autoFillP.appendChild(Svalue);
+				}
+			}else{
+				var Svalue = document.createElement("a");
+				Svalue.setAttribute("href","javascript:void 0");
+				Svalue.onclick = function () {fillInput(this)};
+				var Stext = document.createTextNode(inputValue);
+				Svalue.appendChild(Stext);
+				autoFillP.appendChild(Svalue);
+			}
+		}
+	}
+	if(bankM) {
+		var Svalue = document.createElement("a");
+		Svalue.setAttribute("href","javascript:void 0");
+		var Stext = document.createTextNode("数据空");
+		Svalue.appendChild(Stext);
+		autoFillP.appendChild(Svalue);
+	}
+}
+
+function fillInput(obj) {
+	currentObj.value = obj.innerHTML;
+	divShowInput.style.display = "none";
+}
+
+function clearInput() {
+	currentObj.value = "";
+	divShowInput.style.display = "none";
+}
+
+function hideDiv() {
+	divShowInput.style.display = "none";
+	stophide();
+}
+
+function hideListen(){
+	if(document.addEventListener){
+	document.addEventListener("click",hideDiv,true);
+	}else{
+	document.attachEvent("onclick",hideDiv);
+	}
+}
+
+function stophide(){
+	if(document.removeEventListener){
+	document.removeEventListener("click",keyDown,true);
+	}else{
+	document.detachEvent("onclick",keyDown);
+	}	
+}
+
+//删除智能菜单已有数据
+function fixMenu() {
+	var autoFillP = $("autoFillP");
+	var values = autoFillP.getElementsByTagName("a");
+	for (var i = values.length-1; i >= 0; i-- ){
+		autoFillP.removeChild(values[i]);	
+	}
+}
+//////////////////////////////////////////处理按钮事件///////////////////////////////////////
+
+//////////////////////////////////////////数据发送///////////////////////////////////////
+function sendData() {
+
+	var timestamps =  new Date().getTime()+Math.random();
+	var tdName = $("tdName").value;
+	if (tdName =="") {
+		jumpinfo("请输入一个表名");
+		return false;
+	}
+	
+	var sendName = new Array();
+	var trs = tbody.getElementsByTagName("tr");
+	var inputNames = trs[0].getElementsByTagName("input"); 
+		for (var i = 0; i < inputNames.length-1; i++) {
+			sendName[i]=inputNames[i+1].getAttribute("name");
+		}
+		var trnum = trs.length;
+		var oknum = 0;
+		for (var i = 0; i < trnum; i++) {
+			var values = trs[i].getElementsByTagName("input");
+			var postStringAry = new Array();
+			postStringAry[0] = "tdName"+"="+tdName;//
+			for (var j = 0; j < values.length-1; j++) {
+				postStringAry[j+1]=sendName[j]+"="+values[j+1].value;
+			}
+			var postString = postStringAry.join("&");
+			
+			function sendOk(revData){
+				if(revData.responseText=="ok"){
+					oknum++;
+					jumpinfo("<p>已成功发送 "+oknum+" 行 共"+trnum+" 行</p>"+"<p style='color:red;font-size:20px'>"+(trnum-oknum)+"</p>");
+					if (trnum-oknum==0){
+					jumpinfo("<p>已成功发送 "+oknum+" 行 共"+trnum+" 行</p>"+"<p style='color:red;font-size:20px'>完成</p>");
+						allClear();
+						allDel();
+					}
+				}
+			}		
+			var SendAjax = new Ajax.Request('iget.asp?timestamps='+timestamps+"&act=save",{method: 'post',parameters:postString,onComplete: sendOk});
+		}
+	
+}
+
+//////////////////////////////////////////数据发送///////////////////////////////////////
+
+//-->
+</script>
+<style type="text/css">
+<!--
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #E9EDF7;
+}
+#tbBackground {
+	background-color:#FFFFFF;
+	text-align:center;
+}
+#tbData {
+	background-color:#DDE3EC;
+}
+#tbData td {
+	background-color:#FFFFFF;
+}
+#tbData input {
+	width:50px;
+	border:none;
+}
+#tbData .checkbox {
+	width:15px;
+}
+
+#tbData thead {
+}
+
+#tbTopOpt a{
+	display:block;
+	width:80px;
+	padding:5px;
+	background-color:#F8F9FC;
+	border:solid 1px #999999;
+	color:#000000;
+	text-decoration: none;
+}
+#tbTopOpt a:hover{
+	background-color:#DDE3EC;
+}
+#tbBomOpt a{
+	display:block;
+	width:80px;
+	padding:5px;
+	background-color:#F8F9FC;
+	border:solid 1px #999999;
+	color:#000000;
+	text-decoration: none;
+}
+#tbBomOpt a:hover{
+	background-color:#DDE3EC;
+}
+#tbData a{
+	color:#000000;
+	text-decoration: none;
+}
+
+#tdName {
+	width:80px;
+	border:solid 1px #CCCCCC;
+}
+
+#divShowInput {
+	position:absolute;
+	top:30px;
+	left:350px;
+	z-index:10;
+	background-color:#F8F9FC;
+	display:none;
+	border:solid 1px #DDE3EC;
+	width:100px;
+	overflow:hidden;
+}
+#divShowInput a {
+	display:block;
+	background-color:#F8F9FC;
+	color:#000000;
+	text-decoration: none;
+	text-align:center;
+	width:auto;
+}
+#divShowInput a:hover {
+	background-color:#DDE3EC;
+	border-left:solid 2px #FF0000;
+	border-right:solid 2px #FF0000;
+	color:#FF0000;
+}
+
+#divShowInput p {
+	margin:0;
+	padding:0;
+	background-color:#F8F9FC;
+	text-align:center;
+	border-bottom:double #DDE3EC;
+}
+
+#fatinfo {
+	display:none;
+	position:absolute;
+	left: 323px;
+	top: 135px;
+	width: 300px;
+	height: 200px;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	}
+#alertinfo {
+	width:280px;
+	height:150px;
+	overflow:auto;
+	text-align:center;
+}
+#fatinfo a {
+	margin-bottom:2px;;
+	display:block;
+	background-color:#F8F9FC;
+	color:#000000;
+	text-decoration: none;
+	text-align:center;
+	width:auto;
+	border-top:solid 1px #000000;
+}
+#fatinfo a:hover {
+	background-color:#DDE3EC;
+	border-left:solid 2px #FF0000;
+	border-right:solid 2px #FF0000;
+	color:#FF0000;
+}
+
+-->
+</style>
+</head>
+
+<body>
+<div id="fatinfo" >
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr bgcolor="#E6F1FA" >
+    <td width="5%">&nbsp;</td>
+    <td width="87%">信息</td>
+    <td width="8%"><img onClick="javascript:fatinfo.style.display='none'" src="close1.gif" alt="close" width="15" height="18"></td>
+  </tr>
+  <tr>
+    <td width="5%" height="23">&nbsp;</td>
+    <td width="87%"><img src="question.gif" alt="info" width="18" height="18"></td>
+    <td width="8%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="158">&nbsp;</td>
+    <td ><div id="alertinfo">错误</div></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</div>
+<table id="tbBackground" width="760" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table id="tbData" width="750" border="0" align="center" cellpadding="0" cellspacing="1">
+	<thead>
+      <tr>
+        <td height="25" ><a id="Bt_selectAll" >全选</a></td>
+        <td>A1</td>
+        <td>A2</td>
+        <td>A3</td>
+        <td>A4</td>
+        <td>A5</td>
+        <td>A6</td>
+        <td>A7</td>
+        <td>A8</td>
+        <td>A9</td>
+        <td>A10</td>
+        <td>A11</td>
+      </tr>
+	  </thead>
+	  <tbody><tr>
+        <td><input class="checkbox" type="checkbox" name="checkbox" value="checkbox"></td>
+        <td><input name="A1" type="text" ></td>
+        <td><input name="A2" type="text"></td>
+        <td><input name="A3" type="text" ></td>
+        <td><input name="A4" type="text" ></td>
+        <td><input name="A5" type="text" ></td>
+        <td><input name="A6" type="text" ></td>
+        <td><input name="A7" type="text" ></td>
+        <td><input name="A8" type="text" ></td>
+        <td><input name="A9" type="text" ></td>
+        <td><input name="A10" type="text" ></td>
+        <td><input name="A11" type="text" ></td>
+      </tr></tbody>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table width="700"  border="0" align="center" cellpadding="0" cellspacing="0" id="tbBomOpt">
+      <tr>
+        <td height="40" width="94"><a id="Bt_copySelect">复制所选</a></td>
+        <td width="95"><a id="Bt_delSelect" >删除所选</a></td>
+        <td width="138"><a id="Bt_allclear" >清空所有</a></td>
+        <td width="138"><a id="Bt_opentb" >打开表格</a></td>
+        <td width="153"><a id="Bt_sendData">保存为</a></td>
+        <td width="153"><input id="tdName" name="tdName" type="text"></td>
+        <td width="9">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,182 @@
+//用java实现ftp的功能
+
+//由于要在文件生成之后马上传送到ftp服务器上，只得在java程序中实现了。
+//
+//
+//本来提了一个使用ftp定时传送文件的方案，客户不接受，没辙，硬给客户逼着写了一个。
+//
+//配置文件：
+
+configure.properties：
+
+#ftp定义ftp.host=ftp_server
+ftp.user=hxd
+ftp.password=hxd
+filename.fg=ftp.path=c:test
+
+FtpUtil.java：
+
+package com.test.gfportal.util.ftp;
+
+import sun.net.TelnetInputStream;
+import sun.net.TelnetOutputStream;
+import sun.net.ftp.FtpClient;
+import sun.net.ftp.FtpLoginException;
+
+import java.io.*;
+import java.util.Date;
+
+/**
+* Description : Ftp工具类
+* Author : husthxd
+* 来自www.itpub.net
+* Date: 2005-6-30
+* Time: 12:56:29
+* Version 1.0
+*/
+public class FtpUtil {
+FtpClient aftp;
+DataOutputStream outputs;
+DataInputStream inputs;
+TelnetInputStream ins;
+TelnetOutputStream outs;
+int ch;
+public String strInfo = "没有连接主机";
+String hostname = "";
+
+/**
+*
+*/
+public void stop() {
+try {
+aftp.closeServer();
+} catch (IOException e) {
+}
+}
+
+/**
+* @param hostname
+* @param uid
+* @param pwd
+* @return
+*/
+public boolean connectToHost(String hostname, String uid, String pwd) {
+this.hostname = hostname;
+try {
+aftp = new FtpClient(hostname);
+aftp.login(uid, pwd);
+aftp.binary();
+} catch (FtpLoginException e) {
+strInfo = "无权限与主机:" + hostname + "连接!";
+return false;
+} catch (IOException e) {
+strInfo = "连接主机:" + hostname + "失败!";
+return false;
+} catch (SecurityException e) {
+strInfo = "无权限与主机:" + hostname + "连接!";
+return false;
+}
+return true;
+}
+
+/**
+* @throws Exception
+*/
+public void init() throws Exception {
+//连接到主机
+String host = FtpHelper.getProp("ftp.host");
+String user = FtpHelper.getProp("ftp.user");
+String password = FtpHelper.getProp("ftp.password");
+connectToHost(host, user, password);
+}
+/**
+* @param filepathname
+* @return
+*/
+public boolean sendFile(String filepathname) throws Exception {
+//系统初始化
+init();
+//结果
+boolean result = true;
+//ftp对象
+if (aftp != null) {
+try {
+//信息
+strInfo = "传送成功!";
+//分隔符
+String fg = FtpHelper.getProp("filename.fg");
+System.out.println("分隔符:" + fg);
+//获取文件名
+int index = filepathname.lastIndexOf(fg);
+String filename = filepathname.substring(index + 1);
+//传送文件
+File localFile = new File(filepathname);
+RandomAccessFile sendFile = new RandomAccessFile(filepathname, "r");
+sendFile.seek(0);
+//输出流
+outs = aftp.put(filename);
+outputs = new DataOutputStream(outs);
+//写文件
+while (sendFile.getFilePointer() < sendFile.length()) {
+ch = sendFile.read();
+outputs.write(ch);
+}
+sendFile.close();
+} catch (IOException e) {
+strInfo = "传送失败!";
+result = false;
+} finally {
+//关闭资源
+outs.close();
+}
+} else {
+result = false;
+}
+return result;
+}
+}
+
+FtpHelper.java：
+
+package com.test.gfportal.util.ftp;
+
+import java.text.FieldPosition;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+/**
+* Description : ftp助手类
+* Author : husthxd
+* 来自www.itpub.net
+* Date: 2005-6-30
+* Time: 14:51:34
+* Version 1.0
+*/
+public class FtpHelper {
+
+static ResourceBundle bundle = null;
+
+/**
+* @param type
+* @return 取其中的属性值(String类型)
+*/
+public static String getProp(String type) throws Exception {
+if (bundle == null) {
+try {
+//获取bundle
+bundle =
+ResourceBundle.getBundle("com.foresee.gfportal.util.ftp.configure",
+Locale.getDefault());
+} catch (Exception e) {
+System.out.println("获取资源出错！" + e);
+throw new Exception("获取资源出错！" + e);
+}
+}
+//返回
+return bundle.getString(type);
+}
+}
+
+
+

@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ 	2	2	 	
+ 	3	3	 	<sqlMap namespace="Order" xmlns="http://ibatis.apache.org/mapping" 
+ 	4	4	 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+ 	5	5	 	
+ 	6	6	 	        <alias>
+ 	7	7	 	                <typeAlias alias="Order" type="IBatisNet.DataMapper.Test.Domain.Order, IBatisNet.DataMapper.Test" />
+ 	8	8	 	        </alias>
+ 	9	9	 	
+ 	10	10	 	                <!-- If the type is not specified, ADO.NET infers the 
+ 	11	11	 	                          data provider Type of the Parameter from the Value property 
+ 	12	12	 	                          of the Parameter object. -->
+ 	13	13	 	
+ 	14	14	 	        <resultMaps>  
+ 	15	15	 	        
+ 	16	16	 	                <resultMap id="credit-card-result" class="string">
+ 	17	17	 	                        <result property="value" column="Order_CardNumber"/>
+ 	18	18	 	                </resultMap>
+ 	19	19	 	
+ 	20	20	 	    <resultMap id="order-with-generic-list-lineitem" class="Order" 
+ 	21	21	 	            extends="lite-order-result-by-name" >
+ 	22	22	 	      <result property="LineItemsGenericList" column="Order_ID" select="GetLineItemsForOrder" />
+ 	23	23	 	    </resultMap>
+ 	24	24	 	
+ 	25	25	 	    <resultMap id="order-with-generic-collection-lineitem" class="Order" 
+ 	26	26	 	        extends="lite-order-result-by-name" >
+ 	27	27	 	      <result property="LineItemsCollection" column="Order_ID" select="GetLineItemsForOrder" />
+ 	28	28	 	    </resultMap>
+ 	29	29	 	
+ 	30	30	 	    <resultMap id="order-with-generic-collection-via-sp" class="Order" 
+ 	31	31	 	        extends="lite-order-result-by-name" >
+ 	32	32	 	      <result property="LineItemsCollection" column="Order_ID" select="SelectLineItemForOrder" />
+ 	33	33	 	    </resultMap>
+ 	34	34	 	        
+ 	35	35	 	    <resultMap id="order-with-lines-result" class="Order" 
+ 	36	36	 	                                                                extends="lite-order-result-by-name" >
+ 	37	37	 	                        <result property="LineItemsIList" lazyLoad="true" column="Order_ID" select="GetLineItemsForOrder" />
+ 	38	38	 	                </resultMap>
+ 	39	39	 	                
+ 	40	40	 	                <resultMap id="order-with-lines-result-statement-namespaces" class="Order" 
+ 	41	41	 	                                                                extends="lite-order-result-by-name" >
+ 	42	42	 	                        <result property="LineItemsIList" lazyLoad="true" column="Order_ID" select="LineItem.GetLineItemsForOrder" />
+ 	43	43	 	                </resultMap>            
+ 	44	44	 	                
+ 	45	45	 	                <resultMap id="order-with-lines-collection" class="Order"
+ 	46	46	 	                                                                extends="lite-order-result-by-name" >
+ 	47	47	 	                        <result property="LineItems" column="Order_ID"  select="GetLineItemsForOrderWithListClass" />
+ 	48	48	 	                </resultMap>
+ 	49	49	 	                
+ 	50	50	 	                <resultMap id="order-with-lines-array" class="Order"
+ 	51	51	 	                                                                extends="lite-order-result-by-name">
+ 	52	52	 	                        <result property="LineItemsArray" column="Order_ID" select="GetLineItemsForOrder"/>
+ 	53	53	 	                </resultMap>
+ 	54	54	 	  
+ 	55	55	 	                <resultMap id="lite-order-map-result" class="Hashtable">
+ 	56	56	 	                        <result property="Id"         type="Int" column="Order_ID"/>
+ 	57	57	 	                        <result property="Date"       type="date" column="Order_Date"/>
+ 	58	58	 	                        <result property="CardExpiry" type="string" column="Order_CardExpiry"/>
+ 	59	59	 	                        <result property="CardType"   type="string" column="Order_CardType"/>
+ 	60	60	 	                        <result property="CardNumber" type="string" column="Order_CardNumber"/>
+ 	61	61	 	                        <result property="Street"     type="string" column="Order_Street"/>
+ 	62	62	 	                        <result property="City"       type="string" column="Order_City"/>
+ 	63	63	 	                        <result property="Province"   type="string" column="Order_Province"/>
+ 	64	64	 	                        <result property="PostalCode" type="string" column="Order_PostalCode"/>
+ 	65	65	 	                </resultMap>
+ 	66	66	 	  
+ 	67	67	 	                <resultMap id="lite-order-result-by-name" class="Order">
+ 	68	68	 	                        <result property="Id"         column="Order_ID"/>
+ 	69	69	 	                        <result property="Date"       column="Order_Date" nullValue="01/01/0001 00:00:00"/>
+ 	70	70	 	                        <result property="CardExpiry" column="Order_CardExpiry"/>
+ 	71	71	 	                        <result property="CardType"   column="Order_CardType"/>
+ 	72	72	 	                        <result property="CardNumber" column="Order_CardNumber"/>
+ 	73	73	 	                        <result property="Street"     column="Order_Street"/>
+ 	74	74	 	                        <result property="City"       column="Order_City"/>
+ 	75	75	 	                        <result property="Province"   column="Order_Province"/>
+ 	76	76	 	                        <result property="PostalCode" column="Order_PostalCode"/>
+ 	77	77	 	                </resultMap>
+ 	78	78	 	                
+ 	79	79	 	                <resultMap id="order-with-types-result" class="Order">
+ 	80	80	 	                        <result property="Id"         column="Order_ID"                 dbType="Int"/><!-- Int for SqlClient, Obdc; Integer for Oledb -->
+ 	81	81	 	                        <result property="Date"       column="Order_Date"               dbType="DateTime "/>
+ 	82	82	 	                        <result property="CardExpiry" column="Order_CardExpiry" dbType="VarChar"/>
+ 	83	83	 	                        <result property="CardType"   column="Order_CardType"   dbType="VarChar"/>
+ 	84	84	 	                        <result property="CardNumber" column="Order_CardNumber" dbType="VarChar"/>
+ 	85	85	 	                        <result property="Street"     column="Order_Street"             dbType="VarChar"/>
+ 	86	86	 	                        <result property="City"       column="Order_City"               dbType="VarChar"/>
+ 	87	87	 	                        <result property="Province"   column="Order_Province"   dbType="VarChar"/>
+ 	88	88	 	                        <result property="PostalCode" column="Order_PostalCode" dbType="VarChar"/>
+ 	89	89	 	                </resultMap>
+ 	90	90	 	                
+ 	91	91	 	                <resultMap id="lite-order-result-by-index" class="Order">
+ 	92	92	 	                        <result property="Id"         column="Order_ID"                 columnIndex="0"/>
+ 	93	93	 	                        <result property="Date"       column="Order_Date"               columnIndex="1" />
+ 	94	94	 	                        <result property="CardExpiry" column="Order_CardExpiry" columnIndex="2"/>
+ 	95	95	 	                        <result property="CardType"   column="Order_CardType"   columnIndex="3" />
+ 	96	96	 	                        <result property="CardNumber" column="Order_CardNumber" columnIndex="4" />
+ 	97	97	 	                        <result property="Street"     column="Order_Street"             columnIndex="5" />
+ 	98	98	 	                        <result property="City"       column="Order_City"               columnIndex="6" />
+ 	99	99	 	                        <result property="Province"   column="Order_Province"   columnIndex="7"/>
+ 	100	100	 	                        <result property="PostalCode" column="Order_PostalCode" columnIndex="8" />
+ 	101	101	 	                </resultMap>
+ 	102	102	 	                
+ 	103	103	 	                <resultMap id="order-with-account-result" class="Order">
+ 	104	104	 	                        <result property="Id"         column="Order_ID"/>
+ 	105	105	 	                        <result property="Date"       column="Order_Date"/>
+ 	106	106	 	                        <result property="CardExpiry" column="Order_CardExpiry"/>
+ 	107	107	 	                        <result property="CardType"   column="Order_CardType"/>
+ 	108	108	 	                        <result property="CardNumber" column="Order_CardNumber"/>
+ 	109	109	 	                        <result property="Street"     column="Order_Street"/>
+ 	110	110	 	                        <result property="City"       column="Order_City"/>
+ 	111	111	 	                        <result property="Province"   column="Order_Province"/>
+ 	112	112	 	                        <result property="PostalCode" column="Order_PostalCode"/>
+ 	113	113	 	                        <result property="Account"    column="Account_ID" select="GetAccountViaColumnName" />
+ 	114	114	 	                </resultMap>
+ 	115	115	 	
+ 	116	116	 	                <resultMap id="order-with-sp-account-result" class="Order">
+ 	117	117	 	                        <result property="Id"         column="Order_ID"/>
+ 	118	118	 	                        <result property="Date"       column="Order_Date"/>
+ 	119	119	 	                        <result property="CardExpiry" column="Order_CardExpiry"/>
+ 	120	120	 	                        <result property="CardType"   column="Order_CardType"/>
+ 	121	121	 	                        <result property="CardNumber" column="Order_CardNumber"/>
+ 	122	122	 	                        <result property="Street"     column="Order_Street"/>
+ 	123	123	 	                        <result property="City"       column="Order_City"/>
+ 	124	124	 	                        <result property="Province"   column="Order_Province"/>
+ 	125	125	 	                        <result property="PostalCode" column="Order_PostalCode"/>
+ 	126	126	 	                        <result property="Account"    column="Account_ID=Account_ID" select="GetAccountViaSP" />
+ 	127	127	 	                </resultMap>
+ 	128	128	 	                                
+ 	129	129	 	                <resultMap id="order-with-collection-result" class="Order">
+ 	130	130	 	                        <result property="Id"                           column="Order_ID"/>
+ 	131	131	 	                        <result property="Date"                         column="Order_Date"/>
+ 	132	132	 	                        <result property="CardExpiry"           column="Order_CardExpiry"/>
+ 	133	133	 	                        <result property="CardType"                     column="Order_CardType"/>
+ 	134	134	 	                        <result property="CardNumber"           column="Order_CardNumber"/>
+ 	135	135	 	                        <result property="Street"                       column="Order_Street"/>
+ 	136	136	 	                        <result property="City"                         column="Order_City"/>
+ 	137	137	 	                        <result property="Province"                     column="Order_Province"/>
+ 	138	138	 	                        <result property="PostalCode"           column="Order_PostalCode"/>
+ 	139	139	 	                        <result property="LineItemsIList"       column="Order_ID" select="GetLineItemsForOrder" />      
+ 	140	140	 	                        <result property="LineItems"            column="Order_ID" select="GetLineItemsForOrder" lazyLoad="false" />
+ 	141	141	 	                </resultMap>
+ 	142	142	 	                
+ 	143	143	 	                <resultMap id="order-with-favourite-line-item" class="Order">
+ 	144	144	 	                        <result property="Id"                                   column="Order_ID"/>
+ 	145	145	 	                        <result property="Date"                                 column="Order_Date"/>
+ 	146	146	 	                        <result property="CardExpiry"                   column="Order_CardExpiry"/>
+ 	147	147	 	                        <result property="CardType"                             column="Order_CardType"/>
+ 	148	148	 	                        <result property="CardNumber"                   column="Order_CardNumber"/>
+ 	149	149	 	                        <result property="Street"                               column="Order_Street"/>
+ 	150	150	 	                        <result property="City"                                 column="Order_City"/>
+ 	151	151	 	                        <result property="Province"                             column="Order_Province"/>
+ 	152	152	 	                        <result property="PostalCode"                   column="Order_PostalCode"/>
+ 	153	153	 	                        <result property="FavouriteLineItem"    column="Order_ID=Order_ID,LineItem_ID=Order_FavouriteLineItem" select="GetSpecificLineItem" />
+ 	154	154	 	                </resultMap>
+ 	155	155	 	                
+ 	156	156	 	                <resultMap id="order-with-dyn-favourite-line-item" class="Order">
+ 	157	157	 	                        <result property="Id"                                   column="Order_ID"/>
+ 	158	158	 	                        <result property="Date"                                 column="Order_Date"/>
+ 	159	159	 	                        <result property="CardExpiry"                   column="Order_CardExpiry"/>
+ 	160	160	 	                        <result property="CardType"                             column="Order_CardType"/>
+ 	161	161	 	                        <result property="CardNumber"                   column="Order_CardNumber"/>
+ 	162	162	 	                        <result property="Street"                               column="Order_Street"/>
+ 	163	163	 	                        <result property="City"                                 column="Order_City"/>
+ 	164	164	 	                        <result property="Province"                             column="Order_Province"/>
+ 	165	165	 	                        <result property="PostalCode"                   column="Order_PostalCode"/>
+ 	166	166	 	                        <result property="FavouriteLineItem"    
+ 	167	167	 	                                                column="Order_ID=Order_ID,LineItem_ID=Order_FavouriteLineItem" 
+ 	168	168	 	                                                select="GetDynSpecificLineItem" />
+ 	169	169	 	                </resultMap>
+ 	170	170	 	                <resultMap id="order-joined-favourite" class="Order">
+ 	171	171	 	                        <result property="Id"                                   column="Order_ID"/>
+ 	172	172	 	                        <result property="Date"                                 column="Order_Date"/>
+ 	173	173	 	                        <result property="CardExpiry"                   column="Order_CardExpiry"/>
+ 	174	174	 	                        <result property="CardType"                             column="Order_CardType"/>
+ 	175	175	 	                        <result property="CardNumber"                   column="Order_CardNumber"/>
+ 	176	176	 	                        <result property="Street"                               column="Order_Street"/>
+ 	177	177	 	                        <result property="City"                                 column="Order_City"/>
+ 	178	178	 	                        <result property="Province"                             column="Order_Province"/>
+ 	179	179	 	                        <result property="PostalCode"                   column="Order_PostalCode"/>
+ 	180	180	 	                        <result property="FavouriteLineItem"    resultMapping="LineItem.LineItem" />
+ 	181	181	 	                </resultMap>
+ 	182	182	 	                
+ 	183	183	 	                <resultMap id="order-joined-favourite2" class="Order">
+ 	184	184	 	                        <result property="Id"                                   column="Order_ID"/>
+ 	185	185	 	                        <result property="Date"                                 column="Order_Date"/>
+ 	186	186	 	                        <result property="CardExpiry"                   column="Order_CardExpiry"/>
+ 	187	187	 	                        <result property="CardType"                             column="Order_CardType"/>
+ 	188	188	 	                        <result property="CardNumber"                   column="Order_CardNumber"/>
+ 	189	189	 	                        <result property="Street"                               column="Order_Street"/>
+ 	190	190	 	                        <result property="City"                                 column="Order_City"/>
+ 	191	191	 	                        <result property="Province"                             column="Order_Province"/>
+ 	192	192	 	                        <result property="PostalCode"                   column="Order_PostalCode"/>
+ 	193	193	 	                        <result property="FavouriteLineItem.Id" column="LineItem_ID"/>
+ 	194	194	 	                        <result property="FavouriteLineItem.Code" column="LineItem_Code"/>
+ 	195	195	 	                        <result property="FavouriteLineItem.Quantity" column="LineItem_Quantity"/>
+ 	196	196	 	                        <result property="FavouriteLineItem.Price" column="LineItem_Price"/>                    
+ 	197	197	 	                </resultMap>
+ 	198	198	 	
+ 	199	199	 	                <resultMap id="order-joined-with-account" class="Order">
+ 	200	200	 	                        <result property="Id"         column="Order_ID"/>
+ 	201	201	 	                        <result property="Date"       column="Order_Date" nullValue="01/01/0001 00:00:00"/>
+ 	202	202	 	                        <result property="CardExpiry" column="Order_CardExpiry"/>
+ 	203	203	 	                        <result property="CardType"   column="Order_CardType"/>
+ 	204	204	 	                        <result property="CardNumber" column="Order_CardNumber"/>
+ 	205	205	 	                        <result property="Street"     column="Order_Street"/>
+ 	206	206	 	                        <result property="City"       column="Order_City"/>
+ 	207	207	 	                        <result property="Province"   column="Order_Province"/>
+ 	208	208	 	                        <result property="PostalCode" column="Order_PostalCode"/>
+ 	209	209	 	                        <result property="Account"      resultMapping="Account.account-result-nullable-email" />
+ 	210	210	 	                </resultMap>    
+ 	211	211	 	                
+ 	212	212	 	                <resultMap id="order-hash" class="Hashtable">
+ 	213	213	 	                        <result property="Date"       column="Order_Date" nullValue="01/01/0001 00:00:00"/>
+ 	214	214	 	                </resultMap>    
+ 	215	215	 	        </resultMaps>  
+ 	216	216	 	        
+ 	217	217	 	        <statements>
+ 	218	218	 	
+ 	219	219	 	    <statement id="GetOrderWithGenericListLineItem"
+ 	220	220	 	      parameterClass="Integer"
+ 	221	221	 	      resultMap="order-with-generic-list-lineitem" >
+ 	222	222	 	          select * from Orders where Order_ID = #value#
+ 	223	223	 	    </statement>
+ 	224	224	 	
+ 	225	225	 	    <statement id="GetOrderWithGenericLineItemCollection"
+ 	226	226	 	      parameterClass="Integer"
+ 	227	227	 	      resultMap="order-with-generic-collection-lineitem" >
+ 	228	228	 	      select * from Orders where Order_ID = #value#
+ 	229	229	 	    </statement>
+ 	230	230	 	   
+ 	231	231	 	                <statement id="GetOrderByHashTable"
+ 	232	232	 	                                        parameterClass="Int"
+ 	233	233	 	                                        resultMap="order-hash" >
+ 	234	234	 	                        select Order_Date from Orders where Order_ID = #value#
+ 	235	235	 	                </statement>
+ 	236	236	 	                        
+ 	237	237	 	                <statement id="GetOrderLiteByColumnName"
+ 	238	238	 	                                        parameterClass="Int"
+ 	239	239	 	                                        resultMap="lite-order-result-by-name" >
+ 	240	240	 	                        select * from Orders where Order_ID = #value#
+ 	241	241	 	                </statement>
+ 	242	242	 	                
+ 	243	243	 	                <statement id="GetOrderLiteByColumnIndex"
+ 	244	244	 	                                        parameterClass="Int"
+ 	245	245	 	                                        resultMap="lite-order-result-by-index" >
+ 	246	246	 	                        select
+ 	247	247	 	                        Order_ID,
+ 	248	248	 	                        Order_Date,
+ 	249	249	 	                        Order_CardExpiry,
+ 	250	250	 	                        Order_CardType,
+ 	251	251	 	                        Order_CardNumber,
+ 	252	252	 	                        Order_Street,
+ 	253	253	 	                        Order_City,
+ 	254	254	 	                        Order_Province,
+ 	255	255	 	                        Order_PostalCode
+ 	256	256	 	                        from Orders where Order_ID = #value#
+ 	257	257	 	                </statement>
+ 	258	258	 	                
+ 	259	259	 	                <statement id="GetOrderWithTypes"
+ 	260	260	 	                                        parameterClass="Int"
+ 	261	261	 	                                        resultMap="order-with-types-result" >
+ 	262	262	 	                        select * from Orders where Order_ID = #value#
+ 	263	263	 	                </statement>
+ 	264	264	 	                
+ 	265	265	 	                <statement id="GetOrderWithLineItems"
+ 	266	266	 	                                        parameterClass="Integer"
+ 	267	267	 	                                        resultMap="order-with-lines-result" >
+ 	268	268	 	                        select * from Orders where Order_ID = #value#
+ 	269	269	 	                </statement>
+ 	270	270	 	                
+ 	271	271	 	                <statement id="GetOrderWithLineItemsUsingStatementNamespaces"
+ 	272	272	 	                                        parameterClass="Integer"
+ 	273	273	 	                                        resultMap="order-with-lines-result-statement-namespaces" >
+ 	274	274	 	                        select * from Orders where Order_ID = #value#
+ 	275	275	 	                </statement>            
+ 	276	276	 	
+ 	277	277	 	                <statement id="GetAllOrderWithLineItems"
+ 	278	278	 	                                        parameterClass="Integer"
+ 	279	279	 	                                        resultMap="order-with-lines-result" >
+ 	280	280	 	                        select * from Orders
+ 	281	281	 	                </statement>
+ 	282	282	 	                
+ 	283	283	 	                <statement id="GetOrderCardExpiryViaResultClass"
+ 	284	284	 	                                        parameterClass="int"
+ 	285	285	 	                                        resultClass="date">
+ 	286	286	 	                        select
+ 	287	287	 	                        Order_Date
+ 	288	288	 	                        from Orders where Order_ID = #value#
+ 	289	289	 	                </statement>
+ 	290	290	 	                
+ 	291	291	 	                <statement id="GetOrderWithAccount"
+ 	292	292	 	                                        parameterClass="int"
+ 	293	293	 	                                        resultMap="order-with-account-result" >
+ 	294	294	 	                        select * from Orders where Order_ID = #value#
+ 	295	295	 	                </statement>
+ 	296	296	 	                
+ 	297	297	 	                <statement id="GetOrderWithAccountViaSP"
+ 	298	298	 	                                        parameterClass="int"
+ 	299	299	 	                                        resultMap="order-with-sp-account-result" >
+ 	300	300	 	                        select * from Orders where Order_ID = #value#
+ 	301	301	 	                </statement>
+ 	302	302	 	                
+ 	303	303	 	                <statement id="GetOrderWithLineItemsCollection"
+ 	304	304	 	                                        parameterClass="Integer"
+ 	305	305	 	                                        resultMap="order-with-collection-result" >
+ 	306	306	 	                        select * from Orders where Order_ID = #value#
+ 	307	307	 	                </statement>
+ 	308	308	 	                
+ 	309	309	 	                 <statement id="GetOrderJoinedFavourite"
+ 	310	310	 	                    parameterClass="Integer"
+ 	311	311	 	                    resultMap="order-joined-favourite" >
+ 	312	312	 	                        select * from Orders, LineItems
+ 	313	313	 	                        where Orders.Order_ID = LineItems.Order_ID
+ 	314	314	 	                        and Order_FavouriteLineItem = LineItems.LineItem_ID
+ 	315	315	 	                        and Orders.Order_ID = #value#
+ 	316	316	 	                </statement>
+ 	317	317	 	                
+ 	318	318	 	                <statement id="GetOrderJoinedFavourite2"
+ 	319	319	 	                    parameterClass="Integer"
+ 	320	320	 	                    resultMap="order-joined-favourite2" >
+ 	321	321	 	                        select * from Orders, LineItems
+ 	322	322	 	                        where Orders.Order_ID = LineItems.Order_ID
+ 	323	323	 	                        and Order_FavouriteLineItem = LineItems.LineItem_ID
+ 	324	324	 	                        and Orders.Order_ID = #value#
+ 	325	325	 	                </statement>
+ 	326	326	 	
+ 	327	327	 	                <statement id="GetOrderJoinedFavourite3"
+ 	328	328	 	                    parameterClass="Integer"
+ 	329	329	 	                    resultClass="Order" >
+ 	330	330	 	                        select 
+ 	331	331	 	                                Orders.Order_ID as Id,
+ 	332	332	 	                                Order_Date as Date,
+ 	333	333	 	                                Order_CardExpiry as CardExpiry,
+ 	334	334	 	                                Order_CardType as CardType,
+ 	335	335	 	                                Order_CardNumber as CardNumber,
+ 	336	336	 	                                Order_Street as Street,
+ 	337	337	 	                                Order_City as City,
+ 	338	338	 	                                Order_Province as Province,
+ 	339	339	 	                                Order_PostalCode as PostalCode,
+ 	340	340	 	                                LineItem_ID as "FavouriteLineItem.Id",
+ 	341	341	 	                                LineItem_Code as "FavouriteLineItem.Code",
+ 	342	342	 	                                LineItem_Quantity as "FavouriteLineItem.Quantity",
+ 	343	343	 	                                LineItem_Price as "FavouriteLineItem.Price"
+ 	344	344	 	                        from Orders, LineItems
+ 	345	345	 	                        where Orders.Order_ID = LineItems.Order_ID
+ 	346	346	 	                        and Order_FavouriteLineItem = LineItems.LineItem_ID
+ 	347	347	 	                        and Orders.Order_ID = #value#
+ 	348	348	 	                </statement>
+ 	349	349	 	                
+ 	350	350	 	                <statement id="GetOrderWithFavouriteLineItem"
+ 	351	351	 	                                        parameterClass="int"
+ 	352	352	 	                                        resultMap="order-with-favourite-line-item" >
+ 	353	353	 	                        select * from Orders where Order_ID = #value#
+ 	354	354	 	                </statement>
+ 	355	355	 	                
+ 	356	356	 	                <statement id="GetOrderWithLineItemCollection"
+ 	357	357	 	                                        parameterClass="int"
+ 	358	358	 	                                        resultMap="order-with-lines-collection" >
+ 	359	359	 	                        select * from Orders where Order_ID = #value#
+ 	360	360	 	                </statement>
+ 	361	361	 	                
+ 	362	362	 	                <statement id="GetOrderAsHastable"
+ 	363	363	 	                                        parameterClass="Integer"
+ 	364	364	 	                                        resultMap="lite-order-map-result" >
+ 	365	365	 	                        select * from Orders where Order_ID = #value#
+ 	366	366	 	                </statement>
+ 	367	367	 	                
+ 	368	368	 	                <statement id="GetOrderWithLineItemArray"
+ 	369	369	 	                                parameterClass="int"
+ 	370	370	 	                                resultMap="order-with-lines-array">
+ 	371	371	 	                                select * from Orders where Order_ID = #value#
+ 	372	372	 	                </statement>
+ 	373	373	 	                
+ 	374	374	 	                <statement id="GetAllCreditCardNumbersFromOrders"
+ 	375	375	 	                                resultMap="credit-card-result" >
+ 	376	376	 	                        select distinct Order_CardNumber from Orders
+ 	377	377	 	                        order by Order_CardNumber
+ 	378	378	 	                </statement>
+ 	379	379	 	                
+ 	380	380	 	                <statement id="InsertOrderViaParameterMap"
+ 	381	381	 	                    parameterMap="insert-params" >
+ 	382	382	 	                        insert into Orders  
+ 	383	383	 	                                (Order_ID, Account_ID, Order_Date, Order_CardExpiry, Order_CardType, 
+ 	384	384	 	                                        Order_CardNumber, Order_Street, Order_City, Order_Province, Order_PostalCode ) 
+ 	385	385	 	                        values 
+ 	386	386	 	                                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 	387	387	 	                </statement>            
+ 	388	388	 	                
+ 	389	389	 	                <statement id="InsertOrderViaExtendParameterMap"
+ 	390	390	 	                    parameterMap="insert-extend" >
+ 	391	391	 	                        insert into Orders  
+ 	392	392	 	                                (Order_ID, Account_ID, Order_Date, Order_CardExpiry, Order_CardType, 
+ 	393	393	 	                                        Order_CardNumber, Order_Street, Order_City, Order_Province, Order_PostalCode ) 
+ 	394	394	 	                        values 
+ 	395	395	 	                                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 	396	396	 	                </statement>
+ 	397	397	 	                
+ 	398	398	 	                <statement id="InsertOrderViaPublicFields">
+ 	399	399	 	                        insert into Orders  
+ 	400	400	 	                                (Order_ID, Account_ID, Order_Date, Order_CardExpiry, Order_CardType, 
+ 	401	401	 	                                        Order_CardNumber, Order_Street, Order_City, Order_Province, Order_PostalCode ) 
+ 	402	402	 	                        values 
+ 	403	403	 	                                (#Id#, #Account.Id#, #Date#, #CardExpiry#, #CardType#, #CardNumber#, #Street#, #City#, #Province#, #PostalCode#)
+ 	404	404	 	                </statement>            
+ 	405	405	 	                                
+ 	406	406	 	                <select id="GetOrderWithDynFavouriteLineItem"
+ 	407	407	 	                                parameterClass="Integer"
+ 	408	408	 	                                resultMap="order-with-dyn-favourite-line-item">
+ 	409	409	 	                        select * from Orders where Order_ID = #value#
+ 	410	410	 	                </select>                       
+ 	411	411	 	                
+ 	412	412	 	                <select id="SelectOrderByDate"
+ 	413	413	 	                                parameterClass="Hashtable"
+ 	414	414	 	                                resultMap="lite-order-result-by-name">
+ 	415	415	 	                        select * from Orders where Order_Date = #Foo#
+ 	416	416	 	                </select>       
+ 	417	417	 	                
+ 	418	418	 	                <select id="SelectOrderByDateDynamic"
+ 	419	419	 	                                parameterClass="Hashtable"
+ 	420	420	 	                                resultMap="lite-order-result-by-name">
+ 	421	421	 	                        select * from Orders
+ 	422	422	 	                        where 1=1
+ 	423	423	 	                        <isNotEmpty prepend="AND" property="Foo"> 
+ 	424	424	 	                                (Order_Date = '$Foo$') 
+ 	425	425	 	                        </isNotEmpty> 
+ 	426	426	 	                </select>
+ 	427	427	 	                                
+ 	428	428	 	                <select id="GetAccountJIRA45"
+ 	429	429	 	                                parameterClass="int"
+ 	430	430	 	                                resultMap="Account.indexed-account-result">
+ 	431	431	 	                        select
+ 	432	432	 	                        Account_ID,
+ 	433	433	 	                        Account_FirstName,
+ 	434	434	 	                        Account_LastName,
+ 	435	435	 	                        Account_Email
+ 	436	436	 	                        from Accounts
+ 	437	437	 	                        where Account_ID = #value#
+ 	438	438	 	                </select>
+ 	439	439	 	
+ 	440	440	 	                <select id="GetOrderJoinWithAccount"
+ 	441	441	 	                                parameterClass="Integer"
+ 	442	442	 	                                resultMap="order-joined-with-account">
+ 	443	443	 	                        select 
+ 	444	444	 	                                Order_ID, 
+ 	445	445	 	                                Order_Date, 
+ 	446	446	 	                                Order_CardExpiry, 
+ 	447	447	 	                                Order_CardType,
+ 	448	448	 	                                Order_CardNumber, 
+ 	449	449	 	                                Order_Street, 
+ 	450	450	 	                                Order_City, 
+ 	451	451	 	                                Order_Province, 
+ 	452	452	 	                                Order_PostalCode,
+ 	453	453	 	                                acc.Account_ID,
+ 	454	454	 	                                acc.Account_FirstName,
+ 	455	455	 	                                acc.Account_LastName,
+ 	456	456	 	                                acc.Account_Email 
+ 	457	457	 	                        from Orders as ord
+ 	458	458	 	                        LEFT OUTER JOIN Accounts as acc on acc.Account_ID = ord.Account_ID
+ 	459	459	 	                        where Order_ID = #value#
+ 	460	460	 	                </select>       
+ 	461	461	 	                                
+ 	462	462	 	        </statements>
+ 	463	463	 	
+ 	464	464	 	        <parameterMaps>   
+ 	465	465	 	                
+<>	466	 	-	                <parameterMap id="insert-params">
+ 	 	466	+	                <parameterMap id="insert-params" class="Order">
+	467	467	 	                        <parameter property="Id" dbType="Int"/> <!-- Int for SqlClient, Obdc; Integer for Oledb -->
+ 	468	468	 	                        <parameter property="Account.Id"/>
+ 	469	469	 	                        <parameter property="Date" nullValue="01/01/0001 00:00:00" />
+ 	470	470	 	                        <parameter property="CardExpiry" />
+ 	471	471	 	                        <parameter property="CardType" />                       
+ 	472	472	 	                        <parameter property="CardNumber" />
+ 	473	473	 	                        <parameter property="Street" />
+ 	474	474	 	                        <parameter property="City" />                   
+ 	475	475	 	                        <parameter property="Province" />
+ 	476	476	 	                        <parameter property="PostalCode" />
+ 	477	477	 	                </parameterMap>
+ 	478	478	 	
+<>	479	 	-	                <parameterMap id="params-parent"> <!-- 1043181 support request -->
+ 	 	479	+	                <parameterMap id="params-parent" class="Order"> <!-- 1043181 support request -->
+	480	480	 	                        <parameter property="Id" dbType="Int"/> 
+ 	481	481	 	                        <parameter property="Account.Id"/>
+ 	482	482	 	                        <parameter property="Date" nullValue="01/01/0001 00:00:00" />
+ 	483	483	 	                        <parameter property="CardExpiry" />
+ 	484	484	 	                        <parameter property="CardType" />                       
+ 	485	485	 	                        <parameter property="CardNumber" />
+ 	486	486	 	                        <parameter property="Street" />
+ 	487	487	 	                        <parameter property="City" />                   
+ 	488	488	 	                        <parameter property="Province" />
+ 	489	489	 	                        <parameter property="PostalCode" />             
+ 	490	490	 	                </parameterMap>
+ 	491	491	 	                
+<>	492	 	-	                <parameterMap id="insert-extend" extends="params-parent">
+ 	 	492	+	                <parameterMap id="insert-extend" extends="params-parent" class="Order">
+<_	493	493	 	                </parameterMap>
+ 	494	494	 	                                
+ 	495	495	 	        </parameterMaps>
+ 	496	496	 	
+ 	497	497	 	</sqlMap>

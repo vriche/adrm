@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>com/vriche/adrm/model/Role.hbm.xml</value>
+                <value>com/vriche/adrm/model/User.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">@HIBERNATE-DIALECT@</prop>
+                <prop key="hibernate.query.substitutions">true 'Y', false 'N'</prop>
+                <!-- Create/update the database tables automatically when the JVM starts up
+                <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+                <!-- Turn batching off for better error messages under PostgreSQL 
+                <prop key="hibernate.jdbc.batch_size">0</prop> -->
+            </props>
+        </property>
+    </bean>
+
+    <!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- Generic Dao - can be used when doing standard CRUD -->
+    <bean id="dao" class="com.vriche.adrm.dao.hibernate.BaseDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- LookupDao: Hibernate implementation -->
+    <bean id="lookupDao" class="com.vriche.adrm.dao.hibernate.LookupDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- UserDao: Hibernate implementation -->
+    <bean id="userDao" class="com.vriche.adrm.dao.hibernate.UserDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- RoleDao: Hibernate implementation -->
+    <bean id="roleDao" class="com.vriche.adrm.dao.hibernate.RoleDaoHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- Add new Daos here -->
+
+    <!--Brand-START-->
+    <bean id="brandDao" class="com.vriche.adrm.dao.hibernate.BrandDaoHibernate" autowire="byName"/>
+    <!--Brand-END-->
+    
+    <!--ProductCategory-START-->
+    <bean id="productCategoryDao" class="com.vriche.adrm.dao.hibernate.ProductCategoryDaoHibernate" autowire="byName"/>
+    <!--ProductCategory-END-->
+    <!--PublishedInfo-START-->
+    <bean id="publishedInfoDao" class="com.vriche.adrm.dao.hibernate.PublishedInfoDaoHibernate" autowire="byName"/>
+    <!--PublishedInfo-END-->
+    <!--PublishMemo-START-->
+    <bean id="publishMemoDao" class="com.vriche.adrm.dao.hibernate.PublishMemoDaoHibernate" autowire="byName"/>
+    <!--PublishMemo-END-->
+    
+    <!--Matter-START-->
+    <bean id="matterDao" class="com.vriche.adrm.dao.hibernate.MatterDaoHibernate" autowire="byName"/>
+    <!--Matter-END-->
+
+    
+    <!--Contract-START-->
+    <bean id="contractDao" class="com.vriche.adrm.dao.hibernate.ContractDaoHibernate" autowire="byName"/>
+    <!--Contract-END-->
+    <!--ContractPayment-START-->
+    <bean id="contractPaymentDao" class="com.vriche.adrm.dao.hibernate.ContractPaymentDaoHibernate" autowire="byName"/>
+    <!--ContractPayment-END-->
+    <!--Order-START-->
+    <bean id="orderDao" class="com.vriche.adrm.dao.hibernate.OrderDaoHibernate" autowire="byName"/>
+    <!--Order-END-->
+    <!--OrderCategory-START-->
+    <bean id="orderCategoryDao" class="com.vriche.adrm.dao.hibernate.OrderCategoryDaoHibernate" autowire="byName"/>
+    <!--OrderCategory-END-->
+    <!--OrderDayInfo-START-->
+    <bean id="orderDayInfoDao" class="com.vriche.adrm.dao.hibernate.OrderDayInfoDaoHibernate" autowire="byName"/>
+    <!--OrderDayInfo-END-->
+    <!--OrderDetail-START-->
+    <bean id="orderDetailDao" class="com.vriche.adrm.dao.hibernate.OrderDetailDaoHibernate" autowire="byName"/>
+    <!--OrderDetail-END-->
+    <!--OrderLog-START-->
+    <bean id="orderLogDao" class="com.vriche.adrm.dao.hibernate.OrderLogDaoHibernate" autowire="byName"/>
+    <!--OrderLog-END-->
+    <!--Org-START-->
+    <bean id="orgDao" class="com.vriche.adrm.dao.hibernate.OrgDaoHibernate" autowire="byName"/>
+    <!--Org-END-->
+</beans>
+

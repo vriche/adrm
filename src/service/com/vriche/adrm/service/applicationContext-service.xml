@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+	
+	<!-- 以AspectJ方式 定义 AOP -->
+	<aop:config proxy-target-class="true">
+		<aop:advisor pointcut="execution(* com.vriche.adrm.service.*Manager.*(..))" advice-ref="txAdvice"/>
+		<!--  aop:advisor pointcut="execution(* com.vriche.adrm.dao.*Dao.*(..))" advice-ref="txAdvice"/  -->		
+		<aop:advisor id="managerTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Manager.*(..))" order="2"/>
+	</aop:config>	
+	
+	
+
+    <!-- Generic manager that can be used to do basic CRUD operations on any objects -->
+   <bean id="manager" class="com.vriche.adrm.service.impl.BaseManager">
+        <property name="dao" ref="dao"/>
+    </bean>
+	
+     <bean id="lookupManager" class="com.vriche.adrm.service.impl.LookupManagerImpl">
+        <property name="lookupDao" ref="lookupDao"/>
+		<property name="orgDao" ref="orgDao"/>
+		<property name="sysParamDao" ref="sysParamDao"/>
+		<property name="userDao" ref="userDao"/>
+		<property name="carrierDao" ref="carrierDao"/>
+		<property name="resourceDao" ref="resourceDao"/>
+		<property name="orderCategoryDao" ref="orderCategoryDao"/>
+		<property name="industryDao" ref="industryDao"/>
+		<property name="resourceSortDao" ref="resourceSortDao"/> 
+		<property name="specificDao" ref="specificDao"/>
+		<property name="priceTypeDao" ref="priceTypeDao"/>
+		<property name="priceDetailDao" ref="priceDetailDao"/>
+		<property name="matterDao" ref="matterDao"/>
+		<property name="branchDao" ref="branchDao"/> 
+		<property name="oaWorkFlowCheckStateDao" ref="oaWorkFlowCheckStateDao"/> 
+		<property name="updateSystemDao" ref="updateSystemDao"/> 
+		<property name="carrierTypeDao" ref="carrierTypeDao"/> 
+		<property name="incomeModeDao" ref="incomeModeDao"/> 
+		<property name="incomePurposeDao" ref="incomePurposeDao"/> 
+		<property name="categoryDao" ref="categoryDao"/> 
+		<property name="customerDao" ref="customerDao"/> 
+    </bean>   
+    <!-- Transaction declarations for business services.  To apply a generic transaction proxy to
+         all managers, you might look into using the BeanNameAutoProxyCreator -->
+    <bean id="userManager" class="com.vriche.adrm.service.impl.UserManagerImpl">
+        <property name="userDao" ref="userDao"/>
+		<property name="roleDao" ref="roleDao"/>
+		<property name="branchDao" ref="branchDao"/>
+		<property name="acegiCacheManager" ref="acegiCacheManager"/>
+    </bean>
+	
+	
+
+	
+	
+	
+
+    <!-- This interceptor insures that that users can only update themselves, not other users -->
+    <!-- bean id="userSecurityInterceptor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="userSecurityAdvice"/>
+        <property name="patterns" value=".*saveUser"/>
+    </bean -->
+	
+
+
+    <!-- bean id="userSecurityAdvice" class="com.vriche.adrm.service.UserSecurityAdvice">
+        <property name="userCache" ref="userCache"/>
+    </bean -->
+
+    <!-- bean id="userCache" class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+        <property name="cache">
+            <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <property name="cacheManager">
+                    <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+                </property>
+                <property name="cacheName" value="userCache"/>
+            </bean>
+        </property>
+    </bean -->
+	
+	
+	
+	<bean id="adResourceCache"
+		class="com.vriche.adrm.cache.impl.EhCacheBasedAdResourceCache"
+		autowire="byName">
+		<property name="cache">
+			<bean
+				class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+				<property name="cacheManager" ref="cacheManager" />
+				<property name="cacheName" value="adResourceCache" />
+			</bean>
+		</property>
+	</bean>
+    
+	
+    <bean id="roleManager" class="com.vriche.adrm.service.impl.RoleManagerImpl">
+        <property name="roleDao" ref="roleDao"/>
+		<property name="sysResourceDao" ref="sysResourceDao"/>
+		<property name="userDao" ref="userDao"/>
+		<property name="acegiCacheManager" ref="acegiCacheManager"/>
+		<property name="orgDao" ref="orgDao"/>
+    </bean>
+	
+
+	 <!--Org-START-->    
+	<bean id="orgManager" class="com.vriche.adrm.service.impl.OrgManagerImpl">
+        <property name="orgDao" ref="orgDao"/>
+		<property name="branchManager" ref="branchManager"/>
+    </bean>		
+    <!--Org-END--> 
+	
+    <!--Branch-START-->    
+	<bean id="branchManager" class="com.vriche.adrm.service.impl.BranchManagerImpl">
+        <property name="branchDao" ref="branchDao"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="orgDao" ref="orgDao"/>
+    </bean>	
+
+    <bean id="sysResourceManager" class="com.vriche.adrm.service.impl.SysResourceManagerImpl">
+        <property name="sysResourceDao" ref="sysResourceDao"/>
+		<property name="roleDao" ref="roleDao"/>
+		<property name="acegiCacheManager" ref="acegiCacheManager"/>
+    </bean>
+
+     
+    <bean id="mailEngine" class="com.vriche.adrm.service.MailEngine">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+    </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}"/>
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
+    </bean>
+
+    <!-- Configure Velocity for sending e-mail -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">class</prop>
+                <prop key="class.resource.loader.class">
+                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+                </prop>
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage" scope="prototype">
+        <property name="from" value="${mail.default.from}"/>
+    </bean>
+	
+
+    <bean id="selectListManager" class="com.vriche.adrm.service.impl.SelectListManagerImpl">
+        <property name="selectListDao" ref="selectListDao"/>
+    </bean>	 
+	
+	
+	  
+    <!-- Add new Managers here -->
+	
+	
+    <!-- ///////////////////////ad res/////////////////////// -->	
+	   
+   <!--Carrier-START-->    
+	<bean id="carrierManager" class="com.vriche.adrm.service.impl.CarrierManagerImpl">
+        <property name="carrierDao" ref="carrierDao"/>
+		<property name="resourceManager" ref="resourceManager"/>
+		<property name="carrierTypeDao" ref="carrierTypeDao"/>
+		<property name="mediaOrgDao" ref="mediaOrgDao"/>
+    </bean>	
+	
+    <!--Carrier-END-->
+    <!--Compages-START-->    
+	<bean id="compagesManager" class="com.vriche.adrm.service.impl.CompagesManagerImpl">
+        <property name="compagesDao" ref="compagesDao"/>
+		<property name="resourceDao" ref="resourceDao"/>
+		<property name="priceDao" ref="priceDao"/>
+		<property name="carrierDao" ref="carrierDao"/>
+		<property name="priceDetailDao" ref="priceDetailDao"/>
+    </bean>		
+	
+    <!--Compages-END-->
+    <!--Resource-START-->    
+	<bean id="resourceManager" class="com.vriche.adrm.service.impl.ResourceManagerImpl">
+        <property name="resourceDao" ref="resourceDao"/>
+		<property name="carrierDao" ref="carrierDao"/>
+    </bean>		
+	
+    <!--Resource-END-->
+    <!--Workspan-START-->    
+	<bean id="workspanManager" class="com.vriche.adrm.service.impl.WorkspanManagerImpl">
+        <property name="workspanDao" ref="workspanDao"/>
+    </bean>		
+	
+    <!--Workspan-END-->
+    <!--DayInfo-START-->    
+	<bean id="dayInfoManager" class="com.vriche.adrm.service.impl.DayInfoManagerImpl">
+        <property name="dayInfoDao" ref="dayInfoDao"/>
+    </bean>		
+    <!--DayInfo-END-->
+	
+    <!--Price-START-->    
+	<bean id="priceManager" class="com.vriche.adrm.service.impl.PriceManagerImpl">
+        <property name="priceDao" ref="priceDao"/>
+    </bean>		
+    <!--Price-END-->
+	
+    <!--PriceDetail-START-->    
+	<bean id="priceDetailManager" class="com.vriche.adrm.service.impl.PriceDetailManagerImpl">
+        <property name="priceDetailDao" ref="priceDetailDao"/>
+		<property name="priceDao" ref="priceDao"/>
+    </bean>		
+	
+	
+    <!--PriceDetail-END-->
+    <!--Specific-START-->    
+	<bean id="specificManager" class="com.vriche.adrm.service.impl.SpecificManagerImpl">
+        <property name="specificDao" ref="specificDao"/>
+    </bean>		
+	
+	
+    <!--Specific-END-->
+    <!--PriceRegular-START-->    
+	<bean id="priceRegularManager" class="com.vriche.adrm.service.impl.PriceRegularManagerImpl">
+        <property name="priceRegularDao" ref="priceRegularDao"/>
+		<property name="priceDao" ref="priceDao"/>
+    </bean>		
+	
+    <!--PriceRegular-END-->   
+    <!--PriceType-START-->    
+	<bean id="priceTypeManager" class="com.vriche.adrm.service.impl.PriceTypeManagerImpl">
+        <property name="priceTypeDao" ref="priceTypeDao"/>
+    </bean>		
+	
+    <!--PriceType-END-->    
+    <!--ResourceChannel-START-->    
+	<bean id="resourceChannelManager" class="com.vriche.adrm.service.impl.ResourceChannelManagerImpl">
+        <property name="resourceChannelDao" ref="resourceChannelDao"/>
+    </bean>		
+	
+    <!--ResourceChannel-END-->
+    <!--MediaOrg-START-->    
+	<bean id="mediaOrgManager" class="com.vriche.adrm.service.impl.MediaOrgManagerImpl">
+        <property name="mediaOrgDao" ref="mediaOrgDao"/>
+    </bean>		
+	
+	
+    <!--MediaOrg-END-->
+    <!--ResourceType-START-->    
+	<bean id="resourceTypeManager" class="com.vriche.adrm.service.impl.ResourceTypeManagerImpl">
+        <property name="resourceTypeDao" ref="resourceTypeDao"/>
+    </bean>		
+    <!--ResourceSort-START-->    
+    <bean id="resourceSortManager" class="com.vriche.adrm.service.impl.ResourceSortManagerImpl">
+        <property name="resourceSortDao" ref="resourceSortDao"/>
+    </bean>
+    <!--ResourceSort-END-->	
+    <!--ResourceType-END-->
+    <!--CarrierType-START-->    
+	<bean id="carrierTypeManager" class="com.vriche.adrm.service.impl.CarrierTypeManagerImpl">
+        <property name="carrierTypeDao" ref="carrierTypeDao"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="resourceTypeManager" ref="resourceTypeManager"/>
+		<property name="orgDao" ref="orgDao"/>
+    </bean>		
+	
+    <!--CarrierType-END-->
+	
+		
+	    
+    
+    
+   <!-- ///////////////////////matter/////////////////////// -->	
+    <!--MatterType-START-->    
+    <bean id="matterTypeManager" class="com.vriche.adrm.service.impl.MatterTypeManagerImpl">
+        <property name="matterTypeDao" ref="matterTypeDao"/>
+		<property name="matterManager" ref="matterManager"/>
+    </bean>
+    <!--MatterType-END-->
+		   
+  	<!--Brand-START-->    
+	<bean id="brandManager" class="com.vriche.adrm.service.impl.BrandManagerImpl">
+        <property name="brandDao" ref="brandDao"/>
+    </bean>	
+    <!--Brand-END-->
+	
+    <!--Matter-START-->    
+	<bean id="matterManager" class="com.vriche.adrm.service.impl.MatterManagerImpl">
+        <property name="matterDao" ref="matterDao"/>
+		<property name="sysSequenceManager" ref="sysSequenceManager"/>
+    </bean>	
+	
+	
+	
+    <!--Matter-END-->
+    <!--ProductCategory-START-->    
+	<bean id="productCategoryManager" class="com.vriche.adrm.service.impl.ProductCategoryManagerImpl">
+        <property name="productCategoryDao" ref="productCategoryDao"/>
+    </bean>		
+	
+	
+    <!--ProductCategory-END-->
+    <!--PublishedInfo-START-->    
+	<bean id="publishedInfoManager" class="com.vriche.adrm.service.impl.PublishedInfoManagerImpl">
+        <property name="publishedInfoDao" ref="publishedInfoDao"/>
+    </bean>		
+	
+	
+    <!--PublishedInfo-END-->
+    <!--PublishMemo-START-->    
+	<bean id="publishMemoManager" class="com.vriche.adrm.service.impl.PublishMemoManagerImpl">
+        <property name="publishMemoDao" ref="publishMemoDao"/>
+    </bean>		
+	
+	
+    <!--PublishMemo-END-->   
+    
+      <!--PublishArrange-START-->    
+    <bean id="publishArrangeManager" class="com.vriche.adrm.service.impl.PublishArrangeManagerImpl">
+        <property name="publishArrangeDao" ref="publishArrangeDao"/>
+		<property name="publishArrangeDetailDao" ref="publishArrangeDetailDao"/>
+		<property name="matterDao" ref="matterDao"/>
+		<property name="industryDao" ref="industryDao"/>
+		<property name="workspanDao" ref="workspanDao"/>
+    </bean>
+    <!--PublishArrange-END-->
+    <!--PublishArrangeDetail-START-->    
+    <bean id="publishArrangeDetailManager" class="com.vriche.adrm.service.impl.PublishArrangeDetailManagerImpl">
+        <property name="publishArrangeDetailDao" ref="publishArrangeDetailDao"/>
+    </bean>
+    <!--PublishArrangeDetail-END-->
+	
+	
+	
+	
+	  
+    
+    <!-- //////////////////order////////////////////////// -->	   
+    
+    <!--Contract-START-->    
+	<bean id="contractManager" class="com.vriche.adrm.service.impl.ContractManagerImpl">
+        <property name="contractDao" ref="contractDao"/>
+		<property name="oaWorkFlowManager" ref="oaWorkFlowManager"/>
+		<property name="customerDao" ref="customerDao"/>
+		<property name="sysSequenceManager" ref="sysSequenceManager"/>
+		<property name="customerManager" ref="customerManager"/>
+    </bean>		
+	
+	
+	
+    <!--Contract-END-->
+    <!--ContractPayment-START-->    
+	<bean id="contractPaymentManager" class="com.vriche.adrm.service.impl.ContractPaymentManagerImpl">
+        <property name="contractPaymentDao" ref="contractPaymentDao"/>
+		<property name="incomeUsedDao" ref="incomeUsedDao"/>
+		<property name="incomePullDao" ref="incomePullDao"/>        
+		<property name="orderDayInfoDao" ref="orderDayInfoDao"/>
+		<property name="resourceManager" ref="resourceManager"/>
+		<property name="orderDetailDao" ref="orderDetailDao"/>
+		<property name="customerDao" ref="customerDao"/>
+    </bean>		   
+	
+	
+	
+    <!--ContractPayment-END-->
+    <!--ContractTarget-START-->    
+	<bean id="contractTargetManager" class="com.vriche.adrm.service.impl.ContractTargetManagerImpl">
+        <property name="contractTargetDao" ref="contractTargetDao"/>
+    </bean>		
+    <!--ContractTarget-END-->	
+	
+    <!--ContractTargetMonth-START-->    
+    <bean id="contractTargetMonthManager" class="com.vriche.adrm.service.impl.ContractTargetMonthManagerImpl">
+        <property name="contractTargetMonthDao" ref="contractTargetMonthDao"/>
+    </bean>
+    <!--ContractTargetMonth-END-->	
+	
+	
+    <!--Order-START-->    
+	<bean id="orderManager" class="com.vriche.adrm.service.impl.OrderManagerImpl">
+        <property name="orderDao" ref="orderDao"/>
+		<property name="orderDetailDao" ref="orderDetailDao"/>
+		<property name="orderDayInfoDao" ref="orderDayInfoDao"/>
+		
+		<property name="oaWorkFlowManager" ref="oaWorkFlowManager"/>
+		<!--property name="matterManager" ref="matterManager"/ -->
+		<property name="sysSequenceManager" ref="sysSequenceManager"/>
+		<property name="customerManager" ref="customerManager"/>
+		<property name="contractPaymentManager" ref="contractPaymentManager"/>
+		<property name="carrierManager" ref="carrierManager"/>	
+		<property name="userManager" ref="userManager"/>
+    </bean>		
+	
+    <!--Order-END-->
+    <!--OrderCategory-START-->    
+	<bean id="orderCategoryManager" class="com.vriche.adrm.service.impl.OrderCategoryManagerImpl">
+        <property name="orderCategoryDao" ref="orderCategoryDao"/>
+    </bean>		
+	
+    <!--OrderCategory-END-->
+    <!--OrderDayInfo-START-->    
+	<bean id="orderDayInfoManager" class="com.vriche.adrm.service.impl.OrderDayInfoManagerImpl">
+        <property name="orderDayInfoDao" ref="orderDayInfoDao"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="incomeManager" ref="incomeManager"/>
+		<property name="resourceManager" ref="resourceManager"/>
+		<property name="incomeUsedManager" ref="incomeUsedManager"/>
+		<!-- property name="carrierDao" ref="carrierDao"/ -->
+    </bean>		
+	
+    <!--OrderDayInfo-END-->
+    <!--OrderDetail-START-->    
+	<bean id="orderDetailManager" class="com.vriche.adrm.service.impl.OrderDetailManagerImpl">
+        <property name="orderDetailDao" ref="orderDetailDao"/>
+		<property name="matterDao" ref="matterDao"/>
+		<property name="orderDayInfoDao" ref="orderDayInfoDao"/>
+		<property name="dayInfoDao" ref="dayInfoDao"/>
+		<property name="resourceDao" ref="resourceDao"/>
+		<property name="compagesDao" ref="compagesDao"/>
+		<property name="priceDao" ref="priceDao"/>
+		<property name="carrierDao" ref="carrierDao"/>
+		<property name="matterManager" ref="matterManager"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="incomeUsedManager" ref="incomeUsedManager"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="orderLogDao" ref="orderLogDao"/>
+		<property name="workspanManager" ref="workspanManager"/>
+		<property name="resourceChannelManager" ref="resourceChannelManager"/>
+		<property name="contractPaymentDao" ref="contractPaymentDao"/>
+		<property name="orderDao" ref="orderDao"/>
+		
+
+		<!-- property name="incomeDao" ref="incomeDao"/>
+		<property name="incomePullDao" ref="incomePullDao"/>
+		<property name="incomedUseDao" ref="incomedUseDao"/ -->				
+    </bean>	
+	
+    <!--OrderDetail-END-->
+    <!--OrderLog-START-->    
+	<bean id="orderLogManager" class="com.vriche.adrm.service.impl.OrderLogManagerImpl">
+        <property name="orderLogDao" ref="orderLogDao"/>
+    </bean>		
+	
+    <!--OrderLog-END-->
+	
+	
+	   
+    
+ 	 <!-- //////////////////crm////////////////////////// -->	   
+    
+    <!--Customer-START-->    
+	<bean id="customerManager" class="com.vriche.adrm.service.impl.CustomerManagerImpl">
+        <property name="customerDao" ref="customerDao"/>
+		<property name="userDao" ref="userDao"/>
+		<property name="matterManager" ref="matterManager"/>
+    </bean>		
+	
+    <!--Customer-END-->
+    <!--Category-START-->    
+	<bean id="categoryManager" class="com.vriche.adrm.service.impl.CategoryManagerImpl">
+        <property name="categoryDao" ref="categoryDao"/>
+		<property name="customerManager" ref="customerManager"/>
+    </bean>		
+	
+    <!--Category-END-->
+    <!--Industry-START-->    
+	<bean id="industryManager" class="com.vriche.adrm.service.impl.IndustryManagerImpl">
+        <property name="industryDao" ref="industryDao"/>
+    </bean>		
+	
+	
+    <!--Industry-END-->
+    <!--AgentInfo-START-->    
+	<bean id="agentInfoManager" class="com.vriche.adrm.service.impl.AgentInfoManagerImpl">
+        <property name="agentInfoDao" ref="agentInfoDao"/>
+    </bean>		
+	
+	
+    <!--AgentInfo-END-->
+    <!--LinkMan-START-->    
+	<bean id="linkManManager" class="com.vriche.adrm.service.impl.LinkManManagerImpl">
+        <property name="linkManDao" ref="linkManDao"/>
+    </bean>		
+	
+    <!--LinkMan-END-->
+    <!--LinkHisotry-START-->    
+	<bean id="linkHisotryManager" class="com.vriche.adrm.service.impl.LinkHisotryManagerImpl">
+        <property name="linkHisotryDao" ref="linkHisotryDao"/>
+    </bean>		
+	
+    <!--LinkHisotry-END-->
+    <!--FeedbackInfo-START-->    
+	<bean id="feedbackInfoManager" class="com.vriche.adrm.service.impl.FeedbackInfoManagerImpl">
+        <property name="feedbackInfoDao" ref="feedbackInfoDao"/>
+    </bean>		
+	
+	
+    <!--FeedbackInfo-END-->   
+    <!--CustomerType-START-->    
+	<bean id="customerTypeManager" class="com.vriche.adrm.service.impl.CustomerTypeManagerImpl">
+        <property name="customerTypeDao" ref="customerTypeDao"/>
+    </bean>		
+	
+    <!--CustomerType-END-->    
+    <!--CustomerAddress-START-->    
+	<bean id="customerAddressManager" class="com.vriche.adrm.service.impl.CustomerAddressManagerImpl">
+        <property name="customerAddressDao" ref="customerAddressDao"/>
+    </bean>		
+	
+    <!--CustomerAddress-END-->    
+    
+    
+    
+    
+     <!-- //////////////////finace////////////////////////// -->	 
+    
+   <!--Income-START-->    
+	<bean id="incomeManager" class="com.vriche.adrm.service.impl.IncomeManagerImpl">
+        <property name="incomeDao" ref="incomeDao"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="customerManager" ref="customerManager"/>
+		<property name="incomePullManager" ref="incomePullManager"/>
+		<property name="incomeMsgManager" ref="incomeMsgManager"/>
+		<property name="sysSequenceManager" ref="sysSequenceManager"/>
+    </bean>		
+	
+	
+    <!--Income-END-->
+    <!--IncomeMode-START-->    
+	<bean id="incomeModeManager" class="com.vriche.adrm.service.impl.IncomeModeManagerImpl">
+        <property name="incomeModeDao" ref="incomeModeDao"/>
+    </bean>		
+	
+	
+    <!--IncomeMode-END-->
+    <!--IncomePull-START-->    
+	<bean id="incomePullManager" class="com.vriche.adrm.service.impl.IncomePullManagerImpl">
+        <property name="incomePullDao" ref="incomePullDao"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="resourceManager" ref="resourceManager"/>
+		<property name="carrierDao" ref="carrierDao"/>
+		<property name="orderDao" ref="orderDao"/>
+    </bean>		
+	
+    <!--IncomePull-END-->
+    <!--IncomePurpose-START-->    
+	<bean id="incomePurposeManager" class="com.vriche.adrm.service.impl.IncomePurposeManagerImpl">
+        <property name="incomePurposeDao" ref="incomePurposeDao"/>
+    </bean>		
+	
+	
+    <!--IncomePurpose-END-->
+    <!--IncomeUsed-START-->    
+	<bean id="incomeUsedManager" class="com.vriche.adrm.service.impl.IncomeUsedManagerImpl">
+        <property name="incomeUsedDao" ref="incomeUsedDao"/>
+		<property name="incomedao" ref="incomeDao"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="carrierDao" ref="carrierDao"/>
+		<property name="userManager" ref="userManager"/>
+    </bean>		
+	
+    <!--IncomeUsed-END-->
+    <!--ForetArrearage-START-->    
+    <bean id="foretArrearageManager" class="com.vriche.adrm.service.impl.ForetArrearageManagerImpl">
+        <property name="foretArrearageDao" ref="foretArrearageDao"/>
+    </bean>
+    <!--ForetArrearage-END-->
+	
+	
+	
+	
+	
+	
+	<!-- //////////////////sys ////////////////////////// -->			
+    <!--SysSequence-START-->    
+    <bean id="sysSequenceManager" class="com.vriche.adrm.service.impl.SysSequenceManagerImpl">
+        <property name="sysSequenceDao" ref="sysSequenceDao"/>
+    </bean>
+    <!--SysSequence-END-->	
+	
+    <!--Branch-END-->
+     <!--SysEvent-START-->    
+	<bean id="sysEventManager" class="com.vriche.adrm.service.impl.SysEventManagerImpl">
+        <property name="sysEventDao" ref="sysEventDao"/>
+    </bean>		
+	
+    <!--SysEvent-END-->
+    <!--SysEventState-START-->    
+	<bean id="sysEventStateManager" class="com.vriche.adrm.service.impl.SysEventStateManagerImpl">
+        <property name="sysEventStateDao" ref="sysEventStateDao"/>
+    </bean>		
+	
+	
+    <!--SysEventState-END-->
+    <!--SysEventType-START-->    
+	<bean id="sysEventTypeManager" class="com.vriche.adrm.service.impl.SysEventTypeManagerImpl">
+        <property name="sysEventTypeDao" ref="sysEventTypeDao"/>
+    </bean>		
+	
+    <!--SysEventType-END-->
+    <!--SysPromptMode-START-->    
+	<bean id="sysPromptModeManager" class="com.vriche.adrm.service.impl.SysPromptModeManagerImpl">
+        <property name="sysPromptModeDao" ref="sysPromptModeDao"/>
+    </bean>		
+	
+    <!--SysPromptMode-END-->
+    <!--SysUserType-START-->    
+	<bean id="sysUserTypeManager" class="com.vriche.adrm.service.impl.SysUserTypeManagerImpl">
+        <property name="sysUserTypeDao" ref="sysUserTypeDao"/>
+    </bean>		
+	
+    <!--SysUserType-END-->  
+    
+     <!--SysMenu-START-->    
+    <bean id="sysMenuManager" class="com.vriche.adrm.service.impl.SysMenuManagerImpl">
+        <property name="sysMenuDao" ref="sysMenuDao"/>
+    </bean>
+    <!--SysMenu-END-->
+    <!--SysParam-START-->    
+    <bean id="sysParamManager" class="com.vriche.adrm.service.impl.SysParamManagerImpl">
+        <property name="sysParamDao" ref="sysParamDao"/>
+    </bean>
+    <!--SysParam-END-->
+	
+
+	   
+    
+ 	<!-- //////////////////assets////////////////////////// -->  
+	   
+    <!--OaAssets-START-->    
+	<bean id="oaAssetsManager" class="com.vriche.adrm.service.impl.OaAssetsManagerImpl">
+        <property name="oaAssetsDao" ref="oaAssetsDao"/>
+    </bean>		
+	
+	
+    <!--OaAssets-END-->
+    <!--OaAssetsState-START-->    
+	<bean id="oaAssetsStateManager" class="com.vriche.adrm.service.impl.OaAssetsStateManagerImpl">
+        <property name="oaAssetsStateDao" ref="oaAssetsStateDao"/>
+    </bean>		
+	
+    <!--OaAssetsState-END-->
+    <!--OaAssetsType-START-->    
+	<bean id="oaAssetsTypeManager" class="com.vriche.adrm.service.impl.OaAssetsTypeManagerImpl">
+        <property name="oaAssetsTypeDao" ref="oaAssetsTypeDao"/>
+    </bean>		
+	
+	
+    <!--OaAssetsType-END-->   
+    
+    
+	
+  	<!-- //////////////////oa product////////////////////////// -->   
+	
+  <!--OaProductInfo-START-->    
+	<bean id="oaProductInfoManager" class="com.vriche.adrm.service.impl.OaProductInfoManagerImpl">
+        <property name="oaProductInfoDao" ref="oaProductInfoDao"/>
+    </bean>		
+	
+    <!--OaProductInfo-END-->
+    <!--OaProductType-START-->    
+	<bean id="oaProductTypeManager" class="com.vriche.adrm.service.impl.OaProductTypeManagerImpl">
+        <property name="oaProductTypeDao" ref="oaProductTypeDao"/>
+    </bean>		
+	
+    <!--OaProductType-END-->
+    <!--OaProductUsed-START-->    
+	<bean id="oaProductUsedManager" class="com.vriche.adrm.service.impl.OaProductUsedManagerImpl">
+        <property name="oaProductUsedDao" ref="oaProductUsedDao"/>
+    </bean>		
+	
+    <!--OaProductUsed-END-->
+    <!--OaScratchpad-START-->    
+	<bean id="oaScratchpadManager" class="com.vriche.adrm.service.impl.OaScratchpadManagerImpl">
+        <property name="oaScratchpadDao" ref="oaScratchpadDao"/>
+    </bean>		
+	
+    <!--OaScratchpad-END-->
+	
+	
+	
+	
+	<!-- //////////////////info////////////////////////// -->  	
+	
+    <!--OaInfo-START-->    
+	<bean id="oaInfoManager" class="com.vriche.adrm.service.impl.OaInfoManagerImpl">
+        <property name="oaInfoDao" ref="oaInfoDao"/>
+    </bean>		
+	
+    <!--OaInfo-END-->
+    <!--OaInfoType-START-->    
+	<bean id="oaInfoTypeManager" class="com.vriche.adrm.service.impl.OaInfoTypeManagerImpl">
+        <property name="oaInfoTypeDao" ref="oaInfoTypeDao"/>
+    </bean>		
+	
+    <!--OaInfoType-END-->	
+	 
+    
+ 	<!-- //////////////////doc////////////////////////// -->     
+     <!--OaDocument-START-->    
+	<bean id="oaDocumentManager" class="com.vriche.adrm.service.impl.OaDocumentManagerImpl">
+        <property name="oaDocumentDao" ref="oaDocumentDao"/>
+		<property name="oaDocumentFileManager" ref="oaDocumentFileManager"/>
+    </bean>		
+	
+    <!--OaDocument-END-->
+    <!--OaDocumentCatalog-START-->    
+	<bean id="oaDocumentCatalogManager" class="com.vriche.adrm.service.impl.OaDocumentCatalogManagerImpl">
+        <property name="oaDocumentCatalogDao" ref="oaDocumentCatalogDao"/>
+		<property name="oaDocumentManager" ref="oaDocumentManager"/>
+		<property name="oaDocumentFileManager" ref="oaDocumentFileManager"/>
+    </bean>		
+	
+    <!--OaDocumentCatalog-END-->
+    <!--OaDocumentCatalogPermitType-START-->    
+	<bean id="oaDocumentCatalogPermitTypeManager" class="com.vriche.adrm.service.impl.OaDocumentCatalogPermitTypeManagerImpl">
+        <property name="oaDocumentCatalogPermitTypeDao" ref="oaDocumentCatalogPermitTypeDao"/>
+    </bean>		
+	
+    <!--OaDocumentCatalogPermitType-END-->
+    <!--OaDocumentFile-START-->    
+	<bean id="oaDocumentFileManager" class="com.vriche.adrm.service.impl.OaDocumentFileManagerImpl">
+        <property name="oaDocumentFileDao" ref="oaDocumentFileDao"/>
+    </bean>		
+	
+    <!--OaDocumentFile-END-->   
+    
+    
+  	<!-- //////////////////work flow////////////////////////// -->    
+   <!--OaWorkFlow-START-->    
+	<bean id="oaWorkFlowManager" class="com.vriche.adrm.service.impl.OaWorkFlowManagerImpl">
+        <property name="oaWorkFlowDao" ref="oaWorkFlowDao"/>
+		<property name="contractDao" ref="contractDao"/>
+		<property name="orderDao" ref="orderDao"/>
+		<property name="carrierManager" ref="carrierManager"/>
+    </bean>		
+	
+    <!--OaWorkFlow-END-->
+    <!--OaWorkFlowCheck-START-->    
+	<bean id="oaWorkFlowCheckManager" class="com.vriche.adrm.service.impl.OaWorkFlowCheckManagerImpl">
+        <property name="oaWorkFlowCheckDao" ref="oaWorkFlowCheckDao"/>
+		<property name="contractManager" ref="contractManager"/>
+		<property name="oaWorkFlowManager" ref="oaWorkFlowManager"/>
+		<property name="orderManager" ref="orderManager"/>
+    </bean>		
+	
+    <!--OaWorkFlowCheck-END-->
+    <!--OaWorkFlowCheckResult-START-->    
+	<bean id="oaWorkFlowCheckResultManager" class="com.vriche.adrm.service.impl.OaWorkFlowCheckResultManagerImpl">
+        <property name="oaWorkFlowCheckResultDao" ref="oaWorkFlowCheckResultDao"/>
+    </bean>		
+	
+    <!--OaWorkFlowCheckResult-END-->
+    <!--OaWorkFlowType-START-->    
+	<bean id="oaWorkFlowTypeManager" class="com.vriche.adrm.service.impl.OaWorkFlowTypeManagerImpl">
+        <property name="oaWorkFlowTypeDao" ref="oaWorkFlowTypeDao"/>
+    </bean>		
+	
+    <!--OaWorkFlowType-END-->
+     <!--OaApplyInfo-START-->    
+	<bean id="oaApplyInfoManager" class="com.vriche.adrm.service.impl.OaApplyInfoManagerImpl">
+        <property name="oaApplyInfoDao" ref="oaApplyInfoDao"/>
+    </bean>		
+    <!--OaApplyInfo-END-->   
+	
+     <!--OaWorkFlowCheckState-START-->    
+	<bean id="oaWorkFlowCheckStateManager" class="com.vriche.adrm.service.impl.OaWorkFlowCheckStateManagerImpl">
+        <property name="oaWorkFlowCheckStateDao" ref="oaWorkFlowCheckStateDao"/>
+    </bean>		
+    <!--OaWorkFlowCheckState-END-->   
+	
+     <!--OaWorkFlowMoveType-START-->    
+	<bean id="oaWorkFlowMoveTypeManager" class="com.vriche.adrm.service.impl.OaWorkFlowMoveTypeManagerImpl">
+        <property name="oaWorkFlowMoveTypeDao" ref="oaWorkFlowMoveTypeDao"/>
+    </bean>		
+    <!--OaWorkFlowMoveType-END-->
+	
+	
+	   
+    
+ 	<!-- //////////////////tools////////////////////////// -->   
+   <!--OaAreaCity-START-->    
+	<bean id="oaAreaCityManager" class="com.vriche.adrm.service.impl.OaAreaCityManagerImpl">
+        <property name="oaAreaCityDao" ref="oaAreaCityDao"/>
+    </bean>		
+	
+    <!--OaAreaCity-END-->
+    <!--OaAreaPc-START-->    
+	<bean id="oaAreaPcManager" class="com.vriche.adrm.service.impl.OaAreaPcManagerImpl">
+        <property name="oaAreaPcDao" ref="oaAreaPcDao"/>
+    </bean>		
+	
+    <!--OaAreaPc-END-->	
+
+    <!--OaBusinessCard-START-->    
+	<bean id="oaBusinessCardManager" class="com.vriche.adrm.service.impl.OaBusinessCardManagerImpl">
+        <property name="oaBusinessCardDao" ref="oaBusinessCardDao"/>
+    </bean>		
+	
+    <!--OaBusinessCard-END-->
+    <!--OaBusinessCardType-START-->    
+	<bean id="oaBusinessCardTypeManager" class="com.vriche.adrm.service.impl.OaBusinessCardTypeManagerImpl">
+        <property name="oaBusinessCardTypeDao" ref="oaBusinessCardTypeDao"/>
+    </bean>		
+	
+    <!--OaBusinessCardType-END-->
+	
+    <!--OaCalendarEvent-START-->    
+	<bean id="oaCalendarEventManager" class="com.vriche.adrm.service.impl.OaCalendarEventManagerImpl">
+        <property name="oaCalendarEventDao" ref="oaCalendarEventDao"/>
+    </bean>		
+    <!--OaCalendarEvent-END-->	
+
+    <!--OaTeleExpenses-START-->    
+    <bean id="oaTeleExpensesManager" class="com.vriche.adrm.service.impl.OaTeleExpensesManagerImpl">
+        <property name="oaTeleExpensesDao" ref="oaTeleExpensesDao"/>
+    </bean>
+    <!--OaTeleExpenses-END-->
+
+	<bean id="jFreeChartService" class="com.vriche.adrm.service.impl.JFreeChartServiceImpl">
+		<property name="orderDayInfoDao" ref="orderDayInfoDao"/>
+		<property name="orderDayInfoManager" ref="orderDayInfoManager"/>
+		<property name="orderDetailDao" ref="orderDetailDao"/>
+		<property name="orderDetailManager" ref="orderDetailManager"/>
+		<property name="oaTeleExpensesDao" ref="oaTeleExpensesDao"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="analyCarrierMatterManager" ref="analyCarrierMatterManager"/>
+    </bean>
+	
+	<bean id="analyCarrierMatterManager" class="com.vriche.adrm.service.impl.AnalyCarrierMatterManagerImpl">
+		
+		<property name="analyDao" ref="analyDao"/>
+    </bean>
+
+
+
+    <!--ResourceLimit-START-->    
+    <bean id="resourceLimitManager" class="com.vriche.adrm.service.impl.ResourceLimitManagerImpl">
+        <property name="resourceLimitDao" ref="resourceLimitDao"/>
+		<property name="orderDayInfoDao" ref="orderDayInfoDao"/>
+		<property name="carrierManager" ref="carrierManager"/>
+    </bean>
+    <!--ResourceLimit-END-->
+	
+	
+	<bean id="analyseManager" class="com.vriche.adrm.service.impl.AnalyseManagerImpl">
+        <property name="analyDao" ref="analyDao"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="incomeManager" ref="incomeManager"/>
+    </bean>
+	
+	<bean id="fusionChartsManager" class="com.vriche.adrm.service.impl.FusionChartsManagerImpl">
+		<property name="orderDayInfoManager" ref="orderDayInfoManager"/>
+		<property name="incomeUsedManager" ref="incomeUsedManager"/>
+		<property name="analyseManager" ref="analyseManager"/>
+		<property name="orderDetailManager" ref="orderDetailManager"/>
+		<property name="financeTargetManager" ref="financeTargetManager"/>
+    </bean>
+
+	<!--FinanceTarget-START-->    
+    <bean id="financeTargetManager" class="com.vriche.adrm.service.impl.FinanceTargetManagerImpl">
+        <property name="financeTargetDao" ref="financeTargetDao"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="orderDayInfoManager" ref="orderDayInfoManager"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="incomeManager" ref="incomeManager"/>
+		
+		
+    </bean>
+    <!--FinanceTarget-END-->
+
+    
+    
+    <!--ProCustomerType-START-->    
+    <bean id="proCustomerTypeManager" class="com.vriche.adrm.service.impl.ProCustomerTypeManagerImpl">
+        <property name="proCustomerTypeDao" ref="proCustomerTypeDao"/>
+    </bean>
+    <!--ProCustomerType-END-->
+    <!--ProCustomer-START-->    
+    <bean id="proCustomerManager" class="com.vriche.adrm.service.impl.ProCustomerManagerImpl">
+        <property name="proCustomerDao" ref="proCustomerDao"/>
+    </bean>
+    <!--ProCustomer-END-->
+    <!--ProOrderType-START-->    
+    <bean id="proOrderTypeManager" class="com.vriche.adrm.service.impl.ProOrderTypeManagerImpl">
+        <property name="proOrderTypeDao" ref="proOrderTypeDao"/>
+    </bean>
+    <!--ProOrderType-END-->
+    <!--ProOrder-START-->    
+    <bean id="proOrderManager" class="com.vriche.adrm.service.impl.ProOrderManagerImpl">
+        <property name="proOrderDao" ref="proOrderDao"/>
+		<property name="proFinanceManager" ref="proFinanceManager"/>
+		<property name="proCustomerManager" ref="proCustomerManager"/>
+		<property name="proProgramManager" ref="proProgramManager"/>
+		<property name="sysSequenceManager" ref="sysSequenceManager"/>
+    </bean>
+    <!--ProOrder-END-->
+    <!--ProProgramType-START-->    
+    <bean id="proProgramTypeManager" class="com.vriche.adrm.service.impl.ProProgramTypeManagerImpl">
+        <property name="proProgramTypeDao" ref="proProgramTypeDao"/>
+		<property name="proExpenseTypeDao" ref="proExpenseTypeDao"/>
+		<property name="proExpenseProgramDao" ref="proExpenseProgramDao"/>
+    </bean>
+    <!--ProProgramType-END-->
+    <!--ProProgram-START-->    
+    <bean id="proProgramManager" class="com.vriche.adrm.service.impl.ProProgramManagerImpl">
+        <property name="proProgramDao" ref="proProgramDao"/>
+		<property name="proCustomerDao" ref="proCustomerDao"/>
+        <property name="proProgramDetailDao" ref="proProgramDetailDao"/>
+		<property name="proCustomerManager" ref="proCustomerManager"/>
+    </bean>
+	
+    <!--ProProgram-END-->
+    <!--ProPublishPlan-START-->    
+    <bean id="proPublishPlanManager" class="com.vriche.adrm.service.impl.ProPublishPlanManagerImpl">
+        <property name="proPublishPlanDao" ref="proPublishPlanDao"/>
+    </bean>
+    <!--ProPublishPlan-END-->
+    <!--ProAudienceRat-START-->    
+    <bean id="proAudienceRatManager" class="com.vriche.adrm.service.impl.ProAudienceRatManagerImpl">
+        <property name="proAudienceRatDao" ref="proAudienceRatDao"/>
+    </bean>
+    <!--ProAudienceRat-END-->
+	<!--ProAnalyze-START-->    
+    <bean id="proAnalyzeManager" class="com.vriche.adrm.service.impl.ProAnalyzeManagerImpl">
+        <property name="proAnalyzeDao" ref="proAnalyzeDao"/>
+		<property name="proExpenseProgramDao" ref="proExpenseProgramDao"/>
+		<property name="proProgramManager" ref="proProgramManager"/>	
+		<property name="proPublishPlanManager" ref="proPublishPlanManager"/>
+    </bean>
+    <!--ProAnalyze-END-->
+	
+	<bean id="proCheckIdeaManager" class="com.vriche.adrm.service.impl.ProCheckIdeaManagerImpl">
+        <property name="proCheckIdeaDao" ref="proCheckIdeaDao"/>
+    </bean>
+    <!--ProAnalyze-END-->
+	
+	<!--ProFinance-START-->    
+    <bean id="proFinanceManager" class="com.vriche.adrm.service.impl.ProFinanceManagerImpl">
+        <property name="proFinanceDao" ref="proFinanceDao"/>
+    </bean>
+    <!--ProFinance-END-->
+	
+	<!--UpdateSystem-START-->    
+    <bean id="updateSystemManager" class="com.vriche.adrm.service.impl.UpdateSystemManagerImpl">
+        <property name="updateSystemDao" ref="updateSystemDao"/>
+    </bean>
+    <!--UpdateSystem-END-->	
+	
+	<bean id="incomeMsgManager" class="com.vriche.adrm.service.impl.IncomeMsgManagerImpl">
+        <property name="orderDao" ref="orderDao"/>
+    </bean>
+	
+	<bean id="analyseSumManager" class="com.vriche.adrm.service.impl.AnalyseSumManagerImpl">
+        <property name="analySumDao" ref="analySumDao"/>
+    </bean>	
+	
+	
+	
+	<bean id="reportManager" class="com.vriche.adrm.service.impl.ReportManagerImpl">
+        <property name="contractPaymentManager" ref="contractPaymentManager"/>
+		<property name="orderManager" ref="orderManager"/>
+		<property name="orderDayInfoManager" ref="orderDayInfoManager"/>
+		<property name="incomePullManager" ref="incomePullManager"/>
+		<property name="financeTargetManager" ref="financeTargetManager"/>
+		<property name="contractManager" ref="contractManager"/>
+		<property name="orderDetailManager" ref="orderDetailManager"/>
+		<property name="analyseSumManager" ref="analyseSumManager"/>
+		<property name="resourceManager" ref="resourceManager"/>
+    </bean>
+	
+	
+	<bean id="searchManager" class="com.vriche.adrm.service.impl.SearchManagerImpl">
+        <property name="customerManager" ref="customerManager"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="carrierTypeManager" ref="carrierTypeManager"/>
+		<property name="incomePurposeManager" ref="incomePurposeManager"/>
+		<property name="incomeModeManager" ref="incomeModeManager"/>
+		<property name="branchManager" ref="branchManager"/>
+		<property name="orgManager" ref="orgManager"/>
+    </bean>	
+	
+
+
+
+   <bean id="simpleService" class="com.vriche.adrm.service.impl.SimpleServiceImpl"/>
+	
+   <bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
+   <bean id="adrmWebService" class="com.vriche.adrm.service.impl.AdrmWebServiceImpl"/>
+	
+	
+
+
+	<bean id="jobDetailDump" class="com.vriche.adrm.service.impl.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="simpleService"/>
+        <property name="targetMethod" value="sqlDump"/>
+		<property name="shouldRecover" value="true"/>
+		<property name="concurrent" value="false"/>
+		<property name="durable" value="true"/>
+	 </bean> 		
+	<bean id="jobDetailTransfersdb" class="com.vriche.adrm.service.impl.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="simpleService"/>
+        <property name="targetMethod" value="transfersDB"/>
+		<property name="shouldRecover" value="false"/>
+		<property name="concurrent" value="false"/>
+		<property name="durable" value="true"/>		
+    </bean> 	
+	
+
+    <bean id="triggerSQLDump" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="jobDetailDump"/>
+        <property name="cronExpression" value="0 0 23 1/1 * ?"/>
+		<property name="triggerListenerNames">
+            <list>
+                <value>mainTriggerListener</value>
+            </list>
+        </property>
+    </bean> 		
+	
+    <bean id="triggerTransfersdb" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="jobDetailTransfersdb"/>
+        <property name="cronExpression" value="0 0 23 1/1 * ?"/>
+    </bean> 	
+	
+	
+	
+	<bean id="mainTriggerListener" class="com.vriche.adrm.util.NextJobTriggerListener">
+         <property name="nextTrigger" ref="triggerTransfersdb"></property>
+         <property name="name" value="mainTriggerListener"></property>
+    </bean>
+	
+	
+    <bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" scope="singleton">
+        <property name="dataSource" ref="dataSourceQuartz"/>       
+        <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>
+        <!-- property name="configLocation" value="classpath:quartz.properties"/ -->
+		<property name="startupDelay" value="60"/>
+		<property name="overwriteExistingJobs" value="true"/>
+		<property name="autoStartup" value="true" />
+		<property name="triggers">
+			<list>  
+				<ref bean="triggerSQLDump"/>
+					<!-- ref bean="triggerTransfersdb"/ -->
+			</list>
+		</property> 
+		 <property name="triggerListeners">
+            <list>
+                <ref bean="mainTriggerListener"/>
+            </list>
+        </property>
+    </bean>		
+
+	
+	
+	<bean id="schedulerManager" class="com.vriche.adrm.service.impl.SchedulerManagerImp">
+        <property name="scheduler" ref="quartzScheduler"/>
+        <property name="quartzDao" ref="quartzDao"/>
+    </bean>
+
+	
+	<bean id="springContext" class="com.vriche.adrm.util.SpringContext"></bean>
+	
+	
+	
+	<!-- bean id="dayangImportMaterial" class="com.dayang.adp.service.importmaterialservice._0.ImportMaterialServiceImpl" / -->
+	<!-- bean id="dayangImportBroadcastList" class="com.dayang.adp.service.importbroadcastlistservice._0.ImportBroadcastList" / -->
+	
+    <!-- bean id="embeddedServer" class="com.vriche.adrm.util.EmbeddedServer"></bean -->
+	
+
+	
+	
+	<!-- bean id="services" class="org.wso2.spring.ws.WebServices">  
+     <property name="services">  
+         <list>  
+             <bean id="bookService" class="org.wso2.spring.ws.SpringWebService">  
+                 <property name="serviceBean" ref="simpleService"/>  
+                 <property name="serviceName" value="SimpleService" />  
+             </bean>  
+         </list>  
+     </property>  
+ </bean -->
+	
+</beans>
+
+
+

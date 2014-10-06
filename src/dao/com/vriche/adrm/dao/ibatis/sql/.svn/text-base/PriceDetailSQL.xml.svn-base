@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PriceDetailSQL">
+    <typeAlias alias="priceDetail" type="com.vriche.adrm.model.PriceDetail"/>
+
+	<cacheModel id="priceDetail-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addPriceDetail"/>
+		<flushOnExecute statement="updatePriceDetail"/>
+		<flushOnExecute statement="deletePriceDetail"/>
+		<flushOnExecute statement="deletePriceDetails"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="priceDetail">
+        <parameter property="length" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="price" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="priceDetail">
+        <parameter property="length" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="price" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="priceDetailResult" class="priceDetail">
+        <result property="id" column="ad_resource_price_detail_id"/>
+        <result property="length" column="length" nullValue="0"/>
+        <result property="price" column="price" nullValue="0"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+   <resultMap id="priceDetailResult-for-id" class="priceDetail">
+        <result property="id" column="ad_resource_price_detail_id"/>
+    </resultMap>
+
+    <select id="getPriceDetails" resultMap="priceDetailResult">
+    <![CDATA[
+        select * from tb_ad_resource_price_detail 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(ad_resource_price_detail_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="length">
+			(length like #length#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="price">
+			(price like #price#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getPriceDetailsByIdList" parameterClass="java.util.Map" resultMap="priceDetailResult">
+     <![CDATA[  
+      select * from tb_ad_resource_price_detail 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceDetailIdList">
+       	  <iterate prepend="AND" property="PriceDetailIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_detail_id = #PriceDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+
+    <select id="getPriceDetailsCountByIdList" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     <![CDATA[  
+      select count(*) from tb_ad_resource_price_detail 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceDetailIdList">
+       	  <iterate prepend="AND" property="PriceDetailIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_detail_id = #PriceDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select> 
+	
+
+    <select id="getPriceDetail" resultMap="priceDetailResult">
+    <![CDATA[
+        select * from tb_ad_resource_price_detail
+         where ad_resource_price_detail_id = #value#
+    ]]>
+		
+    </select>
+	
+	<select id="getPriceLengthDetail" resultClass="java.lang.String">
+    <![CDATA[
+        select distinct length from tb_ad_resource_price_detail
+    ]]>
+		
+    </select>
+	
+	<select id="getPriceDetailsCount" resultClass="java.lang.Integer">
+		select count(*) from tb_ad_resource_price_detail
+	</select>
+	
+    <insert id="addPriceDetail" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_price_detail_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_ad_resource_price_detail (length,price,version)
+            values ( ?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+	
+	 <insert id="addPriceDeatilRel" parameterClass="java.util.Map">
+		   <![CDATA[
+		 	insert into tb_ad_resource_price_detail_rel (ad_resource_price_id, ad_resource_price_detail_id) 
+		    values (#priceId#,#priceDetailId#)
+		    ]]>
+	 </insert>	
+	
+	
+
+    <update id="updatePriceDetail" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_price_detail set
+                   length = ?,
+                   price = ?, 
+				   version = ? 
+        where ad_resource_price_detail_id = ?
+    ]]>
+    </update>
+
+    <delete id="deletePriceDetail">
+    <![CDATA[
+        delete from tb_ad_resource_price_detail
+         where ad_resource_price_detail_id = #value#
+    ]]>
+    </delete>
+	
+	
+    <delete id="deletePriceRelByPriceDetailId">
+		<![CDATA[
+        delete from tb_ad_resource_price_detail_rel
+         where ad_resource_price_detail_id = #value#
+		  ]]>
+    </delete>	
+    <delete id="deletePriceRelByPriceId">
+		<![CDATA[
+        delete from tb_ad_resource_price_detail_rel
+         where ad_resource_price_id = #value#
+		  ]]>
+    </delete>		
+	
+    <select id="getPriceDetailIdByPriceId" resultMap="priceDetailResult-for-id">
+    <![CDATA[
+        select ad_resource_price_detail_id from tb_ad_resource_price_detail_rel
+         where ad_resource_price_id = #value#
+    ]]>
+    </select>		
+	
+    <select id="getPriceDetailIdByPriceIdList" resultMap="priceDetailResult-for-id">
+    <![CDATA[
+        select ad_resource_price_detail_id from tb_ad_resource_price_detail_rel 
+    ]]>
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceIdList">
+       	  <iterate prepend="AND" property="PriceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_id = #PriceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>  		
+    </select>	
+	
+	    <select id="getPriceDetailIdByPriceIdList2" resultClass="java.lang.Long">
+    <![CDATA[
+        select ad_resource_price_detail_id from tb_ad_resource_price_detail_rel 
+    ]]>
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceIdList">
+       	  <iterate prepend="AND" property="PriceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_id = #PriceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>  		
+    </select>
+			
+   <delete id="deletePriceRelByPriceDetailIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+       delete from tb_ad_resource_price_detail_rel
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceDetailIdList">
+       	  <iterate prepend="AND" property="PriceDetailIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_detail_id = #PriceDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </delete>  	
+		
+   <update id="deletePriceDetails" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_price_detail 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceDetailIdList">
+       	  <iterate prepend="AND" property="PriceDetailIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_detail_id = #PriceDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update> 
+	
+	<select id="getPrice_detail_rels_for_copyRes" resultClass="priceDetail">
+		   
+		  select 
+		  
+		     rel.ad_resource_price_id as  priceId,
+		  
+		     rel.ad_resource_price_detail_id as id 
+		  
+		     from tb_ad_resource_price_detail_rel as rel 
+		
+		     Inner Join  tb_ad_resource_price as prc on  rel.ad_resource_price_id = prc.ad_resource_price_id and prc.version = #version#
+
+    </select>
+	
+	  
+   <delete id="deletePriceDetailRelByPrice" parameterClass="java.util.Map">
+       delete from tb_ad_resource_price_detail_rel  
+
+	   <dynamic prepend="WHERE"> 
+	      <isNotNull property="PriceIdList">
+       	  <iterate prepend=" " property="PriceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_price_id = #PriceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>  	
+	   
+  </delete>  	 
+</sqlMap>

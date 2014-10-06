@@ -1,0 +1,61 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/extras/appgen
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+test
+dir
+
+build
+dir
+
+src
+dir
+
+README.txt
+file
+
+
+
+
+2013-05-17T07:35:58.463213Z
+c43bce4db42714efd86a32406a85860a
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+build.xml
+file
+
+
+
+
+2013-05-17T07:35:58.478840Z
+1c099437bbd17fcfa57c0e528acb68ab
+2012-11-24T06:19:14.235122Z
+12
+lxz
+

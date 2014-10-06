@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://dayang.com/ADP/service/ImportMaterialService/0.1" xmlns:tns1="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://dayang.com/ADP/service/ImportMaterialService/0.1" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">
+  <types>
+    <xsd:schema>
+			<xsd:import namespace="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1" schemaLocation="ADPServiceParameter.xsd"/>
+		</xsd:schema>
+  </types>
+  <message name="ImportMaterialRequest">
+    <part name="ImportMaterialRequest" element="tns1:ImportMaterialRequest">
+    </part>
+  </message>
+  <message name="ImportMaterialResponse">
+    <part name="ImportMaterialResponse" element="tns1:ImportMaterialResponse">
+    </part>
+  </message>
+  <portType name="ImportMaterial">
+    <operation name="ImportMaterial">
+      <input message="tns:ImportMaterialRequest">
+    </input>
+      <output message="tns:ImportMaterialResponse">
+    </output>
+    </operation>
+  </portType>
+  <binding name="ImportMaterialHttpBinding" type="tns:ImportMaterial">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ImportMaterial">
+      <soap:operation soapAction="ImportMaterial"/>
+      <input>
+        <soap:body parts="ImportMaterialRequest" use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ImportMaterialService">
+    <port name="ImportMaterialServiceHttpPort" binding="tns:ImportMaterialHttpBinding">
+      <soap:address location="http://Server:8080/ADP/services/ImportMaterialService"/>
+    </port>
+  </service>
+</definitions>

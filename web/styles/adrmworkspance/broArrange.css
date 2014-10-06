@@ -1,0 +1,184 @@
+
+
+	
+	
+.arrange, .arrange table {
+	border: 1px solid #bdb2bf;
+	font-size: 11px;
+	color: #000;
+	cursor: default;
+	background: url( "normal-bg.gif" );
+	background: url(../../image/main/normal-bg.gif) !important;
+	font-family: "trebuchet ms", verdana, tahoma, sans-serif;
+}
+
+.arrange .yellow {
+	BORDER-RIGHT: #8a6100 2px solid;
+	BORDER-TOP: #ffe3a4 2px solid;
+	BORDER-LEFT: #ffe3a4 2px solid; 
+	BORDER-BOTTOM: #8a6100 2px solid;
+}
+.arrange .blue {
+	BORDER-RIGHT: #002200 2px solid; BORDER-TOP: #a6c1df 2px solid; BORDER-LEFT: #a6c1df
+
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #002200 2px solid; BACKGROUND-COLOR: #3a6ea5
+}
+.arrange .green {
+	BORDER-RIGHT: #002200 2px solid; BORDER-TOP: #b9ffb9 2px solid; BORDER-LEFT: #b9ffb9
+	
+	2px solid; COLOR: #ffff00; BORDER-BOTTOM: #002200 2px solid; BACKGROUND-COLOR: #008000
+}
+.arrange .menu {
+	BORDER-RIGHT: #FFFFFF 2px solid; BORDER-TOP: #000000 2px solid; BORDER-LEFT: #000000
+	
+	2px solid; COLOR: #000080; BORDER-BOTTOM: #FFFFFF 2px solid; BACKGROUND-COLOR: #d8d8d0
+}
+.arrange .menu1 {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #adbac9 2px solid; BORDER-LEFT: #adbac9
+	
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #637994
+}
+.arrange .blue1 {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0ecff 2px solid; BORDER-LEFT: #d0ecff
+	
+	2px solid; COLOR: #ffff00; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #0099ff
+}
+.arrange .black {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #000000
+}
+
+.arrange .day_bak {
+	BORDER-RIGHT: #FFFFFF 1px solid; BORDER-TOP: #d0d0d0 1px solid; BORDER-LEFT: #d0d0d0 2px solid;
+	
+	COLOR: #000000; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #000000;
+	
+	TEXT-ALIGN: center;
+	
+	cursor: pointer;
+}
+
+/*
+.arrange .day {
+	BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #d0d0d0 1px solid; BORDER-LEFT: #d0d0d0
+	
+	1px solid; COLOR: #000000; BORDER-BOTTOM: #000000 1px solid; BACKGROUND-COLOR: #000000;
+
+	TEXT-ALIGN: center;cursor: pointer;FONT-WEIGHT: normal;
+
+}
+*/
+
+.arrange .day {
+	border: 1px solid;
+	border-color : white Gray Gray white;
+	font-family:Arial;
+	font-size:12px;
+    -moz-user-select:none;
+    overflow:hidden;
+    padding-top:0px;
+    padding-bottom:0px;
+    CURSOR: pointer;
+    COLOR: #000000; 
+
+}
+
+
+
+
+
+
+
+.arrange .selected {
+	BORDER-RIGHT: #FF0000 1px solid;
+	BORDER-TOP: #FF0000 1px solid;
+	BORDER-LEFT: #FF0000 1px solid; 
+	BORDER-BOTTOM: #FF0000 1px solid;
+}
+ /* 
+.arrange .selected {
+	BORDER-RIGHT: #FF0000 1px solid;
+	BORDER-TOP: #FF0000 1px solid;
+	BORDER-LEFT: #FF0000 2px solid; 
+	BORDER-BOTTOM: #FF0000 2px solid;
+}
+ */ 
+
+
+
+ /* ÌìÀ¶ */ 
+.arrange .weekend {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #99CCFF
+}
+ /* Éîºì */
+.arrange .overtime {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #FF0000
+}
+
+ /* Ç³×Ï */
+.arrange .specific {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #CC66FF
+}
+
+ /* Éî»Ò */
+.arrange .fulltime {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #999999
+}
+
+ /* Ç³»Ò */
+.arrange .forcetime {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	2px solid; COLOR: #000000; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #CCCCCC
+
+}
+ /* ºÚÉ« */
+.arrange .notday {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	2px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #000000
+}
+
+
+
+ /* Éî»Ò	align: middle;
+ 
+ 
+ .arrange .gridHead {
+	BORDER-RIGHT: #000000 2px solid; BORDER-TOP: #d0d0d0 2px solid; BORDER-LEFT: #d0d0d0
+	
+	1px solid; COLOR: #ffffff; BORDER-BOTTOM: #000000 2px solid; BACKGROUND-COLOR: #999999;
+
+	TEXT-ALIGN: center;font-weight: 700 ;
+
+}
+ 
+ 
+  */
+.arrange .gridHead {
+	font-family:arial;
+	font-size:12px;
+	background-Color:#D4D0C8;
+	border: 1px solid;
+	border-color : white Gray Gray white;
+	text-align: center;
+	margin:0px;
+	padding:5px 0px 5px 0px ;
+	font-weight:normal;
+    -moz-user-select:none;
+    overflow:hidden;
+
+}
+
+
+
+

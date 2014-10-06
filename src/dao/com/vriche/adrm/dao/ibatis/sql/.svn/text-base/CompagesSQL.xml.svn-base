@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CompagesSQL">
+    <typeAlias alias="compages" type="com.vriche.adrm.model.Compages"/>
+
+	<cacheModel id="compages-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addCompages"/>
+		<flushOnExecute statement="updateCompages"/>
+		<flushOnExecute statement="deleteCompages"/>
+		<flushOnExecute statement="deleteCompagess"/>
+		
+		<flushOnExecute statement="addCompagesAndResources"/>
+		<flushOnExecute statement="deleteCompagesAndResources"/>
+		<flushOnExecute statement="deleteCompagesAndPrices"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+	
+	   
+	
+    <parameterMap id="addParam" class="compages">
+		 <parameter property="mediaorgId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="isAutoPrice" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/> 
+    </parameterMap>
+	
+	
+
+    <parameterMap id="updateParam" class="compages">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="isAutoPrice" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="compagesResult" class="compages">
+		<result property="mediaorgId" column="ad_resource_mediaorg_id"/>
+		<result property="isAutoPrice" column="is_auto_price"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="enable" column="enable"/>
+        <result property="id" column="ad_resource_compages_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+	<resultMap id="compagesResultWithPriceId" extends="compagesResult" class="compages">
+		<result property="priceId" column="priceId"/>
+		<result property="priceTypeId" column="priceTypeId"/>
+		<!-- result property="priceDetailId" column="priceDetailId"/ -->
+	</resultMap>
+	
+    <select id="getCompagess" resultMap="compagesResultWithPriceId" >
+    <![CDATA[
+		select C.* ,
+			CP.ad_resource_price_id as priceId,
+		     P.ad_resource_price_type as priceTypeId     
+		from tb_ad_resource_compages C
+			left outer join tb_ad_resource_compages_price_rel CP
+				on C.ad_resource_compages_id = CP.ad_resource_compages_id
+			left outer join tb_ad_resource_price P
+				on CP.ad_resource_price_id = P.ad_resource_price_id
+
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="isAutoPrice">
+			(C.is_auto_price = #isAutoPrice#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(C.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(C.enable = #enable#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(C.ad_resource_compages_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(C.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(C.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(C.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(C.name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="mediaorgId">
+			(C.ad_resource_mediaorg_id = #mediaorgId#)
+			</isNotEmpty> 
+			  
+			 <isNotEmpty prepend="AND" property="version">
+			(C.version = #version#)
+			</isNotEmpty>
+		   <isNotEmpty prepend="AND" property="orgId">
+			(C.sys_org_id = #orgId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getCompagessByIdList" parameterClass="java.util.Map" >
+     <![CDATA[  
+      select* from tb_ad_resource_compages 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CompagesIdList">
+       	  <iterate prepend="AND" property="CompagesIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_compages_id = #CompagesIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+    <resultMap id="compagesResults" class="compages">
+		<result property="name" column="name"/>
+        <result property="enable" column="enable"/>
+		<result property="isAutoPrice" column="is_auto_price"/>
+
+    </resultMap>
+    <select id="getCompages" resultMap="compagesResults" cacheModel="compages-cache">
+    <![CDATA[
+        select *
+		from tb_ad_resource_compages
+         where ad_resource_compages_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addCompages" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_compages_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_ad_resource_compages (ad_resource_mediaorg_id,sys_org_id,is_auto_price,create_by,create_date,enable,memo,modify_by,modify_date,name,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+	
+
+	<insert id="addCompagesAndResources" parameterClass="map">
+    <![CDATA[
+        insert into tb_ad_resource_package_pos_rel (ad_resource_info_id, ad_resource_compages_id)
+        values (#resourceId#, #compagesId#);
+    ]]>
+    </insert>	
+	
+   <delete id="deleteCompagesAndResources" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_ad_resource_package_pos_rel where ad_resource_compages_id = #id#;
+    ]]>
+    </delete>
+	
+   <delete id="deleteCompagesAndPrices" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_ad_resource_compages_price_rel where ad_resource_compages_id = #id#;
+    ]]>
+    </delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+    <update id="updateCompages" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_compages set
+		   sys_org_id = ?,
+				   is_auto_price = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   enable = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+				   version = ? 		
+        where ad_resource_compages_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteCompages">
+    <![CDATA[
+        delete from tb_ad_resource_compages
+         where ad_resource_compages_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteCompagess" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_compages 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CompagesIdList">
+       	  <iterate prepend="AND" property="CompagesIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_compages_id = #CompagesIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

@@ -1,0 +1,362 @@
+package com.vriche.adrm.util;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import uk.ltd.getahead.dwr.WebContext;
+import uk.ltd.getahead.dwr.WebContextFactory;
+
+import com.vriche.adrm.Constants;
+import com.vriche.adrm.dao.CarrierDao;
+import com.vriche.adrm.dao.ResourceDao;
+import com.vriche.adrm.dao.ibatis.ResourceDaoiBatis;
+import com.vriche.adrm.model.Carrier;
+import com.vriche.adrm.model.Resource;
+
+
+public class CarrierUtil {
+	
+	
+	public static List getResourceYearTypeMap(List carrier2IdList,String startDate, String endDate,String resType) {
+	        List resList = new ArrayList();
+		    Map yearTypeMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_RESOURCENAME_YEAR_TYPE_MAP);
+		    
+		    int sYear = Integer.parseInt(startDate.substring(0,4));
+		    int eYear = Integer.parseInt(endDate.substring(0,4));
+
+            for (int i =sYear;i<eYear;i++){
+            	String[] types= resType.split(",");
+            	int count = types.length;
+            	
+            	for (int j =0;j<count;j++){
+	            	String key = i+"_"+ types[j];
+				    Map resMap = (Map)yearTypeMap.get(key);
+		            
+					for (Iterator it = resMap.values().iterator(); it.hasNext();) {
+						Resource obj = (Resource) it.next();
+						String carrierId = obj.getCarrierId().toString();
+						if(carrier2IdList.contains(carrierId)){
+							resList.add(obj);
+						}
+					}	
+            	}
+				
+	       }
+		return resList;
+	}
+	
+	
+	
+	
+	public static String getOtherSameAlisnameIds(String id) {
+        List resList = new ArrayList();
+	    Map mp = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_ALISNAME_REL);
+	    String ids = (String)mp.get(id);
+
+	    return ids;
+	}
+	
+	
+	public static List getAllCarriersLevelOneByIdList(Map idList){
+		CarrierDao dao = ServiceLocator.getCarrierDao();
+		List ls = dao.getCarriersByIdList(idList);
+		return ls;
+	}
+	
+	
+	public static Map  getAllCarriersLevelOne(Carrier carrier){
+		CarrierDao dao = ServiceLocator.getCarrierDao();
+		return dao.getCarrierWithChannelMap(carrier);
+	}
+	
+//	public static List getAllCarriersForeOrderEdit(){
+//		
+//	}
+//	
+	
+	
+
+	public static List getCarrierIds(String carrierIds,String level,String loginUser) {
+		boolean channelPull =  SysParamUtil.getChannelModelPara(); 
+		boolean moreChannelPara =  SysParamUtil.getMoreChannelPara(); 
+		boolean carrierAlisname = SysParamUtil.getUseCarrierAliname();
+		boolean isMoreCarrierId = carrierIds.indexOf(",")>-1;
+		
+		Map carrierMpAll = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_ALL_MAP);
+		Map carrierMp = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_CHILD);
+		Map userCarrierRelsIdsMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_CARRIER_RELS_ID);
+
+		List carrierIdList = new ArrayList();
+		List listTemp = new ArrayList();
+		
+		carrierIds = StringUtil.getNullValue(carrierIds,"");
+		
+		if("null".equals(carrierIds) || "-100".equals(carrierIds) || "".equals(carrierIds)) carrierIds ="0";
+		
+		
+		
+		//***************************判断是否分频道管理  start******************************************
+		if(channelPull){
+			
+			loginUser = UserUtil.getLoginUser(loginUser);
+			List carIds = (List)userCarrierRelsIdsMap.get(loginUser);
+			
+
+			
+			
+            if(carIds.size() == 0)carIds.add("-1");
+			//***************************判断是否多频道ID  start**************************************
+			if(isMoreCarrierId){
+
+				
+				String[] s1 = carrierIds.split(",");
+
+				//start for
+				for(int i = 0;i<s1.length;i++){
+					
+					//如果采用别名,需要找出别名相同的其他ID
+					if(carIds.contains(s1[i])){
+					    if(carrierAlisname){
+					    	String ids = getOtherSameAlisnameIds(s1[i]);
+							String[] s2 = ids.split(",");
+							for (int j = 0; j < s2.length; j++) {
+								if(carIds.contains(s2[j])) listTemp.add(s2[j]);
+							}
+					    }else{
+					    	listTemp.add(s1[i]);
+					    }	
+					}
+						
+				}	
+				//end for
+				
+				
+				
+				if("1".equals(level)){
+					CollectionUtils.addAll(carrierIdList,listTemp.iterator());
+				}else{
+			    	for(Iterator it = listTemp.iterator();it.hasNext();){
+			    		String parentId = (String)it.next();
+			    		List list = (List)carrierMp.get(Long.valueOf(parentId));
+			    		if(list == null || list.size() == 0){
+			    			carrierIdList.add("-1");
+			    		}else{
+			    			CollectionUtils.addAll(carrierIdList,ConvertUtil.getColFromList(list,"id"));
+			    		}
+			    		
+			    	}
+				}				
+
+				//***************************判断是否多频道ID  end**************************************
+			}else{
+				
+				
+//				System.out.println("getCarrierIds loginUser>>>>>>>>>>vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv>>>>>>>"+loginUser) ;
+//				System.out.println("getCarrierIds carIds>>>>>>>>>>vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv>>>>>>>"+carIds) ;
+//				System.out.println("getCarrierIds carrierIds>>>>>>>>>>vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv>>>>>>>"+carrierIds) ;
+//				System.out.println("getCarrierIds carrierAlisname>>>>>>>>>>vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv>>>>>>>"+carrierAlisname) ;
+//				System.out.println("getCarrierIds level>>>>>>>>>>vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv>>>>>>>"+level) ;
+				
+				//***************************判断是否单频道ID  start**************************************
+					if("0".equals(carrierIds)){
+						CollectionUtils.addAll(listTemp,carIds.iterator());
+					}else{
+					    if(carrierAlisname){
+//					    	System.out.println("carrierIds>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+carrierIds+">>>>>>");
+					    	String ids = getOtherSameAlisnameIds(carrierIds);
+//					    	System.out.println("channelPull>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+channelPull+">>>>>>");
+		
+					    	
+					    	String[] s2 = ids.split(",");
+				    		for(int j = 0;j < s2.length;j++){
+				    			
+//				    			System.out.println("carIds.contains(s2[j]))>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+s2[j]+">>>>>>");
+				    			
+				    			if(carIds.contains(s2[j])) listTemp.add(s2[j]);
+				    		}
+//				    		System.out.println("listTemp>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+listTemp+">>>>>>"+listTemp.size());
+					    }else{
+					    	if(carIds.contains(carrierIds)) listTemp.add(carrierIds);
+					    }	
+					}
+
+					    
+					    
+					    
+
+					if("1".equals(level)){
+						CollectionUtils.addAll(carrierIdList,listTemp.iterator());
+					}else{
+//						System.out.println("listTemp>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+listTemp);
+				    	for(Iterator it = listTemp.iterator();it.hasNext();){
+				    		String parentId = (String)it.next();
+
+				    		if (parentId == null) parentId ="0";
+				    		Object obj = carrierMp.get(Long.valueOf(parentId));
+				    		List list =  new ArrayList();
+				    		if(obj != null) list = (List)obj;
+				    		if(list == null || list.size() == 0){
+				    			carrierIdList.add("-1");
+				    		}else{
+				    			CollectionUtils.addAll(carrierIdList,ConvertUtil.getColFromList(list,"id"));
+				    		}
+				    		
+				    	}
+					}
+
+				//***************************判断是否单频道ID  end**************************************				
+
+			}
+			
+//******************************************判断是否分频道管理  end*******************************	
+			
+			
+			
+		}else{
+			
+			
+			
+			
+//******************************************不分频道管理  start*******************************				
+			if(isMoreCarrierId){
+				
+				String[] s1 = carrierIds.split(",");
+				//start for
+				for(int i = 0;i<s1.length;i++){
+					
+					//如果采用别名,需要找出别名相同的其他ID
+				    if(carrierAlisname){
+				    	 String ids = getOtherSameAlisnameIds(s1[i]);
+				    	 String[] s2 = ids.split(",");
+			    			for(int j = 0;j < s2.length;j++){
+			    				listTemp.add(s2[j]);
+			    			}
+				    }else{
+				    	listTemp.add(s1[i]);
+				    }					
+					
+				}	
+				//end for
+				if("1".equals(level)){
+					CollectionUtils.addAll(carrierIdList,listTemp.iterator());
+				}else{
+			    	for(Iterator it = listTemp.iterator();it.hasNext();){
+			    		String parentId = (String)it.next();
+			    		List list = (List)carrierMp.get(Long.valueOf(parentId));
+			       		if(list == null || list.size() == 0){
+			    			carrierIdList.add("-1");
+			       		}else{
+			       			CollectionUtils.addAll(carrierIdList,ConvertUtil.getColFromList(list,"id"));
+			       		}
+			    		
+			    	}
+				}		
+				
+			}else{
+//				System.out.println("carrierIds>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ carrierIds+">>>>>>");
+//				System.out.println("carrierIds>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ "null".equals(carrierIds)+">>>>>>");
+//				System.out.println("carrierIds>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ (carrierIds == null)+">>>>>>");
+//				System.out.println("level>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ level+">>>>>>");
+				//***************************判断是否单频道ID  start**************************************
+				if("0".equals(carrierIds)){
+					
+			    	for(Iterator it = carrierMpAll.values().iterator();it.hasNext();){
+			    		Carrier carr = (Carrier) it.next();
+			    		String lev =carr.getNodeLevel().toString();
+			    		if("1".equals(lev)) listTemp.add(carr.getId().toString());
+			    	}
+					
+				}else{
+				    if(carrierAlisname){
+				    	
+				    	System.out.println("getOtherSameAlisnameIds>*****************************************>>>>>>>>>"+ carrierIds+">>>>>>");
+				    	
+				    	String ids = getOtherSameAlisnameIds(carrierIds);
+				    	
+				    	System.out.println("getOtherSameAlisnameIds>*****************************************>>>>>>>>>"+ ids+">>>>>>");
+				    	ids = StringUtil.getNullValue(ids,"");
+				    	
+				    	String[] s2 = ids.split(",");
+			    		for(int j = 0;j < s2.length;j++){
+			    				listTemp.add(s2[j]);
+			    		}
+				    }else{
+				    	listTemp.add(carrierIds);
+				    }		
+				}
+			
+//				System.out.println("level>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ level+">>>>>>");
+				if("1".equals(level)){
+					CollectionUtils.addAll(carrierIdList,listTemp.iterator());
+				}else{
+			    	for(Iterator it = listTemp.iterator();it.hasNext();){
+			    		String parentId = (String)it.next();
+			    		List list = (List)carrierMp.get(Long.valueOf(parentId));
+			       		if(list == null || list.size() == 0){
+			    			carrierIdList.add("-1");
+			       		}else{
+			       			CollectionUtils.addAll(carrierIdList,ConvertUtil.getColFromList(list,"id"));
+			       		}
+			    		
+			    	}
+				}
+			   //***************************判断是否单频道ID  end**************************************					
+			}
+
+			
+		}		
+//******************************************不分频道管理  end *******************************	
+		//判断是否单频道
+		if(!moreChannelPara) carrierIdList= new ArrayList();
+		
+		List lsnew = new ArrayList();
+//		Map mpNew = new HashMap();
+		Iterator it22 = carrierIdList.iterator();
+		while(it22.hasNext()){
+			String key = it22.next().toString();
+			if(!lsnew.contains(key)){
+				lsnew.add(key);
+			}
+//			mpNew.put(it22.next().toString(),it22.next().toString());
+		}
+		
+		
+//		System.out.println("carrierIdList>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ carrierIdList+">>>>>>");
+		return lsnew;
+	}
+	
+
+	public static List getOwnerCarrier(String orgId,String loginUser){
+		boolean channelModelPara =  SysParamUtil.getChannelModelPara(); 
+		
+		if(channelModelPara){
+			loginUser = (loginUser == null||"".equals(loginUser))?UserUtil.getCurrentPrincipalUser():loginUser;
+			Map mp  = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_CARRIER_RELS);
+			List newList = new ArrayList();
+			Object obj  = mp.get(loginUser);
+			if(obj != null) newList = (List)obj;
+			return newList;
+		}else{
+			Carrier caiiier = new Carrier();
+			caiiier.setOrgId(orgId);
+			caiiier.setParentId("0");
+			return ServiceLocator.getCarrierDao().getCarriers(caiiier);
+		}
+		
+
+	}
+	
+	
+	
+
+}

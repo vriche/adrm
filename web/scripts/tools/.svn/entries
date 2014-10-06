@@ -1,0 +1,67 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts/tools
+svn://121.28.83.134:80/src1
+
+
+
+2013-03-16T10:40:20.826726Z
+445
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+uploadDialog
+dir
+
+calendarService.js
+file
+
+
+
+
+2013-05-17T07:36:32.011829Z
+69ca088074699247df8766cac575f4c1
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+scratchPadService.js
+file
+
+
+
+
+2013-05-17T07:36:32.011829Z
+54c64d43c8e0ffc120121cbdbeb4510c
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+disPlayScratchPadService.js
+file
+
+
+
+
+2013-05-17T07:36:32.027455Z
+72d06863a981a82e4471c79bb07b556d
+2012-11-24T05:32:05.899594Z
+6
+lxz
+

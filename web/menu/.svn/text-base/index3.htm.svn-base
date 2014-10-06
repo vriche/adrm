@@ -1,0 +1,36 @@
+
+<html>
+<head>
+<title>广告资源管理: 我的桌面</title>
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/menu/css/template_css.css'/>" /> 
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/menu/css/theme.css'/>"/>
+<script type="text/javascript" src="<c:url value='/menu/includes/js/JSCookMenu.js'/>" ></script>
+<script type="text/javascript" src="<c:url value='/menu/includes/js/theme.js'/>" ></script>
+<script type="text/javascript" src="<c:url value='/menu/includes/js/mambojavascript.js'/>"></script>
+<script language="JavaScript">var RTLsupport = false ;</script> 
+<script type="text/javascript">
+	function insertAtCursor(myField, myValue) {
+		if (document.selection) {
+			// IE support
+			myField.focus();
+			sel = document.selection.createRange();
+			sel.text = myValue;
+		} else if (myField.selectionStart || myField.selectionStart == '0') {
+			// MOZILLA/NETSCAPE support
+			var startPos = myField.selectionStart;
+			var endPos = myField.selectionEnd;
+			myField.value = myField.value.substring(0, startPos)
+				+ myValue
+				+ myField.value.substring(endPos, myField.value.length);
+		} else {
+			myField.value += myValue;
+		}
+	}
+</script>
+</head>
+
+<body>
+    <!-- menu contents -->
+    <script language="JavaScript" src="menu.js" type="text/javascript"></script>
+</body>
+</html>

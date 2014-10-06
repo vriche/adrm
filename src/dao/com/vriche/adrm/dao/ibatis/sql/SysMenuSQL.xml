@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SysMenuSQL">
+    <typeAlias alias="sysMenu" type="com.vriche.adrm.model.SysMenu"/>
+
+	<cacheModel id="sysMenu-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addSysMenu"/>
+		<flushOnExecute statement="updateSysMenu"/>
+		<flushOnExecute statement="deleteSysMenu"/>
+		<flushOnExecute statement="deleteSysMenus"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="sysMenu">
+		<parameter property="isDisplay" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="action" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="altImage" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="description" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="forward" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="height" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="image" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="location" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="onclick" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="onmouseout" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="onmouseover" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="pageNum" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="roles" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="target" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tooltip" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="treeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="width" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="sysMenu">
+		<parameter property="isDisplay" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="action" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="altImage" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="description" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="forward" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="height" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="image" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="location" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="onclick" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="onmouseout" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="onmouseover" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="pageNum" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="roles" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="target" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tooltip" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="treeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="width" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+	
+    <resultMap id="sysMenuResult" class="sysMenu">
+		<result property="isDisplay" column="is_display"/>
+        <result property="action" column="action"/>
+        <result property="altImage" column="alt_image"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="description" column="description"/>
+        <result property="displayNo" column="display_no"/>
+        <result property="forward" column="forward"/>
+        <result property="height" column="height"/>
+        <result property="id" column="sys_menu_id"/>
+        <result property="image" column="image"/>
+        <result property="location" column="location"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="onclick" column="onclick"/>
+        <result property="onmouseout" column="onmouseout"/>
+        <result property="onmouseover" column="onmouseover"/>
+        <result property="pageNum" column="page_num"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="roles" column="roles"/>
+        <result property="target" column="target"/>
+        <result property="title" column="title"/>
+        <result property="tooltip" column="tooltip"/>
+        <result property="treeLevel" column="tree_level"/>
+        <result property="version" column="version"/>
+        <result property="width" column="width"/>
+    </resultMap>
+	
+	
+    <select id="getSysMenusCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_sys_menu 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			 <isNotEmpty prepend="AND" property="isDisplay">
+			(is_display like #isDisplay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="action">
+			(action like #action#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="altImage">
+			(alt_image like #altImage#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="description">
+			(description like #description#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="forward">
+			(forward like #forward#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="height">
+			(height like #height#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sys_menu_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="image">
+			(image like #image#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="location">
+			(location like #location#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="onclick">
+			(onclick like #onclick#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="onmouseout">
+			(onmouseout like #onmouseout#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="onmouseover">
+			(onmouseover like #onmouseover#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pageNum">
+			(page_num like #pageNum#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="roles">
+			(roles like #roles#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="target">
+			(target like #target#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="title">
+			(title like #title#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tooltip">
+			(tooltip like #tooltip#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="treeLevel">
+			(tree_level like #treeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="width">
+			(width like #width#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getSysMenus" resultMap="sysMenuResult">
+    <![CDATA[
+        select * from tb_sys_menu 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			 <isNotEmpty prepend="AND" property="isDisplay">
+			(is_display like #isDisplay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="action">
+			(action like #action#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="altImage">
+			(alt_image like #altImage#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="description">
+			(description like #description#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="forward">
+			(forward like #forward#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="height">
+			(height like #height#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sys_menu_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="image">
+			(image like #image#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="location">
+			(location like #location#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="onclick">
+			(onclick like #onclick#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="onmouseout">
+			(onmouseout like #onmouseout#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="onmouseover">
+			(onmouseover like #onmouseover#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pageNum">
+			(page_num like #pageNum#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="roles">
+			(roles like #roles#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="target">
+			(target like #target#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="title">
+			(title like #title#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tooltip">
+			(tooltip like #tooltip#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="treeLevel">
+			(tree_level like #treeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="width">
+			(width like #width#)
+			</isNotEmpty>
+		</dynamic>
+		
+		order by display_no asc
+		
+    </select>
+	
+	
+    <select id="getSysMenusByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_sys_menu 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysMenuIdList">
+       	  <iterate prepend="AND" property="SysMenuIdList" open="(" close=")" conjunction="OR">
+		   			 sys_menu_id = #SysMenuIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getSysMenu" resultMap="sysMenuResult">
+    <![CDATA[
+        select * from tb_sys_menu
+         where sys_menu_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addSysMenu" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_sys_menu_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_sys_menu (is_display,action,alt_image,create_by,create_date,description,display_no,forward,height,image,location,modify_by,modify_date,name,onclick,onmouseout,onmouseover,page_num,parent_id,roles,target,title,tooltip,tree_level,width)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateSysMenu" parameterMap="updateParam">
+    <![CDATA[
+        update tb_sys_menu set
+				   is_display= ?,
+                   action = ?,
+                   alt_image = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   description = ?,
+                   display_no = ?,
+                   forward = ?,
+                   height = ?,
+                   image = ?,
+                   location = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   onclick = ?,
+                   onmouseout = ?,
+                   onmouseover = ?,
+                   page_num = ?,
+                   parent_id = ?,
+                   roles = ?,
+                   target = ?,
+                   title = ?,
+                   tooltip = ?,
+                   tree_level = ?,
+                   width = ?,
+		           version = ?
+        where sys_menu_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteSysMenu">
+    <![CDATA[
+        delete from tb_sys_menu
+         where sys_menu_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteSysMenus" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_sys_menu 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysMenuIdList">
+       	  <iterate prepend="AND" property="SysMenuIdList" open="(" close=")" conjunction="OR">
+		   			 sys_menu_id = #SysMenuIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

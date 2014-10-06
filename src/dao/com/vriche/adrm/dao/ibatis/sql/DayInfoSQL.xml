@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DayInfoSQL">
+    <typeAlias alias="dayInfo" type="com.vriche.adrm.model.DayInfo"/>
+
+	<cacheModel id="dayInfo-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addDayInfo"/>
+		<flushOnExecute statement="updateDayInfo"/>
+		<flushOnExecute statement="deleteDayInfo"/>
+		<flushOnExecute statement="deleteDayInfos"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="dayInfo">
+        <parameter property="carrierId" jdbcType="VARCHAR" javaType="java.lang.String" nullValue="0"/>
+        <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+        <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="19990101"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+        <parameter property="specific" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="total" jdbcType="VARCHAR" javaType="java.lang.String" nullValue="0"/>
+        <parameter property="used" jdbcType="VARCHAR" javaType="java.lang.String" nullValue="0"/>
+        <parameter property="workspanId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="dayInfo">
+        <parameter property="carrierId" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+        <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="19991231"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+        <parameter property="specific" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="total" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="used" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="workspanId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+	<parameterMap id="updateParam-save-orderDetail" class="dayInfo">
+        <parameter property="specific" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="used" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <!-- parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/ -->
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+
+	
+
+    <resultMap id="dayInfoResult" class="dayInfo">
+		<result property="modifyTime" column="modify_time" nullValue="0"/>
+        <result property="carrierId" column="ad_resource_carrier_id" nullValue="0"/>
+        <result property="id" column="ad_resource_day_info_id" nullValue="0"/>
+        <result property="propertiyTime" column="ad_resource_propertiy_time" nullValue="0"/>
+        <result property="publishDate" column="publish_date" nullValue="19990101"/>
+        <result property="resourceId" column="ad_resource_info_id" nullValue="0"/>
+        <result property="resourceType" column="ad_resource_type" nullValue="0"/>
+        <result property="specific" column="ad_resource_specific" nullValue=""/>
+        <result property="total" column="total" nullValue="0"/>
+        <result property="used" column="used" nullValue="0"/>
+        <result property="workspanId" column="ad_resource_workspan_id" nullValue="0"/>
+		<result property="version" column="version" nullValue="0"/>
+    </resultMap>
+	
+	
+    <resultMap id="dayInfoResultWithResource" class="dayInfo">
+		<result property="modifyTime" column="modify_time" nullValue="0"/>        
+        <result property="carrierId" column="ad_resource_carrier_id" nullValue="0"/>
+        <result property="id" column="ad_resource_day_info_id" nullValue="0"/>
+        <result property="propertiyTime" column="ad_resource_propertiy_time" nullValue="0"/>
+        <result property="publishDate" column="publish_date" nullValue="19990101"/>
+        <result property="resourceId" column="ad_resource_info_id" nullValue="0"/>
+        <result property="resourceType" column="ad_resource_type" nullValue="0"/>
+        <result property="specific" column="ad_resource_specific" nullValue=""/>
+        <result property="total" column="total" nullValue="0"/>
+        <result property="used" column="used" nullValue="0"/>
+        <result property="workspanId" column="ad_resource_workspan_id" nullValue="0"/>
+		<result property="version" column="version" nullValue="0"/>
+		
+		
+        <result property="resource.isClosed" column="res_is_closed"/>
+        <result property="resource.isManual" column="res_is_manual"/>
+        <result property="resource.isOverweight" column="res_is_overweight"/>
+        <result property="resource.isSeralized" column="res_is_seralized"/>
+        <result property="resource.isValidate" column="res_is_validate"/>
+		<result property="resource.enable" column="res_enable"/>
+		<result property="resource.displayNo" column="display_no" nullValue="0"/>
+		<result property="resource.memo" column="memo"/>
+    </resultMap>
+	
+	
+	<statement id="getResDayInfosByOrderDetail" parameterClass="map" resultMap="dayInfoResultWithResource">
+       <![CDATA[		
+		select RSD.* ,RS.memo,
+		RS.is_closed as res_is_closed,
+		RS.is_manual as res_is_manual,
+		RS.is_overweight as res_is_overweight,
+		RS.is_seralized as res_is_seralized,
+		RS.is_validate as res_is_validate,
+		RS.enable as res_enable,
+		RS.display_no
+		from tb_ad_resource_info RS,
+        	 tb_ad_resource_day_info RSD,
+			 tb_ad_resource_workspan WS 
+		where RSD.ad_resource_workspan_id = WS.ad_resource_workspan_id 
+			 and RS.ad_resource_info_id = WS.ad_resource_info_id  
+		     and RSD.publish_date >=  #startDate#
+		     and RSD.publish_date <=  #endDate#
+			 and RS.ad_resource_info_id = #resourceId#
+	    ]]>			   
+	</statement>
+	
+	<statement id="getOrderDayTimeUsedForFztv" parameterClass="map" resultClass="dayInfo">
+		<![CDATA[
+          select  d.publish_date as publishDate,
+                  sum(d.ad_day_times*AM.length) as used 
+          from  tb_order_day_info d,tb_order_detail t,tb_order o,tb_sys_user_role ur,tb_sys_role sr,tb_adver_matter AM  
+          where d.order_detail_id  = t.order_detail_id  and t.order_id=o.order_id and o.create_by = ur.user_id and ur.role_id = sr.id AND t.adver_matter_id = AM.adver_matter_id 
+           	    and d.publish_date >= #startDate# 
+			    and d.publish_date <= #endDate# 
+			    and t.ad_resource_info_id =#resourceId#
+				and sr.lable!='宣传片录入'
+			]]>	
+		 
+          group by d.publish_date
+	</statement>
+		
+	 <statement id="getOrderDayTimeUsed" parameterClass="map" resultClass="dayInfo">
+		<![CDATA[
+          select  d.publish_date as publishDate,
+                  sum(d.ad_day_times*AM.length) as used 
+          from  tb_order_day_info d,tb_order_detail t,tb_adver_matter AM  
+          where d.order_detail_id  = t.order_detail_id AND t.adver_matter_id = AM.adver_matter_id 
+           	    and d.publish_date >= #startDate# 
+			    and d.publish_date <= #endDate# 
+			    and t.ad_resource_info_id =#resourceId#
+			]]>
+		 
+          group by d.publish_date
+	</statement>	
+	
+	 <statement id="getOrderDayTimeSpec" parameterClass="map" resultMap="dayInfoResult">
+		<![CDATA[
+          select  d.publish_date as publish_date,
+                  SP.position  as ad_resource_specific,
+				  RI.ad_resource_carrier_id,
+				  RI.ad_resource_info_id,
+				  RI.ad_resource_type,
+				  RDI.*
+          from 
+			
+			 tb_order_day_info d
+			
+			  inner join tb_order_detail t 
+			    on d.order_detail_id  = t.order_detail_id 
+			
+			
+			
+		 left outer join  tb_ad_resource_specific SP
+             on  SP.ad_resource_specific_id = t.ad_resource_specific_id
+			
+            left outer join tb_ad_resource_info RI 
+            on RI.ad_resource_info_id = t.ad_resource_info_id
+
+                left outer join tb_ad_resource_workspan RW
+            on RI.ad_resource_info_id = RW.ad_resource_info_id
+
+               left outer join tb_ad_resource_day_info RDI
+            on RDI.ad_resource_workspan_id = RW.ad_resource_workspan_id		
+				
+                where t.ad_resource_specific_id > 0
+           	    	and d.publish_date >= #startDate# 
+					and d.publish_date <= #endDate# 
+					and t.ad_resource_info_id =#resourceId# 
+
+			group by d.order_day_info_id,d.publish_date 
+		]]>	
+	</statement>	
+	
+	
+
+		
+	
+	 <!--statement id="getOrderDayTimeSpec" parameterClass="map" resultMap="dayInfoResult">
+		<![CDATA[
+          select  d.publish_date as publish_date,
+                  SP.position  as ad_resource_specific
+			
+          from  tb_order_day_info d,tb_order_detail t 
+			
+		 left outer join  tb_ad_resource_specific SP
+             on  SP.ad_resource_specific_id = t.ad_resource_specific_id
+			
+                where d.order_detail_id  = t.order_detail_id 
+           	    	and d.publish_date >= #startDate# 
+					and d.publish_date <= #endDate# 
+					and t.ad_resource_info_id =#resourceId# 
+			        and t.ad_resource_specific_id > 0
+		]]>	
+	</statement-->
+
+    <select id="getDayInfos" resultMap="dayInfoResultWithResource">
+    <![CDATA[
+		select 
+		RS.ad_resource_propertiy_time,
+		RS.memo,             
+		RSD.* ,
+		RS.is_closed as res_is_closed,
+		RS.is_manual as res_is_manual,
+		RS.is_overweight as res_is_overweight,
+		RS.is_seralized as res_is_seralized,
+		RS.is_validate as res_is_validate,
+		RS.enable as res_enable,
+		RS.display_no
+		from tb_ad_resource_info RS,
+        	 tb_ad_resource_day_info RSD,
+			 tb_ad_resource_workspan WS
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			 <isNotEmpty prepend="AND" property="startDate"> 
+			(RSD.ad_resource_workspan_id = WS.ad_resource_workspan_id 
+			 and RS.ad_resource_info_id = WS.ad_resource_info_id)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="carrierId">
+			(RS.ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">  
+			(RSD.ad_resource_day_info_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(RSD.ad_resource_propertiy_time = #propertiyTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishDate">
+			(RSD.publish_date = #publishDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceId">
+			(WS.ad_resource_info_id = #resourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(RSD.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="specific">
+			(RSD.ad_resource_specific = #specific#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="total">
+			(RSD.total = #total#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="used">
+			(RSD.used = #used#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workspanId">
+			(RSD.ad_resource_workspan_id = #workspanId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startDate">
+			<![CDATA[
+			(RSD.publish_date >= #startDate# and RSD.publish_date <= #endDate#)
+			]]>
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="version">
+			(RS.version = #version#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="version">
+			(WS.version = #version#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(RSD.version = #version#)  
+			</isNotEmpty -->  
+			  
+		</dynamic>
+    </select>
+	
+	
+	  <select id="getDayInfosFromOrder" resultClass="dayInfo">
+		SELECT
+		tb_order_day_info.publish_date as publishDate,
+		tb_adver_matter.length * tb_order_day_info.ad_day_times as used,
+		tb_ad_resource_specific.position as 'specific' 
+		FROM
+		tb_order_day_info
+		Inner Join tb_order_detail ON tb_order_day_info.order_detail_id = tb_order_detail.order_detail_id
+		Inner Join tb_ad_resource_info ON tb_order_detail.ad_resource_info_id = tb_ad_resource_info.ad_resource_info_id AND tb_order_detail.ad_resource_info_id = tb_ad_resource_info.ad_resource_info_id
+		Inner Join tb_adver_matter ON tb_order_detail.adver_matter_id = tb_adver_matter.adver_matter_id
+		Left Outer Join tb_ad_resource_specific ON tb_order_detail.ad_resource_specific_id = tb_ad_resource_specific.ad_resource_specific_id
+		  	  
+		<dynamic prepend="WHERE"> 	
+			<isNotEmpty prepend="AND" property="resourceId">
+			(tb_ad_resource_info.ad_resource_info_id = #resourceId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate">
+			<![CDATA[
+			(tb_order_day_info.publish_date >= #startDate# and tb_order_day_info.publish_date <= #endDate#)
+			]]>
+			</isNotEmpty>			
+		</dynamic>	  
+		  
+	  </select>	  
+		  
+
+	  <select id="getDayInfosForFree" resultClass="dayInfo">
+    <![CDATA[
+		
+		SELECT 
+		 od.ad_resource_info_id,
+		 odi.publish_date,
+		 sum(AM.length*ad_day_times) as used 
+		
+		FROM tb_order_detail  od
+		
+		        left outer join tb_order_day_info  odi
+		on od.order_detail_id = odi.order_detail_id
+
+		
+				left outer join tb_order  o
+		on od.order_id = o.order_id
+		
+				left outer join tb_sys_user_role  ur
+		on o.user_id = ur.user_id
+		
+				left outer join tb_sys_role  sr
+		on ur.role_id = sr.id
+		
+		 left outer join tb_adver_matter AM 
+				 on od.adver_matter_id = AM.adver_matter_id 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			 <isNotEmpty prepend="AND" property="version"> 
+				odi.version = #version#
+			</isNotEmpty>
+			  
+			 <isNotEmpty prepend="AND" property="startDate"> 
+				<![CDATA[odi.publish_date >= #startDate#]]>
+			</isNotEmpty> 
+			  
+			<isNotEmpty prepend="AND" property="endDate"> 
+				<![CDATA[odi.publish_date <= #endDate#]]>  
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="resourceId">
+			(od.ad_resource_info_id = #resourceId#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="resourceId"> 
+			(sr.lable='宣传片录入')  
+			</isNotEmpty>  
+		</dynamic>
+		  group by od.ad_resource_info_id,odi.publish_date
+    </select>
+	
+    <select id="getDayInfosByIdList" parameterClass="java.util.Map" resultMap="dayInfoResultWithResource">
+     <![CDATA[  
+	select 
+		RSD.* ,
+		RS.memo,
+		RS.is_closed as res_is_closed,
+		RS.is_manual as res_is_manual,
+		RS.is_overweight as res_is_overweight,
+		RS.is_seralized as res_is_seralized,
+		RS.is_validate as res_is_validate,
+		RS.enable as res_enable,
+		RS.display_no
+		from tb_ad_resource_info RS,
+        	 tb_ad_resource_day_info RSD,
+			 tb_ad_resource_workspan WS 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			 <isNotNull prepend="AND" property="startDate"> 
+				 RSD.ad_resource_workspan_id = WS.ad_resource_workspan_id 
+				 and RS.ad_resource_info_id = WS.ad_resource_info_id
+			</isNotNull>
+				
+	      <isNotNull property="DayInfoIdList">
+       	  <iterate prepend="AND" property="DayInfoIdList" open="(" close=")" conjunction="OR">
+		   			 RSD.ad_resource_day_info_id = #DayInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+				
+	      <isNotNull property="ResourceIdList"> 
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 WS.ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 				
+								
+		<isNotNull prepend="AND" property="startDate">
+			<![CDATA[
+			(RSD.publish_date >= #startDate# and RSD.publish_date <= #endDate#)
+			]]>
+		</isNotNull>
+								
+          </dynamic>      
+  </select>     
+
+    <select id="getDayInfo" resultMap="dayInfoResult">
+    <![CDATA[
+        select * from tb_ad_resource_day_info
+         where ad_resource_day_info_id = #value#
+    ]]>
+    </select>
+	
+	<select id="getGroupLeftTime"  resultClass="dayInfo">
+		<![CDATA[
+				SELECT 
+					RSD.publish_date as publishDate,sum(RSD.total)-sum(RSD.used) as used
+			
+				FROM  tb_ad_resource_day_info RSD 
+				
+				 inner join tb_ad_resource_workspan RW
+							on  RW.ad_resource_workspan_id  =  RSD.ad_resource_workspan_id 
+				
+				inner join tb_ad_resource_info  RI
+						on  RW.ad_resource_info_id = RI.ad_resource_info_id 
+
+			
+
+				
+		]]>
+		 <dynamic prepend="WHERE"> 
+			 <isNotNull prepend="AND" property="carrierId"> 
+				 RI.ad_resource_carrier_id = #carrierId#
+			</isNotNull>
+									
+			<isNotNull prepend="AND" property="startDate">
+				<![CDATA[
+				(RSD.publish_date >= #startDate# and RSD.publish_date <= #endDate#)
+				]]>
+			</isNotNull>
+								
+       </dynamic>
+		group by RSD.publish_date
+    </select>
+
+	
+
+    <insert id="addDayInfo" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_day_info_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_ad_resource_day_info (ad_resource_carrier_id,ad_resource_propertiy_time,publish_date,ad_resource_info_id,ad_resource_type,ad_resource_specific,total,used,ad_resource_workspan_id,version)
+            values ( ?,?,?,?,?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateDayInfo" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_day_info set
+                   ad_resource_carrier_id = ?,
+                   ad_resource_propertiy_time = ?,
+                   publish_date = ?,
+                   ad_resource_info_id = ?,
+                   ad_resource_type = ?,
+                   ad_resource_specific = ?,
+                   total = ?,
+                   used = ?, 
+                   ad_resource_workspan_id = ?,
+				   version = ? 
+        where ad_resource_day_info_id = ?
+    ]]>
+    </update>
+
+	
+	
+	
+	<update id="updateDayInfo-saveOrderDetail" parameterMap="updateParam-save-orderDetail">
+    <![CDATA[
+        update tb_ad_resource_day_info set
+                   ad_resource_specific = ?,
+                   used = ? 
+        where ad_resource_day_info_id = ?
+    ]]>
+    </update>
+	
+	
+	<parameterMap id="updateParam-save-orderDetail-new" class="dayInfo">
+        <parameter property="specific" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="changedValue" jdbcType="VARCHAR" javaType="java.lang.Double" nullValue="0"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+	<update id="updateDayInfo-saveOrderDetail-new" parameterMap="updateParam-save-orderDetail-new">
+    <![CDATA[
+        update tb_ad_resource_day_info set 
+                   ad_resource_specific = ?,
+                   used = ifnull(used,0) + ? 
+        where ad_resource_day_info_id = ? 
+    ]]>
+    </update>
+
+
+	
+	
+    <delete id="deleteDayInfo">
+    <![CDATA[
+        delete from tb_ad_resource_day_info
+         where ad_resource_day_info_id = #value#
+    ]]>
+    </delete>
+
+    <delete id="deleteDayInfoByworkspanIdAndDate" parameterClass="java.util.Map">
+    <![CDATA[
+        delete from tb_ad_resource_day_info 
+         where  ad_resource_workspan_id = #workspanId# 
+		    and publish_date >=  #beginDate#
+		    and publish_date <=  #endDate#
+    ]]>
+    </delete>
+	
+	
+	<delete id="deleteDayInfoByworkspanId">
+    <![CDATA[
+        delete from tb_ad_resource_day_info
+         where ad_resource_workspan_id = #value# 
+    ]]>
+    </delete>
+	
+   <delete id="deleteDayInfoByworkspanIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_day_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+	      <isNotNull property="WorkspanIdList">
+       	  <iterate prepend="AND" property="WorkspanIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_workspan_id = #WorkspanIdList[]#
+		  </iterate>
+		  </isNotNull> 
+				
+	      <isNotEmpty prepend="AND" property="version">
+		   			 version = #version# 
+		  </isNotEmpty> 					
+				
+          </dynamic>      
+  </delete>  	
+	
+	
+	
+   <delete id="deleteDayInfos" parameterClass="java.util.Map">
+	   
+     <![CDATA[  delete from tb_ad_resource_day_info  ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+	      <isNotNull property="DayInfoIdList">
+       	  <iterate prepend="AND" property="DayInfoIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_day_info_id = #DayInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+				
+		   <isNotEmpty prepend="AND" property="version">
+		   			 version = #version# 
+		  </isNotEmpty> 			
+				
+          </dynamic>      
+  </delete>   
+	
+	
+ <select id="getDayInfos2" resultMap="dayInfoResult">
+
+		select * from tb_ad_resource_day_info
+ 
+ 	 	<dynamic prepend="WHERE"> 
+			  
+	      <isNotEmpty prepend="AND" property="version">
+		   			 version = #version# 
+		  </isNotEmpty> 	
+			  
+		    <isNotEmpty prepend="AND" property="workspanId">
+		   			  ad_resource_workspan_id = #workspanId# 
+		  </isNotEmpty> 		  
+			
+		</dynamic>
+	 
+ </select>	
+	
+	
+	
+	
+</sqlMap>

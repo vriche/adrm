@@ -1,0 +1,118 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/resources/themes/stylesheets/ext4/default
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+_widgets.scss
+file
+
+
+
+
+2013-05-17T07:37:43.703050Z
+c9b5b9afc80b72e3156dd9d85680cc98
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+_mixins.scss
+file
+
+
+
+
+2013-05-17T07:37:43.703050Z
+8a6dd8c1704f25c183505b4e0c066b22
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+_core.scss
+file
+
+
+
+
+2013-05-17T07:37:43.703050Z
+51a8fc67e572fb2e5d61108be3ea61d2
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+_all.scss
+file
+
+
+
+
+2013-05-17T07:37:43.703050Z
+bae6028483a3363f774cf8edf6b512f0
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+_functions.scss
+file
+
+
+
+
+2013-05-17T07:37:43.718675Z
+f28e135ae99c8be95acfffea96907289
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+_variables.scss
+file
+
+
+
+
+2013-05-17T07:37:43.718675Z
+150d3d78134c4c5fb5d534946883a797
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+widgets
+dir
+
+mixins
+dir
+
+core
+dir
+
+variables
+dir
+
+util
+dir
+
+layout
+dir
+

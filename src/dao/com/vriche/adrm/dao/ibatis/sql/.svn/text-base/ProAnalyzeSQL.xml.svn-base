@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProAnalyzeSQL">
+    <typeAlias alias="paramClass" type="com.vriche.adrm.model.ParamClass"/>
+
+    <resultMap id="proProgramAnalyzeResult" class="paramClass">
+		<result property="programName" column="program_name"/>
+		<result property="payMoney" column="pay_money"/>
+		
+    </resultMap>
+	
+	<resultMap id="getProAudienceAnalyzeResult" class="paramClass">
+		<result property="programName" column="program_name"/>
+		<result property="audienceRat" column="audience_rat"/>
+		<result property="carrierId" column="carrier_id"/>
+		<result property="audienceDate" column="audience_date"/>
+    </resultMap>
+   <sql id="ProAnalyze_where_fragment">
+			<isNotEmpty prepend="AND" property="programName">
+				(pp.program_name like '%$programName$%')
+				</isNotEmpty>
+				
+				<isNotEmpty property="startDate" prepend="AND">
+                <![CDATA[ par.audience_date >= #startDate# ]]>
+                </isNotEmpty> 
+			 	<isNotEmpty property="endDate" prepend="AND">
+						<![CDATA[ par.audience_date <= #endDate# ]]>
+				</isNotEmpty>
+				
+				<isNotEmpty property="startTime" prepend="AND">
+					   <![CDATA[ par.audience_time >= #startTime# ]]>
+				</isNotEmpty> 
+				<isNotEmpty property="endTime" prepend="AND">
+						<![CDATA[ par.audience_time <= #endTime# ]]>
+				</isNotEmpty>
+    </sql>
+	
+	 <sql id="ProAnalyze_startTimeList_fragment">
+	      <isNotNull property="startTimeList">
+       	  <iterate prepend="AND" property="startTimeList" open="(" close=")" conjunction="OR">
+		   			<![CDATA[ ppp.start_time <= #startTimeList[]# ]]>
+		  </iterate>
+			  <iterate prepend="AND" property="startTimeList" open="(" close=")" conjunction="OR">
+		   			<![CDATA[ ppp.end_time >= #startTimeList[]# ]]>
+		  </iterate>
+		  </isNotNull> 
+    </sql>
+	
+	
+	<resultMap id="ResourcesIdResult" class="paramClass">
+		<result property="id" column="ad_resource_carrier_id"/>
+		<result property="typeId" column="parent_id"/>
+    </resultMap>
+	<select id="getResourcesIdByIdList" resultMap="ResourcesIdResult">
+     <![CDATA[  
+       select ad_resource_carrier_id,parent_id 
+		 from tb_ad_resource_carrier 
+       ]]>      
+		<dynamic prepend="WHERE"> 	
+			
+			<isNotNull property="lsParentId">
+				 <iterate prepend="AND" property="lsParentId" open="(" close=")" conjunction="OR">
+							parent_id = #lsParentId[]#
+			  </iterate>
+			</isNotNull> 
+			
+			<isNotEmpty property="year" prepend="AND">
+					<![CDATA[ version like  #year# ]]>
+           </isNotEmpty> 
+		</dynamic> 
+    </select> 
+	
+	<resultMap id="carrierIdResult" class="paramClass">
+		<result property="carrierId" column="carrier_id"/>
+		<result property="id" column="program_id"/>
+    </resultMap>
+	<select id="getCarrierParentIdList" resultMap="carrierIdResult">
+	 <![CDATA[  
+     select   ppp.carrier_id as carrier_id,
+			  ppp.program_id as program_id
+		 
+			from tb_pro_publish_plan  ppp
+				left outer join tb_pro_program  pp
+						on ppp.program_id=pp.id 
+       ]]> 
+			<dynamic prepend="WHERE"> 
+			<isNotEmpty property="programName" prepend="AND">
+					<![CDATA[ pp.program_name like  #programName# ]]>
+            </isNotEmpty> 
+			
+			</dynamic> 
+		group by ppp.carrier_id
+    </select>
+	
+	
+	<resultMap id="getProIncomeAnalyzeResult" class="paramClass">
+		<result property="programName" column="program_name"/>
+		<result property="planDate" column="publish_date"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="total" column="total"/>
+		<result property="memo" column="broadcast_start_time"/>
+		<result property="id" column="ad_resource_info_id"/>
+	 </resultMap>
+	<select id="getCarrierMemo" resultMap="getProIncomeAnalyzeResult">
+	
+		 select  
+			pp.program_name as program_name,
+            ari.ad_resource_info_id as ad_resource_info_id,
+			pppd.plan_date as publish_date,
+			ppp.start_time as start_time,
+            ppp.end_time as end_time,
+            arw.broadcast_start_time as broadcast_start_time,
+            ardi.total as total
+
+
+		  from  tb_pro_publish_plan_detail pppd 
+
+			   left outer join tb_ad_resource_day_info ardi 
+					   on pppd.plan_date =  ardi.publish_date 
+			   left outer join tb_pro_publish_plan ppp 
+					   on ppp.id= pppd.publish_plan_id 
+			   left outer join tb_pro_program pp
+                       on pp.id= ppp.program_id
+			   left outer join tb_ad_resource_carrier arc 
+					  on arc.parent_id = ppp.carrier_id 
+			   left outer join tb_ad_resource_info ari 
+                      on arc.ad_resource_carrier_id = ari.ad_resource_carrier_id 
+			   left outer join tb_ad_resource_workspan arw 
+                      on arw.ad_resource_info_id = ari.ad_resource_info_id
+           
+		  where   ardi.ad_resource_workspan_id = arw.ad_resource_workspan_id  
+				   and pppd.plan_date =  ardi.publish_date 
+
+					
+				<isNotEmpty property="startDate" prepend="AND">
+					<![CDATA[ ppp.start_date >=  #startDate# ]]>
+                </isNotEmpty> 
+				 <isNotEmpty property="endDate" prepend="AND">
+					<![CDATA[ ppp.end_date <=  #endDate# ]]>
+                </isNotEmpty> 
+		
+				<isNotEmpty property="startDate" prepend="AND">
+					<![CDATA[ ardi.publish_date >=  #startDate# ]]>
+                </isNotEmpty> 
+				 <isNotEmpty property="endDate" prepend="AND">
+					<![CDATA[ ardi.publish_date <=  #endDate# ]]>
+                </isNotEmpty> 
+		
+				<isNotEmpty property="proName" prepend="AND">
+					<![CDATA[ pp.program_name like  #proName# ]]>
+                </isNotEmpty> 
+		
+				<isNotNull property="carrierList">
+					 <iterate prepend="AND" property="carrierList" open="(" close=")" conjunction="OR">
+							ari.ad_resource_carrier_id = #carrierList[]#
+				     </iterate>
+				</isNotNull> 
+        
+			group by  pp.program_name,ari.ad_resource_info_id,pppd.plan_date 
+    </select>
+	
+
+	<resultMap id="getCarrierMoneyResult" class="paramClass">
+		<result property="payMoney" column="day_rel_income"/>
+		<result property="id" column="ad_resource_info_id"/>
+		<result property="sumTime" column="matter_length"/>
+		<result property="planDate" column="publish_date"/>
+	 </resultMap>
+	<select id="getCarrierMoney" resultMap="getCarrierMoneyResult">
+	 <![CDATA[  
+         select  
+		    ari.ad_resource_info_id as ad_resource_info_id,
+ 			odi.publish_date as publish_date,
+			sum(AM.length * odi.ad_day_times) as matter_length,
+			(odi.day_rel_income/odi.ad_day_times)/AM.length as day_rel_income
+				from tb_ad_resource_info ari 
+					left outer join tb_order_detail od
+                        on ari.ad_resource_info_id= od.ad_resource_info_id
+					left outer join tb_order_day_info odi
+						on odi.order_detail_id = od.order_detail_id
+		 
+		      left outer join tb_adver_matter AM 
+				 on od.adver_matter_id = AM.adver_matter_id  
+       ]]>  
+			<dynamic prepend="WHERE"> 
+		
+				<isNotEmpty property="startDate" prepend="AND">
+					<![CDATA[ odi.publish_date >=  #startDate# ]]>
+                </isNotEmpty> 
+				 <isNotEmpty property="endDate" prepend="AND">
+					<![CDATA[ odi.publish_date <=  #endDate# ]]>
+                </isNotEmpty> 
+				<isNotNull property="carrierList">
+				 <iterate prepend="AND" property="carrierList" open="(" close=")" conjunction="OR">
+							ari.ad_resource_carrier_id = #carrierList[]#
+			  </iterate>
+			</isNotNull> 
+          </dynamic> 
+    group by ari.ad_resource_info_id,odi.publish_date
+	</select>
+	
+		<select id="getCarrierMoneyByMiddle" resultClass="java.lang.Double">
+	 <![CDATA[  
+      select   sum(odi.day_rel_income) as income
+
+	  from tb_ad_resource_info ari 
+                    left outer join tb_ad_resource_workspan arw
+                on ari.ad_resource_info_id= arw.ad_resource_info_id
+					left outer join tb_order_detail od
+                on ari.ad_resource_info_id= od.ad_resource_info_id
+					left outer join tb_order_day_info odi
+				on odi.order_detail_id = od.order_detail_id
+				    left outer join tb_ad_resource_carrier arc
+				on ari.ad_resource_carrier_id = arc.ad_resource_carrier_id
+                     left outer join tb_pro_publish_plan ppp
+				on arc.parent_id = ppp.carrier_id
+                     left outer join tb_pro_publish_plan_detail ppd
+				on ppp.id = ppd.publish_plan_id
+		 
+		where ppd.plan_date=odi.publish_date and ppp.start_time/1000<=arw.broadcast_start_time 
+			and ppp.end_time/1000>=arw.broadcast_start_time+arw.sun_length
+		 
+       ]]>  
+			<isNotEmpty prepend="AND" property="id">
+				(ppp.program_id like #id#)
+			</isNotEmpty>
+		group by  ppp.program_id
+    </select>
+	<select id="getCarrierMoneyByUp" resultClass="java.lang.Double">
+	 <![CDATA[  
+      select   sum(odi.day_rel_income*(ppp.end_time/1000-arw.broadcast_start_time)/arw.sun_length) as income
+
+	  from tb_ad_resource_info ari 
+                    left outer join tb_ad_resource_workspan arw
+                on ari.ad_resource_info_id= arw.ad_resource_info_id
+					left outer join tb_order_detail od
+                on ari.ad_resource_info_id= od.ad_resource_info_id
+					left outer join tb_order_day_info odi
+				on odi.order_detail_id = od.order_detail_id
+				    left outer join tb_ad_resource_carrier arc
+				on ari.ad_resource_carrier_id = arc.ad_resource_carrier_id
+                     left outer join tb_pro_publish_plan ppp
+				on arc.parent_id = ppp.carrier_id
+                     left outer join tb_pro_publish_plan_detail ppd
+				on ppp.id = ppd.publish_plan_id
+		 
+		where ppd.plan_date=odi.publish_date and ppp.end_time/1000>arw.broadcast_start_time and 
+			ppp.end_time/1000<arw.broadcast_start_time+arw.sun_length
+		 
+       ]]>  
+			<isNotEmpty prepend="AND" property="id">
+				(ppp.program_id like #id#)
+			</isNotEmpty>
+		group by  ppp.program_id
+    </select>
+	<select id="getCarrierMoneyByDown" resultClass="java.lang.Double">
+	 <![CDATA[  
+      select   sum(odi.day_rel_income*(arw.sun_length-ppp.start_time/1000+arw.broadcast_start_time)/arw.sun_length) as income
+
+	  from tb_ad_resource_info ari 
+                    left outer join tb_ad_resource_workspan arw
+                on ari.ad_resource_info_id= arw.ad_resource_info_id
+					left outer join tb_order_detail od
+                on ari.ad_resource_info_id= od.ad_resource_info_id
+					left outer join tb_order_day_info odi
+				on odi.order_detail_id = od.order_detail_id
+				    left outer join tb_ad_resource_carrier arc
+				on ari.ad_resource_carrier_id = arc.ad_resource_carrier_id
+                     left outer join tb_pro_publish_plan ppp
+				on arc.parent_id = ppp.carrier_id
+                     left outer join tb_pro_publish_plan_detail ppd
+				on ppp.id = ppd.publish_plan_id
+		 
+		where ppd.plan_date=odi.publish_date and ppp.start_time/1000>arw.broadcast_start_time 
+			  and ppp.start_time/1000<arw.broadcast_start_time+arw.sun_length 
+		 
+       ]]>  
+			<isNotEmpty prepend="AND" property="id">
+				(ppp.program_id like #id#)
+			</isNotEmpty>
+		group by  ppp.program_id
+    </select>
+	
+	
+	<resultMap id="getProProgramNameResult" class="paramClass">
+		<result property="programName" column="program_name"/>
+    </resultMap>
+	<select id="getProProgramNameList" resultMap="getProProgramNameResult">
+	 <![CDATA[  
+       select   
+			
+			pp.program_name as program_name
+		 
+			from tb_pro_program pp
+					 left outer join tb_pro_order  po
+			on po.program_id=pp.id
+					 left outer join tb_pro_publish_plan  ppp
+			on ppp.program_id=pp.id
+
+		 
+       ]]>  
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="programName">
+				(pp.program_name like #programName#)
+			</isNotEmpty>
+			<isNotEmpty property="memo" prepend="AND">
+				<![CDATA[ substring(pp.start_date,1,4) <=  #memo# ]]>
+            </isNotEmpty> 
+			<isNotEmpty property="memo" prepend="AND">
+				<![CDATA[ substring(pp.end_date,1,4) >=  #memo# ]]>
+            </isNotEmpty> 
+			
+			<isNotEmpty prepend="AND" property="carrierId">
+				(ppp.carrier_id like  #carrierId#)
+			</isNotEmpty>
+          </dynamic> 
+			group by pp.program_name
+    </select>
+	<select id="getProProgramNameCount" resultClass="java.lang.Integer">
+	 <![CDATA[  
+       select   
+			count(distinct pp.program_name)
+		 
+			from tb_pro_program pp
+					 left outer join tb_pro_order  po
+			on po.program_id=pp.id
+					 left outer join tb_pro_publish_plan  ppp
+			on ppp.program_id=pp.id
+
+		 
+       ]]>  
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="programName">
+				(pp.program_name like #programName#)
+			</isNotEmpty>
+			<isNotEmpty property="memo" prepend="AND">
+				<![CDATA[ substring(pp.start_date,1,4) <=  #memo# ]]>
+            </isNotEmpty> 
+			<isNotEmpty property="memo" prepend="AND">
+				<![CDATA[ substring(pp.end_date,1,4) >=  #memo# ]]>
+            </isNotEmpty>  
+			
+			<isNotEmpty prepend="AND" property="carrierId">
+				(ppp.carrier_id like  #carrierId#)
+			</isNotEmpty>
+          </dynamic> 
+    </select>
+<select id="getProAudienceAnalyzeList" resultMap="getProAudienceAnalyzeResult">
+	 <![CDATA[  
+      select   pp.program_name as program_name,
+			   ppp.carrier_id as carrier_id,
+			   par.audience_date as audience_date,
+			   sum(par.audience_rat) as audience_rat 
+
+			from tb_pro_publish_plan  ppp
+				left outer join tb_pro_audience_rat  par
+                        on ppp.carrier_id = par.carrier_id
+				left outer join tb_pro_publish_plan_detail  pppd
+						on pppd.publish_plan_id=ppp.id 
+				left outer join tb_pro_program  pp
+						on ppp.program_id=pp.id
+ 
+			where  pppd.plan_date=par.audience_date  
+				 AND par.audience_time >= ppp.start_time
+				 AND  par.audience_time <= ppp.end_time
+
+		 
+       ]]>  
+			<include refid="ProAnalyze_where_fragment"/>   
+			<isNotEmpty prepend="AND" property="programName">
+				(pp.program_name like #programName#)
+			</isNotEmpty>
+	
+			<isEqual  property="orderCode" compareValue="1">	
+			  group by pp.program_name,ppp.carrier_id,substring(par.audience_date,5,2)
+			</isEqual>
+	
+			<isEqual  property="orderCode" compareValue="2">	
+			  group by pp.program_name,ppp.carrier_id,par.audience_date
+			</isEqual>
+    </select>
+  <select id="getProCostAnalyzeList" resultMap="proProgramAnalyzeResult">
+     <![CDATA[  
+       select  
+		    pp.program_name as program_name,
+            sum(tpf.paid_money) as pay_money
+			
+			from  tb_pro_finance tpf
+		          left outer join tb_pro_order tpo
+		                 on tpf.order_id= tpo.id
+				left outer join tb_pro_program pp
+                       on pp.id= tpo.program_id
+
+
+       ]]>  
+ 	 	  <dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderTypeId">
+					(tpo.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="id">
+					<![CDATA[ pp.id like  #id# ]]>
+            </isNotEmpty> 
+		
+			<isNotEmpty property="programName" prepend="AND">
+					<![CDATA[ pp.program_name like  #programName# ]]>
+            </isNotEmpty> 
+          </dynamic>   
+	  group by pp.program_name 
+  </select>
+<select id="getProCostAnalyzeCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(distinct pp.program_name) 
+			from  tb_pro_order po
+				left outer join tb_pro_program pp
+                       on pp.id= po.program_id
+                left outer join  tb_pro_publish_plan ppp
+                       on pp.id= ppp.program_id
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderTypeId">
+					(po.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+			
+			<isNotEmpty property="programName" prepend="AND">
+					<![CDATA[ pp.program_name like  #programName# ]]>
+            </isNotEmpty>
+          </dynamic>      
+    </select>	
+
+</sqlMap>

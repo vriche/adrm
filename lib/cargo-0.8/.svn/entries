@@ -1,0 +1,54 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/cargo-0.8
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:32:44.457632Z
+23
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+cargo-core-uberjar-0.8.jar
+file
+
+
+
+
+2013-05-17T07:35:35.508905Z
+69a0a2aa8e7b757a1a890d95c9668ef7
+2012-11-24T06:32:44.457632Z
+23
+lxz
+has-props
+
+cargo-ant-0.8.jar
+file
+
+
+
+
+2013-05-17T07:35:35.508905Z
+6fa529001a98a83dc3cadcd1e6353876
+2012-11-24T06:32:44.457632Z
+23
+lxz
+has-props
+

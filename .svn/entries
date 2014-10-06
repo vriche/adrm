@@ -1,0 +1,163 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0
+svn://121.28.83.134:80/src1
+
+
+
+2013-05-17T07:06:23.212871Z
+543
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+test
+dir
+
+metadata
+dir
+
+.springBeansProject
+file
+
+
+
+
+2013-05-17T07:37:48.359542Z
+ecccc6b839facd0811db67a139bad67c
+2012-11-24T06:16:29.879889Z
+9
+lxz
+
+.project
+file
+
+
+
+
+2013-05-17T07:37:48.359542Z
+83d881730506ce44974341cd3f742ad5
+2012-11-24T06:16:29.879889Z
+9
+lxz
+
+src
+dir
+
+docs
+dir
+
+build.properties
+file
+
+
+
+
+2013-05-17T07:37:48.359542Z
+3309c8813e7e984e6f9ca696e33a4f4e
+2012-11-24T06:16:29.879889Z
+9
+lxz
+
+properties.xml
+file
+672
+
+
+
+2013-12-02T10:13:07.540713Z
+7611d61ccec1bbb117da10f163b09603
+2013-12-02T12:10:46.847046Z
+672
+lxz
+
+build.xml
+file
+676
+
+
+
+2013-12-04T05:30:42.161210Z
+a057b0d47d46f4f0b89437128a6211bf
+2013-12-04T09:38:02.768542Z
+676
+lxz
+
+build
+dir
+
+database.properties
+file
+
+
+
+
+2013-05-17T07:37:48.375168Z
+b0d0da74801d425af3988700433c24a1
+2012-11-24T06:16:29.879889Z
+9
+lxz
+
+.classpath
+file
+672
+
+
+
+2013-12-02T10:17:42.773297Z
+91fab2bfc37bf7c167427183e3507075
+2013-12-02T12:10:46.847046Z
+672
+lxz
+
+db-export.xml
+file
+
+
+
+
+2013-05-17T07:37:48.406419Z
+b8558c4759c8c6b7b274e930aec4b751
+2012-11-24T06:16:49.976350Z
+10
+lxz
+
+java-net.xml
+file
+
+
+
+
+2013-05-17T07:37:48.406419Z
+d42cdab1b23544c02fe8dcec0ec747f7
+2012-11-24T06:16:49.976350Z
+10
+lxz
+
+extras
+dir
+
+lib
+dir
+
+web
+dir
+
+.settings
+dir
+

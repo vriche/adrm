@@ -1,0 +1,53 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/dumbster-1.5
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:38:44.258448Z
+24
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+license.txt
+file
+
+
+
+
+2013-05-17T07:35:20.773759Z
+d229da563da18fe5d58cd95a6467d584
+2012-11-24T06:38:44.258448Z
+24
+lxz
+
+dumbster-1.5.jar
+file
+
+
+
+
+2013-05-17T07:35:20.773759Z
+238081bb1445090f473c75fbfeb2e093
+2012-11-24T06:38:44.258448Z
+24
+lxz
+has-props
+

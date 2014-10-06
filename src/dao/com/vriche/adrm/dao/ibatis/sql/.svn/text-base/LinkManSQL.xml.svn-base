@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="LinkManSQL">
+    <typeAlias alias="linkMan" type="com.vriche.adrm.model.LinkMan"/>
+
+	<cacheModel id="linkMan-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addLinkMan"/>
+		<flushOnExecute statement="updateLinkMan"/>
+		<flushOnExecute statement="deleteLinkMan"/>
+		<flushOnExecute statement="deleteLinkMans"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="linkMan">
+		<parameter property="mainTel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="homePage" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="anniDay" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="anniMonth" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="anniYear" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="bakEmail" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="birthdayDay" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="birthdayMonth" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="birthdayYear" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="companyCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyCountry" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyProvince" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyScarriert" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyWebsite" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyZip" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="isCustomerMain" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="favorEmail" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeCountry" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeProvince" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeScarriert" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeTel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeZip" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="linkmanName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="msn" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="nickleName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="officeTel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="oicq" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="sex" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="linkMan">
+		<parameter property="mainTel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="homePage" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="anniDay" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="anniMonth" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="anniYear" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="bakEmail" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="birthdayDay" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="birthdayMonth" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="birthdayYear" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="companyCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyCountry" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyProvince" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyScarriert" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyWebsite" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="companyZip" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="isCustomerMain" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="favorEmail" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeCountry" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeProvince" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeScarriert" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeTel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="homeZip" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="linkmanName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="msn" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="nickleName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="officeTel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="oicq" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="sex" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="linkManResult" class="linkMan">
+        <result property="mainTel" column="main_tel"/>
+        <result property="homePage" column="home_page"/>	
+        <result property="anniDay" column="anni_day"/>
+        <result property="anniMonth" column="anni_month"/>
+        <result property="anniYear" column="anni_year"/>
+        <result property="bakEmail" column="bak_email"/>
+        <result property="birthdayDay" column="birthday_day"/>
+        <result property="birthdayMonth" column="birthday_month"/>
+        <result property="birthdayYear" column="birthday_year"/>
+        <result property="companyCity" column="company_city"/>
+        <result property="companyCountry" column="company_country"/>
+        <result property="companyProvince" column="company_province"/>
+        <result property="companyScarriert" column="company_scarriert"/>
+        <result property="companyWebsite" column="company_website"/>
+        <result property="companyZip" column="company_zip"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="customerId" column="customer_id"/>
+		<result property="isCustomerMain" column="is_customer_main"/>
+        <result property="favorEmail" column="favor_email"/>
+        <result property="homeCity" column="home_city"/>
+        <result property="homeCountry" column="home_country"/>
+        <result property="homeProvince" column="home_province"/>
+        <result property="homeScarriert" column="home_scarriert"/>
+        <result property="homeTel" column="home_tel"/>
+        <result property="homeZip" column="home_zip"/>
+        <result property="id" column="customer_link_man_id"/>
+        <result property="jobTitle" column="job_title"/>
+        <result property="linkmanName" column="link_man_name"/>
+        <result property="memo" column="memo"/>
+        <result property="mobile" column="mobile"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="msn" column="msn"/>
+        <result property="nickleName" column="nickle_name"/>
+        <result property="officeTel" column="office_tel"/>
+        <result property="oicq" column="oicq"/>
+        <result property="sex" column="sex"/>
+        <result property="version" column="version"/>
+        <result property="enable" column="enable"/>
+		<result property="customerName" column="customerName" nullValue=""/>
+    </resultMap>
+	
+    <!-- resultMap id="linkManResult_Base" extends="linkManResult"  class="linkMan">
+		<result property="customer" column="customer_id" select="getCustomerClass"/>
+    </resultMap -->
+
+    <select id="getLinkMans" resultMap="linkManResult">
+
+        select L.* ,
+			CUST.customer_name as customerName
+		from tb_customer_link_man L
+				left outer join tb_customer_info CUST 
+		                 on L.customer_id = CUST.customer_id
+
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="anniDay">
+			(L.anni_day like #anniDay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="anniMonth">
+			(L.anni_month like #anniMonth#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="anniYear">
+			(L.anni_year like #anniYear#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bakEmail">
+			(L.bak_email like #bakEmail#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="birthdayDay">
+			(L.birthday_day like #birthdayDay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="birthdayMonth">
+			(L.birthday_month like #birthdayMonth#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="birthdayYear">
+			(L.birthday_year like #birthdayYear#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyCity">
+			(L.company_city like #companyCity#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyCountry">
+			(L.company_country like #companyCountry#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyProvince">
+			(L.company_province like #companyProvince#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyScarriert">
+			(L.company_scarriert like #companyScarriert#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyWebsite">
+			(L.company_website like #companyWebsite#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyZip">
+			(L.company_zip like #companyZip#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(L.create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(L.create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(L.customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="favorEmail">
+			(L.favor_email like #favorEmail#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeCity">
+			(L.home_city like #homeCity#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeCountry">
+			(L.home_country like #homeCountry#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeProvince">
+			(L.home_province like #homeProvince#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeScarriert">
+			(L.home_scarriert like #homeScarriert#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeTel">
+			(L.home_tel like #homeTel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeZip">
+			(L.home_zip like #homeZip#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(L.customer_link_man_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="jobTitle">
+			(L.job_title like #jobTitle#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkmanName">
+			(L.link_man_name like #linkmanName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(L.memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="mobile">
+			(L.mobile like #mobile#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(L.modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(L.modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="msn">
+			(L.msn like #msn#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nickleName">
+			(L.nickle_name like #nickleName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="officeTel">
+			(L.office_tel like #officeTel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="oicq">
+			(L.oicq like #oicq#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sex">
+			(L.sex like #sex#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(L.enable like #enable#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#)
+			</isNotEmpty>	
+			  
+			  
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUST.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 					  		  
+			  
+		</dynamic>
+    </select>
+	
+	
+	
+    <select id="getLinkMansByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+        select L.* ,
+			CUST.customer_name as customerName
+		from tb_customer_link_man L
+				left outer join tb_customer_info CUST 
+		                 on L.customer_id = CUST.customer_id
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="LinkManIdList">
+       	  <iterate prepend="AND" property="LinkManIdList" open="(" close=")" conjunction="OR">
+		   			 customer_link_man_id = #LinkManIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+	
+	
+	<select id="getLinkManCount" resultClass="java.lang.Integer">
+    <![CDATA[
+		select count(*) from tb_customer_link_man 
+						left outer join tb_customer_info CUST 
+		                 on tb_customer_link_man.customer_id = CUST.customer_id
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="anniDay">
+			(anni_day like #anniDay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="anniMonth">
+			(anni_month like #anniMonth#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="anniYear">
+			(anni_year like #anniYear#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bakEmail">
+			(bak_email like #bakEmail#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="birthdayDay">
+			(birthday_day like #birthdayDay#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="birthdayMonth">
+			(birthday_month like #birthdayMonth#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="birthdayYear">
+			(birthday_year like #birthdayYear#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyCity">
+			(company_city like #companyCity#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyCountry">
+			(company_country like #companyCountry#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyProvince">
+			(company_province like #companyProvince#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyScarriert">
+			(company_scarriert like #companyScarriert#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyWebsite">
+			(company_website like #companyWebsite#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="companyZip">
+			(company_zip like #companyZip#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="favorEmail">
+			(favor_email like #favorEmail#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeCity">
+			(home_city like #homeCity#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeCountry">
+			(home_country like #homeCountry#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeProvince">
+			(home_province like #homeProvince#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeScarriert">
+			(home_scarriert like #homeScarriert#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeTel">
+			(home_tel like #homeTel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="homeZip">
+			(home_zip like #homeZip#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(customer_link_man_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="jobTitle">
+			(job_title like #jobTitle#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkmanName">
+			(link_man_name like #linkmanName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="mobile">
+			(mobile like #mobile#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="msn">
+			(msn like #msn#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nickleName">
+			(nickle_name like #nickleName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="officeTel">
+			(office_tel like #officeTel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="oicq">
+			(oicq like #oicq#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sex">
+			(sex like #sex#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(enable like #enable#)
+			</isNotEmpty>
+			  
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+				(CUST.sys_org_id = #orgId#)
+			</isNotEmpty>	
+			  
+			  
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUST.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 				  			  
+		</dynamic>
+    </select>	
+		
+    <select id="getLinkMan" resultMap="linkManResult">
+    <![CDATA[
+        select L.* ,
+			CUST.customer_name as customerName
+		from tb_customer_link_man L
+				left outer join tb_customer_info CUST 
+		                 on L.customer_id = CUST.customer_id
+         where customer_link_man_id = #value#		
+    ]]>
+    </select>
+
+    <insert id="addLinkMan" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_customer_link_man_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        
+        <![CDATA[
+            insert into tb_customer_link_man (main_tel,home_page,anni_day,anni_month,anni_year,bak_email,birthday_day,birthday_month,birthday_year,company_city,company_country,company_province,company_scarriert,company_website,company_zip,create_by,create_date,customer_id,is_customer_main,favor_email,home_city,home_country,home_province,home_scarriert,home_tel,home_zip,job_title,link_man_name,memo,mobile,modify_by,modify_date,msn,nickle_name,office_tel,oicq,sex,enable)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateLinkMan" parameterMap="updateParam">
+    <![CDATA[
+        update tb_customer_link_man set
+                   main_tel = ?,
+                   home_page = ?,
+                   anni_day = ?,
+                   anni_month = ?,
+                   anni_year = ?,
+                   bak_email = ?,
+                   birthday_day = ?,
+                   birthday_month = ?,
+                   birthday_year = ?,
+                   company_city = ?,
+                   company_country = ?,
+                   company_province = ?,
+                   company_scarriert = ?,
+                   company_website = ?,
+                   company_zip = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   customer_id = ?,
+				   is_customer_main = ?,
+                   favor_email = ?,
+                   home_city = ?,
+                   home_country = ?,
+                   home_province = ?,
+                   home_scarriert = ?,
+                   home_tel = ?,
+                   home_zip = ?,
+                   job_title = ?,
+                   link_man_name = ?,
+                   memo = ?,
+                   mobile = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   msn = ?,
+                   nickle_name = ?,
+                   office_tel = ?,
+                   oicq = ?,
+                   sex = ?,
+                   enable = ?,
+				   version = ? 
+        where customer_link_man_id = ?
+    ]]>
+    </update>
+	
+	
+    <update id="updateMainLinkMan">
+    <![CDATA[
+        update tb_customer_link_man set
+				   is_customer_main = 0
+        where customer_id = #value#
+    ]]>
+    </update>
+
+    <delete id="deleteLinkMan">
+    <![CDATA[
+        delete from tb_customer_link_man
+         where customer_link_man_id = #value#
+    ]]>
+    </delete>
+	
+	
+	<delete id="deleteLinkManByCustomerId">
+    <![CDATA[
+        delete from tb_customer_link_man
+         where customer_id = #value#
+    ]]>
+    </delete>
+	
+	
+	<update id="updateLinkManByCustomerId">
+    <![CDATA[
+        update  tb_customer_link_man
+		 set customer_id =''
+         where customer_id = #value#
+    ]]>
+    </update>
+		
+   <update id="deleteLinkMans" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_customer_link_man 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="LinkManIdList">
+       	  <iterate prepend="AND" property="LinkManIdList" open="(" close=")" conjunction="OR">
+		   			 customer_link_man_id = #LinkManIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

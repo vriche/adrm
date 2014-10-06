@@ -1,0 +1,117 @@
+<%@ include file="/common/taglibs.jsp"%>
+<%@ page language="java" errorPage="/error.jsp" pageEncoding="gbk" contentType="text/html;charset=gbk" %>
+<title><fmt:message key="resourceChannelList.title"/></title>
+
+<script type="text/javascript" src="<c:url value='/scripts/class/sysOrg.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/OrgManager.js'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/scripts/admin/resourceChannelService.js'/>"></script>	
+
+<content tag="heading"><fmt:message key="resourceChannelList.heading"/></content>
+<meta name="menu" content="ResourceChannelMenu"/>
+
+
+<html:form action="resourceChannels" method="get"  styleId="resourceChannelForm" >
+
+                          <c:set var="buttons">
+							    <input type="button" style="margin-right: 5px"
+							        onclick="location.href='<c:url value="/editResourceChannel.html"/>'"
+							        value="&nbsp;&nbsp;<fmt:message key="button.add"/>&nbsp;&nbsp;"/>
+							</c:set>
+							
+							
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><table background="images/table1/textbox_top.gif" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+          <tr> 
+            <td width="50"><img src="images/table1/textbox_top_left.gif" height="27" width="50"></td>
+            <td valign="bottom"><table border="0" cellpadding="0" cellspacing="1" width="100%">
+                <tbody>
+                  <tr> 
+                  
+                    <td>
+                    	<c:out value="${buttons}" escapeXml="false"/>
+                     </td>
+                     
+                      <td width="1px" id="orgId_td"> <select id="orgId" name="orgId"/> </td>
+                     
+ 
+                       <td width="80%">&nbsp;</td>
+                       
+                  </tr>
+                </tbody>
+              </table></td>
+            <td width="115"><img src="images/table1/textbox_top_right.jpg" height="27"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+  <tr>
+    <td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+          <tr> 
+            <td background="images/table1/textbox_left.gif" width="14"></td>
+            <td bgcolor="#f4f3f4">
+            
+            <!--   table start -->
+ 
+			<display:table name="resourceChannelList" cellspacing="1" cellpadding="0"
+    			id="resourceChannelList" pagesize="25" class="tableDisplay resourceChannelList"
+    			export="true" requestURI="">
+
+    		<display:column property="name" sortable="true" headerClass="sortable"
+    	 		url="/editResourceChannel.html" paramId="id" paramProperty="id"
+         		titleKey="resourceChannelForm.name"/>
+    		<display:column property="broTimeFormat" sortable="true" headerClass="sortable"
+         		titleKey="resourceChannelForm.value"/>
+    	
+         		
+ 			<display:column  titleKey="resourceChannelForm.enable"  headerClass="sortable"  media="html"> 
+			     <c:if test="${resourceChannelList.enable == 1}">ÊÇ</c:if>
+			     <c:if test="${resourceChannelList.enable == 0}">·ñ</c:if>
+			</display:column>     	
+				        		
+         		
+         		
+         		
+         		
+    		<display:column property="memo" sortable="true" headerClass="sortable"
+         		titleKey="resourceChannelForm.memo"/>
+         		
+         		
+ 		             		<display:column property="org.name" sortable="true" headerClass="sortable"
+         		titleKey="carrierTypeForm.orgId"/>        		
+         		
+    		<display:setProperty name="paging.banner.item_name" value="resourceChannel"/>
+    		<display:setProperty name="paging.banner.items_name" value="resourceChannels"/>
+		</display:table>
+            <!--   table end -->
+            
+            
+            
+            
+            </td>
+            <td width="14" background="images/table1/textbox_right.gif"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr> 
+            <td width="14"><img src="images/table1/textbox_bottom_left.gif" height="19" width="14"></td>
+            <td width="100%" background="images/table1/textbox_bottom.gif"></td>
+            <td width="14"><img src="images/table1/textbox_bottom_right.gif" height="19" width="14"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+</table>
+
+</html:form>
+
+<script type="text/javascript">
+    highlightTableRows("resourceChannelList");
+</script>

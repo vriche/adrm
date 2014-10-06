@@ -1,0 +1,526 @@
+truncate table tb_sys_resource;
+--
+-- Dumping data for table `tb_sys_menu`
+--
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '所有连接','URL','/../*.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/../*.htm%');
+			
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '用户（浏览）','URL','/users.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/users.htm%');
+            
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '组织信息(浏览)','URL','/orgs。html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/orgs.htm%');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '部门(浏览)','URL','/branchs.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/branchs.htm%');
+            	
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '权限控制(浏览)','URL','/syspermitmanager.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/syspermitmanager.htm%');
+            			
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '办公审批','URL','/oaworkflowchecks.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/oaworkflowchecks.htm%');
+            		
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '职位设置(浏览)','URL','/roles.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/roles.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '行业代理信息','TAG','table.industryagent',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'table.industryagent');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '桌面','URL','/mainmenu.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/mainmenu.htm%');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户关系_客户信息(浏览)','URL','/customers.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/customers.htm%');
+            				
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户关系_联系人(浏览)','URL','/linkmans.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/linkmans.htm%');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户关系_客户意见(浏览)','URL','/feedbackinfos.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/feedbackinfos.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告资源_价格手册(浏览)','URL','/prices.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/prices.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告资源_基本信息_指定信息(浏览)','URL','/specifics.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/specifics.htm%');
+            			
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告素材_产品分类(浏览)','URL','/productcategorys.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/productcategorys.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告素材_广告素材(浏览)','URL','/matters.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/matters.htm%');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单管理_合同信息(浏览)','URL','/contracts.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/contracts.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单管理_销售订单(浏览)','URL','/orders.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/orders.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单管理_资源查询(浏览)','URL','/queryadres.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/queryadres.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '结算管理_到款入录(浏览)','URL','/incomes.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/incomes.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '结算管理_到款分配(浏览)','URL','/incomepulls.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/incomepulls.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '发布管理_垫片广告(浏览)','URL','/appendtree.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/appendtree.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '文档管理_发布文档(浏览)','URL','/oadocuments.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/oadocuments.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '工作流程_流程管理(浏览)','URL','/oaworkflows.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/oaworkflows.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '工作流程_办公申请(浏览)','URL','/oaapplyinfos.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/oaapplyinfos.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '系统管理_在线用户(浏览)','URL','/activeusers.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/activeusers.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '系统管理_访问纪录(浏览)','URL','/clickstreams.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/clickstreams.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告资源_基本信息_媒体分类(浏览)','URL','/carriertypes.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/carriertypes.htm%');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '系统管理_报表工具(浏览)','URL','/reports/index.jsp*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/reports/index.jsp*');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '销售订单（编辑）','URL','/editorder.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/editorder.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告编播','URL','/publisharranges.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/publisharranges.htm%');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '编播下载','URL','/publisharrangedownload.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/publisharrangedownload.htm%');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '区间统计','URL','/customeranalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/customeranalyze.htm%');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '全年统计','URL','/yearanalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/yearanalyze.htm%');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '业务员统计','URL','/businessanalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/businessanalyze.html');
+            	
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '载体区间统计','URL','/carrierscopeanalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/carrierscopeanalyze.html');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '载体全年统计','URL','/carrierallyearanalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/carrierallyearanalyze.html');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '段位统计','URL','/resourceadveranalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/resourceadveranalyze.htm%');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '时段统计','URL','/resourcescopeanalyze.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/resourcescopeanalyze.htm%');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '构成分析','URL','/carrierbasalanalyze.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/carrierbasalanalyze.htm%');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单类别客户统计','URL','/ordercategorycarrier.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/ordercategorycarrier.htm%');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单类别类别统计','URL','/ordercategorycustomer.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/ordercategorycustomer.htm%');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '区域客户统计','URL','/areacustomeranalyze.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/areacustomeranalyze.htm%');
+            	
+	
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户品牌投放量','URL','/customerproductrelincome.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/customerproductrelincome.html');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '行业品牌投放量','URL','/industryproductrelincome.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/industryproductrelincome.html');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告类型品牌投放量','URL','/advtypeproductrelincome.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/advtypeproductrelincome.html');
+            	
+            	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '频道进款统计','URL','/channincome.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/channincome.htm%');
+            	
+            	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户到款统计','URL','/customerincomemoney.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/customerincomemoney.htm%');
+            	
+            	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '到款明细统计','URL','/incomedetail.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/incomedetail.htm%');
+            	
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '时段维护','URL','/resources.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/resources.htm%');
+            			
+            			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '业务可见','TAG','tag_role_waiter',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_role_waiter');
+            		
+            		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '财务可见','TAG','tag_role_fince',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_role_fince');
+            		
+            			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '结算管理_到款入录(编辑)','URL','/editincome.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/editincome.htm%');
+            			
+            			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '编辑客户','URL','/editcustomer.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/editcustomer.htm%');
+            		
+            		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '价格规则','URL','/priceregulars.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/priceregulars.htm%');
+            		
+            		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '播出证明','URL','/broreport.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/broreport.html');
+            	
+            	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单浏览提交审核','TAG','tag_orderList_check',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_orderList_check');
+            				
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单浏览新添','TAG','tag_orderList_new',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_orderList_new');
+            			
+            			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单浏览打印导出','TAG','tag_orderList_print',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_orderList_print');
+            			
+            			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '财务可见是否平账','TAG','tag_orderList_finance',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_orderList_finance');
+            			
+            				
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '编播保存','TAG','tag_publish_arrange',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_publish_arrange');
+            		
+            			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单保存','TAG','tag_orderDetail_save',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_orderDetail_save');
+            		
+            			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告素材保存删除','TAG','tag_matter_button1',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_matter_button1');
+       
+       
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告素材强制保存','TAG','tag_matter_button2',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_matter_button2');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告超时','TAG','tag_time_out',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_time_out');
+            		
+			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '重载选项','URL','/reload.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/reload.html');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '刷新缓存','URL','/flush.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/flush.html');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '最新通知','URL','/oainfos.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/oainfos.html');
+        
+        
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '欠款查询','URL','/contractpaymentlist.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/contractpaymentlist.htm%');
+            				
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '十七号令','URL','/resourcelimitquery.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/resourcelimitquery.htm%');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户合并','URL','/customerunify.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/customerunify.htm%');
+            		
+            					
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '文件上传','URL','/upload/*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/upload/*');
+         
+         
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '广告品牌投放量','URL','/brandanalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/brandanalyze.html');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '时段统计','URL','/resourcescopeanalyze.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/resourcescopeanalyze.html');
+            			
+			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '角色_与用户关系','METHOD','com.vriche.adrm.service.RoleManager.saveRoleUserRes',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.RoleManager.saveRoleUserRes');
+            		
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '角色_删除','METHOD','com.vriche.adrm.service.RoleManager.removeRoleById',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.RoleManager.removeRoleById');
+            			
+			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '角色_保存','METHOD','com.vriche.adrm.service.RoleManager.saveRole',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.RoleManager.saveRole');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '用户_保存','METHOD','com.vriche.adrm.service.UserManager.saveUser',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.UserManager.saveUser');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '用户_隶属关系','METHOD','com.vriche.adrm.service.UserManager.saveUserRel',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.UserManager.saveUserRel');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '用户_频道隶属关系','METHOD','com.vriche.adrm.service.UserManager.saveUserCarrierRel',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.UserManager.saveUserCarrierRel');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '权限资源_保存','METHOD','com.vriche.adrm.service.SysResourceManager.saveSysResource',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.SysResourceManager.saveSysResource');
+            			
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '权限资源_删除','METHOD','com.vriche.adrm.service.SysResourceManager.removeSysResource',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.SysResourceManager.removeSysResource');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '用户_删除','METHOD','com.vriche.adrm.service.UserManager.removeUser',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.UserManager.removeUser');
+            		
+			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '部门_保存','METHOD','com.vriche.adrm.service.BranchManager.saveBranch',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.BranchManager.saveBranch');
+            		
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '部门_删除','METHOD','com.vriche.adrm.service.BranchManager.removeBranch',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.BranchManager.removeBranch');
+            	
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户_保存','METHOD','com.vriche.adrm.service.CustomerManager.saveCustomerForm',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'com.vriche.adrm.service.CustomerManager.saveCustomerForm');
+            		
+				
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户_类型','URL','/customertypes.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/customertypes.htm%');
+            	
+			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '客户_性质','URL','/categorys.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/categorys.htm%');
+            		
+			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '行业_类别','URL','/industrys.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/industrys.htm%');
+            		
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '订单_类型','URL','/ordercategorys.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/ordercategorys.htm%');
+            		
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '到款_类型','URL','/incomemodes.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/incomemodes.htm%');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '到款_用途','URL','/incomepurposes.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/incomepurposes.htm%');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '素材_分类','URL','/mattertypes.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/mattertypes.htm%');
+            			
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '价格_类型','URL','/pricetypes.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/pricetypes.html');
+            		
+	
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '时段_类型','URL','/resourcetypes.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '%/resourcetypes.htm%');
+            		
+			
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '媒体_分类','URL','/carriertypes.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/carriertypes.html');
+            		
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '载体_频道','URL','/resourcechannels.html*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '%/resourcechannels.htm%');
+            		
+		
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '菜单管理','URL','/sysmenus.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/sysmenus.html');
+
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '系统参数','URL','/sysparams.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/sysparams.html');
+            			
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '节目管理','URL','/merm/index.jsp*',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/merm/index.jsp*');
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '远程订单录入','TAG','tag_distance_order',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_distance_order');
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '管理员操作按钮','TAG','tag_manager_button',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_manager_button');
+
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '节目审核','TAG','tag_proProgram_check',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like 'tag_proProgram_check');
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '61号令','URL','/resourceLimitSearch61.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/resourceLimitSearch61.html');
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '指定查询','URL','/specificQuery.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/specificQuery.html');
+INSERT INTO tb_sys_resource (name, res_type, res_string,version,memo) 
+            SELECT distinct '品牌投播情况表','URL','/industryProductChannelRelIncome.html',0,'' FROM tb_sys_resource
+            WHERE not exists (select res_string from tb_sys_resource where res_string like '/industryProductChannelRelIncome.html');
+             	          				

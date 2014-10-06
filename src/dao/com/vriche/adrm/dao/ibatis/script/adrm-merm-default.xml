@@ -1,0 +1,349 @@
+alter table tb_pro_customer drop foreign key fk_tb_pro_customer_cut_type;
+alter table tb_pro_program drop foreign key fk_tb_pro_program_pro_type;
+alter table tb_pro_program drop foreign key fk_tb_pro_program_customer;
+alter table tb_pro_order drop foreign key fk_tb_pro_order_order_type;
+alter table tb_pro_order drop foreign key fk_tb_pro_order_program;
+alter table tb_pro_order drop foreign key fk_tb_pro_order_user;
+alter table tb_pro_publish_plan drop foreign key fk_tb_pro_publish_plan_carrier;
+alter table tb_pro_publish_plan drop foreign key fk_tb_pro_publish_plan_program;
+alter table tb_pro_publish_plan_detail drop foreign key fk_tb_pro_publish_plan_detail_publish_plan;
+alter table tb_pro_audience_rat drop foreign key fk_tb_pro_audience_rat_carrier;
+alter table tb_pro_order drop foreign key fk_tb_pro_order_customer;
+alter table tb_pro_finance drop foreign key fk_tb_pro_finance_order;
+alter table tb_pro_finance drop foreign key fk_tb_pro_finance_income_mode;
+alter table tb_pro_finance drop foreign key fk_tb_pro_finance_income_purpose;
+alter table tb_pro_check_idea drop foreign key fk_tb_pro_check_idea_program;
+alter table tb_pro_program_detail drop foreign key fk_tb_pro_program_detail_program;
+alter table tb_pro_program drop foreign key fk_tb_pro_program_status;
+  
+drop TABLE tb_pro_order;
+drop TABLE tb_pro_customer_type;
+drop TABLE tb_pro_customer;
+drop TABLE tb_pro_program;
+drop TABLE tb_pro_program_type;
+drop TABLE tb_pro_publish_plan;
+drop TABLE tb_pro_publish_plan_detail;
+drop TABLE tb_pro_order_type;
+drop TABLE tb_pro_audience_rat;
+drop TABLE tb_pro_finance;
+drop TABLE tb_pro_check_idea;
+drop TABLE tb_pro_program_detail;
+drop TABLE tb_pro_expense_type;
+drop TABLE tb_pro_expense_program;
+drop TABLE tb_pro_program_status;
+
+CREATE TABLE tb_pro_customer_type (
+			  id bigint(20) NOT NULL auto_increment,
+		      name varchar(20)  NOT NULL default '',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+INSERT INTO tb_pro_customer_type (name) VALUES   ('供应商'),('购买客户');
+
+CREATE TABLE tb_pro_customer (
+			  id bigint(20) NOT NULL auto_increment,
+		      customer_name varchar(30)  NOT NULL default '',
+			  help_code varchar(20)  NOT NULL default '',
+			  customer_type_id bigint(20) NOT NULL default '0',
+			  telephone varchar(15)  default '',
+		      fax varchar(15)  default '',	
+		      linkman_name varchar(10)  default '',
+			  account_address varchar(20)  default '',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_program (
+			  id bigint(20) NOT NULL auto_increment,
+		      program_name varchar(20)  NOT NULL default '',
+			  program_type_id bigint(20)  NOT NULL default '0',
+			  copyright_num varchar(20)  default '',
+			  start_date int(12) default '0',
+			  end_date int(12) default '0',
+			  customer_id bigint(20) NOT NULL default '0',
+			  business_name varchar(20)  NULL default '',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  is_checked bigint(20) NOT NULL default '0',
+			  sow_count double  NOT NULL default '0',
+			  arrive_date int(12) default '0',
+			  checked_date int(12) default '0',
+			  price double  NOT NULL default '0',
+			  audience_rat double  NOT NULL default '0',
+			  is_sell bigint(20) NOT NULL default '0',
+			  copyright_area varchar(100)  NOT NULL default '',
+			  program_status_id bigint(20)  NOT NULL default '0',
+			  PRIMARY KEY  (id),
+			  UNIQUE KEY program_name (program_name)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_program_type (
+			  id bigint(20) NOT NULL auto_increment,
+		      name varchar(20)  NOT NULL default '',
+			  parent_id  varchar(32)  NOT NULL default '',
+              tree_level int(5)  default '0',
+			  display_no int(16) NOT NULL default '0',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+INSERT INTO `tb_pro_program_type`  (id,name,parent_id,tree_level) VALUES 
+  ('1',' 电视剧 ', '0','1'),
+('2','国产电视剧 ', '1','2'),
+('3','境外电视剧 ', '1','2'),
+('4','电影', '0','1'),
+('5','国产电影', '4','2'),
+('6','境外电影', '4','2'),
+('7','动画片', '0','1'),
+('8','专题片', '0','1'),
+('9','二轮剧', '0','1'),
+('10','专题片', '0','1');
+
+CREATE TABLE tb_pro_publish_plan (
+			  id bigint(20) NOT NULL auto_increment,
+		      program_id bigint(20)  NOT NULL default '0',
+			  carrier_id bigint(20)  NOT NULL default '0',
+			  start_date int(12) default '0',
+			  end_date int(12) default '0',
+			  start_time int(12) default '0',
+			  end_time int(12) default '0',
+			  weeks_plan  varchar(50)  NOT NULL default '',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_publish_plan_detail (
+			  id bigint(20) NOT NULL auto_increment,
+		      publish_plan_id bigint(20)  NOT NULL default '0',         
+			  plan_date int(12) default '0',
+              day_time  bigint(10) default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_order (
+			id bigint(20) NOT NULL auto_increment,
+			order_code varchar(32)  NOT NULL default '',
+			relation_code varchar(32) NOT NULL  default '',
+			order_meno varchar(256)  NOT NULL  default '',
+			pay_money  double  NOT NULL default '0',
+			pay_date   int(12)      NOT NULL default '0',
+			paid_money double  NOT NULL  default '0',
+			paid_date  int(12)   NOT NULL    default '0',
+			more_money double NOT NULL   default '0',
+			less_money double  NOT NULL  default '0',
+			program_id bigint(20)   NOT NULL default '0',
+			order_type_id bigint(20) NOT NULL default '0',
+			user_id bigint(20)  NOT NULL default '0',
+			customer_id bigint(20) NOT NULL default '0',
+			create_by bigint(20) default NULL,
+			create_date datetime default NULL,
+			modify_by bigint(20) default NULL,
+			modify_date datetime default NULL,
+			version int(11) NOT NULL default '0',
+			PRIMARY KEY  (id),
+			UNIQUE KEY order_code (order_code)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_order_type (
+			  id bigint(20) NOT NULL auto_increment,
+			  name varchar(20)  NOT NULL default '',
+			  value varchar(20)  NOT NULL default '',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+INSERT INTO tb_pro_order_type (id,name,value) VALUES   ('1','采购', '1'),('2','销售', '2');
+
+CREATE TABLE tb_pro_audience_rat (
+			  id bigint(20) NOT NULL auto_increment,
+			  carrier_id bigint(20)  NOT NULL default '0',
+			  audience_date int(12) default '0',
+			  audience_time int(12) default '0',
+			  audience_rat  double  NOT NULL default '0',
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_finance (
+			id bigint(20) NOT NULL auto_increment,
+			order_id bigint(20)  NOT NULL default '0',
+			pay_money  double  NOT NULL default '0',
+			pay_date   int(12)      NOT NULL default '0',
+			paid_money double  NOT NULL  default '0',
+			paid_date  int(12)   NOT NULL    default '0',
+			income_mode_id bigint(20)  NOT NULL default '0',
+			income_purpose_id bigint(20) NOT NULL default '0',
+			create_by bigint(20) default NULL,
+			create_date datetime default NULL,
+			modify_by bigint(20) default NULL,
+			modify_date datetime default NULL,
+			version int(11) NOT NULL default '0',
+			PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+
+CREATE TABLE tb_pro_check_idea (
+			  id bigint(20) NOT NULL auto_increment,
+			  carrier_id bigint(20)  NOT NULL default '0', 
+              program_id bigint(20)  NOT NULL default '0', 
+			  check_result bigint(20)  NOT NULL default '0',
+		      check_idea varchar(100)  NOT NULL default '0',
+              create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+              version int(11) NOT NULL default '0', 
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_program_detail (
+			  id bigint(20) NOT NULL auto_increment,
+			  program_id bigint(20)  NOT NULL default '0',
+			  input_date int(12) default '0',
+			  first_date int(12) default '0',
+			  director varchar(20)  NULL default '',
+			  actor varchar(20) NOT NULL default '',
+			  content varchar(512)  NOT NULL default '',
+			  opinion varchar(512)  NOT NULL default '',
+              income_money double  NOT NULL  default '0',
+              rate double  NOT NULL  default '0',
+              commend_level varchar(10)  NOT NULL default '',
+              
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_expense_type (
+			  id bigint(20) NOT NULL auto_increment,
+		      name varchar(20)  NOT NULL default '',
+			  display_no int(16) NOT NULL default '0',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_expense_program (
+			  program_id bigint(20) NOT NULL default '0',
+			  expense_id bigint(20) NOT NULL default '0',
+			  expense_money double  NOT NULL  default '0',
+
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (program_id,expense_id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+CREATE TABLE tb_pro_program_status (
+			  id bigint(20) NOT NULL auto_increment,
+		      name varchar(20)  NOT NULL default '',
+			  display_no int(16) NOT NULL default '0',
+			  create_by bigint(20) default NULL,
+			  create_date datetime default NULL,
+			  modify_by bigint(20) default NULL,
+			  modify_date datetime default NULL,
+			  version int(11) NOT NULL default '0',
+			  PRIMARY KEY  (id)
+			) TYPE=InnoDB DEFAULT CHARSET=gbk;
+
+INSERT INTO tb_pro_program_status  (id,name,display_no) VALUES   ('1','制作中', '1'),('2','热映中', '2'),('3','已购买', '3');
+
+ALTER TABLE tb_pro_customer ADD CONSTRAINT fk_tb_pro_customer_cut_type 
+		FOREIGN KEY (customer_type_id) 
+		REFERENCES tb_pro_customer_type(id);
+
+ALTER TABLE tb_pro_program ADD CONSTRAINT fk_tb_pro_program_pro_type 
+		FOREIGN KEY (program_type_id) 
+		REFERENCES tb_pro_program_type(id);
+
+ALTER TABLE tb_pro_program ADD CONSTRAINT fk_tb_pro_program_customer 
+		FOREIGN KEY (customer_id) 
+		REFERENCES tb_pro_customer(id);
+
+ALTER TABLE tb_pro_program ADD CONSTRAINT fk_tb_pro_program_status 
+		FOREIGN KEY (program_status_id) 
+		REFERENCES tb_pro_program_status(id);
+
+ALTER TABLE tb_pro_publish_plan ADD CONSTRAINT fk_tb_pro_publish_plan_program 
+		FOREIGN KEY (program_id) 
+		REFERENCES tb_pro_program(id);
+
+ALTER TABLE tb_pro_publish_plan ADD CONSTRAINT fk_tb_pro_publish_plan_carrier
+		FOREIGN KEY (carrier_id) 
+		REFERENCES tb_ad_resource_carrier(ad_resource_carrier_id);
+
+ALTER TABLE tb_pro_publish_plan_detail ADD CONSTRAINT fk_tb_pro_publish_plan_detail_publish_plan
+		FOREIGN KEY (publish_plan_id) 
+		REFERENCES tb_pro_publish_plan(id);
+
+ALTER TABLE tb_pro_order ADD CONSTRAINT fk_tb_pro_order_order_type 
+		FOREIGN KEY (order_type_id) 
+		REFERENCES tb_pro_order_type(id);
+
+ALTER TABLE tb_pro_order ADD CONSTRAINT fk_tb_pro_order_program 
+		FOREIGN KEY (program_id) 
+		REFERENCES tb_pro_program(id);
+
+ALTER TABLE tb_pro_order ADD CONSTRAINT fk_tb_pro_order_user 
+		FOREIGN KEY (user_id) 
+		REFERENCES tb_sys_user(id);
+
+ALTER TABLE tb_pro_audience_rat ADD CONSTRAINT fk_tb_pro_audience_rat_carrier
+		FOREIGN KEY (carrier_id) 
+		REFERENCES tb_ad_resource_carrier(ad_resource_carrier_id);
+
+ALTER TABLE tb_pro_order ADD CONSTRAINT fk_tb_pro_order_customer 
+		FOREIGN KEY (customer_id) 
+		REFERENCES tb_pro_customer(id);
+
+ALTER TABLE tb_pro_finance  ADD CONSTRAINT fk_tb_pro_finance_order
+		FOREIGN KEY (order_id) 
+		REFERENCES tb_pro_order(id);
+
+ALTER TABLE tb_pro_finance  ADD CONSTRAINT fk_tb_pro_finance_income_mode
+		FOREIGN KEY (income_mode_id )
+		REFERENCES tb_income_mode(income_mode_id);
+
+ALTER TABLE tb_pro_finance  ADD CONSTRAINT fk_tb_pro_finance_income_purpose
+		FOREIGN KEY (income_purpose_id )
+		REFERENCES tb_income_purpose(income_purpose_id );
+
+ALTER TABLE tb_pro_check_idea ADD CONSTRAINT fk_tb_pro_check_idea_program 
+		FOREIGN KEY (program_id) 
+		REFERENCES tb_pro_program(id);
+
+ALTER TABLE tb_pro_program_detail ADD CONSTRAINT fk_tb_pro_program_detail_program 
+		FOREIGN KEY (program_id) 
+		REFERENCES tb_pro_program(id);

@@ -1,0 +1,746 @@
+#topNav {
+	PADDING-RIGHT: 5px; BORDER-TOP: #cccccc 1px solid; PADDING-LEFT: 5px; FONT-SIZE: 12px; PADDING-BOTTOM: 5px; MARGIN: 0px 0px 2px; COLOR: #999999; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #f9f9f9
+}
+#topNav UL {
+	DISPLAY: inline
+}
+#topNav LI {
+	PADDING-RIGHT: 0px; DISPLAY: inline; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+#topNav A {
+	BORDER-RIGHT: #f9f9f9 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #f9f9f9 1px solid; PADDING-LEFT: 6px; PADDING-BOTTOM: 1px; MARGIN: 1px; BORDER-LEFT: #f9f9f9 1px solid; COLOR: #333333; PADDING-TOP: 1px; BORDER-BOTTOM: #f9f9f9 1px solid; background-color:buttonface;
+}
+#topNav A:link {
+	BORDER-RIGHT: #f9f9f9 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #f9f9f9 1px solid; PADDING-LEFT: 6px; PADDING-BOTTOM: 1px; MARGIN: 1px; BORDER-LEFT: #f9f9f9 1px solid; COLOR: #333333; PADDING-TOP: 1px; BORDER-BOTTOM: #f9f9f9 1px solid; background-color:buttonface;
+}
+#topNav A:active {
+	BORDER-RIGHT: #f9f9f9 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #f9f9f9 1px solid; PADDING-LEFT: 6px; PADDING-BOTTOM: 1px; MARGIN: 1px; BORDER-LEFT: #f9f9f9 1px solid; COLOR: #333333; PADDING-TOP: 1px; BORDER-BOTTOM: #f9f9f9 1px solid; background-color:buttonface;
+}
+#topNav A:visited {
+	BORDER-RIGHT: #f9f9f9 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #f9f9f9 1px solid; PADDING-LEFT: 6px; PADDING-BOTTOM: 1px; MARGIN: 1px; BORDER-LEFT: #f9f9f9 1px solid; COLOR: #333333; PADDING-TOP: 1px; BORDER-BOTTOM: #f9f9f9 1px solid; background-color:buttonface;
+}
+#topNav A:hover {
+	BORDER-RIGHT: #c2cfdf 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #c2cfdf 1px solid; PADDING-LEFT: 6px; PADDING-BOTTOM: 1px; MARGIN: 1px; BORDER-LEFT: #c2cfdf 1px solid; PADDING-TOP: 1px; BORDER-BOTTOM: #c2cfdf 1px solid; BACKGROUND-COLOR: #f0f5fa; TEXT-DECORATION: none;
+}
+
+#tbBomOpt a{
+	display:block;width:55px;padding:3px;background-color:buttonface;border:solid 1px #999999;color:#000000;text-decoration: none;
+	}
+#tbBomOpt a:hover{
+	background-color:#DDE3EC;
+}
+
+
+
+BODY.Main {
+	/* 
+	SCROLLBAR-FACE-COLOR: #d6d3ce; FONT-SIZE: 9pt; MARGIN: 0px; SCROLLBAR-HIGHLIGHT-COLOR: #f5f9ff; SCROLLBAR-SHADOW-COLOR: #d6d3d6; SCROLLBAR-3DLIGHT-COLOR: #d6d3d6; SCROLLBAR-ARROW-COLOR: #797979; SCROLLBAR-TRACK-COLOR: #eff3f7; FONT-FAMILY: Verdana; SCROLLBAR-DARKSHADOW-COLOR: #ffffff; SCROLLBAR-BASE-COLOR: #ffffcc; LIST-STYLE-TYPE: circle; background-color: #ffffff
+	*/
+}
+
+
+TABLE {
+	FONT-SIZE: 9pt; FONT-FAMILY: Verdana
+}
+TABLE.Form {
+	BORDER-RIGHT: medium none; PADDING-RIGHT: 0px; BORDER-TOP: medium none; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; BORDER-LEFT: medium none; WIDTH: 100%; BORDER-BOTTOM: medium none; background-color:
+}
+
+/* 
+TABLE.Form TR {
+	
+}
+TABLE.Form TR.Section {
+	
+}
+*/
+.pageTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+.moduleLine {
+	BACKGROUND-COLOR: #336699
+}
+.blackLine {
+	BACKGROUND-COLOR: #000000
+}
+
+.tuborgbox {
+	BORDER-RIGHT: #aaaaaa 1px solid; BORDER-TOP: #ffffff 1px solid; BORDER-LEFT: #ffffff 1px solid; BORDER-BOTTOM: #aaaaaa 1px solid
+}
+.bodySmallBold {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+.bodyBold {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+.dataLabel_bak {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; LINE-HEIGHT: 16px; FONT-FAMILY: 'Arial', 'Helvetica'; BACKGROUND-COLOR: #dddddd; TEXT-ALIGN: right
+}
+
+.dataLabel {
+	FONT-WEIGHT: normal; 
+	FONT-SIZE: 9pt; 
+	COLOR: #000000; 
+	LINE-HEIGHT: 16px; FONT-FAMILY: 'Arial', 'Helvetica'; 
+	TEXT-ALIGN: right;
+	width:80px;
+	/* width:20%; */
+	float:left;
+}
+
+
+
+
+TABLE.Form TR.Section TH {
+	TEXT-INDENT: -1pt; TEXT-ALIGN: left
+}
+TABLE.Form TR.Separator
+{
+	height: 4px;
+}
+TABLE.Form TD {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px 
+}
+TABLE.Form TD.Field {
+	/*PADDING-RIGHT: 3px; PADDING-LEFT: 2px; BACKGROUND-COLOR: #efefef*/
+	PADDING-RIGHT: 3px; PADDING-LEFT: 2px; BACKGROUND-COLOR: #ECEFF4
+}
+TABLE.Form TD.Sep1 {
+	BACKGROUND-IMAGE: url(images/Sep1.gif); BACKGROUND-REPEAT: repeat-x; HEIGHT: 3px
+}
+TABLE.Form TD.Sep2 {
+	BACKGROUND-IMAGE: url(images/Sep2.gif); BACKGROUND-REPEAT: repeat-x; HEIGHT: 3px
+}
+TABLE.Form TD.Sep3 {
+	BACKGROUND-IMAGE: url(images/Sep3.gif); BACKGROUND-REPEAT: repeat-x; HEIGHT: 3px
+}
+TABLE.ListShort {
+	BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: 100%; PADDING-TOP: 0px; BORDER-BOTTOM: 0px; background-color:White;
+}
+
+
+TABLE.ListShort TR {
+	
+}
+TABLE.ListShort TR.Section {
+	
+}
+TABLE.ListShort TR.Section TH {
+	TEXT-ALIGN: left
+}
+TABLE.ListShort TR.Separator {
+	HEIGHT: 3px
+}
+TABLE.ListShort TR.Header {
+	COLOR: #000000; BACKGROUND-COLOR: #d6d3ce 
+	/*COLOR: #000000; BACKGROUND-COLOR: #D8DFE7 */
+	
+}
+
+TABLE.ListShort TR.Header TD {
+	BORDER-RIGHT: #c5c5c5 1pt solid; PADDING-RIGHT: 3pt; BORDER-TOP: #c5c5c5 1pt solid; FONT-WEIGHT: normal; VERTICAL-ALIGN: text-top; BORDER-LEFT: #c5c5c5 1pt solid; PADDING-TOP: 2pt; BORDER-BOTTOM: #c5c5c5 1pt solid; TEXT-ALIGN: left
+}
+TABLE.ListShort TR.Header TH {
+	BORDER-RIGHT: #c5c5c5 1pt solid; PADDING-RIGHT: 3pt; BORDER-TOP: #c5c5c5 1pt solid; FONT-WEIGHT: boder; VERTICAL-ALIGN: text-top; BORDER-LEFT: #c5c5c5 1pt solid; PADDING-TOP: 2pt; BORDER-BOTTOM: #c5c5c5 1pt solid; TEXT-ALIGN: center;background-image:url(../../image/grid/skin_modern_header.png);
+}
+
+TABLE.ListShort TR.HeaderOrderDetial TH {
+	BORDER-RIGHT: #c5c5c5 1pt solid; PADDING-RIGHT: 3pt; BORDER-TOP: #c5c5c5 1pt solid; FONT-WEIGHT: boder; VERTICAL-ALIGN: text-top; BORDER-LEFT: #c5c5c5 1pt solid; PADDING-TOP: 2pt; BORDER-BOTTOM: #c5c5c5 1pt solid; TEXT-ALIGN: left;FONT-SIZE: 7pt
+}
+
+TABLE.ListShort TR.DataDark {
+	/*BACKGROUND-COLOR: #e7e7e7 */
+	BACKGROUND-COLOR: #ECEFF4
+
+}
+
+TABLE.ListShort TR.DataBlue {
+	/*BACKGROUND-COLOR: #e7e7e7 */
+	BACKGROUND-COLOR: #99CCFF
+
+}
+
+TABLE.ListShort TR.DataGreen {
+	/*BACKGROUND-COLOR: #e7e7e7 */
+	BACKGROUND-COLOR: #66FF66
+
+}
+
+TABLE.ListShort TR.DataRed {
+	/*BACKGROUND-COLOR: #e7e7e7 */
+	BACKGROUND-COLOR: #FFC4D7
+
+}
+
+TABLE.ListShort TR.DataYellow {
+	/*BACKGROUND-COLOR: #e7e7e7 */
+	BACKGROUND-COLOR: #FFCC00
+
+}
+
+/* highlight .table row onmouseover */
+TABLE.ListShort tr.over {
+    border-bottom: 1px solid #C0C0C0;
+    border-top: 1px solid #C0C0C0;
+    color: #000000;
+    cursor: pointer;
+}
+
+
+
+TABLE.ListShortBroHead {
+	BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: 98%; PADDING-TOP: 0px; BORDER-BOTTOM: 0px; background-color:White;
+}
+TABLE.ListShortBroBody {
+	BORDER-RIGHT: 0px; PADDING-RIGHT: 0px; BORDER-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; BORDER-LEFT: 0px; WIDTH: 99%; PADDING-TOP: 0px; BORDER-BOTTOM: 0px; background-color:White;
+}
+
+
+
+TABLE.ListShort TR.DataDark TD {
+	PADDING-RIGHT: 4pt; PADDING-LEFT: 1pt; LINE: 100%
+}
+TABLE.ListShort TR.DataLight {
+	BACKGROUND-COLOR: #f5f5f5
+}
+TABLE.ListShort TR.DataLight TD {
+	PADDING-RIGHT: 4pt; PADDING-LEFT: 1pt; LINE: 100%
+}
+TABLE.ListShort TR.DataField {
+	BACKGROUND-COLOR: #efefef
+}
+TABLE.ListShort TR.DataField TD {
+	PADDING-RIGHT: 4pt; PADDING-LEFT: 1pt; LINE: 100%
+}
+TABLE.ListShort TR.Selected {
+	CURSOR: pointer; COLOR: #ffffff; BACKGROUND-COLOR: #959595
+}
+TABLE.ListShort TR.Selected TD {
+	PADDING-RIGHT: 4pt; PADDING-LEFT: 1pt
+}
+TABLE.ListShort TR.DataOutline1 {
+	FONT-WEIGHT: bold; COLOR: #ce0031; BACKGROUND-COLOR: #ffffff
+}
+TABLE.ListShort TR.DataOutline1 TD {
+	PADDING-RIGHT: 4pt; BORDER-TOP: #daacb7 1pt solid; PADDING-LEFT: 1pt
+}
+TABLE.ListShort TR.DataOutline2 {
+	FONT-WEIGHT: bold; COLOR: #1d9dff; BACKGROUND-COLOR: #ffffff
+}
+TABLE.ListShort TR.DataOutline2 TD {
+	PADDING-RIGHT: 4pt; PADDING-LEFT: 1pt
+}
+TABLE.ListShort TR.DataOutline3 {
+	FONT-WEIGHT: bold; COLOR: #939393; BACKGROUND-COLOR: #ffffff
+}
+TABLE.ListShort TR.DataOutline3 TD {
+	PADDING-RIGHT: 4pt; PADDING-LEFT: 1pt
+}
+TABLE.ListShort TR.DataOutline4 {
+	FONT-WEIGHT: bold; COLOR: #fbaa2b; BACKGROUND-COLOR: #ffffff
+}
+TABLE.ListShort TR.DataOutline4 TD {
+	PADDING-RIGHT: 4pt; PADDING-LEFT: 1pt
+}
+TABLE.ListShort TR.Total TD {
+	BORDER-RIGHT: #b4b4b4 1pt solid; PADDING-RIGHT: 4pt; BORDER-TOP: #b4b4b4 1pt solid; PADDING-LEFT: 1pt; FONT-WEIGHT: bold; VERTICAL-ALIGN: text-top; BORDER-LEFT: #b4b4b4 1pt solid; BORDER-BOTTOM: #b4b4b4 1pt solid
+}
+TABLE.ListShort TD.Sep1 {
+	BACKGROUND-IMAGE: url(/images/Sep1.gif); BACKGROUND-REPEAT: repeat-x; HEIGHT: 3px
+}
+TABLE.ListShort TD.Sep2 {
+	BACKGROUND-IMAGE: url(/images/Sep2.gif); BACKGROUND-REPEAT: repeat-x; HEIGHT: 3px
+}
+TABLE.ListShort TD.Sep3 {
+	BACKGROUND-IMAGE: url(/images/Sep3.gif); BACKGROUND-REPEAT: repeat-x; HEIGHT: 3px
+}
+TABLE.Monitor {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 9pt; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 100%; PADDING-TOP: 0px; HEIGHT: 22px
+}
+TABLE.Monitor TD.Entity {
+	BORDER-RIGHT: #7a90b2 1pt solid; BORDER-TOP: #7a90b2 1pt solid; PADDING-LEFT: 2pt; BORDER-LEFT: #7a90b2 1pt solid; BORDER-BOTTOM: #7a90b2 1pt solid; BACKGROUND-COLOR: #d6d3ce
+}
+
+BUTTON.btn
+{
+	border-right: medium none;
+	border-top: medium none;
+	padding-left: 8px;
+	font-size: 8pt;
+	background-image: url(images/BacoButton.gif);
+	padding-bottom: 2px;
+	margin: 2px 0px 1px 2px;
+	overflow: hidden;
+	border-left: medium none;
+	width: 80px;
+	cursor: pointer;
+	color: #000000;
+	padding-top: 1px;
+	border-bottom: medium none;
+	background-repeat: no-repeat;
+	font-family: Verdana;
+	height: 20px;
+	background-color: transparent;
+	text-align: left;
+}
+BUTTON.btnEdit {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnEdit.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; pointer: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnSave {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnSave.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnNew {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnNew.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnDelete {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnDelete.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnCopy {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnCopy.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnMove {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnCopy.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnRefresh {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnRefresh.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnLog {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnLog.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnPrint {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnPrint.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnCustomize {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnCustomize.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnSearch {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnSearch.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnReset {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnReset.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnAdvanced {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnAdvanced.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnCount {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 24px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/btnCount.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 114px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1px; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnNext {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 7px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/BacoButton2.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 101px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1pt; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnTop {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; MARGIN-TOP: 2px; PADDING-LEFT: 7px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(images/BacoButton2.gif); MARGIN-BOTTOM: 1px; PADDING-BOTTOM: 2px; MARGIN-LEFT: 2px; OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 101px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 1pt; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; FONT-FAMILY: Verdana; HEIGHT: 20px; BACKGROUND-COLOR: transparent; TEXT-ALIGN: left
+}
+BUTTON.btnHelp {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/btnHelp.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 20px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px; BACKGROUND-COLOR: transparent
+}
+BUTTON.btnLittlePrint {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/btnLittlePrint.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 23px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px; BACKGROUND-COLOR: transparent
+}
+BUTTON.btnFavorite {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/btnFavorite.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 20px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px; BACKGROUND-COLOR: transparent
+}
+BUTTON.btnBack {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/WeaverBack.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 20px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px; BACKGROUND-COLOR: transparent
+}
+BUTTON.btnValidate {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/btnValidate.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 20px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px; BACKGROUND-COLOR: transparent
+}
+BUTTON.Browser {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/BacoBrowser.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 16px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 16px; BACKGROUND-COLOR: transparent
+}
+BUTTON.AddDoc {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/addDocs.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 45px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 16px; BACKGROUND-COLOR: transparent
+}
+BUTTON.WorkPlan {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/workPlan.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 55px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px; BACKGROUND-COLOR: transparent
+}
+BUTTON.Calendar {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/BacoCalendar.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 16px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 16px; BACKGROUND-COLOR: transparent
+}
+BUTTON.Clock {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/BacoCalendar.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 16px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 16px; BACKGROUND-COLOR: transparent
+}
+BUTTON.Calculate {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/BacoCalculate.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 16px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 16px; BACKGROUND-COLOR: transparent
+}
+BUTTON.btnCancel {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/btnCancel.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 29px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 22px
+}
+BUTTON.btnOk {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/btnOk.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 29px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 22px
+}
+BUTTON.btnClear {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(images/btnClear.gif); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 29px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 22px; BACKGROUND-COLOR: transparent
+}
+DIV.Btnbar {
+	
+}
+DIV.HdrTitle {
+	BACKGROUND-COLOR: #f4f4f4
+}
+DIV.HdrProps {
+	PADDING-LEFT: 2pt; FONT-SIZE: 9pt; COLOR: #676767; HEIGHT: 20px; BACKGROUND-COLOR: #e5e5e5
+}
+DIV.HdrProps TD {
+	COLOR: #676767
+}
+DIV.Chart {
+	LEFT: 10px; POSITION: relative; TOP: 10px
+}
+
+DIV.Font1 {
+	FILTER: glow(color=#ffffff, strength=2); WIDTH: 45px
+}
+
+TABLE.ChartTop {
+	BORDER-RIGHT: 2px outset; BORDER-TOP: 2px outset; BORDER-LEFT: 2px outset; CURSOR: pointer; COLOR: white; BORDER-BOTTOM: 2px outset; BACKGROUND-COLOR: #0070bf
+}
+TABLE.ChartGroup {
+	BORDER-RIGHT: 2px outset; BORDER-TOP: 2px outset; BORDER-LEFT: 2px outset; CURSOR: pointer; BORDER-BOTTOM: 2px outset; BACKGROUND-COLOR: #659bf5; TEXT-ALIGN: center
+}
+TABLE.ChartCompany {
+	BORDER-RIGHT: 2px outset; BORDER-TOP: 2px outset; BORDER-LEFT: 2px outset; CURSOR: pointer; BORDER-BOTTOM: 2px outset; BACKGROUND-COLOR: #51b5ee; TEXT-ALIGN: center
+}
+TABLE.ChartInactive {
+	BORDER-RIGHT: 2px outset; BORDER-TOP: 2px outset; BORDER-LEFT: 2px outset; CURSOR: pointer; COLOR: gray; BORDER-BOTTOM: 2px outset; BACKGROUND-COLOR: #ffcccc; TEXT-ALIGN: center
+}
+TABLE.ChartDisabled {
+	BORDER-RIGHT: 2px outset; BORDER-TOP: 2px outset; BORDER-LEFT: 2px outset; COLOR: gray; BORDER-BOTTOM: 2px outset; BACKGROUND-COLOR: #ffcc00; TEXT-ALIGN: center
+}
+TD.ChartTop {
+	COLOR: white; HEIGHT: 100%; BACKGROUND-COLOR: #1397d4; TEXT-ALIGN: center
+}
+TD.ChartGroup {
+	COLOR: black; HEIGHT: 100%; BACKGROUND-COLOR: #c6c3bd; TEXT-ALIGN: center
+}
+TD.ChartCompany {
+	COLOR: black; HEIGHT: 100%; BACKGROUND-COLOR: #d6d3ce; TEXT-ALIGN: center
+}
+TD.ChartInactive {
+	COLOR: gray; HEIGHT: 100%; BACKGROUND-COLOR: #ffcc99; TEXT-ALIGN: center
+}
+TD.ChartDisabled {
+	COLOR: gray; HEIGHT: 100%; BACKGROUND-COLOR: #ffcc66; TEXT-ALIGN: center
+}
+TD.ChartDescription {
+	COLOR: black; BACKGROUND-COLOR: gainsboro; TEXT-ALIGN: left
+}
+TD.ChartValue {
+	COLOR: black; BACKGROUND-COLOR: gainsboro; TEXT-ALIGN: right
+}
+TD.ChartCell {
+	WIDTH: 100px; COLOR: black; BACKGROUND-COLOR: gainsboro; TEXT-ALIGN: right
+}
+TD.ChartValueLow {
+	COLOR: black; BACKGROUND-COLOR: #ff9900; TEXT-ALIGN: right
+}
+TD.ChartValueHigh {
+	COLOR: black; BACKGROUND-COLOR: #99ff33; TEXT-ALIGN: right
+}
+TD.Selected {
+	CURSOR: pointer; COLOR: #ffffff; BACKGROUND-COLOR: #959595
+}
+.FieldLong {
+	WIDTH: 267px
+}
+.FieldLongB {
+	WIDTH: 242px
+}
+.FieldxLong {
+	WIDTH: 696px
+}
+.FieldShort {
+	WIDTH: 126px
+}
+.FieldxShort {
+	WIDTH: 50px
+}
+.FieldDisable {
+	COLOR: red;
+	background: windows;
+	//FONT-WEIGHT: bold
+	//WIDTH: 10px
+	FONT-FAMILY: 'Arial', 'Helvetica'
+}
+.FieldLable{
+ width:30px;
+ border:none;
+ text-align:center;
+ background-color:#D8DFE7
+}
+
+.FieldLabl1{
+ width:90%;
+ border:none;
+ text-align:center;
+ background-color:#D8DFE7
+}
+.FieldLable2{
+ width:30px;
+ border:none;
+ text-align:center;
+ background-color:#ECEFF4
+}
+
+.saveHistory {
+	BEHAVIOR: url(#default#savehistory)
+}
+INPUT {
+	FONT-SIZE: 9pt; FONT-FAMILY: 'Arial', 'Helvetica'
+}
+INPUT.button {
+	BORDER-RIGHT: #666666 1px solid; 
+	BORDER-TOP: #336699 0px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 9pt; 
+	BORDER-LEFT: #336699 0px solid; 
+	CURSOR: pointer; 
+	COLOR: black; 
+	BORDER-BOTTOM: #666666 2px solid; 
+	FONT-FAMILY: 'Arial', 'Helvetica'; 
+	BACKGROUND-COLOR: #ffffff;
+	text-decoration: none;
+	height: 20px;
+	text-align:center;
+	width:148;
+	line-height:140%;
+	padding:2px;
+}
+
+INPUT.button3 {
+	color: ButtonText;
+	text-decoration: none;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+
+INPUT.button2 {
+	BORDER-RIGHT: #666666 1px solid; BORDER-TOP: #336699 1px solid; FONT-WEIGHT: bold; FONT-SIZE: 8pt; BORDER-LEFT: #336699 1px solid; CURSOR: pointer; COLOR: #ffffff; BORDER-BOTTOM: #666666 1px solid; FONT-FAMILY: 'Arial', 'Helvetica'; BACKGROUND-COLOR: #003366
+}
+INPUT.text {
+	FONT-SIZE: 100%
+}
+SELECT {
+	FONT-SIZE: 100%
+}
+TEXTAREA {
+	FONT-SIZE: 100%; FONT-FAMILY: MS Sans Serif, Arial
+}
+FORM {
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px
+}
+PRE {
+	FONT-SIZE: 14pt
+}
+.titlename {
+	FONT-WEIGHT: bold; FONT-SIZE: 16pt
+}
+.redgraph {
+	BACKGROUND-IMAGE: url(/images/BDStatRed.jpg); BACKGROUND-REPEAT: repeat-x
+}
+.bluegraph {
+	BACKGROUND-IMAGE: url(/images/BDStatBlue.jpg); BACKGROUND-REPEAT: repeat-x
+}
+.greengraph {
+	BACKGROUND-IMAGE: url(/images/BDStatGreen.jpg); BACKGROUND-REPEAT: repeat-x
+}
+.yellowgraph {
+	BACKGROUND-IMAGE: url(/images/BDStatYellow.jpg); BACKGROUND-REPEAT: repeat-x
+}
+BUTTON.DELROW {
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BACKGROUND-IMAGE: url(/images/BacoDelete.GIF); OVERFLOW: hidden; BORDER-LEFT: medium none; WIDTH: 16px; CURSOR: pointer; BORDER-BOTTOM: medium none; BACKGROUND-REPEAT: no-repeat; HEIGHT: 16px; BACKGROUND-COLOR: transparent
+}
+.smallfont {
+	FONT-SIZE: 10pt
+}
+.fontred {
+	COLOR: #ff0000
+}
+A {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+A:hover {
+	COLOR: red; TEXT-DECORATION: underline
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: underline
+}
+A:visited {
+	TEXT-DECORATION: underline
+}
+.clickRightMenu {
+	BORDER-RIGHT: #001e9e 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #001e9e 1px solid; DISPLAY: block; PADDING-LEFT: 5px; FILTER: progid:DXImageTransform.Microsoft.Shadow(Color=#999999,offX=10,offY=10,direction=120,Strength=5); LEFT: -10000px; PADDING-BOTTOM: 3px; BORDER-LEFT: #001e9e 1px solid; WIDTH: 1px; PADDING-TOP: 3px; BORDER-BOTTOM: #001e9e 1px solid; POSITION: absolute; TOP: -10000px; BACKGROUND-COLOR: #fffffa
+}
+.clickRightMenuOver {
+	BORDER-RIGHT: #001e9e 1px solid; PADDING-RIGHT: 10px; BORDER-TOP: #001e9e 1px solid; DISPLAY: block; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; FONT: 12px verdana; BORDER-LEFT: #001e9e 1px solid; WIDTH: 1px; COLOR: #000000; PADDING-TOP: 4px; BORDER-BOTTOM: #001e9e 1px solid; HEIGHT: 24px; BACKGROUND-COLOR: #ebf8fe; TEXT-DECORATION: none
+}
+.clickRightMenuOut {
+	BORDER-RIGHT: #fffffa 1px solid; PADDING-RIGHT: 10px; BORDER-TOP: #fffffa 1px solid; DISPLAY: block; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; FONT: 12px verdana; BORDER-LEFT: #fffffa 1px solid; WIDTH: 1px; COLOR: #000000; PADDING-TOP: 4px; BORDER-BOTTOM: #fffffa 1px solid; HEIGHT: 24px; TEXT-DECORATION: none
+}
+
+
+
+
+
+
+TD {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+UL {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+OL {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+LI {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+.actionLink {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'
+}
+A.actionLink:link {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'
+}
+.moduleTitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #000000; FONT-FAMILY: 'Arial', 'Helvetica'; TEXT-DECORATION: none
+}
+.dataField {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #000000; LINE-HEIGHT: 16px; FONT-FAMILY: 'Arial', 'Helvetica'; BACKGROUND-COLOR: #eeeeee; TEXT-ALIGN: left
+}
+.Required {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #990000; FONT-FAMILY: 'Arial', 'Helvetica'
+}
+.requiredInput_bak {
+	FONT-WEIGHT: normal; FONT-SIZE: 9pt; COLOR: #ffffff; LINE-HEIGHT: 16px; FONT-FAMILY: 'Arial', 'Helvetica'; BACKGROUND-COLOR: #990000; TEXT-ALIGN: right
+}
+
+.requiredInput {
+	FONT-WEIGHT: normal; 
+	FONT-SIZE: 9pt; 
+	COLOR: #990000; 
+	LINE-HEIGHT: 16px; FONT-FAMILY: 'Arial', 'Helvetica'; 
+	TEXT-ALIGN: right;
+	width:80px;
+	//width:15%;
+	float:left;
+}
+
+
+
+
+td,p,li,select,input {font-size:12px;color:#666666;}
+.f14 {font-size:14.9px}
+.lr{line-height:150%}
+.txt01{text-align:right;width:148;height:22;line-height:140%;padding:2px;}
+.txt02{text-align:left;line-height:140%;padding:2px}
+.tt01{font-weight:bold}
+.vip{color:#FF0000}
+.input01{height:20;font-size:12px;color:#000000;width:120}
+.input02{height:20;font-size:12px;color:#000000;width:160}
+//.button01{height:20;font-size:12px;cursor:pointer;width:120}
+.button00{height:20;font-size:12px;cursor:pointer}
+.bg01{background-color:#EAEAEA}
+.bg02{background-color:#C1C1C1}
+A.:link,A.:visited {text-decoration:none;color:#666666}
+A.:active,A.:hover {text-decoration:underline;color:#666666}
+A.a00:link,A.a00:visited {text-decoration:none;color:#666666}
+A.a00:active,A.a00:hover {text-decoration:none;color:#FF7E00}
+A.a01:link,A.a01:visited {text-decoration:underline;color:#0000FF}
+A.a01:active,A.a01:hover {text-decoration:underline;color:#FF0000}
+A.a02:link,A.a02:visited {text-decoration:underline;color:#666666}
+A.a02:active,A.a02:hover {text-decoration:underline;color:#FF0000}
+.txt00 {color:#888888}
+.txt011 {color:#FFFFFF;line-height:16px}
+
+fieldset {float: left; margin-left: 5px;width:96%}
+
+.reminderTooltip {
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:2;
+	width: 320;
+	visibility:hidden;
+	font: ËÎÌו,arial,sans-serif,;
+	background-color:#ffff99;
+	padding:10px 10px;
+	border: 1px solid black;
+}
+
+.AutoComplete tr.over {
+    border-bottom: 1px solid #C0C0C0;
+    border-top: 1px solid #C0C0C0;
+    background-color:#666666;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.AutoComplete tr.out {
+    border-bottom: 1px solid #C0C0C0;
+    border-top: 1px solid #C0C0C0;
+    background-color:'';
+    color: #000000;
+}
+
+
+.pageHeader{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-WEIGHT: bold;
+	FONT-SIZE: 10pt;
+}
+
+.text
+{
+	COLOR: #291E40;
+	FONT-FAMILY: Verdana;
+	FONT-SIZE: 8pt;
+	
+}
+
+
+
+  
+.myButton {
+	-moz-box-shadow:inset -17px -33px 0px -7px #ffffff;
+	-webkit-box-shadow:inset -17px -33px 0px -7px #ffffff;
+	box-shadow:inset -17px -33px 0px -7px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-color:#ededed;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+	border-radius:7px;
+	border:3px solid #dcdcdc;
+	display:inline-block;
+	color:#4d484d;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:5px 6px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+}.myButton:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	background-color:#dfdfdf;
+}.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,121 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/src/core/examples/src/Sample
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+CTO.js
+file
+
+
+
+
+2013-05-17T07:36:55.622429Z
+fcc7466c9c82a60dc589efb3fd5b63d1
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Developer.js
+file
+
+
+
+
+2013-05-17T07:36:55.638055Z
+8357d5c64b2f5e61fbdaa95d410697f4
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Person.js
+file
+
+
+
+
+2013-05-17T07:36:55.638055Z
+cfce61ab4ff662be558032ff6fd66469
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Musician.js
+file
+
+
+
+
+2013-05-17T07:36:55.638055Z
+d895aca01cf224cfcd3f392846233e95
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Gun.js
+file
+
+
+
+
+2013-05-17T07:36:55.638055Z
+4522d5c1c538615108bdd950d2dfbd24
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+deadlock
+dir
+
+notdeadlock
+dir
+
+HumanResource.js
+file
+
+
+
+
+2013-05-17T07:36:55.638055Z
+1b093d2e53406919509e8094a981e361
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+CoolGuy.js
+file
+
+
+
+
+2013-05-17T07:36:55.653680Z
+3f7384bad7dcfa7922959b37f8a275cf
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+ability
+dir
+

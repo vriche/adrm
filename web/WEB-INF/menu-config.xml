@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MenuConfig>
+    <Displayers>
+        <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
+    </Displayers>
+    <Menus>
+        <Menu name="MainMenu" title="mainMenu.title" page="/mainMenu.html"/>
+        <Menu name="UserMenu" title="menu.user" description="User Menu" forward="editProfile" roles="admin,user"/>
+        <Menu name="FileUpload" title="menu.selectFile" description="File Upload" width="100" forward="selectFile" roles="admin,user"/>
+        <Menu name="AdminMenu" title="menu.admin" description="Admin Menu" roles="admin" width="120" forward="viewUsers">
+            <Item name="ViewUsers" title="menu.admin.users" forward="viewUsers"/>
+            <Item name="ActiveUsers" title="mainMenu.activeUsers" action="activeUsers"/>
+            <Item name="ReloadContext" title="menu.admin.reload" action="reload"/>
+            <Item name="FlushCache" title="menu.flushCache" action="flush"/>
+            <Item name="Clickstream" title="menu.clickstream" page="/clickstreams.jsp"/>
+        </Menu>
+        <Menu name="Logout" title="user.logout" page="/logout.jsp" roles="admin,user"/>
+
+        
+        <!--ContractPayment-START-->
+        <Menu name="ContractPaymentMenu" title="contractPaymentList.title" page="/contractPayments.html"/>
+        <!--ContractPayment-END-->
+        <!--Order-START-->
+        <Menu name="OrderMenu" title="orderList.title" page="/orders.html"/>
+        <!--Order-END-->
+        <!--OrderCategory-START-->
+        <Menu name="OrderCategoryMenu" title="orderCategoryList.title" page="/orderCategorys.html"/>
+        <!--OrderCategory-END-->
+        <!--OrderDayInfo-START-->
+        <Menu name="OrderDayInfoMenu" title="orderDayInfoList.title" page="/orderDayInfos.html"/>
+        <!--OrderDayInfo-END-->
+        <!--OrderDetail-START-->
+        <Menu name="OrderDetailMenu" title="orderDetailList.title" page="/orderDetails.html"/>
+        <!--OrderDetail-END-->
+        <!--OrderLog-START-->
+        <Menu name="OrderLogMenu" title="orderLogList.title" page="/orderLogs.html"/>
+        <!--OrderLog-END-->
+        <!--Contract-START-->
+        <Menu name="ContractMenu" title="contractList.title" page="/contracts.html"/>
+        <!--Contract-END-->
+        <!--Org-START-->
+        <Menu name="OrgMenu" title="orgList.title" page="/orgs.html"/>
+        <!--Org-END-->
+        <!--Branch-START-->
+        <Menu name="BranchMenu" title="branchList.title" page="/branchs.html"/>
+        <!--Branch-END-->
+        <!--ContractTarget-START-->
+        <Menu name="ContractTargetMenu" title="contractTargetList.title" page="/contractTargets.html"/>
+        <!--ContractTarget-END-->
+        <!--OaApplyInfo-START-->
+        <Menu name="OaApplyInfoMenu" title="oaApplyInfoList.title" page="/oaApplyInfos.html"/>
+        <!--OaApplyInfo-END-->
+        <!--OaAreaCity-START-->
+        <Menu name="OaAreaCityMenu" title="oaAreaCityList.title" page="/oaAreaCitys.html"/>
+        <!--OaAreaCity-END-->
+        <!--OaAreaPc-START-->
+        <Menu name="OaAreaPcMenu" title="oaAreaPcList.title" page="/oaAreaPcs.html"/>
+        <!--OaAreaPc-END-->
+        <!--OaAssets-START-->
+        <Menu name="OaAssetsMenu" title="oaAssetsList.title" page="/oaAssetss.html"/>
+        <!--OaAssets-END-->
+        <!--OaAssetsState-START-->
+        <Menu name="OaAssetsStateMenu" title="oaAssetsStateList.title" page="/oaAssetsStates.html"/>
+        <!--OaAssetsState-END-->
+        <!--OaAssetsType-START-->
+        <Menu name="OaAssetsTypeMenu" title="oaAssetsTypeList.title" page="/oaAssetsTypes.html"/>
+        <!--OaAssetsType-END-->
+        <!--OaBusinessCard-START-->
+        <Menu name="OaBusinessCardMenu" title="oaBusinessCardList.title" page="/oaBusinessCards.html"/>
+        <!--OaBusinessCard-END-->
+        <!--OaBusinessCardType-START-->
+        <Menu name="OaBusinessCardTypeMenu" title="oaBusinessCardTypeList.title" page="/oaBusinessCardTypes.html"/>
+        <!--OaBusinessCardType-END-->
+        <!--OaCalendarEvent-START-->
+        <Menu name="OaCalendarEventMenu" title="oaCalendarEventList.title" page="/oaCalendarEvents.html"/>
+        <!--OaCalendarEvent-END-->
+        <!--OaDocument-START-->
+        <Menu name="OaDocumentMenu" title="oaDocumentList.title" page="/oaDocuments.html"/>
+        <!--OaDocument-END-->
+        <!--OaDocumentCatalog-START-->
+        <Menu name="OaDocumentCatalogMenu" title="oaDocumentCatalogList.title" page="/oaDocumentCatalogs.html"/>
+        <!--OaDocumentCatalog-END-->
+        <!--OaDocumentCatalogPermitType-START-->
+        <Menu name="OaDocumentCatalogPermitTypeMenu" title="oaDocumentCatalogPermitTypeList.title" page="/oaDocumentCatalogPermitTypes.html"/>
+        <!--OaDocumentCatalogPermitType-END-->
+        <!--OaDocumentFile-START-->
+        <Menu name="OaDocumentFileMenu" title="oaDocumentFileList.title" page="/oaDocumentFiles.html"/>
+        <!--OaDocumentFile-END-->
+        <!--OaInfo-START-->
+        <Menu name="OaInfoMenu" title="oaInfoList.title" page="/oaInfos.html"/>
+        <!--OaInfo-END-->
+        <!--OaInfoType-START-->
+        <Menu name="OaInfoTypeMenu" title="oaInfoTypeList.title" page="/oaInfoTypes.html"/>
+        <!--OaInfoType-END-->
+        <!--OaProductInfo-START-->
+        <Menu name="OaProductInfoMenu" title="oaProductInfoList.title" page="/oaProductInfos.html"/>
+        <!--OaProductInfo-END-->
+        <!--OaProductType-START-->
+        <Menu name="OaProductTypeMenu" title="oaProductTypeList.title" page="/oaProductTypes.html"/>
+        <!--OaProductType-END-->
+        <!--OaProductUsed-START-->
+        <Menu name="OaProductUsedMenu" title="oaProductUsedList.title" page="/oaProductUseds.html"/>
+        <!--OaProductUsed-END-->
+        <!--OaScratchpad-START-->
+        <Menu name="OaScratchpadMenu" title="oaScratchpadList.title" page="/oaScratchpads.html"/>
+        <!--OaScratchpad-END-->
+        <!--OaWorkFlow-START-->
+        <Menu name="OaWorkFlowMenu" title="oaWorkFlowList.title" page="/oaWorkFlows.html"/>
+        <!--OaWorkFlow-END-->
+        <!--OaWorkFlowCheck-START-->
+        <Menu name="OaWorkFlowCheckMenu" title="oaWorkFlowCheckList.title" page="/oaWorkFlowChecks.html"/>
+        <!--OaWorkFlowCheck-END-->
+        <!--OaWorkFlowCheckResult-START-->
+        <Menu name="OaWorkFlowCheckResultMenu" title="oaWorkFlowCheckResultList.title" page="/oaWorkFlowCheckResults.html"/>
+        <!--OaWorkFlowCheckResult-END-->
+        <!--OaWorkFlowType-START-->
+        <Menu name="OaWorkFlowTypeMenu" title="oaWorkFlowTypeList.title" page="/oaWorkFlowTypes.html"/>
+        <!--OaWorkFlowType-END-->
+        <!--SysEnentState-START-->
+        <Menu name="SysEnentStateMenu" title="sysEnentStateList.title" page="/sysEnentStates.html"/>
+        <!--SysEnentState-END-->
+        <!--SysEnentType-START-->
+        <Menu name="SysEnentTypeMenu" title="sysEnentTypeList.title" page="/sysEnentTypes.html"/>
+        <!--SysEnentType-END-->
+        <!--SysEvent-START-->
+        <Menu name="SysEventMenu" title="sysEventList.title" page="/sysEvents.html"/>
+        <!--SysEvent-END-->
+        <!--SysEventState-START-->
+        <Menu name="SysEventStateMenu" title="sysEventStateList.title" page="/sysEventStates.html"/>
+        <!--SysEventState-END-->
+        <!--SysEventType-START-->
+        <Menu name="SysEventTypeMenu" title="sysEventTypeList.title" page="/sysEventTypes.html"/>
+        <!--SysEventType-END-->
+        <!--SysPromptMode-START-->
+        <Menu name="SysPromptModeMenu" title="sysPromptModeList.title" page="/sysPromptModes.html"/>
+        <!--SysPromptMode-END-->
+        <!--SysUserType-START-->
+        <Menu name="SysUserTypeMenu" title="sysUserTypeList.title" page="/sysUserTypes.html"/>
+        <!--SysUserType-END-->
+        <!--OaWorkFlowCheckState-START-->
+        <Menu name="OaWorkFlowCheckStateMenu" title="oaWorkFlowCheckStateList.title" page="/oaWorkFlowCheckStates.html"/>
+        <!--OaWorkFlowCheckState-END-->
+        <!--OaWorkFlowMoveType-START-->
+        <Menu name="OaWorkFlowMoveTypeMenu" title="oaWorkFlowMoveTypeList.title" page="/oaWorkFlowMoveTypes.html"/>
+        <!--OaWorkFlowMoveType-END-->
+        <!--SysResource-START-->
+        <Menu name="SysResourceMenu" title="sysResourceList.title" page="/sysResources.html"/>
+        <!--SysResource-END-->
+        <!--ResourceSort-START-->
+        <Menu name="ResourceSortMenu" title="resourceSortList.title" page="/resourceSorts.html"/>
+        <!--ResourceSort-END-->
+        <!--ContractTargetMonth-START-->
+        <Menu name="ContractTargetMonthMenu" title="contractTargetMonthList.title" page="/contractTargetMonths.html"/>
+        <!--ContractTargetMonth-END-->
+        <!--OaTeleExpenses-START-->
+        <Menu name="OaTeleExpensesMenu" title="oaTeleExpensesList.title" page="/oaTeleExpensess.html"/>
+        <!--OaTeleExpenses-END-->
+        <!--SysMenu-START-->
+        <Menu name="SysMenuMenu" title="sysMenuList.title" page="/sysMenus.html"/>
+        <!--SysMenu-END-->
+        <!--SysParam-START-->
+        <Menu name="SysParamMenu" title="sysParamList.title" page="/sysParams.html"/>
+        <!--SysParam-END-->
+        <!--MatterType-START-->
+        <Menu name="MatterTypeMenu" title="matterTypeList.title" page="/matterTypes.html"/>
+        <!--MatterType-END-->
+        <!--SysSequence-START-->
+        <Menu name="SysSequenceMenu" title="sysSequenceList.title" page="/sysSequences.html"/>
+        <!--SysSequence-END-->
+        <!--PublishArrange-START-->
+        <Menu name="PublishArrangeMenu" title="publishArrangeList.title" page="/publishArranges.html"/>
+        <!--PublishArrange-END-->
+        <!--PublishArrangeDetail-START-->
+        <Menu name="PublishArrangeDetailMenu" title="publishArrangeDetailList.title" page="/publishArrangeDetails.html"/>
+        <!--PublishArrangeDetail-END-->
+        <!--ForetArrearage-START-->
+        <Menu name="ForetArrearageMenu" title="foretArrearageList.title" page="/foretArrearages.html"/>
+        <!--ForetArrearage-END-->
+        <!--ResourceLimit-START-->
+        <Menu name="ResourceLimitMenu" title="resourceLimitList.title" page="/resourceLimits.html"/>
+        <!--ResourceLimit-END-->
+        <!--FinanceTarget-START-->
+        <Menu name="FinanceTargetMenu" title="financeTargetList.title" page="/financeTargets.html"/>
+        <!--FinanceTarget-END-->
+        
+        
+        <!--ProCustomerType-START-->
+        <Menu name="ProCustomerTypeMenu" title="proCustomerTypeList.title" page="/proCustomerTypes.html"/>
+        <!--ProCustomerType-END-->
+        <!--ProCustomer-START-->
+        <Menu name="ProCustomerMenu" title="proCustomerList.title" page="/proCustomers.html"/>
+        <!--ProCustomer-END-->
+        <!--ProOrderType-START-->
+        <Menu name="ProOrderTypeMenu" title="proOrderTypeList.title" page="/proOrderTypes.html"/>
+        <!--ProOrderType-END-->
+        <!--ProOrder-START-->
+        <Menu name="ProOrderMenu" title="proOrderList.title" page="/proOrders.html"/>
+        <!--ProOrder-END-->
+        <!--ProProgramType-START-->
+        <Menu name="ProProgramTypeMenu" title="proProgramTypeList.title" page="/proProgramTypes.html"/>
+        <!--ProProgramType-END-->
+        <!--ProProgram-START-->
+        <Menu name="ProProgramMenu" title="proProgramList.title" page="/proPrograms.html"/>
+        <!--ProProgram-END-->
+        <!--ProPublishPlan-START-->
+        <Menu name="ProPublishPlanMenu" title="proPublishPlanList.title" page="/proPublishPlans.html"/>
+        <!--ProPublishPlan-END-->
+        <!--ProAudienceRat-START-->
+        <Menu name="ProAudienceRatMenu" title="proAudienceRatList.title" page="/proAudienceRats.html"/>
+        <!--ProAudienceRat-END-->
+    </Menus>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</MenuConfig>

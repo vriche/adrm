@@ -1,0 +1,1031 @@
+{
+    "projectName": "Project Name",
+    "licenseText": "Copyright(c) 2012 Company Name",
+    "builds": [
+        {
+            "name": "Classes",
+            "target": "classes.js",
+            "options": {
+                "debug": true
+            },
+            "files": [
+ 				 {
+                    "path": "core/src/util/",
+                    "name": "Observable.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "Module.js"
+                },                
+                {
+                    "path": "core/src/chart/",
+                    "name": "Callout.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Mask.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Navigation.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Shape.js"
+                },
+                {
+                    "path": "core/src/form/field/",
+                    "name": "VTypes.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "ClickRepeater.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "TextMetrics.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "KeyMap.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "Template.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Operation.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "validations.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "Color.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "Draw.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Tree.js"
+                },
+                {
+                    "path": "core/src/form/field/",
+                    "name": "Field.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Memento.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DragTracker.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Offset.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ComponentQuery.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "HashMap.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "KeyNav.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Floating.js"
+                },
+                {
+                    "path": "core/src/layout/container/boxOverflow/",
+                    "name": "None.js"
+                },
+                {
+                    "path": "core/src/layout/container/boxOverflow/",
+                    "name": "Scroller.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "AbstractManager.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Association.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "SortTypes.js"
+                },
+                {
+                    "path": "core/src/fx/",
+                    "name": "CubicBezier.js"
+                },
+                {
+                    "path": "core/src/fx/",
+                    "name": "PropertyHandler.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Animate.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Filter.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ZIndexManager.js"
+                },
+                {
+                    "path": "core/src/panel/",
+                    "name": "Proxy.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "PluginManager.js"
+                },
+                {
+                    "path": "core/src/layout/",
+                    "name": "Layout.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Connection.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Sorter.js"
+                },
+                {
+                    "path": "core/src/fx/",
+                    "name": "Queue.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "StatusProxy.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ElementLoader.js"
+                },
+                {
+                    "path": "core/src/fx/target/",
+                    "name": "Target.js"
+                },
+                {
+                    "path": "core/src/state/",
+                    "name": "Provider.js"
+                },
+                {
+                    "path": "core/src/data/writer/",
+                    "name": "Writer.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "ResultSet.js"
+                },
+                {
+                    "path": "",
+                    "name": "VideoWindow.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Label.js"
+                },
+                {
+                    "path": "core/src/chart/theme/",
+                    "name": "Theme.js"
+                },
+                {
+                    "path": "core/src/chart/theme/",
+                    "name": "Base.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "ComponentDragger.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Region.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "XTemplate.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ModelManager.js"
+                },
+                {
+                    "path": "core/src/form/",
+                    "name": "Labelable.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ComponentManager.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "FocusManager.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "Button.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "ProgressBar.js"
+                },
+                {
+                    "path": "core/src/layout/component/field/",
+                    "name": "Field.js"
+                },
+                {
+                    "path": "core/src/layout/component/field/",
+                    "name": "Text.js"
+                },
+                {
+                    "path": "core/src/layout/component/field/",
+                    "name": "TextArea.js"
+                },
+                {
+                    "path": "core/src/layout/component/field/",
+                    "name": "HtmlEditor.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "AbstractContainer.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Container.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Anchor.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DragDropManager.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Types.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Field.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "NodeInterface.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "Ajax.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "AbstractMixedCollection.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Sortable.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "MixedCollection.js"
+                },
+                {
+                    "path": "core/src/menu/",
+                    "name": "Manager.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Errors.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "StoreManager.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "CompositeSprite.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "LegendItem.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Legend.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "AbstractStore.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "Surface.js"
+                },
+                {
+                    "path": "core/src/fx/",
+                    "name": "Easing.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Grouper.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Auto.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "AbstractDock.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "Dock.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "LoadMask.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ComponentLoader.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "Auto.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "Draw.js"
+                },
+                {
+                    "path": "core/src/fx/target/",
+                    "name": "Element.js"
+                },
+                {
+                    "path": "core/src/fx/target/",
+                    "name": "CompositeElement.js"
+                },
+                {
+                    "path": "core/src/fx/target/",
+                    "name": "Sprite.js"
+                },
+                {
+                    "path": "core/src/fx/target/",
+                    "name": "CompositeSprite.js"
+                },
+                {
+                    "path": "core/src/fx/target/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "core/src/fx/",
+                    "name": "Manager.js"
+                },
+                {
+                    "path": "core/src/fx/",
+                    "name": "Animator.js"
+                },
+                {
+                    "path": "core/src/fx/",
+                    "name": "Anim.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Highlight.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "Tip.js"
+                },
+                {
+                    "path": "core/src/layout/component/",
+                    "name": "Tab.js"
+                },
+                {
+                    "path": "core/src/selection/",
+                    "name": "Model.js"
+                },
+                {
+                    "path": "core/src/selection/",
+                    "name": "RowModel.js"
+                },
+                {
+                    "path": "core/src/selection/",
+                    "name": "TreeModel.js"
+                },
+                {
+                    "path": "core/src/state/",
+                    "name": "Manager.js"
+                },
+                {
+                    "path": "core/src/state/",
+                    "name": "Stateful.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "AbstractComponent.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "core/src/button/",
+                    "name": "Button.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ProgressBar.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "MaskLayer.js"
+                },
+                {
+                    "path": "core/src/toolbar/",
+                    "name": "Spacer.js"
+                },
+                {
+                    "path": "core/src/toolbar/",
+                    "name": "Fill.js"
+                },
+                {
+                    "path": "core/src/form/field/",
+                    "name": "Base.js"
+                },
+                {
+                    "path": "core/src/form/field/",
+                    "name": "Text.js"
+                },
+                {
+                    "path": "core/src/form/field/",
+                    "name": "TextArea.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "Component.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Chart.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "TipSurface.js"
+                },
+                {
+                    "path": "core/src/chart/axis/",
+                    "name": "Abstract.js"
+                },
+                {
+                    "path": "core/src/chart/axis/",
+                    "name": "Axis.js"
+                },
+                {
+                    "path": "core/src/chart/axis/",
+                    "name": "Category.js"
+                },
+                {
+                    "path": "core/src/chart/axis/",
+                    "name": "Gauge.js"
+                },
+                {
+                    "path": "core/src/chart/axis/",
+                    "name": "Numeric.js"
+                },
+                {
+                    "path": "core/src/chart/axis/",
+                    "name": "Radial.js"
+                },
+                {
+                    "path": "core/src/picker/",
+                    "name": "Color.js"
+                },
+                {
+                    "path": "core/src/toolbar/",
+                    "name": "Item.js"
+                },
+                {
+                    "path": "core/src/container/",
+                    "name": "AbstractContainer.js"
+                },
+                {
+                    "path": "core/src/container/",
+                    "name": "Container.js"
+                },
+                {
+                    "path": "core/src/container/",
+                    "name": "Viewport.js"
+                },
+                {
+                    "path": "core/src/panel/",
+                    "name": "Header.js"
+                },
+                {
+                    "path": "core/src/grid/header/",
+                    "name": "Container.js"
+                },
+                {
+                    "path": "core/src/grid/column/",
+                    "name": "Column.js"
+                },
+                {
+                    "path": "core/src/grid/",
+                    "name": "RowNumberer.js"
+                },
+                {
+                    "path": "core/src/tree/",
+                    "name": "Column.js"
+                },
+                {
+                    "path": "core/src/tab/",
+                    "name": "Tab.js"
+                },
+                {
+                    "path": "core/src/tab/",
+                    "name": "Bar.js"
+                },
+                {
+                    "path": "core/src/toolbar/",
+                    "name": "Separator.js"
+                },
+                {
+                    "path": "core/src/layout/container/boxOverflow/",
+                    "name": "Menu.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Box.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "HBox.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "VBox.js"
+                },
+                {
+                    "path": "core/src/toolbar/",
+                    "name": "Toolbar.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Accordion.js"
+                },
+                {
+                    "path": "core/src/panel/",
+                    "name": "AbstractPanel.js"
+                },
+                {
+                    "path": "core/src/data/writer/",
+                    "name": "Json.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "AbstractFit.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Fit.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "AbstractCard.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Card.js"
+                },
+                {
+                    "path": "core/src/data/reader/",
+                    "name": "Reader.js"
+                },
+                {
+                    "path": "core/src/data/reader/",
+                    "name": "Json.js"
+                },
+                {
+                    "path": "core/src/data/proxy/",
+                    "name": "Proxy.js"
+                },
+                {
+                    "path": "core/src/data/proxy/",
+                    "name": "Server.js"
+                },
+                {
+                    "path": "core/src/data/proxy/",
+                    "name": "Ajax.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Model.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Store.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "ArrayStore.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "JsonStore.js"
+                },
+                {
+                    "path": "core/src/chart/axis/",
+                    "name": "Time.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "NodeStore.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "TreeStore.js"
+                },
+                {
+                    "path": "core/src/selection/",
+                    "name": "DataViewModel.js"
+                },
+                {
+                    "path": "core/src/view/",
+                    "name": "AbstractView.js"
+                },
+                {
+                    "path": "core/src/view/",
+                    "name": "View.js"
+                },
+                {
+                    "path": "core/src/view/",
+                    "name": "Table.js"
+                },
+                {
+                    "path": "core/src/grid/",
+                    "name": "View.js"
+                },
+                {
+                    "path": "core/src/tree/",
+                    "name": "View.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DragDrop.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DD.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DDProxy.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DragSource.js"
+                },
+                {
+                    "path": "core/src/panel/",
+                    "name": "DD.js"
+                },
+                {
+                    "path": "core/src/panel/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "core/src/window/",
+                    "name": "Window.js"
+                },
+                {
+                    "path": "core/src/window/",
+                    "name": "MessageBox.js"
+                },
+                {
+                    "path": "core/src/tab/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "core/src/panel/",
+                    "name": "Table.js"
+                },
+                {
+                    "path": "core/src/grid/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "core/src/tree/",
+                    "name": "Panel.js"
+                },
+                {
+                    "path": "core/src/tip/",
+                    "name": "Tip.js"
+                },
+                {
+                    "path": "core/src/tip/",
+                    "name": "ToolTip.js"
+                },
+                {
+                    "path": "core/src/chart/",
+                    "name": "Tip.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Series.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Cartesian.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Area.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Bar.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Column.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Gauge.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Line.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Pie.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Radar.js"
+                },
+                {
+                    "path": "core/src/chart/series/",
+                    "name": "Scatter.js"
+                },
+                {
+                    "path": "core/src/tip/",
+                    "name": "QuickTip.js"
+                },
+                {
+                    "path": "core/src/tip/",
+                    "name": "QuickTipManager.js"
+                },
+                {
+                    "path": "core/src/form/field/",
+                    "name": "HtmlEditor.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "Point.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "Layer.js"
+                },
+                {
+                    "path": "core/src/resizer/",
+                    "name": "Resizer.js"
+                },
+                {
+                    "path": "core/src/panel/",
+                    "name": "Tool.js"
+                },
+                {
+                    "path": "core/src/util/",
+                    "name": "CSS.js"
+                },
+                {
+                    "path": "core/src/grid/",
+                    "name": "ColumnLayout.js"
+                },
+                {
+                    "path": "core/src/grid/plugin/",
+                    "name": "HeaderResizer.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Batch.js"
+                },
+                {
+                    "path": "core/src/data/",
+                    "name": "Request.js"
+                },
+                {
+                    "path": "core/src/data/reader/",
+                    "name": "Array.js"
+                },
+                {
+                    "path": "core/src/view/",
+                    "name": "TableChunker.js"
+                },
+                {
+                    "path": "core/src/grid/",
+                    "name": "Scroller.js"
+                },
+                {
+                    "path": "core/src/menu/",
+                    "name": "Item.js"
+                },
+                {
+                    "path": "core/src/menu/",
+                    "name": "KeyNav.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "Matrix.js"
+                },
+                {
+                    "path": "core/src/data/proxy/",
+                    "name": "Client.js"
+                },
+                {
+                    "path": "core/src/resizer/",
+                    "name": "Splitter.js"
+                },
+                {
+                    "path": "core/src/toolbar/",
+                    "name": "TextItem.js"
+                },
+                {
+                    "path": "core/src/form/",
+                    "name": "CheckboxManager.js"
+                },
+                {
+                    "path": "core/src/grid/",
+                    "name": "LockingView.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "SpriteDD.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DragZone.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "Registry.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DDTarget.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "ScrollManager.js"
+                },
+                {
+                    "path": "core/src/menu/",
+                    "name": "CheckItem.js"
+                },
+                {
+                    "path": "core/src/menu/",
+                    "name": "Separator.js"
+                },
+                {
+                    "path": "core/src/menu/",
+                    "name": "Menu.js"
+                },
+                {
+                    "path": "core/src/data/proxy/",
+                    "name": "Memory.js"
+                },
+                {
+                    "path": "core/src/form/field/",
+                    "name": "Checkbox.js"
+                },
+                {
+                    "path": "core/src/layout/container/",
+                    "name": "Border.js"
+                },
+                {
+                    "path": "core/src/grid/",
+                    "name": "Lockable.js"
+                },
+                {
+                    "path": "core/src/draw/",
+                    "name": "Sprite.js"
+                },
+                {
+                    "path": "core/src/draw/engine/",
+                    "name": "Svg.js"
+                },
+                {
+                    "path": "core/src/draw/engine/",
+                    "name": "Vml.js"
+                },
+                {
+                    "path": "core/src/grid/header/",
+                    "name": "DragZone.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DropTarget.js"
+                },
+                {
+                    "path": "core/src/dd/",
+                    "name": "DropZone.js"
+                },
+                {
+                    "path": "core/src/grid/header/",
+                    "name": "DropZone.js"
+                },
+                {
+                    "path": "core/src/grid/plugin/",
+                    "name": "HeaderReorderer.js"
+                },
+                {
+                    "path": "core/src/resizer/",
+                    "name": "ResizeTracker.js"
+                },
+                {
+                    "path": "core/src/resizer/",
+                    "name": "SplitterTracker.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "ShadowPool.js"
+                },
+                {
+                    "path": "core/src/",
+                    "name": "Shadow.js"
+                }
+            ]
+        },
+         {
+            "name": "All Classes",
+            "target": "classes-all.js",
+            "options": {
+                "debug": true
+            },
+            "files": [
+				{
+                    "path": "",
+                    "name": "classes.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "ShortcutModel.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "Desktop.js"
+                },
+                 {
+                    "path": "js/",
+                    "name": "App.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "Video.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "Wallpaper.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "FitAllLayout.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "StartMenu.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "TaskBar.js"
+                },                                                               
+            ]
+        }     
+        
+        
+    ],
+    "resources": []
+}

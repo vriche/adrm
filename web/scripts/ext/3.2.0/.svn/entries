@@ -1,0 +1,61 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts/ext/3.2.0
+svn://121.28.83.134:80/src1
+
+
+
+2013-03-16T10:40:20.826726Z
+445
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+adapter
+dir
+
+ext-all.js
+file
+
+
+
+
+2013-05-17T07:36:21.964432Z
+72b876051e6badb1bd1e188d332f2d6c
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+plus
+dir
+
+ext-lang-zh_CN.js
+file
+
+
+
+
+2013-05-17T07:36:21.980058Z
+7d9c3e6fb63ff24680023b7b3fb96a9a
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+resources
+dir
+

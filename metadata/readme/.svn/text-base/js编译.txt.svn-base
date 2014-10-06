@@ -1,0 +1,7 @@
+折腾了一天，找到的资料模糊不清，最后终于搞定了。下面是使用jsb3的方法。
+1.首先要确定安装了 Sencha SDK Tools 没安装的去官网上下载。
+2.用命令行进入程序的文件夹 cd path/www/yourapp  
+3.用sencha命令生成你要的.jsb3文件 sencha create jsb -a index.html -p app.jsb3  
+这里生成的文件基本不需要动，如有需求可点击文件进行编辑，文件很好理解，就是一个json文件。
+4.命令生成allclass.js命令行 sencha build -p app.jsb3 -d .  
+这样把所有js文件打包成一个js 文件了。

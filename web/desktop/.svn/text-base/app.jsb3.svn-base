@@ -1,0 +1,63 @@
+{
+    "projectName": "Example - Desktop",
+    "licenseText": "Copyright(c) 2011 Sencha Inc.\nlicensing@sencha.com",
+    "builds": [
+       {
+            "name": "Application - Production",
+            "target": "app-all.js",
+            "compress": true,
+            "files": [  
+                {
+                    "path": "",
+                    "name": "classes-all.js"
+                },
+                {
+                    "path": "",
+                    "name": "VideoWindow.js"
+                },
+                {
+                    "path": "",
+                    "name": "BogusModule.js"
+                },
+                {
+                    "path": "",
+                    "name": "BogusMenuModule.js"
+                },
+                {
+                    "path": "",
+                    "name": "Settings.js"
+                },
+                {
+                    "path": "",
+                    "name": "TabWindow.js"
+                },
+                {
+                    "path": "",
+                    "name": "GridWindow.js"
+                }, 
+                {
+                    "path": "",
+                    "name": "AccordionWindow.js"
+                },
+                {
+                    "path": "",
+                    "name": "SystemStatus.js"
+                },                                                                                                                       
+                {
+                    "path": "",
+                    "name": "Notepad.js"
+                },
+                
+                 {
+                    "path": "",
+                    "name": "FinanceIncomeWindow.js"
+                },               
+                {
+                    "path": "",
+                    "name": "App.js"
+                },
+            ]
+        }
+    ],
+    "resources": []
+}

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ContractTargetSQL">
+    <typeAlias alias="contractTarget" type="com.vriche.adrm.model.ContractTarget"/>
+
+	<cacheModel id="contractTarget-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addContractTarget"/>
+		<flushOnExecute statement="updateContractTarget"/>
+		<flushOnExecute statement="deleteContractTarget"/>
+		<flushOnExecute statement="deleteContractTargets"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="contractTarget">
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="industryTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="target" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="contractTarget">
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="industryTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="target" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="contractTargetResult" class="contractTarget">
+        <result property="contractId" column="contract_id"/>
+		<result property="contract" column="contract_id" select="getContract"/>
+		<result property="carrierId" column="resource_carrier_id"/>
+		<result property="carrier" column="resource_carrier_id" select="getCarrier"/>		
+		<result property="industryTypeId" column="industry_type_id"/>
+		<result property="industry" column="industry_type_id" select="getIndustry"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="contract_target_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="target" column="target"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getContractTargetsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_contract_target 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+			(resource_carrier_id like #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractId">
+			(contract_id like #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(contract_target_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(industry_type_id like #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="target">
+			(target like #target#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+	
+
+
+    <select id="getContractTargets" resultMap="contractTargetResult">
+    <![CDATA[
+        select * from tb_contract_target 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+			(resource_carrier_id like #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractId">
+			(contract_id like #contractId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(contract_target_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(industry_type_id like #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="target">
+			(target like #target#)
+			</isNotEmpty>
+
+		</dynamic>
+    </select>
+    <select id="getContractTargetsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_contract_target 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractTargetIdList">
+       	  <iterate prepend="AND" property="ContractTargetIdList" open="(" close=")" conjunction="OR">
+		   			 contract_target_id = #ContractTargetIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getContractTarget" resultMap="contractTargetResult">
+    <![CDATA[
+        select * from tb_contract_target
+         where contract_target_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addContractTarget" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_contract_target_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_contract_target (resource_carrier_id,contract_id,create_by,create_date,industry_type_id,memo,modify_by,modify_date,target)
+            values ( ?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateContractTarget" parameterMap="updateParam">
+    <![CDATA[
+        update tb_contract_target set
+                   resource_carrier_id = ?,
+                   contract_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   industry_type_id = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   target = ?,
+				   version = ? 
+        where contract_target_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteContractTarget">
+    <![CDATA[
+        delete from tb_contract_target
+         where contract_target_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteContractTargets" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_contract_target 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractTargetIdList">
+       	  <iterate prepend="AND" property="ContractTargetIdList" open="(" close=")" conjunction="OR">
+		   			 contract_target_id = #ContractTargetIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

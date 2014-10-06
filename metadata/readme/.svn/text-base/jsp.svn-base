@@ -1,0 +1,7 @@
+<c:forEach var="ct" items="${contractList.customer}">
+	<c:out value="${ct.telephone}"/>
+</c:forEach>
+
+
+         String osName = System.getProperty("os.name" );
+           System.out.println("osName>>>>>>>>" +osName);

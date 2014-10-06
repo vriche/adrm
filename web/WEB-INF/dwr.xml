@@ -1,0 +1,539 @@
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN"
+    "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+<dwr>
+    <allow>
+		
+		 <convert converter="bean" match="com.vriche.adrm.service.UserExistsException"/> 
+
+		<create creator="spring" javascript="AgentInfoManager">
+        <param name="beanName" value="agentInfoManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="BranchManager">
+            <param name="beanName" value="branchManager"/>
+        </create>
+		
+		<create creator="spring" javascript="BrandManager">
+        <param name="beanName" value="brandManager"/>
+        </create>	
+
+		<create creator="spring" javascript="CarrierManager">
+			<param name="beanName" value="carrierManager"/>
+        </create>		
+
+		<create creator="spring" javascript="CarrierTypeManager">
+        <param name="beanName" value="carrierTypeManager"/>
+        </create>	
+
+		<create creator="spring" javascript="CategoryManager">
+        <param name="beanName" value="categoryManager"/>
+        </create>	
+
+		<create creator="spring" javascript="CompagesManager">
+        <param name="beanName" value="compagesManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ContractManager">
+            <param name="beanName" value="contractManager"/>
+        </create>		
+			
+		<create creator="spring" javascript="ContractPaymentManager">
+            <param name="beanName" value="contractPaymentManager"/>
+        </create>	
+
+		<create creator="spring" javascript="ContractTargetManager">
+            <param name="beanName" value="contractTargetManager"/>
+        </create>			
+		
+		<create creator="spring" javascript="CustomerAddressManager">
+            <param name="beanName" value="customerAddressManager"/>
+        </create>	
+				
+		<create creator="spring" javascript="CustomerManager">
+            <param name="beanName" value="customerManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="CustomerTypeManager">
+            <param name="beanName" value="customerTypeManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="DayInfoManager">
+            <param name="beanName" value="dayInfoManager"/>
+        </create>		
+		
+		<create creator="spring" javascript="FeedbackInfoManager">
+            <param name="beanName" value="feedbackInfoManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="IncomeManager">
+            <param name="beanName" value="incomeManager"/>
+        </create>		
+				
+		<create creator="spring" javascript="IncomeModeManager">
+            <param name="beanName" value="incomeModeManager"/>
+        </create>
+		
+		<create creator="spring" javascript="IncomePullManager">
+            <param name="beanName" value="incomePullManager"/>
+        </create>
+		
+		<create creator="spring" javascript="IncomePurposeManager">
+            <param name="beanName" value="incomePurposeManager"/>
+        </create>
+		
+		<create creator="spring" javascript="IncomeUsedManager">
+            <param name="beanName" value="incomeUsedManager"/>
+        </create> 
+		
+		<create creator="spring" javascript="IndustryManager">
+            <param name="beanName" value="industryManager"/>
+        </create>
+		
+		<create creator="spring" javascript="LinkHisotryManager">
+            <param name="beanName" value="linkHisotryManager"/>
+        </create>	
+
+		<create creator="spring" javascript="LinkManManager">
+            <param name="beanName" value="linkManManager"/>
+        </create>
+		
+		<create creator="spring" javascript="LookupManager">
+            <param name="beanName" value="lookupManager"/>
+        </create>
+		
+		<create creator="spring" javascript="MailEngine">
+            <param name="beanName" value="mailEngine"/>
+        </create>
+		
+		<create creator="spring" javascript="Manager">
+            <param name="beanName" value="manager"/>
+        </create>	
+
+		<create creator="spring" javascript="MatterManager">
+            <param name="beanName" value="matterManager"/>
+        </create>	
+
+		<create creator="spring" javascript="MediaOrgManager">
+            <param name="beanName" value="mediaOrgManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaApplyInfoManager">
+            <param name="beanName" value="oaApplyInfoManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="OaAreaCityManager">
+            <param name="beanName" value="oaAreaCityManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaAreaPcManager">
+            <param name="beanName" value="oaAreaPcManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaAssetsManager">
+            <param name="beanName" value="oaAssetsManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaAssetsStateManager">
+            <param name="beanName" value="oaAssetsStateManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaAssetsTypeManager">
+            <param name="beanName" value="oaAssetsTypeManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaBusinessCardManager">
+            <param name="beanName" value="oaBusinessCardManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="OaBusinessCardTypeManager">
+            <param name="beanName" value="oaBusinessCardTypeManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaCalendarEventManager">
+            <param name="beanName" value="oaCalendarEventManager"/>
+        </create>
+		
+		<create creator="spring" javascript="OaDocumentCatalogManager">
+            <param name="beanName" value="oaDocumentCatalogManager"/>			
+        </create>
+		
+		<create creator="spring" javascript="OaDocumentCatalogPermitTypeManager">
+            <param name="beanName" value="oaDocumentCatalogPermitTypeManager"/>					
+        </create>
+		
+		<create creator="spring" javascript="OaDocumentFileManager">
+            <param name="beanName" value="oaDocumentFileManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaDocumentManager">
+            <param name="beanName" value="oaDocumentManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaInfoManager">
+            <param name="beanName" value="oaInfoManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaInfoTypeManager">
+            <param name="beanName" value="oaInfoTypeManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaProductInfoManager">
+            <param name="beanName" value="oaProductInfoManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaProductTypeManager">
+            <param name="beanName" value="oaProductTypeManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaProductUsedManager">
+            <param name="beanName" value="oaProductUsedManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaScratchpadManager">
+            <param name="beanName" value="oaScratchpadManager"/>				
+        </create>	
+		
+		<create creator="spring" javascript="OaWorkFlowCheckManager">
+            <param name="beanName" value="oaWorkFlowCheckManager"/>				
+        </create>
+		
+		<create creator="spring" javascript="OaWorkFlowCheckResultManager">
+			<param name="beanName" value="oaWorkFlowCheckResultManager"/>			
+        </create>
+
+		<create creator="spring" javascript="OaWorkFlowCheckStateManager">
+			<param name="beanName" value="oaWorkFlowCheckStateManager"/>			
+        </create>	
+		
+		<create creator="spring" javascript="OaWorkFlowManager">
+            <param name="beanName" value="oaWorkFlowManager"/>					
+        </create>
+		
+		<create creator="spring" javascript="OaWorkFlowMoveTypeManager">
+            <param name="beanName" value="oaWorkFlowMoveTypeManager"/>					
+        </create>
+		
+		<create creator="spring" javascript="OaWorkFlowTypeManager">
+			<param name="beanName" value="oaWorkFlowTypeManager"/>			
+        </create>
+		
+        <create creator="spring" javascript="OrderCategoryManager">
+            <param name="beanName" value="orderCategoryManager"/>	
+        </create>
+
+		<create creator="spring" javascript="OrderDayInfoManager">
+            <param name="beanName" value="orderDayInfoManager"/>	
+        </create>
+
+        <create creator="spring" javascript="OrderDetailManager">
+            <param name="beanName" value="orderDetailManager"/>			
+        </create>
+
+        <create creator="spring" javascript="OrderLogManager">
+            <param name="beanName" value="orderLogManager"/>			
+        </create>	
+
+		<create creator="spring" javascript="OrderManager">
+            <param name="beanName" value="orderManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="OrgManager">		
+	        <param name="beanName" value="orgManager"/>
+        </create>		
+		
+		<create creator="spring" javascript="PriceDetailManager">
+			<param name="beanName" value="priceDetailManager"/>
+        </create>	
+
+		<create creator="spring" javascript="PriceManager">
+			<param name="beanName" value="priceManager"/>
+        </create>			
+
+		<create creator="spring" javascript="PriceRegularManager">
+			<param name="beanName" value="priceRegularManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="PriceTypeManager">
+			<param name="beanName" value="priceTypeManager"/>
+        </create>
+	
+		<create creator="spring" javascript="ProductCategoryManager">
+			<param name="beanName" value="productCategoryManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="PublishedInfoManager">
+            <param name="beanName" value="publishedInfoManager"/>
+        </create>
+		
+		<create creator="spring" javascript="PublishMemoManager">
+            <param name="beanName" value="publishMemoManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ResourceChannelManager">
+            <param name="beanName" value="resourceChannelManager"/>
+        </create>	
+			
+		<create creator="spring" javascript="ResourceManager">
+			<param name="beanName" value="resourceManager"/>
+        </create>		
+		
+		<create creator="spring" javascript="ResourceTypeManager">
+			<param name="beanName" value="resourceTypeManager"/>
+        </create>
+
+		<create creator="spring" javascript="RoleManager">
+            <param name="beanName" value="roleManager"/>
+        </create>		
+		
+		<create creator="spring" javascript="SelectListManager">
+            <param name="beanName" value="selectListManager"/>
+        </create>
+		
+		<create creator="spring" javascript="SpecificManager">
+            <param name="beanName" value="specificManager"/>
+        </create>
+		
+		<create creator="spring" javascript="SysEventManager">
+            <param name="beanName" value="sysEventManager"/>
+        </create>
+		
+		<create creator="spring" javascript="SysEventStateManager">
+            <param name="beanName" value="sysEventStateManager"/>
+        </create>
+		
+		<create creator="spring" javascript="SysEventTypeManager">
+            <param name="beanName" value="sysEventTypeManager"/>
+        </create>
+				
+		<create creator="spring" javascript="SysPromptModeManager">
+            <param name="beanName" value="sysPromptModeManager"/>
+        </create>
+
+		<create creator="spring" javascript="SysResourceManager">
+            <param name="beanName" value="sysResourceManager"/>
+        </create>
+		
+		<create creator="spring" javascript="SysUserTypeManager">
+            <param name="beanName" value="sysUserTypeManager"/>
+        </create>
+
+		
+		<create creator="spring" javascript="UserManager">
+        <param name="beanName" value="userManager"/>
+        </create>	
+			
+		
+		<create creator="spring" javascript="WorkspanManager">
+			<param name="beanName" value="workspanManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="AnalyCarrierMatterManager">
+			<param name="beanName" value="analyCarrierMatterManager"/>
+        </create>
+		
+		<create creator="spring" javascript="ResourceSortManager">
+			<param name="beanName" value="resourceSortManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ContractTargetMonthManager">
+			<param name="beanName" value="contractTargetMonthManager"/>
+        </create>	
+
+		<create creator="spring" javascript="OaTeleExpensesManager">
+			<param name="beanName" value="oaTeleExpensesManager"/>
+        </create>
+		
+		
+		<create creator="spring" javascript="SysMenuManager">
+			<param name="beanName" value="sysMenuManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="MatterTypeManager">
+			<param name="beanName" value="matterTypeManager"/>
+        </create>
+		
+
+		<create creator="spring" javascript="PublishArrangeManager">
+			<param name="beanName" value="publishArrangeManager"/>
+        </create>		
+		
+		
+		<create creator="spring" javascript="PublishArrangeDetailManager">
+			<param name="beanName" value="publishArrangeDetailManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ForetArrearageManager">
+			<param name="beanName" value="foretArrearageManager"/>
+        </create>		
+		
+		
+		<create creator="spring" javascript="ResourceLimitManager">
+			<param name="beanName" value="resourceLimitManager"/>
+        </create>			
+		
+		
+		<create creator="spring" javascript="AnalyseManager">
+			<param name="beanName" value="analyseManager"/>
+        </create>		
+		
+		<create creator="spring" javascript="FusionChartsManager">
+			<param name="beanName" value="fusionChartsManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="FinanceTargetManager">
+			<param name="beanName" value="financeTargetManager"/>
+        </create>	
+			
+		<create creator="spring" javascript="ProAudienceRatManager">
+			<param name="beanName" value="proAudienceRatManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProPublishPlanManager">
+			<param name="beanName" value="proPublishPlanManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProCustomerManager">
+			<param name="beanName" value="proCustomerManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProCustomerTypeManager">
+			<param name="beanName" value="proCustomerTypeManager"/>
+        </create>	
+			
+		<create creator="spring" javascript="ProOrderManager">
+			<param name="beanName" value="proOrderManager"/>
+        </create>
+		
+		<create creator="spring" javascript="ProFinanceManager">
+			<param name="beanName" value="proFinanceManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProOrderTypeManager">
+			<param name="beanName" value="proOrderTypeManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProProgramManager">
+			<param name="beanName" value="proProgramManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProProgramTypeManager">
+			<param name="beanName" value="proProgramTypeManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProAnalyzeManager">
+			<param name="beanName" value="proAnalyzeManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="ProCheckIdeaManager">
+			<param name="beanName" value="proCheckIdeaManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="UpdateSystemManager">
+			<param name="beanName" value="updateSystemManager"/>
+        </create>		
+		
+		<create creator="spring" javascript="IncomeMsgManager">
+			<param name="beanName" value="incomeMsgManager"/>
+        </create>	
+		
+		<create creator="spring" javascript="SysSequenceManager">
+			<param name="beanName" value="sysSequenceManager"/>
+        </create>
+		
+		
+	    <create creator="spring" javascript="SearchManager">
+			<param name="beanName" value="searchManager"/>
+        </create>	
+		
+	    <create creator="spring" javascript="AnalyseSumManager">
+			<param name="beanName" value="analyseSumManager"/>
+        </create>			
+		
+		
+		
+		
+		
+				
+		
+		<create creator="spring" javascript="SchedulerManager">
+			<param name="beanName" value="schedulerManager"/>
+        </create>	
+		
+
+	    <convert converter="bean" match="com.vriche.adrm.model.*"/>
+		
+		
+		
+		<!-- upload -->
+		<create creator="new" javascript="UploadMonitor">
+			<param name="class" value="com.vriche.adrm.webapp.ajaxupload.UploadMonitor"/>
+		</create>
+				
+		 <create creator="new" javascript="CronTriggerRunnerManager">
+        	<param name="class" value="com.vriche.adrm.service.impl.CronTriggerRunnerManagerImpl"/>
+        </create>	
+		
+		<convert converter="bean" match="com.vriche.adrm.webapp.ajaxupload.UploadInfo"/>
+
+		
+	    <create creator="new" javascript="UploadAction" class="com.vriche.adrm.webapp.action.UploadAction">
+            <include method="uploadFile"/>
+			<include method="execute"/>
+        </create>	
+		
+		
+		<!-- upload end -->		
+		
+     	<!-- convert converter="bean" match="com.vriche.adrm.util.DateUtil"/ -->
+	    <!-- create creator="new" javascript="DateUtil">
+        	<param name="class" value="com.vriche.adrm.util.DateUtil"/>
+        	<include method="getServiceDateMain"/>
+			<include method="getServiceDate"/>
+			<include method="getSelectedDate"/>
+			<include method="getGlobalParams"/>
+        </create -->	
+		
+
+		<create creator="new" javascript="SysParamUtil">
+        	<param name="class" value="com.vriche.adrm.util.SysParamUtil"/>
+			<include method="getGlobalParams"/>
+			<include method="checkIsInnerIP"/>
+        </create>			
+		
+
+		
+		<create creator="new" javascript="OrderCateFitterUtil">
+        	<param name="class" value="com.vriche.adrm.util.OrderCateFitterUtil"/>
+			<include method="saveFitterSwit"/>
+			<include method="saveOrderCateFitterParam2"/>
+			<include method="getFitterIds"/>
+			<include method="getFitterIds1"/>
+        </create>		
+		
+
+		<!-- create creator="new" javascript="ImportExcelServlet">
+			<param name="class" value="com.vriche.adrm.webapp.serlet.ImportExcelServlet"/>
+		</create  -->	
+		
+
+    </allow>
+		
+
+		
+	<!-- signatures> 
+		<![CDATA[
+			    OrderDayInfoManager.saveOrderDayInfos(Object[]<OrderDayInfo[]>);
+		]]>
+	</signatures --> 
+		<!-- signatures> 
+		<![CDATA[
+				import java.util.Set;
+				import java.lang.Integer;
+				import com.vriche.adrm.model.OaWorkFlow;
+				OaWorkFlow.setCominUsers(Set<Integer>);
+			    OrderDayInfo.saveOrderDayInfos(Object[]<OrderDayInfo[]>);
+		]]>
+	</signatures --> 
+			
+</dwr>

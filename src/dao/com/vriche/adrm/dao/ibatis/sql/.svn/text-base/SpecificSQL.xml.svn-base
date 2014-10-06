@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SpecificSQL">
+    <typeAlias alias="specific" type="com.vriche.adrm.model.Specific"/>
+
+	<cacheModel id="specific-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addSpecific"/>
+		<flushOnExecute statement="updateSpecific"/>
+		<flushOnExecute statement="deleteSpecific"/>
+		<flushOnExecute statement="deleteSpecifics"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="specific">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="overRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="position" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="specific">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="overRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="position" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="specificResult" class="specific">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="ad_resource_specific_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="overRate" column="over_rate"/>
+        <result property="position" column="position"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+	
+	<select id="getSpecifics"  resultMap="specificResult" cacheModel="specific-cache">
+			SELECT * FROM tb_ad_resource_specific order by position
+    </select>		
+
+    <select id="getSpecifics_bak" resultMap="specificResult">
+    <![CDATA[
+        select * from tb_ad_resource_specific 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ad_resource_specific_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="overRate">
+			(over_rate like #overRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="position">
+			(position like #position#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getSpecificsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_ad_resource_specific 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SpecificIdList">
+       	  <iterate prepend="AND" property="SpecificIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_specific_id = #SpecificIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getSpecific" resultMap="specificResult">
+    <![CDATA[
+        select * from tb_ad_resource_specific
+         where ad_resource_specific_id = #value#
+    ]]>
+    </select>
+
+    <select id="getSpecificClass" resultClass="specific">
+    <![CDATA[
+        select ad_resource_specific_id as id,name,over_rate as overRate,position from tb_ad_resource_specific
+         where ad_resource_specific_id = #value#
+    ]]>
+    </select>	
+	
+    <insert id="addSpecific" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_specific_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_ad_resource_specific (create_by,create_date,memo,modify_by,modify_date,name,over_rate,position)
+            values ( ?,?,?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateSpecific" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_specific set
+                   create_by = ?,
+                   create_date = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   over_rate = ?,
+                   position = ?,
+				   version = ? 
+        where ad_resource_specific_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteSpecific">
+    <![CDATA[
+        delete from tb_ad_resource_specific
+         where ad_resource_specific_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteSpecifics" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_specific 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SpecificIdList">
+       	  <iterate prepend="AND" property="SpecificIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_specific_id = #SpecificIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

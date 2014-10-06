@@ -1,0 +1,49 @@
+8
+
+dir
+568
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts/dhtml/2.6/dhtmlxMenu
+svn://121.28.83.134:80/src1
+
+
+
+2013-06-21T10:12:56.534249Z
+568
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+sources
+dir
+
+samples
+dir
+
+codebase
+dir
+
+readme.txt
+file
+
+
+
+
+2013-06-14T02:55:45.399668Z
+5b08c44ebfd6f183c5d2817a4cf858f5
+2013-06-21T10:12:56.534249Z
+568
+lxz
+
+index.htm
+file
+
+
+
+
+2013-06-14T02:55:45.399668Z
+2468ffa106fc1c3aa38f69f8ad86d98b
+2013-06-21T10:12:56.534249Z
+568
+lxz
+

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaInfoTypeSQL">
+    <typeAlias alias="oaInfoType" type="com.vriche.adrm.model.OaInfoType"/>
+
+	<cacheModel id="oaInfoType-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaInfoType"/>
+		<flushOnExecute statement="updateOaInfoType"/>
+		<flushOnExecute statement="deleteOaInfoType"/>
+		<flushOnExecute statement="deleteOaInfoTypes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaInfoType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaInfoType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaInfoTypeResult" class="oaInfoType">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="info_type_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getOaInfoTypesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_info_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(info_type_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaInfoTypes" resultMap="oaInfoTypeResult">
+    <![CDATA[
+        select * from tb_oa_info_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(info_type_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaInfoTypesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_info_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaInfoTypeIdList">
+       	  <iterate prepend="AND" property="OaInfoTypeIdList" open="(" close=")" conjunction="OR">
+		   			 info_type_id = #OaInfoTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaInfoType" resultMap="oaInfoTypeResult">
+    <![CDATA[
+        select * from tb_oa_info_type
+         where info_type_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaInfoType" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_info_type_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_info_type (create_by,create_date,modify_by,modify_date,name,value)
+            values ( ?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaInfoType" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_info_type set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   value = ?,
+				   version = ?
+        where info_type_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaInfoType">
+    <![CDATA[
+        delete from tb_oa_info_type
+         where info_type_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaInfoTypes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_info_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaInfoTypeIdList">
+       	  <iterate prepend="AND" property="OaInfoTypeIdList" open="(" close=")" conjunction="OR">
+		   			 info_type_id = #OaInfoTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

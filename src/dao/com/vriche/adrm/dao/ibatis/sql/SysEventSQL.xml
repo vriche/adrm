@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SysEventSQL">
+    <typeAlias alias="sysEvent" type="com.vriche.adrm.model.SysEvent"/>
+
+	<cacheModel id="sysEvent-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addSysEvent"/>
+		<flushOnExecute statement="updateSysEvent"/>
+		<flushOnExecute statement="deleteSysEvent"/>
+		<flushOnExecute statement="deleteSysEvents"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="sysEvent">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="eventStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="eventTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="infoId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="linkPath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="mesgMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="promptEnd" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="promptModeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="promptStart" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="sysEvent">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/> 
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="eventStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="eventTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="infoId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="linkPath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="mesgMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="promptEnd" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="promptModeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="promptStart" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="sysEventResult" class="sysEvent">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>        
+        <result property="id" column="sys_enent_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+        <result property="eventState" column="enent_state_id" select="getSysEventState"/>
+        <result property="eventStateId" column="enent_state_id"/>
+        <result property="eventType" column="enent_type_id" select="getSysEventType"/>
+        <result property="eventTypeId" column="enent_type_id"/>
+        <result property="info" column="info_id" select="getOaInfos"/>
+        <result property="infoId" column="info_id"/>
+        <result property="linkPath" column="link_path"/>
+        <result property="mesgMemo" column="mesg_meno"/>
+        <result property="promptEnd" column="promptEnd"/>
+        <result property="promptMode" column="prompt_mode_id" select="getSysPromptMode"/>
+        <result property="promptModeId" column="prompt_mode_id"/>
+        <result property="promptStart" column="prompt_start"/>
+    </resultMap>
+	
+    <select id="getSysEventsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_sys_event 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sys_enent_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkPath">
+			(link_path like #linkpath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eventStateId">
+			(enent_state_id like #eventStateId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eventTypeId">
+			(enent_type_id like #eventTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="infoId">
+			(info_id like #infoId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="mesgMemo">
+			(mesg_meno like #mesgMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="promptModeId">
+			(prompt_mode_id like #promptModeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="promptStart">
+			(prompt_start like #promptStart#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getSysEvents" resultMap="sysEventResult">
+    <![CDATA[
+        select * from tb_sys_event 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sys_enent_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkPath">
+			(link_path like #linkPath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eventStateId">
+			(enent_state_id like #eventStateId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eventTypeId">
+			(enent_type_id like #eventTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="infoId">
+			(info_id like #infoId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="mesgMemo">
+			(mesg_meno like #mesgMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="promptModeId">
+			(prompt_mode_id like #promptModeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="promptStart">
+			(prompt_start like #promptStart#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getSysEventsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_sys_event 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysEventIdList">
+       	  <iterate prepend="AND" property="SysEventIdList" open="(" close=")" conjunction="OR">
+		   			 sys_enent_id = #SysEventIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getSysEvent" resultMap="sysEventResult">
+    <![CDATA[
+        select * from tb_sys_event
+         where sys_enent_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addSysEvent" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_sys_enent_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_sys_event (create_by,create_date,enent_state_id,link_path,mesg_meno,modify_by,modify_date,prompt_end,prompt_mode_id,prompt_start,enent_state_id,enent_type_id,,info_id,mesg_meno,prompt_mode_id,prompt_start)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateSysEvent" parameterMap="updateParam">
+    <![CDATA[
+        update tb_sys_event set
+                   create_by = ?,
+                   create_date = ?,
+                   enent_state_id = ?,
+                   link_path = ?,
+                   mesg_meno = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   prompt_end = ?,
+                   prompt_mode _id = ?,
+                   prompt_start = ?,
+                   enent_state_id = ?,
+                   enent_type_id = ?,
+                   info_id = ?,
+                   mesg_meno = ?,
+                   prompt_mode_id = ?,
+                   prompt_start = ?,
+				   version = ?
+        where sys_enent_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteSysEvent">
+    <![CDATA[
+        delete from tb_sys_event
+         where sys_enent_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteSysEvents" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_sys_event 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysEventIdList">
+       	  <iterate prepend="AND" property="SysEventIdList" open="(" close=")" conjunction="OR">
+		   			 sys_enent_id = #SysEventIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProOrderSQL">
+    <typeAlias alias="proOrder" type="com.vriche.adrm.model.ProOrder"/>
+
+	<cacheModel id="proOrder-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProOrder"/>
+		<flushOnExecute statement="updateProOrder"/>
+		<flushOnExecute statement="updateProIncomePull"/>
+		<flushOnExecute statement="deleteProOrder"/>
+		<flushOnExecute statement="deleteProOrders"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="proOrder">
+		<parameter property="orderCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="relationCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="orderMeno" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="payMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="payDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="paidMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="paidDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="lessMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="moreMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="orderTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="userId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proOrder">
+		<parameter property="orderCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="relationCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		 <parameter property="orderMeno" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="payMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="payDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="paidMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="paidDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="lessMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="moreMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+		 <parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="orderTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="userId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+    <resultMap id="proOrderResult" class="proOrder">
+        <result property="id" column="id"/>
+        <result property="program.proName" column="program_name"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderMeno" column="order_meno"/>
+        <result property="payMoney" column="pay_money"/>
+        <result property="payDate" column="pay_date"/>
+        <result property="paidMoney" column="paid_money"/>
+        <result property="paidDate" column="paid_date"/>
+        <result property="lessMoney" column="less_money"/>
+        <result property="moreMoney" column="more_money"/>
+        <result property="orderTypeId" column="order_type_id"/>
+        <result property="relationCode" column="relation_code"/>
+		<result property="userId" column="user_id"/>
+        <result property="user.firstName" column="first_name"/>
+		<result property="user.lastName" column="last_name"/>
+		<result property="proOrderType.name" column="name"/>
+		<result property="program.proCustomer.customerName" column="customer_name"/>
+		<result property="program.customerId" column="proCustomer_id"/>
+		<result property="program.typeId" column="program_type_id"/>
+		<result property="program.proCustomer.typeId" column="customer_type_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="version" column="version"/>
+		<result property="customerId" column="customer_id"/>
+		<result property="programId" column="program_id"/>
+    </resultMap>
+	
+	<resultMap id="proOrderResultById" class="proOrder">
+        <result property="id" column="id"/>
+        <result property="program.proName" column="program_name"/>
+        <result property="orderCode" column="order_code"/>
+        <result property="orderMeno" column="order_meno"/>
+        <result property="payMoney" column="pay_money"/>
+        <result property="payDate" column="pay_date"/>
+        <result property="paidMoney" column="paid_money"/>
+        <result property="paidDate" column="paid_date"/>
+        <result property="lessMoney" column="less_money"/>
+        <result property="moreMoney" column="more_money"/>
+        <result property="orderTypeId" column="order_type_id"/>
+        <result property="relationCode" column="relation_code"/>
+		<result property="userId" column="user_id"/>
+        <result property="user.firstName" column="first_name"/>
+		<result property="user.lastName" column="last_name"/>
+		<result property="program.typeId" column="program_type_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="version" column="version"/>
+		<result property="customerId" column="customer_id"/>
+		<result property="programId" column="program_id"/>
+    </resultMap>
+	
+	 <resultMap id="proOrderResults" class="proOrder">
+	 <result property="version" column="version"/>
+	 </resultMap>
+
+    <sql id="ProOrder_where_fragment">
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="programId">
+			(program_id like #programId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderCode">
+			(order_code like #orderCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderMeno">
+			(order_meno like #orderMeno#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="payMoney">
+			(pay_money like #payMoney#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="payDate">
+			(pay_date like #payDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paidMoney">
+			(paid_money like #paidMoney#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paidDate">
+			(paid_date like #paidDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lessMoney">
+			(less_money like #lessMoney#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moreMoney">
+			(more_money like #moreMoney#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(order_type_id like #orderTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="relationCode">
+			(relation_code like #relationCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+			(user_id like #userId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(version like #version#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id like #customerId#)
+			</isNotEmpty>
+    </sql>
+     <sql id="ProOrder_idList_fragment">
+	      <isNotNull property="ProOrderIdList">
+       	  <iterate prepend="AND" property="ProOrderIdList" open="(" close=")" conjunction="OR">
+		   			 id = #ProOrderIdList[]#
+		  </iterate>
+		  </isNotNull> 
+    </sql>   
+    <select id="getProOrdersCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_order 
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="ProOrder_where_fragment"/>
+		</dynamic>  
+    </select>
+	
+	<select id="getProOrdersCountByName" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_order tpo
+		                left outer join tb_pro_program tpp 
+				             on  tpo.program_id = tpp.id
+		                left outer join tb_pro_customer tpc 
+				             on  tpp.customer_id = tpc.id
+    ]]>
+  <dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(tpo.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+						
+			<isNotEmpty prepend="AND" property="payDate">
+			<![CDATA[ (tpo.pay_date >= #payDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="paidDate">
+			<![CDATA[ (tpo.pay_date <= #paidDate#)]]>
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="userId">
+			(tpo.user_id like '%$userId$%')
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="program.proName">
+			(tpp.program_name like '%$program.proName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="program.proCustomer.customerName">
+			(tpc.customer_name like '%$program.proCustomer.customerName$%')
+			</isNotEmpty>		
+				
+			<isNotEmpty prepend="AND" property="version">
+			(tpo.version like #version#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="program.proCustomer.typeId">
+			(tpc.customer_type_id like #program.proCustomer.typeId#)
+			</isNotEmpty>
+   </dynamic>
+    </select>
+	<select id="getProOrdersCountBySellName" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_order tpo
+		                left outer join tb_pro_program tpp 
+				             on  tpo.program_id = tpp.id
+		                left outer join tb_pro_customer tpc 
+				             on  tpo.customer_id = tpc.id
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(tpo.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+						
+			<isNotEmpty prepend="AND" property="payDate">
+			<![CDATA[ (tpo.pay_date >= #payDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="paidDate">
+			<![CDATA[ (tpo.pay_date <= #paidDate#)]]>
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="userId">
+			(tpo.user_id like '%$userId$%')
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="program.proName">
+			(tpp.program_name like '%$program.proName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="program.proCustomer.customerName">
+			(tpc.customer_name like '%$program.proCustomer.customerName$%')
+			</isNotEmpty>		
+				
+			<isNotEmpty prepend="AND" property="version">
+			(tpo.version like #version#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="program.proCustomer.typeId">
+			(tpc.customer_type_id like #program.proCustomer.typeId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>		
+
+
+    <select id="getProOrders" resultMap="proOrderResults">
+    <![CDATA[
+        select distinct version  from tb_pro_order 
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(order_type_id like #orderTypeId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+
+    <select id="getProOrdersByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_pro_order 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="ProOrder_idList_fragment"/>
+          </dynamic>     
+  </select>    
+	
+	<select id="getProPayCountByObject" resultClass="java.lang.Integer">
+     <![CDATA[  
+      select count(*) from tb_pro_order tpo
+		           left outer join tb_pro_program tpp 
+					   on  tpo.program_id=tpp.id 
+			       left outer join tb_pro_customer tpc 
+					   on  tpo.customer_id =tpc.id 
+		           left outer join tb_sys_user tsu 
+					   on  tpo.user_id =tsu.id
+		           left outer join tb_pro_order_type tpot 
+					   on  tpo.order_type_id =tpot.id
+		   where tpo.paid_money !=tpo.pay_money
+       ]]>  
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(tpo.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+ 	 	  		
+			<isNotEmpty prepend="AND" property="orderCode">
+			(tpo.order_code like '%$orderCode$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="program.proName">
+			(tpp.program_name like '%$program.proName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="program.proCustomer.customerName">
+			(tpc.customer_name like '%$program.proCustomer.customerName$%')
+			</isNotEmpty>		
+				
+			<isNotEmpty prepend="AND" property="program.proCustomer.typeId">
+			(tpc.customer_type_id like #program.proCustomer.typeId#)
+			</isNotEmpty>
+          
+  </select>
+	
+	 <select id="getProCountByObject" resultClass="java.lang.Integer">
+     <![CDATA[  
+      select count(*) from tb_pro_order tpo
+		           left outer join tb_pro_program tpp 
+					   on  tpo.program_id=tpp.id 
+			       left outer join tb_pro_customer tpc 
+					   on  tpo.customer_id =tpc.id 
+		           left outer join tb_sys_user tsu 
+					   on  tpo.user_id =tsu.id
+		           left outer join tb_pro_order_type tpot 
+					   on  tpo.order_type_id =tpot.id
+       ]]>  
+ 	 	  <dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(tpo.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderCode">
+			(tpo.order_code like '%$orderCode$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="program.proName">
+			(tpp.program_name like '%$program.proName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="program.proCustomer.customerName">
+			(tpc.customer_name like '%$program.proCustomer.customerName$%')
+			</isNotEmpty>		
+				
+			<isNotEmpty prepend="AND" property="program.proCustomer.typeId">
+			(tpc.customer_type_id like #program.proCustomer.typeId#)
+			</isNotEmpty>
+          </dynamic>    
+  </select>
+	    <select id="getProOrdersByObject" resultMap="proOrderResult">
+     <![CDATA[  
+      select *,tpp.customer_id proCustomer_id from tb_pro_order tpo
+		           left outer join tb_pro_program tpp 
+					   on  tpo.program_id=tpp.id 
+			       left outer join tb_pro_customer tpc 
+					   on  tpp.customer_id =tpc.id 
+		           left outer join tb_sys_user tsu 
+					   on  tpo.user_id =tsu.id
+		           left outer join tb_pro_order_type tpot 
+					   on  tpo.order_type_id =tpot.id
+       ]]>  
+ 	 	  <dynamic prepend="WHERE">
+				
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(tpo.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+						
+			<isNotEmpty prepend="AND" property="payDate">
+			<![CDATA[ (tpo.pay_date >= #payDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="paidDate">
+			<![CDATA[ (tpo.pay_date <= #paidDate#)]]>
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="userId">
+			(tpo.user_id like '%$userId$%')
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="program.proName">
+			(tpp.program_name like '%$program.proName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="program.proCustomer.customerName">
+			(tpc.customer_name like '%$program.proCustomer.customerName$%')
+			</isNotEmpty>		
+				
+			<isNotEmpty prepend="AND" property="version">
+			(tpo.version like #version#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="program.proCustomer.typeId">
+			(tpc.customer_type_id like #program.proCustomer.typeId#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="programId">
+			(tpo.program_id like #programId#)
+			</isNotEmpty>
+				
+          </dynamic>
+			order by tpo.order_code DESC 
+  </select>
+		    <select id="getProOrdersBySellObject" resultMap="proOrderResult">
+     <![CDATA[  
+      select*,tpp.customer_id proCustomer_id from tb_pro_order tpo
+		           left outer join tb_pro_program tpp 
+					   on  tpo.program_id=tpp.id 
+			       left outer join tb_pro_customer tpc 
+					   on  tpo.customer_id =tpc.id 
+		           left outer join tb_sys_user tsu 
+					   on  tpo.user_id =tsu.id
+		           left outer join tb_pro_order_type tpot 
+					   on  tpo.order_type_id =tpot.id
+       ]]>  
+ 	 	  <dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderTypeId">
+			(tpo.order_type_id like #orderTypeId#)
+			</isNotEmpty>
+						
+			<isNotEmpty prepend="AND" property="payDate">
+			<![CDATA[ (tpo.pay_date >= #payDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="paidDate">
+			<![CDATA[ (tpo.pay_date <= #paidDate#)]]>
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="userId">
+			(tpo.user_id like '%$userId$%')
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="program.proName">
+			(tpp.program_name like '%$program.proName$%')
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="program.proCustomer.customerName">
+			(tpc.customer_name like '%$program.proCustomer.customerName$%')
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="version">
+			(tpo.version like #version#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="program.proCustomer.typeId">
+			(tpc.customer_type_id like #program.proCustomer.typeId#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="programId">
+			(tpo.program_id like #programId#)
+			</isNotEmpty>
+          </dynamic>
+				order by tpo.order_code DESC
+  </select>
+
+	
+    <select id="getProOrder" resultMap="proOrderResultById">
+ <!--   <![CDATA[
+        select * from tb_pro_order
+         where id = #value#
+    ]]>
+	 -->
+	 <![CDATA[  
+      select * from tb_pro_order tpo
+		           left outer join tb_pro_program tpp 
+					   on  tpo.program_id=tpp.id
+		           left outer join tb_sys_user tsu 
+					   on  tpo.user_id =tsu.id
+		 where tpo.id = #value#
+       ]]>  
+    </select>
+
+    <insert id="addProOrder" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+             insert into tb_pro_order (order_code,relation_code,order_meno,pay_money,pay_date,paid_money,paid_date,more_money,less_money,program_id,order_type_id,user_id,create_by,create_date,modify_by,modify_date,version,customer_id)
+            values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProOrder" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_order set
+                   order_code = ?,
+		           relation_code =?,
+                   order_meno = ?,
+                   pay_money = ?,
+                   pay_date = ?,
+                   paid_money = ?,
+                   paid_date = ?,
+                   less_money = ?,
+                   more_money = ?,
+                   program_id = ?,
+                   order_type_id = ?,
+                   user_id = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+		           version = ?,
+		           customer_id=?
+
+        where id = ?
+    ]]>
+    </update>
+	
+	<parameterMap id="updateParam2" class="proOrder">
+        <parameter property="paidMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="paidDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	 <update id="updateProIncomePull" parameterMap="updateParam2">
+    <![CDATA[
+        update tb_pro_order set
+                   paid_money = ?,
+                   paid_date =  ?
+
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProOrder">
+    <![CDATA[
+        delete from tb_pro_order
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteProOrders" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_pro_order 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="ProOrder_idList_fragment"/>
+          </dynamic>      
+  </update>   
+</sqlMap>

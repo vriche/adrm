@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>无标题文档</title>
+</head>
+
+<body>
+<table width="100%" border="0">
+  <tr> 
+    <td height="30" colspan="2">
+<div align="center"><strong><font size="5">电视广告经营管理系统</font></strong></div></td>
+  </tr>
+  <tr> 
+    <td width="6%" height="32"> 
+      <div align="right"><strong>一、</strong></div></td>
+    <td width="94%"> <strong>产品特点</strong></td>
+  </tr>
+  <tr> 
+    <td height="55" valign="top"><div align="right">1、</div></td>
+    <td>本产品是专门为电视台设计的“广告经营管理系统”、它很适合各省市台的广告经营管理模式、它充分借鉴了中央电视台及北京电视台及地方台管理优点，在实践中不断探索和创新，形成了这样一套安全、稳定、强大的管理系统。</td>
+  </tr>
+  <tr> 
+    <td height="59" valign="top"><div align="right">2、</div></td>
+    <td>由于目前各省台基本是分频道经营独立核算、集团统一管理体制、本产品有很强大的授权体系，不但对人员可以授权、还可以对频道资源进行授权，系统中的任何元素、或操作过程、都可以成为系统的授权点。通过系统授权可以达到不同级别的用户查看的数据结果是不同的。</td>
+  </tr>
+  <tr> 
+    <td valign="top"><div align="right">3、</div></td>
+    <td>技术比较新、由于产品开发比较晚，所以采用的都是新技术，而且系统中所依赖的其它软件产品都是开源软件，不需要掏昂贵的版权费用，有技术条件的客户，我们可以免费提供产品源码，以供二次开发。</td>
+  </tr>
+  <tr> 
+    <td height="56" valign="top"><div align="right">4、</div></td>
+    <td>它是一套B/S产品，也就是说，如果你们是异地办公，通过互连网你们只要打开浏览器、输入地址就可以方便的使用系统，出于安全考虑目前我们要求使用FireFox浏览器，因为它屡获大奖、最专业、最安全的浏览器 
+      全免费 纯绿色，试用前请先下载FirefoxSetup3.0.6cn.exe</td>
+  </tr>
+  <tr> 
+    <td height="73" valign="top"><div align="right">5、</div></td>
+    <td>系统运行环境更安全，以往的系统多数运行在WINDOWS平台，尤其是有硬盘播出的电视台，需要把广告串联单，或叫播出码单文件拷贝给播出机房，WINDOWS系统很容易感染病毒。我们使用linux平台下载编播数据，可以向硬盘播出网络拷贝数据，由于linux与windows是异构平台所以不会向windows系统传播病毒，所以安全级别要高很多。</td>
+  </tr>
+  <tr> 
+    <td height="32" valign="top"><div align="right">6、</div></td>
+    <td>软件兼容性好，支持SCOUnix、linux 、windows等多平台。客户端浏览器FireFox也支持跨平台。</td>
+  </tr>
+  <tr> 
+    <td height="35" valign="top"><div align="right">7、</div></td>
+    <td>使用过本产品客户，都获得他们一致好评。</td>
+  </tr>
+  <tr> 
+    <td height="35"> 
+      <div align="right"><strong>二、</strong></div></td>
+    <td><strong>试用说明</strong></td>
+  </tr>
+  <tr valign="top">
+    <td height="25">
+<div align="right">1、</div></td>
+    <td> 如果使用其它浏览器可能显示不正常，建议先安装<a href="http://121.28.83.134:8001/FirefoxSetup3.0.6cn.exe">FirefoxSetup</a></td>
+  </tr>
+  <tr valign="top">
+    <td height="27">
+<div align="right">2、</div></td>
+    <td> 显示器分辨率要求 1024*768 或更高，如果低于要求，显示的界面会不正常</td>
+  </tr>
+  <tr valign="top">
+    <td height="24">
+<div align="right">3、</div></td>
+    <td> 系统中如果用到预览或打印无法正常工作，请安装<a href="http://121.28.83.134:8001/jre-1_5_0-windows-i586.exe">JRE_1_5</a></td>
+  </tr>
+  <tr valign="top">
+    <td><div align="right">4、</div></td>
+    <td align="left"> 登录：<a href="http://121.28.83.134:8001/adrm/login.jsp">login</a> 
+      用户名:test 密码:123 </td>
+  </tr>
+</table>
+</body>
+</html>

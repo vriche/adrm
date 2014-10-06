@@ -1,0 +1,39 @@
+form,input,select {font-size:12px; margin:0px; padding:0px;}
+table,td,tr,th {font-size:12px;word-wrap:break-word;word-break:break-all;}
+li {list-style:none;}
+p {text-indent:2em;}
+/* 链接颜色 */
+a {color:#000000; text-decoration:none;}
+a:link {color:#00007F; text-decoration:underline}
+a:visited {color:#00007F; text-decoration:underline}
+a:active {color:#00007F; text-decoration:underline}
+a:hover {color:#ff0000; text-decoration:none}
+/* 颜色属性 [定义规则，小写c加颜色名称] */
+.cRed    ,a.cRed:link    ,a.cRed:visited        { color:#F00; }
+.cDRed    ,a.cDRed:link    ,a.cDRed:visited    { color:#d80000;}
+.cGray    ,a.cGray:link    ,a.cGray:visited    { color: #4F544D;}
+.cWhite    ,a.cWhite:link    ,a.cWhite:visited    { color: White;}
+.cBlack    ,a.cBlack:link ,a.cBlack:visited    { color: Black;}
+/* 字体属性 [定义规则，小写f加属性名称] */
+.fB {    font-weight: bold;}
+.fI {    font-style: italic;}
+/* 字体大小*/
+.f7px { font-size:7px;}
+.f12px { font-size:12px;}
+.f14px { font-size:14px;}
+/* 其他属性 */
+.left { float: left;}
+.right { float: right;}
+.clear { clear: both; font-size:12px; width:1px; visibility: hidden; }
+.hidden {display: none;}
+.unLine     ,.unLine a    {text-decoration: none;}
+.noBorder {border:none;    }
+.Border1px {border:1px;    }
+/*共用表现样式*/
+.list{padding:7px 10px 5px 10px; text-align:left; line-height:19px;}
+.listcenter{text-align:center;}
+/*新闻栏目导航颜色*/
+#news-nav .main a {color:#EEF;}
+#news-nav .main a:link {color:#EEF;}
+#news-nav .main a:visited {color:#EEF;}
+img .pic011 {border:#000 1px solid;}

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaWorkFlowMoveTypeSQL">
+    <typeAlias alias="oaWorkFlowMoveType" type="com.vriche.adrm.model.OaWorkFlowMoveType"/>
+
+	<cacheModel id="oaWorkFlowMoveType-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaWorkFlowMoveType"/>
+		<flushOnExecute statement="updateOaWorkFlowMoveType"/>
+		<flushOnExecute statement="deleteOaWorkFlowMoveType"/>
+		<flushOnExecute statement="deleteOaWorkFlowMoveTypes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaWorkFlowMoveType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaWorkFlowMoveType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaWorkFlowMoveTypeResult" class="oaWorkFlowMoveType">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="move_type_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getOaWorkFlowMoveTypesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_work_flow_move_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(move_type_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaWorkFlowMoveTypes" resultMap="oaWorkFlowMoveTypeResult">
+    <![CDATA[
+        select * from tb_oa_work_flow_move_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(move_type_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getOaWorkFlowMoveTypesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select * from tb_oa_work_flow_move_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowMoveTypeIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowMoveTypeIdList" open="(" close=")" conjunction="OR">
+		   			 move_type_id = #OaWorkFlowMoveTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaWorkFlowMoveType" resultMap="oaWorkFlowMoveTypeResult">
+    <![CDATA[
+        select * from tb_oa_work_flow_move_type
+         where move_type_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaWorkFlowMoveType" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_move_type_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_work_flow_move_type (create_by,create_date,modify_by,modify_date,name,value)
+            values ( ?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaWorkFlowMoveType" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_work_flow_move_type set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   value = ?,
+		           version = ?
+        where move_type_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaWorkFlowMoveType">
+    <![CDATA[
+        delete from tb_oa_work_flow_move_type
+         where move_type_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaWorkFlowMoveTypes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_work_flow_move_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowMoveTypeIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowMoveTypeIdList" open="(" close=")" conjunction="OR">
+		   			 move_type_id = #OaWorkFlowMoveTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

@@ -1,0 +1,28 @@
+8
+
+dir
+677
+svn://121.28.83.134:80/src1/adrm_2.0/src/service/com/vriche/adrm/cache/impl
+svn://121.28.83.134:80/src1
+
+
+
+2013-12-06T16:15:11.616425Z
+677
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+EhCacheBasedAdResourceCache.java
+file
+
+
+
+
+2013-12-05T05:23:04.609323Z
+a4448582cc98dc38a9a27ef3d649e697
+2013-12-06T16:15:11.616425Z
+677
+lxz
+

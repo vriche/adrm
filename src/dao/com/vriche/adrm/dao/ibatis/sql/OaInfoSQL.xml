@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaInfoSQL">
+    <typeAlias alias="oaInfo" type="com.vriche.adrm.model.OaInfo"/>
+
+	<cacheModel id="oaInfo-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaInfo"/>
+		<flushOnExecute statement="updateOaInfo"/>
+		<flushOnExecute statement="deleteOaInfo"/>
+		<flushOnExecute statement="deleteOaInfos"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaInfo">
+        <parameter property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayTimes" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="infoTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="searchKey" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaInfo">
+        <parameter property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayTimes" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="infoTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="searchKey" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaInfoResult" class="oaInfo">
+        <result property="content" column="content"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayTimes" column="display_times"/>
+        <result property="id" column="info_id"/>
+        <result property="infoType" column="info_type_id" select="getOaInfoType"/>
+        <result property="infoTypeId" column="info_type_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="searchKey" column="search_key"/>
+        <result property="title" column="title"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getOaInfosCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_info 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="content">
+			(content like #content#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayTimes">
+			(display_times like #displayTimes#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(info_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="infoTypeId">
+			(info_type_id like #infoTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchKey">
+			(search_key like #searchKey#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="title">
+			(title like #title#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaInfos" resultMap="oaInfoResult">
+    <![CDATA[
+        select * from tb_oa_info 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="content">
+			(content like #content#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayTimes">
+			(display_times like #displayTimes#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(info_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="infoTypeId">
+			(info_type_id like #infoTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchKey">
+			(search_key like #searchKey#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="title">
+			(title like #title#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaInfosByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaInfoIdList">
+       	  <iterate prepend="AND" property="OaInfoIdList" open="(" close=")" conjunction="OR">
+		   			 info_id = #OaInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaInfo" resultMap="oaInfoResult">
+    <![CDATA[
+        select * from tb_oa_info
+         where info_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaInfo" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_info_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_info (content,create_by,create_date,display_times,info_type_id,modify_by,modify_date,search_key,title)
+            values ( ?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaInfo" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_info set
+                   content = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   display_times = ?,
+                   info_type_id = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   search_key = ?,
+                   title = ?,
+				   version = ?
+        where info_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaInfo">
+    <![CDATA[
+        delete from tb_oa_info
+         where info_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaInfos" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaInfoIdList">
+       	  <iterate prepend="AND" property="OaInfoIdList" open="(" close=")" conjunction="OR">
+		   			 info_id = #OaInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

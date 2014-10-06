@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaWorkFlowSQL">
+    <typeAlias alias="oaWorkFlow" type="com.vriche.adrm.model.OaWorkFlow"/>
+
+	<cacheModel id="oaWorkFlow-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaWorkFlow"/>
+		<flushOnExecute statement="updateOaWorkFlow"/>
+		<flushOnExecute statement="deleteOaWorkFlow"/>
+		<flushOnExecute statement="deleteOaWorkFlows"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaWorkFlow">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="workFlowMoveTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="workFlowTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="agreeFlowId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="dissentFlowId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="isFirstPoint" jdbcType="INTEGER" javaType="java.lang.Boolean"/>	
+        <parameter property="isEndPoint" jdbcType="INTEGER" javaType="java.lang.Boolean"/>			
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaWorkFlow">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="workFlowMoveTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="workFlowTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>		
+		<parameter property="agreeFlowId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="dissentFlowId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="isFirstPoint" jdbcType="INTEGER" javaType="java.lang.Boolean"/>	
+        <parameter property="isEndPoint" jdbcType="INTEGER" javaType="java.lang.Boolean"/>	
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		
+    </parameterMap>
+	
+    <resultMap id="oaWorkFlowResult" class="oaWorkFlow">
+		<result property="id" column="work_flow_id"/>
+        <result property="displayNo" column="display_no" nullValue="0"/>
+        <result property="nodeLevel" column="node_level" nullValue="0"/>
+        <result property="parentId" column="parent_id"/>
+		<result property="agreeFlowId" column="agree_flow_id" nullValue="0"/>
+        <result property="dissentFlowId" column="dissent_flow_id" nullValue="0"/>
+        <result property="isFirstPoint" column="is_first_point" nullValue="0"/>
+        <result property="isEndPoint" column="is_end_point" nullValue="0"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="workFlowMoveTypeId" column="move_type_id"/>
+        <result property="modifyBy" column="modify_by" />
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name" />
+        <result property="version" column="version"/>
+        <result property="workFlowTypeId" column="work_flow_type_id" />
+        <!--result property="users" column="create_by" select="getUser"/ -->
+		<!-- result property="checkResult" column="check_result_id" select="getOaWorkFlowCheckResults"/ -->
+		<result property="workFlowType" column="work_flow_type_id" select="getOaWorkFlowType"/>
+		<result property="workFlowMoveType" column="move_type_id" select="getOaWorkFlowMoveType"/>
+		<!-- result property="workFlowsMap" column="work_flow_type_id" select="getOaWorkFlowsMap"/ -->
+    </resultMap>
+	
+
+	
+	
+    <select id="getOaWorkFlowsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_work_flow 
+    ]]>
+ 	 	<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(work_flow_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowMoveTypeId">
+			(move_type_id like #workFlowMoveTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(work_flow_type_id like #workFlowTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(node_level like #nodeLevel#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="agreeFlowId">
+			(agree_flow_id like #agreeFlowId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="dissentFlowId">
+			(dissent_flow_id like #dissentFlowId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isFirstPoint">
+			(is_first_point like #isFirstPoint#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="isEndPoint">
+			(is_end_point like #isEndPoint#)
+			</isNotEmpty>				  
+		</dynamic>
+    </select>	
+
+    <select id="getOaWorkFlows" resultMap="oaWorkFlowResult">
+    <![CDATA[
+        select * from tb_oa_work_flow 
+    ]]>
+ 	 	<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(work_flow_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowMoveTypeId">
+			(move_type_id like #workFlowMoveTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(work_flow_type_id like #workFlowTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(node_level like #nodeLevel#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="agreeFlowId">
+			(agree_flow_id like #agreeFlowId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="dissentFlowId">
+			(dissent_flow_id like #dissentFlowId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isFirstPoint">
+			(is_first_point like #isFirstPoint#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="isEndPoint">
+			(is_end_point like #isEndPoint#)
+			</isNotEmpty>				  
+		</dynamic>
+    </select>
+	
+    <select id="getOaWorkFlowClass" resultClass="oaWorkFlow">
+    <![CDATA[
+        select work_flow_id as id,
+		name,work_flow_type_id as workFlowTypeId,parent_id as parentId,agree_flow_id as agreeFlowId,
+		dissent_flow_id as dissentFlowId,is_first_point as isFirstPoint,is_end_point as isEndPoint
+		from tb_oa_work_flow where work_flow_id = #value#
+    ]]>
+	</select>
+	
+    <select id="getOaWorkFlowsByUser" parameterClass="java.util.Map" resultMap="oaWorkFlowResult">
+    <![CDATA[
+        select wf.* from tb_oa_work_flow wf,tb_oa_work_flow_check_user wu 
+		where wu.work_flow_id = wf.work_flow_id
+    ]]>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(wf.work_flow_type_id = #workFlowTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+			(wu.user_id = #userId#)
+			</isNotEmpty>			  
+    </select>
+	
+	
+    <select id="getWorkFlowsOther"  resultMap="oaWorkFlowResult">
+    <![CDATA[
+		select * from tb_oa_work_flow 
+		where agree_flow_id = #agreeFlowId#
+		or dissent_flow_id = #dissentFlowId#
+    ]]>		  
+    </select>	
+	
+	
+	
+	
+	
+    <select id="getOaWorkFlowsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_work_flow 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowIdList" open="(" close=")" conjunction="OR">
+		   			 work_flow_id = #OaWorkFlowIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <!-- select id="getOaWorkFlow" resultMap="oaWorkFlowResult">
+    <![CDATA[
+        select * from tb_oa_work_flow
+         where work_flow_id = #value#
+    ]]>
+    </select -->
+	
+    <select id="getOaWorkFlow" resultMap="oaWorkFlowResult"  parameterClass="oaWorkFlow">
+    <![CDATA[
+        select * from tb_oa_work_flow
+    ]]>
+	 	<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(work_flow_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowMoveTypeId">
+			(move_type_id like #workFlowMoveTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(work_flow_type_id like #workFlowTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(node_level like #nodeLevel#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="agreeFlowId">
+			(agree_flow_id like #agreeFlowId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="dissentFlowId">
+			(dissent_flow_id like #dissentFlowId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isFirstPoint">
+			(is_first_point like #isFirstPoint#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="isEndPoint">
+			(is_end_point like #isEndPoint#)
+			</isNotEmpty>				  
+		</dynamic>		
+
+    </select>
+	
+
+    <insert id="addOaWorkFlow" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_work_flow_id.NextVal AS id FROM DUAL 
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_work_flow (create_by,create_date,move_type_id,modify_by,modify_date,name,work_flow_type_id,display_no,node_level,parent_id,agree_flow_id,dissent_flow_id,is_first_point,is_end_point)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+
+    <update id="updateOaWorkFlow" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_work_flow set
+                   create_by = ?,
+                   create_date = ?,
+                   move_type_id = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   work_flow_type_id = ?,
+				   display_no = ?,
+				   node_level = ?,
+				   parent_id = ?,
+				   agree_flow_id = ?,
+				   dissent_flow_id = ?,
+				   is_first_point = ?,
+				   is_end_point = ?,
+				   version = ?
+        where work_flow_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaWorkFlow">
+    <![CDATA[
+        delete from tb_oa_work_flow
+         where work_flow_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaWorkFlows" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_work_flow 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowIdList" open="(" close=")" conjunction="OR">
+		   			 work_flow_id = #OaWorkFlowIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	
+	
+	
+	
+    <insert id="addIncomeUsers" parameterClass="map">
+    <![CDATA[
+        insert into tb_oa_work_flow_comin_user (user_id, work_flow_id)
+        values (#userId#, #workFlowId#);
+    ]]>
+    </insert>	
+	
+   <delete id="deleteIncomeUsers" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_oa_work_flow_comin_user where work_flow_id = #id#;
+    ]]>
+    </delete>
+	
+	<select id="getIncomeUsers" resultClass="java.lang.Integer">
+    <![CDATA[
+        select user_id as id from tb_oa_work_flow_comin_user where work_flow_id = #id#;
+    ]]>
+    </select>	
+	
+   <update id="deleteIncomeUsersByIds" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_work_flow_comin_user 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowIdList" open="(" close=")" conjunction="OR">
+		   			 work_flow_id = #OaWorkFlowIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   	
+	
+	
+    <insert id="addCheckUsers" parameterClass="map">
+    <![CDATA[
+        insert into tb_oa_work_flow_check_user (user_id, work_flow_id)
+        values (#userId#, #workFlowId#);
+    ]]>
+    </insert>	
+	
+   <delete id="deleteCheckUsers" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_oa_work_flow_check_user where work_flow_id = #id#;
+    ]]>
+    </delete>
+	
+	<select id="getCheckUsers" resultClass="java.lang.Integer">
+    <![CDATA[
+        select user_id as id from tb_oa_work_flow_check_user where work_flow_id = #id#;
+    ]]>
+    </select>	
+	
+   <update id="deleteCheckUsersByIds" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_work_flow_check_user 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowIdList" open="(" close=")" conjunction="OR">
+		   			 work_flow_id = #OaWorkFlowIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update> 	
+	
+	
+	
+	
+	
+	
+	
+</sqlMap>

@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1" xmlns:tns2="http://dayang.com/ADP/schema/ADBroadcastListEntity/1.0" xmlns:tns3="http://dayang.com/ADP/schema/ADMaterialEntity/1.0" xmlns:tns4="http://dayang.com/ADP/schema/ADFileInfoEntity/1.0" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://dayang.com/ADP/schema/ADPServiceParameterType/0.1">
+    <xsd:import namespace="http://dayang.com/ADP/schema/ADBroadcastListEntity/1.0" schemaLocation="ADBroadcastListEntity.xsd"/>
+    <xsd:import namespace="http://dayang.com/ADP/schema/ADMaterialEntity/1.0" schemaLocation="ADMaterialEntity.xsd"/>
+    <xsd:import namespace="http://dayang.com/ADP/schema/ADFileInfoEntity/1.0" schemaLocation="ADFileInfoEntity.xsd"/>
+    <xsd:element name="QueryBroadcastListRequest" type="tns:QueryBroadcastListRequestType">
+        <xsd:annotation>
+            <xsd:documentation>查询广告播出单请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="QueryBroadcastListResponse" type="tns:QueryBroadcastListResponseType">
+        <xsd:annotation>
+            <xsd:documentation>查询广告播出单响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="ImportBroadcastListRequest" type="tns:ImportBroadcastListRequestType">
+        <xsd:annotation>
+            <xsd:documentation>接收广告播出单请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="ImportBroadcastListResponse" type="tns:ImportBroadcastListResponseType">
+        <xsd:annotation>
+            <xsd:documentation>接收广告播出单响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="UpdateMaterialRequest" type="tns:UpdateMaterialRequestType">
+        <xsd:annotation>
+            <xsd:documentation>素材及文件信息更新请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="UpdateMaterialResponse" type="tns:MaterialServiceParameterResponseType">
+        <xsd:annotation>
+            <xsd:documentation>素材及文件信息更新响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="ImportMaterialRequest" type="tns:ImportMaterialRequestType">
+        <xsd:annotation>
+            <xsd:documentation>导入素材及文件信息请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="ImportMaterialResponse" type="tns:MaterialServiceParameterResponseType">
+        <xsd:annotation>
+            <xsd:documentation>导入素材及文件信息响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="MaterialCallbackRequest" type="tns:MaterialCallbackRequestType">
+        <xsd:annotation>
+            <xsd:documentation>素材及文件信息回调请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="MaterialCallbackResponse" type="tns:MaterialServiceParameterResponseType">
+        <xsd:annotation>
+            <xsd:documentation>素材及文件信息回调响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="QueryMaterialRequest" type="tns:QueryMaterialRequestType">
+        <xsd:annotation>
+            <xsd:documentation>查询素材及文件信息请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="QueryMaterialResponse" type="tns:QueryMaterialResponseType">
+        <xsd:annotation>
+            <xsd:documentation>查询素材及文件信息响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="StartUploadProcessRequest" type="tns:StartUploadProcessRequestType">
+        <xsd:annotation>
+            <xsd:documentation>启动上载流程请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="StartUploadProcessResponse" type="tns:StartProcessResponseType">
+        <xsd:annotation>
+            <xsd:documentation>启动上载流程响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="StartCombineProcessRequest" type="tns:StartCombineProcessRequestType">
+        <xsd:annotation>
+            <xsd:documentation>启动合并流程请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="StartCombineProcessResponse" type="tns:StartProcessResponseType">
+        <xsd:annotation>
+            <xsd:documentation>启动合并流程响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="StartTransferProcessRequest" type="tns:StartTransferProcessRequestType">
+        <xsd:annotation>
+            <xsd:documentation>启动迁移流程请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="StartTransferProcessResponse" type="tns:StartProcessResponseType">
+        <xsd:annotation>
+            <xsd:documentation>启动迁移流程响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="CommonRequestType">
+        <xsd:sequence>
+            <xsd:element name="RequestSystemID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>请求系统ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="UserID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>请求用户ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UserName" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>请求用户名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CommonResponseType">
+        <xsd:sequence>
+            <xsd:element name="Status" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>返回状态，0-成功，1-失败</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Description" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>状态文字描述</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ExtendAttributesType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="ExtendAttribute" type="tns:ExtendAttributeType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ExtendAttributeType">
+        <xsd:sequence>
+            <xsd:element name="AttributeID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="AttributeValue" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性值</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="QueryBroadcastListRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ChannelCode" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>频道代码，唯一标识</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PlayDate" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>播出日期 yyyy-mm-dd</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="QueryBroadcastListResponseType">
+        <xsd:sequence>
+            <xsd:element name="CommonResponse" type="tns:CommonResponseType">
+                <xsd:annotation>
+                    <xsd:documentation>通用返回信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" ref="tns2:ADBroadcastList">
+                <xsd:annotation>
+                    <xsd:documentation>广告播出单</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ImportBroadcastListRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ExchangeType" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>交互类型，1-接收广告管理系统广告单，2-提交审核后的广告单，3-转发广告单给播出系统</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="tns2:ADBroadcastList">
+                <xsd:annotation>
+                    <xsd:documentation>广告播出单</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ImportBroadcastListResponseType">
+        <xsd:sequence>
+            <xsd:element name="CommonResponse" type="tns:CommonResponseType">
+                <xsd:annotation>
+                    <xsd:documentation>通用返回信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="UpdateMaterialRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="UpdateOption" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>更新选项。1-内容处理后更新，2-第二版本素材生成后更新，3-段合并后更新，4-迁移后更新</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Status" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>状态。0-成功，1-失败</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Description" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>描述</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" ref="tns4:ADFileInfoEntity"/>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MaterialServiceParameterResponseType">
+        <xsd:sequence>
+            <xsd:element name="CommonResponse" type="tns:CommonResponseType">
+                <xsd:annotation>
+                    <xsd:documentation>通用返回信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ImportMaterialRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ImportOption" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>导入选项。1-新增素材信息，2-只更新素材元数据信息，3-更新素材元数据并覆盖文件</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="tns3:ADMaterialEntity"/>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MaterialCallbackRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="TargetSystem" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>通知目标系统。1-广告管理系统，2-播出系统，3-广告整备系统</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="NotifyOption" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>通知选项。1-普通素材上载后通知，2-普通素材覆盖上载后通知，3-段文件合并后通知，4-段文件重新合并后通知，5-播出提取文件结果反馈</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="MaterialID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>素材ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Status" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>播出提取文件状态。0-成功，1-失败</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Description" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>状态描述</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" ref="tns4:ADFileInfoEntity"/>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="QueryMaterialRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="MaterialID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>素材ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="MaterialName" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>素材名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="QueryOption" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>查询选项。1-只查询备播区高码文件（播出系统选此项），2-只查询低码文件信息（广告管理系统选此项）</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="QueryMaterialResponseType">
+        <xsd:sequence>
+            <xsd:element name="CommonResponse" type="tns:CommonResponseType">
+                <xsd:annotation>
+                    <xsd:documentation>通用返回信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="IsExist" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>是否存在。0-不存在，1-存在</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Description" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>状态描述</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" ref="tns4:ADFileInfoEntity"/>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="StartProcessResponseType">
+        <xsd:sequence>
+            <xsd:element name="CommonResponse" type="tns:CommonResponseType">
+                <xsd:annotation>
+                    <xsd:documentation>通用返回信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ProcessInstanceID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>流程实例ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="StartUploadProcessRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="SourceFile" type="tns:SourceFileType">
+                <xsd:annotation>
+                    <xsd:documentation>上载生成的源文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="IsNeedContentProcess" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>是否需要内容处理，0-不需要，1-需要</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="IsNeedTranscode" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>是否需要转码生成第二版本素材，0-不需要，1-需要</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TranscodeTargetFile" type="tns:TranscodeTargetFileType">
+                <xsd:annotation>
+                    <xsd:documentation>转码生成第二版本素材文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="SourceFileType">
+        <xsd:sequence>
+            <xsd:element ref="tns4:ADFileInfoEntity"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="TranscodeTargetFileType">
+        <xsd:sequence>
+            <xsd:element ref="tns4:ADFileInfoEntity"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="StartCombineProcessRequestType">
+        <xsd:sequence>
+            <xsd:element name="CommonRequest" type="tns:CommonRequestType">
+                <xsd:annotation>
+                    <xsd:documentation>请求者信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="IsNeedQC" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>合并后是否需要审核，0-不需要，1-需要</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="CombineSourceFileGroup" type="tns:CombineSourceFileType">
+                <xsd:annotation>
+                    <xsd:documentation>合并源文件组，段内的多条素材文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="CombineTargetFile" type="tns:CombineTargetFileType">
+                <xsd:annotation>
+                    <xsd:documentation>合并目标文件组，合并后的高码（也可包含低码）文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="IsNeedTransLowCode" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>是否需要转低码，0-不需要，1-需要</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="IsNeedKeyFrame" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>是否需要提取关键帧，0-不需要，1-需要</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="KeyFramePosition" type="tns:KeyFramePositionType">
+                <xsd:annotation>
+                    <xsd:documentation>关键帧信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="IsNeedTechReport" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>合并后的文件是否需要自动技审，0-不需要， 1-需要</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CombineSourceFileType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="CombineSourceFileItem" type="tns:CombineFileItemType">
+                <xsd:annotation>
+                    <xsd:documentation>合并文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CombineFileItemType">
+        <xsd:sequence>
+            <xsd:element name="Index" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>合并文件序号，从0开始</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="tns4:ADFileInfoEntity"/>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="CombineTargetFileType">
+        <xsd:sequence>
+            <xsd:element ref="tns4:ADFileInfoEntity"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="KeyFramePositionType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Position" type="xs:long">
+                <xsd:annotation>
+                    <xsd:documentation>关键帧位置</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="StartTransferProcessRequestType">
+        <xsd:sequence>
+            <xsd:element name="TransferSourceFile" type="tns:TransferSourceFileType">
+                <xsd:annotation>
+                    <xsd:documentation>迁移源文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element maxOccurs="unbounded" name="TransferTargetFile" type="tns:TransferTargetFileType">
+                <xsd:annotation>
+                    <xsd:documentation>迁移目标文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="TransferSourceFileType">
+        <xsd:sequence>
+            <xsd:element ref="tns4:ADFileInfoEntity"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="TransferTargetFileType">
+        <xsd:sequence>
+            <xsd:element ref="tns4:ADFileInfoEntity"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

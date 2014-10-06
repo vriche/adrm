@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaBusinessCardTypeSQL">
+    <typeAlias alias="oaBusinessCardType" type="com.vriche.adrm.model.OaBusinessCardType"/>
+
+	<cacheModel id="oaBusinessCardType-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaBusinessCardType"/>
+		<flushOnExecute statement="updateOaBusinessCardType"/>
+		<flushOnExecute statement="deleteOaBusinessCardType"/>
+		<flushOnExecute statement="deleteOaBusinessCardTypes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaBusinessCardType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaBusinessCardType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaBusinessCardTypeResult" class="oaBusinessCardType">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="business_card_typ_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getOaBusinessCardTypesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_business_card_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(business_card_typ_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaBusinessCardTypes" resultMap="oaBusinessCardTypeResult">
+    <![CDATA[
+        select * from tb_oa_business_card_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(business_card_typ_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaBusinessCardTypesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_business_card_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaBusinessCardTypeIdList">
+       	  <iterate prepend="AND" property="OaBusinessCardTypeIdList" open="(" close=")" conjunction="OR">
+		   			 business_card_typ_id = #OaBusinessCardTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaBusinessCardType" resultMap="oaBusinessCardTypeResult">
+    <![CDATA[
+        select * from tb_oa_business_card_type
+         where business_card_typ_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaBusinessCardType" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_business_card_typ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_business_card_type (create_by,create_date,modify_by,modify_date,name,value)
+            values ( ?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaBusinessCardType" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_business_card_type set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   value = ?,
+				   version = ?
+        where business_card_typ_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaBusinessCardType">
+    <![CDATA[
+        delete from tb_oa_business_card_type
+         where business_card_typ_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaBusinessCardTypes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_business_card_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaBusinessCardTypeIdList">
+       	  <iterate prepend="AND" property="OaBusinessCardTypeIdList" open="(" close=")" conjunction="OR">
+		   			 business_card_typ_id = #OaBusinessCardTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

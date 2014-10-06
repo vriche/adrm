@@ -1,0 +1,100 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/styles
+svn://121.28.83.134:80/src1
+
+
+
+2013-03-27T07:06:15.931848Z
+483
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+adrmworkspance
+dir
+
+puzzlewithstyle
+dir
+
+simplicity
+dir
+
+dhtmlXCombo.css
+file
+
+
+
+
+2013-05-17T07:36:13.745256Z
+e542dc14a89194579d6ad35a15bfb709
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+displaytag.css
+file
+
+
+
+
+2013-05-17T07:36:13.760881Z
+bc010ef8fed43d2a3a976964e359fa4f
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+dhtmlXToolbar.css
+file
+
+
+
+
+2013-05-17T07:36:13.760881Z
+ea5560ed1247dc0dc5350beb1a004eda
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+forms.css
+file
+
+
+
+
+2013-05-17T07:36:13.760881Z
+35abae9a87f41928c0f350a34b38874f
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+andreas01
+dir
+
+messages.css
+file
+
+
+
+
+2013-05-17T07:36:13.760881Z
+25f416395a09b021e482e35bd6e75681
+2012-11-24T05:32:05.899594Z
+6
+lxz
+

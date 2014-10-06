@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/quartz-1.6.5
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:32:23.846523Z
+32
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+quartz-all-1.6.5.jar
+file
+
+
+
+
+2013-05-17T07:35:34.446343Z
+31d4b4daf141c6689dfbe8cd4f042f56
+2012-11-24T07:32:23.846523Z
+32
+lxz
+has-props
+

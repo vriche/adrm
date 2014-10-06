@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<a name="toolbar_"><html>
+<a name="toolbar_"><head>
+	<title>DHTML Toolbar guide and samples</title><link rel="STYLESHEET" type="text/css" href="common/styles.css">
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+</head>
+
+<body>
+<script>
+	function openFull(el){
+		el.nextSibling.style.display=='none'?el.nextSibling.style.display='block':el.nextSibling.style.display='none'
+	}
+	function expandAll(fl){
+		var elAr = document.getElementsByTagName("DIV");
+		for(var i=2;i<elAr.length;i++){
+			if(elAr[i].className=='block'){
+				if(fl)
+					elAr[i].style.display = "";
+				else
+					elAr[i].style.display = "none";
+			}
+		}
+	}
+</script>
+<div> 
+  <table width="88%" border="0">
+    <tr>
+      <td><h2 align="center"><a name="toolbar_">系统管理</a></h2>
+</td>
+    </tr>
+    <tr>
+      <td>&nbsp;<div class="block"> 
+     
+          <h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统管理主要包括对使用组织的基本信息进行管理。如" <strong><font color="#000000">部门信息</font></strong> 
+            "，" <strong><font color="#000000">用户信息</font></strong> "，" <strong><font color="#000000">职位信息</font></strong> 
+            "," <strong><font color="#000000">权限信息</font></strong> "等。界定了系统正常运行的各种操作 
+            规范。系统管理员可以及时、准确的掌握系统运行情况，局部功能需要更新时通过远程维护来实现.</h5>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td>
+	<h4><a name="组织信息">组织信息</a></h4>
+
+<div class="block"> 
+          <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 提供使用者的基本信息。包括" <font color="#000000">户名</font> 
+            "，" <strong><font color="#000000">账号</font></strong> "，"<strong>联系人</strong>"的。会在报表的预览，打印中使用到这些信息。 
+            如图：</h5>
+  <p><img src="./codebase/imgs/admin.jpg" width="682" height="101"></p>
+	</div>
+	
+	<h4><a name="部门信息">部门信息</a></h4>
+	
+<div class="block"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  <h5>显示使用组织中的部门和部门信息。可点击" <font color="#000000">添加</font> "加入新的部门，点击部门名称，查看部门相关信息。 
+    如图：</h5> 
+  <p><img src="./codebase/imgs/admin2.jpg" width="682" height="180"></p>
+  </div>
+
+	<h4><a name="职务信息">职务信息</a></h4><div class="block">
+	
+ <h5>&nbsp;&nbsp;&nbsp;&nbsp;显示公司中的职位信息。可点击左上方<img src="./codebase/imgs/add.jpg">添加新的职位。点击 
+    可以对相对信息进行修改，点击<img src="./codebase/imgs/delete.jpg">删除该信息。</h5>  
+ <img src="./codebase/imgs/admin3.jpg" width="682" height="107"></p>
+ </div>
+ 
+		<h4><a name="用户信息">用户信息</a></h4>
+		
+<h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 以树状形式显示公司的各个部门，点击最上组织名称显示组织所有人员信息。包括 
+    " <strong>用户名</strong> "，" <strong>全名</strong> "，" <strong>E-Mail</strong> 
+    "等信息。 如图：</h5> 
+  <p><img src="./codebase/imgs/admin4.jpg" width="682" height="240"></p>
+	
+     
+  <h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击页面中的<img src="./codebase/imgs/add.jpg"> 
+    添加新的用户。添加用户时先选择好部门。然后点击<img src="./codebase/imgs/add.jpg"> 进入添加界面。点击<img src="./codebase/imgs/update.jpg">打开具体用户的详细信息。可修改具体信息。 
+    如图：</h5> 
+  <p><img src="./codebase/imgs/admin5.jpg" width="682" height="351">
+     
+    <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击所需部门，显示该部门中的人员情况信息。如果选择员工姓名，显示该员工的详信息如上图。 
+      员工信息由员工注册提供，管理员负责为其分配职务，管理其是否可用。由于职务与权限有关，所以当给某个员工分配了两个或多个职务后,他就同时拥有了多个权限 
+      。</h5>
+  		<h4><a name="权限控制">权限控制</a></h4><div class="block"> 
+		    
+  <h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 控制用户的访问权限，选择"<img src="./codebase/imgs/null.jpg"> 
+    系统资源" 后在下方出现树状结构。右侧出现权限选择列表。先选择要使用的职位，然后在需要的权限前面的" <img src="./codebase/imgs/select.jpg"> 
+    " 上面打钩。可重复选择多个。然后点击"保存"按钮完成用户权限选择。点击" <img src="./codebase/imgs/add.jpg"> 
+    "添加新的权限类型。单击 " <img src="./codebase/imgs/update.jpg"> " 对已有权限进行修改。点击 " <img src="./codebase/imgs/delete.jpg"> 
+    " 删除权限。 如图：<br><img src="./codebase/imgs/admin6.jpg "width="682" height="290"> 
+  </h5> 
+    
+  <h5 align="justify"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选择 " <img src="./codebase/imgs/null.jpg"> 用户 " 右侧出现所有用户列表。如图：</h5>   
+  <p><img src="./codebase/imgs/admin7.jpg" width="682" height="351"></p>
+    
+    
+     <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;先选择职位。然后在用户列表中选择要赋予该职位权限的用户名。点击" 保存 "，完成权限设置 。</h5> 
+</div>
+
+		<h4><a name="时段维护">时段维护</a></h4>
+		
+<div class="block">  
+  <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用于播出载体的设置，分为" <font color="#000000">时段</font> 
+    "和" <font color="#000000">投放组合</font> "两种。在添加"时段"时，选择相应的载体，点击" <font color="#000000">增加资源</font> 
+    "。出现具体要填写的添加信息。 分为" <font color="#000000">基本信息</font> " ，" <font color="#000000">有效信息</font> 
+    "，" <font color="#000000">价格信息</font>"三部分。如图：</h5> 
+    
+  <p><img src="./codebase/imgs/admin8.jpg" width="682" height="351"></p>
+    
+  <p>  
+  <h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在" <font color="#000000">基本信息</font> "中填写相关信息，设定" 
+    <font color="#000000">资源</font> "的属性。在" <font color="#000000">有效信息</font> 
+    "中设置该"<font color="#000000">资源</font>"的开始，结束时间，"<font color="#000000">插出入点</font>"时间。在后面的 
+    星期中填入时间段的秒数。在"<font color="#000000">价格信息</font> "中可选择是否"<font color="#000000">默认</font>"，是否" 
+    使用价格规则 "。在" <font color="#000000">价格类型</font> "中选择价格类型。保存后," <font color="#000000">价格明细</font> 
+    "下出现"<font color="#000000">显示</font>"字样。点击" <font color="#000000">显示</font> 
+    "。 可设置相应长度的价格信息。填写完成后点击" <font color="#000000">新添</font> "完成设置。 添加" <font color="#000000">投放组合</font> 
+    "时,点击" <img src="./codebase/imgs/null.jpg"><font color="#000000">投放组合</font>" 
+    换成投放组合界面 。 如图：</h5>  
+  <p><img src="./codebase/imgs/admin9.jpg" width="682" height="237"> 
+   
+  <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点击"<font color="#000000">添加</font>"在树状结构下多处一个节点，代表了一个投放组合，然后在" 
+    <font color="#000000">组合名称</font> "中填写名称。设置"<font color="#000000">是否有效</font>"，是否使用 
+    " <font color="#000000">自动价格</font> "。 然后再右侧树状结构下选择资源与载体。搭配自己需要的组合，完成后，点击" 
+    <font color="#000000">保存</font> "完成添加。点击<img src="./codebase/imgs/add.jpg">可以指定长度和价格。 
+  </h5>
+</div>
+<div align="center">
+		<h4><a name="系统工具">系统工具</a></h4>
+  <div class="block">
+		</div>
+ <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    用于系统管理，系统维护等工作 。</h5>  
+ 
+		</div>
+
+		<h4><a name="流程管理">流程管理</a></h4><div class="block">
+		
+    <h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用于文件审批的流程控制，如图：</h5>   
+    
+  <p><img src="./codebase/imgs/admin10.jpg" width="682" height="200"> 
+  
+  <h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 点击树状结点的" <font color="#000000">合同审批</font> 
+    "，屏幕左侧出现审批的流程图。点击" <font color="#000000">业务审批</font> "进入流程控制菜单，设置流程的详细信息。 
+    保存后，返回上一页面。 如图：</h5>  
+  <p><img src="./codebase/imgs/admin11.jpg" width="682" height="351">
+  <h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 点击" <font color="#000000">增加子级</font> 
+    "，进入流程控制菜单，设置相应的信息，保存后，在上一级下面又添加了一级审批。可以设置是在此级结束. 还是继续增加下一级，继续审批下去。在增加了新的一级后，在"<font color="#000000">增加子级</font>"上方，多出了" 
+    <font color="#000000">增加同级</font> "一项。点击" <font color="#000000">增加同级</font> 
+    "同样设置相应流程信息，保存后返回。增加了一个同级的审批流程。 如图： </h5> 
+  <p><img src="./codebase/imgs/admin12.jpg" width="682" height="157"> 
+    
+  <h5>&nbsp; </h5>
+          <h5 align="justify"> <font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"合同审批</font> 
+            <font color="#000000">"</font>操作同<font color="#000000">"</font> <font color="#000000">订单审批</font> 
+            <font color="#000000">"</font>操作。 </h5>
+</div>
+
+<h4><a name="在线用户">在线用户</a></h4>
+
+<div class="block">
+  <h5 align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 显示当前在线的用户名 </h5>
+  <p>&nbsp;<img src="./codebase/imgs/admin18.jpg" width="682" height="157"></p> 
+		</div>
+		
+			<h4><a name="重载选项">重载选项</a></h4><div class="block">
+			
+     
+  <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 从内存中重新载入信息，当有的信息修改后，需要执行此操作方能显示结果。 
+  </h5>
+          <p>&nbsp; <img src="./codebase/imgs/admin19.jpg" width="682" height="235"></p>
+          <p>&nbsp;</p> 
+  
+
+			<h4><a name="刷新缓存"> 刷新缓存</a></h4><div class="block"></div>
+			
+  
+<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+          <h5 align="center"> 从数据库中载入信息，当有的信息修改后，需要执行此操作方能显示结果。如图：</h5>
+          <p>&nbsp;<img src="./codebase/imgs/admin20.jpg" width="682" height="241"></p>
+        </div>
+<h4><a name="访问记录">访问记录</a></h4><div class="block">
+</div>
+        <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 显示登录过系统的用户的IP地址，访问过的径，以及时间等详细信息。以便跟踪用户的行为，监视非法操作。 
+          如图：<img src="./codebase/imgs/admin21.jpg" width="682" height="157"> </h5>
+        
+<h4>最新通知</h4><div class="block">
+</div>
+        <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 可以向所有系统使用人员发送通告。点击添加，添加新的通知，如图：</h5>
+        <p>&nbsp;<img src="./codebase/imgs/admin22.jpg" width="682" height="117"></p>
+        <p>&nbsp;<img src="./codebase/imgs/admin23.jpg" width="682" height="157"></p>
+        <p><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括：“标题”，“分类编号”，“搜索关键字”，“内容”。编辑完毕点击“保存”保存一个通知，这时在开始页面右侧的“最新通知”文本框中会显示出最新的通告的标题，点击标题，在弹出的窗口中显示通告的内容。如图：</font></p>
+        <p>&nbsp; <img src="./codebase/imgs/admin24.jpg" width="682" height="269"></p>
+  
+  
+
+<h4>价格规则</h4><div class="block">
+</div>
+        <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 维护系统刊例价。为一些系统中没有定义的广告长度，设置价格。如图：</h5>
+        <p>&nbsp;<img src="./codebase/imgs/admin25.jpg" width="682" height="252"></p>
+        <p>&nbsp;<img src="./codebase/imgs/admin26.jpg" width="682" height="241"></p>
+        <p><font color="#009999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容包括：“广告长度”，“基数”，“其它基数”，“规则表达式”，“备注”等信息。<br>
+          广告长度为新添加的长度，基数，其它基数中为系统中维护的广告长度，这些长度都有相对应的价格。然后指定“规则表达式”，点击“保存”，系统自动计算出新的广告长度的价格。</font></p>
+       
+        <h4>相关问题处理办法</h4>
+<table width="100%" border="0">
+    <tr>
+        <td width="15%" height="50"><h5>无刊例价</h5></td>
+      <td width="85%"><h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;管理员可在“<font color="#000000">时段维护</font>”中选择要补充的“<font color="#000000">资源</font>”在资源的详细信息中，选择“价格信息”中“<font color="#000000">显示</font>”增加相应广告长度的刊例价</h5>
+      </td>
+    </tr>
+    <tr>
+        <td height="50"><h5>磁带编号错误</h5></td>
+      <td><h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;管理员在“<font color="#000000">广告素材</font>”中选择要修改的广告内容。点击进入修改页面，如要修要“<font color="#000000">磁带编号</font>”请在修改后，先点“<font color="#000000">强制保存</font>”，然后再点击“<font color="#000000">保存</font>”。 
+        </h5></td>
+    </tr>
+    <tr>
+        <td height="50"><h5>广告长度错误</h5>
+        
+      </td>
+      <td><h5 align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修改“<font color="#000000">广告长度</font>”时，先将该条广告的磁带号修改为一个伪号。然后添加一个广告素材信息，同要修改的那条素材的初始信息内容相同，但广告长度改为正确的长度。保存完毕。通知业务员修改自己的订单。</h5></td>
+    </tr>
+  </table>
+	  </td>
+    </tr>
+	<tr>
+		
+      <td> 
+        <table width="100%" border="0">
+          <tr>
+            <td><h2 align="center">三、 功能定制</h2></td>
+          </tr>
+          <tr>
+            <td><font color="#009999" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上述介绍的只是标准版的基本系统功能，是我们根据各电视台目前普遍存在的需求而编写的系统主体架构。由于各电视媒体在业务流程和管理体制等方面存在较大的差异性，所以具体到每一个项目，我们都要根据客户的具体要求，进行定制的二次开发；特别是财务管理和统计查询二个方面，不同的媒体都有自己的特殊性，对于广告管理系统来说，没有最好的，只有最适合的。我们充分尊重客户的需要，提供功能定制开发，以保证我们的系统功能在最大程度上贴近客户的实际需求，使客户通过使用我们的系统真正实现“管理出效益”的目标。</font></td>
+          </tr>
+        </table> </td>
+	</tr>
+  </table>
+</div>
+
+
+</body>
+</html>

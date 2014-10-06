@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PublishedInfoSQL">
+    <typeAlias alias="publishedInfo" type="com.vriche.adrm.model.PublishedInfo"/>
+
+	<cacheModel id="publishedInfo-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addPublishedInfo"/>
+		<flushOnExecute statement="updatePublishedInfo"/>
+		<flushOnExecute statement="deletePublishedInfo"/>
+		<flushOnExecute statement="deletePublishedInfos"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+
+	
+	
+    <parameterMap id="addParam" class="publishedInfo">
+		<parameter property="adContent" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+		<parameter property="orderCode" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+		<parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="linkUserId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="orderDayInfoId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="adResourceId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="adResourceWorkspanId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="adverMatterId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="appPosition" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="linkUser" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="matterEdit" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="matterLength" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="matterName" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="position" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="positionDes" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="proResourceMemo" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="19991231"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="publishOrder" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="resourceCarrier" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="tapeCode" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+    </parameterMap>
+	        
+
+
+    <parameterMap id="updateParam" class="publishedInfo">
+		<parameter property="adContent" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+		<parameter property="orderCode" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+		<parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="linkUserId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="orderDayInfoId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="adResourceId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="adResourceWorkspanId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue=""/>
+        <parameter property="adverMatterId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="appPosition" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="contractId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="linkUser" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="matterEdit" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="matterLength" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="matterName" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="position" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="positionDes" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="proResourceMemo" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="19991231"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="publishOrder" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="resourceCarrier" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="tapeCode" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+    </parameterMap>
+
+		
+
+    <resultMap id="publishedInfoResult" class="publishedInfo">
+		<result property="adContent" column="ad_content" nullValue=""/>
+		<result property="orderCode" column="order_code" nullValue=""/>
+		<result property="carrierId" column="ad_resource_carrier_id" nullValue="0"/>
+		<result property="resourceType" column="ad_resource_type" nullValue="0"/>
+		
+		<result property="dayTimes" column="ad_day_times" nullValue="0"/>
+		<result property="linkUserId" column="link_user_id" nullValue="0"/>
+		<result property="orderDayInfoId" column="order_day_info_id" nullValue="0"/>
+		<result property="customerId" column="customer_id" nullValue="0"/>
+		<result property="customerName" column="customer_name" nullValue=""/>
+        <result property="adResourceId" column="ad_resource_info_id" nullValue="0"/>
+        <result property="adverMatterId" column="adver_matter_id" nullValue="0"/>
+        <result property="appPosition" column="app_position" nullValue=""/>
+        <result property="specificValue" column="specific_value" nullValue=""/>		
+        <result property="linkUser" column="link_user" nullValue=""/>
+        <result property="matterEdit" column="matter_edit" nullValue=""/>
+        <result property="matterLength" column="matter_length" nullValue=""/>
+        <result property="matterName" column="matter_name" nullValue=""/>
+        <result property="orderId" column="order_id" nullValue="0"/>
+        <result property="position" column="position" nullValue=""/>
+        <result property="positionDes" column="position_des" nullValue=""/>
+        <result property="publishDate" column="publish_date" nullValue="19991231"/>
+        <result property="publishMemo" column="publish_memo_name" nullValue=""/>
+		<result property="publishMemoValue" column="publish_memo_value" nullValue="0"/>
+        <result property="publishOrder" column="publish_order" nullValue=""/>
+        <result property="resourceCarrier" column="resource_carrier" nullValue=""/>
+        <result property="tapeCode" column="tape_code" nullValue=""/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+	
+    <resultMap id="publishedInfoResult-for-report" class="publishedInfo">
+		<result property="orderCode" column="order_code" nullValue=""/>
+        <result property="appPosition" column="app_position" nullValue=""/>	
+        <result property="linkUser" column="link_user" nullValue=""/>
+        <result property="matterEdit" column="matter_edit" nullValue=""/>
+        <result property="matterLength" column="matter_length" nullValue=""/>
+        <result property="matterName" column="matter_name" nullValue=""/>
+        <result property="position" column="position" nullValue=""/>
+        <result property="publishOrder" column="publish_order" nullValue=""/>
+        <result property="tapeCode" column="tape_code" nullValue=""/>
+    </resultMap>	
+	
+    <resultMap id="infoResult-for-report" class="publishedInfo">
+		<result property="publishMemo" column="publish_memo_name" nullValue=""/>
+        <result property="appPosition" column="app_position" nullValue=""/>
+        <result property="adContent" column="ad_content" nullValue=""/>
+        <result property="position" column="position" nullValue=""/>
+        <result property="publishOrder" column="publish_order" nullValue=""/>
+    </resultMap>	
+
+    <select id="getPublishedInfos" resultMap="publishedInfoResult" >
+    <![CDATA[
+        select * from tb_adver_published_info 
+    ]]>
+    </select>
+	
+	
+    <select id="getPublishedInfosByHistory" resultMap="publishedInfoResult" parameterClass="java.util.Map">
+    <![CDATA[
+        select * from tb_adver_published_info 
+    ]]>
+		 <dynamic prepend="WHERE"> 
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+			(publish_date = #publishDate#)
+		 </isNotEmpty>	
+				
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>  
+    </select>	
+	
+    <select id="getPublishedInfosByHistoryColl" resultMap="publishedInfoResult-for-report" parameterClass="java.util.Map">
+    <![CDATA[
+        select 
+		    ap.order_code,
+			ap.app_position,
+			ap.link_user,
+			ap.matter_edit,
+			ap.matter_length,
+			ap.matter_name,
+			ap.publish_order,
+			ap.tape_code,
+			rs.resource_name as  position 
+		 from tb_adver_published_info ap 
+		 left outer join tb_ad_resource_info rs
+		 on ap.ad_resource_info_id = rs.ad_resource_info_id 
+		
+    ]]>
+		 <dynamic prepend="WHERE"> 
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+			(ap.publish_date = #publishDate#)
+		 </isNotEmpty>	
+				
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ap.ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>  
+    </select>
+	
+	
+	
+    <select id="getInfosByHistoryColl" resultMap="infoResult-for-report" parameterClass="java.util.Map">
+    <![CDATA[
+        select 
+		    ap.publish_memo_name,
+			ap.app_position,
+			ap.ad_content,
+			ap.publish_order,
+			ap.position
+		 from tb_adver_published_info ap 
+		
+    ]]>
+		 <dynamic prepend="WHERE"> 
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+			(ap.publish_date = #publishDate#)
+		 </isNotEmpty>	
+				
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ap.ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>  
+    </select>	
+	
+			
+	
+	
+    <select id="getPublishedInfosByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_adver_published_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PublishedInfoIdList">
+       	  <iterate prepend="AND" property="PublishedInfoIdList" open="(" close=")" conjunction="OR">
+		   			 adver_published_info_id = #PublishedInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getPublishedInfo" resultMap="publishedInfoResult">
+    <![CDATA[
+        select * from tb_adver_published_info
+         where adver_published_info_id = #value#
+    ]]>
+    </select>
+	
+
+	<select id="getPublishedInfosByResourceId" parameterClass="map" resultMap="publishedInfoResult">
+    <![CDATA[
+			select 
+		    0 as publish_order,
+		    di.order_day_info_id as order_day_info_id,
+			di.publish_date as publish_date,
+			dt.order_id as order_id,
+		    di.version as version,
+		    di.ad_day_times as ad_day_times,
+		   
+		    od.order_code as order_code,
+		    
+		    ur.id as link_user_id,
+		    ur.username as link_user,
+			
+			cu.customer_id as customer_id,
+			cu.customer_name as customer_name,
+		
+			mt.adver_matter_id as adver_matter_id,
+			mt.name as matter_name,
+			mt.edit as matter_edit, 
+			mt.length as matter_length,
+			mt.tape_code as tape_code,
+			
+			ca.carrier_name as resource_carrier,
+		
+		
+			rs.ad_resource_info_id as ad_resource_info_id,
+			rs.resource_name as position,
+			rs.memo as position_des,
+		    rs.ad_resource_carrier_id as ad_resource_carrier_id,
+		    rs.ad_resource_type as ad_resource_type,
+		
+			"" as ad_content,
+
+		
+			sp.name as app_position,
+			IFNULL(sp.position,99) as specific_value,
+			pd.name as publish_memo_name,
+			pd.value as publish_memo_value
+			
+			
+			from tb_order_day_info di join tb_order_detail dt 
+			left outer join tb_order od
+			on dt.order_id = od.order_id
+			left outer join tb_adver_matter mt
+			on dt.adver_matter_id = mt.adver_matter_id
+			left outer join tb_customer_info cu
+			on od.customer_id = cu.customer_id
+			left outer join tb_adver_publish_memo pd
+			on dt.publish_memo = pd.adver_publish_memo_id
+			left outer join tb_ad_resource_specific sp
+			on dt.ad_resource_specific_id= sp.ad_resource_specific_id
+			left outer join tb_ad_resource_info rs
+			on dt.ad_resource_info_id = rs.ad_resource_info_id 
+			left outer join tb_ad_resource_carrier ca
+			on rs.ad_resource_carrier_id = ca.ad_resource_carrier_id
+			left outer join tb_sys_user ur
+			on od.user_id = ur.id
+
+					
+			where di.order_detail_id = dt.order_detail_id
+			and dt.need_publish = 1
+			and od.is_ckecked = 3
+			and dt.ad_resource_info_id  = #resourceId#
+		    and di.publish_date = #publishDate#
+		    
+		    order by specific_value ASC
+    ]]>
+    </select>	
+	
+	<select id="getInfosByResourceId" parameterClass="map" resultMap="publishedInfoResult">
+    <![CDATA[
+			select 
+		    0 as publish_order,
+		    di.order_day_info_id as order_day_info_id,
+			di.publish_date as publish_date,
+			dt.order_id as order_id,
+		    di.version as version,
+		    di.ad_day_times as ad_day_times,
+		   
+		    od.order_code as order_code,
+		    
+		    ur.id as link_user_id,
+		    ur.username as link_user,
+			
+			cu.customer_id as customer_id,
+			cu.customer_name as customer_name,
+		
+			mt.adver_matter_id as adver_matter_id,
+			mt.name as matter_name,
+			mt.edit as matter_edit, 
+			mt.length as matter_length,
+			mt.tape_code as tape_code,
+			
+			ca.carrier_name as resource_carrier,
+			rs.ad_resource_info_id as ad_resource_info_id,
+			rs.resource_name as position,
+			rs.memo as position_des,
+		    rs.ad_resource_carrier_id as ad_resource_carrier_id,
+		    rs.ad_resource_type as ad_resource_type,
+		
+			"" as ad_content,	
+
+			
+			rdi.total as app_position,
+			IFNULL(sp.position,99) as specific_value,
+			w.broadcast_start_time as publish_memo_name,
+			pd.value as publish_memo_value
+			
+			
+			from tb_order_day_info di join tb_order_detail dt 
+			left outer join tb_order od
+			on dt.order_id = od.order_id
+			left outer join tb_adver_matter mt
+			on dt.adver_matter_id = mt.adver_matter_id
+			left outer join tb_customer_info cu
+			on od.customer_id = cu.customer_id
+			left outer join tb_adver_publish_memo pd
+			on dt.publish_memo = pd.adver_publish_memo_id
+			left outer join tb_ad_resource_specific sp
+			on dt.ad_resource_specific_id= sp.ad_resource_specific_id
+			left outer join tb_ad_resource_info rs
+			on dt.ad_resource_info_id = rs.ad_resource_info_id 
+			left outer join tb_ad_resource_carrier ca
+			on rs.ad_resource_carrier_id = ca.ad_resource_carrier_id
+			left outer join tb_sys_user ur
+			on od.user_id = ur.id
+            left outer join tb_ad_resource_workspan w
+            on w.ad_resource_info_id = rs.ad_resource_info_id 
+		    left outer join tb_ad_resource_day_info rdi
+            on rdi.ad_resource_info_id = dt.ad_resource_info_id
+					
+			where di.order_detail_id = dt.order_detail_id
+			and dt.need_publish = 1
+			and od.is_ckecked = 3
+			and dt.ad_resource_info_id  = #resourceId#
+		    and di.publish_date = #publishDate#
+		    and rdi.publish_date = #date#
+		    
+		    order by specific_value ASC
+    ]]>
+    </select>	
+	
+		
+	<select id="getOneDayResourceInfo" parameterClass="map" resultMap="publishedInfoResult">
+    <![CDATA[
+		select 
+		    0 as publish_order,
+		    0 as order_day_info_id,
+			d.publish_date as publish_date,
+			0 as order_id,
+		    0 as version,
+		    1 as ad_day_times,
+		
+			"" as order_code,
+		    
+		    0 as link_user_id,
+		    "" as link_user,
+			
+			0 as customer_id,
+			"" as customer_name,
+		
+			0 as adver_matter_id,
+			r.resource_name as matter_name,
+			d.total as matter_edit, 
+			d.used as matter_length,
+			"" as tape_code,
+			
+			"" as resource_carrier,
+			r.ad_resource_info_id as ad_resource_info_id,
+			"" as position,
+			"" as position_des,
+		
+			"" as ad_content,
+		
+		    r.ad_resource_carrier_id as ad_resource_carrier_id,
+		    r.ad_resource_type as ad_resource_type,		
+			
+			d.total-d.used as app_position,
+			"" as specific_value,
+			"" as publish_memo_name,
+			"" as publish_memo_value
+
+		from tb_ad_resource_day_info d,
+			tb_ad_resource_workspan w,
+			tb_ad_resource_info r
+		
+		where d.ad_resource_workspan_id = w.ad_resource_workspan_id 
+		
+			and w.ad_resource_info_id = r.ad_resource_info_id
+			
+			and w.ad_resource_info_id = #resourceId#
+			
+			and d.publish_date = #publishDate#
+    ]]>
+    </select>	
+		
+	
+	<select id="getOneDayResourceInfos" parameterClass="map" resultMap="publishedInfoResult">
+    <![CDATA[
+		select 
+		    0 as publish_order,
+		    0 as order_day_info_id,
+			d.publish_date  as publish_date,
+			0 as order_id,
+		    0 as version,
+		    1 as ad_day_times,
+		
+		    "" as order_code,
+		    
+		    0 as link_user_id,
+		    "" as link_user,
+			
+			0 as customer_id,
+			"" as customer_name,
+		
+			0 as adver_matter_id,
+			"" as matter_name,
+			sum(d.total) as matter_edit, 
+			sum(d.used) as matter_length,
+			"" as tape_code,
+		
+			"" as ad_content,
+			
+			"" as resource_carrier,
+			r.ad_resource_info_id as ad_resource_info_id,
+			"" as position,
+			"" as position_des,
+		    r.ad_resource_carrier_id as ad_resource_carrier_id,
+		    r.ad_resource_type as ad_resource_type,			
+			
+			sum(d.total-d.used) as app_position,
+			"" as specific_value,
+			"" as publish_memo_name,
+			"" as publish_memo_value
+
+		from tb_ad_resource_day_info d,
+			tb_ad_resource_workspan w,
+			tb_ad_resource_info r
+    ]]>
+		
+ 	 	  <dynamic prepend="WHERE"> 
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+				(d.publish_date = #publishDate#)
+		 </isNotEmpty>				
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+			(d.ad_resource_workspan_id = w.ad_resource_workspan_id) 
+		 </isNotEmpty>	
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+			(w.ad_resource_info_id = r.ad_resource_info_id)
+		 </isNotEmpty>					
+				
+								
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 w.ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>   
+		
+		group by  d.publish_date
+		
+    </select>		
+	
+
+	
+
+    <insert id="addPublishedInfo" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_adver_published_info_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_adver_published_info (ad_content,order_code,ad_resource_carrier_id,ad_resource_type,link_user_id,order_day_info_id,customer_id,customer_name,ad_resource_info_id,ad_resource_workspan_id,adver_matter_id,app_position,contract_id,link_user,matter_edit,matter_length,matter_name,order_id,position,position_des,pro_resource_memo,publish_date,publish_memo_name,publish_order,resource_carrier,tape_code)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updatePublishedInfo" parameterMap="updateParam">
+    <![CDATA[
+        update tb_adver_published_info set
+				   ad_content = ?,
+				   order_code  = ?,
+				   ad_resource_carrier_id = ?,
+				   ad_resource_type = ?,
+				   link_user_id = ?,
+				   order_day_info_id = ?,
+                   customer_id = ?,
+                   customer_name = ?,
+                   ad_resource_info_id = ?,
+                   ad_resource_workspan_id = ?,
+                   adver_matter_id = ?,
+                   app_position = ?,
+                   contract_id = ?,
+                   link_user = ?,
+                   matter_edit = ?,
+                   matter_length = ?,
+                   matter_name = ?,
+                   order_id = ?,
+                   position = ?,
+                   position_des = ?,
+                   pro_resource_memo = ?,
+                   publish_date = ?,
+                   publish_memo_name = ?,
+                   publish_order = ?,
+                   resource_carrier = ?,
+                   tape_code = ?,
+				   version = ? 
+        where adver_published_info_id = ?
+    ]]>
+    </update>
+
+    <delete id="deletePublishedInfo">
+    <![CDATA[
+        delete from tb_adver_published_info
+         where adver_published_info_id = #value#
+    ]]>
+    </delete>
+	
+	
+   <update id="deletePublishedInfos" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_adver_published_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PublishedInfoIdList">
+       	  <iterate prepend="AND" property="PublishedInfoIdList" open="(" close=")" conjunction="OR">
+		   			 order_day_info_id = #PublishedInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+   <update id="deletePublishedInfosByResDate" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_adver_published_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+			(publish_date = #publishDate#)
+		 </isNotEmpty>	
+				
+	      <isNotNull property="PublishedInfoIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>    
+	   	 
+  </update> 	
+	
+	
+  <select id="getPublishedCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     <![CDATA[  
+      select count(publish_date) from tb_adver_published_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+		 <isNotEmpty prepend="AND"  property="publishDate">
+			(publish_date = #publishDate#)
+		 </isNotEmpty>	
+				
+	      <isNotNull property="PublishedInfoIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>    
+	   	 
+  </select> 	
+	
+</sqlMap>

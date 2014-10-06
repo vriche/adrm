@@ -1,0 +1,616 @@
+# -- messages used in decorators/default.jsp --
+webapp.name=AppFuse
+user.status=Logged in as: 
+user.logout=Logout
+
+# -- validator errors --
+errors.invalid={0} is invalid.
+errors.maxlength={0} can not be greater than {1} characters.
+errors.minlength={0} can not be less than {1} characters.
+errors.range={0} is not in the range {1} through {2}.
+errors.required={0} is a required field.
+errors.byte={0} must be an byte.
+errors.date={0} is not a date.
+errors.double={0} must be an double.
+errors.float={0} must be an float.
+errors.integer={0} must be a number.
+errors.long={0} must be an long.
+errors.short={0} must be an short.
+errors.creditcard={0} is not a valid credit card number.
+errors.email={0} is an invalid e-mail address.
+errors.phone={0} is an invalid phone number.
+errors.zip={0} is an invalid zip code.
+# -- for field level messages --
+errors.header=<span class="fieldError">
+errors.footer=</span>
+
+# -- other errors --
+errors.cancel=Operation cancelled.
+errors.detail={0}
+errors.general=<strong>The process did not complete. Details should follow.</strong>
+errors.token=Request could not be completed. Operation is not in sequence.
+errors.none=No error message was found, check your server logs.
+errors.password.mismatch=Invalid username and/or password, please try again.
+errors.conversion=An error occurred while converting web values to data values.
+errors.twofields=The {0} field has to have the same value as the {1} field.
+errors.existing.user=This username (<strong>{0}</strong>) or e-mail address (<strong>{1}</strong>) already exists.  Please try a different username.
+
+# -- success messages --
+user.added=User information for <strong>{0}</strong> has been added successfully.
+user.deleted=User Profile for <strong>{0}</strong> has been deleted successfully. 
+user.registered=You have successfully registered for access to this application. 
+user.saved=Your profile has been updated successfully.
+user.updated.byAdmin=User information for <strong>{0}</strong> has been successfully updated.
+newuser.email.message={0} has created an AppFuse account for you.  Your username and password information is below.
+reload.succeeded=Reloading options completed successfully.
+
+# -- error page messages --
+errorPage.title=An error has occurred
+errorPage.heading=Yikes!
+404.title=Page Not Found
+404.message=The page your requested was not found.  You might try returning to the <a href="{0}">Main Menu</a>. While you&#39;re here, how about a pretty picture to cheer you up?
+403.title=Access Denied
+403.message=Your current role does not allow you to view this page.  Please contact your system administrator if you believe you should have access.  In the meantime, how about a pretty picture to cheer you up?
+
+# -- login --
+login.title=Login
+login.heading=Login
+login.rememberMe=Remember Me
+login.signup=Not a member? <a href="{0}">Signup</a> for an account.
+login.passwordHint=Forgot your password?  Have your <a href="?" onmouseover="window.status='Have your password hint sent to you.'; return true" onmouseout="window.status=''; return true" title="Have your password hint sent to you." onclick="passwordHint(); return false">password hint e-mailed to you</a>.
+login.passwordHint.sent=The password hint for <strong>{0}</strong> has been sent to <strong>{1}</strong>.
+login.passwordHint.error=The username <strong>{0}</strong> was not found in our database.
+    
+# -- welcome --
+welcome.message=This application is designed to demonstrate the use of web application security, as well as how to use Hibernate with Struts and Struts Advanced features.  Most of the persistence layer for this application is generated using XDoclet.  You can find more information on how to build your own application from this one by reading the README file below.  <span class="attention">To login as a regular user (with the <strong>user</strong> role), the username/password combination is <strong>tomcat/tomcat</strong>.  To login as an <strong>admin</strong> user, use <strong>mraible/tomcat</strong>.</span>
+
+# -- mainMenu --
+mainMenu.title=Main Menu
+mainMenu.heading=Welcome!
+mainMenu.message=Congratulations, you have logged in successfully!  Now that you've logged in, you have the following options:
+mainMenu.activeUsers=Current Users
+
+# -- menu/link messages --
+menu.admin=Administration
+menu.admin.users=View Users
+menu.admin.reload=Reload Options
+
+menu.user=Edit Profile
+menu.selectFile=Upload A File
+menu.flushCache=Flush Cache
+menu.clickstream=Clickstream
+
+# -- form labels --
+label.username=Username
+label.password=Password
+
+# -- button labels --
+button.add=Add
+button.cancel=Cancel
+button.copy=Copy
+button.delete=Delete
+button.done=Done
+button.edit=Edit
+button.register=Signup
+button.save=Save
+button.search=Search
+button.upload=Upload
+button.view=View
+button.reset=Reset
+button.login=Login
+
+# -- general values --
+icon.information=Information
+icon.information.img=/images/iconInformation.gif
+icon.email=E-Mail
+icon.email.img=/images/iconEmail.gif
+icon.warning=Warning
+icon.warning.img=/images/iconWarning.gif
+date.format=MM/dd/yyyy
+
+# -- role form --
+roleForm.name=Name
+
+# -- user profile page --
+userProfile.title=User Settings
+userProfile.heading=User Profile
+userProfile.message=Please update your information using the form below.
+userProfile.admin.message=You can update this user's information using the form below.
+userProfile.showMore=View More Information
+userProfile.accountSettings=Account Settings
+userProfile.assignRoles=Assign Roles
+userProfile.cookieLogin=You cannot change passwords when logging in with the <strong>Remember Me</strong> feature.  Please logout and log back in to change passwords.
+
+# -- user form --
+userForm.addressForm.address=Address
+userForm.availableRoles=Available Roles
+userForm.addressForm.city=City
+userForm.addressForm.country=Country
+userForm.email=E-Mail
+userForm.firstName=First Name
+userForm.id=Id
+userForm.lastName=Last Name
+userForm.password=Password
+userForm.confirmPassword=Confirm Password
+userForm.phoneNumber=Phone Number
+userForm.addressForm.postalCode=Zip
+userForm.addressForm.province=State
+userForm.roles=Current Roles
+userForm.username=Username
+userForm.website=Website
+userForm.visitWebsite=visit
+userForm.passwordHint=Password Hint
+userForm.enabled=Enabled
+userForm.accountExpired=Expired
+userForm.accountLocked=Locked
+userForm.credentialsExpired=Password Expired
+
+# -- user list page --
+userList.title=User List
+userList.heading=Current Users
+userList.nousers=<span>No users found.</span>
+
+# -- user self-registration --
+signup.title=Sign Up
+signup.heading=New User Registration
+signup.message=Please enter your user information in the form below.
+signup.email.subject=AppFuse Account Information
+signup.email.message=You have successfully registered for access to AppFuse.  Your username and password information is below.
+
+# -- upload page messages --
+maxLengthExceeded=The file you are trying to upload is too big.  The maximum allowed size is 2 MB.
+upload.title=File Upload
+upload.heading=Upload A File
+upload.message=Note that the maximum allowed size of an uploaded file for this application is 2 MB. See the metadata/web/struts-controller.xml file (or the generated struts-config.xml) to change this value.
+uploadForm.name=Friendly Name
+uploadForm.file=File to Upload
+
+# -- display page messages -- 
+display.title=File Uploaded Successfully!
+display.heading=File Information
+
+# -- flushCache page --
+flushCache.title=Flush Cache
+flushCache.heading=Flush Successful!
+flushCache.message=All caches successfully flushed, returning you to your previous page in 2 seconds.
+
+# -- clickstreams page --
+clickstreams.title=All Clickstreams
+clickstreams.heading=All Clickstreams
+
+# -- viewstream page --
+viewstream.title=Stream Details
+viewstream.heading=Stream Information
+
+# -- active users page --
+activeUsers.title=Active Users
+activeUsers.heading=Current Users
+activeUsers.message=The following is a list of users that have logged in and their sessions have not expired.
+activeUsers.fullName=Full Name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -- Carrier-START
+
+# -- carrier form --
+carrierForm.enable=Enable
+carrierForm.aliasName=Alias Name
+carrierForm.carrierName=Carrier Name
+carrierForm.createBy=Create By
+carrierForm.createDate=Create Date
+carrierForm.displayNo=Display No
+carrierForm.id=Id
+carrierForm.memo=Memo
+carrierForm.modifyBy=Modify By
+carrierForm.modifyDate=Modify Date
+carrierForm.nodeLevel=Node Level
+carrierForm.nodePath=Node Path
+carrierForm.parentId=Parent Id
+carrierForm.version=Version
+
+carrier.added=Carrier has been added successfully.
+carrier.updated=Carrier has been updated successfully.
+carrier.deleted=Carrier has been deleted successfully.
+
+# -- carrier list page --
+carrierList.title=Carrier List
+carrierList.heading=Carriers
+
+# -- carrier detail page --
+carrierDetail.title=Carrier Detail
+carrierDetail.heading=Carrier Information
+
+# -- Carrier-END
+# -- Compages-START
+
+# -- compages form --
+compagesForm.createBy=Create By
+compagesForm.createDate=Create Date
+compagesForm.enable=Enable
+compagesForm.id=Id
+compagesForm.memo=Memo
+compagesForm.modifyBy=Modify By
+compagesForm.modifyDate=Modify Date
+compagesForm.name=Name
+compagesForm.version=Version
+compagesForm.resources=Resources
+
+compages.added=Compages has been added successfully.
+compages.updated=Compages has been updated successfully.
+compages.deleted=Compages has been deleted successfully.
+
+# -- compages list page --
+compagesList.title=Compages List
+compagesList.heading=Compagess
+
+# -- compages detail page --
+compagesDetail.title=Compages Detail
+compagesDetail.heading=Compages Information
+
+# -- Compages-END
+# -- Resource-START
+
+# -- resource form --
+resourceForm.workspans=Workspans
+resourceForm.carrierId=Carrier Id
+resourceForm.createBy=Create By
+resourceForm.createDate=Create Date
+resourceForm.displayNo=Display No
+resourceForm.id=Id
+resourceForm.isClosed=Is Closed
+resourceForm.isManual=Is Manual
+resourceForm.isOverweight=Is Overweight
+resourceForm.isSeralized=Is Seralized
+resourceForm.isValidate=Is Validate
+resourceForm.memo=Memo
+resourceForm.modifyBy=Modify By
+resourceForm.modifyDate=Modify Date
+resourceForm.propertiyTime=Propertiy Time
+resourceForm.proResourceId=Pro Resource Id
+resourceForm.proResourceMemo=Pro Resource Memo
+resourceForm.resourceName=Resource Name
+resourceForm.resourceType=Resource Type
+resourceForm.enable=Enable
+resourceForm.version=Version
+resourceForm.prices=Prices
+
+resource.added=Resource has been added successfully.
+resource.updated=Resource has been updated successfully.
+resource.deleted=Resource has been deleted successfully.
+
+# -- resource list page --
+resourceList.title=Resource List
+resourceList.heading=Resources
+
+# -- resource detail page --
+resourceDetail.title=Resource Detail
+resourceDetail.heading=Resource Information
+
+# -- Resource-END
+# -- Workspan-START
+
+# -- workspan form --
+workspanForm.dayInfos=Day Infos
+workspanForm.propertiyTime=Propertiy Time
+workspanForm.beginDate=Begin Date
+workspanForm.broadcastEndTime=Broadcast End Time
+workspanForm.broadcastStartTime=Broadcast Start Time
+workspanForm.carrierId=Carrier Id
+workspanForm.createBy=Create By
+workspanForm.createDate=Create Date
+workspanForm.endDate=End Date
+workspanForm.friLength=Fri Length
+workspanForm.id=Id
+workspanForm.memo=Memo
+workspanForm.modifyBy=Modify By
+workspanForm.modifyDate=Modify Date
+workspanForm.monLength=Mon Length
+workspanForm.resourceId=Resource Id
+workspanForm.resourceType=Resource Type
+workspanForm.satLength=Sat Length
+workspanForm.sunLength=Sun Length
+workspanForm.thiLength=Thi Length
+workspanForm.tueLength=Tue Length
+workspanForm.version=Version
+workspanForm.wenLength=Wen Length
+
+workspan.added=Workspan has been added successfully.
+workspan.updated=Workspan has been updated successfully.
+workspan.deleted=Workspan has been deleted successfully.
+
+# -- workspan list page --
+workspanList.title=Workspan List
+workspanList.heading=Workspans
+
+# -- workspan detail page --
+workspanDetail.title=Workspan Detail
+workspanDetail.heading=Workspan Information
+
+# -- Workspan-END
+# -- DayInfo-START
+
+# -- dayInfo form --
+dayInfoForm.carrierId=Carrier Id
+dayInfoForm.id=Id
+dayInfoForm.propertiyTime=Propertiy Time
+dayInfoForm.publishDate=Publish Date
+dayInfoForm.resourceId=Resource Id
+dayInfoForm.resourceType=Resource Type
+dayInfoForm.specific=Specific
+dayInfoForm.total=Total
+dayInfoForm.used=Used
+dayInfoForm.version=Version
+dayInfoForm.workspanId=Workspan Id
+
+dayInfo.added=DayInfo has been added successfully.
+dayInfo.updated=DayInfo has been updated successfully.
+dayInfo.deleted=DayInfo has been deleted successfully.
+
+# -- dayInfo list page --
+dayInfoList.title=DayInfo List
+dayInfoList.heading=DayInfos
+
+# -- dayInfo detail page --
+dayInfoDetail.title=DayInfo Detail
+dayInfoDetail.heading=DayInfo Information
+
+# -- DayInfo-END
+# -- Price-START
+
+# -- price form --
+priceForm.createBy=Create By
+priceForm.createDate=Create Date
+priceForm.id=Id
+priceForm.isDefault=Is Default
+priceForm.isUseRegular=Is Use Regular
+priceForm.meno=Meno
+priceForm.modifyBy=Modify By
+priceForm.modifyDate=Modify Date
+priceForm.moneyType=Money Type
+priceForm.name=Name
+priceForm.priceDetails=Price Details
+priceForm.resourcePriceType=Resource Price Type
+priceForm.resourceType=Resource Type
+priceForm.version=Version
+
+price.added=Price has been added successfully.
+price.updated=Price has been updated successfully.
+price.deleted=Price has been deleted successfully.
+
+# -- price list page --
+priceList.title=Price List
+priceList.heading=Prices
+
+# -- price detail page --
+priceDetail.title=Price Detail
+priceDetail.heading=Price Information
+
+# -- Price-END
+# -- PriceDetail-START
+
+# -- priceDetail form --
+priceDetailForm.id=Id
+priceDetailForm.length=Length
+priceDetailForm.price=Price
+priceDetailForm.version=Version
+
+priceDetail.added=PriceDetail has been added successfully.
+priceDetail.updated=PriceDetail has been updated successfully.
+priceDetail.deleted=PriceDetail has been deleted successfully.
+
+# -- priceDetail list page --
+priceDetailList.title=PriceDetail List
+priceDetailList.heading=PriceDetails
+
+# -- priceDetail detail page --
+priceDetailDetail.title=PriceDetail Detail
+priceDetailDetail.heading=PriceDetail Information
+
+# -- PriceDetail-END
+# -- Specific-START
+
+# -- specific form --
+specificForm.createBy=Create By
+specificForm.createDate=Create Date
+specificForm.id=Id
+specificForm.memo=Memo
+specificForm.modifyBy=Modify By
+specificForm.modifyDate=Modify Date
+specificForm.name=Name
+specificForm.overRate=Over Rate
+specificForm.position=Position
+specificForm.version=Version
+
+specific.added=Specific has been added successfully.
+specific.updated=Specific has been updated successfully.
+specific.deleted=Specific has been deleted successfully.
+
+# -- specific list page --
+specificList.title=Specific List
+specificList.heading=Specifics
+
+# -- specific detail page --
+specificDetail.title=Specific Detail
+specificDetail.heading=Specific Information
+
+# -- Specific-END
+# -- PriceRegular-START
+
+# -- priceRegular form --
+priceRegularForm.createBy=Create By
+priceRegularForm.createDate=Create Date
+priceRegularForm.id=Id
+priceRegularForm.memo=Memo
+priceRegularForm.modifyBy=Modify By
+priceRegularForm.modifyDate=Modify Date
+priceRegularForm.multiBase=Multi Base
+priceRegularForm.multiply=Multiply
+priceRegularForm.name=Name
+priceRegularForm.otherBase=Other Base
+priceRegularForm.regularExpr=Regular Expr
+priceRegularForm.version=Version
+
+priceRegular.added=PriceRegular has been added successfully.
+priceRegular.updated=PriceRegular has been updated successfully.
+priceRegular.deleted=PriceRegular has been deleted successfully.
+
+# -- priceRegular list page --
+priceRegularList.title=PriceRegular List
+priceRegularList.heading=PriceRegulars
+
+# -- priceRegular detail page --
+priceRegularDetail.title=PriceRegular Detail
+priceRegularDetail.heading=PriceRegular Information
+
+# -- PriceRegular-END
+
+
+# -- PriceType-START
+
+# -- priceType form --
+priceTypeForm.createBy=Create By
+priceTypeForm.createDate=Create Date
+priceTypeForm.enable=Enable
+priceTypeForm.id=Id
+priceTypeForm.memo=Memo
+priceTypeForm.modifyBy=Modify By
+priceTypeForm.modifyDate=Modify Date
+priceTypeForm.priceTypeName=Price Type Name
+priceTypeForm.value=Value
+priceTypeForm.version=Version
+
+priceType.added=PriceType has been added successfully.
+priceType.updated=PriceType has been updated successfully.
+priceType.deleted=PriceType has been deleted successfully.
+
+# -- priceType list page --
+priceTypeList.title=PriceType List
+priceTypeList.heading=PriceTypes
+
+# -- priceType detail page --
+priceTypeDetail.title=PriceType Detail
+priceTypeDetail.heading=PriceType Information
+
+# -- PriceType-END

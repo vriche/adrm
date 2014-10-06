@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/casclient
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:32:44.457632Z
+23
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+casclient-2.1.jar
+file
+
+
+
+
+2013-05-17T07:35:13.242119Z
+b36dfb45998d95ebd166735979a4ce49
+2012-11-24T06:32:44.457632Z
+23
+lxz
+has-props
+

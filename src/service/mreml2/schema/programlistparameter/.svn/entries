@@ -1,0 +1,76 @@
+8
+
+dir
+660
+svn://121.28.83.134:80/src1/adrm_2.0/src/service/mreml2/schema/programlistparameter
+svn://121.28.83.134:80/src1
+
+
+
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+ImportProgramListResponseType.java
+file
+668
+
+
+
+2013-12-02T11:44:37.131797Z
+000514057c9a39500dff99a60c426129
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ExtensionMapper.java
+file
+
+
+
+
+2013-11-30T11:32:16.438274Z
+1ecde3b6e15cabe7be0748f838d5aac5
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ImportProgramListRequest.java
+file
+
+
+
+
+2013-11-30T11:32:16.442277Z
+7987b33a0cc0ef0a12907ad212bb538d
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ImportProgramListRequestType.java
+file
+
+
+
+
+2013-11-30T11:32:16.448281Z
+1cf864ef789fe212fdf6ddfd24ea2703
+2013-11-30T15:23:00.615669Z
+660
+lxz
+
+ImportProgramListResponse.java
+file
+
+
+
+
+2013-11-30T11:32:16.452284Z
+2ab7b1305fa957f18a26094f8f672bc7
+2013-11-30T15:23:00.615669Z
+660
+lxz
+

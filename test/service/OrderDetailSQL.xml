@@ -1,0 +1,2325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OrderDetailSQL">
+
+	<typeAlias alias="order" type="com.vriche.adrm.model.Order"/>
+  <typeAlias alias="orderDetail" type="com.vriche.adrm.model.OrderDetail"/>
+	<typeAlias alias="orderPublic" type="com.vriche.adrm.model.OrderPublic"/>
+	<typeAlias alias="customerProduct" type="com.vriche.adrm.model.CustomerProduct"/>
+	<typeAlias alias="broReport" type="com.vriche.adrm.model.BroReport"/>
+	
+	
+	
+
+	<cacheModel id="orderDetail-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOrderDetail"/>
+		<flushOnExecute statement="updateOrderDetail"/>
+		<flushOnExecute statement="deleteOrderDetail"/>
+		<flushOnExecute statement="deleteOrderDetails"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="orderDetail">
+		<parameter property="moneyRealpay" jdbcType="VARCHAR" javaType="java.lang.Double"/>  
+		<parameter property="isSpaceAdver" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+		<parameter property="needPublish" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="resourceSortId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="ageRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="appRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="execPrice" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+		<parameter property="execPrice2" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="favourRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="industryTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="isCkecked" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="matterId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="matterLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matteType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyBalance" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="orderCategoryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceInfoId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourcePriceType" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceSpecificId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="compagesId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="sysPrice" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="publishStartDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="publishEndDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="sumTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>  
+    </parameterMap>
+	
+	
+
+
+    <parameterMap id="updateParam" class="orderDetail">
+		<parameter property="isSpaceAdver" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+		<parameter property="needPublish" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="resourceSortId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="ageRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="appRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <!-- parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/ -->
+        <parameter property="execPrice" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+		<parameter property="execPrice2" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="favourRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="industryTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="matterId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="matterLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matteType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyBalance" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="orderCategoryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceInfoId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourcePriceType" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceSpecificId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="compagesId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="sysPrice" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+	
+	<parameterMap id="updateParam2" class="orderDetail">
+        <parameter property="publishStartDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="publishEndDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>	
+	    <parameter property="sumTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>	
+		<parameter property="moneyRealpay" jdbcType="VARCHAR" javaType="java.lang.Double"/>  
+		
+		<parameter property="isSpaceAdver" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+		<parameter property="needPublish" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="resourceSortId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="ageRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="appRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <!-- parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/ -->
+        <parameter property="execPrice" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+		<parameter property="execPrice2" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="favourRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="industryTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="matterId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="matterLength" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matteType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyBalance" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="orderCategoryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="orderId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="publishMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceInfoId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourcePriceType" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceSpecificId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="compagesId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="sysPrice" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+
+	<resultMap id="orderDetail-Result-Copy" class="orderDetail">
+		<result property="id" column="order_detail_id"/>
+		<result property="version" column="version" nullValue="0"/>		
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>		
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>		
+        <result property="orderId" column="order_id"/>		
+        <result property="orderCategoryId" column="order_category_id"/>		
+        <result property="resourceType" column="ad_resource_type"/>		
+        <result property="resourceInfoId" column="ad_resource_info_id"/>
+        <result property="resourceSpecificId" column="ad_resource_specific_id"/>
+        <result property="matteType" column="adver_matter_type"/>
+        <result property="matterId" column="adver_matter_id"/>
+        <result property="matterLength" column="matter_length"/>		
+        <result property="industryTypeId" column="customer_industry_type_id"/>
+        <result property="publishMemo" column="publish_memo"/>		
+        <result property="resourcePriceType" column="ad_resource_price_type"/>
+        <result property="sysPrice" column="sys_price"/>	
+        <result property="execPrice" column="exec_price"/>
+		<result property="execPrice2" column="exec_price2"/>
+        <result property="appRate" column="app_rate"/>
+        <result property="favourRate" column="favour_rate"/>		 								
+        <result property="moneyBalance" column="money_balance" nullValue="0"/>		
+		<result property="moneyRealpay" column="money_realpay" nullValue="0"/>		
+        <result property="isCkecked" column="is_ckecked"/>
+		<result property="needPublish" column="need_publish"/>		
+		<result property="parentId" column="parent_id"/>		
+		<result property="resourceSortId" column="resource_sort_id"/>				
+		<result property="ageRate" column="age_rate"/>
+        <result property="compagesId" column="compages_id"/>		
+		<result property="memo" column="memo"  nullValue=""/>		
+		<result property="isSpaceAdver" column="is_space_adver" nullValue="0"/>
+		<result property="moneyIn" column="money_in"  nullValue="0"/>	 
+		<result property="publishStartDate" column="publish_start"/>
+	    <result property="publishEndDate" column="publish_end"/>
+        <result property="sumTimes" column="sum_times" nullValue="0"/>
+    </resultMap>
+
+    <resultMap id="orderDetail-base-Result" class="orderDetail">
+					<result property="isSpaceAdver" column="is_space_adver" nullValue="0"/>
+					<result property="resourceSortId" column="resource_sort_id"/>
+					<result property="parentId" column="parent_id"/>
+					<result property="ageRate" column="age_rate"/>
+        <result property="appRate" column="app_rate"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="execPrice" column="exec_price"/>
+		<result property="execPrice2" column="exec_price2"/>
+        <result property="favourRate" column="favour_rate"/>
+        <result property="id" column="order_detail_id"/>
+        <result property="industryTypeId" column="customer_industry_type_id"/>
+        <result property="isCkecked" column="is_ckecked"/>
+        <result property="matterId" column="adver_matter_id"/>
+        <result property="matterLength" column="matter_length"/>
+        <result property="matteType" column="adver_matter_type"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyBalance" column="money_balance"/>
+        <result property="orderCategoryId" column="order_category_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="publishMemo" column="publish_memo"/>
+        <result property="resourceInfoId" column="ad_resource_info_id"/>
+        <result property="resourcePriceType" column="ad_resource_price_type"/>
+        <result property="resourceSpecificId" column="ad_resource_specific_id"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="compagesId" column="compages_id"/>
+        <result property="sysPrice" column="sys_price"/>
+        <result property="version" column="version"/>
+					<result property="matter.id" column="matterId"/>
+					<result property="matter.name" column="matterName"/>
+					<result property="matter.tapeCode" column="matterTapeCode"/>
+					<result property="matter.edit" column="matterEdit"/>
+					<result property="matter.length" column="matterLength"/>
+					<result property="matter.matterType" column="matType"/>
+					<result property="resource.resourceName" column="resourceName"/>
+					<result property="resource.memo" column="resourceMemo"/>
+					<result property="carrier.carrierName" column="carrierName"/>
+					<result property="carrierId" column="carrierId"/>
+					<result property="specific.name" column="specificName"/>
+					<result property="specific.position" column="specificPosition"/>
+					
+					<result property="compages.name" column="compagesName"/>
+					<result property="needPublish" column="need_publish"/>
+    </resultMap>
+	
+    <resultMap id="orderDetailResult" extends="orderDetail-base-Result"  class="orderDetail">
+				<result property="orderPublic" column="order_detail_id" select="getOrderDetailPublic-from-orderDayInfo"/>
+    </resultMap>
+	
+	
+	 <resultMap id="orderDetailResult_ttt" extends="orderDetail-base-Result"  class="orderDetail">
+		<result property="orderPublic" column="order_detail_id" select="getOrderDetailPublic-from-orderDayInfo"/>
+		<result property="carrierParentName" column="carrierParentName"/>
+		<result property="orderCategory.name" column="order_category_name"/>	
+		<result property="resource.workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+		<result property="resource.workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+		<result property="orgId" column="orgId"/>
+    </resultMap>
+	
+	
+	<resultMap id="orderResult-public" class="orderPublic">
+		<result property="publishStartDate" column="publish_start_date"/>
+		<result property="publishEndDate" column="publish_end_date"/>
+		
+		<result property="times" column="sum_times" nullValue="0"/>
+		<result property="useTime" column="sum_use_time" nullValue="0"/>
+
+		<result property="moneyBase" column="money_base" nullValue="0"/>
+		<result property="moneyRealpay" column="money_realpay" nullValue="0"/>
+		<result property="moneyIn" column="order_detail_id" select="getIncomeUsedByOrderDetailId"/>
+    </resultMap>
+	
+	
+    <resultMap id="customerProductResult" class="customerProduct">
+		<result property="customerName" column="customer_name" nullValue=""/>
+		<result property="matterName" column="matter_name" nullValue=""/>
+		<result property="relIncome" column="rel_income" nullValue=""/>
+		<result property="orderCode" column="order_code" nullValue=""/>
+    </resultMap>
+
+    <resultMap id="industryTypeProductResult" class="customerProduct">
+		<result property="industryType" column="industry_type" nullValue=""/>
+		<result property="matterName" column="matter_name" nullValue=""/>
+		<result property="relIncome" column="rel_income" nullValue="0"/>
+		<result property="putOn" column="puton" nullValue="0"/>
+		<result property="timeUsed" column="timeUsed" nullValue="0"/>
+		<result property="carrierName" column="parent_id" nullValue="0"/>
+		<result property="resourceId" column="id" nullValue="0"/>
+    </resultMap>
+	
+    <resultMap id="advTypeProductResult" class="customerProduct">
+		<result property="carrierName" column="carrier_name" nullValue=""/>
+		<result property="matterName" column="matter_name" nullValue=""/>
+		<result property="relIncome" column="rel_income" nullValue=""/>
+		<result property="timeUsed" column="time_used" nullValue=""/>
+		<result property="orderCode" column="order_code" nullValue=""/>
+    </resultMap>	
+	
+	<resultMap id="resourceSpecific_order" class="orderDetail">
+		<result property="order.orgId" column="sys_org_id"/> 
+		<result property="order.orderCode" column="order_Code"/>
+		<result property="order.id" column="order_id"/>
+		<result property="resource.resourceName" column="resource_name" />
+		<result property="resource.memo" column="memo" />
+		<result property="specific.name" column="specificname" />
+		<result property="matter.name" column="mattername" />
+		<result property="matter.edit" column="edit" />
+		<result property="matter.length" column="matter_length" />
+		
+		<result property="orderPublic.publishStartDate" column="start_date" />
+		<result property="orderPublic.publishEndDate" column="end_date" />
+		
+		<result property="order.customer.customerName" column="customer_name" nullValue=""/>
+		<result property="publishMemo" column="publish_memo"/>
+		
+	</resultMap>
+	
+	
+	<select id="getOrderDetailsCopy" parameterClass="java.util.Map"  resultMap="orderDetail-Result-Copy">  
+		 select * from  tb_order_detail 
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="orderId">
+				(order_id = #orderId#) 
+			</isNotEmpty>	
+			
+			<isNotNull property="orderDetailIdList">
+				<iterate prepend="AND" property="orderDetailIdList" open="(" close=")" conjunction="OR">
+					       order_detail_id = #orderDetailIdList[]#
+				</iterate>
+			</isNotNull> 	
+				
+		</dynamic>	
+		
+	</select>	  
+	
+	
+	
+	<select id="getResourceSpecificInfo" parameterClass="java.util.Map" resultMap="resourceSpecific_order">	
+	<![CDATA[   
+
+		SELECT 
+		OD.publish_memo,
+		C.sys_org_id,
+	    O.order_id,
+		O.order_Code,
+		C.customer_name,
+		resource_name,
+		RI.memo,
+		RS.name as specificname,
+		AM.name as mattername,
+		AM.edit,
+		AM.length*tt.ad_day_times as matter_length,
+			 tt.publish_date as start_date,
+		     0 as end_date 
+		
+				from tb_order_detail OD
+				
+				left outer join tb_order O 
+									on O.order_id = OD.order_id 
+		
+				left outer join tb_customer_info C 
+					 on O.customer_id = C.customer_id 
+		
+				left outer join tb_ad_resource_info RI 
+									on RI.ad_resource_info_id = OD.ad_resource_info_id
+				left outer join tb_ad_resource_workspan RW
+									on RI.ad_resource_info_id = RW.ad_resource_info_id
+				left outer join tb_ad_resource_day_info RD
+									on RD.ad_resource_workspan_id = RW.ad_resource_workspan_id
+				left outer join tb_adver_matter AM
+									on AM.adver_matter_id = OD.adver_matter_id
+				left outer join tb_ad_resource_specific RS
+									on OD.ad_resource_specific_id = RS.ad_resource_specific_id
+				left outer join tb_order_day_info tt
+									on tt.order_detail_id =OD.order_detail_id
+	]]>
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="beginDate">
+				<![CDATA[ (tt.publish_date >= #beginDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="endDate">
+				<![CDATA[ (tt.publish_date <= #endDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerName">
+				(C.customer_name like '%$customerName$%')
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="publishMemo">
+				(OD.publish_memo like '%$publishMemo$%')
+			</isNotEmpty>					
+			 
+			<isNotEmpty prepend="AND" property="specificId">
+								(OD.ad_resource_specific_id = #specificId#)
+			</isNotEmpty>
+			<isNotNull property="resourceIdList" >
+       	  		<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+								RI.ad_resource_info_id  = #resourceIdList[]#
+				</iterate>
+		   </isNotNull> 
+			
+			<isNotNull property="UserIdList">
+				 <iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+							O.user_id = #UserIdList[]#
+			  </iterate>
+			</isNotNull> 			
+			
+		</dynamic>
+		
+		group by OD.order_detail_id,tt.order_day_info_id
+	
+		order by RI.ad_resource_info_id,tt.publish_date
+		 
+	</select>	
+	
+	
+	<select id="getOrderDetailPublic-from-orderDayInfo" parameterClass="java.lang.Long" resultMap="orderResult-public">	
+	<![CDATA[   
+		SELECT 
+			min(d.publish_date) as publish_start_date, 
+			max(d.publish_date) as publish_end_date,
+		    sum(d.ad_day_times) as sum_times, 
+				 sum(d.ad_day_times*MT.length) as sum_use_time, 
+		
+		    sum(DT.sys_price*d.ad_day_times) as money_base, 
+			sum(d.day_rel_income)+DT.money_balance as money_realpay,
+		    #value# as  order_detail_id
+		FROM tb_order_day_info d join  tb_order_detail DT
+					inner join tb_adver_matter MT 
+		on MT.adver_matter_id = DT.adver_matter_id 
+             WHERE  DT.order_detail_id = d.order_detail_id
+			AND d.order_detail_id = #value# and d.ad_day_times>0 
+	]]>
+	</select>	
+
+	<select id="getCustomerProductByBeginAndEndDate" parameterClass="java.util.Map" resultMap="industryTypeProductResult">
+    <![CDATA[
+		select  trc.parent_id,m.name as matter_name,
+				c.customer_id as id,
+                c.customer_name as industry_type,
+			sum(oi.day_rel_income) as rel_income,
+			0 as puton,
+			sum(oi.ad_day_times * m.length)  as timeUsed 
+		
+		FROM tb_order_day_info oi
+
+			left outer join tb_order_detail d 
+		on d.order_detail_id = oi.order_detail_id
+
+			left outer join tb_adver_matter m
+		on m.adver_matter_id = d.adver_matter_id 
+
+	   		left outer join tb_order o 
+		on d.order_id = o.order_id	
+		
+			left outer join  tb_customer_info c 
+		on c.customer_id = o.customer_id
+
+           		left outer join tb_ad_resource_info tri
+		on tri.ad_resource_info_id=d.ad_resource_info_id
+
+            		left outer join tb_ad_resource_carrier trc
+		on trc.ad_resource_carrier_id=tri.ad_resource_carrier_id
+		
+		where oi.publish_date >= #beginDate#
+			  and oi.publish_date <= #endDate#
+		
+    ]]>
+		 <isNotNull property="UserIdList">
+			<iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+				o.user_id = #UserIdList[]#
+			</iterate>
+		 </isNotNull> 
+		
+		
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       o.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>
+            <!--isNotEmpty prepend="AND" property="parentId">
+				(trc.parent_id = #parentId#)
+			</isNotEmpty-->
+		 <isNotNull property="carrierIdList">
+			<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+				tri.ad_resource_info_id = #carrierIdList[]#
+			</iterate>
+		 </isNotNull> 
+		
+		 <isNotNull property="OrderCategoryIdList">
+       	 	 	<iterate prepend="AND" property="OrderCategoryIdList" open="(" close=")" conjunction="OR">
+								d.order_category_id = #OrderCategoryIdList[]#
+				  </iterate>
+		 </isNotNull> 			
+		
+		
+		group by c.customer_id,m.name
+		order by c.customer_name
+    </select>
+	
+    <select id="getIndustryTypeProductByBeginAndEndDate" parameterClass="java.util.Map" resultMap="industryTypeProductResult">
+    <![CDATA[
+		select  trc.parent_id,m.name as matter_name,
+				ci.customer_industry_type_id as id,
+                ci.name as industry_type,
+				sum(oi.day_rel_income) as rel_income,
+				0 as puton,
+				sum(oi.ad_day_times * m.length)  as timeUsed
+		
+		FROM tb_order_day_info oi
+
+			left outer join tb_order_detail d 
+		on d.order_detail_id = oi.order_detail_id
+
+			left outer join tb_adver_matter m
+		on m.adver_matter_id = d.adver_matter_id 
+
+	   		left outer join tb_order o 
+		on d.order_id = o.order_id	
+
+			left outer join tb_customer_industry_type ci
+		on m.adver_product_brand_id = ci.customer_industry_type_id 
+
+            left outer join tb_ad_resource_info tri
+		on tri.ad_resource_info_id=d.ad_resource_info_id
+
+            left outer join tb_ad_resource_carrier trc
+		on trc.ad_resource_carrier_id=tri.ad_resource_carrier_id
+		
+		where oi.publish_date >= #beginDate#
+			  and oi.publish_date <= #endDate#
+    ]]>
+		<isNotNull property="UserIdList">
+			<iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+				o.user_id = #UserIdList[]#
+			</iterate>
+		 </isNotNull> 
+		
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       o.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>
+		
+		<isNotNull property="carrierIdList">
+			<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+				trc.ad_resource_carrier_id = #carrierIdList[]#
+			</iterate>
+		 </isNotNull> 
+		group by ci.customer_industry_type_id,m.name
+    </select>
+	
+	<select id="getIndustryTypeProductChannelByBeginAndEndDate" parameterClass="java.util.Map" resultMap="industryTypeProductResult">
+    	<![CDATA[
+			select  arc.name as parent_id,m.name as matter_name,
+					ci.customer_industry_type_id as id,
+					ci.name as industry_type,
+					sum(oi.day_rel_income) as rel_income,
+					0 as puton,
+					sum(oi.ad_day_times * m.length)  as timeUsed
+			
+			FROM tb_order_day_info oi
+	
+				left outer join tb_order_detail d 
+			on d.order_detail_id = oi.order_detail_id
+	
+				left outer join tb_adver_matter m
+			on m.adver_matter_id = d.adver_matter_id 
+
+				left outer join tb_order o 
+			on d.order_id = o.order_id
+			
+				left outer join tb_customer_industry_type ci
+			on m.adver_product_brand_id = ci.customer_industry_type_id 
+	
+				left outer join tb_ad_resource_info tri
+			on tri.ad_resource_info_id=d.ad_resource_info_id
+	
+				left outer join tb_ad_resource_carrier trc
+			on trc.ad_resource_carrier_id=tri.ad_resource_carrier_id  
+			
+				left outer join tb_ad_resource_channel arc
+			on trc.ad_resource_channel_id=arc.resource_mediaorg_id
+			
+			where oi.publish_date >= #beginDate#
+				  and oi.publish_date <= #endDate#
+		]]>
+			<isNotNull property="UserIdList">
+				<iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+					o.user_id = #UserIdList[]#
+				</iterate>
+			 </isNotNull> 
+
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					trc.ad_resource_carrier_id = #carrierIdList[]#
+				</iterate>
+			 </isNotNull> 
+			group by trc.parent_id,m.name  
+			order by ci.customer_industry_type_id,m.name
+    </select>
+	
+    <select id="getAdvTypeProductByBeginAndEndDate" parameterClass="java.util.Map" resultMap="advTypeProductResult">
+	<![CDATA[	
+		select c.carrier_name,m.name as matter_name,sum(oi.day_rel_income) as rel_income,sum(ri.used)/sum(ri.total) as time_used,o.order_code
+		from tb_adver_matter m,
+			 tb_order_detail d,
+			 tb_order o,
+			 tb_order_day_info oi,
+			 tb_ad_resource_carrier c,
+			 tb_ad_resource_info r,
+			 tb_ad_resource_day_info ri,
+             tb_ad_resource_workspan rw
+		where m.adver_matter_id = d.adver_matter_id 
+			and d.order_id = o.order_id
+			and oi.order_detail_id = d.order_detail_id
+			and r.ad_resource_info_id = d.ad_resource_info_id
+            and rw.ad_resource_info_id=r.ad_resource_info_id
+            and rw.ad_resource_workspan_id=ri.ad_resource_workspan_id
+			and r.ad_resource_carrier_id = c.ad_resource_carrier_id
+			and oi.publish_date >= #beginDate#
+			and oi.publish_date <= #endDate# 
+     ]]>
+		<isNotNull property="UserIdList">
+			<iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+				o.user_id = #UserIdList[]#
+			</iterate>
+		 </isNotNull> 
+            <!--isNotEmpty prepend="AND" property="parentId">
+				(c.parent_id = #parentId#)
+		</isNotEmpty-->
+		<isNotNull property="carrierIdList">
+			<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+				c.ad_resource_carrier_id = #carrierIdList[]#
+			</iterate>
+		 </isNotNull> 
+		group by c.ad_resource_carrier_id,m.name
+
+    </select>
+	
+	
+	<select id="getCustomerProductCount"  parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<![CDATA[	
+		select count(distinct  c.customer_name)
+		from tb_adver_matter m,
+			 tb_order_detail d,
+			 tb_order o,
+			 tb_order_day_info oi,
+			 tb_customer_info c
+		where m.adver_matter_id = d.adver_matter_id 
+			and d.order_id = o.order_id
+			and oi.order_detail_id = d.order_detail_id
+			and o.customer_id = c.customer_id
+			and oi.publish_date >= #beginDate#
+			and oi.publish_date <= #endDate#
+	]]>	
+	</select>  	
+	
+	<select id="getIndustryTypeProductCount"  parameterClass="java.util.Map" resultClass="java.lang.Integer">
+	<![CDATA[	
+		select count(distinct  ci.name)
+		from tb_adver_matter m,
+			 tb_order_detail d,
+			 tb_order o,
+			 tb_order_day_info oi,
+			 tb_customer_industry_type ci
+		where m.adver_matter_id = d.adver_matter_id 
+			and d.order_id = o.order_id
+			and oi.order_detail_id = d.order_detail_id
+			and m.adver_product_brand_id = ci.customer_industry_type_id
+			and oi.publish_date >= #beginDate#
+			and oi.publish_date <= #endDate#
+	]]>	
+	</select> 
+	
+	<select id="getAdvTypeProductCount"  parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		<![CDATA[	
+		select  count(distinct c.carrier_name)
+		from tb_adver_matter m,
+			 tb_order_detail d,
+			 tb_order o,
+			 tb_order_day_info oi,
+			 tb_ad_resource_carrier c,
+			 tb_ad_resource_info r,
+			 tb_ad_resource_day_info ri,
+             tb_ad_resource_workspan rw
+		where m.adver_matter_id = d.adver_matter_id 
+			and d.order_id = o.order_id
+			and oi.order_detail_id = d.order_detail_id
+			and r.ad_resource_info_id = d.ad_resource_info_id
+            and rw.ad_resource_info_id=r.ad_resource_info_id
+            and rw.ad_resource_workspan_id=ri.ad_resource_workspan_id
+			and r.ad_resource_carrier_id = c.ad_resource_carrier_id
+			and oi.publish_date >= #beginDate#
+			and oi.publish_date <= #endDate# 
+     ]]>
+		<isNotNull property="UserIdList">
+			<iterate prepend="AND" property="UserIdList" open="(" close=")" conjunction="OR">
+				o.user_id = #UserIdList[]#
+			</iterate>
+		 </isNotNull> 
+            <!--isNotEmpty prepend="AND" property="parentId">
+				(c.parent_id = #parentId#)
+		</isNotEmpty-->
+		<isNotNull property="carrierIdList">
+			<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+				c.ad_resource_carrier_id = #carrierIdList[]#
+			</iterate>
+		 </isNotNull> 
+		<!--group by c.ad_resource_carrier_id,m.name-->
+
+	</select> 	
+	
+
+	
+	<select id="getMatterNameByOrderId" resultClass="java.lang.String">
+		select max(MT.name) from tb_order_detail ODT,tb_adver_matter MT
+		where  ODT.adver_matter_id = MT.adver_matter_id
+		AND ODT.order_id =  #value#
+	</select>
+	
+	
+	
+	<select id="getOrderDetailByOrderIdCount" resultClass="java.lang.Integer">
+		select count(*) from tb_order_detail 
+		where  order_id = #value#
+	</select>
+	
+	<select id="getOrderDetailsCount" resultClass="java.lang.Integer">
+	<![CDATA[	
+		select count(*) from tb_order_detail 
+		  left outer join tb_adver_matter AM 
+				 on tb_order_detail.adver_matter_id = AM.adver_matter_id 
+	]]>	
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="resourceSortId">
+			(resource_sort_id = #resourceSortId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ageRate">
+			(age_rate = #ageRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="appRate">
+			(app_rate = #appRate#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="carrierId">
+			(OD.ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty -->
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="execPrice">
+			(exec_price = #execPrice#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="execPrice2">
+			(exec_price2 = #execPrice2#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="favourRate">
+			(favour_rate = #favourRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(order_detail_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(AM.adver_product_brand_id = #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isCkecked">
+			(is_ckecked = #isCkecked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterId">
+			(adver_matter_id = #matterId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterLength">
+			(AM.length = #matterLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matteType">
+			(AM.adver_matter_type = #matteType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyBalance">
+			(money_balance = #moneyBalance#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderCategoryId">
+			(order_category_id = #orderCategoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderId">
+			(order_id = #orderId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishMemo">
+			(publish_memo = #publishMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceInfoId">
+			(ad_resource_info_id = #resourceInfoId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourcePriceType">
+			(ad_resource_price_type = #resourcePriceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceSpecificId">
+			(ad_resource_specific_id = #resourceSpecificId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="compagesId">
+			(compages_id = #compagesId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sysPrice">
+			(sys_price like #sysPrice#)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<select id="getSumTimes" resultClass="java.lang.Integer">
+	<![CDATA[	
+		select sum(sum_times) from tb_order_detail where order_id = #orderId#
+	]]>	
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+
+	<resultMap id="orderDetailResult_test" extends="orderDetail-base-Result"  class="orderDetail">
+		<result property="orderPublic.publishStartDate" column="publish_start"/>
+	    <result property="orderPublic.publishEndDate" column="publish_end"/>
+        <result property="orderPublic.times" column="sum_times" nullValue="0"/>
+		<result property="orderPublic.moneyBase" column="money_base" nullValue="0"/>
+		<result property="orderPublic.moneyRealpay" column="money_realpay" nullValue="0"/>
+		<result property="orderPublic.moneyIn" column="money_in"  nullValue="0"/>	   
+    </resultMap>
+	
+   <select id="getOrderDetailByResourceType"  parameterClass="java.util.Map"  resultClass="java.lang.Integer">
+        select COUNT(DT.order_detail_id)
+	   
+		  from tb_order_detail DT
+	   
+	   	left outer join  tb_order O
+             on  O.order_id = DT.order_id	
+	   
+	   	left outer join  tb_ad_resource_info RSI      
+             on  RSI.ad_resource_info_id = DT.ad_resource_info_id
+		
+		
+		left outer join  tb_ad_resource_type RST     
+			on  RST.ad_ad_resource_type_id = RSI.ad_resource_type
+		  
+		  <dynamic prepend="WHERE"> 
+			  <isNotEmpty prepend="AND" property="resourceType">
+				(RST.ad_ad_resource_type_id = #resourceType#)
+			  </isNotEmpty>
+			  
+			  <isNotEmpty prepend="AND" property="orderId">
+				(DT.order_id = #orderId#)
+			  </isNotEmpty>
+			  
+			  <isNotEmpty prepend="AND" property="paymentId">
+				(O.contract_payment_id = #paymentId#)
+			  </isNotEmpty>
+			  
+			  
+			  <isNotEmpty prepend="AND" property="contractId">
+				(O.contract_id = #contractId#)
+			  </isNotEmpty>		  
+			  
+          </dynamic> 
+		  
+    </select>
+	
+
+	 <select id="getOrderDetailByOrderId" parameterClass="java.util.Map" resultMap="orderDetailResult_ttt">
+		 select 
+		     OD.*, 
+		     OD.sys_price*OD.sum_times  as money_base,   
+	
+	         AM.adver_matter_id as matterId, 
+			 AM.tape_code as matterTapeCode,
+			 AM.name as matterName,
+			 AM.edit as matterEdit,
+			 AM.length as  matterLength,
+		     AM.adver_matter_type as  matType,
+		     AM.sys_org_id  as orgId,
+		     RS.resource_name as  resourceName,
+		     RS.memo as  resourceMemo,
+		
+		     CAP.carrier_name as carrierParentName,
+			 CA.carrier_name as  carrierName, 
+			 CA.ad_resource_carrier_id as  carrierId, 
+		   
+			 SP.name as  specificName,
+			 SP.position as  specificPosition,
+		 
+		     OCA.name as order_category_name, 
+		 
+		     WP.broadcast_start_time,WP.broadcast_end_time,
+		 
+		     
+		 
+		     CP.name as  compagesName 
+		 
+		 	from tb_order_detail OD 
+			
+				 left outer join tb_adver_matter AM 
+				 on OD.adver_matter_id = AM.adver_matter_id 
+		
+				 left outer join  tb_ad_resource_info RS 
+				 on OD.ad_resource_info_id = RS.ad_resource_info_id
+				
+				 left outer join  tb_ad_resource_carrier CA 
+				 on RS.ad_resource_carrier_id = CA.ad_resource_carrier_id
+		 
+					 left outer join  tb_ad_resource_carrier CAP 
+				 on CAP.ad_resource_carrier_id = CA.parent_id	 
+		 
+				
+				 left outer join  tb_ad_resource_specific SP 
+				 on OD.ad_resource_specific_id = SP.ad_resource_specific_id
+		
+				 left outer join  tb_ad_resource_compages CP 
+				 on OD.compages_id = CP.ad_resource_compages_id	
+		 
+						 left outer join  tb_order_category OCA 
+				 on OCA.order_category_id = OD.order_category_id		
+		 
+		 		left outer join tb_ad_resource_workspan WP
+			on WP.ad_resource_info_id = RS.ad_resource_info_id  
+		 
+		        <![CDATA[
+		           	and OD.publish_start >=  WP.begin_date AND OD.publish_start <=WP.end_date
+				]]>
+		 
+			<dynamic prepend="WHERE"> 
+				<isNotEmpty prepend="AND" property="orderId">
+					(OD.order_id = #orderId#)
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="orderId">
+					(OD.need_publish = 1)
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="matterName">
+					(AM.name like '%$matterName$%')
+				</isNotEmpty>
+				<isNotNull property="carrierIds">
+				 <iterate prepend="AND" property="carrierIds" open="(" close=")" conjunction="OR">
+							RS.ad_resource_carrier_id = #carrierIds[]#
+				  </iterate>
+			</isNotNull> 
+				</dynamic>
+		 <!-- order by RS.memo -->
+	</select>
+		
+	
+	
+
+	
+	
+   <resultMap id="orderDetailResult_for_getOrderDetails" extends="orderDetailResult"  class="orderDetail">
+		<result property="resource.resourceType" column="resource_type2"/>
+		<result property="resource.workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+		<result property="resource.workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+	    <result property="matter.helpCodeName" column="matter_help_code_name"/>
+	    <result property="matter.helpCodeEdit" column="matter_help_code_edit"/>
+	    <result property="order.orderCode" column="order_code"/>
+    </resultMap>	
+	
+    <select id="getOrderDetails"  resultMap="orderDetailResult_for_getOrderDetails">  
+    <![CDATA[
+        select 
+		     OD.*, 
+	         AM.adver_matter_id as matterId, 
+			 AM.tape_code as matterTapeCode,
+			 AM.name as matterName,
+			 AM.edit as matterEdit,
+			 AM.length as  matterLength,
+		     AM.adver_matter_type as  matType,
+		
+			 AM.help_code_name as matter_help_code_name,
+			 AM.help_code_edit as matter_help_code_edit,
+
+		     RS.resource_name as  resourceName,
+			 RS.memo as  resourceMemo,
+			 RS.ad_resource_type as  resource_type2,
+
+		     WP.broadcast_start_time,
+			 WP.broadcast_end_time,
+		
+			 CA.carrier_name as  carrierName, 
+			 CA.ad_resource_carrier_id as  carrierId, 
+			 SP.name as  specificName,
+			 SP.position as  specificPosition, 
+		     CP.name as  compagesName,
+			 O.order_code as order_code 
+		
+		
+			from tb_order_detail  OD 
+		
+				inner join  tb_order O
+				 on  O.order_id = OD.order_id	
+		
+				 left outer join tb_adver_matter AM 
+				 on OD.adver_matter_id = AM.adver_matter_id 
+		
+				 left outer join  tb_ad_resource_info RS 
+				 on OD.ad_resource_info_id = RS.ad_resource_info_id
+		
+				left outer join tb_ad_resource_workspan WP
+						on WP.ad_resource_info_id = RS.ad_resource_info_id and OD.publish_start >=  WP.begin_date AND OD.publish_start <=WP.end_date
+	
+				 left outer join  tb_ad_resource_carrier CA 
+				 on RS.ad_resource_carrier_id = CA.ad_resource_carrier_id
+				
+				 left outer join  tb_ad_resource_specific SP 
+				 on OD.ad_resource_specific_id = SP.ad_resource_specific_id
+		
+				 left outer join  tb_ad_resource_compages CP 
+				 on OD.compages_id = CP.ad_resource_compages_id
+
+    ]]> 
+		
+ 	 	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="paymentId">
+			(O.contract_payment_id = #paymentId#)
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="resourceSortId">
+			(OD.resource_sort_id = #resourceSortId#)
+			</isNotEmpty>
+			 <isNotEmpty prepend="AND" property="parentId">
+			(OD.parent_id = #parentId#)
+			</isNotEmpty>
+			 <isNotEmpty prepend="AND" property="ageRate">
+			(OD.age_rate = #ageRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="appRate">
+			(OD.app_rate = #appRate#)
+			</isNotEmpty>
+			 <isNotEmpty prepend="AND" property="carrierId">
+			(OD.ad_resource_carrier_id = #carrierId#) 
+			</isNotEmpty>  
+			<isNotEmpty prepend="AND" property="createBy">
+			(OD.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(OD.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="execPrice">
+			(OD.exec_price = #execPrice#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="execPrice2">
+			(OD.exec_price2 = #execPrice2#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="favourRate">
+			(OD.favour_rate = #favourRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(OD.order_detail_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(AM.adver_product_brand_id = #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isCkecked">
+			(OD.is_ckecked = #isCkecked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterId">
+			(OD.adver_matter_id = #matterId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterLength">
+			(AM.length = #matterLength#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matteType">
+			(OD.adver_matter_type = #matteType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(OD.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(OD.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyBalance">
+			(OD.money_balance = #moneyBalance#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderCategoryId">
+			(OD.order_category_id = #orderCategoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orderId">
+			(OD.order_id = #orderId#)  
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishMemo">
+			(OD.publish_memo = #publishMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceInfoId">
+			(OD.ad_resource_info_id = #resourceInfoId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourcePriceType">
+			(OD.ad_resource_price_type = #resourcePriceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceSpecificId">
+			(OD.ad_resource_specific_id = #resourceSpecificId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(OD.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="compagesId">
+			(OD.compages_id = #compagesId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sysPrice">
+			(OD.sys_price = #sysPrice#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishStartDate">
+			(OD.publish_start = OD.publish_end)
+			</isNotEmpty>
+
+			<isNotNull property="detailIdsIdList">
+				 <iterate prepend="AND" property="detailIdsIdList" open="(" close=")" conjunction="OR">
+							OD.order_detail_id = #detailIdsIdList[]#
+				  </iterate>
+			</isNotNull> 			  
+			    
+			  
+		</dynamic>
+		<!-- order by RS.memo -->
+		
+		
+    </select> 
+	
+
+	
+    <resultMap id="orderDetailResult_getOrderDetailsForChangeRate"  class="orderDetail">
+		<result property="id" column="order_detail_id"/>
+		<result property="resourceInfoId" column="ad_resource_info_id"/>
+		<result property="resource.resourceType" column="ad_resource_type"/>
+		<result property="orderPublic" column="order_detail_id" select="getOrderDetailPublic-from-orderDayInfo"/>
+    </resultMap>	
+	
+	
+		
+<select id="getOrderDetailsForChangeRate"  resultMap="orderDetailResult_getOrderDetailsForChangeRate">  
+    <![CDATA[
+        select 
+		     OD.order_detail_id,
+		     OD.ad_resource_info_id, 
+			 RS.ad_resource_type
+
+			from tb_order_detail  OD 
+		
+				left outer join  tb_order O
+				 on  O.order_id = OD.order_id	
+
+				 left outer join  tb_ad_resource_info RS 
+				 on OD.ad_resource_info_id = RS.ad_resource_info_id
+
+
+    ]]> 
+		
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(OD.order_detail_id = #id#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orderId">
+			(OD.order_id = #orderId#)  
+			</isNotEmpty>			  
+			  
+			<isNotEmpty prepend="AND" property="paymentId">
+			(O.contract_payment_id = #paymentId#)
+			</isNotEmpty>	
+			  
+			<isNotEmpty prepend="AND" property="resourceSortId">
+			(OD.resource_sort_id = #resourceSortId#)
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="resourceType">
+			(RS.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+		</dynamic>
+
+    </select> 	
+
+	
+	
+	
+<resultMap id="orderDetailResult_getResTypeByOrderDetail"  class="orderDetail">
+		<result property="id" column="ad_resource_type"/> 
+	    <result property="publishStartDate" column="publishStartDate"/> 
+		<result property="moneyRealpay" column="moneyRealpay"/>
+</resultMap>		
+	
+	
+
+	
+<select id="getResTypeByOrderDetail"  resultMap="orderDetailResult_getResTypeByOrderDetail">  
+    <![CDATA[
+        select  RS.ad_resource_type 
+		        ,min(OD.publish_start) as publishStartDate
+		        ,sum(OD.money_realpay) as moneyRealpay 
+
+			from tb_order_detail  OD 
+		
+				left outer join  tb_order O
+				 on  O.order_id = OD.order_id	
+
+				 left outer join  tb_ad_resource_info RS 
+				 on OD.ad_resource_info_id = RS.ad_resource_info_id
+
+
+    ]]> 
+		
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(OD.order_detail_id = #id#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orderId">
+			(OD.order_id = #orderId#)  
+			</isNotEmpty>			  
+			  
+			<isNotEmpty prepend="AND" property="paymentId">
+			(O.contract_payment_id = #paymentId#)
+			</isNotEmpty>	
+		</dynamic>
+	
+	     group by RS.ad_resource_type
+
+    </select> 		
+	
+	
+	<select id="getOrderDetailsAnalyze"  resultMap="orderDetailResult">  
+    <![CDATA[
+        select 
+		     OD.*, 
+	         AM.adver_matter_id as matterId, 
+			 O.order_code as matterTapeCode,
+			 AM.name as matterName,
+			 AM.edit as matterEdit,
+			 AM.length as  matterLength,
+		     AM.adver_matter_type as  matType,
+		     RS.resource_name as  resourceName,
+			 RS.memo as  resourceMemo,
+			 CA.carrier_name as  carrierName, 
+			 CA.ad_resource_carrier_id as  carrierId,
+			 c.customer_name as  specificName,
+			 sum(odi.day_rel_income) as specificPosition,
+			 sum(odi.ad_day_times) as compagesName
+		
+			from tb_order_detail  OD          
+		
+				 left outer  join tb_order O 
+				 on OD.order_id = O.order_id
+		
+				 left outer  join tb_customer_info c 
+				 on O.customer_id = c.customer_id 
+		
+				 left outer  join tb_adver_matter AM 
+				 on OD.adver_matter_id = AM.adver_matter_id 
+		
+				 left outer  join  tb_ad_resource_info RS 
+				 on OD.ad_resource_info_id = RS.ad_resource_info_id
+				
+				 left outer  join  tb_ad_resource_carrier CA 
+				 on RS.ad_resource_carrier_id = CA.ad_resource_carrier_id
+				
+				 left outer  join  tb_order_day_info odi
+				 on  odi.order_detail_id = OD.order_detail_id 
+    ]]> 
+		
+ 	 	<dynamic prepend="WHERE"> 
+			 <isNotEmpty prepend="AND" property="carrierId">
+			(CA.ad_resource_carrier_id = #carrierId#) 
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(AM.adver_product_brand_id = #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isCkecked">
+			(OD.is_ckecked = #isCkecked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceInfoId">
+			(OD.ad_resource_info_id = #resourceInfoId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishStartDate">
+			<![CDATA[(odi.publish_date >= #publishStartDate#)]]> 
+			</isNotEmpty>
+			  
+			 <isNotEmpty prepend="AND" property="publishEndDate">
+			<![CDATA[(odi.publish_date <= #publishEndDate#)]]>
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="parentId">
+			<![CDATA[(O.customer_id =  #parentId#)]]>
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="resourceSortId">
+			<![CDATA[(O.user_id =  #resourceSortId#)]]>
+			</isNotEmpty>
+		</dynamic>
+		group by OD.order_detail_id
+		order by O.order_id
+    </select> 
+	
+    <select id="getOrderDetailsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select 		     
+		     OD.*, 
+	         AM.adver_matter_id as matterId, 
+			 AM.tape_code as matterTapeCode,
+			 AM.name as matterName,
+			 AM.edit as matterEdit,
+			 AM.length as  matterLength,
+		     RS.resource_name as  resourceName,
+			 RS.memo as  resourceMemo,
+			 CA.carrier_name as  carrierName, 
+		 	 CA.ad_resource_carrier_id as  carrierId, 
+			 SP.name as  specificName,
+		     CP.name as  compagesName 
+		  from tb_order_detail OD
+		 
+		 		left outer join tb_adver_matter AM 
+				 on OD.adver_matter_id = AM.adver_matter_id 
+		
+				 left outer join  tb_ad_resource_info RS 
+				 on OD.ad_resource_info_id = RS.ad_resource_info_id
+				
+				 left outer join  tb_ad_resource_carrier CA 
+				 on RS.ad_resource_carrier_id = CA.ad_resource_carrier_id
+				
+				 left outer join  tb_ad_resource_specific SP 
+				 on OD.ad_resource_specific_id = SP.ad_resource_specific_id
+		
+				 left outer join  tb_ad_resource_compages CP 
+				 on OD.compages_id = CP.ad_resource_compages_id	
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderDetailIdList">
+       	  <iterate prepend="AND" property="OrderDetailIdList" open="(" close=")" conjunction="OR">
+		   			 OD.order_detail_id = #OrderDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+	
+	
+	 <resultMap id="orderDetailResult_one_result"   class="orderDetail">
+		<result property="isSpaceAdver" column="is_space_adver" nullValue="0"/>
+		<result property="resourceSortId" column="resource_sort_id"/>
+		<result property="parentId" column="parent_id"/>
+		<result property="ageRate" column="age_rate"/>
+        <result property="appRate" column="app_rate"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="execPrice" column="exec_price"/>
+		<result property="execPrice2" column="exec_price2"/>
+        <result property="favourRate" column="favour_rate"/>
+        <result property="id" column="order_detail_id"/>
+        <result property="industryTypeId" column="customer_industry_type_id"/>
+        <result property="isCkecked" column="is_ckecked"/>
+        <result property="matterId" column="adver_matter_id"/>
+        <result property="matterLength" column="matter_length"/>
+        <result property="matteType" column="adver_matter_type"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyBalance" column="money_balance"/>
+        <result property="orderCategoryId" column="order_category_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="publishMemo" column="publish_memo"/>
+        <result property="resourceInfoId" column="ad_resource_info_id"/>
+        <result property="resourcePriceType" column="ad_resource_price_type"/>
+        <result property="resourceSpecificId" column="ad_resource_specific_id"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="compagesId" column="compages_id"/>
+        <result property="sysPrice" column="sys_price"/>
+		<result property="publishStartDate" column="publish_start"/>
+	    <result property="publishEndDate" column="publish_end"/>
+        <result property="version" column="version"/>
+		 
+		<result property="matter.id" column="matterId"/>
+		<result property="matter.name" column="matterName"/>
+		<result property="matter.tapeCode" column="matterTapeCode"/>
+		<result property="matter.edit" column="matterEdit"/>
+		<result property="matter.length" column="matterLength"/>
+		<result property="matter.matterType" column="matType"/>
+		 
+		<result property="resource.resourceName" column="resourceName"/>
+		<result property="resource.memo" column="resourceMemo"/>
+		<result property="resource.resourceType" column="resource_type2"/>
+		<result property="resource.workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+		<result property="resource.workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+		<result property="resource.isManual" column="resource_isManual"/>
+		<!--result property="carrierId" column="carrierId"/ -->
+		<!-- result property="carrier.carrierName" column="carrierName"/ -->
+		<!-- result property="carrierId" column="ad_resource_info_id" select="select_carrierId_for_one_orderDetail"/ -->
+		<result property="carrier" column="ad_resource_info_id" select="select_carrier_for_one_orderDetail"/>
+		<result property="specific.name" column="specificName"/>
+		<result property="specific.position" column="specificPosition"/>
+		
+		<result property="compages.name" column="compagesName"/>
+		<result property="needPublish" column="need_publish"/>		 
+		 
+		<result property="orderPublic.publishStartDate" column="publish_start"/>
+	    <result property="orderPublic.publishEndDate" column="publish_end"/>
+        <result property="orderPublic.times" column="sum_times" nullValue="0"/>
+		<result property="orderPublic.moneyBase" column="money_base" nullValue="0"/>
+		<result property="orderPublic.moneyRealpay" column="money_realpay" nullValue="0"/>
+		<result property="orderPublic.moneyIn" column="money_in"  nullValue="0"/>	 
+		 
+		 
+		 <result property="orderCategory.id" column="order_category_id"/>	
+		 <result property="orderCategory.name" column="order_category_name"/>	
+		 <result property="orderCategory.calculateAuto" column="calculate_auto"/>	
+		 
+		 <result property="industry.name" column="industy_name"/>	
+		 <result property="industry.parentName" column="industy_parent_name"/>	
+		 <result property="industry.id" column="industy_id"/>	
+
+    </resultMap>
+	
+	
+	
+
+    <select id="getOrderDetail" parameterClass="java.lang.Long" resultMap="orderDetailResult_one_result">
+
+		 select 
+		     OD.*, 
+		     OD.sys_price*OD.sum_times  as money_base, 
+		
+	         AM.adver_matter_id as matterId, 
+			 AM.tape_code as matterTapeCode,
+			 AM.name as matterName,
+			 AM.edit as matterEdit,
+			 AM.length as  matterLength,
+		     AM.adver_matter_type as  matType,
+		
+		     RS.resource_name as  resourceName,
+		     RS.ad_resource_type as  resource_type2,
+			 RS.memo as  resourceMemo,
+			 RS.is_manual as resource_isManual,
+		
+		     WP.broadcast_start_time,
+			 WP.broadcast_end_time,
+		
+		
+			OCA.order_category_id, 
+			OCA.name as order_category_name, 
+			OCA.calculate_auto, 
+		    
+		     INDU.name as industy_name,
+		     INDUPARENT.name as industy_parent_name,
+		     INDU.customer_industry_type_id as industy_id,
+
+			 SP.name as  specificName,
+			 SP.position as  specificPosition,
+			 CP.name as  compagesName 
+		
+		 	from tb_order_detail OD 
+			
+					  inner  join tb_adver_matter AM 
+				 on OD.adver_matter_id = AM.adver_matter_id 
+		
+				   inner  join   tb_ad_resource_info RS 
+				 on OD.ad_resource_info_id = RS.ad_resource_info_id
+		
+				left outer join tb_ad_resource_workspan WP
+						on WP.ad_resource_info_id = RS.ad_resource_info_id 
+		             <![CDATA[
+		           	and OD.publish_start >=  WP.begin_date AND OD.publish_start <=WP.end_date
+					  ]]>
+					 left outer join  tb_ad_resource_specific SP 
+				 on OD.ad_resource_specific_id = SP.ad_resource_specific_id
+		
+				 left outer join  tb_ad_resource_compages CP 
+				 on OD.compages_id = CP.ad_resource_compages_id	
+		
+						 inner  join  tb_order_category OCA 
+				 on OCA.order_category_id = OD.order_category_id	
+		
+							 inner  join  tb_customer_industry_type INDU
+				 on INDU.customer_industry_type_id = AM.adver_product_brand_id		
+		
+		              left outer join  tb_customer_industry_type INDUPARENT 
+		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+		
+	
+
+		
+         where OD.order_detail_id = #value#
+ 
+    </select>
+
+    <insert id="addOrderDetail" parameterMap="addParam">
+        <![CDATA[
+            insert into tb_order_detail (money_realpay,is_space_adver,need_publish,resource_sort_id,parent_id,age_rate,app_rate,create_by,create_date,exec_price,exec_price2,favour_rate,customer_industry_type_id,is_ckecked,adver_matter_id,matter_length,adver_matter_type,modify_by,modify_date,money_balance,order_category_id,order_id,publish_memo,ad_resource_info_id,ad_resource_price_type,ad_resource_specific_id,ad_resource_type,compages_id,sys_price,version,publish_start,publish_end,sum_times)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+		
+		    <selectKey resultClass="java.lang.Long" keyProperty="id">
+				 SELECT LAST_INSERT_ID() AS id
+		    </selectKey>
+		
+    </insert>
+
+    <insert id="addOrderDetailCopy" parameterClass="orderDetail">
+        <![CDATA[
+			 INSERT INTO tb_order_detail
+				(version,create_by,create_date,modify_by,modify_date,order_id,order_category_id,
+				ad_resource_type,ad_resource_info_id,ad_resource_specific_id,adver_matter_type,adver_matter_id,matter_length,customer_industry_type_id,publish_memo,
+				ad_resource_price_type,sys_price,exec_price,exec_price,app_rate,favour_rate,money_balance,money_realpay,
+				is_ckecked,need_publish,parent_id,resource_sort_id,age_rate,compages_id,memo,is_space_adver,money_in,publish_start,publish_end,sum_times)  
+                values(#version#,#createBy#,#createDate#,#modifyBy#,#modifyDate#,#orderId#,#orderCategoryId#,
+				#resourceType#,#resourceInfoId#,#resourceSpecificId#,#matteType#,#matterId#,#matterLength#,#industryTypeId#,#publishMemo#,
+				#resourcePriceType#,#sysPrice#,#execPrice#,#execPrice2#,#appRate#,#favourRate#,#moneyBalance#,#moneyRealpay#,
+				#isCkecked#,#needPublish#,#parentId#,#resourceSortId#,#ageRate#,#compagesId#,#memo#,#isSpaceAdver#,#moneyIn#,#publishStartDate#,#publishEndDate#,#sumTimes#) 
+        ]]>
+		
+	   <selectKey resultClass="java.lang.Long" keyProperty="id">
+             SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>		
+	
+	
+	
+	
+
+    <update id="updateOrderDetail" parameterMap="updateParam">
+    <![CDATA[
+        update tb_order_detail set
+				   is_space_adver = ?,
+				   need_publish = ?,
+				   resource_sort_id = ?,
+				   parent_id = ?,
+				   age_rate = ?,
+                   app_rate = ?,
+                   exec_price = ?,
+				   exec_price2 = ?,
+                   favour_rate = ?,
+                   customer_industry_type_id = ?,
+                   adver_matter_id = ?,
+                   matter_length = ?,
+                   adver_matter_type = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+				   money_balance = ?,
+                   order_category_id = ?,
+                   order_id = ?,
+                   publish_memo = ?,
+                   ad_resource_info_id = ?,
+                   ad_resource_price_type = ?,
+                   ad_resource_specific_id = ?,
+                   ad_resource_type = ?,
+                   compages_id = ?,
+                   sys_price = ?,
+				   version = ?
+        where order_detail_id = ?
+    ]]>
+    </update>
+	
+    <update id="updateOrderDetail2" parameterMap="updateParam2">
+    <![CDATA[
+        update tb_order_detail set
+		           publish_start = ?,
+				   publish_end = ?,
+				   sum_times = ?,
+				   money_realpay = ?,
+				   is_space_adver = ?,
+				   need_publish = ?,
+				   resource_sort_id = ?,
+				   parent_id = ?,
+				   age_rate = ?,
+                   app_rate = ?,
+                   exec_price = ?,
+					exec_price2 = ?,
+                   favour_rate = ?,
+                   customer_industry_type_id = ?,
+                   adver_matter_id = ?,
+                   matter_length = ?,
+                   adver_matter_type = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+				   money_balance = ?,
+                   order_category_id = ?,
+                   order_id = ?,
+                   publish_memo = ?,
+                   ad_resource_info_id = ?,
+                   ad_resource_price_type = ?,
+                   ad_resource_specific_id = ?,
+                   ad_resource_type = ?,
+                   compages_id = ?,
+                   sys_price = ?,
+				   version = ?
+        where order_detail_id = ?
+    ]]>
+    </update>	
+
+    <delete id="deleteOrderDetail">
+    <![CDATA[
+        delete from tb_order_detail
+         where order_detail_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOrderDetails" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_order_detail 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderDetailIdList">
+       	  <iterate prepend="AND" property="OrderDetailIdList" open="(" close=")" conjunction="OR">
+		   			 order_detail_id = #OrderDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update> 
+	
+	 <update id="updateOrderDetail_public_info" parameterClass="java.util.Map">
+   
+        update tb_order_detail AS A set publish_start = (select ifnull(min(publish_date),0) from tb_order_day_info where order_detail_id = A.order_detail_id and ad_day_times>0)
+		
+		,publish_end = (select ifnull(max(publish_date),0) from tb_order_day_info where order_detail_id = A.order_detail_id and ad_day_times>0)
+		
+		,money_realpay = (select ifnull(sum(day_rel_income),0) from tb_order_day_info where order_detail_id = A.order_detail_id)
+		
+		,sum_times = (select ifnull(sum(ad_day_times),0) from tb_order_day_info where order_detail_id = A.order_detail_id)
+		
+		<isEqual  property="model" compareValue="0">
+			 where A.order_id =#orderId#
+		</isEqual>	
+		 
+		<isEqual  property="model" compareValue="2">
+			 where A.order_id =#orderId#
+		</isEqual>	
+		 
+		<isEqual  property="model" compareValue="1">
+			where A.order_detail_id =#orderDetailId#
+		</isEqual>		 
+
+		<isEqual  property="model" compareValue="3">
+			where EXISTS  (SELECT A.order_detail_id  FROM tb_order  O 
+                         left outer join tb_contract CON 
+                              ON  CON.contract_id = O.contract_id
+			                         left outer join tb_contract_payment PMT
+                              ON  CON.contract_id = PMT.contract_id 
+                  WHERE  O.order_id = A.order_id AND O.contract_id = CON.contract_id AND PMT.contract_payment_id  = #paymentId# )
+		</isEqual>		 
+
+    </update>
+	
+	<update id="updateOrderDetail_public_moneyin" parameterClass="orderDetail">
+		<![CDATA[
+        update tb_order_detail set money_in = ifnull(money_in,0) + #moneyIn# 
+		where order_detail_id = #id#
+			 ]]>
+    </update>	
+	
+	<update id="updateOrderDetail_rate" parameterClass="orderDetail">
+		<![CDATA[
+        update tb_order_detail set app_rate = #appRate# ,favour_rate = #favourRate#  
+		where order_detail_id = #id#
+			 ]]>
+    </update>	
+	
+	
+		<update id="updateOrderDetailCheckState" parameterClass="java.util.Map">
+
+        update tb_order_detail set is_ckecked = #stateId# 
+			
+	 	 	  <dynamic prepend="WHERE"> 
+						
+		      <isNotNull property="OrderDetailIdList">
+			       	  <iterate prepend="AND" property="OrderDetailIdList" open="(" close=")" conjunction="OR">
+					   			 order_detail_id = #OrderDetailIdList[]#
+					  			</iterate>
+						</isNotNull> 
+					
+		    	<isNotNull property="OrderIdList">
+						 <iterate prepend="AND" property="OrderIdList" open="(" close=")" conjunction="OR">
+									order_id = #OrderIdList[]#
+					  </iterate>
+					</isNotNull> 				
+						
+					</dynamic>  
+			
+    </update>	
+	
+	
+	
+	
+	   
+		
+  <select id="getOrderDetailIdByPublishMemo" parameterClass="java.util.Map" resultClass="orderDetail">
+     <![CDATA[  
+      select DT.order_detail_id as id,DT.ad_resource_info_id as resourceInfoId,AM.length as matterLength,
+			 DT.sum_times as sumTimes
+		 from tb_order O  
+		 			 left outer join tb_order_detail DT 
+			 on DT.order_id = O.order_id
+		 
+		  left outer join tb_adver_matter AM 
+				 on DT.adver_matter_id = AM.adver_matter_id 
+		 
+		 
+       ]]> 
+		<dynamic prepend="WHERE"> 
+					
+			<isNotEmpty prepend="AND" property="publishMemo">
+				(O.publish_memo = #publishMemo#)
+			</isNotEmpty>
+		</dynamic>   
+  </select>
+	
+	
+
+	
+	<resultMap id="resultGetMonthDetailByIncomeId" class="orderDetail">
+		<result property="order.orderPublic.incomeCode" column="income_code"  nullValue=""/> 
+		<result property="order.orderCode" column="order_code"  nullValue=""/>
+		<result property="order.orderPublic.publishStartDate" column="publish_date"/>
+		<result property="order.customer.customerName" column="customer_name" nullValue=""/>
+		<result property="order.user.firstName" column="first_name"  nullValue=""/>
+		<result property="order.user.lastName" column="last_name"  nullValue=""/>
+		<result property="order.orderPublic.channelName" column="channel_name" nullValue=""/>
+		<result property="resource.resourceName" column="resource_name"  nullValue=""/>
+		<result property="resource.memo" column="resource_meno"  nullValue=""/>
+		<result property="matter.name" column="matter_name"  nullValue=""/>
+		<result property="matter.edit" column="matter_edit"  nullValue=""/>
+		<result property="matter.length" column="matter_len" nullValue=""/>
+		<result property="order.orderPublic.moneyRealpay" column="money_realpay"  nullValue="0"/>
+		<result property="order.orderPublic.moneyIn" column="money_in"  nullValue="0"/>
+		<result property="order.id" column="order_id"  nullValue="0"/>
+		<result property="order.customer.id" column="customer_id" nullValue="0"/>
+		<result property="resource.carrier.resourceChannel.id" column="resource_mediaorg_id"  nullValue="0"/>
+		<result property="resource.carrier.id" column="ad_resource_carrier_id"  nullValue="0"/>
+		<result property="matter.id" column="adver_matter_id"  nullValue="0"/>	
+		<result property="order.user.id" column="order_user_id"  nullValue="0"/>	
+		
+		<result property="resourceInfoId" column="ad_resource_info_id"  nullValue="0"/>
+		<result property="order.orderPublic.incomeId" column="income_id"  nullValue="0"/>
+		<result property="order.orderPublic.incomePullId" column="income_pull_id"  nullValue="0"/>
+		
+	
+	</resultMap>		
+	
+
+	
+	
+	<sql id="getMonthDetailByIncomeId_where_new">
+		
+		<dynamic prepend="WHERE"> 
+			
+			<!-- isNotEmpty prepend="AND" property="startDay">
+				<![CDATA[ (odi.publish_date >= #startDay#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDay">
+				  <![CDATA[ (odi.publish_date <= #endDay#)  ]]> 
+			</isNotEmpty -->					
+			
+			
+			<isNotEmpty prepend="AND" property="incomeId">
+				(inc.income_id = #incomeId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerName">
+				(cut.customer_name  like '%$customerName$%')
+			</isNotEmpty>		
+			
+			<isNotEmpty prepend="AND" property="customerId">
+				(cut.customer_id = #customerId#) 
+			</isNotEmpty>		
+			
+				
+			<isNotNull property="userIdList">
+				  <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							u.id = #userIdList[]#
+				  </iterate>
+		    </isNotNull> 	
+			
+			
+			<isNotNull property="carrierIdList">
+					<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+								car.ad_resource_carrier_id = #carrierIdList[]#
+					</iterate>
+			</isNotNull>	
+			
+			<isNotNull property="channelIdList">
+					<iterate prepend="AND" property="channelIdList" open="(" close=")" conjunction="OR">
+								chanl.resource_mediaorg_id = #channelIdList[]#
+					</iterate>
+			</isNotNull>						
+			
+					
+		</dynamic> 	
+		
+	</sql>	
+		
+  <select id="getMonthDetailByIncomeId" parameterClass="java.util.Map" resultMap="resultGetMonthDetailByIncomeId">
+
+		SELECT
+		inc.income_code,
+		o.order_code,
+		substring(odi.publish_date,1,6) as publish_date,
+		cut.customer_name,
+		u.first_name,
+		u.last_name,
+		chanl.name as channel_name,
+		rs.resource_name,
+		rs.memo as resource_meno,
+		mt.name as matter_name,
+		mt.edit as matter_edit,
+		mt.`length` as matter_len,
+		ifnull(sum(odi.day_rel_income),0)  as money_realpay,
+	 ifnull(sum(incused.money_in),0)  as money_in,
+		 
+		u.id as  order_user_id,
+		o.order_id,
+		cut.customer_id,
+		chanl.resource_mediaorg_id,
+	  rs.ad_resource_carrier_id,
+		rs.ad_resource_info_id,
+		mt.adver_matter_id,
+		inc.income_id,
+		pul.income_pull_id		   
+		 
+	FROM  tb_order_day_info AS odi  
+	  
+Inner Join (
+			select iu.order_day_info_id as day_id,iu.income_pull_id,sum(iu.money_in) as money_in from tb_income_used iu  
+			Inner Join tb_order_day_info di   on  iu.order_day_info_id = di.order_day_info_id  
+			Inner Join tb_income_pull AS pul ON iu.income_pull_id = pul.income_pull_id   
+			Inner Join  tb_order_detail AS dt ON dt.order_detail_id = di.order_detail_id 
+			Inner Join tb_order AS o ON o.order_id = dt.order_id  
+	  
+	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="incomeId">
+				(pul.income_id = #incomeId#)
+			</isNotEmpty>
+	  
+			<!-- isNotEmpty prepend="AND" property="startDay">
+				<![CDATA[ (di.publish_date >= #startDay#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDay">
+				  <![CDATA[ (di.publish_date <= #endDay#)  ]]> 
+			</isNotEmpty -->			  
+	  
+
+			<isNotEmpty prepend="AND" property="customerId">
+				(o.customer_id = #customerId#) 
+			</isNotEmpty>		
+			
+				
+			<isNotNull property="userIdList">
+				  <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							o.user_id = #userIdList[]#
+				  </iterate>
+		 </isNotNull> 	
+
+	 </dynamic> 	
+	  
+			group by di.order_day_info_id
+	 
+	  ) as incused  	 ON incused.day_id = odi.order_day_info_id  		  
+	  
+
+	Inner Join tb_income_pull AS pul ON incused.income_pull_id = pul.income_pull_id 
+	Inner Join tb_income AS inc ON inc.income_id = pul.income_id 
+	Inner Join tb_order_detail AS dt ON dt.order_detail_id = odi.order_detail_id 
+	Inner Join tb_order AS o ON o.order_id = dt.order_id
+	Inner Join tb_sys_user AS u ON u.id = o.user_id
+	Inner Join tb_ad_resource_info AS rs ON rs.ad_resource_info_id = dt.ad_resource_info_id
+	Inner Join tb_ad_resource_carrier AS car ON car.ad_resource_carrier_id = rs.ad_resource_carrier_id
+	Inner Join tb_ad_resource_channel AS chanl ON chanl.resource_mediaorg_id = car.ad_resource_channel_id
+	Inner Join tb_customer_info as cut  ON o.customer_id = cut.customer_id
+	Inner Join tb_adver_matter AS mt ON dt.adver_matter_id = mt.adver_matter_id 
+	  
+	 
+
+	  <include refid="getMonthDetailByIncomeId_where_new"/> 
+	  
+	 group by  o.order_id,substring(odi.publish_date,1,6),rs.ad_resource_info_id,mt.adver_matter_id		 
+	  
+	 order by substring(odi.publish_date,1,6) desc
+ 
+  </select>	
+
+	
+ <select id="getMonthDetailByIncomeIdSumNew" resultClass="orderDetail">	
+	select 
+	 count(distinct CONCAT(CONCAT(CONCAT(o.order_id,substring(odi.publish_date,1,6)),rs.ad_resource_info_id),mt.adver_matter_id)) as id 
+	 ,ifnull(sum(odi.day_rel_income),0)  as moneyRealpay,ifnull(sum(incused.money_in),0)  as moneyBalance 
+	FROM
+		 tb_order_day_info AS odi 
+
+	 
+	Inner Join (
+			select iu.order_day_info_id as day_id,iu.income_pull_id,sum(iu.money_in) as money_in from tb_income_used iu  
+			Inner Join tb_order_day_info di   on  iu.order_day_info_id = di.order_day_info_id  
+			Inner Join tb_income_pull AS pul ON iu.income_pull_id = pul.income_pull_id   
+			Inner Join  tb_order_detail AS dt ON dt.order_detail_id = di.order_detail_id 
+			Inner Join tb_order AS o ON o.order_id = dt.order_id  
+
+			<isNotEmpty prepend="AND" property="incomeId">
+				(pul.income_id = #incomeId#)
+			</isNotEmpty>
+	  
+			<!--isNotEmpty prepend="AND" property="startDay">
+				<![CDATA[ (di.publish_date >= #startDay#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDay">
+				  <![CDATA[ (di.publish_date <= #endDay#)  ]]> 
+			</isNotEmpty -->			  
+	  
+
+			<isNotEmpty prepend="AND" property="customerId">
+				(o.customer_id = #customerId#) 
+			</isNotEmpty>		
+			
+				
+			<isNotNull property="userIdList">
+				  <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							o.user_id = #userIdList[]#
+				  </iterate>
+		 </isNotNull> 	
+
+	 
+			group by di.order_day_info_id
+	 
+	  ) as incused  	 ON incused.day_id = odi.order_day_info_id  
+	 
+	 
+		Inner Join tb_income_pull AS pul ON incused.income_pull_id = pul.income_pull_id 
+	Inner Join tb_income AS inc ON inc.income_id = pul.income_id 
+	Inner Join tb_order_detail AS dt ON dt.order_detail_id = odi.order_detail_id 
+	Inner Join tb_order AS o ON o.order_id = dt.order_id
+	Inner Join tb_sys_user AS u ON u.id = o.user_id
+	Inner Join tb_ad_resource_info AS rs ON rs.ad_resource_info_id = dt.ad_resource_info_id
+	Inner Join tb_ad_resource_carrier AS car ON car.ad_resource_carrier_id = rs.ad_resource_carrier_id
+	Inner Join tb_ad_resource_channel AS chanl ON chanl.resource_mediaorg_id = car.ad_resource_channel_id
+	Inner Join tb_customer_info as cut  ON o.customer_id = cut.customer_id
+	Inner Join tb_adver_matter AS mt ON dt.adver_matter_id = mt.adver_matter_id	  
+	 
+
+	 
+	<include refid="getMonthDetailByIncomeId_where_new"/>  	 
+	 
+</select>	
+	
+	
+
+	
+	
+	
+	
+	<resultMap id="resultgetMonthDetailByIncomeInfo" class="orderDetail">
+		
+		<result property="order.orderCode" column="order_code"  nullValue=""/>
+		<result property="orderPublic.publishStartDate" column="publish_date"/>
+		<result property="order.customer.customerName" column="customer_name" nullValue=""/>
+		<result property="order.user.firstName" column="first_name"  nullValue=""/>
+		<result property="order.user.lastName" column="last_name"  nullValue=""/>
+		<result property="orderPublic.channelName" column="channel_name" nullValue=""/>
+		
+
+		<result property="resourceInfoId" column="ad_resource_info_id"  nullValue="0"/>
+		<result property="resource.id" column="ad_resource_info_id"  nullValue="0"/>
+		<result property="resource.resourceName" column="resource_name"  nullValue=""/>
+		<result property="resource.memo" column="resource_meno"  nullValue=""/>
+		<result property="resource.resSort.name" column="resource_sort_name"  nullValue=""/>
+		
+		
+		
+		<result property="matter.name" column="matter_name"  nullValue=""/>
+		<result property="matter.edit" column="matter_edit"  nullValue=""/>
+		<result property="matter.length" column="matter_len" nullValue=""/>
+		<result property="orderPublic.moneyRealpay" column="money_realpay" nullValue="0"/>
+		<result property="orderPublic.moneyIn" column="money_in" nullValue="0"/>
+	
+		<result property="order.id" column="order_id"  nullValue="0"/>
+		<result property="order.customer.id" column="customer_id" nullValue="0"/>
+		<result property="resource.carrier.resourceChannel.id" column="resource_mediaorg_id"  nullValue="0"/>
+		<result property="resource.carrier.id" column="ad_resource_carrier_id"  nullValue="0"/>
+		<result property="matter.id" column="adver_matter_id"  nullValue="0"/>	
+		<result property="order.user.id" column="order_user_id"  nullValue="0"/>	
+		<result property="resource.resSort.id" column="ad_resource_sort_id"  nullValue="0"/>
+		
+		<result property="order.contractPayment.id" column="payment_id" nullValue="0"/>
+
+	
+	</resultMap>
+	
+		
+ <select id="getMonthDetailByIncomeInfo" parameterClass="java.util.Map" resultMap="resultgetMonthDetailByIncomeInfo">
+
+		SELECT
+		o.order_code,
+		substring(odi.publish_date,1,6) as publish_date,
+		cut.customer_name,
+		u.first_name,
+		u.last_name,
+		chanl.name as channel_name,
+		rs.resource_name,
+		rs.memo as resource_meno,
+		rsort.name as resource_sort_name,
+		mt.name as matter_name,
+		mt.edit as matter_edit,
+		mt.`length` as matter_len,
+		ifnull(sum(odi.day_rel_income),0)  as money_realpay,
+	  ifnull(sum(incused.money_in),0)  as money_in,
+	 
+		rs.ad_resource_info_id,
+		u.id as  order_user_id,
+		o.order_id,
+		cut.customer_id,
+		chanl.resource_mediaorg_id,
+		rs.ad_resource_carrier_id,
+		mt.adver_matter_id,
+		odi.order_day_info_id,
+		rs.ad_resource_sort_id as ad_resource_sort_id,
+		pmt.contract_payment_id as payment_id 
+
+	FROM
+	  tb_order_day_info AS odi 
+	Inner Join tb_order_detail AS dt ON dt.order_detail_id = odi.order_detail_id 
+	Inner Join tb_order AS o ON o.order_id = dt.order_id 
+	Inner Join tb_contract_payment pmt ON o.contract_payment_id = pmt.contract_payment_id  or  pmt.order_id = o.order_id 
+	Inner Join tb_sys_user AS u ON u.id = o.user_id
+	Inner Join tb_ad_resource_info AS rs ON rs.ad_resource_info_id = dt.ad_resource_info_id
+	Inner Join tb_ad_resource_sort AS rsort ON rsort.ad_resource_sort_id = rs.ad_resource_sort_id 
+	Inner Join tb_ad_resource_carrier AS car ON car.ad_resource_carrier_id = rs.ad_resource_carrier_id
+	Inner Join tb_ad_resource_channel AS chanl ON chanl.resource_mediaorg_id = car.ad_resource_channel_id
+	Inner Join tb_customer_info as cut  ON o.customer_id = cut.customer_id
+	Inner Join tb_adver_matter AS mt ON dt.adver_matter_id = mt.adver_matter_id 
+	left outer Join (
+			select iu.order_day_info_id as day_id,sum(iu.money_in) as money_in from    tb_income_used iu  
+			Inner Join tb_order_day_info di   on  iu.order_day_info_id = di.order_day_info_id  
+			Inner Join  tb_order_detail AS dt ON dt.order_detail_id = di.order_detail_id 
+			Inner Join tb_order AS o ON o.order_id = dt.order_id  
+	 
+			<isNotEmpty prepend="AND" property="customerId">
+				(o.customer_id = #customerId#)
+			</isNotEmpty>		
+	 
+			<isNotEmpty prepend="AND" property="userId">
+				(o.user_id = #userId#)
+			</isNotEmpty>
+	 
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       o.version = #yearIdList[]#
+				</iterate>
+			</isNotNull> 
+	 
+	 
+			group by di.order_day_info_id
+	 
+	  ) as incused  	 ON incused.day_id = odi.order_day_info_id  
+
+  
+		<dynamic prepend="WHERE"> 
+			
+				<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       o.version = #yearIdList[]#
+				</iterate>
+			</isNotNull> 		
+			
+			<isNotEmpty prepend="AND" property="customerId">
+				(o.customer_id = #customerId#)
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="channelId">
+				(chanl.resource_mediaorg_id = #channelId#)
+			</isNotEmpty>		
+			
+			<!-- isNotEmpty prepend="AND" property="resortId">
+				(rs.ad_resource_sort_id = #resortId#)
+			</isNotEmpty -->			
+		
+			<isNotEmpty prepend="AND" property="userId">
+				(o.user_id = #userId#)
+			</isNotEmpty>
+			
+		</dynamic> 	
+	  
+	 group by  o.order_id,substring(odi.publish_date,1,6),rs.ad_resource_info_id,mt.adver_matter_id		 
+	  
+	<dynamic prepend="HAVING"> 
+		<!-- [CDATA[ money_realpay > 0 and money_realpay - money_in > 0  ]] -->	 
+		<![CDATA[ money_realpay > 0 and money_realpay - cast(money_in as decimal(9,2)) > 0  ]]>	 
+		
+		
+	</dynamic>		 
+	 
+	 
+	 order by substring(odi.publish_date,1,6),chanl.resource_mediaorg_id,mt.name 
+ 
+  </select>		
+	
+	
+	
+	
+	 <select id="getCollectionsBroReport" parameterClass="java.util.Map" resultClass="broReport"> 
+					 SELECT
+			tb_customer_info.customer_name as customerName,
+			CONCAT(tb_sys_user.first_name,tb_sys_user.last_name) as linkMan,
+		 tb_ad_resource_channel.name as channelName,
+			CONCAT(CONCAT(tb_ad_resource_info.resource_name,'  '), tb_ad_resource_info.memo) as pos,
+			tb_ad_resource_sort.`name` as posType,
+			tb_adver_matter.`name` as adName,
+			tb_adver_matter.edit as adEdit,
+			tb_adver_matter.length as adLength,
+		 tb_order_detail.ad_resource_info_id as resourceId,
+		 tb_order_detail.adver_matter_id as matterId,
+			Min(tb_order_day_info.publish_date) as broDateStart,
+			Max(tb_order_day_info.publish_date) as broDateEnd,
+			Sum(tb_order_day_info.ad_day_times) as orderTimes,
+			Sum(tb_order_day_info.day_rel_income) as sumMoney,
+			Sum(tb_order_day_info.day_rel_puton)  as incomeMoney  
+			FROM
+			tb_order
+			INNER JOIN tb_order_detail ON tb_order_detail.order_id = tb_order.order_id
+			INNER JOIN tb_order_day_info ON  tb_order_day_info.order_detail_id = tb_order_detail.order_detail_id
+			INNER JOIN tb_ad_resource_info ON tb_order_detail.ad_resource_info_id = tb_ad_resource_info.ad_resource_info_id
+			INNER JOIN tb_ad_resource_sort ON tb_ad_resource_info.ad_resource_sort_id = tb_ad_resource_sort.ad_resource_sort_id
+			INNER JOIN tb_sys_user ON tb_order.user_id = tb_sys_user.id
+			INNER JOIN tb_customer_info ON tb_customer_info.customer_id = tb_order.customer_id
+			INNER JOIN tb_adver_matter ON tb_order_detail.adver_matter_id = tb_adver_matter.adver_matter_id
+		  INNER JOIN tb_ad_resource_carrier ON tb_ad_resource_info.ad_resource_carrier_id = tb_ad_resource_carrier.ad_resource_carrier_id 
+		  INNER JOIN tb_ad_resource_channel  on tb_ad_resource_carrier.ad_resource_channel_id = tb_ad_resource_channel.resource_mediaorg_id
+
+	<dynamic prepend="WHERE"> 
+		
+		
+			<isNotNull property="orderDetailIdList">
+				<iterate prepend="AND" property="orderDetailIdList" open="(" close=")" conjunction="OR">
+					       tb_order_detail.order_detail_id = #orderDetailIdList[]#
+				</iterate>
+			</isNotNull> 		
+			
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					       tb_ad_resource_info.ad_resource_carrier_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull> 	
+		
+				<isNotEmpty prepend="AND" property="channelId">
+				(tb_ad_resource_channel.resource_mediaorg_id = #channelId#)
+			</isNotEmpty>				
+
+			<isNotEmpty property="startDate" prepend="AND">
+									<![CDATA[ tb_order_day_info.publish_date >= #startDate# ]]>
+			</isNotEmpty> 
+								
+				<isNotEmpty property="endDate" prepend="AND">
+									<![CDATA[tb_order_day_info.publish_date <= #endDate# ]]>
+				</isNotEmpty>		
+		
+		</dynamic> 			
+			
+
+			GROUP BY  tb_order_detail.ad_resource_info_id,tb_order_detail.adver_matter_id 
+			
+  </select>		
+	
+
+	
+	<select id="getCollectionsBroReport2" parameterClass="java.util.Map" resultClass="java.lang.Long"> 
+					 SELECT distinct tb_order_day_info.order_day_info_id as orderDayInfoId 
+			FROM
+			tb_order
+			INNER JOIN tb_order_detail ON tb_order_detail.order_id = tb_order.order_id
+			INNER JOIN tb_order_day_info ON  tb_order_day_info.order_detail_id = tb_order_detail.order_detail_id
+			INNER JOIN tb_ad_resource_info ON tb_order_detail.ad_resource_info_id = tb_ad_resource_info.ad_resource_info_id
+			INNER JOIN tb_ad_resource_sort ON tb_ad_resource_info.ad_resource_sort_id = tb_ad_resource_sort.ad_resource_sort_id
+			INNER JOIN tb_sys_user ON tb_order.user_id = tb_sys_user.id
+			INNER JOIN tb_customer_info ON tb_customer_info.customer_id = tb_order.customer_id
+			INNER JOIN tb_adver_matter ON tb_order_detail.adver_matter_id = tb_adver_matter.adver_matter_id
+		  INNER JOIN tb_ad_resource_carrier ON tb_ad_resource_info.ad_resource_carrier_id = tb_ad_resource_carrier.ad_resource_carrier_id 
+		  INNER JOIN tb_ad_resource_channel  on tb_ad_resource_carrier.ad_resource_channel_id = tb_ad_resource_channel.resource_mediaorg_id
+
+	<dynamic prepend="WHERE"> 
+		
+		
+			<isNotNull property="orderDetailIdList">
+				<iterate prepend="AND" property="orderDetailIdList" open="(" close=")" conjunction="OR">
+					       tb_order_detail.order_detail_id = #orderDetailIdList[]#
+				</iterate>
+			</isNotNull> 		
+			
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					       tb_ad_resource_info.ad_resource_carrier_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull> 	
+		
+				<isNotEmpty prepend="AND" property="channelId">
+				(tb_ad_resource_channel.resource_mediaorg_id = #channelId#)
+			</isNotEmpty>			
+		
+		
+			<!-- isNotEmpty prepend="AND" property="orderId">
+				(tb_order.order_id = #orderId#)
+			</isNotEmpty -->	
+		
+				<isNotEmpty prepend="AND"  property="resourceId">
+							(tb_order_detail.ad_resource_info_id = #resourceId#)
+				</isNotEmpty>	
+		
+			<isNotEmpty prepend="AND" property="matterId">
+				(tb_order_detail.adver_matter_id = #matterId#)
+			</isNotEmpty>		
+
+			<isNotEmpty property="startDate" prepend="AND">
+									<![CDATA[ tb_order_day_info.publish_date >= #startDate# ]]>
+			</isNotEmpty> 
+								
+				<isNotEmpty property="endDate" prepend="AND">
+									<![CDATA[tb_order_day_info.publish_date <= #endDate# ]]>
+				</isNotEmpty>		
+		
+		</dynamic> 			
+			
+
+			
+  </select>		
+	
+	
+	  <resultMap id="orderDetailResult_for_bro_prove"  class="orderDetail">
+		  
+		  	<result property="id" column="order_detail_id"/>
+		  
+		  	<result property="resource.resourceName" column="resource_name"  nullValue=""/>
+				<result property="resource.memo" column="resource_meno"  nullValue=""/>
+				<result property="resource.workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+				<result property="resource.workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+				  
+		   <result property="matter.id" column="matter_id"  nullValue=""/>
+				<result property="matter.name" column="matter_name"  nullValue=""/>
+				<result property="matter.edit" column="matter_edit"  nullValue=""/>
+				<result property="matter.length" column="matter_len" nullValue=""/>
+		  	<result property="matterLength" column="matter_len"  nullValue=""/>
+		   
+		  	<result property="specific.name" column="specific_name"/>
+				<result property="specific.position" column="specific_position"/>
+		  
+				<result property="orderPublic.publishStartDate"  column="broDateStart" nullValue="0"/>
+				<result property="orderPublic.publishEndDate"  column="broDateEnd" nullValue="0"/>
+		  	<result property="orderPublic.times" column="orderTimes" nullValue="0"/>
+		   <result property="orderPublic.moneyRealpay" column="moneyRealpay" nullValue="0"/>
+		   <result property="orderPublic.moneyIn" column="moneyIn" nullValue="0"/>
+		  
+    </resultMap>	
+	
+	 <select id="getOrderDetails_for_bro_prove"  resultMap="orderDetailResult_for_bro_prove">  
+    <![CDATA[
+		
+
+		
+
+		select 
+		
+			DT.order_detail_id,
+		  DT.ad_resource_info_id as resourceId,
+		  DT.adver_matter_id as matter_id,
+		  
+		  RI.resource_name as resource_name,
+			RI.memo as resource_meno,
+
+			MT.name as matter_name,
+			MT.edit as matter_edit,
+			MT.length as matter_len,
+		
+		  WP.broadcast_start_time,
+			 WP.broadcast_end_time,
+		
+			SP.name as  specific_name,
+			SP.position as  specific_position,
+		
+			Min(ODD.publish_date) as broDateStart,
+			Max(ODD.publish_date) as broDateEnd,
+			Sum(ODD.ad_day_times) as orderTimes,
+			Sum(ODD.day_rel_income) as moneyRealpay,
+			Sum(ODD.day_rel_puton)  as moneyIn  
+		
+
+	from tb_order_day_info ODD 
+		
+							inner  join tb_order_detail DT 
+			 on DT.order_detail_id = ODD.order_detail_id	
+		
+						Inner Join tb_order AS OD  
+			 ON OD.order_id = DT.order_id
+		
+						inner  join tb_adver_matter MT
+			 on MT.adver_matter_id = DT.adver_matter_id 
+
+				 inner  join tb_ad_resource_info RI
+			 on RI.ad_resource_info_id = DT.ad_resource_info_id 
+		
+						 left outer join  tb_ad_resource_specific SP 
+				 on DT.ad_resource_specific_id = SP.ad_resource_specific_id
+		
+				left outer join tb_ad_resource_workspan WP
+						on WP.ad_resource_info_id = RI.ad_resource_info_id 
+        
+ 
+    ]]> 
+		
+ 	 	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="orderId">
+					(OD.order_id = #orderId#)  
+			</isNotEmpty>		
+			  
+				<isNotEmpty property="startDate" prepend="AND">
+									<![CDATA[ ODD.publish_date >= #startDate# ]]>
+			</isNotEmpty> 
+								
+				<isNotEmpty property="endDate" prepend="AND">
+									<![CDATA[ODD.publish_date <= #endDate# ]]>
+				</isNotEmpty>	
+				  			  
+			 <isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					RI.ad_resource_carrier_id = #carrierIdList[]#
+				</iterate>
+			 </isNotNull> 
+				  
+			</dynamic>
+		 
+    group by  DT.order_detail_id 
+		
+		
+    </select> 
+	
+	
+	
+	
+</sqlMap>

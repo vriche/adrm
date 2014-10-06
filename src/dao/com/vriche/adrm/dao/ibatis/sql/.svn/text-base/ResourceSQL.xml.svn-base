@@ -1,0 +1,1559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ResourceSQL">
+    <typeAlias alias="resource" type="com.vriche.adrm.model.Resource"/>
+	<typeAlias alias="resourcePrint" type="com.vriche.adrm.model.ResourcePrint"/>
+	
+		<typeAlias alias="paramObj" type="com.vriche.adrm.model.ParamObj"/>
+	<typeAlias alias="fusionChartObject" type="com.vriche.adrm.model.FusionChartObject"/>
+
+	
+	
+	<cacheModel id="resource-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addResource"/>
+		<flushOnExecute statement="updateResource"/>
+		<flushOnExecute statement="deleteResource"/>
+		<flushOnExecute statement="deleteResources"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+	
+    <parameterMap id="addParam" class="resource">
+		<parameter property="resourceSortId" jdbcType="INTEGER" javaType="java.lang.Long"/>		
+		<parameter property="beforehand" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="parentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="isClosed" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isManual" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isOverweight" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isSeralized" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isValidate" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="proResourceId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="proResourceMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="resource">
+		<parameter property="resourceSortId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="beforehand" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="parentId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <!-- parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/ -->
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="isClosed" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isManual" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isOverweight" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isSeralized" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="isValidate" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="proResourceId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="proResourceMemo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+	
+    <resultMap id="resourceResult" class="resource">
+		<result property="resourceSortId" column="ad_resource_sort_id"/>
+		<result property="beforehand" column="before_hand"/>
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+		<result property="parentId" column="parent_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no"/>
+        <result property="id" column="ad_resource_info_id"/>
+        <result property="isClosed" column="is_closed"/>
+        <result property="isManual" column="is_manual"/>
+        <result property="isOverweight" column="is_overweight"/>
+        <result property="isSeralized" column="is_seralized"/>
+        <result property="isValidate" column="is_validate"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="propertiyTime" column="ad_resource_propertiy_time"/>
+        <result property="proResourceId" column="pro_resource_id"/>
+        <result property="proResourceMemo" column="pro_resource_memo"/>
+        <result property="resourceName" column="resource_name"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="enable" column="enable"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+	<!-- resultMap id="resourceResult" class="resource">
+	   <result property="beforehand" column="before_hand"/>	
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+		<result property="parentId" column="parent_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no"/>
+        <result property="id" column="ad_resource_info_id"/>
+        <result property="isClosed" column="is_closed"/>
+        <result property="isManual" column="is_manual"/>
+        <result property="isOverweight" column="is_overweight"/>
+        <result property="isSeralized" column="is_seralized"/>
+        <result property="isValidate" column="is_validate"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="propertiyTime" column="ad_resource_propertiy_time"/>
+        <result property="proResourceId" column="pro_resource_id"/>
+        <result property="proResourceMemo" column="pro_resource_memo"/>
+        <result property="resourceName" column="resource_name"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="enable" column="enable"/>
+        <result property="version" column="version"/>
+    </resultMap -->
+	
+		
+    <resultMap id="resourceResultForArrange" class="resource">
+		<result property="beforehand" column="before_hand"/>
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+					<result property="parentId" column="parent_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no"/>
+        <result property="id" column="ad_resource_info_id"/>
+        <result property="isClosed" column="is_closed"/>
+        <result property="isManual" column="is_manual"/>
+        <result property="isOverweight" column="is_overweight"/>
+        <result property="isSeralized" column="is_seralized"/>
+        <result property="isValidate" column="is_validate"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="propertiyTime" column="ad_resource_propertiy_time"/>
+        <result property="proResourceId" column="pro_resource_id"/>
+        <result property="proResourceMemo" column="pro_resource_memo"/>
+        <result property="resourceName" column="resource_name"/>
+        <result property="resourceType" column="ad_resource_type"/>
+        <result property="enable" column="enable"/>
+        <result property="version" column="version"/>
+		
+					<result property="workspan.sunLength" column="sun_length"/>
+        <result property="workspan.monLength" column="mon_length"/>
+        <result property="workspan.tueLength" column="tue_length"/>
+        <result property="workspan.thiLength" column="thi_length"/>
+        <result property="workspan.wenLength" column="wen_length"/>
+        <result property="workspan.friLength" column="fri_length"/>
+        <result property="workspan.satLength" column="sat_length"/>
+    </resultMap>
+	
+	<resultMap id="resourcePrintResult" class="resourcePrint">
+		<result property="beforehand" column="before_hand"/>
+		<result property="resourceId" column="ad_resource_info_id"/>
+		<result property="resourceName" column="resource_name"/>
+		<result property="carrierId" column="ad_resource_carrier_id"/>
+		<result property="parentId" column="parent_id"/>
+		<result property="carrierName" column="carrier_name"/>
+		<result property="memo" column="memo"/>
+		<result property="length" column="length"/>
+		<result property="price" column="price"/>
+		<result property="sunLength" column="sun_length"/>
+		<result property="monLength" column="mon_length"/>
+		<result property="tueLength" column="tue_length"/>
+		<result property="thiLength" column="thi_length"/>
+		<result property="wenLength" column="wen_length"/>
+		<result property="friLength" column="fri_length"/>
+		<result property="satLength" column="sat_length"/>
+		<result property="displayNo" column="display_no"/>
+    </resultMap>
+
+	<select id="getPriceLength" parameterClass="java.util.Map" resultClass="java.lang.String">
+    <![CDATA[
+		SELECT distinct rpd.length
+		FROM tb_ad_resource_info ri 
+		left outer join tb_ad_resource_price_rel rpr on ri.ad_resource_info_id = rpr.ad_resource_info_id
+		left outer join tb_ad_resource_price_detail_rel rpdr on rpdr.ad_resource_price_id = rpr.ad_resource_price_id
+		left outer join tb_ad_resource_price_detail rpd on rpdr.ad_resource_price_detail_id = rpd.ad_resource_price_detail_id
+    ]]>
+		<dynamic prepend="WHERE"> 
+	      	<isNotNull property="carrierIdList">
+				 <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+							ri.ad_resource_carrier_id = #carrierIdList[]#
+				  </iterate>
+			 </isNotNull> 
+        </dynamic>
+		order by rpd.length-0
+    </select>	
+	
+	<select id="getResourcesByCarrierId"  resultMap="resourceResult">
+        select * from tb_ad_resource_info 
+         where ad_resource_carrier_id = #value# 
+    </select>
+	
+	<select id="getResourcesByCarrierIdParent0"  resultMap="resourceResult">
+        select * from tb_ad_resource_info 
+         where ad_resource_carrier_id = #value# and parent_id = 0
+		 order by display_no asc
+    </select>	
+	
+	<select id="getResourceByParentId"  resultMap="resourceResult">
+    <![CDATA[
+        select * from tb_ad_resource_info 
+		where  parent_id = #parentId# 
+    ]]>
+	</select>
+	
+	<select id="getResourceByParentId_bak2" parameterClass="java.util.Map" resultMap="resourceResult">
+    <![CDATA[
+        select * from tb_ad_resource_info 
+		where ad_resource_carrier_id = #carrierId# and parent_id = #parentId# 
+    ]]>
+	</select>
+	
+	<!-- select id="select_carrierId_for_one_orderDetail" parameterClass="java.lang.Long" resultClass="java.lang.String">
+        select ad_resource_carrier_id from tb_ad_resource_info 
+		where ad_resource_info_id = #value# 
+	</select -->
+	
+	
+
+	
+	
+	
+	<resultMap id="resourceResult_extends" extends="resourceResult"  class="resource">
+		<result property="resType.name" column="restypename" nullValue=""/>
+		<result property="resType.value" column="restypevalue" nullValue="0"/>
+    </resultMap>		
+	
+
+	
+	<resultMap id="resourceResult_OrderbyBroStartTime" extends="resourceResult"  class="resource">
+		<result property="resType.name" column="restypename" nullValue=""/>
+		<result property="resType.value" column="restypevalue" nullValue="0"/>
+		<result property="workspan.beginDate" column="begin_date" nullValue="0"/>
+		<result property="workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+		<result property="workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+		
+		<result property="workspan.sunLength" column="sun_length" nullValue="0"/>
+		<result property="workspan.monLength" column="mon_length" nullValue="0"/>
+		<result property="workspan.tueLength" column="tue_length" nullValue="0"/>
+		<result property="workspan.thiLength" column="thi_length" nullValue="0"/>
+		<result property="workspan.wenLength" column="wen_length" nullValue="0"/>
+		<result property="workspan.friLength" column="fri_length" nullValue="0"/>
+		<result property="workspan.satLength" column="sat_length" nullValue="0"/>
+		
+		<result property="orgId" column="sys_org_id" nullValue="1"/>
+    </resultMap>	
+	
+    <select id="getResources" resultMap="resourceResult_extends">
+    <![CDATA[
+        select R.*,RT.name as restypename,RT.value as restypevalue
+		
+		 from tb_ad_resource_info R 
+
+		left outer join tb_ad_resource_type RT 
+			 on RT.ad_ad_resource_type_id = R.ad_resource_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+			(R.ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(R.create_by = #createBy#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty -->
+			  
+			<isNotEmpty prepend="AND" property="version">
+			(R.version = #version#)
+			</isNotEmpty>
+			  			  
+			  
+			<isNotEmpty prepend="AND" property="displayNo">
+			(R.display_no = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(R.ad_resource_info_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isClosed">
+			(R.is_closed = #isClosed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isManual">
+			(R.is_manual = #isManual#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isOverweight">
+			(R.is_overweight = #isOverweight#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isSeralized">
+			(R.is_seralized = #isSeralized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isValidate">
+			(R.is_validate = #isValidate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(R.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(R.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(R.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(R.ad_resource_propertiy_time = #propertiyTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceId">
+			(R.pro_resource_id = #proResourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceMemo">
+			(R.pro_resource_memo = #proResourceMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(R.resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(R.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(R.enable = #enable#)
+			</isNotEmpty>
+		</dynamic>
+		order by R.display_no asc
+    </select>
+	
+	
+
+	
+	
+		<resultMap id="resourceResult_OrderbyBroStartTime_new" extends="resourceResult"  class="resource">
+		<result property="resType.name" column="restypename" nullValue=""/>
+		<result property="resType.value" column="restypevalue" nullValue="0"/>
+		<result property="workspan.beginDate" column="begin_date" nullValue="0"/>
+		<result property="workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+		<result property="workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+		
+		<result property="workspan.sunLength" column="sun_length" nullValue="0"/>
+		<result property="workspan.monLength" column="mon_length" nullValue="0"/>
+		<result property="workspan.tueLength" column="tue_length" nullValue="0"/>
+		<result property="workspan.thiLength" column="thi_length" nullValue="0"/>
+		<result property="workspan.wenLength" column="wen_length" nullValue="0"/>
+		<result property="workspan.friLength" column="fri_length" nullValue="0"/>
+		<result property="workspan.satLength" column="sat_length" nullValue="0"/>
+			
+		<result property="resSort.name" column="resSortt_name" nullValue=""/>
+		<result property="resSort.value" column="resSort_value" nullValue="0"/>	
+
+		<result property="orgId" column="sys_org_id" nullValue="1"/>
+    </resultMap>
+	
+	
+	
+	
+	 <select id="getResourcesLevelOne" resultMap="resourceResult_OrderbyBroStartTime_new">  
+    <![CDATA[
+        select R.*,
+		resort.name as resSortt_name,resort.value as resSort_value, 
+		RT.name as restypename,RT.value as restypevalue,rctpy.sys_org_id,
+		wp.begin_date,wp.broadcast_start_time,wp.broadcast_end_time  
+			,wp.sun_length,wp.mon_length,wp.tue_length,wp.thi_length,wp.wen_length,wp.fri_length,wp.sat_length 
+		
+		
+		 from tb_ad_resource_info R
+		
+				left outer join tb_ad_resource_workspan as wp 
+			on wp.ad_resource_info_id = R.ad_resource_info_id 
+		
+		left outer join tb_ad_resource_type as RT 
+			 on RT.ad_ad_resource_type_id = R.ad_resource_type 
+		
+			left outer join tb_ad_resource_carrier as rc
+		 on R.ad_resource_carrier_id = rc.ad_resource_carrier_id
+
+			left outer join tb_ad_resource_carrier_type as rctpy
+		 on rctpy.ad_resource_carrier_type_id = rc.ad_resource_carrier_type_id		
+		
+				 		left outer join tb_ad_resource_channel as arc
+		 on rc.ad_resource_channel_id = arc.resource_mediaorg_id 
+		
+						 		left outer join tb_ad_resource_sort as resort 
+		 on R.ad_resource_sort_id = resort.ad_resource_sort_id
+		
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+			(rc.parent_id = #carrierId#)
+			</isNotEmpty>
+			  
+			<isNotNull property="carrierIdList">
+       	  <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+		   			 rc.ad_resource_carrier_id = #carrierIdList[]#
+		  			</iterate>
+		  </isNotNull> 	  
+			  
+			  
+			  
+			<isNotEmpty prepend="AND" property="createBy">
+			(R.create_by = #createBy#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty -->
+			  
+			<isNotEmpty prepend="AND" property="version">
+			(R.version = #version#)
+			</isNotEmpty>
+			  			  
+			  
+			<isNotEmpty prepend="AND" property="displayNo">
+			(R.display_no = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(R.ad_resource_info_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isClosed">
+			(R.is_closed = #isClosed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isManual">
+			(R.is_manual = #isManual#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isOverweight">
+			(R.is_overweight = #isOverweight#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isSeralized">
+			(R.is_seralized = #isSeralized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isValidate">
+			(R.is_validate = #isValidate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(R.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(R.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(R.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(R.ad_resource_propertiy_time = #propertiyTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceId">
+			(R.pro_resource_id = #proResourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceMemo">
+			(R.pro_resource_memo = #proResourceMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(R.resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(R.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			  
+				<isNotEmpty prepend="AND" property="resourceSort">
+			(R.ad_resource_sort_id = #resourceSort#)
+			</isNotEmpty>
+			  		  
+			<isNotEmpty prepend="AND" property="enable">
+			(R.enable = #enable#)
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[  (wp.begin_date <= #inPublishDate#)  ]]> 
+			</isNotEmpty>
+			  
+		  <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[ (wp.end_date >= #inPublishDate#) ]]> 
+			</isNotEmpty>		
+			  
+		</dynamic>
+		 
+
+		 
+		 	<isEqual  property="orderBy" compareValue="0">	
+			      order by R.display_no asc
+			</isEqual>
+		 
+		 
+			<isEqual  property="orderBy" compareValue="1">	
+						order by wp.broadcast_start_time asc
+			</isEqual> 	 
+		 
+			<isEqual property="orderBy" compareValue="2">	
+			<![CDATA[  order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time) ]]>	 
+			</isEqual> 
+		
+
+		 
+    </select>
+	
+	
+
+	
+	
+	 <select id="getResourcesOrderbyBroStartTime" resultMap="resourceResult_OrderbyBroStartTime">
+    <![CDATA[
+        select R.*,
+		RT.name as restypename,RT.value as restypevalue,rctpy.sys_org_id,
+		wp.begin_date,wp.broadcast_start_time,wp.broadcast_end_time  
+			,wp.sun_length,wp.mon_length,wp.tue_length,wp.thi_length,wp.wen_length,wp.fri_length,wp.sat_length 
+		
+		 from tb_ad_resource_info R
+		
+		left outer join tb_ad_resource_type RT 
+			 on RT.ad_ad_resource_type_id = R.ad_resource_type 
+		
+		left outer join tb_ad_resource_workspan wp
+			on wp.ad_resource_info_id = R.ad_resource_info_id 
+		
+					    left outer join tb_ad_resource_carrier rc
+		 on R.ad_resource_carrier_id = rc.ad_resource_carrier_id
+		
+					    left outer join tb_ad_resource_carrier_type rctpy
+		 on rctpy.ad_resource_carrier_type_id = rc.ad_resource_carrier_type_id	
+		
+		 		left outer join tb_ad_resource_channel arc
+		 on rc.ad_resource_channel_id = arc.resource_mediaorg_id
+		
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+			(R.ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(R.create_by = #createBy#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty -->
+			  
+			<isNotEmpty prepend="AND" property="version">
+			(R.version = #version#)
+			</isNotEmpty>
+			  			  
+			  
+			<isNotEmpty prepend="AND" property="displayNo">
+			(R.display_no = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(R.ad_resource_info_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isClosed">
+			(R.is_closed = #isClosed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isManual">
+			(R.is_manual = #isManual#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isOverweight">
+			(R.is_overweight = #isOverweight#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isSeralized">
+			(R.is_seralized = #isSeralized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isValidate">
+			(R.is_validate = #isValidate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(R.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(R.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(R.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(R.ad_resource_propertiy_time = #propertiyTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceId">
+			(R.pro_resource_id = #proResourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceMemo">
+			(R.pro_resource_memo = #proResourceMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(R.resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(R.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(R.enable = #enable#)
+			</isNotEmpty>
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[  (wp.begin_date <= #inPublishDate#)  ]]> 
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[ (wp.end_date >= #inPublishDate#) ]]> 
+			</isNotEmpty>				  
+			  
+		</dynamic>
+		<![CDATA[   
+		 order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time)
+		 ]]>
+    </select>
+	
+	
+ <select id="getResourcesOrderbyBroStartTimeLevelOne" resultMap="resourceResult_OrderbyBroStartTime">
+    <![CDATA[
+        select R.*,
+		RT.name as restypename,RT.value as restypevalue,rctpy.sys_org_id,
+		wp.begin_date,wp.broadcast_start_time,wp.broadcast_end_time  
+				,wp.sun_length,wp.mon_length,wp.tue_length,wp.thi_length,wp.wen_length,wp.fri_length,wp.sat_length 
+		
+		 from tb_ad_resource_info R
+		
+		left outer join tb_ad_resource_type RT 
+			 on RT.ad_ad_resource_type_id = R.ad_resource_type 
+		
+		left outer join tb_ad_resource_workspan wp
+			on wp.ad_resource_info_id = R.ad_resource_info_id 
+		
+					    left outer join tb_ad_resource_carrier rc
+		 on R.ad_resource_carrier_id = rc.ad_resource_carrier_id
+		
+					    left outer join tb_ad_resource_carrier_type rctpy
+		 on rctpy.ad_resource_carrier_type_id = rc.ad_resource_carrier_type_id		
+		
+		 		left outer join tb_ad_resource_channel arc
+		 on rc.ad_resource_channel_id = arc.resource_mediaorg_id
+		
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="today">
+				 <![CDATA[
+						(wp.begin_date<=#today#  and  wp.end_date >=#today#)
+				]]>
+			</isNotEmpty>			  
+			  
+			  
+			<isNotEmpty prepend="AND" property="carrierId">
+			(rc.parent_id = #carrierId# or rc.ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="createBy">
+			(R.create_by = #createBy#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty -->
+			  
+			<isNotEmpty prepend="AND" property="version">
+			(R.version = #version#)
+			</isNotEmpty>
+			  
+			  
+			<!-- isNotEmpty prepend="AND" property="today">
+			<![CDATA[ (wp.begin_date <= #today# and #today# <= wp.end_date)    ]]>
+			</isNotEmpty -->			  
+			  			  
+			  
+			<isNotEmpty prepend="AND" property="displayNo">
+			(R.display_no = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(R.ad_resource_info_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isClosed">
+			(R.is_closed = #isClosed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isManual">
+			(R.is_manual = #isManual#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isOverweight">
+			(R.is_overweight = #isOverweight#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isSeralized">
+			(R.is_seralized = #isSeralized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isValidate">
+			(R.is_validate = #isValidate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(R.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(R.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(R.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(R.ad_resource_propertiy_time = #propertiyTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceId">
+			(R.pro_resource_id = #proResourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceMemo">
+			(R.pro_resource_memo = #proResourceMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(R.resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">
+			(R.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(R.enable = #enable#)
+			</isNotEmpty>
+		</dynamic>
+		<![CDATA[   
+		 order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time)
+		 ]]>
+    </select>
+		
+	 <select id="getResourcesForArrange" resultMap="resourceResultForArrange">
+    <![CDATA[
+        select ri.*,wp.* from tb_ad_resource_info ri
+		left outer join tb_ad_resource_workspan wp
+			on wp.ad_resource_info_id = ri.ad_resource_info_id
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+			(ri.ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty>
+			  
+			<isNotNull property="carrierIdList">
+       	  <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+		   			 ri.ad_resource_carrier_id = #carrierIdList[]#
+		  			</iterate>
+		  </isNotNull> 	  
+			  
+			<isNotEmpty prepend="AND" property="createBy">
+			(ri.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(ri.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(ri.display_no = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ri.ad_resource_info_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isClosed">
+			(ri.is_closed = #isClosed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isManual">
+			(ri.is_manual = #isManual#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isOverweight">
+			(ri.is_overweight = #isOverweight#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isSeralized">
+			(ri.is_seralized = #isSeralized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isValidate">
+			(ri.is_validate = #isValidate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(ri.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(ri.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(ri.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(ri.ad_resource_propertiy_time = #propertiyTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceId">
+			(ri.pro_resource_id = #proResourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceMemo">
+			(ri.pro_resource_memo = #proResourceMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(ri.resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">  
+			(ri.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(ri.enable = #enable#)
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[  (wp.begin_date <= #inPublishDate#)  ]]> 
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[ (wp.end_date >= #inPublishDate#) ]]> 
+			</isNotEmpty>			  
+			  
+		</dynamic>
+		order by ri.display_no asc
+    </select>
+	
+	
+	<select id="getResourcesForArrangeOrderByBroTime" resultMap="resourceResultForArrange">
+    <![CDATA[
+        select ri.*,wp.* from tb_ad_resource_info ri 
+		
+		left outer join tb_ad_resource_workspan wp
+			on wp.ad_resource_info_id = ri.ad_resource_info_id
+
+	    left outer join tb_ad_resource_carrier rc
+			 on ri.ad_resource_carrier_id = rc.ad_resource_carrier_id
+		
+		left outer join tb_ad_resource_channel arc
+			 on rc.ad_resource_channel_id = arc.resource_mediaorg_id
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierId">
+			(rc.ad_resource_carrier_id = #carrierId#)
+			</isNotEmpty>
+			  
+			<isNotNull property="carrierIdList">
+       	  <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+		   			 rc.ad_resource_carrier_id = #carrierIdList[]#
+		  			</iterate>
+		  </isNotNull> 	  		  
+			  
+			<isNotEmpty prepend="AND" property="createBy">
+			(ri.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(ri.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(ri.display_no = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ri.ad_resource_info_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isClosed">
+			(ri.is_closed = #isClosed#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isManual">
+			(ri.is_manual = #isManual#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isOverweight">
+			(ri.is_overweight = #isOverweight#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isSeralized">
+			(ri.is_seralized = #isSeralized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isValidate">
+			(ri.is_validate = #isValidate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(ri.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(ri.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(ri.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="propertiyTime">
+			(ri.ad_resource_propertiy_time = #propertiyTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceId">
+			(ri.pro_resource_id = #proResourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proResourceMemo">
+			(ri.pro_resource_memo = #proResourceMemo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(ri.resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceType">  
+			(ri.ad_resource_type = #resourceType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(ri.enable = #enable#)
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[  (wp.begin_date <= #inPublishDate#)  ]]> 
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[ (wp.end_date >= #inPublishDate#) ]]> 
+			</isNotEmpty>			  
+			  
+		</dynamic>
+		<![CDATA[   
+		 order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time)
+		 ]]>
+    </select>
+	
+    <select id="getResourcesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_ad_resource_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+    </select>  
+	
+	
+	<resultMap id="resourceIdResult" class="resource">
+        <result property="id" column="ad_resource_carrier_id"/>
+    </resultMap>
+	<select id="getParentIdByIdList" resultMap="resourceIdResult">
+     <![CDATA[  
+      select ad_resource_carrier_id from tb_ad_resource_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>     
+		group by  ad_resource_carrier_id  
+    </select>   
+	
+	<resultMap id="resourceNameResult" class="resource">
+        <result property="id" column="ad_resource_info_id"/>
+        <result property="resourceName" column="resource_name"/>
+		<result property="carrier.carrierName" column="carrier_name"/>
+		<result property="memo" column="memo"/>
+		<result property="carrierId" column="ad_resource_carrier_id"/>
+		<result property="isClosed" column="isClosed"/>
+		<result property="resourceType" column="ad_resource_type"/>
+		<result property="version" column="ad_resource_version"/>
+		
+		<result property="workspan.sunLength" column="sun_length"/>
+        <result property="workspan.monLength" column="mon_length"/>
+        <result property="workspan.tueLength" column="tue_length"/>
+        <result property="workspan.thiLength" column="thi_length"/>
+        <result property="workspan.wenLength" column="wen_length"/>
+        <result property="workspan.friLength" column="fri_length"/>
+        <result property="workspan.satLength" column="sat_length"/>
+		<result property="workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+		<result property="workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+    </resultMap>
+	
+
+	 <select id="getResourcesNameByIdList"  resultMap="resourceNameResult">
+     <![CDATA[  
+       select ri.ad_resource_info_id,  ri.ad_resource_type,  
+		      resource_name,  ri.version as ad_resource_version,
+			  carrier_name,
+              ri.memo,ri.ad_resource_carrier_id,rc.memo isClosed,wp.sun_length,wp.mon_length,wp.tue_length,wp.thi_length,
+			  wp.wen_length,wp.fri_length,wp.sat_length,
+		      wp.broadcast_start_time,wp.broadcast_end_time  
+		 
+		 from tb_ad_resource_info ri          
+		 		left outer join tb_ad_resource_workspan wp
+		 on wp.ad_resource_info_id = ri.ad_resource_info_id
+			    left outer join tb_ad_resource_carrier rc
+		 on ri.ad_resource_carrier_id = rc.ad_resource_carrier_id
+		 		left outer join tb_ad_resource_channel arc
+		 on rc.ad_resource_channel_id = arc.resource_mediaorg_id
+		 
+       ]]>
+		 <dynamic prepend="WHERE"> 
+		 	<isNotEmpty prepend="AND" property="carrierId">
+				<![CDATA[ (rc.parent_id = #carrierId#) ]]> 
+			</isNotEmpty>
+			 
+			<!-- isNotEmpty prepend="AND" property="version">
+				<![CDATA[ (ri.version = #version#) ]]>  
+			</isNotEmpty -->
+			 
+			 			 
+			<isNotEmpty prepend="AND" property="version">
+				<![CDATA[ (substring(wp.begin_date,1,4) <= #version#) ]]>  
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+				<![CDATA[ (substring(wp.end_date,1,4) >= #version#) ]]>  
+			</isNotEmpty>			 
+			 
+			 
+			<isNotEmpty prepend="AND" property="resourceType">
+				<![CDATA[ (ri.ad_resource_type = #resourceType#) ]]>  
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="isSeralized">
+			(ri.is_seralized = #isSeralized#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="enable">
+			(ri.enable = #enable#)
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[  (wp.begin_date <= #inPublishDate#)  ]]> 
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[ (wp.end_date >= #inPublishDate#) ]]> 
+			</isNotEmpty>
+		</dynamic>
+		 <![CDATA[   
+		 order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time)
+		 ]]>
+    </select>    
+	
+	<select id="getResourcesByCompagesId" resultMap="resourceResult">
+    <![CDATA[
+        select arc.parent_id,r.* from tb_ad_resource_info r,tb_ad_resource_compages p,tb_ad_resource_package_pos_rel rp,tb_ad_resource_carrier arc
+				where rp.ad_resource_compages_id = p.ad_resource_compages_id  and rp.ad_resource_info_id = r.ad_resource_info_id
+				and arc.ad_resource_carrier_id = r.ad_resource_carrier_id and rp.ad_resource_compages_id = #value#
+    ]]>
+    </select>	
+	
+	
+	
+	
+    <select id="getResource" resultMap="resourceResult">
+    <![CDATA[
+        select * from tb_ad_resource_info where ad_resource_info_id = #value#
+    ]]>
+    </select>
+
+    <select id="getResourceClass" resultClass="resource">
+    <![CDATA[
+        select ad_resource_info_id as id,parent_id as parentId,resource_name as resourceName,ad_resource_type as resourceType,ad_resource_carrier_id as carrierId from tb_ad_resource_info 
+		where ad_resource_info_id = #value#
+    ]]>
+    </select>	
+	
+	<select id="getResourcePrint" parameterClass="java.util.Map" resultMap="resourcePrintResult">
+    <![CDATA[
+		SELECT ri.ad_resource_info_id,ri.resource_name,ri.before_hand,
+				rc.parent_id,ri.display_no,
+				rc.ad_resource_carrier_id,rc.carrier_name,
+				ri.memo,rpd.length,rpd.price,rw.sun_length,
+				rw.mon_length,rw.tue_length,rw.thi_length,
+				rw.wen_length,rw.fri_length,rw.sat_length
+		FROM tb_ad_resource_info ri 
+		left outer join tb_ad_resource_price_rel rpr on ri.ad_resource_info_id = rpr.ad_resource_info_id
+		left outer join tb_ad_resource_price_detail_rel rpdr on rpdr.ad_resource_price_id = rpr.ad_resource_price_id
+		left outer join tb_ad_resource_price_detail rpd on rpdr.ad_resource_price_detail_id = rpd.ad_resource_price_detail_id
+		left outer join tb_ad_resource_carrier rc on rc.ad_resource_carrier_id = ri.ad_resource_carrier_id
+		left outer join tb_ad_resource_workspan rw on ri.ad_resource_info_id = rw.ad_resource_info_id
+    ]]>
+		<dynamic prepend="WHERE"> 
+	      <isNotNull property="carrierIds">
+       	  <iterate prepend="AND" property="carrierIds" open="(" close=")" conjunction="OR">
+		   			 ri.ad_resource_carrier_id = #carrierIds[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+		order by ri.display_no
+    </select>	
+	
+	
+    <insert id="addResource" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_info_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_ad_resource_info (ad_resource_sort_id,before_hand,ad_resource_carrier_id,parent_id,create_by,create_date,display_no,is_closed,is_manual,is_overweight,is_seralized,is_validate,memo,modify_by,modify_date,ad_resource_propertiy_time,pro_resource_id,pro_resource_memo,resource_name,ad_resource_type,enable,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateResource" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_info set 
+				   ad_resource_sort_id = ?,
+		           before_hand = ?,
+                   ad_resource_carrier_id = ?,
+		           parent_id = ?,
+                   display_no = ?,
+                   is_closed = ?,
+                   is_manual = ?,
+                   is_overweight = ?,
+                   is_seralized = ?,
+                   is_validate = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   ad_resource_propertiy_time = ?,
+                   pro_resource_id = ?,
+                   pro_resource_memo = ?,
+                   resource_name = ?,
+                   ad_resource_type = ?,
+                   enable = ?,
+                   version = ?
+        where ad_resource_info_id = ?
+    ]]>
+    </update>
+	
+	 <update id="updatedisplayNo" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_ad_resource_info set display_no = #displayNo#  where ad_resource_info_id = #resourceId#
+    ]]>
+    </update>
+	
+	<update id="updateEnable" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_ad_resource_info set enable = #enable#  where ad_resource_info_id = #resourceId#
+    ]]>
+    </update>
+	
+    <delete id="deleteResource" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_ad_resource_info
+         where ad_resource_info_id = #value# 
+    ]]>
+    </delete>
+	
+	<delete id="deletePriceResourceRelByResourceId">
+		<![CDATA[
+        delete from tb_ad_resource_price_rel
+         where ad_resource_info_id = #value#
+		 ]]>
+    </delete>	
+	
+   <delete id="deletePriceResourceRelByResourceIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+       delete from tb_ad_resource_price_rel
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+	      <isNotNull property="ResourceIdList">
+       	 	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+							ad_resource_info_id = #ResourceIdList[]#
+			  </iterate>
+		  </isNotNull> 
+	
+          </dynamic>      
+  </delete>  
+	
+   <delete id="deletePriceResourceRelByResourceIdList2" parameterClass="java.util.Map">
+       delete from tb_ad_resource_price_rel  where ad_resource_info_id in (select  ad_resource_info_id from tb_ad_resource_info where  version = #version# )		
+  </delete>  		
+	
+   <delete id="deleteResources2" parameterClass="java.util.Map">
+       delete from tb_ad_resource_info where version = #version# 
+  </delete>
+		
+   <update id="deleteResources" parameterClass="java.util.Map">
+
+      delete from tb_ad_resource_info 
+   
+ 	 	  <dynamic prepend="WHERE"> 
+				
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_info_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+				
+	      <isNotNull property="version">
+		   			 version = #version# 
+		  </isNotNull> 
+								
+          </dynamic>      
+  </update>   
+	
+	<update id="updateResourceByResType" parameterClass="java.util.Map">
+   
+        update tb_ad_resource_info set 
+                   ad_resource_type = #resourceType#
+  
+ 	 	  <dynamic prepend="WHERE"> 
+	     	 <isNotNull property="resourceIdList">
+				 <iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+							ad_resource_info_id = #resourceIdList[]#
+			  </iterate>
+			  </isNotNull> 
+          </dynamic>  
+ 
+    </update>
+	
+	
+	<select id="getResourceIdsBySortId" parameterClass="java.util.Map" resultMap="resourceResult">
+
+		SELECT * FROM tb_ad_resource_info
+
+		<dynamic prepend="WHERE"> 
+			
+	      <isNotNull property="yearList">
+       	  <iterate prepend="AND" property="yearList" open="(" close=")" conjunction="OR">
+		   			 version = #yearList[]#
+		  </iterate>
+		  </isNotNull> 
+			
+	      <isNotNull property="resSortList">
+       	  <iterate prepend="AND" property="resSortList" open="(" close=")" conjunction="OR">
+		   			ad_resource_type = #resSortList[]#
+		  </iterate>
+		  </isNotNull> 			
+          </dynamic>      
+
+    </select>	
+	
+
+
+	<resultMap id="resourcePrintResult-ResourceInfoForWebService" class="resource">
+		<result property="id" column="ad_resource_info_id"/>
+		<result property="resourceName" column="resource_name"/>
+		<result property="memo" column="memo"/>
+		<result property="carrierId" column="ad_resource_carrier_id"/>
+		<result property="carrier.carrierName" column="carrier_name"/>
+		<result property="carrier.aliasName" column="alias_name"/>
+		<result property="propertiyTime" column="broadcast_start"/>
+    </resultMap>	
+	
+	<select id="getResourceInfoForWebService" parameterClass="java.util.Map" resultMap="resourcePrintResult-ResourceInfoForWebService">
+
+	 SELECT 
+		
+		R.ad_resource_info_id as ad_resource_info_id,
+		R.resource_name as resource_name,
+		R.memo as memo,
+		C2.ad_resource_carrier_id as ad_resource_carrier_id,
+		C2.carrier_name as carrier_name,
+		C2.alias_name as alias_name,
+		
+		RW.broadcast_start_time broadcast_start   
+		
+		FROM tb_ad_resource_info R 
+			
+		left outer join tb_ad_resource_carrier C1 on C1.ad_resource_carrier_id = R.ad_resource_carrier_id  
+		left outer join tb_ad_resource_carrier C2 on C2.ad_resource_carrier_id = C1.parent_id 	
+		left outer join tb_ad_resource_workspan RW on R.ad_resource_info_id = RW.ad_resource_info_id
+			
+
+		<dynamic prepend="WHERE"> 
+			
+	     	 <isNotNull prepend="AND" property="year">
+					   (R.version = #year#)
+			  </isNotNull> 
+			
+			
+			
+			<isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[  (RW.begin_date <= #inPublishDate#)  ]]> 
+			</isNotEmpty>
+			  
+		    <isNotEmpty prepend="AND" property="inPublishDate">
+			<![CDATA[ (RW.end_date >= #inPublishDate#) ]]> 
+			</isNotEmpty>	
+				
+			  <isNotNull prepend="AND" property="carrierId">
+					   (C2.ad_resource_carrier_id = #carrierId#)
+			  </isNotNull> 		
+				
+        </dynamic>      
+
+    </select>	
+	
+	
+ <select id="getStoreResourceByOrderId" resultMap="resourceResult_OrderbyBroStartTime">
+    <![CDATA[
+        select R.*,
+		RT.name as restypename,RT.value as restypevalue,rctpy.sys_org_id,
+		wp.begin_date,wp.broadcast_start_time,wp.broadcast_end_time,
+		
+		wp.sun_length,wp.mon_length,wp.tue_length,wp.thi_length,wp.wen_length,wp.fri_length,wp.sat_length 
+		
+		
+		 from tb_ad_resource_info R
+		
+		left outer join tb_ad_resource_type RT 
+			 on RT.ad_ad_resource_type_id = R.ad_resource_type 
+		
+		left outer join tb_ad_resource_workspan wp
+			on wp.ad_resource_info_id = R.ad_resource_info_id 
+		
+					    left outer join tb_ad_resource_carrier rc
+		 on R.ad_resource_carrier_id = rc.ad_resource_carrier_id
+		
+					    left outer join tb_ad_resource_carrier_type rctpy
+		 on rctpy.ad_resource_carrier_type_id = rc.ad_resource_carrier_type_id			
+		
+		 		left outer join tb_ad_resource_channel arc
+		 on rc.ad_resource_channel_id = arc.resource_mediaorg_id
+		
+				 inner join tb_order_detail tod 
+		 on  tod.ad_resource_info_id = R.ad_resource_info_id 
+		
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="orderId">
+			(tod.order_id = #orderId#)
+			</isNotEmpty>
+		</dynamic>
+		<![CDATA[   
+		 order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time)
+		 ]]>
+    </select>	
+	
+		
+	
+		<resultMap id="paramObj_result1"   class="fusionChartObject">
+				<result property="lable" column="lable" nullValue=""/>
+				<result property="value1" column="value1" nullValue=""/>
+				<result property="value2" column="value2" nullValue="0"/>
+				<result property="value3"  column="value3" nullValue="0"/>
+				<result property="value4"  column="value4" nullValue="0"/>
+				<result property="value5"  column="value5" nullValue="0"/>
+				<result property="value6" column="value6" nullValue=""/>
+				<result property="value7" column="value7" nullValue="0"/>
+				<result property="value8"  column="value8" nullValue="0"/>
+				<result property="value9"  column="value9" nullValue="0"/>
+				<result property="value10"  column="value10" nullValue="0"/>
+				<result property="value11"  column="value11" nullValue="0"/>
+    </resultMap>		
+	
+	
+<select id="getResourcesForQuery1" resultMap="paramObj_result1"  parameterClass="map">
+					
+					SELECT 
+						RS.ad_resource_info_id AS lable,
+						RS.resource_name AS value1,
+						RS.memo AS value2, 
+						WS.ad_resource_workspan_id as value3,
+						WS.broadcast_start_time as value4,
+						WS.sun_length  as value5,
+					 	WS.mon_length as value6, 
+					 	WS.tue_length as value7,
+					 	WS.thi_length as value8,
+					 	WS.wen_length as value9,
+					 	WS.fri_length as value10,
+					 	WS.sat_length  as value11
+					
+						 FROM  tb_ad_resource_info  RS  
+								
+								LEFT OUTER JOIN  (
+								SELECT  
+					MAX(WS2.ad_resource_workspan_id) as ad_resource_workspan_id, 
+					WS2.ad_resource_info_id,
+					WS2.broadcast_start_time, 
+					WS2.sun_length,
+					WS2.mon_length,
+					WS2.tue_length,
+					WS2.thi_length,
+					WS2.wen_length,
+					WS2.fri_length,
+					WS2.sat_length  FROM tb_ad_resource_workspan  WS2
+								GROUP BY  WS2.ad_resource_info_id
+								) AS    WS 
+								 ON  WS.ad_resource_info_id =RS.ad_resource_info_id
+
+						<dynamic prepend="WHERE"> 
+							 <isNotNull property="resourceIdList">
+								<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+									RS.ad_resource_info_id = #resourceIdList[]#
+								</iterate>
+							 </isNotNull> 		
+						</dynamic>
+
+		 </select>				
+	
+	
+	
+		<resultMap id="paramObj_result2"   class="fusionChartObject">
+				<result property="value1" column="value1" nullValue="0"/>
+				<result property="value2" column="value2" nullValue="0"/>
+				<result property="value3"  column="value3" nullValue="0"/>
+				<result property="value4"  column="value4" nullValue="0"/>
+				<result property="value5"  column="value5" nullValue="0"/>
+    </resultMap>			
+	
+	
+	
+	<select id="getResourcesForQuery2" resultMap="paramObj_result2"  parameterClass="map">
+												
+					SELECT  
+							RSDAY.ad_resource_info_id AS value1,
+							RSDAY.ad_resource_workspan_id AS value2,
+							RSDAY.publish_date AS value3,
+							RSDAY.total AS value4,
+							IFNULL(ORDERDAY.used,0) AS value5,
+							ORDERDAY.broadcast_start_time  AS value6 
+							
+							 from tb_ad_resource_day_info AS RSDAY 
+							
+							LEFT OUTER JOIN (
+										
+										SELECT  SUM(MT.length*OD.ad_day_times) AS used,WSP.ad_resource_info_id,WSP.ad_resource_workspan_id,OD.publish_date,WSP.broadcast_start_time  
+							
+																	FROM  tb_order_day_info  OD  
+																	
+																		  left outer join tb_order_detail DT 
+																				on DT.order_detail_id = OD.order_detail_id  
+							
+																		  left outer join tb_adver_matter MT
+																				on MT.adver_matter_id = DT.adver_matter_id   
+							
+																					left outer join tb_order O 
+																						on DT.order_id = O.order_id	 
+																		 
+																					left outer join tb_ad_resource_info TR
+																						on TR.ad_resource_info_id = DT.ad_resource_info_id 
+							
+																	left outer join tb_ad_resource_workspan  WSP
+																						on TR.ad_resource_info_id = WSP.ad_resource_info_id 
+							                  
+
+		
+									<dynamic prepend="WHERE"> 
+
+									 <isNotEmpty property="startDate" prepend="AND">
+											<![CDATA[ OD.publish_date >= #startDate# ]]>
+									 </isNotEmpty> 
+										
+									 <isNotEmpty property="endDate" prepend="AND">
+											<![CDATA[OD.publish_date <= #endDate# ]]>
+									 </isNotEmpty>
+									
+									  <isNotNull property="inWeekDates">
+											<iterate prepend="AND" property="inWeekDates" open="(" close=")" conjunction="OR">
+												OD.publish_date = #inWeekDates[]#
+											</iterate>
+									  </isNotNull> 				
+							
+			     				<isNotNull property="customerIdList">
+										  <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+											   CUT.customer_id = #customerIdList[]#
+										  </iterate>
+									  </isNotNull> 	
+															
+										 <isNotNull property="userIdList">
+										<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+											 O.user_id = #userIdList[]#
+										</iterate>
+									 </isNotNull> 														
+									
+										<isNotNull property="resourceIdList">
+										<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+											TR.ad_resource_info_id = #resourceIdList[]#
+										</iterate>
+									 </isNotNull> 		
+									
+									 <isNotNull property="workspanIdList">
+										<iterate prepend="AND" property="workspanIdList" open="(" close=")" conjunction="OR">
+											 WSP.ad_resource_workspan_id = #workspanIdList[]#
+										</iterate>
+									 </isNotNull> 			
+										
+									<isNotNull property="orderCategoryIdList">
+										<iterate prepend="AND" property="orderCategoryIdList" open="(" close=")" conjunction="OR">
+											 DT.order_category_id = #orderCategoryIdList[]#
+										</iterate>
+									 </isNotNull> 																	
+										
+								</dynamic>	
+		
+									   GROUP BY  OD.publish_date,WSP.ad_resource_info_id  
+									
+									
+										) AS ORDERDAY ON  RSDAY.ad_resource_workspan_id  = ORDERDAY.ad_resource_workspan_id  AND ORDERDAY.publish_date = RSDAY.publish_date 
+									
+									
+				
+																	
+						<dynamic prepend="WHERE"> 
+
+				
+							 <isNotEmpty property="startDate" prepend="AND">
+									<![CDATA[ RSDAY.publish_date >= #startDate# ]]>
+							 </isNotEmpty> 
+								
+							 <isNotEmpty property="endDate" prepend="AND">
+									<![CDATA[RSDAY.publish_date <= #endDate# ]]>
+							 </isNotEmpty>
+							
+							  <isNotNull property="inWeekDates">
+									<iterate prepend="AND" property="inWeekDates" open="(" close=")" conjunction="OR">
+										RSDAY.publish_date = #inWeekDates[]#
+									</iterate>
+							  </isNotNull> 				
+					
+	     					 
+					
+							 <isNotNull property="resourceIdList">
+								<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+									RSDAY.ad_resource_info_id = #resourceIdList[]#
+								</iterate>
+							 </isNotNull> 		
+														
+										 <isNotNull property="workspanIdList">
+										<iterate prepend="AND" property="workspanIdList" open="(" close=")" conjunction="OR">
+											 RSDAY.ad_resource_workspan_id = #workspanIdList[]#
+										</iterate>
+									 </isNotNull> 														
+		
+								
+						</dynamic>
+				
+								ORDER BY   RSDAY.ad_resource_workspan_id,RSDAY.publish_date				
+		
+		    </select>			
+	
+	
+	
+	
+		<select id="getResourcesByIds" resultMap="paramObj_result2"  parameterClass="map">
+
+		SELECT
+			RS.ad_resource_info_id as value1,
+			RS.resource_name as value2,
+			RS.memo as value3,
+			PDET.price as value4,
+			PDET.length  as value5 
+		FROM
+			tb_ad_resource_info AS RS 
+			INNER JOIN tb_ad_resource_price_rel AS PRICR ON PRICR.ad_resource_info_id = RS.ad_resource_info_id
+			INNER JOIN tb_ad_resource_price AS PRIC ON PRIC.ad_resource_price_id = PRICR.ad_resource_price_id
+			INNER JOIN tb_ad_resource_price_detail_rel AS PDETR ON PRIC.ad_resource_price_id = PDETR.ad_resource_price_id
+			INNER JOIN tb_ad_resource_price_detail AS PDET ON PDETR.ad_resource_price_detail_id = PDET.ad_resource_price_detail_id
+			INNER JOIN tb_ad_resource_price_type AS PRCT ON PRIC.ad_resource_price_type = PRCT.ad_resource_price_type_id
+
+			<dynamic prepend="WHERE"> 
+					
+					
+							<isNotEmpty property="version" prepend="AND">
+									<![CDATA[ RS.version = #version# ]]>
+							 </isNotEmpty> 
+					
+							<isNotEmpty property="priceTypeId" prepend="AND">
+									<![CDATA[ PRIC.ad_resource_price_type = #priceTypeId# ]]>
+							 </isNotEmpty> 		
+							
+							<isNotEmpty property="length" prepend="AND">
+									<![CDATA[ PDET.length = #length# ]]>
+							 </isNotEmpty> 					
+					
+							<isNotNull property="resourceIdList">
+								<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+									RS.ad_resource_info_id = #resourceIdList[]#
+								</iterate>
+							 </isNotNull> 	
+			</dynamic>	
+			
+		</select>		
+
+	
+</sqlMap>
+			 
+			 
+

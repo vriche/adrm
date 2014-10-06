@@ -1,0 +1,321 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:36:15.778620Z
+34
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+sitemesh-2.2.1
+dir
+
+servletapi-2.4
+dir
+
+jfreechart-0.9.2
+dir
+
+javamail-1.3.1
+dir
+
+axis2
+dir
+
+jdt-compiler-3.1.1
+dir
+
+dwr-2.0
+dir
+
+smack-2.2.1
+dir
+
+mysql-connector-java-3.1.12
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+deleted
+
+spring-2.0
+dir
+
+lib.properties
+file
+668
+
+
+
+2013-12-02T10:16:46.229213Z
+ff7f15c93783be8ca25b9ad86e379dab
+2013-12-02T11:14:11.169997Z
+668
+lxz
+
+casclient
+dir
+
+emma-2.0.5312
+dir
+
+hsql
+dir
+
+json
+dir
+
+jcommon-0.9.5
+dir
+
+struts-1.2.9
+dir
+
+ibatis-2.1.7
+dir
+
+xfire-1.2.6
+dir
+
+upload-1.1
+dir
+
+dumbster-1.5
+dir
+
+xerces
+dir
+
+iptools
+dir
+
+quartz-1.6.5
+dir
+
+aspectj-1.5.3
+dir
+
+jsr173-api-1.0
+dir
+
+cargo-0.8
+dir
+
+ant-contrib-1.0b2
+dir
+
+hibernate-3.1.3
+dir
+
+strutstest-2.1.3
+dir
+
+derby
+dir
+
+spring-1.2.8
+dir
+
+jfreechart-1.0.0
+dir
+
+endorsed-jdk-1.5
+dir
+
+README.txt
+file
+
+
+
+
+2013-05-17T07:35:57.760053Z
+5f10457fbe26d51884c0c03c6b0c5c43
+2012-11-24T06:31:34.922980Z
+22
+lxz
+
+mysql-connector-java
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+svn://121.28.83.134:80/src1/adrm_2.0/lib/mysql-connector-java-3.1.12
+543
+
+rename-packages-1.1
+dir
+
+logging-log4j-1.2.11
+dir
+
+j2ssh-core-0.2.8
+dir
+
+ant-1.6.5
+dir
+
+jmock-1.0.1
+dir
+
+maverick-1.2.1
+dir
+
+png-encoder-1.5
+dir
+
+dayang
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+deleted
+
+axis-1.4
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+deleted
+
+urlrewrite-3.0-beta
+dir
+
+postgresql-jdbc-8.1-405
+dir
+
+junit3.8.1
+dir
+
+dbunit-2.1
+dir
+
+jakarta-commons
+dir
+
+webtest-build1263
+dir
+
+java2html-1.3.1
+dir
+
+dwr-1.1.1
+dir
+
+checkstyle-3.1
+dir
+
+clickstream-1.0.2
+dir
+
+velocity-1.4
+dir
+
+xdoclet-1.3-SNAPSHOT
+dir
+
+displaytag-1.1
+dir
+
+jakarta-taglibs
+dir
+
+struts-menu-2.4.1
+dir
+
+jasperreports-1.2.8
+dir
+
+axis-1.5.4
+dir
+
+servletapi-2.3
+dir
+
+pmd-3.0
+dir
+

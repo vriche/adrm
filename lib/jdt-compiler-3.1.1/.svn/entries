@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/jdt-compiler-3.1.1
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:26:24.682281Z
+31
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+jdt-compiler.jar
+file
+
+
+
+
+2013-05-17T07:35:09.320040Z
+6addc70ec38a9c40f2145f1da92424c2
+2012-11-24T07:26:24.682281Z
+31
+lxz
+has-props
+

@@ -1,0 +1,1169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MatterSQL">
+    <typeAlias alias="matter" type="com.vriche.adrm.model.Matter"/>
+	<typeAlias alias="cmatter" type="com.vriche.adrm.model.CMatter"/>
+
+	<cacheModel id="matter-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addMatter"/>
+		<flushOnExecute statement="updateMatter"/>
+		<flushOnExecute statement="deleteMatter"/>
+		<flushOnExecute statement="deleteMatters"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="matter">
+		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="tapeCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="edit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="length" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matterType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+	
+
+
+    <parameterMap id="updateParam" class="matter">
+		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="tapeCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="edit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="length" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="matterType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="matterResult" class="matter">
+	    <result property="orgId" column="sys_org_id"/>
+		<result property="id" column="adver_matter_id"/>
+		<result property="version" column="version"/>
+		<result property="name" column="name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="memo" column="memo"/>
+        <result property="enable" column="enable"/>
+		<result property="tapeCode" column="tape_code"/>
+        <result property="edit" column="edit"/>
+        <result property="length" column="length"/>
+		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="customerId" column="customer_id"/>
+        <result property="matterType" column="adver_matter_type"/>
+		<result property="customer" column="customer_id" select="getCustomerClass"/>
+    </resultMap>
+	
+    <resultMap id="matterResultTest" class="matter">
+		<result property="orgId" column="sys_org_id"/>
+		<result property="id" column="adver_matter_id"/>
+		<result property="version" column="version"/>
+		<result property="name" column="name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="memo" column="memo"/>
+        <result property="enable" column="enable"/>
+		<result property="tapeCode" column="tape_code"/>
+        <result property="edit" column="edit"/>
+        <result property="length" column="length"/>
+		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="customerId" column="customer_id"/>
+        <result property="matterType" column="adver_matter_type"/>
+
+		<result property="customer.customerName" column="customer_name" />
+		<result property="customer.customerCategoryId" column="customer_category_id" />
+		<result property="customer.id" column="customer_id" />
+		<result property="matType.name" column="matType_name" />
+		
+		
+		<result property="industry.name" column="industry_name"/>
+		<result property="industry.parentName" column="industy_parent_name"/>
+		
+    </resultMap>
+	
+    <resultMap id="matterResultTest2" class="matter">
+        <result property="orgId" column="sys_org_id"/>
+		<result property="id" column="adver_matter_id"/>
+		<result property="name" column="name"/>
+		<result property="memo" column="memo"/>
+		<result property="tapeCode" column="tape_code"/>
+        <result property="edit" column="edit"/>
+        <result property="length" column="length"/>
+		<result property="customerId" column="customer_id"/>
+        <result property="matterType" column="adver_matter_type"/>
+		 <result property="enable" column="enable"/>
+		<result property="customer.customerName" column="customer_name" />
+		<result property="customer.customerCategoryId" column="customer_category_id" />
+		<result property="customer.id" column="customer_id" />
+		<result property="matType.name" column="matType_name" />
+    </resultMap>	
+	
+	
+	
+		
+    <resultMap id="matterResultByDate" class="matter">
+        <result property="orgId" column="sys_org_id"/>
+		<result property="id" column="adver_matter_id"/>
+		<result property="version" column="version"/>
+		<result property="name" column="name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="memo" column="memo"/>
+        <result property="enable" column="enable"/>
+		<result property="tapeCode" column="tape_code"/>
+        <result property="edit" column="edit"/>
+        <result property="length" column="length"/>
+		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="customerId" column="customer_id"/>
+        <result property="matterType" column="adver_matter_type"/>
+		
+		<result property="startDate" column="startDate"/>
+		<result property="endDate" column="endDate"/>
+		
+		<result property="customer.customerName" column="customer_name" />
+		<result property="customer.customerCategoryId" column="customer_category_id" />
+		<result property="customer.id" column="customer_id" />
+		<result property="matType.name" column="matType_name" />
+		
+		
+    </resultMap>
+	
+	<select id="getAllMatters" resultMap="matterResult">
+        select * from tb_adver_matter where name like '%value%'
+	</select>
+	
+	<select id="getMattersByDate"  parameterClass="java.util.Map" resultMap="matterResultByDate">
+    <![CDATA[
+          select mt.*,min(oi.publish_date) as startDate,max(oi.publish_date) as endDate,
+				ci.customer_name,
+				ci.customer_id,
+				ci.customer_category_id,
+		        ty.name as matType_name
+				from tb_adver_matter mt
+				left outer join tb_customer_info ci on mt.customer_id = ci.customer_id
+				left outer join tb_order_detail od on od.adver_matter_id = mt.adver_matter_id
+				left outer join tb_order_day_info  oi on od.order_detail_id = oi.order_detail_id 
+		        left outer join tb_adver_matter_type ty on ty.matter_type_id = mt.adver_matter_type
+               group by mt.adver_matter_id 
+    ]]>
+			 <dynamic prepend="HAVING"> 
+			 <isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ max(oi.publish_date) = #endDate# ]]>
+             </isNotEmpty> 
+			 <isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[ min(oi.publish_date) = #startDate# ]]>
+             </isNotEmpty>
+			 <isNotEmpty prepend="AND" property="orgId">
+				(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>	
+			 </dynamic>
+	</select>
+
+	<select id="getMattersCountByDate" parameterClass="java.util.Map"  resultClass="matter">
+		<![CDATA[   
+		select count(*) as id
+				from tb_adver_matter mt
+				left outer join tb_customer_info ci on mt.customer_id = ci.customer_id
+				left outer join tb_order_detail od on od.adver_matter_id = mt.adver_matter_id
+				left outer join tb_order_day_info  oi on od.order_detail_id = oi.order_detail_id
+               group by mt.adver_matter_id 
+		]]>
+			 <dynamic prepend="HAVING"> 
+			 <isNotEmpty property="endDate" prepend="AND">
+                    <![CDATA[ max(oi.publish_date) = #endDate# ]]>
+             </isNotEmpty> 
+			 <isNotEmpty property="startDate" prepend="AND">
+                    <![CDATA[ min(oi.publish_date) = #startDate# ]]>
+             </isNotEmpty>
+				 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>					 
+				 
+			 </dynamic>
+	</select>
+	
+	
+
+	
+	
+	
+	 <select id="getMattersDIV" resultClass="matter">
+
+			SELECT  DISTINCT MT.name 
+		
+			FROM tb_adver_matter MT 
+		
+				 left outer join  tb_order_detail DT
+			 on MT.adver_matter_id = DT.adver_matter_id 
+		
+				 left outer join tb_order O
+			 on DT.order_id = O.order_id		
+
+		 <dynamic prepend="WHERE"> 			
+					
+			<isNotEmpty prepend="AND" property="name">
+			(MT.name like '%$name$%')
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="length">
+			(MT.length = #length#)
+			</isNotEmpty>
+			 			 
+			<isNotEmpty prepend="AND" property="customerId">
+			(MT.customer_id = #customerId# OR O.customer_id = #customerId#)
+			</isNotEmpty>
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>
+			 					
+		</dynamic>
+
+    </select>
+	
+	
+	 <select id="getMattersByResCut" parameterClass="java.util.Map"  resultClass="matter">
+    <![CDATA[
+			SELECT DISTINCT MT.name 
+				FROM tb_adver_matter MT	
+		
+						 left outer join  tb_order_detail DT
+			 on MT.adver_matter_id = DT.adver_matter_id 
+		
+				 left outer join tb_order O
+			 on DT.order_id = O.order_id	
+
+						left outer join tb_ad_resource_info RI
+			 on RI.ad_resource_info_id = DT.ad_resource_info_id 	
+		
+	]]>
+		 <dynamic prepend="WHERE"> 	
+			 
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					        ifnull(RI.ad_resource_carrier_id,-1) = #carrierIdList[]#
+				</iterate>
+			</isNotNull>	
+			 
+			<isNotNull property="resourceIdList">
+				<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+							DT.ad_resource_info_id = #resourceIdList[]#
+				</iterate>
+			</isNotNull> 			 	
+			 
+			<isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+							O.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>
+			 
+			<isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							O.user_id = #userIdList[]#
+			  </iterate>
+			</isNotNull> 			 	 		 		
+					
+			<isNotNull prepend="AND" property="matterName">
+				(MT.name like '%$matterName$%')
+			</isNotNull>
+			 
+			<isNotNull prepend="AND" property="version">
+				(DT.version  = #version#)
+			</isNotNull>	
+			 
+			<isNotNull prepend="AND" property="version">
+				(O.version  = #version#)
+			</isNotNull>
+			 			 
+			 <isNotNull prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotNull>			 	
+		</dynamic>
+		 
+		order by name 
+
+    </select>
+	
+	
+	
+	<resultMap id="matterResultByCustomerIdAndLength" class="cmatter">
+        <result property="orgId" column="sys_org_id"/>
+		<result property="id" column="adver_matter_id"/>
+		<result property="name" column="name"/>
+		<result property="edit" column="edit"/>
+		<result property="length" column="length"/>
+		<result property="tapeCode" column="tape_code"/>
+        <result property="matterType" column="adver_matter_type"/>
+		<result property="industryType" column="industry_type_id"/>
+		<result property="industry.name" column="industry_name"/>
+		<result property="industry.parentName" column="industy_parent_name"/>	
+    </resultMap>
+	
+	<select id="getMattersByCustomerIdAndLength"  parameterClass="matter" resultMap="matterResultByCustomerIdAndLength">
+    <![CDATA[
+        select 
+			distinct MT.adver_matter_id ,
+			MT.name,
+			MT.edit,
+			MT.length,
+			MT.tape_code,
+			MT.adver_matter_type,
+			MT.adver_product_brand_id as industry_type_id,
+		    MT.sys_org_id,
+		    INDU.name as industry_name,
+		    INDUPARENT.name as industy_parent_name   
+		
+		from tb_adver_matter MT
+
+				 left outer join  tb_order_detail DT
+			 on MT.adver_matter_id = DT.adver_matter_id 
+		
+				 left outer join tb_order O
+			 on DT.order_id = O.order_id	
+		
+						 left outer join tb_customer_industry_type INDU
+			 on INDU.customer_industry_type_id = MT.adver_product_brand_id 	
+		
+		      left outer  join  tb_customer_industry_type INDUPARENT 
+		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+
+    ]]>
+	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="customerId">
+			(MT.customer_id = #customerId# OR O.customer_id = #customerId#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="length">
+			(MT.length = #length#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="name">
+				(MT.name like '%$name$%') 
+			</isNotEmpty>   
+			 
+			 <isNotEmpty prepend="AND" property="brandId">
+				(MT.adver_product_brand_id =#brandId#) 
+			</isNotEmpty>   
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>			 
+			 
+			 
+			 
+		</dynamic> 
+        
+		order by MT.adver_matter_id desc           
+    </select>
+	
+    <select id="getMatters"  parameterClass="matter" resultMap="matterResultTest2">
+    <![CDATA[
+        select 
+		mt.name,
+		mt.adver_matter_id,
+		mt.enable,mt.edit,
+		mt.length,
+		mt.tape_code,
+		mt.adver_matter_type,
+		mt.customer_id, 
+		mt.memo,		
+		mt.sys_org_id,
+		ci.customer_name,
+		ci.customer_id,
+		ci.customer_category_id,
+		ty.name as matType_name
+		
+		from tb_adver_matter mt
+		
+		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id 
+		left outer join tb_adver_matter_type ty on ty.matter_type_id = mt.adver_matter_type 
+		 
+    ]]>
+	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="tapeCode">
+			(mt.tape_code = #tapeCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="brandId">
+			(mt.adver_product_brand_id = #brandId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(mt.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(mt.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(mt.customer_id = #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			<![CDATA[(mt.length >=1)]]>
+			</isNotEmpty>
+			<!-- isEqual prepend="AND" property="enable" compareValues="false">
+			(enable like '0')
+			</isEqual>
+			<isEqual prepend="AND" property="enable" compareValues="true">
+			(enable like '1')
+			</isEqual -->		 
+			<isNotEmpty prepend="AND" property="id">
+			(mt.adver_matter_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterType">
+			(mt.adver_matter_type = #matterType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(mt.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(mt.modify_date = #modifyDate#)
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="name">
+			(mt.name like '%$name$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="edit">
+			(mt.edit like '%$edit$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="length">
+			(mt.length = #length#)
+			</isNotEmpty>
+			 <isNotEmpty prepend="AND" property="orgId">
+				(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>	
+			 
+			<isNotEmpty prepend="AND" property="inDayangMatter">
+				(mt.in_dayang_matter = #inDayangMatter#) 
+			</isNotEmpty>			 
+			 			 
+			 
+			 
+			<isNotNull property="tapeCodeList">
+       		  <iterate prepend="AND" property="tapeCodeList" open="(" close=")" conjunction="OR">
+							mt.tape_code = #tapeCodeList[]#
+			  </iterate>
+			</isNotNull> 
+			 
+		</dynamic>
+		
+		order by mt.adver_matter_id desc 
+    </select>
+	
+
+	
+    <select id="getStoreMatterLengthByName"  parameterClass="matter" resultClass="java.lang.String">
+  
+        select distinct mt.length from tb_adver_matter mt 	
+
+	 	<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="name">
+			(mt.name  = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="edit">
+			(mt.edit  = #edit#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="length">
+			(mt.length = #length#)
+			</isNotEmpty>
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+			(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>		
+			 
+			<isNotEmpty prepend="AND" property="orgId">
+			<![CDATA[(mt.length >=1)]]>
+			</isNotEmpty> 		
+			 	 		 
+			 order by  mt.length  
+		</dynamic>
+
+    </select>
+	
+	
+    <select id="getStoreMatterEditByName"  parameterClass="matter" resultClass="matter">
+
+	 select 
+		 mt.adver_matter_id as id, mt.name, mt.edit  as edit, mt.length 
+     from tb_adver_matter mt 
+
+	 	<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="name">
+			(mt.name  = #name#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="edit">
+			(mt.edit like '%$edit$%' or mt.help_code_edit like '%$edit$%')
+			</isNotEmpty>		
+
+			<isNotEmpty prepend="AND" property="length">
+			(mt.length = #length#)
+			</isNotEmpty>
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+			(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>		
+	 
+			 order by  mt.adver_matter_id
+		</dynamic>
+
+    </select>	
+	
+	
+	
+		
+	
+
+	
+ <select id="getMattersByOrderId"  parameterClass="matter" resultMap="matterResultTest2">
+    <![CDATA[
+        select 
+		mt.name,
+		mt.adver_matter_id,
+		mt.enable,mt.edit,
+		mt.length,
+		mt.tape_code,
+		mt.adver_matter_type,
+		mt.customer_id, 
+		mt.memo,		
+		mt.sys_org_id,
+		ci.customer_name,
+		ci.customer_id,
+		ci.customer_category_id,
+		ty.name as matType_name
+		
+		from tb_adver_matter mt
+		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id 
+		left outer join tb_adver_matter_type ty on ty.matter_type_id = mt.adver_matter_type 
+		inner join  tb_order_detail od on mt.adver_matter_id = od.adver_matter_id
+		 
+    ]]>
+	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="tapeCode">
+			(mt.tape_code = #tapeCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="brandId">
+			(mt.adver_product_brand_id = #brandId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(mt.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(mt.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(mt.customer_id = #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			<![CDATA[(mt.length >=1)]]>
+			</isNotEmpty>	 
+			<isNotEmpty prepend="AND" property="id">
+			(mt.adver_matter_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterType">
+			(mt.adver_matter_type = #matterType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(mt.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(mt.modify_date = #modifyDate#)
+			</isNotEmpty>
+
+			<isNotEmpty prepend="AND" property="name">
+			(mt.name like '%$name$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="edit">
+			(mt.edit like '%$edit$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="length">
+			(mt.length = #length#)
+			</isNotEmpty>
+			 <isNotEmpty prepend="AND" property="orgId">
+				(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>				 
+			<isNotEmpty prepend="AND" property="orderId">
+			(od.order_id = #orderId#)
+			</isNotEmpty> 
+		</dynamic>
+		
+		order by mt.adver_matter_id desc 
+    </select>	
+	
+		
+	<select id="getMattersSearch"  parameterClass="java.util.Map" resultMap="matterResultTest">
+   
+        select mt.*,
+		ci.customer_name,
+		ci.customer_category_id,
+		ty.name as matType_name,
+		
+		INDU.name as industry_name,
+		INDUPARENT.name as industy_parent_name   
+		
+		from tb_adver_matter mt 
+		
+		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id  
+		left outer join tb_adver_matter_type ty on ty.matter_type_id = mt.adver_matter_type 
+		
+		left outer join tb_customer_industry_type INDU
+			 on INDU.customer_industry_type_id = mt.adver_product_brand_id 	
+		
+		left outer  join  tb_customer_industry_type INDUPARENT 
+		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+ 
+	 	<dynamic prepend="WHERE"> 
+			
+			<isEmpty prepend="AND" property="id">
+				<![CDATA[(mt.adver_matter_id > 0) ]]>
+			</isEmpty>
+			 
+			<isNotEmpty prepend="AND" property="matterType">
+			(mt.adver_matter_type = #matterType#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="matterName">
+			(mt.name like '%$matterName$%')
+			</isNotEmpty>
+
+		    <isNotEmpty prepend="AND" property="customerName">
+			(ci.customer_name like '%$customerName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="edit">
+			(mt.edit like '%$edit$%')
+			</isNotEmpty>
+			 <isNotEmpty prepend="AND" property="orgId">
+				(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>	
+		</dynamic>
+		
+		order by mt.adver_matter_id desc 
+		
+    </select>
+	
+	<select id="getMattersSerachCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		<![CDATA[   
+		 select count(*) 
+		
+		from tb_adver_matter mt 
+		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id
+    ]]>
+	 	<dynamic prepend="WHERE"> 
+			 
+			<isEmpty prepend="AND" property="id">
+				<![CDATA[(mt.adver_matter_id > 0) ]]>
+			</isEmpty>
+			
+			<isNotEmpty prepend="AND" property="matterType">
+			(mt.adver_matter_type = #matterType#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="matterName">
+			(mt.name like '%$matterName$%')
+			</isNotEmpty>
+
+		    <isNotEmpty prepend="AND" property="customerName">
+			(ci.customer_name like '%$customerName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="edit">
+			(mt.edit like '%$edit$%')
+			</isNotEmpty>
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(mt.sys_org_id = #orgId#) 
+			</isNotEmpty>				 
+		</dynamic>
+	</select>
+<select id="getMattersCount" resultClass="java.lang.Integer">
+		<![CDATA[   
+		select count(*) from tb_adver_matter 
+		]]>	
+	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="tapeCode">
+			(tape_code = #tapeCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="brandId">
+			(adver_product_brand_id = #brandId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id = #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="edit">
+			(edit = #edit#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(enable = #enable#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(adver_matter_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="length">
+			(length = #length#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="matterType">
+			(adver_matter_type = #matterType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name = #name#)
+			</isNotEmpty>
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(sys_org_id = #orgId#) 
+			</isNotEmpty>	
+		</dynamic>
+		
+	</select>	
+	
+	
+    <select id="getMattersByIdList" parameterClass="java.util.Map" resultMap="matterResult">
+     <![CDATA[  
+      select * from tb_adver_matter 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="MatterIdList">
+       	  <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
+		   			 adver_matter_id = #MatterIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+	
+	
+	<resultMap id="orderResult_new_test" extends="matterResult"  class="matter">
+		<result property="industryType" column="industry_type_id"/>
+		<result property="industry.name" column="industry_name"/>
+    </resultMap>	
+	
+	<resultMap id="orderResult_new_test2" extends="matterResult"  class="matter">
+		<result property="industryType" column="industry_type_id"/>
+		<result property="industry.name" column="industry_name"/>
+		<result property="industry.parentName" column="industy_parent_name"/>	
+		<result property="industry.id" column="industry_id"/>
+    </resultMap>	
+	
+    <select id="getMatterByTapCode" resultMap="orderResult_new_test2">
+   
+        select MT.*
+		,INDU.name as industry_name
+		,INDUPARENT.name as industy_parent_name 
+		,INDUPARENT.customer_industry_type_id as industry_id 
+		,MT.adver_product_brand_id as industry_type_id  
+		 
+		 from tb_adver_matter MT 
+		
+		left outer join tb_customer_industry_type INDU
+			 on INDU.customer_industry_type_id = MT.adver_product_brand_id 	
+		
+		  inner  join  tb_customer_industry_type INDUPARENT 
+		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+   
+	 	<dynamic prepend="WHERE"> 
+			 <isNotNull prepend="AND" property="id">
+			(MT.adver_matter_id = #id#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="edit">
+			(MT.edit = #edit#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="length">
+			(MT.length = #length#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="name">
+			(MT.name = #name#)
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="tapeCode">
+			(MT.tape_code = #tapeCode#)
+			</isNotEmpty>
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>	
+			 
+		</dynamic>
+    </select>	
+		
+	
+
+    <select id="getMatter" resultMap="orderResult_new_test">
+    <![CDATA[
+        select MT.*
+		,INDU.name as industry_name
+		,MT.adver_product_brand_id as industry_type_id  
+		 
+		 from tb_adver_matter MT 
+		
+		left outer join tb_customer_industry_type INDU
+			 on INDU.customer_industry_type_id = MT.adver_product_brand_id 	
+    ]]>
+	 	<dynamic prepend="WHERE"> 
+			 <isNotNull prepend="AND" property="id">
+			(MT.adver_matter_id = #id#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="edit">
+			(MT.edit = #edit#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="length">
+			(MT.length = #length#)
+			</isNotNull>
+			<isNotNull prepend="AND" property="name">
+			(MT.name = #name#)
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="tapeCode">
+			(MT.tape_code = #tapeCode#)
+			</isNotEmpty>
+			 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>	
+		</dynamic>
+    </select>
+
+    <select id="getMatterClass" resultClass="matter">
+    <![CDATA[
+        select adver_matter_id as id,name,edit,length,tape_code as tapeCode from tb_adver_matter
+         where adver_matter_id = #value#
+    ]]>
+    </select>
+	
+    <insert id="addMatter" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_adver_matter_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_adver_matter (help_code_name,help_code_edit,sys_org_id,tape_code,adver_product_brand_id,create_by,create_date,customer_id,edit,enable,length,adver_matter_type,memo,modify_by,modify_date,name)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateMatter" parameterMap="updateParam">
+    <![CDATA[
+        update tb_adver_matter set 
+				   help_code_name = ?,
+				   help_code_edit = ?,
+				   sys_org_id = ?,
+				   tape_code = ?,
+                   adver_product_brand_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   customer_id = ?,
+                   edit = ?,
+                   enable = ?,
+                   length = ?,
+                   adver_matter_type = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+				   version = ?
+        where adver_matter_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteMatter">
+    <![CDATA[
+        delete from tb_adver_matter   
+         where adver_matter_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteMatters" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_adver_matter 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="MatterIdList">
+       	  <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
+		   			 adver_matter_id = #MatterIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	     
+	
+	 <select id="getMattersNames" resultClass="matter">
+
+			SELECT  DISTINCT MT.name as name FROM tb_adver_matter MT 
+
+		 <dynamic prepend="WHERE"> 			
+		 
+			<isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="name">
+				(MT.name like '%$name$%')
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="length">
+				(MT.length = #length#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="brandId">
+				(MT.adver_product_brand_id = #brandId#)
+			</isNotEmpty>	
+			
+		</dynamic>
+		 
+		 order by MT.adver_matter_id desc 
+
+    </select>	
+	
+
+	 <select id="getMattersEditsByHelpCode" resultClass="matter">
+
+		SELECT  DISTINCT MT.edit as edit FROM tb_adver_matter MT 
+
+		 <dynamic prepend="WHERE"> 			
+		 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="name">
+				<![CDATA[  (MT.name like '%$name$%')  ]]> 
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="edit">
+				<![CDATA[  (MT.edit like '%$edit$%' or MT.help_code_edit like '%$edit$%')  ]]> 
+			</isNotEmpty>	
+			 		 
+			<isNotEmpty prepend="AND" property="length">
+				(MT.length = #length#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="brandId">
+				(MT.adver_product_brand_id = #brandId#)
+			</isNotEmpty>	
+			
+		</dynamic>
+		 
+		 order by MT.adver_matter_id desc 
+
+    </select>		
+
+
+	
+	<select id="getMatterPublishEnd" resultClass="java.lang.String">
+    <![CDATA[
+        select max(OD.publish_end) from tb_order_detail OD where OD.adver_matter_id = #value#
+    ]]>
+    </select>
+	
+	
+	<resultMap id="matterResult_new"   class="matter">
+		<result property="id" column="adver_matter_id"/>
+		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="matterType" column="adver_matter_type"/>
+		<result property="matType.name" column="matType_name"/>
+		<result property="tapeCode" column="tape_code"/>
+		<result property="name" column="name"/>
+        <result property="edit" column="edit"/>
+        <result property="length" column="length"/>
+		<result property="industry.name" column="industry_name"/>
+		<result property="industry.parentName" column="industy_parent_name"/>	
+        <result property="createDate" column="create_date"/>	
+		<result property="customerId" column="customer_id" nullValue="0"/>
+		<result property="customer.customerName" column="customer_name" nullValue=""/>
+		<result property="customer.customerCategoryId" column="customer_category_id" nullValue="0"/>
+		<result property="customer.id" column="customer_id" nullValue="0"/>
+		<result property="endDate" column="adver_matter_id" select="getMatterPublishEnd"/>
+    </resultMap>		
+	
+	 <select id="getMattersNew"  resultMap="matterResult_new">
+
+	 select 
+		    CUT.customer_id,
+		    CUT.customer_name,
+		    CUT.customer_category_id,
+			MT.adver_matter_id,
+			MT.adver_product_brand_id,
+		    MT.tape_code,
+		 	MT.adver_matter_type,
+			MT.name,
+			MT.edit,
+			MT.length,
+		    INDU.name as industry_name,
+		    INDUPARENT.name as industy_parent_name,
+		 	TY.name as matType_name,
+			MT.create_date
+		 
+			FROM tb_adver_matter MT  
+		 
+			left outer join tb_customer_industry_type INDU
+				 on INDU.customer_industry_type_id = MT.adver_product_brand_id 		
+		 
+			left outer join  tb_customer_industry_type INDUPARENT 
+		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id		 
+		 	 
+		    left outer join tb_adver_matter_type TY 
+					  on TY.matter_type_id = MT.adver_matter_type 	
+		 
+	  		left outer join tb_customer_info CUT 
+					  on MT.customer_id = CUT.customer_id  	 	 	   	
+		 
+		 <dynamic prepend="WHERE"> 			
+		 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="name">
+				<![CDATA[  (MT.name like '%$name$%' or MT.help_code_name like '%$name$%')  ]]> 
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="edit">
+				<![CDATA[  (MT.edit like '%$edit$%' or MT.help_code_edit like '%$edit$%')  ]]> 
+			</isNotEmpty>	
+			 		 
+			<isNotEmpty prepend="AND" property="length">
+				(MT.length = #length#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="brandId">
+				<![CDATA[ (MT.adver_product_brand_id = #brandId# or INDUPARENT.customer_industry_type_id = #brandId# )  ]]> 
+			</isNotEmpty>	
+			 
+			<isNotEmpty prepend="AND" property="tapeCode">
+				<![CDATA[  (MT.tape_code like '%$tapeCode$%')  ]]> 
+			</isNotEmpty>			 
+
+			<isNotEmpty prepend="AND" property="matterType">
+				(MT.adver_matter_type = #matterType#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="customerName">
+				(CUT.customer_name like '%$customerName$%' OR CUT.help_code like '%$customerName$%')
+			</isNotEmpty>				 
+		</dynamic>
+		 
+		 order by MT.adver_matter_id desc 
+
+    </select>			
+	
+  <select id="getMattersNewsCount"  resultClass="java.lang.Integer">
+
+	 select 
+			count(MT.adver_matter_id)
+
+			FROM tb_adver_matter MT  
+		 
+			left outer join tb_customer_industry_type INDU
+				 on INDU.customer_industry_type_id = MT.adver_product_brand_id 		
+		 
+			left outer join  tb_customer_industry_type INDUPARENT 
+		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+	  
+		    left outer join tb_adver_matter_type TY 
+					  on TY.matter_type_id = MT.adver_matter_type 	
+	  
+	  		left outer join tb_customer_info CUT 
+					  on MT.customer_id = CUT.customer_id  	 
+		 	 
+
+		 <dynamic prepend="WHERE"> 			
+		 
+			 <isNotEmpty prepend="AND" property="orgId">
+				(MT.sys_org_id = #orgId#) 
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="name">
+				<![CDATA[  (MT.name like '%$name$%' or MT.help_code_name like '%$name$%')  ]]> 
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="edit">
+				<![CDATA[  (MT.edit like '%$edit$%' or MT.help_code_edit like '%$edit$%')  ]]> 
+			</isNotEmpty>	
+			 		 
+			<isNotEmpty prepend="AND" property="length">
+				(MT.length = #length#)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="brandId">
+				<![CDATA[ (MT.adver_product_brand_id = #brandId# or INDUPARENT.customer_industry_type_id = #brandId# )  ]]> 
+			</isNotEmpty>	
+			 
+			<isNotEmpty prepend="AND" property="tapeCode">
+				<![CDATA[  (MT.tape_code like '%$tapeCode$%')  ]]> 
+			</isNotEmpty>		
+			 	 
+			<isNotEmpty prepend="AND" property="matterType">
+				(MT.adver_matter_type = #matterType#)
+			</isNotEmpty>
+			 
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUT.customer_name like '%$customerName$%' OR CUT.help_code like '%$customerName$%')
+			</isNotEmpty>			 
+			 
+			 
+		</dynamic>
+	  
+
+	  
+	  
+			
+
+    </select>		
+	
+	
+	
+	<update id="updateMatterInDayang" parameterClass="matter">
+ 
+        update tb_adver_matter set in_dayang_matter =1 
+		
+	 	<dynamic prepend="WHERE"> 
+			<isNotNull property="tapeCodeList">
+       		  <iterate prepend=" " property="tapeCodeList" open="(" close=")" conjunction="OR">
+							adver_matter_id = #tapeCodeList[]#
+			  </iterate>
+			</isNotNull> 
+		</dynamic>
+   </update>
+	
+	
+	
+</sqlMap>

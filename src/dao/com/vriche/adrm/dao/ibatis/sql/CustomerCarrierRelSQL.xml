@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CustomerCarrierRelSQL">
+    <typeAlias alias="customerCarrierRel" type="com.vriche.adrm.model.CustomerCarrierRel"/>
+
+	<cacheModel id="customerCarrierRel-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addCustomerCarrierRel"/>
+		<flushOnExecute statement="updateCustomerCarrierRel"/>
+		<flushOnExecute statement="deleteCustomerCarrierRel"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="customerCarrierRel">
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="length" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="startDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="customerCarrierRel">
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="length" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="startDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		 <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="customerCarrierRelResult" class="customerCarrierRel">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+		<result property="carrierId" column="carrier_id"/>
+        <result property="customerId" column="customer_id"/>
+		<result property="carrierName" column="carrier_name"/>
+		<result property="resourceName" column="resource_name"/>
+		<result property="memo" column="memo"/>
+        <result property="resourceId" column="resource_id"/>
+        <result property="length" column="length"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="version" column="version"/>
+		<result property="id" column="id"/>
+    </resultMap>
+	
+	<resultMap id="customerCarrierRelResults" class="customerCarrierRel">
+		<result property="id" column="order_id"/>
+		<result property="payMoney" column="pay_money"/>
+		<result property="memo" column="memo"/>
+        <result property="length" column="length"/>
+        <result property="startDate" column="publish_start"/>
+		<result property="carrierName" column="order_code"/>
+    </resultMap>
+	
+	<resultMap id="orderDetailResult" class="customerCarrierRel">
+		<result property="id" column="adver_matter_id"/>
+		<result property="memo" column="sum_times"/>
+		<result property="resourceId" column="ad_resource_info_id"/>
+		<result property="carrierId" column="carrier_id"/>
+    </resultMap>
+	
+	<select id="getCustomerCarrierRelCount"  resultClass="java.lang.Long" >
+    <![CDATA[
+        select count(*) from tb_customer_carrier_rel 
+		where id = #value#
+    ]]>
+	</select>
+	
+		<select id="getLongOrderDetails"  resultMap="orderDetailResult" >
+    <![CDATA[
+	 select distinct tam.adver_matter_id,od.sum_times,od.ad_resource_info_id,ccr.carrier_id
+	 from tb_order_detail od
+			left outer join tb_adver_matter tam
+	 on tam.adver_matter_id = od.adver_matter_id
+		left outer join tb_customer_carrier_rel ccr
+	 on ccr.resource_id = od.ad_resource_info_id
+    ]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id" >
+				(od.order_id like #id#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="carrierId" >
+				(ccr.carrier_id like #carrierId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="customerId" >
+				(tam.customer_id like #customerId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(od.publish_start = #startDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(od.publish_end = #startDate#)]]>
+			</isNotEmpty>
+		</dynamic>
+			order by tam.adver_matter_id
+	</select>
+	
+	<select id="getCustomerCarrierRels"  resultMap="customerCarrierRelResult" >
+    <![CDATA[
+        select arc.parent_id customer_id,arc.carrier_name,ari.resource_name,ari.memo,ccr.* from tb_customer_carrier_rel ccr
+			left outer join tb_ad_resource_info ari
+				on ccr.resource_id = ari.ad_resource_info_id
+			left outer join tb_ad_resource_carrier arc
+				on ari.ad_resource_carrier_id = arc.ad_resource_carrier_id
+    ]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id" >
+				(ccr.id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId" >
+				(ccr.customer_id like #customerId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="carrierId" >
+				(ccr.carrier_id like #carrierId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ccr.start_date <= #startDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ccr.end_date >= #startDate#)]]>
+			</isNotEmpty>
+		</dynamic>
+		order by ccr.carrier_id
+	</select>
+	
+	<select id="getCustomerCarrierRel"  resultMap="customerCarrierRelResult" >
+    <![CDATA[
+        select arc.parent_id customer_id,arc.carrier_name,ari.resource_name,ari.memo,ccr.* from tb_customer_carrier_rel ccr
+			left outer join tb_ad_resource_info ari
+				on ccr.resource_id = ari.ad_resource_info_id
+			left outer join tb_ad_resource_carrier arc
+				on ari.ad_resource_carrier_id = arc.ad_resource_carrier_id
+		    left outer join tb_ad_resource_day_info ardi
+				on ari.ad_resource_info_id = ardi.ad_resource_info_id
+    ]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id" >
+				(ccr.id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId" >
+				(ccr.customer_id like #customerId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="carrierId" >
+				(ccr.carrier_id like #carrierId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ccr.start_date <= #startDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ccr.end_date >= #startDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ardi.publish_date = #startDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ardi.total != '')]]>
+			</isNotEmpty>		
+		</dynamic>
+		order by ccr.carrier_id
+	</select>
+	
+	<select id="getCustomerCarrierRelCountAll"  resultClass="java.lang.Integer" >
+    <![CDATA[
+        select count(*) from tb_customer_carrier_rel ccr
+    ]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="customerId" >
+				(ccr.customer_id like #customerId#)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getCustomerCarrierRelsCount"  resultClass="java.lang.Integer" >
+    <![CDATA[
+        select count(*) from tb_customer_carrier_rel ccr
+    ]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="customerId" >
+				(ccr.customer_id like #customerId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="carrierId" >
+				(ccr.carrier_id like #carrierId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ccr.start_date <= #startDate#)]]>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="startDate" >
+				<![CDATA[(ccr.end_date >= #startDate#)]]>
+			</isNotEmpty>
+		</dynamic>
+		group by ccr.carrier_id
+		order by count(*) desc
+		limit 1
+	</select>
+	
+	<select id="getCarrierPageXML"  resultMap="customerCarrierRelResults" >
+    <![CDATA[
+        select o.order_id,o.order_code,od.publish_start,sum(money_realpay) pay_money,sum(AM.length*sum_times) length,cs.name memo from tb_order o
+			left outer join tb_order_detail od
+				on o.order_id = od.order_id
+			left outer join tb_oa_work_flow_check_state cs
+				on o.is_ckecked = cs.check_state_id
+		
+		     left outer join tb_adver_matter AM 
+				 on od.adver_matter_id = AM.adver_matter_id 
+		
+		where od.publish_start!=0 and o.publish_memo=1 and od.publish_start = od.publish_end
+		
+    ]]>
+			<isNotEmpty prepend="AND" property="customerId" >
+				(o.customer_id like #customerId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="id" >
+				(o.order_id like #id#)
+			</isNotEmpty>
+		group by od.order_id
+		order by od.publish_start
+	</select>
+	
+    <insert id="addCustomerCarrierRel" parameterMap="addParam">
+        <![CDATA[
+            insert into tb_customer_carrier_rel (customer_id,carrier_id,resource_id,length,start_date,end_date,create_by,create_date,modify_by,modify_date,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateCustomerCarrierRel" parameterMap="updateParam">
+    <![CDATA[
+        update tb_customer_carrier_rel set	   
+                   customer_id = ?,
+                   carrier_id = ?,
+                   resource_id = ?,
+				   length = ?,
+                   start_date = ?,
+                   end_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,               
+				   version = ?
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteCustomerCarrierRel">
+    <![CDATA[
+        delete from tb_customer_carrier_rel
+         where id = #value#
+    ]]>
+    </delete>
+</sqlMap>

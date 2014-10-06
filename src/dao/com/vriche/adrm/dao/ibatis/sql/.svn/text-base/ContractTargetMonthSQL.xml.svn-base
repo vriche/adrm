@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ContractTargetMonthSQL">
+    <typeAlias alias="contractTargetMonth" type="com.vriche.adrm.model.ContractTargetMonth"/>
+
+	<cacheModel id="contractTargetMonth-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addContractTargetMonth"/>
+		<flushOnExecute statement="updateContractTargetMonth"/>
+		<flushOnExecute statement="deleteContractTargetMonth"/>
+		<flushOnExecute statement="deleteContractTargetMonths"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="contractTargetMonth">
+		<parameter property="yearDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="contractTargetId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="monthDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="monthReal" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="monthTarg" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <!-- parameter property="contractTarget" jdbcType="VARCHAR" javaType="com.vriche.adrm.model.ContractTarget"/ -->
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="contractTargetMonth">
+		<parameter property="yearDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="contractTargetId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="monthDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="monthReal" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="monthTarg" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <!-- parameter property="contractTarget" jdbcType="VARCHAR" javaType="com.vriche.adrm.model.ContractTarget"/ -->
+    </parameterMap>
+	
+    <resultMap id="contractTargetMonthResult" class="contractTargetMonth">
+		<result property="yearDate" column="year_date"/>
+        <result property="id" column="contract_target_month_id"/>
+        <result property="contractTargetId" column="contract_target_id"/>
+        <result property="monthDate" column="month_date"/>
+        <result property="monthReal" column="{contractId=contract_id,industryId=industryId,month = month_date,year = year_date}" select="getMoneyRealpayByContractIdAndMonth"/>
+        <result property="monthTarg" column="month_targ"/>
+        <result property="version" column="version"/>
+        <result property="contractTarget.industry.name" column="industryId"/>
+    </resultMap>
+	
+    <select id="getContractTargetMonthsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*)
+			from tb_contract_target_month ctm
+			left outer join tb_contract_target ct
+				on ctm.contract_target_id = ct.contract_target_id
+			left outer join tb_customer_industry_type cit
+				on ct.industry_type_id = cit.customer_industry_type_id
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(ctm.contract_target_month_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractTargetId">
+			(ctm.contract_target_id like #contractTargetId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="monthDate">
+			(ctm.month_date like #monthDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="yearDate">
+			(ctm.year_date like #yearDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="monthReal">
+			(ctm.month_real like #monthReal#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="monthTarg">
+			(ctm.month_targ like #monthTarg#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getContractTargetMonths" resultMap="contractTargetMonthResult">
+    <![CDATA[
+        select ctm.*,
+			ct.contract_id,
+			cit.customer_industry_type_id as industryId
+			from tb_contract_target_month ctm
+			left outer join tb_contract_target ct
+				on ctm.contract_target_id = ct.contract_target_id
+			left outer join tb_customer_industry_type cit
+				on ct.industry_type_id = cit.customer_industry_type_id
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(ctm.contract_target_month_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractTargetId">
+			(ctm.contract_target_id like #contractTargetId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="monthDate">
+			(ctm.month_date like #monthDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="yearDate">
+			(ctm.year_date like #yearDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="monthReal">
+			(ctm.month_real like #monthReal#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="monthTarg">
+			(ctm.month_targ like #monthTarg#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getContractTargetMonthsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+        select ctm.*,
+			 ct.contract_id,
+			cit.customer_industry_type_id as industryId
+			from tb_contract_target_month ctm
+			left outer join tb_contract_target ct
+				on ctm.contract_target_id = ct.contract_target_id
+			left outer join tb_customer_industry_type cit
+				on ct.industry_type_id = cit.customer_industry_type_id
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractTargetMonthIdList">
+       	  <iterate prepend="AND" property="ContractTargetMonthIdList" open="(" close=")" conjunction="OR">
+		   			 ctm.contract_target_month_id = #ContractTargetMonthIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getContractTargetMonth" resultMap="contractTargetMonthResult">
+    <![CDATA[
+		
+        select ctm.*,
+			ct.contract_id,
+			cit.customer_industry_type_id as industryId
+			from tb_contract_target_month ctm
+			left outer join tb_contract_target ct
+				on ctm.contract_target_id = ct.contract_target_id
+			left outer join tb_customer_industry_type cit
+				on ct.industry_type_id = cit.customer_industry_type_id
+         where ctm.contract_target_month_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addContractTargetMonth" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_contract_target_month_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_contract_target_month (year_date,contract_target_id,month_date,month_real,month_targ)
+            values ( ?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateContractTargetMonth" parameterMap="updateParam">
+    <![CDATA[
+        update tb_contract_target_month set
+				   year_date = ?,
+				   contract_target_id = ?,
+                   month_date = ?,
+                   month_real = ?,
+                   month_targ = ?,
+				   version = ?
+        where contract_target_month_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteContractTargetMonth">
+    <![CDATA[
+        delete from tb_contract_target_month
+         where contract_target_month_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteContractTargetMonths" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_contract_target_month 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractTargetMonthIdList">
+       	  <iterate prepend="AND" property="ContractTargetMonthIdList" open="(" close=")" conjunction="OR">
+		   			 contract_target_month_id = #ContractTargetMonthIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

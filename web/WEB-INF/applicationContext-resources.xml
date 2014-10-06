@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <!-- For mail settings and future properties files -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:mail.properties</value>
+				<value>classpath:cas.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- JNDI DataSource for J2EE environments -->
+    <!--bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName"><value>java:comp/env/jdbc/adrm</value></property>
+    </bean>
+	
+
+	<bean id="dataSource1" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName"><value>java:comp/env/jdbc/adrm2008</value></property>
+    </bean-->    
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="@DB-DRIVERNAME@"/>
+        <property name="url" value="@DB-URL@"/>
+        <property name="username" value="@DB-USERNAME@"/>
+        <property name="password" value="@DB-PASSWORD@"/>
+        <property name="maxActive" value="100"/>
+        <property name="maxIdle" value="30"/>
+        <property name="maxWait" value="1000"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="60"/>
+    </bean>
+	
+	
+	
+	
+	<!-- bean id="dataSourceHsql" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="org.hsqldb.jdbcDriver"/>	
+		<property name="jdbcUrl" value="jdbc:hsqldb:hsql://localhost:9001/quartz"/>	
+		<property name="user" value="sa"/>	
+		<property name="password" value=""/>		
+	</bean -->	
+	
+	
+	
+	
+	<!-- bean id="dataSourceHsql" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+	<property name="driverClass" value="${jdbc.driverClassName}" />	
+	<property name="jdbcUrl" value="${jdbc.url}" />	
+	<property name="user" value="${jdbc.username}" />	
+	<property name="password" value="${jdbc.password}" />		
+		<property name="initialPoolSize" value="5" />
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="acquireIncrement" value="2" />
+		<property name="maxIdleTime" value="3600" />
+		<property name="idleConnectionTestPeriod"  value="180"/>  
+		<property name="automaticTestTable" value="C3P0TESTTABLE"/> 
+	</bean -->			
+	
+	 <!--bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="@DB-DRIVERNAME@"/>
+        <property name="url" value="@DB-URL1@"/>
+        <property name="username" value="@DB-USERNAME@"/>
+        <property name="password" value="@DB-PASSWORD@"/>
+        <property name="maxActive" value="100"/>
+        <property name="maxIdle" value="30"/>
+        <property name="maxWait" value="1000"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="60"/>
+    </bean-->
+	
+   <bean id="dataSourceQuartz" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="@DB-DRIVERNAME@"/>
+        <property name="url" value="@DB-URL1@"/>
+        <property name="username" value="@DB-USERNAME@"/>
+        <property name="password" value="@DB-PASSWORD@"/>
+        <property name="maxActive" value="100"/>
+        <property name="maxIdle" value="30"/>
+        <property name="maxWait" value="1000"/>
+        <property name="defaultAutoCommit" value="true"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="60"/>
+    </bean>	
+	
+	
+	<!-- bean id="initQuartzMysqlDB" class="com.vriche.adrm.util.InitQuartzMysqlDB" lazy-init="false">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="serverProperties">
+			<props>
+				<prop key="server.driverClassName">@DB-DRIVERNAME@</prop>
+				<prop key="server.url">@DB-URL1@</prop>
+				<prop key="server.dbname">@DB-NAME1@</prop>
+				<prop key="server.db">@DB-NAME@</prop>
+				<prop key="server.usrname">@DB-USERNAME@</prop>
+				<prop key="server.password">@DB-PASSWORD@</prop>
+				<prop key="server.scriptFile">quartz_mysql.sql</prop>
+			</props>
+		</property>
+	 </bean -->	
+	
+	
+		<!-- bean id="initHsqldbServerBean" class="com.vriche.adrm.util.HsqldbServerBean" lazy-init="false">
+		<property name="dataSource" ref="dataSourceHsql"/>
+		<property name="serverProperties">
+			<props>
+				<prop key="server.port">9001</prop>
+				<prop key="server.database.0">/hsqldb/quartz</prop>
+				<prop key="server.dbname.0">quartz</prop>
+				<prop key="server.scriptFile.0">tables_hsqldb.sql</prop>
+			</props>
+		</property>
+	</bean -->	 
+	
+</beans>

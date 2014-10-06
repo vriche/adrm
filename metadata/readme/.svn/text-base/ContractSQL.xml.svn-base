@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ContractSQL">
+    <typeAlias alias="contract" type="com.vriche.adrm.order.model.Contract"/>
+
+	
+	<cacheModel id="contract-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addContract"/>
+		<flushOnExecute statement="updateContract"/>
+		<flushOnExecute statement="deleteContract"/>
+		<flushOnExecute statement="deleteContracts"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="contract">
+        <parameter property="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="contractSort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="contractType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="csignDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="isLimitOrder" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memoRenew" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyExec" jdbcType="VARCHAR" javaType="float"/>
+        <parameter property="moneyIn" jdbcType="VARCHAR" javaType="float"/>
+        <parameter property="moneySum" jdbcType="VARCHAR" javaType="float"/>
+        <parameter property="notifyDays" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="osignDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="owner" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="signHeadship" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="signUser" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="startDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="state" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="userId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="contractPayments" jdbcType="VARCHAR" javaType="java.util.Set"/>
+        <parameter property="orders" jdbcType="VARCHAR" javaType="java.util.Set"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="contract">
+        <parameter property="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="contractSort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="contractType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="csignDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="isLimitOrder" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memoRenew" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="moneyExec" jdbcType="VARCHAR" javaType="float"/>
+        <parameter property="moneyIn" jdbcType="VARCHAR" javaType="float"/>
+        <parameter property="moneySum" jdbcType="VARCHAR" javaType="float"/>
+        <parameter property="notifyDays" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="osignDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="owner" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="signHeadship" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="signUser" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="startDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="state" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="userId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="contractPayments" jdbcType="VARCHAR" javaType="java.util.Set"/>
+        <parameter property="orders" jdbcType="VARCHAR" javaType="java.util.Set"/>
+    </parameterMap>
+	
+    <resultMap id="contractResult" class="contract">
+        <result property="code" column="code"/>
+        <result property="contractSort" column="contract_sort"/>
+        <result property="contractType" column="contract_type"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="csignDate" column="csign_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="id" column="contract_id"/>
+        <result property="isLimitOrder" column="is_limit_order"/>
+        <result property="memo" column="memo"/>
+        <result property="memoRenew" column="memo_renew"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="moneyExec" column="contract_money_exec"/>
+        <result property="moneyIn" column="money_in_sum"/>
+        <result property="moneySum" column="contract_money_sum"/>
+        <result property="notifyDays" column="notify_days"/>
+        <result property="osignDate" column="osign_date"/>
+        <result property="owner" column="owner"/>
+        <result property="signHeadship" column="sign_headship"/>
+        <result property="signUser" column="sign_user"/>
+        <result property="startDate" column="start_date"/>
+        <result property="state" column="contract_state"/>
+        <result property="userId" column="user_id"/>
+        <result property="version" column="version"/>
+		<result property="customerId" column="customer_id"/>
+		<result property="customer" resultMap="CustomerSQL.customerResult"/>
+		<!-- result property="customer" resultMap="CustomerSQL.customerResult"/ -->
+		<!-- result property="customer" column="customer_id" select="getCustomerByCustomerId"/ -->
+		<!--  result property="orders" column="contract_id" select="getOrdersByContractId"/ -->
+    </resultMap>
+	
+
+	
+	<statement id="getOrdersByContractId" parameterClass="java.lang.Long" resultMap="OrderSQL.orderResult">
+		 select * 
+		     from tb_order 
+			 where  contract_id = #value#
+	</statement>
+	
+	<statement id="getPaymentsByContractId" parameterClass="java.lang.Long" resultMap="ContractPaymentSQL.contractPaymentResult">
+		 select *
+		     from tb_contract_payment 
+			 where  contract_id = #value#
+	</statement>
+	
+	<statement id="getCustomerByCustomerId" parameterClass="java.lang.Long" resultMap="CustomerSQL.customerResult">
+		 select *
+		     from tb_customer_info  
+			 where  customer_id = #value#
+	</statement>
+
+	<statement id="getContracts" resultMap="contractResult">
+		select * 
+		from tb_contract C 
+		 left outer join tb_customer_info P 
+		 on C.customer_id = P.customer_id 
+	</statement>
+	
+	
+	
+    <select id="getContracts_bak" resultMap="contractResult">
+    <![CDATA[
+        select * from tb_contract 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="code">
+			(code like #code#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractSort">
+			(contract_sort like #contractSort#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="contractType">
+			(contract_type like #contractType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="csignDate">
+			(csign_date like #csignDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDate">
+			(end_date like #endDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(contract_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isLimitOrder">
+			(is_limit_order like #isLimitOrder#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memoRenew">
+			(memo_renew like #memoRenew#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyExec">
+			(contract_money_exec like #moneyExec#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneyIn">
+			(money_in_sum like #moneyIn#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="moneySum">
+			(contract_money_sum like #moneySum#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="notifyDays">
+			(notify_days like #notifyDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="osignDate">
+			(osign_date like #osignDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="owner">
+			(owner like #owner#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="signHeadship">
+			(sign_headship like #signHeadship#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="signUser">
+			(sign_user like #signUser#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startDate">
+			(start_date like #startDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">
+			(contract_state like #state#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userId">
+			(user_id like #userId#)
+			</isNotEmpty>
+		</dynamic>
+		
+    </select>
+    <select id="getContractsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select * from tb_contract 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractIdList">
+       	  <iterate prepend="AND" property="ContractIdList" open="(" close=")" conjunction="OR">
+		   			 contract_id = #ContractIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getContract" resultMap="contractResult">
+    <![CDATA[
+		select * 
+		from tb_contract C 
+		 left outer join tb_customer_info P 
+		 on C.customer_id = P.customer_id 
+         where C.contract_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addContract" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_contract_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_contract (code,contract_sort,contract_type,create_by,create_date,csign_date,customer_id,end_date,is_limit_order,memo,memo_renew,modify_by,modify_date,contract_money_exec,money_in_sum,contract_money_sum,notify_days,osign_date,owner,sign_headship,sign_user,start_date,contract_state,user_id)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateContract" parameterMap="updateParam">
+    <![CDATA[
+        update tb_contract set
+                   code = ?,
+                   contract_sort = ?,
+                   contract_type = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   csign_date = ?,
+                   customer_id = ?,
+                   end_date = ?,
+                   is_limit_order = ?,
+                   memo = ?,
+                   memo_renew = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   contract_money_exec = ?,
+                   money_in_sum = ?,
+                   contract_money_sum = ?,
+                   notify_days = ?,
+                   osign_date = ?,
+                   owner = ?,
+                   sign_headship = ?,
+                   sign_user = ?,
+                   start_date = ?,
+                   contract_state = ?,
+                   user_id = ? 
+        where contract_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteContract">
+    <![CDATA[
+        delete from tb_contract
+         where contract_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteContracts" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_contract 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="ContractIdList">
+       	  <iterate prepend="AND" property="ContractIdList" open="(" close=")" conjunction="OR">
+		   			 contract_id = #ContractIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="IncomePurposeSQL">
+    <typeAlias alias="incomePurpose" type="com.vriche.adrm.model.IncomePurpose"/>
+
+	<cacheModel id="incomePurpose-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addIncomePurpose"/>
+		<flushOnExecute statement="updateIncomePurpose"/>
+		<flushOnExecute statement="deleteIncomePurpose"/>
+		<flushOnExecute statement="deleteIncomePurposes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="incomePurpose">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="incomePurpose">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="incomePurposeResult" class="incomePurpose">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="income_purpose_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getIncomePurposes" resultMap="incomePurposeResult" >
+    <![CDATA[
+        select * from tb_income_purpose 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(income_purpose_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+			  
+			<isNotNull property="fitterList">
+       		  <iterate prepend="AND" property="fitterList" open="(" close=")" conjunction="OR">
+							income_purpose_id = #fitterList[]#
+			  </iterate>
+		  </isNotNull> 
+			  
+		</dynamic>
+    </select>
+    <select id="getIncomePurposesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_income_purpose 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="IncomePurposeIdList">
+       	  <iterate prepend="AND" property="IncomePurposeIdList" open="(" close=")" conjunction="OR">
+		   			 income_purpose_id = #IncomePurposeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getIncomePurpose" resultMap="incomePurposeResult">
+    <![CDATA[
+        select * from tb_income_purpose
+         where income_purpose_id = #value#
+    ]]>
+    </select>
+	
+	
+   <select id="getIncomePurposeClass" resultClass="incomePurpose">
+    <![CDATA[
+        select income_purpose_id as id,name from tb_income_purpose
+         where income_purpose_id = #value#
+    ]]>
+    </select>	
+	
+	
+	
+	
+
+    <insert id="addIncomePurpose" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_income_purpose_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_income_purpose (create_by,create_date,modify_by,modify_date,name,value)
+            values ( ?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateIncomePurpose" parameterMap="updateParam">
+    <![CDATA[
+        update tb_income_purpose set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   value = ?,
+				   version = ? 
+        where income_purpose_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteIncomePurpose">
+    <![CDATA[
+        delete from tb_income_purpose
+         where income_purpose_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteIncomePurposes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_income_purpose 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="IncomePurposeIdList">
+       	  <iterate prepend="AND" property="IncomePurposeIdList" open="(" close=")" conjunction="OR">
+		   			 income_purpose_id = #IncomePurposeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

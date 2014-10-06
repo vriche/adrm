@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaAreaPcSQL">
+    <typeAlias alias="oaAreaPc" type="com.vriche.adrm.model.OaAreaPc"/>
+
+	<cacheModel id="oaAreaPc-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaAreaPc"/>
+		<flushOnExecute statement="updateOaAreaPc"/>
+		<flushOnExecute statement="deleteOaAreaPc"/>
+		<flushOnExecute statement="deleteOaAreaPcs"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="oaAreaPc">
+        <parameter property="areaCityId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="ldCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="postCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaAreaPc">
+        <parameter property="areaCityId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="ldCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="postCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>        
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaAreaPcResult" class="oaAreaPc">
+        <result property="areaCityId" column="area_city_id"/>
+        <result property="ldCode" column="ld_code"/>
+        <result property="postCode" column="post_code"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="area_pc_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="version" column="version"/>
+        <result property="oaAreaCity" column="area_city_id" select="getOaAreaCity"/>
+    </resultMap>
+	
+    <select id="getOaAreaPcsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_area_pc 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="areaCityId">
+			(area_city_id like #areaCityId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ldCode">
+			(ld_code like #ldCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="postCode">
+			(post_code like #postCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(area_pc_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaAreaPcs" resultMap="oaAreaPcResult">
+    <![CDATA[
+        select * from tb_oa_area_pc 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="areaCityId">
+			(area_city_id like #areaCityId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ldCode">
+			(ld_code like #ldCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="postCode">
+			(post_code like #postCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(area_pc_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaAreaPcsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_area_pc 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaAreaPcIdList">
+       	  <iterate prepend="AND" property="OaAreaPcIdList" open="(" close=")" conjunction="OR">
+		   			 area_pc_id = #OaAreaPcIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaAreaPc" resultMap="oaAreaPcResult">
+    <![CDATA[
+        select * from tb_oa_area_pc
+         where area_pc_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaAreaPc" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_area_pc_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_area_pc (area_city_id,ld_code,post_code,create_by,create_date,modify_by,modify_date,name,)
+            values ( ?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaAreaPc" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_area_pc set
+                   area_city_id = ?,
+                   ld_code = ?,
+                   post_code = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+				   version = ?
+        where area_pc_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaAreaPc">
+    <![CDATA[
+        delete from tb_oa_area_pc
+         where area_pc_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaAreaPcs" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_area_pc 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaAreaPcIdList">
+       	  <iterate prepend="AND" property="OaAreaPcIdList" open="(" close=")" conjunction="OR">
+		   			 area_pc_id = #OaAreaPcIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

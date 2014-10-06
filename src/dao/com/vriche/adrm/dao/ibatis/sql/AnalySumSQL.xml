@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AnalySumSQL">
+	
+	<typeAlias alias="paramObj" type="com.vriche.adrm.model.ParamObj"/>
+	<typeAlias alias="fusionChartObject" type="com.vriche.adrm.model.FusionChartObject"/>
+
+	
+	
+	<resultMap id="paramObj_result"   class="fusionChartObject">
+		<result property="lable" column="lable" nullValue=""/>
+		<result property="value1" column="value1" nullValue=""/>
+		<result property="value2" column="time_used" nullValue="0"/>
+		<result property="value3"  column="rel_pay" nullValue="0"/>
+		<result property="value4"  column="income_money" nullValue="0"/>
+	</resultMap>		
+	
+
+	
+	<select id="getStatisticSum" resultMap="paramObj_result"  parameterClass="map" >
+		
+		<isEqual property="whereModel" compareValue="1">
+			
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT BCH.name as lable,'' as value1,]]>					
+			</isEqual>				
+			
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT BCH.name as lable,CONCAT(U.first_name,U.last_name) as value1,]]>					
+			</isEqual>
+
+		</isEqual>
+
+		<isEqual property="whereModel" compareValue="2">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  rc3.name  as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  rc3.name as lable,CONCAT(U.first_name,U.last_name) as value1,]]>		
+			</isEqual>		
+		</isEqual>
+		
+		
+		<isEqual property="whereModel" compareValue="3">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  rst.name as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  rst.name as lable,CONCAT(CONCAT(CONCAT(tr.memo,' ('),tr.resource_name),')')  as value1,]]>		
+			</isEqual>		
+		</isEqual>		
+		
+		
+		
+		
+		
+		<isEqual property="whereModel" compareValue="4">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  CONCAT(CONCAT(CONCAT(CONCAT(U.first_name,U.last_name),' ('),BCH.name),')') as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  CONCAT(CONCAT(CONCAT(CONCAT(U.first_name,U.last_name),' ('),BCH.name),')') as lable,CUT.customer_name as value1,]]>		
+			</isEqual>		
+		</isEqual>	
+		
+		
+		<isEqual property="whereModel" compareValue="5">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  cip.name as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  cip.name as lable,ci.name  as value1,]]>		
+			</isEqual>		
+		</isEqual>			
+		
+		<isEqual property="whereModel" compareValue="6">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  OCP.name as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  OCP.name as lable,OC.name  as value1,]]>		
+			</isEqual>		
+		</isEqual>	
+		
+		<isEqual property="whereModel" compareValue="7">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  MT.name as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  MT.name as lable,MT.edit  as value1,]]>		
+			</isEqual>		
+		</isEqual>			
+		
+		<isEqual property="whereModel" compareValue="8">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  CUTCAT.category_name as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  CUTCAT.category_name as lable,CUT.customer_name  as value1,]]>		
+			</isEqual>		
+		</isEqual>		
+		
+		<isEqual property="whereModel" compareValue="9">
+			<isEqual property="displayModel" compareValue="1">
+			<![CDATA[SELECT  CUT.customer_name as lable,'' as value1,]]>		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+			<![CDATA[SELECT  CUT.customer_name as lable,MT.name  as value1,]]>		
+			</isEqual>		
+		</isEqual>				
+
+		
+		 ifnull(sum(MT.length*OD.ad_day_times),0) as time_used,
+	     ifnull(sum(OD.day_rel_income),0) as rel_pay,
+		 ifnull(sum(AA.money_in),0) as income_money 	
+
+	      FROM  tb_order_day_info  OD 
+		
+			  left outer join tb_order_detail DT on DT.order_detail_id = OD.order_detail_id 
+
+      	left outer join 
+		
+								(select OD.order_day_info_id,sum(IU.money_in) as money_in  FROM tb_order_day_info OD  
+		
+					Inner join tb_income_used IU on IU.order_day_info_id = OD.order_day_info_id 
+		
+					Inner join tb_order_detail DT on DT.order_detail_id = OD.order_detail_id 
+		
+					Inner join tb_order O on DT.order_id = O.order_id	 
+
+					<dynamic prepend="WHERE"> 
+									 <isNotEmpty property="startDate" prepend="AND">
+											<![CDATA[ OD.publish_date >= #startDate# ]]>
+									 </isNotEmpty> 
+										
+									 <isNotEmpty property="endDate" prepend="AND">
+											<![CDATA[OD.publish_date <= #endDate# ]]>
+									 </isNotEmpty>
+									
+									<isNotNull property="inWeekDates">
+											 <iterate prepend="AND" property="inWeekDates" open="(" close=")" conjunction="OR">
+													OD.publish_date = #inWeekDates[]#
+											 </iterate>
+									</isNotNull> 		
+						
+									 <isNotNull property="resourceIdList">
+											<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+												DT.ad_resource_info_id = #resourceIdList[]#
+											</iterate>
+							 			</isNotNull> 						
+						
+		     				<isNotNull property="customerIdList">
+									  <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+										   O.customer_id = #customerIdList[]#
+									  </iterate>
+							  </isNotNull> 	
+					
+
+							 <isNotNull property="userIdList">
+									<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+										 O.user_id = #userIdList[]#
+									</iterate>
+							 </isNotNull> 		
+						
+					</dynamic>
+		
+		    GROUP BY OD.order_day_info_id) as AA  
+
+							on OD.order_day_info_id = AA.order_day_info_id 
+			 
+						left outer join tb_order O 
+							on DT.order_id = O.order_id	 
+			 
+						left outer join tb_ad_resource_info tr
+							on tr.ad_resource_info_id = DT.ad_resource_info_id 
+		
+						left outer join tb_ad_resource_workspan  wsp
+							on tr.ad_resource_info_id = wsp.ad_resource_info_id 
+
+						left outer join tb_ad_resource_sort  rst
+							on rst.ad_resource_sort_id = 	tr.ad_resource_sort_id
+		
+						left outer join tb_ad_resource_carrier rc
+							 on tr.ad_resource_carrier_id = rc.ad_resource_carrier_id
+		
+						left outer join tb_ad_resource_carrier rc2
+							 on rc2.ad_resource_carrier_id = rc.parent_id
+		
+							left outer join tb_ad_resource_channel rc3
+					    on rc.ad_resource_channel_id = rc3.resource_mediaorg_id
+		
+
+						  left outer join tb_customer_info CUT 
+							on O.customer_id = CUT.customer_id 
+		
+	   					 left outer join  tb_customer_category  CUTCAT
+									on CUT.customer_category_id = CUTCAT.customer_category_id		
+			 
+						 left outer join tb_oa_work_flow_check_state S
+							on O.is_ckecked = S.check_state_id
+			 
+						 left outer join tb_sys_user U 
+							on O.user_id = U.id
+			 
+						Inner Join tb_sys_user_branch UB 
+							 ON UB.user_id = U.id
+			 
+						Inner Join tb_sys_branch BCH 
+							 ON UB.branch_id = BCH.sys_branch_id
+			 
+						left outer join tb_adver_matter MT
+							on MT.adver_matter_id = DT.adver_matter_id 	
+		
+						left outer join tb_customer_industry_type ci
+							on MT.adver_product_brand_id = ci.customer_industry_type_id 
+		
+						left outer join tb_customer_industry_type cip
+							on cip.customer_industry_type_id  = ci.parent_id 		
+				 
+			 
+						left outer join tb_order_category OC 
+							on DT.order_category_id = OC.order_category_id	 
+		
+						left outer join tb_order_category OCP  
+							on   OCP.order_category_id = OC.parent_id 	
+
+				<dynamic prepend="WHERE"> 
+							
+							<isNotNull property="yearIdList">
+								<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+										   DT.version = #yearIdList[]#
+								</iterate>
+							</isNotNull>
+				
+							 <isNotEmpty property="startDate" prepend="AND">
+									<![CDATA[ OD.publish_date >= #startDate# ]]>
+							 </isNotEmpty> 
+								
+							 <isNotEmpty property="endDate" prepend="AND">
+									<![CDATA[OD.publish_date <= #endDate# ]]>
+							 </isNotEmpty>
+							
+							  <isNotNull property="inWeekDates">
+									<iterate prepend="AND" property="inWeekDates" open="(" close=")" conjunction="OR">
+										OD.publish_date = #inWeekDates[]#
+									</iterate>
+							  </isNotNull> 				
+					
+	     					  <isNotNull property="customerIdList">
+								  <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+									   CUT.customer_id = #customerIdList[]#
+								  </iterate>
+							  </isNotNull> 	
+					
+							 <isNotNull property="resourceIdList">
+								<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+									DT.ad_resource_info_id = #resourceIdList[]#
+								</iterate>
+							 </isNotNull> 		
+							
+							 <isNotNull property="userIdList">
+								<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+									 O.user_id = #userIdList[]#
+								</iterate>
+							 </isNotNull> 						
+
+							 <isNotEmpty  prepend="AND" property="whereModel">
+											BCH.tree_level =1
+							</isNotEmpty> 					
+					
+							<!-- isEqual  prepend="AND" property="whereModel" compareValue="1">	
+								BCH.tree_level =1
+							</isEqual --> 	
+					
+					
+					
+							<isNotEmpty prepend="AND" property="orgId">
+								(BCH.sys_org_id = #orgId#)
+							</isNotEmpty>												
+								
+						</dynamic>
+		
+		
+
+          
+		<isEqual property="whereModel" compareValue="1">	
+			<isEqual property="displayModel" compareValue="1">
+				group by BCH.name 
+				order by BCH.display_no				
+			</isEqual>	
+			<isEqual property="displayModel" compareValue="2">
+				group by BCH.name,U.id 		
+				order by BCH.display_no,U.first_name				
+			</isEqual>							
+		</isEqual> 
+		
+		<isEqual property="whereModel" compareValue="2">	
+			<isEqual property="displayModel" compareValue="1">
+				group by rc.ad_resource_channel_id  
+				order by rc.ad_resource_channel_id 		
+			</isEqual>	
+						
+			<isEqual property="displayModel" compareValue="2">
+				group by rc.ad_resource_channel_id,U.id	
+				order by rc.ad_resource_channel_id,U.first_name			
+			</isEqual>					
+		</isEqual> 	
+		
+		<isEqual property="whereModel" compareValue="3">	
+			
+			<isEqual property="displayModel" compareValue="1">
+				group by lable 
+				order by rst.ad_resource_sort_id 		
+			</isEqual>	
+						
+			<isEqual property="displayModel" compareValue="2">
+				group by lable,value1	
+				order by rst.ad_resource_sort_id,wsp.broadcast_start_time 			
+			</isEqual>					
+
+		</isEqual> 			
+		
+		<isEqual property="whereModel" compareValue="4">	
+			
+			<isEqual property="displayModel" compareValue="1">
+				group by lable 
+				order by BCH.display_no,lable 		
+			</isEqual>	
+						
+			<isEqual property="displayModel" compareValue="2">
+				group by lable,value1	
+				order by BCH.display_no,lable,value1 			
+			</isEqual>					
+
+		</isEqual> 	
+		
+		<isEqual property="whereModel" compareValue="5">	
+			<isEqual property="displayModel" compareValue="1">
+				group by lable 
+				order by lable 		
+			</isEqual>		
+			<isEqual property="displayModel" compareValue="2">
+				group by lable,value1	
+				order by lable,value1 				
+			</isEqual>					
+		</isEqual> 			
+		
+		<isEqual property="whereModel" compareValue="6">	
+			<isEqual property="displayModel" compareValue="1">
+				group by lable 
+				order by lable 		
+			</isEqual>			
+			<isEqual property="displayModel" compareValue="2">
+				group by lable,value1	
+				order by lable,value1 				
+			</isEqual>					
+		</isEqual> 
+		
+		
+		<isEqual property="whereModel" compareValue="7">	
+			<isEqual property="displayModel" compareValue="1">
+				group by lable 
+				order by lable 		
+			</isEqual>			
+			<isEqual property="displayModel" compareValue="2">
+				group by lable,value1	
+				order by lable,value1 				
+			</isEqual>					
+		</isEqual> 		
+		
+		<isEqual property="whereModel" compareValue="8">	
+			<isEqual property="displayModel" compareValue="1">
+				group by lable 
+				order by lable 		
+			</isEqual>			
+			<isEqual property="displayModel" compareValue="2">
+				group by lable,value1	
+				order by lable,value1 				
+			</isEqual>					
+		</isEqual> 		
+		
+		<isEqual property="whereModel" compareValue="9">	
+			<isEqual property="displayModel" compareValue="1">
+				group by lable 
+				order by lable 		
+			</isEqual>			
+			<isEqual property="displayModel" compareValue="2">
+				group by lable,value1	
+				order by lable,value1 				
+			</isEqual>					
+		</isEqual> 						
+
+    </select>				
+</sqlMap>

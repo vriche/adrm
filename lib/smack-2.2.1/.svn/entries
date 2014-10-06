@@ -1,0 +1,54 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/smack-2.2.1
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:32:23.846523Z
+32
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+smackx.jar
+file
+
+
+
+
+2013-05-17T07:35:09.913827Z
+1ce1593b620b7830f0a6f2a2ef43da98
+2012-11-24T07:32:23.846523Z
+32
+lxz
+has-props
+
+smack.jar
+file
+
+
+
+
+2013-05-17T07:35:09.929450Z
+8b5990b4310f3b2ab6be14fe470a825b
+2012-11-24T07:32:23.846523Z
+32
+lxz
+has-props
+

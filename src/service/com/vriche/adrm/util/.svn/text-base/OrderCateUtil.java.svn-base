@@ -1,0 +1,59 @@
+package com.vriche.adrm.util;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import com.vriche.adrm.Constants;
+import com.vriche.adrm.dao.OrgDao;
+import com.vriche.adrm.model.OrderCategory;
+import com.vriche.adrm.model.Org;
+
+public class OrderCateUtil {
+	
+	public static  Object[] getOrderCateMain(){
+		
+		Map orderCategoryMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_ORDER_CATELOG_MAP);
+		String parentId = "0";
+		boolean isOneOrgMoreSuborgsParam = SysParamUtil.getOneOrgMoreSuborgsParam();
+		
+		
+//		System.out.println("isOneOrgMoreSuborgsParam>>>>>>>>>>>>>1111111111111>>>>>"+isOneOrgMoreSuborgsParam ); 
+		
+		
+		OrgDao orgDao = ServiceLocator.getOrgDao();
+		List orgList1 = orgDao.getOrgs(null);
+		 
+		List orgList = new ArrayList();
+		if(isOneOrgMoreSuborgsParam){
+			 if(orgList1.size()>1){
+				 orgList.add(orgList1.get(0));
+			 }else{
+				 orgList = orgList1;
+			 }
+
+		}else{
+			 Org orgParam = new Org();
+			 orgParam.setParentId("0");
+			 orgList = orgDao.getOrgs(orgParam);
+		}
+
+		Iterator it = orgList.iterator();
+		
+//		System.out.println("isOneOrgMoreSuborgsParam>>>>>>>>>>>>>22222222222222>>>>>"+orgList.size() ); 
+		
+		 Object[] objs = new Object[orgList.size()];
+		 int i = 0;
+		while(it.hasNext()){
+			String orgId = ((Org)it.next()).getId().toString();
+			List orderCategoryList = (List)orderCategoryMap.get(orgId+","+parentId);
+//			System.out.println("isOneOrgMoreSuborgsParam>>>>>>>>"+ orgId +">>>>>333333333>>>>>"+orderCategoryList.size() ); 
+			objs[i++] = orderCategoryList;
+//			OrderCategory orderCategory = (OrderCategory)orderCategoryList.get(0);
+//			System.out.println("orderCategory>>>>>>>>>>>>>bbb>>>>>"+orderCategory.toString() ); 
+//			mp.put(orgId,orderCategoryList);
+		}
+		return objs;
+	}
+}

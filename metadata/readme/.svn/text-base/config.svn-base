@@ -1,0 +1,25 @@
+    近日，我们使用Jasperreport给用户开发了一套报表系统，使用的是PDF格式的报表，系统部署在RedHat Linux9上，在系统测试过程中，没有发现任何问题。系统上线后，用户发现报表无法使用，系统报出以下错误：
+ 
+javax.servlet.ServletException: Can't connect to X11 window server using ':0.0' as the value of the DISPLAY variable.
+ 
+      经过分析得知，该错误是由于Jasperreport程序在转换为PDF时，采用了AWT方式，而AWT会调用操作系统本地窗口资源图，由于我们测试时，系统运行在X window下，所以报表能够正常运行，而上线运行后，由于考虑到系统的稳定性，将系统运行在文本界面下，导致了该问题。
+      找到问题所在，就可以着手解决，解决的方法也很简单，就是让JVM启动时不检测图形界面，由于我们是用的是Tomcat，所以在 /tomcat/bin/catalina.sh 中添加以下的启动参数，即：
+      CATALINA_OPTS='-Djava.awt.headless=true'
+ 
+      如果使用的不是Tomcat系统，可在启动JVM的地方添加：
+      JAVA_OPTS='-Djava.awt.headless=true'
+      然后重新启动Tomcat，问题解决。
+ 
+      注意：-Djava.awt.headless=true这个参数是在jdk1.4.1以后才引入的，如果系统使用的JDK是1.4以下的版本，可以参考
+http://java.sun.com/products/java-media/2D/forDevelopers/java2dfaq.html#xvfb
+
+
+
+
+
+    CATALINA_OPTS="-Djava.awt.headless=true"
+    CATALINA_OPTS="$CATALINA_OPTS -Xms512m -Xmx1024m  -XX:MaxPermSize=256m $JPDA_OPTS"
+    
+    
+    JAVA_OPTS='-noverify -javaagent:/usr/local/java/javarebel-2.0/jrebel.jar -Xms1024m -Xmx1024m -XX:MaxPermSize=256m  -Drebel.dirs=/usr/local/java/jakarta-tomcat-5.0.28/webapps/adrm/WEB-INF/classes'
+    

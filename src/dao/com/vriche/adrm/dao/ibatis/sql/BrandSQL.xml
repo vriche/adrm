@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BrandSQL">
+    <typeAlias alias="brand" type="com.vriche.adrm.model.Brand"/>
+
+	<cacheModel id="brand-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addBrand"/>
+		<flushOnExecute statement="updateBrand"/>
+		<flushOnExecute statement="deleteBrand"/>
+		<flushOnExecute statement="deleteBrands"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="brand">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="brand">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="brandResult" class="brand">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="enable" column="enable"/>
+        <result property="id" column="adver_product_brand_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getBrands" resultMap="brandResult">
+    <![CDATA[
+        select * from tb_adver_product_brand 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<!-- isNotEmpty prepend="AND" property="enable">
+			(enable like #enable#)
+			</isNotEmpty -->
+			<isNotEmpty prepend="AND" property="id">
+			(adver_product_brand_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getBrandsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_adver_product_brand 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="BrandIdList">
+       	  <iterate prepend="AND" property="BrandIdList" open="(" close=")" conjunction="OR">
+		   			 adver_product_brand_id = #BrandIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getBrand" resultMap="brandResult">
+    <![CDATA[
+        select * from tb_adver_product_brand
+         where adver_product_brand_id = #value#
+    ]]>
+    </select>
+
+	<select id="getBrandsCount" resultClass="java.lang.Integer">
+		<![CDATA[
+			select count(*) from tb_adver_product_brand 
+		]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(adver_product_brand_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+    <insert id="addBrand" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_adver_product_brand_id.NextVal AS id FROM DUAL
+        </selectKey-->		
+        <![CDATA[
+            insert into tb_adver_product_brand (create_by,create_date,enable,memo,modify_by,modify_date,name)
+            values ( ?,?,?,?,?,?,? )
+        ]]>
+		
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateBrand" parameterMap="updateParam">
+    <![CDATA[
+        update tb_adver_product_brand set
+                   create_by = ?,
+                   create_date = ?,
+                   enable = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+				   version = ?
+        where adver_product_brand_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteBrand">
+    <![CDATA[
+        delete from tb_adver_product_brand
+         where adver_product_brand_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteBrands" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_adver_product_brand 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="BrandIdList">
+       	  <iterate prepend="AND" property="BrandIdList" open="(" close=")" conjunction="OR">
+		   			 adver_product_brand_id = #BrandIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

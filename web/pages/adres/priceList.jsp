@@ -1,0 +1,83 @@
+<%@ include file="/common/taglibs.jsp"%>
+
+<title><fmt:message key="priceList.title"/></title>
+<content tag="heading"><fmt:message key="priceList.heading"/></content>
+<meta name="menu" content="PriceMenu"/>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><table background="images/table1/textbox_top.gif" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+          <tr> 
+            <td width="50"><img src="images/table1/textbox_top_left.gif" height="27" width="50"></td>
+            <td valign="bottom"><table border="0" cellpadding="0" cellspacing="1" width="100%">
+                <tbody>
+                  <tr> 
+                    <td><span class="tile1">
+                    </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table></td>
+            <td width="115"><img src="images/table1/textbox_top_right.jpg" height="27"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+  <tr>
+    <td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+          <tr> 
+            <td background="images/table1/textbox_left.gif" width="14"></td>
+            <td bgcolor="#f4f3f4">
+
+
+<c:out value="${buttons}" escapeXml="false"/>
+
+<display:table name="priceList" cellspacing="1" cellpadding="0"
+    id="priceList" pagesize="9" class="tableDisplay priceList"
+    export="false" requestURI="">
+
+    <display:column property="id" sortable="true" headerClass="sortable"
+        url="/editPrice.html" paramId="id" paramProperty="id"
+        titleKey="priceForm.id"/>
+    <display:column property="name" sortable="true" headerClass="sortable"
+         titleKey="priceForm.name"/>
+    <display:column property="resourceType" sortable="true" headerClass="sortable"
+         titleKey="priceForm.resourceType"/>
+    <display:column property="resourcePriceType" sortable="true" headerClass="sortable"
+         titleKey="priceForm.resourcePriceType"/>
+    <display:column property="moneyType" sortable="true" headerClass="sortable"
+         titleKey="priceForm.moneyType"/>
+    <display:column property="isDefault" sortable="true" headerClass="sortable"
+         titleKey="priceForm.isDefault"/>
+    <display:column property="isUseRegular" sortable="true" headerClass="sortable"
+         titleKey="priceForm.isUseRegular"/>
+    <display:setProperty name="paging.banner.item_name" value="price"/>
+    <display:setProperty name="paging.banner.items_name" value="prices"/>
+</display:table>
+
+
+ </td>
+            <td width="14" background="images/table1/textbox_right.gif"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr> 
+            <td width="14"><img src="images/table1/textbox_bottom_left.gif" height="19" width="14"></td>
+            <td width="100%" background="images/table1/textbox_bottom.gif"></td>
+            <td width="14"><img src="images/table1/textbox_bottom_right.gif" height="19" width="14"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+</table>
+
+
+<script type="text/javascript">
+    highlightTableRows("priceList");
+</script>

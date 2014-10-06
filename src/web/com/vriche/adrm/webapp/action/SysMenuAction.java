@@ -1,0 +1,163 @@
+
+package com.vriche.adrm.webapp.action;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+import com.ibatis.common.util.PaginatedList;
+
+import com.vriche.adrm.webapp.action.BaseAction;
+import com.vriche.adrm.Constants;
+import com.vriche.adrm.model.SysMenu;
+import com.vriche.adrm.service.SysMenuManager;
+import com.vriche.adrm.webapp.form.SysMenuForm;
+import com.vriche.adrm.webapp.listener.StartupListener;
+import com.vriche.adrm.Constants;
+import com.vriche.adrm.util.Page;
+
+/**
+ * Action class to handle CRUD on a SysMenu object
+ *
+ * @struts.action name="sysMenuForm" path="/sysMenus" scope="request"
+ *  validate="false" parameter="method" input="mainMenu"
+ * @struts.action name="sysMenuForm" path="/editSysMenu" scope="request"
+ *  validate="false" parameter="method" input="list"
+ * @struts.action name="sysMenuForm" path="/saveSysMenu" scope="request"
+ *  validate="true" parameter="method" input="edit"
+ * @struts.action-set-property property="cancellable" value="true"
+ * @struts.action-forward name="edit" path="/WEB-INF/pages/admin/sysMenuForm.jsp"
+ * @struts.action-forward name="list" path="/WEB-INF/pages/admin/sysMenuList.jsp"
+ * @struts.action-forward name="search" path="/sysMenus.html" redirect="true"
+ */
+public final class SysMenuAction extends BaseAction {
+    public ActionForward cancel(ActionMapping mapping, ActionForm form,
+                                HttpServletRequest request,
+                                HttpServletResponse response)
+    throws Exception {
+        return mapping.findForward("search");
+    }
+
+    public ActionForward delete(ActionMapping mapping, ActionForm form,
+                                HttpServletRequest request,
+                                HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'delete' method");
+        }
+
+        ActionMessages messages = new ActionMessages();
+        SysMenuForm sysMenuForm = (SysMenuForm) form;
+
+        // Exceptions are caught by ActionExceptionHandler
+        SysMenuManager mgr = (SysMenuManager) getBean("sysMenuManager");
+        mgr.removeSysMenu(sysMenuForm.getId());
+        
+        
+//      重载选项
+        StartupListener.setupContext(getServlet().getServletContext());
+
+
+        messages.add(ActionMessages.GLOBAL_MESSAGE,
+                     new ActionMessage("sysMenu.deleted"));
+
+        // save messages in session, so they'll survive the redirect
+        saveMessages(request.getSession(), messages);
+
+        return mapping.findForward("search");
+    }
+
+    public ActionForward edit(ActionMapping mapping, ActionForm form,
+                              HttpServletRequest request,
+                              HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'edit' method");
+        }
+
+        SysMenuForm sysMenuForm = (SysMenuForm) form;
+
+        // if an id is passed in, look up the user - otherwise
+        // don't do anything - user is doing an add
+        if (sysMenuForm.getId() != null) {
+            SysMenuManager mgr = (SysMenuManager) getBean("sysMenuManager");
+            SysMenu sysMenu = mgr.getSysMenu(sysMenuForm.getId());
+            sysMenuForm = (SysMenuForm) convert(sysMenu);
+            updateFormBean(mapping, request, sysMenuForm);
+        }
+
+        return mapping.findForward("edit");
+    }
+
+    public ActionForward save(ActionMapping mapping, ActionForm form,
+                              HttpServletRequest request,
+                              HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'save' method");
+        }
+
+        // Extract attributes and parameters we will need
+        ActionMessages messages = new ActionMessages();
+        SysMenuForm sysMenuForm = (SysMenuForm) form;
+        boolean isNew = ("".equals(sysMenuForm.getId()) || sysMenuForm.getId() == null);
+
+        SysMenuManager mgr = (SysMenuManager) getBean("sysMenuManager");
+        SysMenu sysMenu = (SysMenu) convert(sysMenuForm);
+        mgr.saveSysMenu(sysMenu);
+        
+//      重载选项
+        StartupListener.setupContext(getServlet().getServletContext());
+
+
+        // add success messages
+        if (isNew) {
+            messages.add(ActionMessages.GLOBAL_MESSAGE,
+                         new ActionMessage("sysMenu.added"));
+
+            // save messages in session to survive a redirect
+            saveMessages(request.getSession(), messages);
+
+            return mapping.findForward("search");
+        } else {
+            messages.add(ActionMessages.GLOBAL_MESSAGE,
+                         new ActionMessage("sysMenu.updated"));
+            saveMessages(request, messages);
+
+            return mapping.findForward("edit");
+        }
+    }
+
+    public ActionForward search(ActionMapping mapping, ActionForm form,
+                                HttpServletRequest request,
+                                HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'search' method");
+        }
+
+        SysMenuForm sysMenuForm = (SysMenuForm) form;
+        SysMenu sysMenu = (SysMenu) convert(sysMenuForm);
+        SysMenuManager mgr = (SysMenuManager) getBean("sysMenuManager");
+        sysMenu = null;
+        int resultSize = Integer.parseInt(mgr.getSysMenusCount(sysMenu));
+        Page page = new Page(Constants.SYSMENU_LIST,request);        
+        PaginatedList pageList = mgr.getSysMenusPage(sysMenu,page.getPageIndex().toString(),page.getPageSize().toString());
+        pageList.gotoPage(page.getPageIndex().intValue());   
+        request.setAttribute(Constants.RESULT_SIZE, new Integer(resultSize));
+        request.setAttribute(Constants.SYSMENU_LIST, pageList);                    
+        //request.setAttribute(Constants.SYSMENU_LIST, mgr.getSysMenus(sysMenu));
+
+        return mapping.findForward("list");
+    }
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form,
+                                     HttpServletRequest request,
+                                     HttpServletResponse response)
+            throws Exception {
+        return search(mapping, form, request, response);
+    }
+}

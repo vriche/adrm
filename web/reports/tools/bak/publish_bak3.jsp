@@ -1,0 +1,37 @@
+<%@ page contentType="text/html; charset=GBK" %>
+<html>
+<head>
+
+</head>
+<body>
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+    var _info = navigator.userAgent; 
+    var _ns = false; 
+    var _ns6 = false;
+    var _ie = (_info.indexOf("MSIE") > 0 && _info.indexOf("Win") > 0 && _info.indexOf("Windows 3.1") < 0);
+//--></SCRIPT>
+
+    <COMMENT>
+        <SCRIPT LANGUAGE="JavaScript1.1"><!--
+        var _ns = (navigator.appName.indexOf("Netscape") >= 0 && ((_info.indexOf("Win") > 0 && _info.indexOf("Win16") < 0 && java.lang.System.getProperty("os.version").indexOf("3.5") < 0) || (_info.indexOf("Sun") > 0) || (_info.indexOf("Linux") > 0) || (_info.indexOf("AIX") > 0) || (_info.indexOf("OS/2") > 0)));
+        var _ns6 = ((_ns == true) && (_info.indexOf("Mozilla/5") >= 0));
+//--></SCRIPT>
+    </COMMENT>
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+    if (_ie == true) document.writeln('<OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" WIDTH = "600" HEIGHT = "400"  codebase="http://java.sun.com/products/plugin/1.1.2/jinstall-112-win32.cab#Version=1,1,2,0"><NOEMBED><XMP>');
+    else if (_ns == true && _ns6 == false) document.writeln('<EMBED type="application/x-java-applet;version=1.1.2" CODE = "EmbeddedViewerApplet.class" CODEBASE = "../applets" ARCHIVE = "jasperreports-1.2.8-applet.jar" WIDTH = "600" HEIGHT = "400" REPORT_URL = "../printPublish?resourceIds=<%=request.getParameter("resourceIds")%>&publishDate=<%=request.getParameter("publishDate")%>" scriptable=false pluginspage="http://java.sun.com/products/plugin/1.1.2/plugin-install.html"><NOEMBED><XMP>');
+//--></SCRIPT>
+
+<APPLET  CODE ="EmbeddedViewerApplet.class" CODEBASE ="../applets" ARCHIVE ="jasperreports-1.2.8-applet.jar" WIDTH ="100%" HEIGHT ="100%"></XMP>
+    <PARAM NAME = CODE VALUE ="EmbeddedViewerApplet.class" >
+	<PARAM NAME = CODEBASE VALUE ="../applets" >
+	<PARAM NAME = ARCHIVE VALUE ="jasperreports-1.2.8-applet.jar" >
+    <PARAM NAME="type" VALUE="application/x-java-applet;version=1.2.8">
+    <PARAM NAME="scriptable" VALUE="false">
+    <PARAM NAME ="REPORT_URL" VALUE ="../printPublish?resourceIds=<%=request.getParameter("resourceIds")%>&publishDate=<%=request.getParameter("publishDate")%>">
+</APPLET>
+
+</body>
+</html>

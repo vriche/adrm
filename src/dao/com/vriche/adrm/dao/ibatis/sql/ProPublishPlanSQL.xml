@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProPublishPlanSQL">
+    <typeAlias alias="proPublishPlan" type="com.vriche.adrm.model.ProPublishPlan"/>
+    <typeAlias alias="proPublishPlanDetail" type="com.vriche.adrm.model.ProPublishPlanDetail"/>
+	
+	<cacheModel id="proPublishPlan-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProPlanDetail"/>
+		<flushOnExecute statement="addProPublishPlan"/>
+		<flushOnExecute statement="updateProPublishPlan"/>
+		<flushOnExecute statement="deleteProPlanDetail"/>
+		<flushOnExecute statement="deleteProPublishPlan"/>
+		<flushOnExecute statement="deleteProPublishPlanDetail"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	<parameterMap id="addDetailParam" class="proPublishPlanDetail">
+        <parameter property="publishPlanId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="planDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="dayTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+    <parameterMap id="addParam" class="proPublishPlan">
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="endTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="startDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="startTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="weeksPlan" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proPublishPlan">
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="endDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="endTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="startDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="startTime" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="weeksPlan" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+	<parameterMap id="updateDetailParam" class="proPublishPlanDetail">
+        <parameter property="dayTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="publishPlanId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="planDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+	
+	<parameterMap id="deleteDetailParam" class="proPublishPlanDetail">
+		<parameter property="publishPlanId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="planDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <resultMap id="proPublishPlanResult" class="proPublishPlan">
+        <result property="id" column="id"/>
+        <result property="startDate" column="start_date"/>
+        <result property="startTime" column="start_time"/>
+		<result property="carrierId" column="carrier_id"/>
+		<result property="programId" column="program_id"/>
+        <result property="endDate" column="end_date"/>
+        <result property="endTime" column="end_time"/>
+        <result property="weeksPlan" column="weeks_plan"/>
+		<result property="version" column="version"/>
+    </resultMap>
+	
+	<resultMap id="proPublishPlanResultCollection" class="proPublishPlan">
+        <result property="id" column="id"/>
+        <result property="startDate" column="start_date"/>
+        <result property="startTime" column="start_time"/>
+		<result property="carrier.carrierName" column="carrier_name"/>
+		<result property="proProgram.proName" column="program_name"/>
+        <result property="endDate" column="end_date"/>
+        <result property="endTime" column="end_time"/>
+        <result property="weeksPlan" column="weeks_plan"/>
+		<result property="programId" column="program_id"/>
+    </resultMap>
+	
+    <sql id="ProPublishPlan_where_fragment">
+			<isNotEmpty prepend="AND" property="carrier.carrierName">
+			(carrier_id like #carrier.carrierName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="carrierId">
+			(carrier_id like #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDate">
+			(end_date like #endDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endTime">
+			(end_time like #endTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="programId">
+			(program_id like #programId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="proProgram.proName">
+			(program_name like #proProgram.proName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startDate">
+			(start_date like #startDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startTime">
+			(start_time like #startTime#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(version like #version#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="weeksPlan">
+			(weeks_plan like #weeksPlan#)
+			</isNotEmpty>
+    </sql>
+     <sql id="ProPublishPlan_idList_fragment">
+	      <isNotNull property="planDetailIdList">
+       	  <iterate prepend="AND" property="planDetailIdList" open="(" close=")" conjunction="OR">
+		   			 id = #planDetailIdList[]#
+		  </iterate>
+		  </isNotNull> 
+    </sql>   
+    <select id="getProPublishPlansCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) 
+		from tb_pro_publish_plan ppp
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(ppp.id like #id#)
+			</isNotEmpty>
+		</dynamic>  
+    </select>	
+
+    <select id="getProPublishPlans" resultMap="proPublishPlanResult">
+    <![CDATA[
+		select  ppp.id,
+		        ppp.weeks_plan,
+				ppp.start_time,
+				ppp.end_time,
+				ppp.carrier_id,
+				ppp.program_id  as version,
+				min(ppd.plan_date) as start_date,
+				max(ppd.plan_date) as end_date,
+		        sum(ppd.day_time)  as program_id
+				
+		from tb_pro_publish_plan ppp
+				   left outer join tb_pro_publish_plan_detail ppd
+		on ppp.id=ppd.publish_plan_id
+    ]]>
+		<dynamic prepend="WHERE">
+			
+			<isNotEmpty prepend="AND" property="programId">
+			(program_id like #programId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="id">
+			(ppp.id like #id#)
+			</isNotEmpty>
+			
+		</dynamic>
+		group by ppp.id
+    </select>
+	
+	<select id="getProPublishPlanCollection" resultMap="proPublishPlanResultCollection">
+     <![CDATA[  
+      select  ppp.id,
+		        ppp.weeks_plan,
+				ppp.start_time,
+				ppp.end_time,
+				min(ppd.plan_date) as start_date,
+				max(ppd.plan_date) as end_date,
+		        sum(ppd.day_time)  as program_id,
+				arc.carrier_name,
+				tpp.program_name
+				from tb_pro_publish_plan ppp
+				   left outer join tb_pro_publish_plan_detail ppd
+		on ppp.id=ppd.publish_plan_id
+				   left outer join tb_ad_resource_carrier arc
+		on ppp.carrier_id=arc.ad_resource_carrier_id
+				   left outer join tb_pro_program tpp
+		on ppp.program_id=tpp.id
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<isNotEmpty prepend="AND" property="proProgram.proName">
+			(tpp.program_name like #proProgram.proName#)
+			</isNotEmpty>	
+          </dynamic>
+		group by ppp.id     
+  </select>  
+	
+    <select id="getProPublishPlansByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_pro_publish_plan 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="ProPublishPlan_idList_fragment"/>
+          </dynamic>      
+  </select>     
+
+	<resultMap id="proPublishPlanResults" class="proPublishPlan">
+		<result property="id" column="id"/>
+        <result property="carrierId" column="carrier_id"/>
+        <result property="endDate" column="end_date"/>
+        <result property="endTime" column="end_time"/>
+        <result property="startDate" column="start_date"/>
+        <result property="startTime" column="start_time"/>
+        <result property="weeksPlan" column="weeks_plan"/>
+    </resultMap>
+	
+    <select id="getProPublishPlan" resultMap="proPublishPlanResults">
+    <![CDATA[
+        select * from tb_pro_publish_plan
+         where program_id = #value#
+    ]]>
+    </select>
+	
+	<resultMap id="ProPublishPlanDetail" class="proPublishPlanDetail"> 
+        <result property="id" column="id"/>
+		<result property="publishPlanId" column="publish_plan_id"/>
+		<result property="planDate" column="plan_date"/>
+		<result property="dayTimes" column="day_time"/>
+    </resultMap>
+	
+	<select id="getProPublishPlanDetail" resultMap="ProPublishPlanDetail">
+    <![CDATA[
+        select * from tb_pro_publish_plan_detail
+         where publish_plan_id = #value#
+		order by plan_date
+    ]]>
+    </select>
+	
+	<select id="getProPublishPlanDetails" resultMap="ProPublishPlanDetail">
+    <![CDATA[
+        select * from tb_pro_publish_plan_detail
+         where publish_plan_id = #value#
+		group by substring(plan_date,1,6)
+    ]]>
+    </select>
+	
+	<insert id="addProPlanDetail" parameterMap="addDetailParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_pro_publish_plan_detail (publish_plan_id,plan_date)
+            values ( ?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+	<insert id="addPublishPlanDetail" parameterMap="addDetailParam">
+
+        <![CDATA[
+            insert into tb_pro_publish_plan_detail (publish_plan_id,plan_date,day_time)
+            values ( ?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <insert id="addProPublishPlan" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_pro_publish_plan (carrier_id,create_by,create_date,end_date,end_time,modify_by,modify_date,program_id,start_date,start_time,weeks_plan)
+            values ( ?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProPublishPlan" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_publish_plan set
+                   carrier_id = ?,
+                   end_date = ?,
+                   end_time = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   program_id = ?,
+                   start_date = ?,
+                   start_time = ?,
+                   weeks_plan = ?
+        where id = ?
+    ]]>
+    </update>
+	
+	    <update id="updatePublishPlanDetail" parameterMap="updateDetailParam">
+    <![CDATA[
+        update tb_pro_publish_plan_detail set
+                   day_time = ?
+		where publish_plan_id = ?  and  plan_date = ?
+    ]]>
+    </update>
+
+	<delete id="deletePublishPlanDetail" parameterMap="deleteDetailParam">
+    <![CDATA[
+        delete from tb_pro_publish_plan_detail
+		where publish_plan_id = ?  and  plan_date = ?
+    ]]>
+	 </delete>
+	<delete id="deleteProPlanDetail">
+    <![CDATA[
+        delete from tb_pro_publish_plan_detail
+		where publish_plan_id = #value#
+    ]]>
+	 </delete>
+    <delete id="deleteProPublishPlan">
+    <![CDATA[
+        delete from tb_pro_publish_plan
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteProPublishPlanDetail" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_pro_publish_plan_detail 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="ProPublishPlan_idList_fragment"/>
+          </dynamic>      
+  </update>   
+</sqlMap>

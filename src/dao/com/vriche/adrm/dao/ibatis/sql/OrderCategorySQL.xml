@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OrderCategorySQL">
+    <typeAlias alias="orderCategory" type="com.vriche.adrm.model.OrderCategory"/>
+
+	<cacheModel id="orderCategory-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOrderCategory"/>
+		<flushOnExecute statement="updateOrderCategory"/>
+		<flushOnExecute statement="deleteOrderCategory"/>
+		<flushOnExecute statement="deleteOrderCategorys"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="orderCategory">
+		 <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <parameter property="calculateAuto" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="nodePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="orderCategory">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <parameter property="calculateAuto" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="nodePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="orderCategoryResult" class="orderCategory">
+        <result property="calculateAuto" column="calculate_auto"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="displayNo"/>
+        <result property="id" column="order_category_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="nodeLevel" column="node_level"/>
+        <result property="nodePath" column="node_path"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+		<result property="orgId" column="sys_org_id"/>
+    </resultMap>
+
+	 <resultMap id="orderCategoryResultOrderList" class="orderCategory">
+        <result property="name" column="name"/>
+		<result property="id" column="order_category_id"/>
+	</resultMap>
+	
+	
+	
+	
+
+    <select id="getOrderCategorysCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(A.calculate_auto) from tb_order_category   A 
+		
+		left outer join tb_sys_org B on B.sys_org_id  = A.sys_org_id  
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="calculateAuto">
+			(A.calculate_auto = #calculateAuto#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(A.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(A.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(A.displayNo = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(A.order_category_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(A.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(A.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(A.name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(A.node_level = #nodeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodePath">
+			(A.node_path = #nodePath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(A.parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(A.value = #value#)
+			</isNotEmpty>
+			  
+			  
+			 <isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>	
+			  
+		</dynamic>
+    </select>
+	
+	<select id="getOrderCategorysOrderList" resultMap="orderCategoryResultOrderList" >
+  
+       SELECT distinct A.name,A.order_category_id
+		FROM tb_order_category    A 
+		
+		left outer join tb_sys_org B on B.sys_org_id  = A.sys_org_id 
+
+		
+		<dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="parentId">
+			(A.parent_id = #parentId#)
+			</isNotEmpty>
+
+			  
+			 <isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>	
+			  
+		</dynamic>
+		
+		
+		group by A.name 
+		order by A.order_category_id
+
+	 </select>
+	
+	<select id="getOrderCategorysNameList" resultMap="orderCategoryResultOrderList">
+  
+       SELECT A.name,A.order_category_id 
+		
+		FROM tb_order_category   A 
+		
+		left outer join tb_sys_org B on B.sys_org_id  = A.sys_org_id 
+		
+		<dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="parentId">
+			(A.parent_id = #parentId#)
+			</isNotEmpty>
+			  
+			 <isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>	
+			  
+		</dynamic>
+	 </select>
+	
+	<select id="getSameNameIdList" resultClass="java.lang.Long">
+    <![CDATA[
+       SELECT order_category_id
+		FROM tb_order_category where name like '%$value$%'
+    ]]>
+	 </select>
+	
+
+	
+	
+    <select id="getOrderCategorys" resultMap="orderCategoryResult">
+ 
+        select A.* from tb_order_category    A 
+		
+		inner  join tb_sys_org B on B.sys_org_id  = A.sys_org_id  
+
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="calculateAuto">
+			(A.calculate_auto = #calculateAuto#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(A.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(A.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(A.displayNo = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(A.order_category_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(A.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(A.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(A.name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(A.node_level = #nodeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodePath">
+			(A.node_path = #nodePath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(A.parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(A.value = #value#)
+			</isNotEmpty>
+			  
+			 <isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>				  
+			  
+		</dynamic>
+    </select>
+	
+	
+    <select id="getOrderCategorysByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_order_category 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderCategoryIdList">
+       	  <iterate prepend="AND" property="OrderCategoryIdList" open="(" close=")" conjunction="OR">
+		   			 order_category_id = #OrderCategoryIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOrderCategory" resultMap="orderCategoryResult">
+    <![CDATA[
+        select * from tb_order_category
+         where order_category_id = #value#
+    ]]>
+    </select>
+	
+    <select id="getOrderCategoryLevelFirst" resultMap="orderCategoryResult">
+    <![CDATA[
+        select * from tb_order_category
+         where node_level = 0
+    ]]>
+    </select>	
+	
+	<select id="getOrderCategoryLevelSecond" parameterClass="java.lang.String" resultMap="orderCategoryResult">
+    <![CDATA[
+        select * from tb_order_category
+         where parent_id = #value#
+    ]]>
+    </select>
+	
+    <insert id="addOrderCategory" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_document_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_order_category (version,sys_org_id,calculate_auto,create_by,create_date,displayNo,modify_by,modify_date,name,node_level,node_path,parent_id,value)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+    <update id="updateOrderCategory" parameterMap="updateParam">
+    <![CDATA[
+        update tb_order_category set
+					 sys_org_id = ?,
+                   calculate_auto = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   displayNo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   node_level = ?,
+                   node_path = ?,
+                   parent_id = ?,
+                   value = ?,
+				   version = ?
+        where order_category_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOrderCategory">
+    <![CDATA[
+        delete from tb_order_category
+         where order_category_id = #value# or parent_id = #order_category_id#
+    ]]>
+    </delete>
+   <update id="deleteOrderCategorys" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_order_category 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrderCategoryIdList">
+       	  <iterate prepend="AND" property="OrderCategoryIdList" open="(" close=")" conjunction="OR">
+		   			 order_category_id = #OrderCategoryIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>  
+	
+	
+	
+	
+	
+	
+<select id="getOrderCategorysFromOrder" resultClass="orderCategory"  >
+
+	select DISTINCT  OC.name  FROM   tb_order_detail DT 			
+				left outer join tb_order_category OC 
+			 on   DT.order_category_id = OC.order_category_id 
+	
+		left outer join   tb_sys_org  ORG  
+				 on   ORG.sys_org_id  = OC.sys_org_id 
+	
+ 	 	<dynamic prepend="WHERE"> 
+
+			 <isNotEmpty prepend="AND" property="orgId">
+			(OC.sys_org_id = #orgId# or ORG.parent_id = #orgId#)
+			</isNotEmpty>
+			  
+			 <isNotEmpty prepend="AND" property="version">
+			(DT.version = #version#)
+			</isNotEmpty>
+			  
+	      	<isNotNull property="fitterOrderSubCatesList">
+					 <iterate prepend="AND" property="fitterOrderSubCatesList" open="(" close=")" conjunction="OR">
+								 <![CDATA[   DT.order_category_id = #fitterOrderSubCatesList[]# ]]> 
+				  </iterate>
+			  </isNotNull> 	
+			  
+		</dynamic>
+    </select>	
+	
+	
+	<select id="getSameNameIdListByOrg" resultClass="java.lang.Long">
+
+       SELECT order_category_id FROM tb_order_category  
+		
+	 	<dynamic prepend="WHERE"> 
+
+			 <isNotEmpty prepend="AND" property="orgId">
+			(sys_org_id = #orgId#)
+			</isNotEmpty>
+			  
+			 <isNotEmpty prepend="AND" property="version">
+			(version = #version# or version = 0)
+			</isNotEmpty>
+			 
+			<isNotEmpty prepend="AND" property="value">
+			(name = #value#)
+			</isNotEmpty>		 
+			 
+	      <isNotNull property="fitterOrderSubCatesList">
+       	  <iterate prepend="AND" property="fitterOrderSubCatesList" open="(" close=")" conjunction="OR">
+		   			  <![CDATA[   order_category_id = #fitterOrderSubCatesList[]# ]]> 
+		  </iterate>
+		  </isNotNull> 			 
+
+		</dynamic>	
+		
+		
+  
+	 </select>
+	
+	
+	
+	
+	
+	
+	
+	 
+</sqlMap>

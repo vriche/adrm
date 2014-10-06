@@ -1,0 +1,504 @@
+package com.vriche.adrm.util;
+
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.aop.support.AopUtils;
+
+import com.vriche.adrm.model.BaseObject;
+import com.vriche.adrm.model.BaseObjectWithoutNestedFormValidation;
+import com.vriche.adrm.model.LabelValue;
+
+
+/**
+ * Utility class to convert one object to another.
+ * 
+ * <p>
+ * <a href="ConvertUtil.java.html"><i>View Source</i></a>
+ * </p>
+ * 
+ * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
+ */
+public final class ConvertUtil {
+ 
+    //~ Static fields/initializers =============================================
+
+    private static Log log = LogFactory.getLog(ConvertUtil.class);
+
+    //~ Methods ================================================================
+
+    /**
+     * Method to convert a ResourceBundle to a Map object.
+     * @param rb a given resource bundle
+     * @return Map a populated map
+     */
+    public static Map convertBundleToMap(ResourceBundle rb) {
+        Map map = new HashMap();
+
+        for (Enumeration keys = rb.getKeys(); keys.hasMoreElements();) {
+            String key = (String) keys.nextElement();
+            map.put(key, rb.getString(key));
+        }
+
+        return map;
+    }
+    
+    public static Map convertListToMap(List list) {
+        Map map = new LinkedHashMap();
+        
+        for (Iterator it = list.iterator(); it.hasNext();) {
+            LabelValue option = (LabelValue) it.next();
+            map.put(option.getLabel(), option.getValue());
+        }
+        
+        return map;
+    }
+    public static Map convertListToMap(List list,String keyPropertyName) {
+        Map map = new HashMap();
+         
+        for (Iterator it = list.iterator(); it.hasNext();) {
+        		String k;
+				try {
+					Object o = it.next();
+					k = (String) BeanUtils.getProperty(o,keyPropertyName);
+					map.put(k, o);
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            
+        }
+        
+        return map;
+    }   
+    
+    
+    public static double getSumFromList(List list,String keyPropertyName) {
+        
+        double k =0;
+        for (Iterator it = list.iterator(); it.hasNext();) {
+        	
+				try {
+					Object o = it.next();
+					Object obj =  BeanUtils.getProperty(o,keyPropertyName);
+					String objValue = (obj==null)?new String("0"):(String)obj;  
+					k += Double.parseDouble(objValue);
+					
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            
+        }
+        
+        return k;
+    }  
+    
+    
+    public static String convertObjectBykeyPropertyName(Object o,String keyPropertyName) {
+
+    	String value = "";
+				try {
+
+					value = (String) BeanUtils.getProperty(o,keyPropertyName);
+
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        
+        return value;
+    }  
+    
+    public  static Map convertListToMap(String key,List idList){
+		Map mp = new HashMap();
+		if (idList.size() > 0) {
+			mp.put(key, idList);
+		}
+		return mp;
+	}
+
+    public  static List convertMapToList(String key,Map map){
+    	List ls = new ArrayList();
+    	if(map.size()>0){
+    		Object obj = map.get(key);
+    		if (obj instanceof String) {
+    			String[] k = map.get(key).toString().split(",");
+//    			System.out.println("k>>>>>>>>>>>" +k);
+    			for (int i = 0; i< k.length; i++){
+    				ls.add(k[i]);
+    			}
+    		}
+    		
+    		 if (obj instanceof Long) {
+    			    String v = obj.toString();
+    				String[] k = v.split(",");
+//    				System.out.println("k>>>>>>>>>>>" +k);
+    				for (int i = 0; i< k.length; i++){
+    					ls.add(k[i]);
+    				}
+    		 }
+    		
+    		
+
+	    	}
+		return ls;
+	}
+    public  static List convertMapToList11(String key,Map map,int j){
+    	List ls = new ArrayList();
+    	if(map.size()>0){
+
+    		if(j == 1){
+    	 		for (Iterator it = map.keySet().iterator(); it.hasNext();) {
+    	 			 Object obj = it.next();
+    	 			ls.add(obj); 
+        		}
+    		}else{
+    	 		for (Iterator it = map.values().iterator(); it.hasNext();) {
+    	 			Object obj = it.next();
+    	 			ls.add(obj); 
+        		}
+    		}
+   
+ 
+	   }
+		return ls;
+	}
+    public  static Map convertListToMap2(List ls){
+    	Map mp = new HashMap();
+    	if(ls.size() > 0){
+    		for (Iterator it = ls.iterator(); it.hasNext();) {
+    			 Object obj = it.next();
+    			 if (obj instanceof String) {
+    				 String key = (String)obj;
+    				 mp.put(new Long(key),new Long(key));
+    			 }
+    			 if (obj instanceof Long) {
+    				 Long key = (Long)obj;
+    				 mp.put(key,key);
+    			 }	 
+    			
+    		}
+    		
+    	}
+		return mp;
+	}
+    
+    
+    public static Set convertIdsFromListToArray(List ls) {
+		int size = ls.size();
+		int i[] = new int[size];
+		Iterator it = ls.iterator();
+		for (int k = 0; k < size; k++) {
+			i[k] = ((Integer) it.next()).intValue();
+		}
+		Set ids = new HashSet();
+		ids.add(i);
+
+		return ids;
+	}
+    
+    
+    public static Object[] convertFromListToArray(List ls) {
+		int size = ls.size();
+		String[] ids = new String[size];
+		Iterator it = ls.iterator();
+		for (int k = 0; k < size; k++) {
+			ids[k] =  it.next().toString();
+		}
+
+		return ids;
+	}
+    
+    public static String[] convertFromListToArray2(List ls) {
+		int size = ls.size();
+		String[] ids = new String[size];
+		Iterator it = ls.iterator();
+		for (int k = 0; k < size; k++) {
+			ids[k] =  it.next().toString();
+		}
+
+		return ids;
+	}
+    
+    public static String convertFromListToArray3(List ls,String delc) {
+		String[] ids =convertFromListToArray2(ls);
+		return StringUtils.join(ids,delc);
+	}   
+    
+    
+    
+    
+	public static Object[] getColFromList(List ls,String propertyName){
+
+		int size = ls.size();
+		String[] s = new String[size];
+		
+		int j = 0;
+		for (Iterator it = ls.iterator();it.hasNext();){
+			try {
+				s[j++] = (String) BeanUtils.getProperty(it.next(),propertyName) ;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return s;
+	}
+	
+	public static Object[] getColFromList2(List ls,String propertyName){
+
+		int size = ls.size();
+		Integer[] s = new Integer[size];
+		
+		int j = 0;
+		for (Iterator it = ls.iterator();it.hasNext();){
+			try {
+				s[j++] = new Integer(BeanUtils.getProperty(it.next(),propertyName)) ;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return s;
+	}
+    
+    /**
+     * Method to convert a ResourceBundle to a Properties object.
+     * @param rb a given resource bundle
+     * @return Properties a populated properties object
+     */
+    public static Properties convertBundleToProperties(ResourceBundle rb) {
+        Properties props = new Properties();
+
+        for (Enumeration keys = rb.getKeys(); keys.hasMoreElements();) {
+            String key = (String) keys.nextElement();
+            props.put(key, rb.getString(key));
+        }
+
+        return props;
+    }
+
+    /**
+     * Convenience method used by tests to populate an object from a
+     * ResourceBundle
+     * @param obj an initialized object
+     * @param rb a resource bundle
+     * @return a populated object
+     */
+    public static Object populateObject(Object obj, ResourceBundle rb) {
+        try {
+            Map map = convertBundleToMap(rb);
+
+            BeanUtils.copyProperties(obj, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("Exception occured populating object: " + e.getMessage());
+        }
+
+        return obj;
+    }
+    
+    public static void copyBeanProperties(Object dest,Object sour) {
+        try {
+            BeanUtils.copyProperties(dest, sour);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("Exception occured populating object: " + e.getMessage());
+        }
+
+    }
+    
+    public static void copyBeanProperties2(Object dest,Object sour) {
+        try {
+			org.apache.commons.beanutils.PropertyUtils.copyProperties(dest, sour);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
+    public static void copyBeanProperties3(Object[] dests,Object[] sours) {
+        try {
+            for (int i =0;i< dests.length;i++){
+            	org.apache.commons.beanutils.PropertyUtils.copyProperties(dests[i], sours[i]);
+            }
+			
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    
+    
+
+    /**
+     * This method inspects a POJO or Form and figures out its pojo/form
+     * equivalent.
+     *
+     * @param o the object to inspect
+     * @return the Class of the persistable object
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
+    public static Object getOpposingObject(Object o) throws ClassNotFoundException,
+                                                InstantiationException,
+                                                IllegalAccessException {
+        String name = o.getClass().getName();
+
+        if (o instanceof BaseObject || o instanceof BaseObjectWithoutNestedFormValidation) {
+            if (log.isDebugEnabled()) {
+                log.debug("getting form equivalent of pojo...");
+            }
+
+            name = StringUtils.replace(name, ".model.", ".webapp.form.");
+            if (AopUtils.isCglibProxy(o))  {
+                name = name.substring(0, name.indexOf("$$"));
+            }
+            name += "Form";
+        } else {
+            if (log.isDebugEnabled()) {
+                log.debug("getting pojo equivalent of form...");
+            }
+            name = StringUtils.replace(name, ".webapp.form.", ".model.");
+            name = name.substring(0, name.lastIndexOf("Form"));
+        }
+		
+        Class obj = Class.forName(name);
+
+        if (log.isDebugEnabled()) {
+            log.debug("returning className: " + obj.getName());
+        }
+
+        return obj.newInstance();
+    }
+
+    /**
+     * Convenience method to convert a form to a POJO and back again
+     *
+     * @param o the object to tranfer properties from
+     * @return converted object
+     */
+    public static Object convert(Object o) throws Exception {
+        if (o == null) {
+        	return null;
+        }
+        Object target = getOpposingObject(o);
+        BeanUtils.copyProperties(target, o);
+        return target;
+    }
+
+    /**
+     * Convenience method to convert Lists (in a Form) from POJOs to Forms.
+     * Also checks for and formats dates.
+     *
+     * @param o
+     * @return Object with converted lists
+     * @throws Exception
+     */
+    public static Object convertLists(Object o) throws Exception {
+        if (o == null) {
+            return null;
+        }
+
+        Object target = null;
+
+        PropertyDescriptor[] origDescriptors =
+                PropertyUtils.getPropertyDescriptors(o);
+
+        for (int i = 0; i < origDescriptors.length; i++) {
+            String name = origDescriptors[i].getName();
+
+            if (origDescriptors[i].getPropertyType().equals(List.class)) {
+                List list = (List) PropertyUtils.getProperty(o, name);
+                for (int j=0; j < list.size(); j++) {
+                    Object origin = list.get(j);
+                    target = convert(origin);
+                    list.set(j, target);
+                }
+                PropertyUtils.setProperty(o, name, list);
+            }
+        }
+        return o;
+    }
+    
+    
+    public static List convertobjList2ArrayList(List ls,Object o) throws Exception {
+     
+    	List temps = new ArrayList(); 
+    	
+        if (ls == null || ls.size() == 0 || o == null) {
+            return new ArrayList();
+        }
+
+//        Object target = null;
+
+        PropertyDescriptor[] origDescriptors = PropertyUtils.getPropertyDescriptors(o);
+      
+        String []s= null;  
+        
+        for (Iterator it = ls.iterator();it.hasNext();){
+        	Object obj = (Object) it.next();
+        	s = new String[origDescriptors.length];  
+        	for (int i = 0; i < origDescriptors.length; i++) {
+        		String propertyName = origDescriptors[i].getName();
+        		Class propertyType = origDescriptors[i].getPropertyType();
+	            try {
+					s[i++] = (String) BeanUtils.getProperty(obj,propertyName) ;
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+        	  
+        	}
+        	temps.add(s);
+         
+        }
+        return temps;
+    }
+}

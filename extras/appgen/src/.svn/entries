@@ -1,0 +1,169 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/extras/appgen/src
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+menu-config.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.431963Z
+1539b9939e3a5d376d424dd305bca833
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+List_jsp.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.431963Z
+92ac437c2a5ae4006b5d574f7fa5ae18
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+Copy of sample-data.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.431963Z
+e814c6a62e98d5c118fbc88bdc109efd
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+sample-data.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.431963Z
+7d29899693671208d7b007418cb4c3b7
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+org
+dir
+
+javascript-class.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.447588Z
+74c06358cea7921606e6fd7887f9888e
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+Constants.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.447588Z
+31fdde703250c4ed8eee44d193b83054
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+detailed
+dir
+
+web-tests.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.447588Z
+8e8b44cc8fe8ea42e090cc19970893e7
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+ActionTest.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.447588Z
+552ccfa25db6aa3b9990585c848babb2
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+generic
+dir
+
+FormKeys.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.447588Z
+92c161d630192e611ef170f29e02fa48
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+Form_jsp.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.447588Z
+4f82d8a3484e2f58662be3ee393f6b04
+2012-11-24T06:19:14.235122Z
+12
+lxz
+
+menu_jsp.xdt
+file
+
+
+
+
+2013-05-17T07:35:58.463213Z
+7686b0a73aa9cd292aac3f2e0938a419
+2012-11-24T06:19:14.235122Z
+12
+lxz
+

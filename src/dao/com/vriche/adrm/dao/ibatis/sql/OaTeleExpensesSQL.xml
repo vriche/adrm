@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaTeleExpensesSQL">
+    <typeAlias alias="oaTeleExpenses" type="com.vriche.adrm.model.OaTeleExpenses"/>
+
+	<cacheModel id="oaTeleExpenses-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaTeleExpenses"/>
+		<flushOnExecute statement="updateOaTeleExpenses"/>
+		<flushOnExecute statement="deleteOaTeleExpenses"/>
+		<flushOnExecute statement="deleteOaTeleExpensess"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaTeleExpenses">
+        <parameter property="branchId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="expenses" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="registerDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaTeleExpenses">
+        <parameter property="branchId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="expenses" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="registerDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+	
+    <resultMap id="oaTeleExpensesResult" class="oaTeleExpenses">
+        <result property="branchId" column="branch_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="expenses" column="tele_expenses"/>
+        <result property="id" column="id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="registerDate" column="register_date"/>
+        <result property="version" column="version"/>
+		
+		
+		<result property="branch" column="branch_id" select="getBranchClass"/>
+    </resultMap>
+	
+    <resultMap id="teleExpensesResult" class="oaTeleExpenses">
+        <result property="branch.name" column="name"/>
+        <result property="expenses" column="expenses"/>
+    </resultMap>
+	
+	
+    <select id="getOaTeleExpensessCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_tel_expenses 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="branchId">
+			(branch_id like #branchId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="expenses">
+			(tele_expenses like #expenses#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="registerDate">
+			(register_date like #registerDate#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaTeleExpensess" resultMap="oaTeleExpensesResult">
+    <![CDATA[
+        select * from tb_oa_tel_expenses 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="branchId">
+			(branch_id like #branchId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="expenses">
+			(tele_expenses like #expenses#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="registerDate">
+			(register_date like #registerDate#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getOaTeleExpensessByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_tel_expenses 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaTeleExpensesIdList">
+       	  <iterate prepend="AND" property="OaTeleExpensesIdList" open="(" close=")" conjunction="OR">
+		   			 id = #OaTeleExpensesIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaTeleExpenses" resultMap="oaTeleExpensesResult">
+    <![CDATA[
+        select * from tb_oa_tel_expenses
+         where id = #value#
+    ]]>
+    </select>
+	
+	
+    <select id="getOaTeleExpensesByBeginAndEndDate" parameterClass="java.util.Map" resultMap="teleExpensesResult">
+    <![CDATA[
+		select b.name,sum(te.tele_expenses) as expenses 
+			from tb_oa_tel_expenses te
+			join tb_sys_branch b
+			where te.branch_id = b.sys_branch_id
+				   and te.register_date >= #beginDate#
+				   and te.register_date <= #endDate#
+			group by b.name
+    ]]>
+    </select>
+	
+    <select id="getOaTeleExpensessCountByBeginAndEndDate" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+    	<![CDATA[
+			select count(distinct b.name) from tb_oa_tel_expenses te
+				join tb_sys_branch b
+				where te.branch_id = b.sys_branch_id
+					   and te.register_date >= #beginDate#
+					   and te.register_date <= #endDate#
+		]]>	
+    </select>
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+
+    <insert id="addOaTeleExpenses" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_tel_expenses (branch_id,create_by,create_date,tele_expenses,modify_by,modify_date,register_date)
+            values ( ?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaTeleExpenses" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_tel_expenses set
+                   branch_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   tele_expenses = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   register_date = ?,
+		           version = ?
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaTeleExpenses">
+    <![CDATA[
+        delete from tb_oa_tel_expenses
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaTeleExpensess" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_tel_expenses 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaTeleExpensesIdList">
+       	  <iterate prepend="AND" property="OaTeleExpensesIdList" open="(" close=")" conjunction="OR">
+		   			 id = #OaTeleExpensesIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

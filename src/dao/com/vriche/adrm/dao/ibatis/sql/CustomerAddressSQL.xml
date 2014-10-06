@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CustomerAddressSQL">
+    <typeAlias alias="customerAddress" type="com.vriche.adrm.model.CustomerAddress"/>
+	<cacheModel id="customerAddress-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addCustomerAddress"/>
+		<flushOnExecute statement="updateCustomerAddress"/>
+		<flushOnExecute statement="deleteCustomerAddress"/>
+		<flushOnExecute statement="deleteCustomerAddresss"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="customerAddress">
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="addressType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="city" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="country" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="postalCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="province" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="customerAddress">
+        <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="addressType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="city" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="country" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="postalCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="province" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="customerAddressResult" class="customerAddress">
+        <result property="id" column="customer_address_id"/>
+        <result property="customerId" column="customer_id" nullValue="0"/>
+        <result property="addressType" column="addressType" nullValue=""/>
+        <result property="address" column="address" nullValue="0"/>
+        <result property="city" column="city" nullValue=""/>
+        <result property="country" column="country" nullValue="0"/>
+        <result property="postalCode" column="postal_code" nullValue=""/>
+        <result property="province" column="province" nullValue="0"/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+	
+	<resultMap id="customerAddressResult2" class="customerAddress">
+        <result property="id" column="customer_address_id"/>
+        <result property="customerId" column="customer_id" nullValue="0"/>
+        <result property="addressType" column="addressType" nullValue=""/>
+        <result property="address" column="address" nullValue="0"/>
+        <result property="city" column="city" nullValue=""/>
+        <result property="country" column="country" nullValue="0"/>
+        <result property="postalCode" column="postal_code" nullValue=""/>
+		<result property="province" column="province" nullValue="0"/>
+        <result property="oaAreaCity.name" column="provinceName" nullValue=""/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getCustomerAddresss"  parameterClass="customerAddress" resultMap="customerAddressResult2">
+    <![CDATA[
+        select *,ac.name as provinceName from tb_customer_address    
+			left outer join tb_oa_area_city  ac
+		        on tb_customer_address.province = ac.area_city_id
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(customer_address_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="addressType">
+			(addressType like #addressType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address">
+			(address like #address#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="city">
+			(city like #city#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="country">
+			(country like #country#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="postalCode">
+			(postal_code like #postalCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="province">
+			(province like #province#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+	
+	<select id="getCustomerAddressCount" parameterClass="customerAddress" resultClass="java.lang.Integer">
+    <![CDATA[
+		select count(*) from tb_customer_address
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="id">
+			(customer_address_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerId">
+			(customer_id like #customerId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="addressType">
+			(addressType like #addressType#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address">
+			(address like #address#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="city">
+			(city like #city#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="country">
+			(country like #country#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="postalCode">
+			(postal_code like #postalCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="province">
+			(province like #province#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+	
+    <select id="getCustomerAddresssByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_customer_address 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CustomerAddressIdList">
+       	  <iterate prepend="AND" property="CustomerAddressIdList" open="(" close=")" conjunction="OR">
+		   			 customer_address_id = #CustomerAddressIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getCustomerAddress" resultMap="customerAddressResult">
+    <![CDATA[
+        select * from tb_customer_address
+         where customer_type_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addCustomerAddress" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_customer_type_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        
+        <![CDATA[
+            insert into tb_customer_address (customer_id,addressType,address,city,country,postal_code,province,create_by,create_date,modify_by,modify_date)
+            values ( ?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateCustomerAddress" parameterMap="updateParam">
+    <![CDATA[
+        update tb_customer_address set
+                   customer_id = ?,
+                   addressType = ?,
+                   address = ?,
+                   city = ?,
+                   country = ?,
+                   postal_code = ?,
+                   province = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+				   version = ?
+        where customer_address_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteCustomerAddress">
+    <![CDATA[
+        delete from tb_customer_address
+         where customer_address_id = #value#
+    ]]>
+    </delete>
+	
+	<delete id="deleteAddressByCustomerId">
+    <![CDATA[
+         delete from tb_customer_address
+         where customer_id = #value#
+    ]]>
+    </delete>	
+	
+	
+   <update id="deleteCustomerAddresss" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_customer_address 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CustomerAddressIdList">
+       	  <iterate prepend="AND" property="CustomerAddressIdList" open="(" close=")" conjunction="OR">
+		   			 customer_address_id = #CustomerAddressIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CarrierSQL">
+    <typeAlias alias="carrier" type="com.vriche.adrm.model.Carrier"/>
+
+	<cacheModel id="carrier-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addCarrier"/>
+		<flushOnExecute statement="updateCarrier"/>
+		<flushOnExecute statement="deleteCarrier"/>
+		<flushOnExecute statement="deleteCarriers"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+
+	
+    <parameterMap id="addParam" class="carrier">
+		<parameter property="isBuildLevel" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+		<parameter property="channelId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="mediaOrgId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="carrierTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="aliasName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="carrierName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="nodePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="carrier">
+		<parameter property="isBuildLevel" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+		<parameter property="channelId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="mediaOrgId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="carrierTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <parameter property="aliasName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="carrierName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="nodePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="carrierResult" class="carrier">
+		<result property="isBuildLevel" column="is_build_level" nullValue="0"/>
+		<result property="channelId" column="ad_resource_channel_id" nullValue="0"/>
+		<result property="mediaOrgId" column="ad_resource_mediaorg_Id" nullValue="0"/>
+		<result property="carrierTypeId" column="ad_resource_carrier_type_id" nullValue="0"/>
+        <result property="enable" column="enable" nullValue="0"/>
+        <result property="aliasName" column="alias_name" nullValue=""/>
+        <result property="carrierName" column="carrier_name" nullValue=""/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no" nullValue="0"/>
+        <result property="id" column="ad_resource_carrier_id"/>
+        <result property="memo" column="memo" nullValue=""/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="nodeLevel" column="node_level" nullValue="0"/>
+        <result property="nodePath" column="nodePath" nullValue=""/>
+        <result property="parentId" column="parent_id" nullValue="0"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	<resultMap id="carrierNameResult" class="carrier">
+	    <result property="carrierName" column="carrier_name"/>
+    </resultMap>
+	
+	<select id="getCarriersByCarrierTypeId" parameterClass="java.lang.String" resultMap="carrierResult" cacheModel="carrier-cache">
+    <![CDATA[
+        select * from tb_ad_resource_carrier 
+		where ad_resource_carrier_type_id = #value# and parent_id = 0  
+    ]]>
+	</select>
+	
+	<select id="getCarrierName" resultClass="java.lang.String">
+    <![CDATA[
+        select carrier_name from tb_ad_resource_carrier 
+		where ad_resource_carrier_id = #value# 
+    ]]>
+	</select>
+	
+	<select id="getCarriersByParentId"  resultMap="carrierResult"  >
+    <![CDATA[
+        select * from tb_ad_resource_carrier 
+		where parent_id = #value# 
+    ]]>
+	</select>
+	
+	
+	
+	
+	
+	
+  <resultMap id="carrierResult_for_getCarriers" class="carrier">
+		<result property="isBuildLevel" column="is_build_level" nullValue="0"/>
+		<result property="channelId" column="ad_resource_channel_id" nullValue="0"/>
+		<result property="mediaOrgId" column="ad_resource_mediaorg_Id" nullValue="0"/>
+		<result property="carrierTypeId" column="ad_resource_carrier_type_id" nullValue="0"/>
+        <result property="enable" column="enable" nullValue="0"/>
+        <result property="aliasName" column="alias_name" nullValue=""/>
+        <result property="carrierName" column="carrier_name" nullValue=""/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no" nullValue="0"/>
+        <result property="id" column="ad_resource_carrier_id"/>
+        <result property="memo" column="memo" nullValue=""/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="nodeLevel" column="node_level" nullValue="0"/>
+        <result property="nodePath" column="nodePath" nullValue=""/>
+        <result property="parentId" column="parent_id" nullValue="0"/>
+        <result property="version" column="version"/>
+	    <result property="orgId" column="sys_org_id"/>
+    </resultMap>
+
+    <select id="getCarriers" resultMap="carrierResult_for_getCarriers"  >
+    <![CDATA[
+        select A.* ,C.sys_org_id 
+		
+		from tb_ad_resource_carrier A 
+		
+				left outer join tb_ad_resource_carrier_type C
+			on C.ad_resource_carrier_type_id = A.ad_resource_carrier_type_id 
+		
+			left outer join tb_sys_org B on B.sys_org_id  = C.sys_org_id  
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierTypeId">
+			(A.ad_resource_carrier_type_id = #carrierTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="aliasName">
+			(A.alias_name = #aliasName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="carrierName">
+			(A.carrier_name = #carrierName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(A.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(A.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(A.display_no = #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(A.ad_resource_carrier_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(A.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(A.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(A.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(A.node_level = #nodeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodePath">
+			(A.nodePath = #nodePath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(A.parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(A.enable = #enable#)
+			</isNotEmpty>
+			  
+		   <isNotEmpty prepend="AND" property="isBuildLevel">
+			(A.is_build_level = #isBuildLevel#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="version">
+			(A.version = #version#)  
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+			(C.sys_org_id = #orgId#)  
+			</isNotEmpty>		  
+			  
+		</dynamic>
+		 
+         order by A.ad_resource_channel_id 
+		
+    </select>
+	
+	<select id="getCarrierForChannel" resultMap="carrierResult_for_getCarriers" >
+
+        select A.*,C.sys_org_id  from tb_ad_resource_carrier A 
+
+				left outer join tb_ad_resource_carrier_type C
+			on C.ad_resource_carrier_type_id = A.ad_resource_carrier_type_id 
+		
+			left outer join tb_sys_org B on B.sys_org_id  = C.sys_org_id  
+		
+		where A.node_level=#value# 
+		
+		order by A.ad_resource_channel_id 
+ 
+	</select>   
+	
+    <select id="getCarriersByIdList" parameterClass="java.util.Map" resultMap="carrierResult">
+
+      select * from tb_ad_resource_carrier 
+   
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CarrierIdList">
+       	  <iterate prepend="AND" property="CarrierIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_carrier_id = #CarrierIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+
+   </select>     
+
+    <select id="getCarrier" resultMap="carrierResult" >
+    <![CDATA[
+        select * from tb_ad_resource_carrier
+         where ad_resource_carrier_id = #value# 
+    ]]>
+    </select>
+	
+	
+	
+    <resultMap id="carrierResult_test" class="carrier">
+		<result property="isBuildLevel" column="is_build_level" nullValue="0"/>
+		<result property="channelId" column="ad_resource_channel_id" nullValue="0"/>
+		<result property="mediaOrgId" column="ad_resource_mediaorg_Id" nullValue="0"/>
+		<result property="carrierTypeId" column="ad_resource_carrier_type_id" nullValue="0"/>
+        <result property="enable" column="enable" nullValue="0"/>
+        <result property="aliasName" column="alias_name" nullValue=""/>
+        <result property="carrierName" column="carrier_name" nullValue=""/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="createDate" column="create_date"/>
+        <result property="displayNo" column="display_no" nullValue="0"/>
+        <result property="id" column="ad_resource_carrier_id"/>
+        <result property="memo" column="memo" nullValue=""/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="nodeLevel" column="node_level" nullValue="0"/>
+        <result property="nodePath" column="nodePath" nullValue=""/>
+        <result property="parentId" column="parent_id" nullValue="0"/>
+        <result property="version" column="version"/>
+		<result property="carrierType.name" column="carrierTypeName"/>
+    </resultMap>	
+	
+	<select id="select_carrier_for_one_orderDetail"  resultMap="carrierResult_test">
+		SELECT A.*,
+		   C.name as carrierTypeName 
+		FROM tb_ad_resource_carrier A
+		left outer join tb_ad_resource_info  B
+			on A.ad_resource_carrier_id = B.ad_resource_carrier_id 
+		left outer join tb_ad_resource_carrier_type C
+			on C.ad_resource_carrier_type_id = A.ad_resource_carrier_type_id 
+		where ad_resource_info_id = #value# 
+    </select>
+	
+	
+    <select id="getCarrierClass" resultClass="carrier"  cacheModel="carrier-cache">
+    <![CDATA[
+        select ad_resource_carrier_id as id,ad_resource_channel_id as channelId,ad_resource_mediaorg_Id as mediaOrgId,ad_resource_carrier_type_id as carrierTypeId,carrier_name as carrierName from tb_ad_resource_carrier
+         where ad_resource_carrier_id = #value# 
+    ]]>
+    </select>
+	
+    <select id="getCarriersByLevel" parameterClass="java.lang.String" resultMap="carrierResult"  cacheModel="carrier-cache">
+    <![CDATA[
+        select * from tb_ad_resource_carrier 
+         where node_level = #value# 
+    ]]>
+    </select>	
+	
+
+
+    <insert id="addCarrier" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_carrier_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_ad_resource_carrier ( is_build_level,ad_resource_channel_id,ad_resource_mediaorg_Id,ad_resource_carrier_type_id,enable,alias_name,carrier_name,create_by,create_date,display_no,memo,modify_by,modify_date,node_level,nodePath,parent_id,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateCarrier" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_carrier set
+				   is_build_level = ?,
+		           ad_resource_channel_id = ?,
+				   ad_resource_mediaorg_Id = ?,
+		           ad_resource_carrier_type_id = ?,
+                   enable = ?,
+                   alias_name = ?,
+                   carrier_name = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   display_no = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   node_level = ?,
+                   nodePath = ?,
+                   parent_id = ?,
+				   version = ? 
+        where ad_resource_carrier_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteCarrier" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_ad_resource_carrier
+         where ad_resource_carrier_id = #value# 
+    ]]>
+    </delete>
+	
+   <update id="deleteCarriers" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_carrier 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CarrierIdList">
+       	  <iterate prepend="AND" property="CarrierIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_carrier_id = #CarrierIdList[]#
+		  </iterate>
+		  </isNotNull> 
+				
+	      <isNotNull property="version">
+		   			 version = #version# 
+		  </isNotNull> 				
+				
+          </dynamic>      
+  </update>   
+
+    <delete id="deleteCarriers2" parameterClass="java.util.Map">
+        delete from tb_ad_resource_carrier where  version = #version#  
+    </delete>	
+	
+	 <select id="getCarrierInfo" parameterClass="java.util.Map" resultMap="carrierResult" >
+        select CA.* from tb_ad_resource_carrier CA 
+		 inner join tb_ad_resource_carrier_type  CT on  CT.ad_resource_carrier_type_id = CA.ad_resource_carrier_type_id
+		 
+	 	<dynamic prepend="WHERE"> 
+			 
+			 <isNotNull prepend="AND" property="orgId">
+			(CT.sys_org_id = #orgId# )
+			</isNotNull>
+			 <isNotNull prepend="AND" property="nodeLevel">
+			(CA.node_level= #nodeLevel# )
+			</isNotNull>
+		</dynamic>		 
+		 
+    </select>		
+	
+	
+    <resultMap id="carrierResult_getCarrierWithChannel" extends="carrierResult" class="carrier">
+		<result property="resourceChannel.id" column="channel_id" nullValue="0"/>
+		<result property="resourceChannel.name" column="channel_name" nullValue="0"/>
+		<result property="resourceChannel.memo" column="channel_memo" nullValue="0"/>
+		
+    </resultMap>	
+	
+    <select id="getCarrierWithChannel"    resultMap="carrierResult_getCarrierWithChannel" >
+					
+					select rc.*,chanl.resource_mediaorg_id as channel_id,chanl.name as channel_name,chanl.memo as channel_memo 
+		
+				 from tb_ad_resource_carrier rc 
+					
+					left outer join  tb_ad_resource_channel AS chanl 	ON chanl.resource_mediaorg_id = rc.ad_resource_channel_id 
+
+							WHERE  rc.parent_id = 0 
+								 
+							 <isNotNull prepend="AND" property="orgId">
+									(chanl.sys_org_id = #orgId# )
+							</isNotNull>
+		
+							<isNotEmpty prepend="AND" property="enable">
+							(rc.enable = #enable#)
+							</isNotEmpty>
+			  
+							order by chanl.resource_mediaorg_id 
+			
+					  
+					
+		</select>	
+	
+</sqlMap>

@@ -1,0 +1,160 @@
+delimiter ;   
+drop procedure if exists pro_check_tape_code;   
+delimiter |   
+
+create procedure pro_check_tape_code()   
+begin   
+
+ declare  first int;
+ declare last int;
+ declare  tapecode  int;
+ declare  nextcode  int;
+ declare  maxId int ;
+ declare stop int default 0;
+
+DECLARE cur CURSOR FOR  select tape_code from tb_adver_matter group by tape_code having count(tape_code) > 1;
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND  SET stop=1;   
+
+ open cur;   
+
+ fetch cur into tapecode;
+
+while stop <> 1 do  
+                        
+                SELECT  max(tape_code) +1  into nextcode   from  tb_adver_matter;  
+                SELECT max(adver_matter_id )  into maxId from  tb_adver_matter where tape_code = tapecode;
+                update tb_adver_matter set  tape_code = nextcode  where   adver_matter_id = maxId;
+                 
+        fetch cur into tapecode;
+
+    end while;  
+ 
+ close cur; 
+
+ end;   
+|  
+
+delimiter ;   
+call pro_check_tape_code;
+
+
+
+
+
+
+
+delimiter ;   
+drop procedure if exists pro_check_tape_code2;   
+delimiter |   
+
+create procedure pro_check_tape_code2()   
+
+begin   
+
+ declare  ad_name varchar(30);
+ declare  ad_edit varchar(30);
+ declare  ad_len varchar(30);
+ declare stop int default 0;
+
+ DECLARE cur CURSOR FOR  select name,edit,length from tb_adver_matter group by  name,edit,length  having count(name) > 1;
+ DECLARE CONTINUE HANDLER FOR NOT FOUND  SET stop=1;   
+
+ open cur;   
+
+ fetch cur into ad_name,ad_edit,ad_len;
+
+ while stop <> 1 do  
+
+        call pro_check_tape_code3(ad_name,ad_edit,ad_len);
+  
+        fetch cur into  ad_name,ad_edit,ad_len;
+
+ end while;  
+
+ close cur; 
+
+ delete from tb_adver_matter where adver_matter_id not in (select adver_matter_id from tb_order_detail );
+
+end;   
+
+ |
+
+
+
+
+delimiter ;   
+drop procedure if exists pro_check_tape_code3;   
+delimiter |   
+
+create procedure pro_check_tape_code3(ad_name varchar(30) ,ad_edit varchar(30) ,ad_len varchar(30))   
+ 
+ begin   
+
+
+ declare  myid int ;
+ declare  i int default 0;
+ declare  newid int  default 0;
+ declare stop int default 0;
+ 
+ DECLARE cur CURSOR FOR   SELECT adver_matter_id from  tb_adver_matter where name = ad_name  and edit = ad_edit and length = ad_len;
+
+ DECLARE CONTINUE HANDLER FOR NOT FOUND  SET stop=1;   
+
+ open cur;   
+
+ fetch cur into myid;
+
+ while stop <> 1 do  
+
+	set i = i+1;
+
+	if i = 1 then
+		set newid = myid;
+	end if;
+
+	if i >1 then
+
+		update tb_order_detail set  adver_matter_id = newid where adver_matter_id = myid;
+                --  select ad_name,newid,myid;
+
+	end if;
+         
+        fetch cur into myid;
+
+    end while;  
+ 
+ close cur; 
+
+end;   
+
+ |
+
+
+
+call pro_check_tape_code2;
+
+
+
+set global log_bin_trust_function_creators = 1; 
+DROP FUNCTION IF EXISTS display; 
+
+DELIMITER $$   
+CREATE FUNCTION display( s varchar(30)) 
+RETURNS VARCHAR(255)                  
+BEGIN
+    DECLARE str varchar(255) default 'hello '; -- 定义一个变量，可以指定默认值
+    SET str = concat(str,s);                    -- 设置改边变量的值
+    RETURN str;                                 -- 返回值
+END $$                                          -- 注意看清楚了，这个end后面有你在前面定义的分割符号
+DELIMITER $$                                    -- 好，这里结束。
+
+
+
+
+
+
+
+ 
+
+ 

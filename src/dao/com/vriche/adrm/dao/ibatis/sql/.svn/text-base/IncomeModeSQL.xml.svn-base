@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="IncomeModeSQL">
+    <typeAlias alias="incomeMode" type="com.vriche.adrm.model.IncomeMode"/>
+
+	<cacheModel id="incomeMode-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addIncomeMode"/>
+		<flushOnExecute statement="updateIncomeMode"/>
+		<flushOnExecute statement="deleteIncomeMode"/>
+		<flushOnExecute statement="deleteIncomeModes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="incomeMode">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="incomeMode">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="incomeModeResult" class="incomeMode">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="income_mode_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getIncomeModes" resultMap="incomeModeResult">
+    <![CDATA[
+        select * from tb_income_mode 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(income_mode_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+    <select id="getIncomeModesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_income_mode 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="IncomeModeIdList">
+       	  <iterate prepend="AND" property="IncomeModeIdList" open="(" close=")" conjunction="OR">
+		   			 income_mode_id = #IncomeModeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getIncomeMode" resultMap="incomeModeResult">
+    <![CDATA[
+        select * from tb_income_mode
+         where income_mode_id = #value#
+    ]]>
+    </select>
+	
+    <select id="getIncomeModeClass" resultClass="incomeMode">
+    <![CDATA[
+        select income_mode_id as id,name from tb_income_mode
+         where income_mode_id = #value#
+    ]]>
+    </select>	
+	
+
+    <insert id="addIncomeMode" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_income_mode_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        <![CDATA[
+            insert into tb_income_mode (create_by,create_date,modify_by,modify_date,name,value)
+            values ( ?,?,?,?,?,? )
+        ]]>
+    </insert>
+
+    <update id="updateIncomeMode" parameterMap="updateParam">
+    <![CDATA[
+        update tb_income_mode set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   value = ?,
+				   version = ? 
+        where income_mode_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteIncomeMode">
+    <![CDATA[
+        delete from tb_income_mode
+         where income_mode_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteIncomeModes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_income_mode 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="IncomeModeIdList">
+       	  <iterate prepend="AND" property="IncomeModeIdList" open="(" close=")" conjunction="OR">
+		   			 income_mode_id = #IncomeModeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

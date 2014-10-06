@@ -1,0 +1,76 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts/analyzesum
+svn://121.28.83.134:80/src1
+
+
+
+2013-01-20T11:13:10.709481Z
+366
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+statisticSum.js
+file
+
+
+
+
+2013-05-17T07:36:32.402473Z
+fb3d196e0a3f8a1622ece8a6bf30a4cb
+2013-01-20T11:13:10.709481Z
+366
+lxz
+
+channelSum.js
+file
+
+
+
+
+2013-05-17T07:36:32.418100Z
+14e685ee926a5aa0e8ede883fa4e4fd6
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+test.js
+file
+
+
+
+
+2013-05-17T07:36:32.418100Z
+bb2a9ed3a00316c4cc4ad608a1665e35
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Copy of test.js
+file
+
+
+
+
+2013-05-17T07:36:32.418100Z
+0f345cde8da5253cbf37dcc0fc968d2c
+2012-11-24T05:32:05.899594Z
+6
+lxz
+

@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/upload-1.1
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:32:23.846523Z
+32
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+fileupload-progress.jar
+file
+
+
+
+
+2013-05-17T07:35:19.289307Z
+a619d414150c7bac5469de9af541f6ac
+2012-11-24T07:32:23.846523Z
+32
+lxz
+has-props
+

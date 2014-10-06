@@ -1,0 +1,52 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/extras/xfire/src/service/com/vriche/adrm/order/service
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:20:37.290728Z
+14
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+applicationContext-webservice.xml
+file
+
+
+
+
+2013-05-17T07:35:59.978917Z
+4c2e00748d76314cd6e8b5c89df7ea3b
+2012-11-24T06:20:37.290728Z
+14
+lxz
+
+UserWebService.java
+file
+
+
+
+
+2013-05-17T07:35:59.994543Z
+29530d96d9b56df0c1754d6a9ff5de07
+2012-11-24T06:20:37.290728Z
+14
+lxz
+

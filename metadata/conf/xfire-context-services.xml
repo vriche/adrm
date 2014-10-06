@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://xfire.codehaus.org/config/1.0">
+
+	<service>
+		<name>carrierInfoService</name>	
+		<namespace>http://www.vriche.com/CarrierInfoService</namespace>
+		<serviceClass>com.vriche.adrm.service.CarrierInfoService</serviceClass>
+		<implementationClass>com.vriche.adrm.service.impl.CarrierInfoServiceImpl</implementationClass>
+	</service>
+
+</beans>

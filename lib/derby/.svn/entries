@@ -1,0 +1,54 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/derby
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:36:15.778620Z
+34
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+derby.jar
+file
+
+
+
+
+2013-05-17T07:35:42.806153Z
+a4e0310bb3c5fae2669d4a371229a3b3
+2012-11-24T06:38:44.258448Z
+24
+lxz
+has-props
+
+derbytools.jar
+file
+
+
+
+
+2013-05-17T07:35:42.806153Z
+41ab95dfd31eb26cab02694eb3056e97
+2012-11-24T06:38:44.258448Z
+24
+lxz
+has-props
+

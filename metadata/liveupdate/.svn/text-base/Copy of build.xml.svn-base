@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="GB2312" ?>
+
+<project default="deploy" name="liveupdate" >  
+	
+	
+	    <property name="CATALINA_HOME" value="D:\java\jakarta-tomcat-5.0.28"/>
+	    <property name="tomcat.home" value="${CATALINA_HOME}"/>
+	    <property name="tomcat.bin.dir" value="${CATALINA_HOME}\bin"/>
+	
+	    <property name="webapp.name" value="xfire"/>
+	
+	
+			<!-- Configure the context path for this application -->
+		 <property name="path" value="/xfire" />
+		 
+		 <!-- Configure properties to access the Manager application -->
+		 <property name="url" value="http://127.0.0.1:8080/manager" />
+		 <property name="username" value="admin" />
+		 <property name="password" value="admin" />
+		
+		 <!-- Configure the custom Ant tasks for the Manager application -->
+		 <taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask" />
+		 <taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask" />
+		
+		 <target name="deploy" description="Install web application" depends="war,undeploy">
+			 <deploy url="${url}" username="${username}" password="${password}" path="${path}" war="./${deploy_ModelName}${timeSign}.war" />
+		 </target>
+
+		 
+		 <target name="undeploy" description="Remove web application">
+			 <undeploy url="${url}" username="${username}" password="${password}" path="${path}" />
+		 </target>	
+	
+	
+
+	    <target name="start-tomcat">  
+            <delete dir="${deploy.dir}" />  
+            <exec executable="cmd" dir="${tomcat.bin.dir}">  
+                <arg value="/c"/>  
+                <arg value="startup.bat"/>  
+            </exec>  
+        </target>  
+          
+        <target name="stop-tomcat">  
+            <exec executable="cmd " dir="${tomcat.bin.dir}" spawn="true">  
+                <arg value="/c" />  
+                <arg value="shutdown.bat" />  
+            </exec>  
+        </target>  
+	
+	
+	    <target name="deploy" depends="stop-tomcat,start-tomcat" description="description"> </target>    
+	
+	
+	
+	    <target name="testupdate">
+            <sleep seconds="5" />
+            <scp file="${allWarDir}/****.war" trust="true" username="root" password="123456" todir="root@192.168.1.233:/usr/local/tomcat6/webapps" />
+            <sshexec host="192.168.1.233" username="root" password="123456" command="./killjava" trust="true" />
+            <mkdir dir="F:/worklogs/${TODAY}/${NOW}" />
+            <copydir dest="F:/worklogs/${TODAY}/${NOW}" src="${updateDir}">
+            </copydir>
+            <!-- <delete dir="${updateDir}"/>
+            <mkdir dir="${updateDir}" /> -->
+        </target>
+	
+	
+	<target name="startapp">
+<sshexec host="${host}"
+username="${username}"
+password="${password}"
+trust="true"
+command="nohup xx/xx/startWebLogic.sh &"
+command="nohup ./startWebLogic.sh </dev/null >>nohup.out 2>&1 &"/>
+</target>
+	
+	注 意上面的trust属性一般设置为true,　如果为默认值false时,那么就要求你所连接的host必须存在于你的knownhosts文件中，并且 这个文件也必须是存在的，否则会出现 com.jcraft.jsch.JSchException: reject HostKey: 192.168.122.180异常。执行Linux下的命令时可以用分号";"把多个命令隔开，它们将会依次执行，而不需要写多个sshexec进行多 次连接，每次连接只执行一个命令。
+[scp任务]
+
+1.拷贝单个文件到远端服务器
+
+<scp file="c:/cmd.txt" todir="root:123456@192.168.122.180:/tmp" trust="true"/>
+
+或
+
+<scp file="c:/cmd.txt" todir="root@192.168.122.180:/tmp" password="123456" trust="true"/>
+
+2.拷贝远端文件本地
+
+<scp file="root:123456@192.168.122.180:/tmp/cmd.txt" todir="D:/my-app"  trust="true"/>
+
+3.拷贝远端目录到本地，将以递归形式操作
+
+<scp file="root:123456@192.168.122.180:/tmp/*" todir="d:/my-app" trust="true"/>
+
+4.拷贝本地目录中的内容到远端，递归形式，但不在服务器上建立my-app目录
+
+<scp todir="root:123456@192.168.122.180:/tmp/" trust="true">
+
+   <fileset dir="d:/my-app"/>
+
+</scp>
+
+5.拷贝一系列的文件到远端，会建立相应的层次目录，不建立my-app目录
+
+<scp todir="root:123456@192.168.122.180:/tmp" trust="true">
+
+   <fileset dir="d:/my-app">
+
+      <include name="**/*.java" />
+
+   </fileset>
+
+</scp>
+
+或
+
+<scp todir="root:123456@192.168.122.180:/tmp" trust="true">
+
+   <fileset dir="d:/my-app" excludes="**/*.java"/>
+
+</scp>
+	
+	    <target name="remove" description="Remove application in Tomcat">
+        <undeploy url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+    </target>
+
+    <target name="reload" description="Reload application in Tomcat">
+        <reload url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+    </target>
+
+    <target name="start" description="Start Tomcat application">
+        <start url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+    </target>
+
+    <target name="stop" description="Stop Tomcat application">
+        <stop url="${tomcat.manager.url}"
+            username="${tomcat.username}"
+            password="${tomcat.password}"
+            path="/${webapp.name}"/>
+    </target>
+	
+	
+	<target name="all">
+	    <sshexec host="121.28.83.134" username="root" password="stvay6598,." trust="true" command="ls"></sshexec>
+   </target>
+	
+	
+	<target name="sshexec" description="sshexec">
+    <sshexec 
+		host="172.16.91.4"
+		username="root"
+		password="stvay6598,."
+		port="22"
+		trust="true"
+		command="/lin_root/auto_script/update_xmtv.sh"/>
+  </target> 
+</project>  
+
+
+
+<? xml version="1.0" encoding="UTF-8" ?>
+< project  name ="ssh" >
+     < property  file ="ssh.properties"   />
+     < tstamp >
+         < format  property ="TODAY"  pattern ="yyyyMMddHHmm"   />
+     </ tstamp >
+     < property  name ="ssh.path"  value ="/data/meganotes/shell/"   />
+
+
+     < target  name ="shell/ 文件 上载/覆盖" >
+         < input  addproperty ="scp_coverage_shell_file"
+            message ="输入（ssh/ 下文件名 \n\r 上载或覆盖 到服务器 218 ${ssh.path} )：" >
+         </ input >
+         < input
+             message ="请确定是否使用 ssh/${scp_coverage_shell_file} 覆盖服务器中 ${ssh.host}:${ssh.path}${scp_coverage_shell_file} (y,n)"
+            validargs ="y,n"  addproperty ="do.coverage"  defaultvalue ="n"   />
+         < condition  property ="do.abort" >
+             < equals  arg1 ="n"  arg2 ="${do.coverage}"   />
+         </ condition >
+         < fail  if ="do.abort" > 退出 </ fail >
+
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"
+            command ="
+                    mkdir -p ${ssh.path}backup/${TODAY} ;
+                    if [ -f ${ssh.path}${scp_coverage_shell_file}   ] ;
+                    then  
+                        cp ${ssh.path}${scp_coverage_shell_file} ${ssh.path}backup/${TODAY}/ ;
+                    fi ;
+        " >
+         </ sshexec >
+         < scp  file ="ssh/${scp_coverage_shell_file}"
+            todir ="${ssh.myName}:${ssh.myPass}@${ssh.host}:${ssh.path}"
+            trust ="true"  verbose ="true"   />
+
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"
+            command ="chmod 777 ${ssh.path}${scp_coverage_shell_file}" >
+         </ sshexec >
+     </ target >
+
+     < target  name ="shell/ 文件查看" >
+         < input  addproperty ="show_shell_file"  message ="输入查看文件名（*sh）："
+            defaultvalue ="*" >
+         </ input >
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"
+            command ="ls  /data/meganotes/shell/${show_shell_file}" >
+         </ sshexec >
+     </ target >
+
+     < target  name ="shell/ 文件拷贝" >
+         < input  addproperty ="scp_shell_file"
+            message ="输入 /data/meganotes/shell/ 下需要文件名（cp 到 ssh 下）：" >
+         </ input >
+         < scp
+             file ="${ssh.myName}:${ssh.myPass}@${ssh.host}:/data/meganotes/shell/${scp_shell_file}"
+            todir ="ssh"  trust ="true"  verbose ="true"   />
+     </ target >
+
+
+
+     < target  name ="admin-mvn组合操作" >
+         < exec  executable ="cmd" >
+             < arg  value ="/c"   />
+             < arg  value ="${basedir}/sh/mvn/meganotes_mvn_clear.bat"   />
+         </ exec >
+         < exec  executable ="cmd" >
+             < arg  value ="/c"   />
+             < arg  value ="${basedir}/sh/mvn/meganotes_mvn_install.bat"   />
+         </ exec >
+         < exec  executable ="cmd" >
+             < arg  value ="/c"   />
+             < arg  value ="${basedir}/sh/mvn/mn_mod_admin_mvn_intall.bat"   />
+         </ exec >
+     </ target >
+
+
+     < target  name ="admin-tomcat日志" >
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"  command ="${ssh.adminRunLog}" >
+         </ sshexec >
+     </ target >
+
+     < target  name ="schedule-tomcat日志" >
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"
+            command ="${ssh.scheduleRunLog}" >
+         </ sshexec >
+     </ target >
+     < target  name ="查找2008/下Mp3没转128-64文件夹" >
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"  command ="${ssh.64k}" >
+         </ sshexec >
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"  command ="${ssh.128k}" >
+         </ sshexec >
+         < sshexec  host ="${ssh.host}"  username ="${ssh.myName}"
+            password ="${ssh.myPass}"  trust ="true"
+            command ="${ssh.128kto64k.err}" >
+         </ sshexec >
+     </ target >
+
+     < target  name ="admin模块测试" >
+         < input  addproperty ="admin_test_input"
+            message ="测试类输入（Video*Test）："  defaultvalue ="*Test" >
+         </ input >
+         < echo  message ="${admin_test_input}" ></ echo >
+         < exec  executable ="cmd" >
+             < arg  value ="/c"   />
+             < arg
+                 value ="${basedir}/sh/admin_test.bat ${admin_test_input} "   />
+         </ exec >
+     </ target >
+</ project >
+
+
+评论
+# re: 强大的 ant scp 和 sshexec   回复  更多评论   
+2008-12-24 16:24 by G_G
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ssh">
+<property file="ssh.properties" />
+<tstamp>
+<format property="TODAY" pattern="yyyyMMddHHmm" />
+</tstamp>
+<property name="ssh.path" value="/data/meganotes/shell/" />
+
+
+<target name="shell/ 文件 上载/覆盖">
+<input addproperty="scp_coverage_shell_file"
+message="输入（ssh/ 下文件名 \n\r 上载或覆盖 到服务器 218 ${ssh.path} )：">
+</input>
+<input
+message="请确定是否使用 ssh/${scp_coverage_shell_file} 覆盖服务器中 ${ssh.host}:${ssh.path}${scp_coverage_shell_file} (y,n)"
+validargs="y,n" addproperty="do.coverage" defaultvalue="n" />
+<condition property="do.abort">
+<equals arg1="n" arg2="${do.coverage}" />
+</condition>
+<fail if="do.abort">退出</fail>
+
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true"
+command="
+mkdir -p ${ssh.path}backup/${TODAY} ;
+if [ -f ${ssh.path}${scp_coverage_shell_file} ] ;
+then
+cp ${ssh.path}${scp_coverage_shell_file} ${ssh.path}backup/${TODAY}/ ;
+fi ;
+">
+</sshexec>
+<scp file="ssh/${scp_coverage_shell_file}"
+todir="${ssh.myName}:${ssh.myPass}@${ssh.host}:${ssh.path}"
+trust="true" verbose="true" />
+
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true"
+command="chmod 777 ${ssh.path}${scp_coverage_shell_file}">
+</sshexec>
+</target>
+
+<target name="shell/ 文件查看">
+<input addproperty="show_shell_file" message="输入查看文件名（*sh）："
+defaultvalue="*">
+</input>
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true"
+command="ls /data/meganotes/shell/${show_shell_file}">
+</sshexec>
+</target>
+
+<target name="shell/ 文件拷贝">
+<input addproperty="scp_shell_file"
+message="输入 /data/meganotes/shell/ 下需要文件名（cp 到 ssh 下）：">
+</input>
+<scp
+file="${ssh.myName}:${ssh.myPass}@${ssh.host}:/data/meganotes/shell/${scp_shell_file}"
+todir="ssh" trust="true" verbose="true" />
+</target>
+
+
+
+<target name="admin-mvn组合操作">
+<exec executable="cmd">
+<arg value="/c" />
+<arg value="${basedir}/sh/mvn/meganotes_mvn_clear.bat" />
+</exec>
+<exec executable="cmd">
+<arg value="/c" />
+<arg value="${basedir}/sh/mvn/meganotes_mvn_install.bat" />
+</exec>
+<exec executable="cmd">
+<arg value="/c" />
+<arg value="${basedir}/sh/mvn/mn_mod_admin_mvn_intall.bat" />
+</exec>
+</target>
+
+
+<target name="admin-tomcat日志">
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true" command="${ssh.adminRunLog}">
+</sshexec>
+</target>
+
+<target name="schedule-tomcat日志">
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true"
+command="${ssh.scheduleRunLog}">
+</sshexec>
+</target>
+<target name="查找2008/下Mp3没转128-64文件夹">
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true" command="${ssh.64k}">
+</sshexec>
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true" command="${ssh.128k}">
+</sshexec>
+<sshexec host="${ssh.host}" username="${ssh.myName}"
+password="${ssh.myPass}" trust="true"
+command="${ssh.128kto64k.err}">
+</sshexec>
+</target>
+
+<target name="admin模块测试">
+<input addproperty="admin_test_input"
+message="测试类输入（Video*Test）：" defaultvalue="*Test">
+</input>
+<echo message="${admin_test_input}"></echo>
+<exec executable="cmd">
+<arg value="/c" />
+<arg
+value="${basedir}/sh/admin_test.bat ${admin_test_input} " />
+</exec>
+</target>
+</project>

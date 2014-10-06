@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaApplyInfoSQL">
+    <typeAlias alias="oaApplyInfo" type="com.vriche.adrm.model.OaApplyInfo"/>
+
+	<cacheModel id="oaApplyInfo-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaApplyInfo"/>
+		<flushOnExecute statement="updateOaApplyInfo"/>
+		<flushOnExecute statement="deleteOaApplyInfo"/>
+		<flushOnExecute statement="deleteOaApplyInfos"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaApplyInfo">
+        <parameter property="applyEnd" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="applyStart" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="checkResultId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="reason" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="workFlowTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaApplyInfo">
+        <parameter property="applyEnd" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="applyStart" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="checkResultId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="reason" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="workFlowTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaApplyInfoResult" class="oaApplyInfo">
+        <result property="applyEnd" column="apply_end"/>
+        <result property="applyStart" column="apply_start"/>
+        <result property="checkResult" column="check_result_id" select="getOaWorkFlowCheckResults"/>
+        <result property="checkResultId" column="check_result_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="apply_info_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="reason" column="reason"/>
+        <result property="version" column="version"/>
+		<result property="workFlowTypeId" column="work_flow_type_id"/>
+        <result property="workFlowType" column="work_flow_type_id" select="getOaWorkFlowType"/>
+    </resultMap>
+	
+	
+    <select id="getOaApplyInfosCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_apply_info 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="applyEnd">
+			(apply_end like #applyEnd#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="applyStart">
+			(apply_start like #applyStart#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkResultId">
+			(check_result_id like #checkResultId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(apply_info_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reason">
+			(reason like #reason#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(work_flow_type_id like #workFlowTypeId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaApplyInfos" resultMap="oaApplyInfoResult">
+    <![CDATA[
+        select * from tb_oa_apply_info 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="applyEnd">
+			(apply_end like #applyEnd#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="applyStart">
+			(apply_start like #applyStart#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkResultId">
+			(check_result_id like #checkResultId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(apply_info_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reason">
+			(reason like #reason#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(work_flow_type_id like #workFlowTypeId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaApplyInfosByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_apply_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaApplyInfoIdList">
+       	  <iterate prepend="AND" property="OaApplyInfoIdList" open="(" close=")" conjunction="OR">
+		   			 apply_info_id = #OaApplyInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaApplyInfo" resultMap="oaApplyInfoResult">
+    <![CDATA[
+        select * from tb_oa_apply_info
+         where apply_info_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaApplyInfo" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_apply_info_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_apply_info (apply_end,apply_start,check_result_id,create_by,create_date,modify_by,modify_date,reason,work_flow_type_id)
+            values ( ?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaApplyInfo" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_apply_info set
+                   apply_end = ?,
+                   apply_start = ?,
+                   check_result_id = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   reason = ?,
+                   work_flow_type_id = ?,
+		           version = ?
+        where apply_info_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaApplyInfo">
+    <![CDATA[
+        delete from tb_oa_apply_info
+         where apply_info_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaApplyInfos" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_apply_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaApplyInfoIdList">
+       	  <iterate prepend="AND" property="OaApplyInfoIdList" open="(" close=")" conjunction="OR">
+		   			 apply_info_id = #OaApplyInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

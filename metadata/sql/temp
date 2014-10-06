@@ -1,0 +1,38 @@
+# Host: localhost
+# Database: adrm
+# Table: 'tb_foret_arrearage'
+# 
+
+CREATE TABLE `tb_foret_arrearage` (
+  `fa_id` bigint(20) NOT NULL auto_increment,
+  `version` int(11) NOT NULL default '0',
+  `customer_name` varchar(128) NOT NULL default '',
+  `income_code` varchar(32) NOT NULL default '',
+  `income_date` int(11) NOT NULL default '0',
+  `income_mode` varchar(32) NOT NULL default '',
+  `income_money` double NOT NULL default '0',
+  `income_purpose` varchar(32) NOT NULL default '',
+  `memo` varchar(255) default NULL,
+  `pay_date` int(11) NOT NULL default '0',
+  `pay_money` double NOT NULL default '0',
+  `user_name` varchar(32) NOT NULL default '',
+  `create_by` bigint(20) default NULL,
+  `create_date` datetime default NULL,
+  `modify_by` bigint(20) default NULL,
+  `modify_date` datetime default NULL,
+  PRIMARY KEY  (`fa_id`),
+  UNIQUE KEY `income_code` (`income_code`)
+) TYPE=InnoDB; 
+
+
+
+
+money_realpay
+money_balance
+sum_times
+
+publish_start
+publish_end
+
+
+

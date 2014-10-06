@@ -1,0 +1,197 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50200
+Source Host           : localhost:3306
+Source Database       : hntv
+
+Target Server Type    : MYSQL
+Target Server Version : 50200
+File Encoding         : 65001
+
+Date: 2011-04-14 22:41:44
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for `tb_sys_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_sys_menu`;
+CREATE TABLE `tb_sys_menu` (
+  `sys_menu_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `version` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(32) NOT NULL DEFAULT '',
+  `parent_id` bigint(20) DEFAULT NULL,
+  `tree_level` int(11) DEFAULT NULL,
+  `display_no` int(11) NOT NULL DEFAULT '0',
+  `action` varchar(50) DEFAULT NULL,
+  `alt_image` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `forward` varchar(255) DEFAULT NULL,
+  `height` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `onclick` varchar(255) DEFAULT NULL,
+  `onmouseout` varchar(255) DEFAULT NULL,
+  `onmouseover` varchar(255) DEFAULT NULL,
+  `page_num` varchar(255) DEFAULT NULL,
+  `roles` varchar(255) DEFAULT NULL,
+  `target` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `tooltip` varchar(255) DEFAULT NULL,
+  `width` varchar(255) DEFAULT NULL,
+  `create_by` bigint(20) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `modify_by` bigint(20) DEFAULT NULL,
+  `modify_date` datetime DEFAULT NULL,
+  `is_display` char(1) DEFAULT NULL,
+  PRIMARY KEY (`sys_menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+
+-- ----------------------------
+-- Records of tb_sys_menu
+-- ----------------------------
+INSERT INTO `tb_sys_menu` VALUES ('1', '0', '客户管理', '0', '0', '1', '', null, '', '', '', '', '', '', '', '', '', '', '', '客户管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('2', '0', '客户信息', '1', '0', '0', 'customers.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('3', '0', '时段维护', '15', '0', '6', 'resources.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '时段维护', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('5', '0', '广告素材', '9', '0', '3', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '广告素材', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('7', '0', '订单管理', '0', '0', '4', '', null, '', '', '', '', '', '', '', '', '', '', '', '订单管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('8', '0', '财务管理', '0', '0', '5', '', null, '', '', '', '', '', '', '', '', '', '', '', '财务管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('9', '0', '编播管理', '0', '0', '6', '', null, '', '', '', '', '', '', '', '', '', '', '', '编播管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('13', '0', '统计分析', '0', '0', '10', '', null, '', '', '', '', '', '', '', '', '', '', '', '统计分析', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('15', '0', '系统管理', '0', '0', '12', '', null, '', '', '', '', '', '', '', '', '', '', '', '系统管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('20', '0', '联系人', '1', '0', '0', 'linkMans.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '联系人', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('21', '0', '客户意见', '1', '0', '0', 'feedbackInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户意见', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('23', '0', '行业分类', '22', '0', '0', 'industrys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '行业分类', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('24', '0', '客户类别', '22', '0', '0', 'categorys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('25', '0', '客户性质', '22', '0', '0', 'customerTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户性质', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('26', '0', '套装管理', '4', '0', '0', 'compages.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '套装管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('27', '0', '价格手册', '4', '0', '0', 'prices.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '价格手册', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('28', '0', '基本信息', '4', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '基本信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('29', '0', '指定信息', '28', '0', '0', 'specifics.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '指定信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('30', '0', '载体分类', '28', '0', '0', 'carrierTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '载体分类', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('31', '0', '媒体机构', '28', '0', '0', 'resourceTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '媒体机构', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('32', '0', '频道栏目', '28', '0', '0', 'resourceChannels.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '频道栏目', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('34', '0', '广告素材', '5', '0', '0', 'matters.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '广告素材', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('36', '0', '合同信息', '7', '0', '1', 'contracts.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '合同信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('37', '0', '销售订单', '7', '0', '2', 'orders.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '销售订单', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('38', '0', '资源查询', '7', '0', '3', 'queryAdres.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '资源查询', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('39', '0', '组织信息', '15', '0', '1', 'orgs.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '组织信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('43', '0', '到款入录', '8', '0', '0', 'incomes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '到款入录', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('45', '0', '部门信息', '15', '0', '2', 'branchs.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '部门信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('47', '0', '职位信息', '15', '0', '3', 'roles.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '职位信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('48', '0', '到款分配', '8', '0', '0', 'incomePulls.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '到款分配', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('49', '0', '用户信息', '15', '0', '4', 'users.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '用户信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('52', '0', '权限控制', '15', '0', '5', 'sysPermitManager.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '权限控制', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('53', '0', '到款方式', '51', '0', '0', 'incomeModes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '到款方式', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('54', '0', '在线用户', '70', '0', '6', 'activeUsers.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '在线用户', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('55', '0', '收款用途', '51', '0', '0', 'incomePurposes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '收款用途', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('56', '0', '重载选项', '141', '0', '3', 'reload.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '重载选项', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('59', '0', '刷新缓存', '141', '0', '4', 'flush.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '刷新缓存', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('60', '0', '访问记录', '141', '0', '5', 'clickstreams.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '访问记录', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('63', '0', '信息管理', '10', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '信息管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('65', '0', '最新通知', '63', '0', '0', 'oaInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '最新通知', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('67', '0', '最新信息', '63', '0', '0', 'oaInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '最新信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('69', '0', '考勤管理', '10', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '考勤管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('71', '0', '请假', '69', '0', '0', 'oaApplyInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '请假', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('72', '0', '事件状态', '70', '0', '0', 'sysEventStates.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '事件状态', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('73', '0', '加班', '69', '0', '0', 'oaApplyInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '加班', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('74', '0', '事件类型', '70', '0', '0', 'sysEventTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '事件类型', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('75', '0', '办公用品', '10', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '办公用品', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('76', '0', '系统提示方式', '70', '0', '0', 'sysPromptModes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '系统提示方式', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('77', '0', '用户类别', '70', '0', '0', 'sysUserTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '用户类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('78', '0', '采购登记', '75', '0', '0', 'oaProductInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '采购登记', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('79', '0', '领用登记', '75', '0', '0', 'oaProductUseds.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '领用登记', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('80', '0', '资产管理', '10', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '资产管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('81', '0', '资产登记', '80', '0', '0', 'editOaAssets.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '资产登记', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('82', '0', '流程管理', '141', '0', '1', 'oaWorkFlows.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '流程管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('83', '0', '资产浏览', '80', '0', '0', 'oaAssetss.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '资产浏览', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('84', '0', '基本信息', '10', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '基本信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('85', '0', '办公申请', '14', '0', '0', 'oaApplyInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '办公申请', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('86', '0', '信息类别', '84', '0', '0', 'oaInfoTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '信息类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('87', '0', '办公审批', '7', '0', '5', 'oaWorkFlowChecks.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '办公审批', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('88', '0', '事件类别', '84', '0', '0', 'categorys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '事件类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('89', '0', '基本信息', '14', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '基本信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('90', '0', '客户性质', '84', '0', '0', 'customerTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户性质', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('91', '0', '耗材类别', '84', '0', '0', 'oaProductTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '耗材类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('92', '0', '流程类别', '89', '0', '1', 'oaWorkFlowTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '流程类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('93', '0', '资产类别', '84', '0', '0', 'oaAssetsTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '资产类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('94', '0', '审批结果', '89', '0', '3', 'oaWorkFlowCheckResults.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '审批结果', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('95', '0', '资产状态', '84', '0', '0', 'oaAssetsStates.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '资产状态', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('97', '0', '文档浏览', '11', '0', '2', 'oaDocuments.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '文档浏览', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('98', '0', '发布文档', '11', '0', '3', 'editOaDocument.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '发布文档', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('99', '0', '基本信息', '11', '0', '4', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '基本信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('100', '0', '客户统计', '13', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('101', '0', '目录权限类别', '99', '0', '0', 'oaDocumentCatalogPermitTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '目录权限类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('102', '0', '区间统计', '100', '0', '0', 'customerAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '区间统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('103', '0', '文件', '99', '0', '0', 'oaDocumentFiles.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '文件', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('104', '0', '全年统计', '100', '0', '0', 'yearAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '全年统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('105', '0', '日程安排', '12', '0', '0', 'oaCalendarEvents.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '日程安排', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('106', '0', '业务员统计', '100', '0', '0', 'businessAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '业务员统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('107', '0', '名片管理', '12', '0', '0', 'oaBusinessCards.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '名片管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('108', '0', '邮编区号', '12', '0', '0', 'oaAreaPcs.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '邮编区号', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('109', '0', '我的便笺', '12', '0', '0', 'oaScratchpads.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '我的便笺', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('110', '0', '城市信息', '12', '0', '0', 'oaAreaCitys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '城市信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('111', '0', '载体统计', '13', '0', '1', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '载体统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('112', '0', '计算器', '12', '0', '0', 'calculator.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '计算器', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('113', '0', '基本信息', '12', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '基本信息', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('114', '0', '名片类别', '113', '0', '0', 'oaBusinessCardTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '名片类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('115', '0', '区间统计', '111', '0', '0', 'carrierScopeAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '区间统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('116', '0', '全年统计', '111', '0', '0', 'carrierAllYearAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '全年统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('117', '0', '品牌统计', '13', '0', '2', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '品牌统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('118', '0', '客户品牌投放量', '117', '0', '0', 'customerProductRelIncome.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户品牌投放量', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('119', '0', '行业品牌投放量', '117', '0', '0', 'industryProductRelIncome.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '行业品牌投放量', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('120', '0', '广告类型品牌投放量', '117', '0', '0', 'advTypeProductRelIncome.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '广告类型品牌投放量', '', '', '0', null, '0', null, '0');
+INSERT INTO `tb_sys_menu` VALUES ('128', '0', '名片类别', '127', '0', '0', 'oaBusinessCardTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '名片类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('129', '0', '目录管理', '11', '0', '1', 'oaDocumentCatalogs.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '目录管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('131', '0', '素材分类', '5', '0', '0', 'matterTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '素材分类', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('134', '0', '订单类别', '133', '0', '0', 'orderCategorys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '订单类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('135', '0', '广告编排', '9', '0', '1', 'publishArranges.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '广告编排', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('139', '0', '审核状态', '89', '0', '2', 'oaWorkFlowCheckStates.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '审核状态', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('140', '0', '播出证明', '7', '0', '6', 'broReport.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '播出证明', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('141', '0', '系统工具', '15', '0', '8', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '系统工具', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('142', '0', '在线用户', '141', '0', '2', 'activeUsers.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '在线用户', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('143', '0', '最新通知', '141', '0', '6', 'oaInfos.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '最新通知', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('144', '0', '播出下载', '9', '0', '2', 'publishArrangeDownload.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '播出下载', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('145', '0', '价格规则', '141', '0', '6', 'priceRegulars.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '价格规则', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('146', '0', '素材查询', '5', '0', '0', 'matterListQuery.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '素材查询', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('147', '0', '进款统计', '13', '0', '0', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '进款统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('148', '0', '频道进款统计', '147', '0', '0', 'channIncome.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '频道进款统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('149', '0', '客户到款统计', '147', '0', '0', 'customerIncomeMoney.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户到款统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('150', '0', '到款明细统计', '147', '0', '0', 'incomeDetail.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '到款明细统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('151', '0', '到款用途', '163', '0', '5', 'incomePurposes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '到款用途', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('152', '0', '行业类别', '163', '0', '2', 'industrys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '行业类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('153', '0', '到款用途', '8', '0', '0', 'incomePurposes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '到款用途', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('154', '0', '欠款查询', '8', '0', '0', 'contractPaymentList.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '欠款查询', '', '', '0', null, '0', null, '0');
+INSERT INTO `tb_sys_menu` VALUES ('155', '0', '十七号令', '7', '0', '4', 'resourceLimitQuery.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '十七号令', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('157', '0', '客户合并', '1', '0', '0', 'customerUnify.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户合并', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('158', '0', '段位统计', '111', '0', '0', 'resourceAdverAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '段位统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('159', '0', '广告品牌投放量', '117', '0', '0', 'brandAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '广告品牌投放量', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('160', '0', '时段统计', '111', '0', '0', 'resourceScopeAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '时段统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('161', '0', '菜单管理', '141', '0', '8', 'sysMenus.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '菜单管理', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('162', '0', '系统参数', '141', '0', '9', 'sysParams.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '系统参数', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('163', '0', '数据字典', '15', '0', '7', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '数据字典', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('164', '0', '到款类型', '163', '0', '4', 'incomeModes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '到款类型', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('165', '0', '客户类型', '163', '0', '0', 'customerTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户类型', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('166', '0', '订单类型', '163', '0', '3', 'orderCategorys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '订单类型', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('167', '0', '素材分类', '163', '0', '6', 'matterTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '素材分类', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('168', '0', '客户性质', '163', '0', '1', 'categorys.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户性质', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('169', '0', '价格类型', '163', '0', '7', 'priceTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '价格类型', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('170', '0', '时段类型', '163', '0', '8', 'resourceTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '时段类型', '', '', '0', null, '0', null, '0');
+INSERT INTO `tb_sys_menu` VALUES ('171', '0', '媒体分类', '163', '0', '9', 'carrierTypes.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '媒体分类', '', '', '0', null, '0', null, '0');
+INSERT INTO `tb_sys_menu` VALUES ('172', '0', '载体频道', '163', '0', '10', 'resourceChannels.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '载体频道', '', '', '0', null, '0', null, '0');
+INSERT INTO `tb_sys_menu` VALUES ('173', '0', '构成分析', '111', '0', '0', 'carrierBasalAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '构成分析', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('174', '0', '订单类别', '13', '0', '3', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '订单类别', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('175', '0', '客户统计', '174', '0', '0', 'orderCategoryCarrier.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('176', '0', '类别统计', '174', '0', '0', 'orderCategoryCustomer.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '类别统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('177', '0', '区域统计', '13', '0', '4', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '区域统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('178', '0', '区域客户统计', '177', '0', '0', 'areaCustomerAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '区域客户统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('179', '0', '年度指标', '8', '0', '0', 'financeTargets.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '年度指标', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('180', '0', '年度统计', '13', '0', '5', '', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '年度统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('181', '0', '年度对比统计', '180', '0', '0', 'yearTargetAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '年度对比统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('182', '0', '载体年度统计', '180', '0', '0', 'carrierTarget.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '载体年度统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('183', '0', '收视统计', '111', '0', '0', 'resourceAudienceAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '时段收视统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('184', '0', '客户年度对比统计', '180', '0', '0', 'customerYearAnalyze.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '客户年度对比统计', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('185', '0', '指定查询', '111', '0', '0', 'specificQuery.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '指定查询', '', '', '0', null, '0', null, '1');
+INSERT INTO `tb_sys_menu` VALUES ('186', '0', '61号令', '7', '0', '7', 'resourceLimitSearch61.html', null, '', '', '', '/image/menu/menus.png', '', '', '', '', '', '', '', '六十一号令', '', '', '0', null, '0', null, '1');

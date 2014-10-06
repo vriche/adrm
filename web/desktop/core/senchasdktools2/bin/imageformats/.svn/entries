@@ -1,0 +1,54 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/senchasdktools2/bin/imageformats
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+qjpeg4.dll
+file
+
+
+
+
+2013-05-17T07:37:30.342980Z
+6c3237f461ac3ed479ac95d3ed8929b4
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+
+qgif4.dll
+file
+
+
+
+
+2013-05-17T07:37:30.358611Z
+4e6e9be0428598dfa92729286d48b42f
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+

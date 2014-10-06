@@ -1,0 +1,54 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/emma-2.0.5312
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:38:44.258448Z
+24
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+emma.jar
+file
+
+
+
+
+2013-05-17T07:35:13.335873Z
+58802fbe6bb583b72ab7cf39b8033ed3
+2012-11-24T06:38:44.258448Z
+24
+lxz
+has-props
+
+emma_ant.jar
+file
+
+
+
+
+2013-05-17T07:35:13.335873Z
+5ff88e5279654e6796e79e23cab1c373
+2012-11-24T06:38:44.258448Z
+24
+lxz
+has-props
+

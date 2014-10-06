@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+ 
+<sqlMap namespace="FinanceTargetSQL">
+    <typeAlias alias="financeTarget" type="com.vriche.adrm.model.FinanceTarget"/>
+	<typeAlias alias="orderPublic" type="com.vriche.adrm.model.OrderPublic"/>
+	
+
+	<cacheModel id="financeTarget-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addFinanceTarget"/>
+		<flushOnExecute statement="updateFinanceTarget"/>
+		<flushOnExecute statement="deleteFinanceTarget"/>
+		<flushOnExecute statement="deleteFinanceTargets"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="financeTarget">
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="targetDateMonth" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="targetDateYear" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="targetMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="financeTarget">
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="targetDateMonth" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="targetDateYear" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="targetMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="financeTargetResult" class="financeTarget">
+        <result property="id" column="finance_target_id"/>
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+        <result property="targetDateMonth" column="month"/>
+        <result property="targetDateYear" column="year"/>
+        <result property="targetMoney" column="money"/>
+		<result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="version" column="version"/>
+
+    </resultMap>
+	
+	    <resultMap id="financeTargetResultCarrier" class="financeTarget">
+        <result property="id" column="finance_target_id"/>
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+        <result property="targetDateMonth" column="month"/>
+        <result property="targetDateYear" column="year"/>
+        <result property="targetMoney" column="money"/>
+		<result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="version" column="version"/>
+		<result property="carrier.channelId" column="ad_resource_channel_id"/>
+    </resultMap>
+	
+	 <resultMap id="financeTargetResults" class="financeTarget">
+        <result property="id" column="finance_target_id"/>
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+        <result property="targetMonth" column="month"/>
+        <result property="targetDateYear" column="year"/>
+        <result property="targetMoney" column="money"/>
+		<result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="version" column="version"/>
+		
+    </resultMap>
+	
+    <sql id="FinanceTarget_where_fragment">
+			<isNotEmpty prepend="AND" property="id">
+			(finance_target_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="carrierId">
+			(ad_resource_carrier_id like #carrierId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="targetDateMonth">
+			(month like #targetDateMonth#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="targetDateYear">
+			(year like #targetDateYear#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="targetMoney">
+			(money like #targetMoney#)
+			</isNotEmpty>
+		
+			<isNotNull property="carrierIdList">
+				 <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+							tb_finance_target.ad_resource_carrier_id = #carrierIdList[]#
+			  </iterate>
+			</isNotNull>
+		
+			<!-- isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       i.version = #yearIdList[]#
+				</iterate>
+		   </isNotNull -->	
+    </sql>
+	
+     <sql id="FinanceTarget_idList_fragment">
+	      <isNotNull property="FinanceTargetIdList">
+       	  <iterate prepend="AND" property="FinanceTargetIdList" open="(" close=")" conjunction="OR">
+		   			 finance_target_id = #FinanceTargetIdList[]#
+		  </iterate>
+		  </isNotNull> 
+    </sql>  
+	 
+    <select id="getFinanceTargetsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_finance_target 
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="FinanceTarget_where_fragment"/>
+		</dynamic>  
+    </select>	
+
+    <select id="getFinanceTargets" resultMap="financeTargetResult">
+    <![CDATA[
+        select * from tb_finance_target 
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<include refid="FinanceTarget_where_fragment"/>
+		</dynamic>   
+    </select>
+	
+	  <select id="getCarrierTargets" resultMap="financeTargetResults">
+    <![CDATA[
+        select * from tb_finance_target 
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<include refid="FinanceTarget_where_fragment"/>
+			
+		</dynamic>   
+    </select>
+	
+	
+	<resultMap id="financeTargetResults2" class="financeTarget">
+        <result property="id" column="finance_target_id"/>
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+        <result property="targetMonth" column="month"/>
+        <result property="targetDateYear" column="year"/>
+        <result property="targetMoney" column="money"/>
+		<result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="version" column="version"/>
+		<result property="carrier.carrierName" column="carrierName"/>
+
+    </resultMap>
+	
+	<select id="getCarrierTargetsByMap" resultMap="financeTargetResults2">
+
+        select tb_finance_target.*,
+
+		<isEqual  property="carrierAlisname" compareValue="1">
+					
+					tr.alias_name as carrierName 
+		</isEqual>		  
+		 
+		 <isEqual  property="carrierAlisname" compareValue="0">
+					tr.carrier_name as carrierName 
+		 </isEqual>	
+		
+		
+		 from  tb_finance_target 
+					left outer join tb_ad_resource_carrier tr 
+			on  tb_finance_target.ad_resource_carrier_id =tr.ad_resource_carrier_id 
+
+		<dynamic prepend="WHERE"> 
+			<include refid="FinanceTarget_where_fragment"/>
+			<isNotNull property="targetDateMonthList">
+				 <iterate prepend="AND" property="targetDateMonthList" open="(" close=")" conjunction="OR">
+							month = #targetDateMonthList[]#
+			  </iterate>
+			</isNotNull>
+		</dynamic>   
+		
+		
+		order by tr.ad_resource_channel_id 
+		
+		<!-- isEqual  property="carrierAlisname" compareValue="1">
+					group by tr.alias_name 
+		</isEqual>		  
+		 
+		 <isEqual  property="carrierAlisname" compareValue="0">
+					group by tr.carrier_name
+		 </isEqual -->	
+		
+		
+    </select>
+	
+	<select id="getFinanceTargetsByIdList" resultMap="financeTargetResultCarrier">
+    <![CDATA[
+        select * from tb_finance_target 
+					left outer join tb_ad_resource_carrier tr 
+			on  tb_finance_target.ad_resource_carrier_id =tr.ad_resource_carrier_id 
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<include refid="FinanceTarget_where_fragment"/>
+			
+		</dynamic>  
+		
+			order by tr.ad_resource_channel_id 
+		
+    </select>
+	
+	
+	
+
+	
+	
+	
+	
+	
+    <select id="getFinanceTargetsByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_finance_target 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="FinanceTarget_idList_fragment"/>
+          </dynamic>      
+  </select>     
+
+	
+	
+    <select id="getFinanceTarget" resultMap="financeTargetResult">
+    <![CDATA[
+        select * from tb_finance_target
+         where finance_target_id = #value#
+    ]]>
+    </select>
+	
+	 <resultMap id="financeTargetYear" class="financeTarget">   
+        <result property="carrierId" column="ad_resource_carrier_id"/>
+        <result property="targetDateYear" column="year"/>
+        <result property="targetMoney" column="money"/>
+    </resultMap>
+	
+	<select id="getFinanceTargetYear" resultMap="financeTargetYear">
+    <![CDATA[
+        select distinct year,
+				0 as ad_resource_carrier_id,
+				0 as money
+		 from tb_finance_target
+		
+    ]]>
+		order by year
+    </select>
+	
+	<select id="getCustomerYear" resultMap="financeTargetYear">
+    <![CDATA[
+        select distinct version year,
+				0 as ad_resource_carrier_id,
+				0 as money
+		 from tb_order
+		
+    ]]>
+		order by version
+    </select>
+ 
+	<select id="getYearTargetsAnalyze" resultMap="financeTargetYear">
+    <![CDATA[
+        select trc.ad_resource_carrier_id,year,sum(money) as money
+		 from tb_finance_target 
+		
+		            left outer join tb_ad_resource_carrier trc 
+					on  trc.ad_resource_carrier_id =tb_finance_target.ad_resource_carrier_id
+		
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<include refid="FinanceTarget_where_fragment"/>
+		</dynamic>   
+		group by ad_resource_carrier_id,year
+		
+		order by trc.ad_resource_channel_id 
+		
+    </select>
+	
+	<select id="getYearRelIcomeAnalyze" resultMap="financeTargetYear">
+		 <isEqual  property="putYear" compareValue="0">	
+			 select i.version as year,
+		 </isEqual>	
+		 			
+		 <isEqual  property="putYear" compareValue="1">
+			  select substring(i.income_pull_date,1,4) as year,	
+		 </isEqual>	
+					p.ad_resource_carrier_id as ad_resource_carrier_id,
+					sum(p.money_pull) as money
+		
+			FROM tb_income_pull p
+				left outer join tb_income i  
+			on p.income_id = i.income_id
+		
+				            left outer join tb_ad_resource_carrier trc 
+					on  trc.ad_resource_carrier_id = p.ad_resource_carrier_id 
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isEqual  property="putYear" compareValue="0">
+				<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+						<![CDATA[ i.version = #allYears[]#  ]]>
+					 </iterate>
+			</isNotNull>
+			</isEqual>				
+			
+	
+			<isEqual  property="putYear" compareValue="1">
+		    	<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+					<![CDATA[ substring(i.income_pull_date,1,4) = #allYears[]# ]]>
+					 </iterate>
+				</isNotNull>
+			</isEqual>
+			
+			<isNotNull property="carrierIdList">
+				 <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+							p.ad_resource_carrier_id = #carrierIdList[]#
+			  </iterate>
+			</isNotNull>
+			
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       i.version = #yearIdList[]#
+				</iterate>
+		</isNotNull>
+			
+			
+			<isNotNull property="incomePurposeIdList">
+				 <iterate prepend="AND" property="incomePurposeIdList" open="(" close=")" conjunction="OR">
+							i.income_purpose_id = #incomePurposeIdList[]#
+			  </iterate>
+			</isNotNull> 
+		</dynamic>   
+		
+	
+		
+		<isEqual  property="putYear" compareValue="0">	
+			 group by p.ad_resource_carrier_id,i.version
+			order by  trc.ad_resource_channel_id,i.version
+		 </isEqual>	
+		 			
+		 <isEqual  property="putYear" compareValue="1">
+			 group by  p.ad_resource_carrier_id,substring(i.income_pull_date,1,4)
+			 order by  trc.ad_resource_channel_id,substring(i.income_pull_date,1,4)
+		 </isEqual>	
+    </select>
+	
+	
+	<select id="getYearRelTimeAnalyze" resultMap="financeTargetYear">
+    <![CDATA[
+        select trc.parent_id as ad_resource_carrier_id,
+				od.version as year,
+				sum(od.ad_day_times * tod.matter_length)  as money
+
+			from tb_order_day_info od 
+
+			left outer join tb_order_detail tod 
+					on  tod.order_detail_id=od.order_detail_id 
+			left outer join tb_ad_resource_info tr 
+					on  tod.ad_resource_info_id =tr.ad_resource_info_id 
+            left outer join tb_ad_resource_carrier trc 
+					on  trc.ad_resource_carrier_id =tr.ad_resource_carrier_id 
+                
+    ]]>
+		<dynamic prepend="WHERE"> 
+
+				<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+						<![CDATA[ od.version = #allYears[]#  ]]>
+					 </iterate>
+				</isNotNull>
+	
+			<isNotNull property="carrierIdList">
+				 <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+							tr.ad_resource_carrier_id = #carrierIdList[]#
+			  </iterate>
+			</isNotNull>
+		</dynamic>   
+		
+		
+
+     			
+			group by  trc.parent_id,od.version
+			
+		
+		
+		
+		order by trc.ad_resource_channel_id 
+    </select>
+	
+		<select id="getYearRelPutAnalyze" resultMap="financeTargetYear">
+    <![CDATA[
+        select trc.parent_id as ad_resource_carrier_id,
+				od.version as year,
+				sum(od.day_rel_income) as money
+
+			from tb_order_day_info od 
+
+			left outer join tb_order_detail tod 
+					on  tod.order_detail_id=od.order_detail_id 
+			left outer join tb_ad_resource_info tr 
+					on  tod.ad_resource_info_id =tr.ad_resource_info_id 
+            left outer join tb_ad_resource_carrier trc 
+					on  trc.ad_resource_carrier_id =tr.ad_resource_carrier_id 
+                
+    ]]>
+		<dynamic prepend="WHERE"> 
+
+				<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+						<![CDATA[ od.version = #allYears[]#  ]]>
+					 </iterate>
+				</isNotNull>
+	
+			<isNotNull property="carrierIdList">
+				 <iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+							tr.ad_resource_carrier_id = #carrierIdList[]#
+			  </iterate>
+			</isNotNull>
+		</dynamic>   
+
+		group by  trc.parent_id,od.version
+
+		order by trc.ad_resource_channel_id 
+			
+    </select>
+ 
+	<resultMap id="CustomerYear" class="financeTarget">   
+        <result property="carrierName" column="customer_name"/>
+        <result property="targetDateYear" column="year"/>
+        <result property="targetMoney" column="money"/>
+    </resultMap>
+	
+	<select id="getCustomerYearRelIcomeAnalyze" resultMap="CustomerYear">
+		 <isEqual  property="putYear" compareValue="0">	
+			 select i.version as year,
+		 </isEqual>	
+		 			
+		 <isEqual  property="putYear" compareValue="1">
+			  select substring(i.income_pull_date,1,4) as year,	
+		 </isEqual>	
+					tci.customer_name as customer_name,
+					sum(p.money_pull) as money
+		
+			FROM tb_income_pull p
+				left outer join tb_income i  
+			on p.income_id = i.income_id
+		        left outer join tb_customer_info tci
+		    on tci.customer_id=i.customer_id
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isEqual  property="putYear" compareValue="0">
+				<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+						<![CDATA[ i.version = #allYears[]#  ]]>
+					 </iterate>
+			</isNotNull>
+			</isEqual>				
+			
+	
+			<isEqual  property="putYear" compareValue="1">
+		    	<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+					<![CDATA[ substring(i.income_pull_date,1,4) = #allYears[]# ]]>
+					 </iterate>
+				</isNotNull>
+			</isEqual>
+			
+			
+			<isNotNull property="incomePurposeIdList">
+				 <iterate prepend="AND" property="incomePurposeIdList" open="(" close=")" conjunction="OR">
+							i.income_purpose_id = #incomePurposeIdList[]#
+			  </iterate>
+			</isNotNull> 
+			
+			
+			
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       p.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>
+			
+			
+		</dynamic>   
+		
+		<isNotEmpty prepend="AND" property="customerId">
+				(tci.customer_id like #customerId#)
+		</isNotEmpty>
+		
+		<isEqual  property="putYear" compareValue="0">	
+			 group by tci.customer_id,i.version
+			order by  i.version
+		 </isEqual>	
+		 			
+		 <isEqual  property="putYear" compareValue="1">
+			 group by  tci.customer_id,substring(i.income_pull_date,1,4)
+			 order by  substring(i.income_pull_date,1,4)
+		 </isEqual>	
+    </select>
+	
+	
+	<select id="getCustomerYearRelTimeAnalyze" resultMap="CustomerYear">
+    <![CDATA[
+        select tci.customer_name as customer_name,
+				od.version as year,
+				sum(od.ad_day_times * AM.length)  as money
+
+			from tb_order_day_info od 
+
+			left outer join tb_order_detail tod 
+					on  tod.order_detail_id=od.order_detail_id 
+		
+			left outer join tb_order tor
+		            on  tod.order_id=tor.order_id
+		
+		    left outer join tb_customer_info tci
+		            on  tor.customer_id=tci.customer_id
+		
+		  left outer join tb_adver_matter AM 
+				 on tod.adver_matter_id = AM.adver_matter_id 
+                
+    ]]>
+		<dynamic prepend="WHERE"> 
+
+				<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+						<![CDATA[ od.version = #allYears[]#  ]]>
+					 </iterate>
+				</isNotNull>
+	
+			<isNotEmpty prepend="AND" property="customerId">
+				(tci.customer_id like #customerId#)
+			</isNotEmpty>
+			
+			
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       od.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>		
+			
+		</dynamic>   
+		group by  tci.customer_name,od.version
+    </select>
+	
+		<select id="getCustomerYearRelPutAnalyze" resultMap="CustomerYear">
+    <![CDATA[
+        select tci.customer_name as customer_name,
+				od.version as year,
+				sum(od.day_rel_income) as money
+
+			from tb_order_day_info od 
+
+			Inner  join tb_order_detail DT 
+							 on  DT.order_detail_id = od.order_detail_id  AND DT.parent_id = 0 	
+		
+			Inner Join tb_order O
+				on   DT.order_id = O.order_id		
+
+		    Inner join tb_customer_info tci
+		         on O.customer_id=tci.customer_id
+                
+    ]]>
+		<dynamic prepend="WHERE"> 
+
+				<isNotNull property="allYears">
+					 <iterate prepend="AND" property="allYears" open="(" close=")" conjunction="OR">
+						<![CDATA[ od.version = #allYears[]#  ]]>
+					 </iterate>
+				</isNotNull>
+	
+			<isNotEmpty prepend="AND" property="customerId">
+				(tci.customer_id like #customerId#)
+			</isNotEmpty>
+			
+			
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       od.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>		
+			
+
+			
+		</dynamic>   
+		group by  tci.customer_name,od.version
+    </select>
+	
+	
+	
+	<select id="getArrearsList" resultClass="orderPublic">
+		
+
+			SELECT 
+			A.customer_name AS customerName,
+			Sum(A.day_rel_income) AS moneyRealpay,
+			Sum(A.money_in) AS moneyIn
+			
+			from (
+			
+			SELECT
+		    C.customer_id,
+			C.customer_name,  
+			od.day_rel_income ,
+			sum(icu.money_in) AS money_in 
+			
+			from      tb_order_day_info od
+					
+					   left outer Join   tb_income_used icu  
+							on icu.order_day_info_id = od.order_day_info_id   AND icu.version = #year# 
+		                   
+			
+						Inner  join tb_order_detail DT 
+							 on  DT.order_detail_id = od.order_detail_id  AND DT.parent_id = 0  AND DT.version = #year# 
+
+						Inner Join tb_order O
+							 on   DT.order_id = O.order_id AND O.version = #year# 
+
+						Inner  join tb_ad_resource_info RI
+							 on RI.ad_resource_info_id = DT.ad_resource_info_id
+					
+						Inner  join tb_customer_info C
+							 on O.customer_id= C.customer_id
+
+		<dynamic prepend="WHERE"> 
+
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       od.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>
+			
+			<isNotNull property="userIdList">
+				 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							O.user_id = #userIdList[]#
+			  </iterate>
+			</isNotNull> 	
+			
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					       RI.ad_resource_carrier_id = #carrierIdList[]#
+				</iterate>
+			</isNotNull>
+			
+		   <isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       C.customer_category_id = #customerCates[]#
+				</iterate>
+			</isNotNull>
+			
+		   <isNotNull property="customerIdList">
+				<iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					       C.customer_id = #customerIdList[]#
+				</iterate>
+			</isNotNull>													
+	
+			<isNotNull prepend="AND" property="customerId">
+				(C.customer_id = #customerId#)
+			</isNotNull>
+			
+			<isNotNull prepend="AND" property="year">
+				(od.version = #year#)
+			</isNotNull>
+			
+			
+			<!-- isNotNull prepend="AND" property="orgId">
+			(C.sys_org_id = #orgId#)
+			</isNotNull -->		
+			
+				<isNotNull property="userIdList2">
+				 <iterate prepend="AND" property="userIdList2" open="(" close=")" conjunction="OR">
+							O.user_id = #userIdList2[]#
+			  </iterate>
+			</isNotNull> 					
+				
+			
+			<isNotNull prepend="AND" property="startDate">
+				<![CDATA[(od.publish_date >= #startDate# and od.publish_date <= #endDate# and od.day_rel_income > 0)]]>
+			</isNotNull>	
+
+		</dynamic>  		
+
+			group by  od.order_day_info_id
+
+			
+		) as A 
+			
+		group by A.customer_id  
+		
+
+    </select>	
+	
+	
+	
+	
+	
+
+    <insert id="addFinanceTarget" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_finance_target_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_finance_target (ad_resource_carrier_id,create_by,create_date,modify_by,modify_date,month,year,money)
+            values ( ?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateFinanceTarget" parameterMap="updateParam">
+    <![CDATA[
+        update tb_finance_target set
+                   ad_resource_carrier_id = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   month = ?,
+                   year = ?,
+                   money = ?,
+                   version = ?
+        where finance_target_id = ?
+    ]]>
+    </update>
+	
+	
+
+    <delete id="deleteFinanceTarget" >
+    <![CDATA[
+        delete from tb_finance_target
+         
+    ]]>
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="FinanceTarget_where_fragment"/>
+          </dynamic>  
+    </delete>
+	
+	
+   <update id="deleteFinanceTargets" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_finance_target 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="FinanceTarget_idList_fragment"/>
+          </dynamic>      
+  </update>  
+	
+	
+   
+	
+	<select id="getChannelTarget" resultClass="financeTarget">
+   
+        select tr.ad_resource_channel_id as id,
+		       ifnull(sum(money),0) as targetMoney 
+		 from tb_finance_target 
+					left outer join tb_ad_resource_carrier tr 
+			on  tb_finance_target.ad_resource_carrier_id =tr.ad_resource_carrier_id 
+ 				left outer join tb_ad_resource_channel rc
+					    on tr.ad_resource_channel_id = rc.resource_mediaorg_id 
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="year">
+			(year = #year#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="month">
+			(month = #month#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="monthEnd">
+			 <![CDATA[   (month <= #monthEnd#)    ]]> 
+			</isNotEmpty>
+			
+		</dynamic>  
+		
+		group by  tr.ad_resource_channel_id
+		
+		order by tr.ad_resource_channel_id 
+		
+    </select>	
+	
+	
+	<select id="getChannelIncome" resultClass="financeTarget">
+   
+        select tr.ad_resource_channel_id as id,
+		       ifnull(sum(p.money_pull),0) as targetMoney 
+		 from tb_income_pull p
+				left outer join tb_ad_resource_carrier tr
+		                 on tr.ad_resource_carrier_id  = p.ad_resource_carrier_id
+			left outer join tb_income  I 
+		                 on p.income_id= I.income_id 
+		
+ 				left outer join tb_ad_resource_channel rc
+					    on tr.ad_resource_channel_id = rc.resource_mediaorg_id 
+		
+		<dynamic prepend="WHERE"> 
+			
+			
+			<isNotEmpty prepend="AND" property="startDate">
+				<![CDATA[ (I.income_date >= #startDate#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDate">
+				  <![CDATA[ (I.income_date <= #endDate#)  ]]> 
+			</isNotEmpty>	
+			
+
+			
+		</dynamic>  
+		
+		group by  tr.ad_resource_channel_id
+		
+		order by tr.ad_resource_channel_id 
+		
+    </select>	
+	
+	<select id="getChannelRealPay" resultClass="financeTarget">
+   
+        select tr.ad_resource_channel_id as id,
+		       ifnull(sum(odi.day_rel_income),0) as targetMoney
+
+		 from tb_order_detail dt 
+		
+		inner join tb_order_day_info odi
+		                 on  dt.order_detail_id = odi.order_detail_id 
+		
+		inner join tb_ad_resource_info rs
+		                 on rs.ad_resource_info_id = dt.ad_resource_info_id 
+		
+		inner join tb_ad_resource_carrier tr
+		                 on tr.ad_resource_carrier_id  = rs.ad_resource_carrier_id
+	
+	
+ 				left outer join tb_ad_resource_channel rc
+					    on tr.ad_resource_channel_id = rc.resource_mediaorg_id 
+		
+		<dynamic prepend="WHERE">
+			 
+			<isNotEmpty prepend="AND" property="year">
+				<![CDATA[ (dt.version = #year#)  ]]> 
+			</isNotEmpty>	
+							
+			<isNotEmpty prepend="AND" property="startDate">
+				<![CDATA[ (odi.publish_date >= #startDate#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDate">
+				  <![CDATA[ (odi.publish_date <= #endDate#)  ]]> 
+			</isNotEmpty>		
+	
+		</dynamic>  
+		
+		group by  tr.ad_resource_channel_id
+		
+		order by tr.ad_resource_channel_id 
+		
+    </select>		
+	
+	<select id="getChannelRealPuton" resultClass="financeTarget">
+   
+        select tr.ad_resource_channel_id as id,
+		       ifnull(sum(iu.money_in),0) as targetMoney 
+
+		 from  tb_income_used iu 
+		
+		inner join tb_order_day_info odi
+		                 on  iu.order_day_info_id = odi.order_day_info_id   	
+		
+		inner join tb_order_detail dt 
+		                 on  dt.order_detail_id = odi.order_detail_id 
+
+		inner join tb_ad_resource_info rs
+		                 on rs.ad_resource_info_id = dt.ad_resource_info_id 
+		
+		inner join tb_ad_resource_carrier tr
+		                 on tr.ad_resource_carrier_id  = rs.ad_resource_carrier_id
+	
+	
+ 				left outer join tb_ad_resource_channel rc
+					    on tr.ad_resource_channel_id = rc.resource_mediaorg_id 
+		
+		<dynamic prepend="WHERE">
+			 
+			<isNotEmpty prepend="AND" property="year">
+				<![CDATA[ (dt.version = #year#)  ]]> 
+			</isNotEmpty>	
+							
+			<isNotEmpty prepend="AND" property="startDate">
+				<![CDATA[ (odi.publish_date >= #startDate#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDate">
+				  <![CDATA[ (odi.publish_date <= #endDate#)  ]]> 
+			</isNotEmpty>		
+	
+		</dynamic>  
+		
+		group by  tr.ad_resource_channel_id
+		
+		order by tr.ad_resource_channel_id 
+		
+    </select>			
+	
+	
+
+	<select id="getChannelOrderRealPay" resultClass="financeTarget">
+   
+	SELECT
+		 tr.ad_resource_channel_id as id,
+		ifnull(sum(dt.money_realpay),0) as targetMoney 
+	from tb_order_detail dt 
+		left outer join tb_order or1 on  dt.order_id = or1.order_id 	
+		left outer join tb_contract_payment pmt on  pmt.order_id = or1.order_id  
+		left outer join tb_order or2 on  or2.contract_payment_id = pmt.contract_payment_id  and  dt.order_id = or2.order_id 
+		left outer join tb_ad_resource_info rs on rs.ad_resource_info_id = dt.ad_resource_info_id 
+		left outer join tb_ad_resource_carrier tr  on tr.ad_resource_carrier_id  = rs.ad_resource_carrier_id 
+ 		left outer join tb_ad_resource_channel rc  on tr.ad_resource_channel_id = rc.resource_mediaorg_id 
+		
+		<dynamic prepend="WHERE">
+			 
+			<isNotEmpty prepend="AND" property="year">
+				<![CDATA[ (dt.version = #year#)  ]]> 
+			</isNotEmpty>	
+							
+			<isNotEmpty prepend="AND" property="startDate">
+				<![CDATA[ (pmt.pay_date >= #startDate#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDate">
+				  <![CDATA[ (pmt.pay_date <= #endDate#)  ]]> 
+			</isNotEmpty>		
+	
+		</dynamic>  
+		
+		group by  tr.ad_resource_channel_id
+		
+		order by tr.ad_resource_channel_id 
+		
+    </select>		
+	
+<select id="getChannelOrderRealPuton" resultClass="financeTarget">
+   
+       	SELECT
+		 tr.ad_resource_channel_id as id,
+		ifnull(sum(dt.money_in),0) as targetMoney 
+	from tb_order_detail dt 
+		left outer join tb_order or1 on  dt.order_id = or1.order_id 	
+		left outer join tb_contract_payment pmt on  pmt.order_id = or1.order_id  
+		left outer join tb_order or2 on  or2.contract_payment_id = pmt.contract_payment_id  and  dt.order_id = or2.order_id 
+		left outer join tb_ad_resource_info rs on rs.ad_resource_info_id = dt.ad_resource_info_id 
+		left outer join tb_ad_resource_carrier tr  on tr.ad_resource_carrier_id  = rs.ad_resource_carrier_id 
+ 		left outer join tb_ad_resource_channel rc  on tr.ad_resource_channel_id = rc.resource_mediaorg_id 
+		
+			<dynamic prepend="WHERE">
+			 
+			<isNotEmpty prepend="AND" property="year">
+				<![CDATA[ (dt.version = #year#)  ]]> 
+			</isNotEmpty>	
+							
+			<isNotEmpty prepend="AND" property="startDate">
+				<![CDATA[ (pmt.pay_date >= #startDate#)  ]]> 
+			</isNotEmpty>			
+			
+			<isNotEmpty prepend="AND" property="endDate">
+				  <![CDATA[ (pmt.pay_date <= #endDate#)  ]]> 
+			</isNotEmpty>		
+	
+		</dynamic>  
+		
+		group by  tr.ad_resource_channel_id
+		
+		order by tr.ad_resource_channel_id 
+		
+    </select>		
+			 
+</sqlMap>

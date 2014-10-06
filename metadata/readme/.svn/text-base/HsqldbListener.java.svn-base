@@ -1,0 +1,195 @@
+package com.vriche.adrm.webapp.listener;
+
+import java.io.File;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+
+import org.hsqldb.Server;
+
+
+
+public class HsqldbListener implements ServletContextListener {
+	
+		
+		
+	 
+		/** 
+	    * 配置文件中的占位符，代表webapp发布后的根目录. 
+	    */  
+	   public static final String TOKEN = "${webapp.root}";  
+	 
+	   /** 
+	    * 等待数据库停止的最大时间. 
+	    */  
+	   public static final int WAIT_TIME = 1000;  
+	 
+	   /** 
+	    * jdbc的url. 
+	    */  
+	   private String url;  
+	   
+	   private String databaseName;  
+	 
+	   /** 
+	    * 登陆用户名. 
+	    */  
+	   private String username;  
+	 
+	   /** 
+	    * 登陆密码. 
+	    */  
+	   private String password;  
+	   
+	   private String port; 
+	   
+	   private String hsqlPath;  
+	 
+	   /** 
+	    * 处理context初始化事件. 
+	    * @param sce ServletContextEvent 
+	    */  
+	 
+	public void contextInitialized(ServletContextEvent sce) {
+		
+     		Properties prop = new Properties();  
+			try {
+				prop.load(HsqldbListener.class.getResourceAsStream("/hsql.properties"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+//			Properties prop =PropertiesUtil.load("/hsql.properties");
+//			 System.err.println("prop>>>>>>>>>>>>：" + prop);  
+			
+	       
+	        databaseName = prop.getProperty("hsql.databaseName");         
+	        username = prop.getProperty("hsql.username");  
+	        password = prop.getProperty("hsql.password");  
+	        port = prop.getProperty("hsql.port"); 
+	        hsqlPath = prop.getProperty("hsql.path");  
+	        
+//	        System.err.println("databaseName>>>>>>>>>>>>：" + databaseName);  
+	
+	        
+	        File dbDir = new File(hsqlPath);   
+	         if (!dbDir.exists()) {//判断目录是否存在   
+	        	 if (!dbDir.mkdirs()) {//如果不存在创建，如果创建失败直接返回   
+		        	 System.out.println("Can not create DB Dir for Hsql:" + dbDir);   
+		        	 return;   
+	        	}   
+	        }         
+	        
+	         //以下代码是做数据库恢复的。我们把原始的数据库放在classpath下，当启动web的时候，检查目标   
+	         //数据库是否存在，如果不存在，就把原始数据库复制为指定的数据库   
+	       
+	        if (!hsqlPath.endsWith("/")){ hsqlPath = hsqlPath + "/";   }   
+	        
+//	        System.err.println("hsqlPath>>>>>>>>>>>>：" + hsqlPath);  
+	      	
+	
+	        // FIXME: 因为要用到getRealPath方法获得路径，在使用war包发布的时候会出现问题  
+	        if (hsqlPath.startsWith(TOKEN)) {  
+	            String webappRoot = sce.getServletContext().getRealPath("/");  
+	            hsqlPath = hsqlPath.substring(TOKEN.length());  
+	            hsqlPath = webappRoot + hsqlPath;  
+	        }  
+	
+
+	        url = "jdbc:hsqldb:hsql://localhost:" + port + "/"  + databaseName;  
+	        
+	        
+	        System.err.println("hsqlPath       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>：" + hsqlPath);  
+	        System.err.println("databaseName       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>：" + databaseName);  
+	        System.err.println("port       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>：" + port);  
+	        System.err.println("url       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>：" + url);  
+	        
+	        this.startServer(hsqlPath, databaseName, port); 
+	}
+	
+	/**  
+	* 启动Hsqldb服务的方法。  
+	* @param dbPath　数据库路径  
+	* @param dbName　数据库名称  
+	* @param port　所使用的端口号  
+	*/  
+	private void startServer(String dbPath, String dbName, String port) {   
+
+		Server server = new Server();// 它可是hsqldb.jar里面的类啊。
+
+		server.setDatabaseName(0, dbName);
+		server.setDatabasePath(0, dbPath + dbName);
+		server.setPort(Integer.parseInt(port));
+		server.setSilent(true);
+		server.start();
+		
+		System.out.println("hsqldb started........");   
+		
+	   // 等待Server启动
+		try {
+			Thread.sleep(WAIT_TIME);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+ 
+	}   	
+	
+
+	public void contextDestroyed(ServletContextEvent sce) {
+		try {  
+	           Class.forName("org.hsqldb.jdbcDriver");  
+	           Connection conn = null;  
+	           Statement state = null;  
+	           
+	           url = "jdbc:hsqldb:hsql://localhost:" + port + "/"  + databaseName;  
+	           
+//	           System.err.println("url>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>：" + url);  
+//	           System.err.println("username>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>：" + username);  
+	           
+	 
+	           try {  
+	               // 向数据库发送shutdown命令，关闭数据库  
+	               conn = DriverManager.getConnection(url, username, password);  
+	               state = conn.createStatement();  
+	               state.executeUpdate("SHUTDOWN;");  
+	           } catch (SQLException ex1) {  
+	               System.err.println("关闭数据库时出现异常：" + ex1);  
+	           } finally {  
+	               // 确保关闭Statement  
+	               if (state != null) {  
+	                   try {  
+	                       state.close();  
+	                       state = null;  
+	                   } catch (SQLException ex1) {  
+	                       System.err.println(ex1);  
+	                   }  
+	               }  
+	 
+	               // 确保关闭Connection  
+	               if (conn != null) {  
+	                   try {  
+	                       conn.close();  
+	                       conn = null;  
+	                   } catch (SQLException ex1) {  
+	                       System.err.println(ex1);  
+	                   }  
+	               }  
+	           }  
+	       } catch (ClassNotFoundException ex) {  
+	           System.err.println("HsqldbListener : contextDestoryed : error : " + ex);  
+	 
+	           // ex.printStackTrace();  
+	       }  
+
+	}
+
+}

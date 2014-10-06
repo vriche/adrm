@@ -1,0 +1,277 @@
+ 
+var order = 
+	{
+	orderCode:"", 					//orderCode
+	relationCode:"",				//orderRelationCode
+	categoryId:0, 					//orderCategoryMain
+	orderMeno:"", 					//orderMeno
+	publishMemo:"", 				//orderPublishMemo
+	userId:0,						//orderRelation
+	sumTimes:0,						//orderMoneySum
+	contractId:-1,					//orderContractId
+	id:-1,							//orderId
+	customerId:-1,					//orderCustomerId
+	moneyIn:0,						//orderMoneyIn
+	isCkecked:0,					//orderIsCkecked
+	createBy:"",					//orderCreateBy
+	modifyBy:"",					//orderModifyBy
+	publishStartDate:"19991231",	//orderPublishStartDate
+	publishEndDate:"19991231",		//orderPublishEndDate
+	moneySum:0,						//orderSumTimes
+	createDate:"19991231",			//orderSumTimes
+	modifyDate:"19991231"			//orderSumTimes
+	};
+
+var orderDetail = 
+	{
+	appRate:null,					//dtAppRate
+    carrierId:null,					//dtCarrierId
+    createBy:null,					//dtCreateBy
+    createDate:null,				//dtCreateDate
+    execPrice:null,					//dtExecPrice
+    favourRate:null,				//dtFavourRate
+    id:null,						//dtId
+    industryTypeId:null,			//dtIndustryTypeId
+    isCkecked:null,					//dtIsCkecked
+    matterId:null,					//dtMatterId
+    matterLength:null,				//dtMatterLength
+    matteType:null,					//dtMatteType
+    modifyBy:null,					//dtModifyBy
+    modifyDate:null,				//dtModifyDate
+    moneyBalance:null,				//dtMoneyBalance
+    moneyIn:null,					//dtMoneyIn
+    moneyRealpay:null,				//dtMoneyRealpay
+    orderCategoryId:null,			//dtOrderCategoryId
+    orderId:null,					//dtOrderId
+    publishMemo:null,				//dtPublishMemo
+    resourceInfoId:null,			//dtResourceInfoId
+    resourcePriceType:null,			//dtResourcePriceType
+    resourceSpecificId:null,		//dtResourceSpecificId
+    resourceType:null,				//dtResourceType
+    resourceWorkspanId:null,		//dtResourceWorkspanId
+    moneyBase:null,					//dtMoneyBase
+    sumTimes:null,					//dtSumTimes
+    sysPrice:null,					//dtSysPrice
+    publishEndDate:null				//dtPublishEndDate
+	};
+	
+var orderDetailDest = 
+	{
+	dtAppRate:0,					//appRate
+    dtCarrierId:0,					//carrierId
+    dtExecPrice:0,					//execPrice
+    dtFavourRate:0,					//favourRate
+    dtIndustryTypeId:0,				//industryTypeId
+    dtMatterId:-1,					//matterId
+    dtMatterCode:"",				//
+    dtMatterName:"",				//
+    dtMatterEdit:"",				//    
+    dtMatterLength:0,				//matterLength
+    dtOrderCategoryId:0,			//orderCategoryId
+    dtOrderId:-1,					//orderId
+    dtPublishMemo:"",				//publishMemo
+    dtResourceInfoId:0,				//resourceInfoId
+    dtResourcePriceType:0,			//resourcePriceType
+    dtResourceSpecificId:0,			//resourceSpecificId
+    
+    dtResourceType:0,				//resourceType
+    dtMoneyBase:0,					//moneyBase
+    dtSumTimes:0,					//sumTimes
+    dtSysPrice:0,					//sysPrice
+    dtPublishStartDate:"19991231",	//publishStartDate   
+    dtPublishEndDate:"19991231",	//publishEndDate
+    dtId:-1,						//id
+    dtMatteType:0,					//matteType   
+    dtIsCkecked:0,					//isCkecked
+    dtMoneyIn:0,					//moneyIn
+    dtMoneyRealpay:0,				//moneyRealpay
+    dtMoneyBalance:0,				//moneyBalance
+    dtResourceWorkspanId:-1,		//resourceWorkspanId
+    dtCreateBy:1,					//createBy
+    dtCreateDate:"19991231",		//createDate
+    dtModifyBy:1,					//modifyBy
+    dtModifyDate:"19991231"			//modifyDate    
+	};
+		
+function setDest(){
+	orderDetailDest.dtAppRate = orderDetail.appRate;
+    orderDetailDest.dtCarrierId = orderDetail.carrierId;
+    orderDetailDest.dtExecPrice = orderDetail.execPrice;
+    orderDetailDest.dtFavourRate=orderDetail.favourRate;
+    orderDetailDest.dtIndustryTypeId = orderDetail.industryTypeId;
+    orderDetailDest.dtMatterId = orderDetail.matterId;
+    orderDetailDest.dtMatterCode = "";
+    orderDetailDest.dtMatterName = "";
+    orderDetailDest.dtMatterEdit = "";
+    orderDetailDest.dtMatterLength = orderDetail.matterLength;
+    orderDetailDest.dtOrderCategoryId = orderDetail.orderCategoryId;
+    orderDetailDest.dtOrderId = orderDetail.orderId;
+    orderDetailDest.dtPublishMemo = orderDetail.publishMemo;
+    orderDetailDest.dtResourceInfoId = orderDetail.resourceInfoId;
+    orderDetailDest.dtResourcePriceType = orderDetail.resourcePriceType;
+    orderDetailDest.dtResourceSpecificId = orderDetail.resourceSpecificId;
+    
+    orderDetailDest.dtResourceType = orderDetail.resourceType;
+    orderDetailDest.dtMoneyBase = orderDetail.moneyBase;
+    orderDetailDest.dtSumTimes = orderDetail.sumTimes;
+    orderDetailDest.dtSysPrice = orderDetail.sysPrice;
+    orderDetailDest.dtPublishStartDate = orderDetail.publishStartDate;  
+    orderDetailDest.dtPublishEndDate = orderDetail.publishEndDate;
+    orderDetailDest.dtId = orderDetail.id;
+    orderDetailDest.dtMatteType = orderDetail.matteType;
+    orderDetailDest.dtIsCkecked = orderDetail.isCkecked;
+    orderDetailDest.dtMoneyIn = orderDetail.moneyIn;
+    orderDetailDest.dtMoneyRealpay = orderDetail.moneyRealpay;
+    orderDetailDest.dtMoneyBalance = orderDetail.moneyBalance;
+    orderDetailDest.dtResourceWorkspanId = orderDetail.resourceWorkspanId;
+    orderDetailDest.dtCreateBy = orderDetail.createBy;
+    orderDetailDest.dtCreateDate = orderDetail.createDate;
+    orderDetailDest.dtModifyBy = orderDetail.modifyBy;
+    orderDetailDest.dtModifyDate = orderDetail.modifyDate;
+}	
+	
+
+function submitFunction(chose) {
+ if (chose == 0) {
+  order = 
+  { 
+	orderCode:"", 						//orderCode 
+	orderRelationCode:"",				// relationCode
+	orderCategoryMain:0, 				// categoryId
+	orderMeno:"", 						// orderMeno
+	orderPublishMemo:"", 				// publishMemo
+	orderContractCode:"", 					//orderContractCode
+	orderCustomerName:"", 					//orderCustomerName
+	orderRelation:0,					// userId
+	orderMoneySum:0,					// sumTimes
+	orderContractId:-1,					// contractId
+	orderId:-1,							// contractId
+	orderCustomerId:-1,					// customerId
+	orderMoneyIn:0,						// moneyIn
+	orderIsCkecked:0,					// isCkecked
+	orderCreateBy:"",					// createBy
+	orderModifyBy:"",					// modifyBy
+	orderPublishStartDate:"19991231",	// publishStartDate
+	orderPublishEndDate:"19991231",		// publishEndDate
+	orderSumTimes:0,					// moneySum
+	orderSumTimes:"19991231",			// createDate
+	orderSumTimes:"19991231"			// modifyDate
+   };
+   
+   DWRUtil.setValues(order);
+  
+  }else{
+  
+    orderDetail = 
+  { 
+	dtAppRate:0,					//appRate
+    dtCarrierId:0,					//carrierId
+    dtExecPrice:0,					//execPrice
+    dtFavourRate:0,					//favourRate
+    dtIndustryTypeId:0,				//industryTypeId
+    dtMatterId:-1,					//matterId
+    dtMatterCode:"",				//
+    dtMatterName:"",				//
+    dtMatterEdit:"",				//    
+    dtMatterLength:0,				//matterLength
+    dtOrderCategoryId:0,			//orderCategoryId
+    dtOrderId:-1,					//orderId
+    dtPublishMemo:"",				//publishMemo
+    dtResourceInfoId:0,				//resourceInfoId
+    dtResourcePriceType:0,			//resourcePriceType
+    dtResourceSpecificId:0,			//resourceSpecificId
+    
+    dtResourceType:0,				//resourceType
+    dtMoneyBase:0,					//moneyBase
+    dtSumTimes:0,					//sumTimes
+    dtSysPrice:0,					//sysPrice
+    dtPublishStartDate:"19991231",	//publishStartDate   
+    dtPublishEndDate:"19991231",		//publishEndDate
+    dtId:-1,						//id
+    dtMatteType:0,					//matteType   
+    dtIsCkecked:0,					//isCkecked
+    dtMoneyIn:0,					//moneyIn
+    dtMoneyRealpay:0,				//moneyRealpay
+    dtMoneyBalance:0,				//moneyBalance
+    dtResourceWorkspanId:-1,		//resourceWorkspanId
+    dtCreateBy:1,					//createBy
+    dtCreateDate:"19991231",		//createDate
+    dtModifyBy:1,					//modifyBy
+    dtModifyDate:"19991231"			//modifyDate    
+   };
+   DWRUtil.setValues(orderDetail);
+  }
+}
+
+
+function readOrderDetail(id) {
+  OrderDetailManager.getOrderDetail(orderDetailFillForm,id);
+}
+
+function readOrderCategorySub(){
+  SelectListManager.getOrderCategoryLevelSecondMap(categoryFillForm,DWRUtil.getValue("orderCategoryMain"));
+}
+
+function readResourceInfos(){
+	SelectListManager.getResourceInfoMap(resourceInfoFillForm,DWRUtil.getValue("dtCarrierId"));
+}
+
+function readResourcePrice(){}
+
+function readSpeRate(){}
+
+function resourceInfoFillForm(resourceInfoMap){
+  DWRUtil.removeAllOptions("dtResourceInfoId");
+  DWRUtil.addOptions("dtResourceInfoId", resourceInfoMap);
+}
+
+function orderDetailFillForm(ret) {
+    orderDetail = ret;
+  //DWRUtil.setValues(orderDetail);
+	DWRUtil.setValue("dtAppRate",orderDetail.appRate);
+	DWRUtil.setValue("dtCarrierId",orderDetail.carrierId);
+	DWRUtil.setValue("dtExecPrice",orderDetail.execPrice);
+	DWRUtil.setValue("dtFavourRate",orderDetail.favourRate);
+	DWRUtil.setValue("dtIndustryTypeId",orderDetail.industryTypeId);
+	DWRUtil.setValue("dtMatterId",orderDetail.matterId);
+	DWRUtil.setValue("dtMatterLength",orderDetail.matterLength);
+	DWRUtil.setValue("dtOrderCategoryId",orderDetail.orderCategoryId);
+	DWRUtil.setValue("dtOrderId",orderDetail.orderId);
+	DWRUtil.setValue("dtPublishMemo",orderDetail.publishMemo);
+	DWRUtil.setValue("dtResourceInfoId",orderDetail.resourceInfoId);
+	DWRUtil.setValue("dtResourcePriceType",orderDetail.resourcePriceType);
+	DWRUtil.setValue("dtResourceSpecificId",orderDetail.resourceSpecificId);    
+	DWRUtil.setValue("dtResourceType",orderDetail.resourceType);
+	DWRUtil.setValue("dtMoneyBase",orderDetail.moneyBase);
+	DWRUtil.setValue("dtSumTimes",orderDetail.sumTimes);
+	DWRUtil.setValue("dtSysPrice",orderDetail.sysPrice);
+	DWRUtil.setValue("dtPublishStartDate",orderDetail.publishStartDate);
+	DWRUtil.setValue("dtPublishEndDate",orderDetail.publishEndDate);
+	DWRUtil.setValue("dtId",orderDetail.id);
+	DWRUtil.setValue("dtMatteType",orderDetail.matteType);
+	DWRUtil.setValue("dtIsCkecked",orderDetail.isCkecked);
+	DWRUtil.setValue("dtMoneyIn",orderDetail.moneyIn);
+	DWRUtil.setValue("dtMoneyRealpay",orderDetail.moneyRealpay);
+	DWRUtil.setValue("dtMoneyBalance",orderDetail.moneyBalance);   
+	DWRUtil.setValue("dtResourceWorkspanId",orderDetail.resourceWorkspanId);
+	DWRUtil.setValue("dtCreateBy",orderDetail.createBy);
+	DWRUtil.setValue("dtCreateDate",orderDetail.createDate);
+	DWRUtil.setValue("dtModifyBy",orderDetail.modifyBy);
+	DWRUtil.setValue("dtModifyDate",orderDetail.modifyDate);  
+
+	//dtMatterCode:null,
+	//dtMatterName:null,	
+	//dtMatterEdit:null,   
+}
+
+function categoryFillForm(categorySub) {
+  DWRUtil.removeAllOptions("dtOrderCategoryId");
+  DWRUtil.addOptions("dtOrderCategoryId", categorySub);
+}
+
+function doGetValue() {
+  var ret = DWRUtil.getValue($('getvalue').value);
+  DWRUtil.setValue("getvalueret", ret);
+}
+
+

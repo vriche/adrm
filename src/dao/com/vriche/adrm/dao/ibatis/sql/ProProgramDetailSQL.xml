@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProProgramDetailSQL">
+    <typeAlias alias="proProgramDetail" type="com.vriche.adrm.model.ProProgramDetail"/>
+	<cacheModel id="ProProgramDetail-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProProgramDetail"/>
+		<flushOnExecute statement="updateProProgramDetail"/>
+		<flushOnExecute statement="deleteProProgramDetail"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="proProgramDetail">
+        <parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="inputDate" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+		<parameter property="firstDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="director" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="actor" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="opinion" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="incomeMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+		<parameter property="rate" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+		<parameter property="commendLevel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proProgramDetail">
+        <parameter property="inputDate" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+		<parameter property="firstDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="director" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="actor" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="opinion" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="incomeMoney" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+		<parameter property="rate" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+		<parameter property="commendLevel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="ProProgramDetailResult" class="proProgramDetail">
+        <result property="inputDate" column="input_date"/>
+        <result property="firstDate" column="first_date"/>
+        <result property="director" column="director"/>
+        <result property="actor" column="actor"/>
+        <result property="content" column="content"/>
+        <result property="opinion" column="opinion"/>
+        <result property="incomeMoney" column="income_money"/>
+		<result property="rate" column="rate"/>
+		<result property="commendLevel" column="commend_level"/>
+		<result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+		<result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+	    <select id="getProProgramDetail" resultMap="ProProgramDetailResult">
+    <![CDATA[
+        select * from tb_pro_program_detail
+		where program_id=#value#
+    ]]>
+    </select>
+	
+    <insert id="addProProgramDetail" parameterMap="addParam">
+
+        <![CDATA[
+            insert into tb_pro_program_detail (program_id,input_date,first_date,director,actor,content,opinion,income_money,rate,commend_level,create_by,create_date,modify_by,modify_date,version)
+            values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProProgramDetail" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_program_detail set
+                   input_date = ?,
+				   first_date = ?,
+				   director = ?,
+                   actor = ?,
+				   content = ?,
+                   opinion = ?,
+				   income_money = ?,
+				   rate = ?,
+				   commend_level = ?,
+				   modify_by = ?,
+                   modify_date = ?,
+		           version = ?
+        where program_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProProgramDetail">
+    <![CDATA[
+        delete from tb_pro_program_detail
+         where program_id = #value#
+    ]]>
+    </delete>
+</sqlMap>

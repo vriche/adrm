@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- This file was auto-generated from WSDL --><!-- by the Apache Axis2 version: 1.5.4  Built on : Dec 19, 2010 (08:18:42 CET) --><serviceGroup>
+    <service name="ImportMaterialService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="com.dayang.adp.service.importmaterialservice._0_1.ImportMaterialServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">com.dayang.adp.service.importmaterialservice._0_1.ImportMaterialServiceSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="ImportMaterial" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://dayang.com/ADP/service/ImportMaterialService/0.1">
+            <actionMapping>ImportMaterial</actionMapping>
+            <outputActionMapping>http://dayang.com/ADP/service/ImportMaterialService/0.1/ImportMaterial/ImportMaterialResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

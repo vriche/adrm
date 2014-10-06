@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://MREML2/schema/ProgramListParameter" xmlns:tns2="http://MREML2/schema/ProgramList" xmlns:tns3="http://MREML2/schema/CommonDataType" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://MREML2/schema/ProgramListParameter">
+    <xsd:import namespace="http://MREML2/schema/ProgramList" schemaLocation="ProgramList.xsd"/>
+    <xsd:import namespace="http://MREML2/schema/CommonDataType" schemaLocation="MreML2_CommonDataTypes.xsd"/>
+    <xsd:element name="ImportProgramListRequest" type="tns:ImportProgramListRequestType">
+        <xsd:annotation>
+            <xsd:documentation>导入节目单请求</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="ImportProgramListResponse" type="tns:ImportProgramListResponseType">
+        <xsd:annotation>
+            <xsd:documentation>导入节目单响应</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="ImportProgramListRequestType">
+        <xsd:sequence>
+            <xsd:element ref="tns2:BroadcastListEntity"/>
+            <xsd:element ref="tns3:CommonRequest"/>
+            <xsd:element name="ExtendAttributes" nillable="true" type="tns3:ExtendAttributesType"/>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ImportProgramListResponseType">
+        <xsd:sequence>
+            <xsd:element ref="tns3:CommonResponse"/>
+            <xsd:element name="ExtendAttributes" nillable="true" type="tns3:ExtendAttributesType"/>
+            <xsd:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="skip"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,153 @@
+
+package com.vriche.adrm.webapp.action;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+import com.ibatis.common.util.PaginatedList;
+
+import com.vriche.adrm.webapp.action.BaseAction;
+import com.vriche.adrm.Constants;
+import com.vriche.adrm.model.OaAreaCity;
+import com.vriche.adrm.service.OaAreaCityManager;
+import com.vriche.adrm.webapp.form.OaAreaCityForm;
+import com.vriche.adrm.Constants;
+import com.vriche.adrm.util.Page;
+
+/**
+ * Action class to handle CRUD on a OaAreaCity object
+ *
+ * @struts.action name="oaAreaCityForm" path="/oaAreaCitys" scope="request"
+ *  validate="false" parameter="method" input="mainMenu"
+ * @struts.action name="oaAreaCityForm" path="/editOaAreaCity" scope="request"
+ *  validate="false" parameter="method" input="list"
+ * @struts.action name="oaAreaCityForm" path="/saveOaAreaCity" scope="request"
+ *  validate="true" parameter="method" input="edit"
+ * @struts.action-set-property property="cancellable" value="true"
+ * @struts.action-forward name="edit" path="/WEB-INF/pages/tools/oaAreaCityForm.jsp"
+ * @struts.action-forward name="list" path="/WEB-INF/pages/tools/oaAreaCityList.jsp"
+ * @struts.action-forward name="search" path="/oaAreaCitys.html" redirect="true"
+ */
+public final class OaAreaCityAction extends BaseAction {
+    public ActionForward cancel(ActionMapping mapping, ActionForm form,
+                                HttpServletRequest request,
+                                HttpServletResponse response)
+    throws Exception {
+        return mapping.findForward("search");
+    }
+
+    public ActionForward delete(ActionMapping mapping, ActionForm form,
+                                HttpServletRequest request,
+                                HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'delete' method");
+        }
+
+        ActionMessages messages = new ActionMessages();
+        OaAreaCityForm oaAreaCityForm = (OaAreaCityForm) form;
+
+        // Exceptions are caught by ActionExceptionHandler
+        OaAreaCityManager mgr = (OaAreaCityManager) getBean("oaAreaCityManager");
+        mgr.removeOaAreaCity(oaAreaCityForm.getId());
+
+        messages.add(ActionMessages.GLOBAL_MESSAGE,
+                     new ActionMessage("oaAreaCity.deleted"));
+
+        // save messages in session, so they'll survive the redirect
+        saveMessages(request.getSession(), messages);
+
+        return mapping.findForward("search");
+    }
+
+    public ActionForward edit(ActionMapping mapping, ActionForm form,
+                              HttpServletRequest request,
+                              HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'edit' method");
+        }
+
+        OaAreaCityForm oaAreaCityForm = (OaAreaCityForm) form;
+
+        // if an id is passed in, look up the user - otherwise
+        // don't do anything - user is doing an add
+        if (oaAreaCityForm.getId() != null) {
+            OaAreaCityManager mgr = (OaAreaCityManager) getBean("oaAreaCityManager");
+            OaAreaCity oaAreaCity = mgr.getOaAreaCity(oaAreaCityForm.getId());
+            oaAreaCityForm = (OaAreaCityForm) convert(oaAreaCity);
+            updateFormBean(mapping, request, oaAreaCityForm);
+        }
+
+        return mapping.findForward("edit");
+    }
+
+    public ActionForward save(ActionMapping mapping, ActionForm form,
+                              HttpServletRequest request,
+                              HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'save' method");
+        }
+
+        // Extract attributes and parameters we will need
+        ActionMessages messages = new ActionMessages();
+        OaAreaCityForm oaAreaCityForm = (OaAreaCityForm) form;
+        boolean isNew = ("".equals(oaAreaCityForm.getId()) || oaAreaCityForm.getId() == null);
+
+        OaAreaCityManager mgr = (OaAreaCityManager) getBean("oaAreaCityManager");
+        OaAreaCity oaAreaCity = (OaAreaCity) convert(oaAreaCityForm);
+        mgr.saveOaAreaCity(oaAreaCity);
+
+        // add success messages
+        if (isNew) {
+            messages.add(ActionMessages.GLOBAL_MESSAGE,
+                         new ActionMessage("oaAreaCity.added"));
+
+            // save messages in session to survive a redirect
+            saveMessages(request.getSession(), messages);
+
+            return mapping.findForward("search");
+        } else {
+            messages.add(ActionMessages.GLOBAL_MESSAGE,
+                         new ActionMessage("oaAreaCity.updated"));
+            saveMessages(request, messages);
+
+            return mapping.findForward("edit");
+        }
+    }
+
+    public ActionForward search(ActionMapping mapping, ActionForm form,
+                                HttpServletRequest request,
+                                HttpServletResponse response)
+    throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("Entering 'search' method");
+        }
+
+        OaAreaCityForm oaAreaCityForm = (OaAreaCityForm) form;
+        OaAreaCity oaAreaCity = (OaAreaCity) convert(oaAreaCityForm);
+        OaAreaCityManager mgr = (OaAreaCityManager) getBean("oaAreaCityManager");
+        oaAreaCity = null;
+        int resultSize = Integer.parseInt(mgr.getOaAreaCitysCount(oaAreaCity));
+        Page page = new Page(Constants.OAAREACITY_LIST,request);        
+        PaginatedList pageList = mgr.getOaAreaCitysPage(oaAreaCity,page.getPageIndex().toString(),page.getPageSize().toString());
+        pageList.gotoPage(page.getPageIndex().intValue());   
+        request.setAttribute(Constants.RESULT_SIZE, new Integer(resultSize));
+        request.setAttribute(Constants.OAAREACITY_LIST, pageList);                    
+        //request.setAttribute(Constants.OAAREACITY_LIST, mgr.getOaAreaCitys(oaAreaCity));
+
+        return mapping.findForward("list");
+    }
+    public ActionForward unspecified(ActionMapping mapping, ActionForm form,
+                                     HttpServletRequest request,
+                                     HttpServletResponse response)
+            throws Exception {
+        return search(mapping, form, request, response);
+    }
+}

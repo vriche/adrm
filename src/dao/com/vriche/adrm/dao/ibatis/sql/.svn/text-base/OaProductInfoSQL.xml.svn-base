@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaProductInfoSQL">
+    <typeAlias alias="oaProductInfo" type="com.vriche.adrm.model.OaProductInfo"/>
+
+	<cacheModel id="oaProductInfo-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaProductInfo"/>
+		<flushOnExecute statement="updateOaProductInfo"/>
+		<flushOnExecute statement="deleteOaProductInfo"/>
+		<flushOnExecute statement="deleteOaProductInfos"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaProductInfo">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="fittings" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="picture" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="price" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="productTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="provider" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="quantity" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="stockDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="stockUser" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="storageDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="unit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaProductInfo">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="fittings" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="picture" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="price" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+        <parameter property="productTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="provider" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="quantity" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="stockDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="stockUser" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="storageDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="unit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaProductInfoResult" class="oaProductInfo">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="fittings" column="fittings"/>
+        <result property="id" column="product_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="picture" column="picture"/>
+        <result property="price" column="price"/>
+        <!-- result property="productType" column=""/ -->
+        <result property="productTypeId" column="product_type_id"/>
+		<result property="productType" column="product_type_id" select="getOaProductType"/>
+        <result property="provider" column="provider"/>
+        <result property="quantity" column="quantity"/>
+        <result property="stockDate" column="stock_date"/>
+        <result property="stockUser" column="stock_user"/>
+        <result property="storageDate" column="storage_date"/>
+        <result property="unit" column="unit"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getOaProductInfosCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_product_info 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fittings">
+			(fittings like #fittings#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(product_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="picture">
+			(picture like #picture#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="price">
+			(price like #price#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="productTypeId">
+			(product_type_id like #productTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="provider">
+			(provider like #provider#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="quantity">
+			(quantity like #quantity#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="stockDate">
+			(stock_date like #stockDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="stockUser">
+			(stock_user like #stockUser#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="storageDate">
+			(storage_date like #storageDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="unit">
+			(unit like #unit#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaProductInfos" resultMap="oaProductInfoResult">
+    <![CDATA[
+        select * from tb_oa_product_info 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fittings">
+			(fittings like #fittings#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(product_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="picture">
+			(picture like #picture#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="price">
+			(price like #price#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="productTypeId">
+			(product_type_id like #productTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="provider">
+			(provider like #provider#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="quantity">
+			(quantity like #quantity#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="stockDate">
+			(stock_date like #stockDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="stockUser">
+			(stock_user like #stockUser#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="storageDate">
+			(storage_date like #storageDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="unit">
+			(unit like #unit#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaProductInfosByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_product_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaProductInfoIdList">
+       	  <iterate prepend="AND" property="OaProductInfoIdList" open="(" close=")" conjunction="OR">
+		   			 product_id = #OaProductInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaProductInfo" resultMap="oaProductInfoResult">
+    <![CDATA[
+        select * from tb_oa_product_info
+         where product_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaProductInfo" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_product_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_product_info (create_by,create_date,fittings,memo,modify_by,modify_date,picture,price,product_type_id,provider,quantity,stock_date,stock_user,storage_date,unit)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaProductInfo" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_product_info set
+                   create_by = ?,
+                   create_date = ?,
+                   fittings = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   picture = ?,
+                   price = ?,
+                   product_type_id = ?,
+                   provider = ?,
+                   quantity = ?,
+                   stock_date = ?,
+                   stock_user = ?,
+                   storage_date = ?,
+                   unit = ?,
+				   version = ?
+        where product_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaProductInfo">
+    <![CDATA[
+        delete from tb_oa_product_info
+         where product_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaProductInfos" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_product_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaProductInfoIdList">
+       	  <iterate prepend="AND" property="OaProductInfoIdList" open="(" close=")" conjunction="OR">
+		   			 product_id = #OaProductInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

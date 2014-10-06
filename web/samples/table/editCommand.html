@@ -1,0 +1,142 @@
+<html>  
+  <head>  
+  <meta   http-equiv="Content-Type"   content="text/html;   charset=gb2312">  
+  <title>可输入的下拉框改进第二版</title>  
+  <style>  
+  .selectBox{border:1px   solid   #993300;height:20px;}  
+  .editBox{border:0px;width:100px;cursor:default;width:100%;height:19px;padding-top:2px;margin:1px}  
+  .dropdownbutton{font-size:12px;font-family:webdings;color:#CCFF66;height:20px;background-color:#993300;border:1px   solid   #993300;padding:0   2;margin:1px;cursor:default}  
+  .selectContent{position:absolute;border:1px   solid   #993300;visibility:hidden;z-index:1000;background-color:#FFFFFF}  
+  .selectContent   tr{height:20px;cursor:default}  
+  .selectContent   td{font-size:12px;font-family:Vendana;padding:2   3}  
+  .OnFocus{color:#FFFFFF;background-color:#993300}  
+  </style>  
+  <script   language="javascript">  
+   
+  var   ZfSelect=[]  
+  var   CurrentTR=null  
+  function   String.prototype.Trim(){return   this.replace(/(^\s*)|(\s*$)/g,'')}//自定义去空格函数Trim()  
+  //在第ID个控件下增加option选项  
+  function   addOption(v,ID)   {    
+   
+  var   i=ID+1;  
+  //var   sv=document.all['ZfSelect_'+ID];  
+  if(!v.Trim()){return;}  
+  var   tb=document.all['ZfSelect'+i];  
+  //tb.insertRow();  
+  //alert(tb.id);return;  
+  var   c=tb.insertRow(tb.rows.length).insertCell();  
+  c.innerHTML=v.Trim();  
+  c.onmouseover=new   Function("MouseOver(this)");  
+  c.onmouseout=new   Function("out(this)");  
+  c.onclick=new   Function("MouseClick("+ID+",this)");  
+  //c.className="td_out";  
+  v='';  
+  }  
+  //增加inpnubox的接口,在页面中产生一个inputbox控件,下拉列表为空  
+  function   addSelect(name,DefValue)   {  
+  var   i=getSelCount();  
+  var   j=i+1;  
+  //alert("i   is:"+i);  
+  var   str='<table   id="ZfContainer'+j+'"   class="selectBox"   border="0"   width=100   cellspacing=0   cellpadding=0>     <tr>         <td><input   name="'+name+'"   value="'+DefValue+'"   class="editBox"   onblur="BoxBlur(this)"   onclick="DropDown('+i+')"   onkeyup="showTip('+i+')"></td>         <td   width="1"><span   class="dropdownbutton"   onmouseover="ButtonOver(this)"   onmouseout="ButtonOut(this)"   onclick="DropDown('+i+')">6</span></td>     </tr></table>';  
+  document.write(str);  
+  str='<table   id="ZfSelect'+j+'"   class="selectContent"   cellspacing=0   cellpadding=0></table>';  
+  //str='<table   id="ZfSelect'+j+'"   class="selectContent"   cellspacing=0   cellpadding=0>     <tr   onmouseover="MouseOver(this)"   onclick="MouseClick('+i+',this)"   title="作者:Andy">         <td>'+name+'</td>     </tr></table>';  
+  //alert(str);  
+          document.write(str);  
+  ZfSelect[i]=["ZfContainer"+j,name,"ZfSelect"+j]  
+  var   s=GetObj(ZfSelect[i][0])  
+  var   ZfContainer=GetObj(ZfSelect[i][2])  
+  ZfContainer.style.width=s.offsetWidth>ZfContainer.offsetWidth?s.offsetWidth:ZfContainer.offsetWidth  
+  }  
+   
+  function   getSelCount()   {  
+  var   i=1;  
+  while   (eval("document.getElementById('ZfContainer"+i+"')")!=null)   i++;  
+  return   i-1;    
+  }  
+  function   MouseOver(trObj){  
+  if(!CurrentTR)CurrentTR=trObj  
+  CurrentTR.className=""  
+  trObj.className="OnFocus"  
+  CurrentTR=trObj;  
+  }  
+   
+  function   ButtonOver(BtnObj){  
+  BtnObj.style.backgroundColor='#cc3300'  
+  }  
+  function   ButtonOut(BtnObj){  
+  BtnObj.style.backgroundColor='#993300'  
+  }  
+  function   MouseClick(Index,trObj){  
+  with(GetObj(ZfSelect[Index][1])){  
+  value=trObj.innerText;   //使text显示点击的值  
+  style.backgroundColor='#993300'  
+  style.color='#FFFFFF'  
+  focus()  
+  }  
+  DropDown(Index)  
+  }  
+  function   GoURL(trObj){  
+  var   url=trObj.getAttribute("url")  
+  if(url&&url!="")window.open(url)  
+  }  
+  function   BoxBlur(InputBox){  
+  with(InputBox.style){backgroundColor="";color=''}  
+  }  
+  function   DropDown(Index){  
+  event.cancelBubble=true  
+  ZfContainerReset(Index)  
+  var   show=GetObj(ZfSelect[Index][2]).style.visibility=='visible'  
+  GetObj(ZfSelect[Index][2]).style.visibility=show?'hidden':'visible'  
+  setPosition(Index)  
+  }  
+  function   document::onclick(){  
+  for(i=0;i<ZfSelect.length;i++){  
+  GetObj(ZfSelect[i][2]).style.visibility='hidden'  
+  with(GetObj(ZfSelect[i][2]))for(j=0;j<rows.length;j++)rows[j].style.display=""  
+  }  
+  }  
+  function   window::onresize(){  
+  for(i=0;i<ZfSelect.length;i++)setPosition(i)  
+  }  
+   
+  function   showTip(Index){  
+  var   inputbox=GetObj(ZfSelect[Index][1])  
+  var   ZfContainer=GetObj(ZfSelect[Index][2])  
+  var   num=0  
+  ZfContainer.style.visibility="visible"  
+  for(i=0;i<ZfContainer.rows.length;i++){  
+  if(ZfContainer.rows[i].cells[0].innerText.indexOf(inputbox.value)!=0)ZfContainer.rows[i].style.display="none"  
+  else   {ZfContainer.rows[i].style.display="";num++}  
+  }  
+  if(num==0)ZfContainer.style.visibility='hidden'  
+  }  
+  function   ZfContainerReset(Index){  
+  var   ZfContainer=GetObj(ZfSelect[Index][2])  
+  for(i=0;i<ZfContainer.rows.length;i++)ZfContainer.rows[i].style.display=""  
+  if(CurrentTR)CurrentTR.className=""  
+  }  
+  function   setPosition(Index){  
+  var   s=GetObj(ZfSelect[Index][0])  
+  var   ZfContainer=GetObj(ZfSelect[Index][2])  
+  var   l=s.offsetLeft;  
+  var   t=s.offsetTop;  
+  while(s=s.offsetParent){l+=s.offsetLeft;t+=s.offsetTop}  
+  with(ZfContainer.style){left=l+1;top=t+GetObj(ZfSelect[Index][0]).offsetHeight}  
+  }  
+  function   GetObj(id){return   document.getElementById(id)}  
+  </script>  
+  </head>  
+  <body>  
+      <script   language="javascript">    
+  addSelect("name1","缺省值1");  
+  addOption("zf",0);  
+  addOption("clj",0);  
+  addOption("zb",0);  
+  addSelect("sex","选择性别");  
+  addOption("女",1);  
+  addOption("男",1);  
+      </script>  
+  </body>  
+  </html>

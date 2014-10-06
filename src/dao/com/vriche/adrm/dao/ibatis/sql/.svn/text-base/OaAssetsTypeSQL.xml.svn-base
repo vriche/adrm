@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaAssetsTypeSQL">
+    <typeAlias alias="oaAssetsType" type="com.vriche.adrm.model.OaAssetsType"/>
+
+	<cacheModel id="oaAssetsType-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaAssetsType"/>
+		<flushOnExecute statement="updateOaAssetsType"/>
+		<flushOnExecute statement="deleteOaAssetsType"/>
+		<flushOnExecute statement="deleteOaAssetsTypes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaAssetsType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaAssetsType">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaAssetsTypeResult" class="oaAssetsType">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="assets_type_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+    </resultMap>
+	
+    <select id="getOaAssetsTypesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_assets_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(assets_type_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaAssetsTypes" resultMap="oaAssetsTypeResult" cacheModel="oaAssetsType-cache">
+    <![CDATA[
+        select * from tb_oa_assets_type 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(assets_type_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaAssetsTypesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_assets_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaAssetsTypeIdList">
+       	  <iterate prepend="AND" property="OaAssetsTypeIdList" open="(" close=")" conjunction="OR">
+		   			 assets_type_id = #OaAssetsTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaAssetsType" resultMap="oaAssetsTypeResult">
+    <![CDATA[
+        select * from tb_oa_assets_type
+         where assets_type_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaAssetsType" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_assets_type_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_assets_type (create_by,create_date,modify_by,modify_date,name,value )
+            values ( ?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaAssetsType" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_assets_type set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   value = ?,
+				   version = ?
+        where assets_type_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaAssetsType">
+    <![CDATA[
+        delete from tb_oa_assets_type
+         where assets_type_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaAssetsTypes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_assets_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaAssetsTypeIdList">
+       	  <iterate prepend="AND" property="OaAssetsTypeIdList" open="(" close=")" conjunction="OR">
+		   			 assets_type_id = #OaAssetsTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

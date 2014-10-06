@@ -1,0 +1,54 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/resources/themes/images/gray/tip
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+tip-sides.gif
+file
+
+
+
+
+2013-05-17T07:37:39.390325Z
+034965d5ac642f361b85aa866b88f4fa
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+
+tip-corners.gif
+file
+
+
+
+
+2013-05-17T07:37:39.405951Z
+fdb3d7eef73006cc6b054ece75cb6b7d
+2012-11-24T05:32:05.899594Z
+6
+lxz
+has-props
+

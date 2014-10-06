@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProOrderTypeSQL">
+    <typeAlias alias="proOrderType" type="com.vriche.adrm.model.ProOrderType"/>
+
+	<cacheModel id="proOrderType-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProOrderType"/>
+		<flushOnExecute statement="updateProOrderType"/>
+		<flushOnExecute statement="deleteProOrderType"/>
+		<flushOnExecute statement="deleteProOrderTypes"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="proOrderType">
+		<parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proOrderType">
+		<parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+    <resultMap id="proOrderTypeResult" class="proOrderType">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+    </resultMap>
+    <sql id="ProOrderType_where_fragment">
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(value like #value#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+			(version like #version#)
+			</isNotEmpty>
+    </sql>
+     <sql id="ProOrderType_idList_fragment">
+	      <isNotNull property="ProOrderTypeIdList">
+       	  <iterate prepend="AND" property="ProOrderTypeIdList" open="(" close=")" conjunction="OR">
+		   			 id = #ProOrderTypeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+    </sql>   
+    <select id="getProOrderTypesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_pro_order_type 
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="ProOrderType_where_fragment"/>
+		</dynamic>  
+    </select>	
+
+    <select id="getProOrderTypes" resultMap="proOrderTypeResult">
+    <![CDATA[
+        select * from tb_pro_order_type 
+    ]]>
+		<include refid="ProOrderType_where_fragment"/>
+    </select>
+    <select id="getProOrderTypesByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_pro_order_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="ProOrderType_idList_fragment"/>
+          </dynamic>      
+  </select>     
+
+    <select id="getProOrderType" resultMap="proOrderTypeResult">
+    <![CDATA[
+        select * from tb_pro_order_type
+         where id = #value#
+    ]]>
+    </select>
+
+    <insert id="addProOrderType" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_pro_order_type (name,value,create_by,create_date,modify_by,modify_date)
+            values (?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateProOrderType" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_order_type set
+		           name = ?,
+                   value = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+		           version = ?
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProOrderType">
+    <![CDATA[
+        delete from tb_pro_order_type
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteProOrderTypes" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_pro_order_type 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="ProOrderType_idList_fragment"/>
+          </dynamic>      
+  </update>   
+</sqlMap>

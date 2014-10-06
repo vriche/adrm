@@ -1,0 +1,42 @@
+8
+
+dir
+609
+svn://121.28.83.134:80/src1/adrm_2.0/lib/servletapi-2.4
+svn://121.28.83.134:80/src1
+
+
+
+2013-07-31T13:39:27.267094Z
+609
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+servletapi-2_4.jar
+file
+
+
+
+
+2013-07-29T01:56:07.530997Z
+546980287ecc42d4fd7b58a9833ba8c9
+2013-07-31T13:39:27.267094Z
+609
+lxz
+has-props
+
+jsp-api.jar
+file
+
+
+
+
+2013-07-29T06:45:05.405242Z
+76da369ed350701072a86af42f3750a7
+2013-07-31T13:39:27.267094Z
+609
+lxz
+has-props
+

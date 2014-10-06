@@ -1,0 +1,121 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/src/core/test/unit/spec
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+dom
+dir
+
+lang
+dir
+
+version
+dir
+
+class
+dir
+
+EventManager.js
+file
+
+
+
+
+2013-05-17T07:36:55.122403Z
+3a4f3eff72dafcbba7d79dbbb18ca4fd
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Support.js
+file
+
+
+
+
+2013-05-17T07:36:55.122403Z
+6b71cc732f0b86d0e85d5babf9516c3f
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+env
+dir
+
+Date.js
+file
+
+
+
+
+2013-05-17T07:36:55.138029Z
+f8ce9721a20662982366e4fd260a9738
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Ext-mess.backup
+file
+
+
+
+
+2013-05-17T07:36:55.138029Z
+9b119d0a2e1b4a8bb8e9e5a1799b8d17
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+misc
+dir
+
+Ext.js
+file
+
+
+
+
+2013-05-17T07:36:55.138029Z
+61480d32a7b62667b4aa421434a4705c
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+Ext-more.js
+file
+
+
+
+
+2013-05-17T07:36:55.138029Z
+68d64d037d02eaa9a83fee40425ba1f1
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+util
+dir
+

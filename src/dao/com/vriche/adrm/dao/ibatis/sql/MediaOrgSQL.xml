@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MediaOrgSQL">
+    <typeAlias alias="mediaOrg" type="com.vriche.adrm.model.MediaOrg"/>
+
+	<cacheModel id="mediaOrg-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addMediaOrg"/>
+		<flushOnExecute statement="updateMediaOrg"/>
+		<flushOnExecute statement="deleteMediaOrg"/>
+		<flushOnExecute statement="deleteMediaOrgs"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="mediaOrg">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="mediaOrg">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="value" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="mediaOrgResult" class="mediaOrg">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="enable" column="enable"/>
+        <result property="id" column="ad_resource_mediaorg_id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="version" column="version"/>
+		<result property="orgId" column="sys_org_id"/>
+    </resultMap>
+	
+	<resultMap id="mediaOrgResult2" extends="mediaOrgResult"  class="mediaOrg">
+		<result property="org.name" column="orgName" nullValue=""/>
+    </resultMap>	
+	
+    <select id="getMediaOrgs" resultMap="mediaOrgResult2">
+    <![CDATA[
+         select A.*,B.name as orgName 
+		
+		from tb_ad_resource_mediaorg    A 
+		
+		left outer join tb_sys_org B on B.sys_org_id  = A.sys_org_id  
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(A.create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(A.create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="enable">
+			(A.enable like #enable#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(A.ad_resource_mediaorg_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(A.memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(A.modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(A.modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(A.name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="value">
+			(A.value like #value#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>				  
+			  
+		</dynamic>
+    </select>
+	
+    <select id="getMediaOrgsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_ad_resource_mediaorg 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="MediaOrgIdList">
+       	  <iterate prepend="AND" property="MediaOrgIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_mediaorg_id = #MediaOrgIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>   
+	
+	
+    <select id="getgetMediaOrgsByLevel" parameterClass="java.lang.String" resultMap="mediaOrgResult">
+    <![CDATA[
+        select * from tb_ad_resource_mediaorg 
+         where node_level = #value#
+    ]]>
+    </select>			  
+
+    <select id="getMediaOrg" resultMap="mediaOrgResult">
+    <![CDATA[
+        select * from tb_ad_resource_mediaorg
+         where ad_resource_mediaorg_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addMediaOrg" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_ad_resource_mediaorg_id.NextVal AS id FROM DUAL
+        </selectKey-->
+
+        <![CDATA[
+            insert into tb_ad_resource_mediaorg (sys_org_id,create_by,create_date,enable,memo,modify_by,modify_date,name,value)
+            values ( ?,?,?,?,?,?,?,?,? )
+        ]]>
+		
+		  <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateMediaOrg" parameterMap="updateParam">
+    <![CDATA[
+        update tb_ad_resource_mediaorg set
+		           sys_org_id = ?,		
+                   create_by = ?,
+                   create_date = ?,
+                   enable = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   value = ?,
+				   version = ?
+        where ad_resource_mediaorg_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteMediaOrg">
+    <![CDATA[
+        delete from tb_ad_resource_mediaorg
+         where ad_resource_mediaorg_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteMediaOrgs" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_ad_resource_mediaorg 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="MediaOrgIdList">
+       	  <iterate prepend="AND" property="MediaOrgIdList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_mediaorg_id = #MediaOrgIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

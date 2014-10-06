@@ -1,0 +1,248 @@
+package com.vriche.adrm.model;
+
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+/**
+ * This class is used to represent an address.</p>
+ *
+ * <p><a href="OrderPublic.java.html"><i>View Source</i></a></p>
+ *
+ * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
+ *
+ * @struts.form include-all="true" extends="BaseForm"
+ */
+public class OrderPublic extends BaseObject {
+	private static final long serialVersionUID = -6006943809542995007L;
+	//来源订单明细，不需要存储
+    protected Integer publishStartDate;   //开始日期
+    protected Integer publishEndDate;     //结束日期
+    
+    protected Integer times;             //次数
+    
+    protected String useTime;             //次数
+    
+    protected Double  moneyBase;         //刊例价
+    protected Double  moneyRealpay;      //销售价
+    protected Double  moneyIn;           //进款
+    protected Integer moneyState;       //到款情况
+    protected Double  moneyInPuton;
+    protected Double  moneyBalance;   //补差价
+    
+    protected String  year;   
+    protected String  customerName;   
+    protected String  matterName;        //广告名称   从明细表中读取最大
+    protected String  channelName;
+    protected String  incomeCode;
+    
+    protected String  incomeId;
+    protected String  incomePullId;
+    protected String  publishMonth;
+    
+    
+    
+//    public OrderPublic(){
+//    	this.publishStartDate = new Integer(19990101);
+//    	this.publishEndDate = new Integer(19991231);
+//    	this.times = new Integer(0);
+//    	this.moneyBase = new Double(0);
+//    	this.moneyRealpay = new Double(0);
+//    	this.moneyIn = new Double(0);
+//    }
+        
+	public Double getMoneyBase() {
+		return moneyBase;
+	}
+
+	public void setMoneyBase(Double moneyBase) {
+		this.moneyBase = moneyBase;
+	}
+
+	public Double getMoneyIn() {
+		return moneyIn;
+	}
+
+	public void setMoneyIn(Double moneyIn) {
+		this.moneyIn = moneyIn;
+	}
+
+	public Double getMoneyRealpay() {
+		return moneyRealpay;
+	}
+
+	public void setMoneyRealpay(Double moneyRealpay) {
+		this.moneyRealpay = moneyRealpay;
+	}
+
+	public Integer getPublishEndDate() {
+		return publishEndDate;
+	}
+
+	public void setPublishEndDate(Integer publishEndDate) {
+		this.publishEndDate = publishEndDate;
+	}
+
+	public Integer getPublishStartDate() {
+		return publishStartDate;
+	}
+
+	public void setPublishStartDate(Integer publishStartDate) {
+		this.publishStartDate = publishStartDate;
+	}
+
+	public Integer getTimes() {
+		return times;
+	}
+
+	public void setTimes(Integer times) {
+		this.times = times;
+	}
+	public String getMatterName() {
+		return matterName;
+	}
+
+	public void setMatterName(String matterName) {
+		this.matterName = matterName;
+	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode() {
+		return new HashCodeBuilder(-636515449, 951659555).append(this.moneyIn)
+				.append(this.moneyBase).append(this.publishStartDate).append(
+						this.times).append(this.publishEndDate).append(
+						this.moneyRealpay).toHashCode();
+	}
+
+	/**
+	 * @see java.lang.Object#equals(Object)
+	 */
+	public boolean equals(Object object) {
+		if (!(object instanceof OrderPublic)) {
+			return false;
+		}
+		OrderPublic rhs = (OrderPublic) object;
+		return new EqualsBuilder().append(this.moneyIn, rhs.moneyIn).append(
+				this.moneyBase, rhs.moneyBase).append(this.publishStartDate,
+				rhs.publishStartDate).append(this.times, rhs.times).append(
+				this.publishEndDate, rhs.publishEndDate).append(
+				this.moneyRealpay, rhs.moneyRealpay).isEquals();
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return new ToStringBuilder(this).append("times", this.times).append(
+				"moneyBase", this.moneyBase).append("publishEndDate",
+				this.publishEndDate).append("moneyIn", this.moneyIn).append(
+				"publishStartDate", this.publishStartDate).append(
+				"moneyRealpay", this.moneyRealpay).toString();
+	}
+
+
+
+	public Integer getMoneyState() {
+		return moneyState;
+	}
+
+	public void setMoneyState(Integer moneyState) {
+		this.moneyState = moneyState;
+	}
+
+	/**
+	 * @return Returns the moneyInPuton.
+	 */
+	public Double getMoneyInPuton() {
+		return moneyInPuton;
+	}
+
+	/**
+	 * @param moneyInPuton The moneyInPuton to set.
+	 */
+	public void setMoneyInPuton(Double moneyInPuton) {
+		this.moneyInPuton = moneyInPuton;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+
+	public String getIncomeCode() {
+		return incomeCode;
+	}
+
+	public void setIncomeCode(String incomeCode) {
+		this.incomeCode = incomeCode;
+	}
+
+	public String getIncomeId() {
+		return incomeId;
+	}
+
+	public void setIncomeId(String incomeId) {
+		this.incomeId = incomeId;
+	}
+
+	public String getIncomePullId() {
+		return incomePullId;
+	}
+
+	public void setIncomePullId(String incomePullId) {
+		this.incomePullId = incomePullId;
+	}
+
+
+
+	public String getUseTime() {
+		return useTime;
+	}
+
+	public void setUseTime(String useTime) {
+		this.useTime = useTime;
+	}
+
+	public String getPublishMonth() {
+		return publishMonth;
+	}
+
+	public void setPublishMonth(String publishMonth) {
+		this.publishMonth = publishMonth;
+	}
+
+	public Double getMoneyBalance() {
+		return moneyBalance;
+	}
+
+	public void setMoneyBalance(Double moneyBalance) {
+		this.moneyBalance = moneyBalance;
+	}
+
+
+
+
+
+
+
+}

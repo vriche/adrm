@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	
+	<!-- service xmlns="http://xfire.codehaus.org/config/1.0">
+		<name>simpleService</name>	
+		<serviceClass>com.vriche.adrm.service.impl.SimpleServiceImpl</serviceClass>
+		<style>wrapped</style>
+		<use>literal</use>
+		<scope>application</scope>
+	</service -->	
+	
+	<!-- service xmlns="http://xfire.codehaus.org/config/1.0">
+		<name>carrierInfoService</name>	
+		<serviceClass>com.vriche.adrm.service.CarrierInfoService</serviceClass>
+		<implementationClass>com.vriche.adrm.service.impl.CarrierInfoServiceImpl</implementationClass>
+		<style>wrapped</style>
+		<use>literal</use>
+		<scope>application</scope>
+	</service>	
+	
+	
+	<service xmlns="http://xfire.codehaus.org/config/1.0">
+		<name>arrangedPublishInfoService</name>	
+		<serviceClass>com.vriche.adrm.service.ArrangedPublishInfoService</serviceClass>
+		<implementationClass>com.vriche.adrm.service.impl.ArrangedPublishInfoServiceImpl</implementationClass>
+		<style>wrapped</style>
+		<use>literal</use>
+		<scope>application</scope>
+	</service -->		
+	
+	<service xmlns="http://xfire.codehaus.org/config/1.0">
+		<name>webService</name>	
+		<serviceClass>com.vriche.adrm.service.AdrmWebService</serviceClass>
+		<implementationClass>com.vriche.adrm.service.impl.AdrmWebServiceImpl</implementationClass>
+		<style>wrapped</style>
+		<use>literal</use>
+		<scope>application</scope>
+	</service>	
+
+	<!-- service xmlns="http://xfire.codehaus.org/config/1.0">
+		<name>ImportProgramList</name>	
+		<serviceClass>MREML2.schema.ImportProgramListService.ImportProgramListService</serviceClass>
+		<implementationClass>MREML2.schema.ImportProgramListService.ImportProgramListServiceLocator</implementationClass>
+		<style>wrapped</style>
+		<use>literal</use>
+		<scope>application</scope>
+	</service -->		
+	
+     <!-- bean id="echo" class="com.vriche.adrm.service.impl.CarrierInfoServiceImpl"/>
+     <bean id="addressingHandler" class="org.codehaus.xfire.addressing.AddressingInHandler"/>
+	<bean name="carrierInfoService2" class="org.codehaus.xfire.spring.ServiceBean">
+	 	<property name="serviceBean" ref="echo"/>
+		 <property name="serviceClass" value="com.vriche.adrm.service.CarrierInfoService"/>
+		 <property name="inHandlers">
+			<list>
+				<ref bean="addressingHandler"/>
+			</list>
+		 </property>
+	</bean -->
+
+	
+
+</beans>

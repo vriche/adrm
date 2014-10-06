@@ -1,0 +1,226 @@
+<%@ include file="/common/taglibs.jsp"%>
+<%@ page language="java" errorPage="/error.jsp" pageEncoding="gbk" contentType="text/html;charset=gbk" %>
+<title><fmt:message key="business.year.analyze.title"/></title>
+
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/scripts/calendar/skins/theme.css'/>" />
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/${appConfig["theme"]}/dhtmlXGrid.css'/>" />
+<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/${appConfig["theme"]}/dhtmlXGrid_skins.css'/>" />
+
+
+<script type="text/javascript" src="<c:url value='/scripts/dhtmlxTreeGrid/dhtmlXCommon.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/dhtmlxTreeGrid/dhtmlXGrid.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/dhtmlxTreeGrid/dhtmlXGridCell.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/dhtmlxTreeGrid/dhtmlXGrid_start.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/dhtmlxTreeGrid/dhtmlXGrid_nxml.js'/>"></script>
+
+
+<script type="text/javascript" src="<c:url value='/scripts/common/page.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/common/date.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/common/print.js'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/scripts/calendar/calendar.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/calendar/calendar-setup.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/calendar/lang/calendar-zh-gbk.js'/>"></script>
+
+
+<script type="text/javascript" src="<c:url value='/dwr/interface/IncomeManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/OrderDayInfoManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/UserManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/CarrierManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/IncomePurposeManager.js'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/scripts/class/carrier.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/user.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/income.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/orderDayInfo.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/incomePurpose.js'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/scripts/analyze/businessAnalyzeService.js'/>"></script>
+
+<content tag="heading"><fmt:message key="business.year.analyze.title"/></content>
+
+
+<table width="100%" border="0" id="mainTable" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><table background="images/table1/textbox_top.gif" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+          <tr> 
+            <td width="50"><img src="images/table1/textbox_top_left.gif" height="27" width="50"></td>
+            <td valign="bottom"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tbody>
+                  <tr> 
+						<!--td align="left">
+									<select id="query" style="CURSOR: pointer;" >
+										  <option value="1"><fmt:message key="orderDayInfoForm.button.displayIncome"/></option>
+										  <option value="2"><fmt:message key="orderDayInfoForm.button.incomePuton"/></option>
+										  <option value="3"><fmt:message key="orderDayInfoForm.button.allIncome"/></option>
+									</select>
+						</td-->  
+				  <td width="1%" id="orgId_td"> <select id="orgId"/></td>		
+				  <td width="1px"><select id="order_year"  style="CURSOR: pointer;" /></td>
+ 			  
+				  		
+								
+					<!--搜索框架-->
+				       <td width="1px">
+		       
+<div style="position:relative;overflow:visible">    
+	<input type="button"   class="button" id="btnSearche" value='查询'>			
+
+			
+	<div id="theDivSearch" style="position:absolute;  OVERFLOW: auto;left:0px;top:21px;width:550px;height:400px;visibility:hidden;border:solid green 2px;background-color:white;z-index:1">	
+                    
+                 
+              <table width="100%">
+	                 
+		<tr><td align="left" colspan="4">&nbsp</td></tr>
+		<tr>	
+		    <td><fmt:message key="orderForm.userId"/><input name="userOwner" id="userOwner" size="12px" type="text" autocomplete=off/></td>
+		    
+		    	
+		    	
+			<td><fmt:message key="carrierForm.channelId"/>:<input name="carrierName" id="carrierName" size="12px" type="text" autocomplete=off/> </td>
+			
+			<td><select id="query" style="CURSOR: pointer;" >
+						<option value="1"><fmt:message key="orderDayInfoForm.button.displayIncome"/></option>
+						<option value="2"><fmt:message key="orderDayInfoForm.button.incomePuton"/></option>
+				</select>
+			</td> 
+		</tr> 
+							 
+		<tr>	<td align="left" colspan="4">&nbsp</td></tr>
+		<tr>	<td align="left"></td></tr>
+		<tr>	<td align="left" colspan="4">&nbsp</td></tr>
+								 
+		<tr>	<td><fmt:message key="orderDayInfoForm.startDate"/>
+				<input style="CURSOR: pointer;"  type ="text" id ="beginDate" size=11>
+			</td>
+			<td><fmt:message key="orderDayInfoForm.endDate"/>
+				<input style="CURSOR: pointer;"  type ="text" id ="overDate" size=11>
+			</td>
+			<td><label for="isPutYear" style="cursor: pointer;"><fmt:message key="analyzeBrand.putYear"/></label> 
+				<input id="isPutYear" name="isPutYear" type='checkbox' value=0/>
+			</td>
+					 
+			<td></td>
+		</tr>
+		
+		<tr><td align="left" colspan="5">&nbsp</td></tr>
+		
+		<tr>	
+			<td><label for="isNotReturnValue" style="cursor: pointer;">
+				<fmt:message key="incomePurposeDetail.notReturnValue"/></label>
+				<input id="isNotReturnValue" name="isNotReturnValue" type='checkbox' value=0/></td>
+			<td></td>
+			<td></td>
+					 
+			<td></td>
+		</tr>
+								
+		<tr><td align="left" colspan="5">&nbsp</td></tr>
+								
+		<tr><td align="left" colspan="5" id="incomePur">
+			<fieldset id="order_baseInfo_frm">
+				<legend> 
+				<!--到款用途-->
+				<fmt:message key="incomeForm.incomePurposeId"/>
+				</legend>
+					<input type="checkbox" name="incomepurposeRN" id="incomepurposeRN">
+			</fieldset>
+			</td>
+		</tr>
+								
+		<tr><td align="left" colspan="5">&nbsp</td></tr>		
+								
+		<tr>	<td align="left">
+			<input  style="CURSOR: pointer;" type="button"  id="searchBusiness" value='&nbsp;&nbsp;&nbsp;&nbsp;<fmt:message key="orderDayInfoForm.button.search"/>&nbsp;&nbsp;&nbsp;&nbsp;'>
+			<input  style="CURSOR: pointer;" type="button" id="btnSearcheClose" value='&nbsp;&nbsp;&nbsp;&nbsp;<fmt:message key="button.cancel"/>&nbsp;&nbsp;&nbsp;&nbsp;'>
+			</td>
+				            
+			<td align="left" colspan="5">&nbsp</td>
+		 </tr>
+
+	    </table>		 
+				
+</div></div>
+	 	</td>		
+	 	
+	 	<td  width="1%" align="left" valign="left"><div id="printReportDiv" name="printReportDiv"/></td>				
+        <td>&nbsp</td>		
+   				<!-- td>
+					<input  style="CURSOR: pointer;" type="button" id="displayChar" value="<fmt:message key="orderDayInfoForm.button.displayChar"/>"/>
+					
+                   		<input  style="CURSOR: pointer;" type="button" name="Btn_view_order" id="Btn_view_order" value='&nbsp;&nbsp;<fmt:message key="publishedInfoForm.button.preView"/>&nbsp;&nbsp;'> 
+					       		
+			        	<input  style="CURSOR: pointer;" type="button" name="Btn_print_order" id="Btn_print_order" value='&nbsp;&nbsp;<fmt:message key="publishedInfoForm.button.print"/>&nbsp;&nbsp;'> 
+			         		
+			        	<input  style="CURSOR: pointer;" type="button" name="Btn_export_order" id="Btn_export_order" value='&nbsp;&nbsp;<fmt:message key="publishedInfoForm.button.export"/>&nbsp;&nbsp;'> 
+                    </td -->
+                  </tr>
+                </tbody>
+              </table></td>
+            <td width="115"><img src="images/table1/textbox_top_right.jpg" height="27"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+  <tr>
+    <td><table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+          <tr> 
+            <td background="images/table1/textbox_left.gif" width="14"></td>
+            <td bgcolor="#f4f3f4">
+
+
+				<div id="gridbox_body">
+		        <div id="gridbox" width="100%" height="100%" style="background-color:white;z-index:0"/>
+		        </div>
+
+
+
+            </td>
+            <td width="14" background="images/table1/textbox_right.gif"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+  <tr> 
+    <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+          <tr> 
+            <td width="14"><img src="images/table1/textbox_bottom_left.gif" height="19" width="14"></td>
+            <td width="100%" background="images/table1/textbox_bottom.gif"></td>
+            <td width="14"><img src="images/table1/textbox_bottom_right.gif" height="19" width="14"></td>
+          </tr>
+        </tbody>
+      </table></td>
+  </tr>
+</table>	
+
+<iframe src='about:blank'  style="display:none"  scrolling="no" height="0" width="0" name="tarForm" id="tarForm"></iframe>
+<form name="ReportForm" id="ReportForm" method="post">
+	<input type="hidden" name="model" id="model" value="">
+	<input type="hidden" name="reportType" id="reportType" value="">
+	
+	<input type="hidden" name="userId" id="userId" value="">
+	<input type="hidden" name="carrierNameForm" id="carrierNameForm" value="">
+	<input type="hidden" name="userName" id="userName" value="">
+	
+	<input type="hidden" name="startForm" id="startForm" value="">
+	<input type="hidden" name="endForm" id="endForm" value="">
+	
+	<input type="hidden" name="channelModelForm" id="channelModelForm" value="">
+	<input type="hidden" name="isPutOnORIncomeForm" id="isPutOnORIncomeForm" value="">
+	
+	<input type="hidden" name="sortStr" id="sortStr" value=""> 
+	<input type="hidden" name="putYear" id="putYear" value=""> 
+	<input type="hidden" name="returnValue1" id="returnValue1" value=""> 
+	<input type="hidden" name="incomPurs" id="incomPurs" value="">
+	<input type="hidden" name="type" id="type" value="">
+	<input type="hidden" name="orgIdForm" id="orgIdForm" value="">
+</form>
+
+
+
+
+

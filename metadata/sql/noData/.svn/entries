@@ -1,0 +1,52 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/metadata/sql/noData
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+sample-nodata.xml
+file
+
+
+
+
+2013-05-17T07:33:54.675541Z
+073723396499201a0f1fd852761d337a
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+sample-data.xml
+file
+
+
+
+
+2013-05-17T07:33:54.675541Z
+6d55b4de47b15e82866c415cbcfef73c
+2012-11-24T06:14:43.251038Z
+7
+lxz
+

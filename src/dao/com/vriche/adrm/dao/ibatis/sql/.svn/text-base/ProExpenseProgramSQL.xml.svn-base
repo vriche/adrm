@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProExpenseProgramSQL">
+    <typeAlias alias="proExpenseProgram" type="com.vriche.adrm.model.ProExpenseProgram"/>
+
+	<cacheModel id="proExpenseProgram-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addProExpenseProgram"/>
+		<flushOnExecute statement="updateProExpenseProgram"/>
+		<flushOnExecute statement="deleteProExpenseProgram"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+    <parameterMap id="addParam" class="proExpenseProgram">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="expenseId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="expenseMoney" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="proExpenseProgram">
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="expenseMoney" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="programId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="expenseId" jdbcType="INTEGER" javaType="java.lang.Long"/>		
+    </parameterMap>
+	
+    <resultMap id="proExpenseProgramResult" class="proExpenseProgram">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="programId" column="program_id"/>
+		<result property="expenseId" column="expense_id"/>
+		<result property="expenseMoney" column="expense_money"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="getProExpenseProgram" resultMap="proExpenseProgramResult">
+    <![CDATA[
+        select * from tb_pro_expense_program pep
+    ]]>
+		<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="programId">
+			(pep.program_id like #programId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="expenseId">
+			(pep.expense_id like #expenseId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+
+    <insert id="addProExpenseProgram" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_pro_expense_program (create_by,create_date,modify_by,modify_date,version,program_id,expense_id,expense_money)
+            values (?,?,?,?,?,?,?,?)
+        ]]>
+    </insert>
+
+    <update id="updateProExpenseProgram" parameterMap="updateParam">
+    <![CDATA[
+        update tb_pro_expense_program set
+                   modify_by = ?,
+                   modify_date = ?,
+		           version = ?,
+                   expense_money = ?
+        where program_id = ?  and expense_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteProExpenseProgram">
+    <![CDATA[
+        delete from tb_pro_expense_program
+         where program_id = #value#
+    ]]>
+    </delete> 
+</sqlMap>

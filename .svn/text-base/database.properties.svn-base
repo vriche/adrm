@@ -1,0 +1,9 @@
+#Hibernate Configuration for JUnit tests
+#Fri Nov 23 08:17:35 CST 2012
+hibernate.connection.username=root
+dao.type=ibatis
+hibernate.connection.password=root
+hibernate.dialect=org.hibernate.dialect.MySQLInnoDBDialect
+hibernate.connection.url=jdbc\:mysql\://localhost/adrm?useUnicode\=true&characterEncoding\=gbk
+hibernate.connection.driver_class=com.mysql.jdbc.Driver
+hibernate.connection.show_sql=true

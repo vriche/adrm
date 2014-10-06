@@ -1,0 +1,13 @@
+keystore "file:D:/tools/java/tomcat/jakarta-tomcat-5.0.28/webapps/adrm/reports/applets/vriche.store", "JKS";
+
+grant signedBy "vriche"
+¡¡¡¡{ 
+ 	permission java.security.AllPermission;   
+	//permission java.lang.RuntimePermission "accessClassInPackage.sun.awt";
+	//permission java.lang.RuntimePermission "accessClassInPackage.sun.awt.windows"; 
+};
+
+
+//grant codeBase "http://localhost:8080/adrm/reports/applets/*" {
+    //permission java.security.AllPermission;
+//};

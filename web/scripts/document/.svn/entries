@@ -1,0 +1,67 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts/document
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+publishService.js
+file
+
+
+
+
+2013-05-17T07:36:32.371222Z
+df5595492c65d66a6cc7bcd1561d6550
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+documentCatalogService.js
+file
+
+
+
+
+2013-05-17T07:36:32.371222Z
+aaafab17bcb19eaad1e740ad3317e15b
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+documentService.js
+file
+
+
+
+
+2013-05-17T07:36:32.371222Z
+b70c127775c53abdf895a5a88348c9b2
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+bak
+dir
+

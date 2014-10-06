@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dayang.com/ADP/schema/ADFileInfoEntity/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://dayang.com/ADP/schema/ADFileInfoEntity/1.0">
+    <xsd:element name="ADFileInfoEntity" type="tns:ADFileInfoEntityType">
+        <xsd:annotation>
+            <xsd:documentation>视音频实体</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="ADFileInfoEntityType">
+        <xsd:sequence>
+            <xsd:element name="MaterialID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>素材ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="MaterialName" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>素材名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="FileInfo" type="tns:FileInfoType">
+                <xsd:annotation>
+                    <xsd:documentation>素材文件信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ExtendAttributesType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="ExtendAttribute" type="tns:ExtendAttributeType">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ExtendAttributeType">
+        <xsd:sequence>
+            <xsd:element name="AttributeID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="AttributeValue" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>扩展属性值</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="StorageInfoType">
+        <xsd:sequence>
+            <xsd:element name="StorageType" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>存储类型：0.FTP路径  1.UNC路径</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="StoragePath" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>存储路径</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FileInfoType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="FileItem" type="tns:FileItemType">
+                <xsd:annotation>
+                    <xsd:documentation>文件的信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="FileItemType">
+        <xsd:sequence>
+            <xsd:element name="FileName" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>物理文件名称，不包含路径信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="FileType" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>文件类型，1-高清高码，2-标清高码，3-高清低码，4-标清低码，5-高码关键帧，6-低码关键帧</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>文件ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileSize" type="xs:long">
+                <xsd:annotation>
+                    <xsd:documentation>文件大小（字节）</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AFD" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>源AFD信息，取值范围应该是0-15，参考《AFD信息全台网互联规范.docx》中的说明</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileVerifyCode" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>文件验证代码</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Channels" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>视音频合一文件或音频文件包含声道数，取值范围1-8，对于仅包含视频的文件没有意义</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ChannelIndex" type="xs:int">
+                <xsd:annotation>
+                    <xsd:documentation>音频文件声道序号.音频文件从0开始，对于视频文件没有意义</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TechAuditInfo" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>技审信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FormatTemplete" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>视音频格式模板名称，用于填充转码目标的视音频格式模板名称</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="StorageInfo" type="tns:StorageInfoType">
+                <xsd:annotation>
+                    <xsd:documentation>存储信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="InnerStorageInfo" type="tns:InnerStorageInfoType">
+                <xsd:annotation>
+                    <xsd:documentation>内部存储信息</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ExtendAttributes" type="tns:ExtendAttributesType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="InnerStorageInfoType">
+        <xsd:sequence>
+            <xsd:element name="SAID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>存储区ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PathID" type="xs:string">
+                <xsd:annotation>
+                    <xsd:documentation>路径ID</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

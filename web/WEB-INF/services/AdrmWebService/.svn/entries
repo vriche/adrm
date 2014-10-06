@@ -1,0 +1,19 @@
+8
+
+dir
+678
+svn://121.28.83.134:80/src1/adrm_2.0/web/WEB-INF/services/AdrmWebService
+svn://121.28.83.134:80/src1
+
+
+
+2013-12-06T16:15:34.230397Z
+678
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+META-INF
+dir
+

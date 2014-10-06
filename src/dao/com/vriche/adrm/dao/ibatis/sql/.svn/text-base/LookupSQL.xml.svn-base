@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="LookupSQL">
+
+    <select id="getRoles" resultClass="com.vriche.adrm.model.Role">
+      <![CDATA[
+        select name,lable, description from tb_sys_role;
+      ]]>
+    </select>
+	
+	<select id="getAllBranchs" resultClass="com.vriche.adrm.model.Branch">
+      <![CDATA[
+        select sys_branch_id as id,name as name from tb_sys_branch;
+      ]]>
+    </select>
+
+</sqlMap>

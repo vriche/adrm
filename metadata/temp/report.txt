@@ -1,0 +1,381 @@
+package com.test;  736
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Vector;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.JRDesignStaticText;
+import net.sf.jasperreports.engine.design.JRDesignBand;
+import net.sf.jasperreports.engine.JRAlignment;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.design.JRDesignParameter;
+import net.sf.jasperreports.engine.design.JRDesignField;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
+import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRDesignBand;
+import net.sf.jasperreports.engine.design.JRDesignRectangle;
+import net.sf.jasperreports.engine.design.JRDesignLine;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRTextExporter;
+import net.sf.jasperreports.engine.export.JRTextExporterParameter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
+import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.j2ee.servlets.ImageServlet;
+
+import java.lang.Class;
+
+import java.awt.Color;
+import org.apache.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import java.util.HashMap;
+public class ExportAction extends BaseAction {
+
+@Override
+protected ActionForward doExecute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     // TODO Auto-generated method stub
+  
+     String action = request.getParameter("method");
+     
+     if (action == null || action.equals("")) {
+     }     else if (action.equals("export")) {// 导出文件
+      return doExport(mapping, form, request, response);
+     }
+     return super.execute(mapping, form, request, response);
+}
+
+
+ActionForward doExport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+     // TODO Auto-generated method stub         
+           Connection conn= getConnection();        
+     String type=request.getParameter("type");
+     File exe_rpt = new File(request.getRealPath("/reports/test.jasper"));       
+           String jasperName="report";
+        
+     if(type.equals("excel"))
+     {    
+      excelReport(jasperName,request,response,conn);   
+     }
+     if(type.equals("pdf"))
+     {
+      pdfReport(jasperName,response,conn);   
+     }
+     if(type.equals("html"))
+     {
+      htmlReport(jasperName,response,request,conn);
+      //new ActionForward("/page/report/exportHtml.jsp");
+     }
+     if(type.equals("rtf"))
+     {
+      rtfReport(jasperName,response,request,conn);
+     }
+     if(type.equals("xml"))
+     {
+      xmlReport(jasperName,response,request,conn);
+     }
+     if(type.equals("text"))
+     {
+      textReport(jasperName,response,request,conn);
+     }  
+     return null;
+}
+
+//获取一个连接
+public Connection getConnection() throws ClassNotFoundException, SQLException{
+     String URL = "jdbc:mysql://yourip/database";
+     String USER = "yourname";
+     String PWD = "yourpwd";
+     String DRIVER = "org.gjt.mm.mysql.Driver";
+     Class.forName(DRIVER);            
+           Connection conn= DriverManager.getConnection(URL, USER, PWD);
+           return conn;
+}
+
+//生成jasperprint
+
+public JasperPrint getJasperPrint(String jasperName,HttpServletResponse response,Connection conn) throws JRException{
+     HashMap parameter = new HashMap();
+           parameter.put("SUBREPORT_DIR","E:/work/test/web/WEB-INF/classes/");
+           parameter.put("REPORT_CONNECTION",conn);    
+     JasperPrint jp = null;       
+           if(conn==null)
+                jp = JasperFillManager.fillReport(this.getClass().getResourceAsStream("/"+jasperName+".jasper"),parameter,new JREmptyDataSource());
+           else
+             jp=JasperFillManager.fillReport(this.getClass().getResourceAsStream("/"+jasperName+".jasper"),parameter,conn);
+           return jp;
+}
+
+
+
+// 生成PDF格式
+       public void pdfReport(String jasperName,HttpServletResponse response,Connection conn)throws JRException,IOException{
+              
+           JasperPrint jp = getJasperPrint(jasperName,response,conn);        
+           JRPdfExporter exporter = new JRPdfExporter();
+           byte[] bytes;
+           ByteArrayOutputStream bo = new ByteArrayOutputStream();
+           exporter.setParameter(JRExporterParameter.JASPER_PRINT,jp);
+           exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,bo);
+           exporter.exportReport();       
+           bytes = bo.toByteArray();
+           if(bytes != null && bytes.length > 0)
+           {
+               response.reset();
+               response.setContentType("application/pdf");
+               response.setHeader("Content-Disposition", "attachment;filename=Report.pdf");//打开,保存
+               response.setContentLength(bytes.length);
+               ServletOutputStream sos = response.getOutputStream();
+               sos.write(bytes,0,bytes.length);
+               sos.flush();
+               sos.close();
+           }
+       }
+    
+// 生成html格式
+       public void htmlReport(String jasperName,HttpServletResponse response,HttpServletRequest request,Connection conn)throws JRException,IOException{
+        JasperPrint jp = getJasperPrint(jasperName,response,conn)     ;         
+           JRHtmlExporter exporter = new JRHtmlExporter();  
+
+          StringBuffer sbuffer = new StringBuffer();      
+           response.setContentType("text/html");
+           response.setCharacterEncoding("GBK");
+           Map imagesMap = new HashMap();
+           request.getSession().setAttribute("IMAGES_MAP", imagesMap);
+           request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jp);        
+           String path=request.getContextPath();
+           exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
+           exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, response.getWriter());
+           exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, path+"/servlets/image?image=");
+           exporter.exportReport();
+       }
+
+    
+// 生成excel格式
+       public void excelReport(String jasperName,HttpServletRequest request,HttpServletResponse response,Connection conn)throws JRException,IOException{
+        JasperPrint jp = getJasperPrint(jasperName,response,conn)     ;  
+        // org/apache/poi/hssf/usermodel/HSSFCellStyle
+     
+           JRXlsExporter exporter = new JRXlsExporter();
+           byte[] bytes;       
+           ByteArrayOutputStream bo = new ByteArrayOutputStream();
+           exporter.setParameter(JRExporterParameter.JASPER_PRINT,jp);
+           exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,bo);       
+           exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,Boolean.TRUE);
+           exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
+           exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);   
+           exporter.setParameter(JRXlsExporterParameter.IS_FONT_SIZE_FIX_ENABLED,Boolean.TRUE);
+           exporter.exportReport();
+           bytes = bo.toByteArray();
+           if(bytes != null && bytes.length > 0){
+               response.reset();
+               response.setContentType("application/vnd.ms-excel");
+               response.setHeader("Content-Disposition", "attachment;filename=\"Report.xls\"" );//打开保存
+               response.setContentLength(bytes.length);
+               ServletOutputStream sos = response.getOutputStream();
+               sos.write(bytes,0,bytes.length);
+               sos.flush();
+               sos.close();
+           }
+
+       }
+    
+       //生成rtf格式
+       public void rtfReport(String jasperName,HttpServletResponse response,HttpServletRequest request,Connection conn)throws JRException,IOException{
+         JRRtfExporter exporter = new JRRtfExporter();
+         byte[] bytes;   
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            JasperPrint jp = getJasperPrint(jasperName,response,conn);
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
+            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,bo);
+            exporter.exportReport();       
+            bytes = bo.toByteArray();        
+            if(bytes != null && bytes.length > 0){
+               response.reset();
+               response.setContentType("application/msword");
+               response.setHeader("Content-disposition","attachment;filename=fileName.doc");
+               response.setContentLength(bytes.length);
+               ServletOutputStream sos = response.getOutputStream();
+               sos.write(bytes,0,bytes.length);
+               sos.flush();
+               sos.close();
+           }
+      
+        }
+     
+       //生成xml格式
+       public void xmlReport(String jasperName,HttpServletResponse response,HttpServletRequest request,Connection conn)throws JRException,IOException{
+              JRXmlExporter exporter=new JRXmlExporter();          
+              byte[] bytes;   
+              ByteArrayOutputStream bo = new ByteArrayOutputStream();
+              JasperPrint jp = getJasperPrint(jasperName,response,conn);             
+              JasperExportManager.exportReportToXmlStream(jp, bo);           
+              bytes = bo.toByteArray();           
+              if(bytes != null && bytes.length > 0){
+                  response.reset();
+                  response.setHeader("Content-Disposition", "attachment;filename=\"Report.xml\"" );//打开保存
+                  response.setCharacterEncoding("GBK");
+                  response.setContentLength(bytes.length);
+                  ServletOutputStream sos = response.getOutputStream();
+                  sos.write(bytes,0,bytes.length);
+                  sos.flush();
+                  sos.close();
+              }  
+           
+       }
+    
+    
+       //生成txt格式
+       public void textReport(String jasperName,HttpServletResponse response,HttpServletRequest request,Connection conn)throws JRException,IOException{
+         JRTextExporter exporter=new JRTextExporter();
+         byte[] bytes;   
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            JasperPrint jp = getJasperPrint(jasperName,response,conn)     ;
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);                  
+            exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, response.getWriter());
+            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,bo);
+            exporter.setParameter(JRTextExporterParameter.CHARACTER_WIDTH, new Integer(80));
+            exporter.setParameter(JRTextExporterParameter.CHARACTER_HEIGHT, new Integer(25));
+            exporter.setParameter(JRTextExporterParameter.CHARACTER_ENCODING,"GBK");
+         
+            exporter.exportReport();        
+            bytes = bo.toByteArray();         
+            if(bytes != null && bytes.length > 0){
+                response.reset();
+                response.setHeader("Content-Disposition", "attachment;filename=\"Report.txt\"" );//打开保存
+                response.setCharacterEncoding("GBK");
+                response.setContentLength(bytes.length);
+                ServletOutputStream sos = response.getOutputStream();
+                sos.write(bytes,0,bytes.length);
+                sos.flush();
+                sos.close();
+            }
+       }
+      
+}
+:code/]
+
+以上是struts部分,jsp也有一个附上:
+
+[code:
+
+<%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
+<%
+String path = request.getContextPath();    
+%>
+
+<html>
+     <head>    
+     <title>报表导出</title>  
+<script language="javascript">
+function exportFile(s){
+document.getElementById("type").value=s;
+document.getElementById("frm").action="<%=path%>/export.do?method=export";
+document.getElementById("frm").submit();
+}
+</script>
+     </head>      
+     <body>
+     <form id='frm' method='post' target="_blank">
+     <input type="hidden" name="type" id="type">
+     </form>
+     <div align="center" id="div0" style="none">
+      <table width="600" height="450" >
+      <tr>
+      <td width="100%">
+      </td>
+      </tr>
+      </table>
+     </div>
+     <div align="right">
+     <a href="#" onclick="document.getElementById('div0').style='';"><font     color="#999999">报表设计器</font></a>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <input type="button" value="导出TXT" onClick="exportFile('text');">&nbsp;&nbsp;&nbsp;&nbsp;  
+       <input type="button" value="导出HTML" onClick="exportFile('html');">&nbsp;&nbsp;&nbsp;&nbsp;     
+       <input type="button" value="导出PDF" onClick="exportFile('pdf');">&nbsp;&nbsp;&nbsp;&nbsp;
+       <input type="button" value="导出EXCEL" onClick="exportFile('excel');">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="导出RTF" onClick="exportFile('rtf');">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="导出XML" onClick="exportFile('xml');">
+     </div>    
+     </body>
+</html>
+
+:code]
+
+
+
+			select
+
+cip.name as channel_name, 0 as income_date,rsort.name as resource_sort_name,
+
+		    chanl.resource_mediaorg_id as channel_id,
+				 I.income_money,
+			  IFNULL(sum(iu.money_in),0) as money_in 
+
+		 from tb_income  I 
+
+
+	left outer join tb_income_pull pll   on pll.income_id = I.income_id
+			 	left outer join tb_income_used iu  on iu.income_pull_id = pll.income_pull_id	
+				Inner Join tb_order_day_info AS odi on iu.order_day_info_id = odi.order_day_info_id  
+				Inner Join tb_order_detail AS dt ON dt.order_detail_id = odi.order_detail_id 
+				Inner Join tb_adver_matter as mt on mt.adver_matter_id = dt.adver_matter_id 	
+				Inner Join tb_customer_industry_type ci on mt.adver_product_brand_id = ci.customer_industry_type_id 
+				Inner Join tb_customer_industry_type cip 	on cip.customer_industry_type_id  = ci.parent_id 		
+				Inner Join tb_ad_resource_info AS rs ON rs.ad_resource_info_id = dt.ad_resource_info_id
+				Inner Join tb_ad_resource_sort AS rsort ON rsort.ad_resource_sort_id = rs.ad_resource_sort_id 
+				inner join tb_income_mode MODD   on I.income_mode_id = MODD.income_mode_id 
+				inner join tb_income_purpose PUR  on I.income_purpose_id = PUR.income_purpose_id	
+				inner join tb_customer_info CUST   on I.customer_id = CUST.customer_id	
+				left outer join tb_sys_user US on I.user_id = US.id	
+				left outer join tb_ad_resource_carrier rc on rc.ad_resource_carrier_id  = rs.ad_resource_carrier_id	
+		 		left outer join  tb_ad_resource_channel AS chanl 	ON chanl.resource_mediaorg_id = rc.ad_resource_channel_id
+
+
+group by cip.customer_industry_type_id,rsort.ad_resource_sort_id  
+
+order by cip.customer_industry_type_id,rsort.ad_resource_sort_id  
+
+
+
+
+2_1_userId11,2_1_userId6,2_1_userId10,2_1_userId9,2_2_userId3,2_2_userId23,2_2_userId4,2_2_userId2,2_2_userId22,2_2_userId15,2_2_userId20,2_2_userId16,2_9_userId12,2_3_userId5,2_4_userId31,2_5_userId1,2_10_userId7,2_10_userId25,2_10_userId21,2_10_userId8,2_10_userId13,2_10_userId24,branchId11,3_12_userId27,3_13_userId26,3_14_userId30,3_15_userId19,3_16_userId18,3_17_userId28,3_17_userId29,3_17_userId17,3_18_userId5,3_18_userId7,3_18_userId8,3_18_userId13,3_18_userId24

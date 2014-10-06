@@ -1,0 +1,16 @@
+<HTML>
+<HEAD>
+<META http-equiv='Content-Type' content='text/html; charset=gb2312'>
+<TITLE>可输入的下拉框</TITLE>
+</HEAD>
+<BODY >
+
+<div style="position:relative;">
+<span style="margin-left:100px;width:18px;overflow:hidden;">
+<select style="width:118px;margin-left:-100px" onchange="this.parentNode.nextSibling.value=this.value">
+<option value="YOU"> 你 </option>
+<option value="MY"> 我 </option>
+<option value="HE"> 他 </option>
+</select></span><input name="box" style="width:100px;position:absolute;left:0px;">
+</div>
+</BODY></HTML>

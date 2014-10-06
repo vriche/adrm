@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="swappableDataSource"
+		class="org.springframework.aop.target.HotSwappableTargetSource">
+		<constructor-arg>
+			<ref bean="dataSource"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="swappable"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="targetSource">
+			<ref local="swappableDataSource"/>
+		</property>
+	</bean>
+	
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="swappable"/>
+	</bean>
+	
+
+	
+	<!-- JNDI DataSource1 from web.xml for J2EE environments -->
+	<!-- <bean id="dataSourceJNDI" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<property name="jndiName"><value>java:comp/env/jdbc/adrm</value></property>
+	</bean>  -->
+	
+    <bean id="lobHandler"  class="org.springframework.jdbc.support.lob.DefaultLobHandler"/> 
+	
+	<!-- SqlMap setup for iBATIS Database Layer -->
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>
+				classpath:/com/vriche/adrm/dao/ibatis/sql-map-config.xml</value>
+		</property>
+		<property name="dataSource" ref="swappable"/>
+		<property name="lobHandler" ref="lobHandler"/>
+	</bean>
+	
+	<!-- Generic Dao - can be used when doing standard CRUD -->
+	<bean id="dao" class="com.vriche.adrm.dao.ibatis.BaseDaoiBATIS">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	
+	<!-- LookupDao: iBatis implementation -->
+	<bean id="lookupDao" class="com.vriche.adrm.dao.ibatis.LookupDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	
+	<!-- UserDao: iBatis implementation -->
+	<bean id="userDao" class="com.vriche.adrm.dao.ibatis.UserDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	
+	<!-- RoleDao: Hibernate implementation -->
+	<bean id="roleDao" class="com.vriche.adrm.dao.ibatis.RoleDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	
+	<bean id="selectListDao" 	class="com.vriche.adrm.dao.ibatis.SelectListDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	
+	<!-- Add new Daos here -->
+	
+	<!-- ///////////////////////ad res/////////////////////// -->
+	
+	<!--Carrier-START-->
+	<bean id="carrierDao"	class="com.vriche.adrm.dao.ibatis.CarrierDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Carrier-END-->
+	<!--Compages-START-->
+	<bean id="compagesDao" 	class="com.vriche.adrm.dao.ibatis.CompagesDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Compages-END-->
+	<!--Resource-START-->
+	<bean id="resourceDao" class="com.vriche.adrm.dao.ibatis.ResourceDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Resource-END-->
+	<!--Workspan-START-->
+	<bean id="workspanDao" class="com.vriche.adrm.dao.ibatis.WorkspanDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Workspan-END-->
+	<!--DayInfo-START-->
+	<bean id="dayInfoDao" class="com.vriche.adrm.dao.ibatis.DayInfoDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--DayInfo-END-->
+	<!--Price-START-->
+	<bean id="priceDao" class="com.vriche.adrm.dao.ibatis.PriceDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Price-END-->
+	<!--PriceDetail-START-->
+	<bean id="priceDetailDao" class="com.vriche.adrm.dao.ibatis.PriceDetailDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--PriceDetail-END-->
+	<!--Specific-START-->
+	<bean id="specificDao" class="com.vriche.adrm.dao.ibatis.SpecificDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Specific-END-->
+	<!--PriceRegular-START-->
+	<bean id="priceRegularDao" class="com.vriche.adrm.dao.ibatis.PriceRegularDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--PriceRegular-END-->
+    <!--PriceType-START-->
+    <bean id="priceTypeDao" class="com.vriche.adrm.dao.ibatis.PriceTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--PriceType-END-->	
+    <!--ResourceChannel-START-->
+    <bean id="resourceChannelDao" class="com.vriche.adrm.dao.ibatis.ResourceChannelDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ResourceChannel-END-->
+    <!--MediaOrg-START-->
+    <bean id="mediaOrgDao" class="com.vriche.adrm.dao.ibatis.MediaOrgDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--MediaOrg-END-->
+    <!--ResourceType-START-->
+    <bean id="resourceTypeDao" class="com.vriche.adrm.dao.ibatis.ResourceTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ResourceType-END-->	
+	    <!--ResourceSort-START-->
+    <bean id="resourceSortDao" class="com.vriche.adrm.dao.ibatis.ResourceSortDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ResourceSort-END-->
+    <!--CarrierType-START-->
+    <bean id="carrierTypeDao" class="com.vriche.adrm.dao.ibatis.CarrierTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--CarrierType-END-->	
+	
+    <!--ResourceLimit-START-->
+    <bean id="resourceLimitDao" class="com.vriche.adrm.dao.ibatis.ResourceLimitDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ResourceLimit-END-->	
+	
+	
+	
+	<!-- ///////////////////////matter/////////////////////// -->
+    <!--MatterType-START-->
+    <bean id="matterTypeDao" class="com.vriche.adrm.dao.ibatis.MatterTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--MatterType-END-->	
+	<!--Brand-START-->
+	<bean id="brandDao" class="com.vriche.adrm.dao.ibatis.BrandDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Brand-END-->
+	<!--Matter-START-->
+	<bean id="matterDao" class="com.vriche.adrm.dao.ibatis.MatterDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Matter-END-->
+	<!--ProductCategory-START-->
+	<bean id="productCategoryDao"	class="com.vriche.adrm.dao.ibatis.ProductCategoryDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--ProductCategory-END-->
+	<!--PublishedInfo-START-->
+	<bean id="publishedInfoDao" class="com.vriche.adrm.dao.ibatis.PublishedInfoDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--PublishedInfo-END-->
+	<!--PublishMemo-START-->
+	<bean id="publishMemoDao" class="com.vriche.adrm.dao.ibatis.PublishMemoDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--PublishMemo-END-->
+	
+	<!-- //////////////////order////////////////////////// -->
+	
+	<!--Contract-START-->
+	<bean id="contractDao" class="com.vriche.adrm.dao.ibatis.ContractDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Contract-END-->
+	<!--ContractPayment-START-->
+	<bean id="contractPaymentDao" class="com.vriche.adrm.dao.ibatis.ContractPaymentDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--ContractPayment-END-->
+    <!--ContractTarget-START-->
+    <bean id="contractTargetDao" class="com.vriche.adrm.dao.ibatis.ContractTargetDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ContractTarget-END-->	
+	
+    <!--ContractTargetMonth-START-->
+    <bean id="contractTargetMonthDao" class="com.vriche.adrm.dao.ibatis.ContractTargetMonthDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ContractTargetMonth-END-->
+	
+	<!--Order-START-->
+	<bean id="orderDao" class="com.vriche.adrm.dao.ibatis.OrderDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Order-END-->
+	<!--OrderCategory-START-->
+	<bean id="orderCategoryDao" class="com.vriche.adrm.dao.ibatis.OrderCategoryDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--OrderCategory-END-->
+	<!--OrderDayInfo-START-->
+	<bean id="orderDayInfoDao" class="com.vriche.adrm.dao.ibatis.OrderDayInfoDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--OrderDayInfo-END-->
+	<!--OrderDetail-START-->
+	<bean id="orderDetailDao" class="com.vriche.adrm.dao.ibatis.OrderDetailDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--OrderDetail-END-->
+	<!--OrderLog-START-->
+	<bean id="orderLogDao" class="com.vriche.adrm.dao.ibatis.OrderLogDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--OrderLog-END-->
+	
+
+	
+	<!-- //////////////////crm////////////////////////// -->
+	<!--Customer-START-->
+	<bean id="customerDao" class="com.vriche.adrm.dao.ibatis.CustomerDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Customer-END-->
+	<!--Category-START-->
+	<bean id="categoryDao" 	class="com.vriche.adrm.dao.ibatis.CategoryDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Category-END-->
+	<!--Industry-START-->
+	<bean id="industryDao" 	class="com.vriche.adrm.dao.ibatis.IndustryDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Industry-END-->
+	<!--AgentInfo-START-->
+	<bean id="agentInfoDao" class="com.vriche.adrm.dao.ibatis.AgentInfoDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--AgentInfo-END-->
+	<!--LinkMan-START-->
+	<bean id="linkManDao" class="com.vriche.adrm.dao.ibatis.LinkManDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--LinkMan-END-->
+	<!--LinkHisotry-START-->
+	<bean id="linkHisotryDao" class="com.vriche.adrm.dao.ibatis.LinkHisotryDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--LinkHisotry-END-->
+	<!--FeedbackInfo-START-->
+	<bean id="feedbackInfoDao" class="com.vriche.adrm.dao.ibatis.FeedbackInfoDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--FeedbackInfo-END-->
+    <!--CustomerType-START-->
+    <bean id="customerTypeDao" class="com.vriche.adrm.dao.ibatis.CustomerTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--CustomerType-END-->	
+    <!--CustomerAddress-START-->
+    <bean id="customerAddressDao" class="com.vriche.adrm.dao.ibatis.CustomerAddressDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--CustomerAddress-END-->	
+	
+	
+	
+	
+	<!-- //////////////////finace////////////////////////// -->
+	<!--Income-START-->
+	<bean id="incomeDao" class="com.vriche.adrm.dao.ibatis.IncomeDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--Income-END-->
+	<!--IncomeMode-START-->
+	<bean id="incomeModeDao" class="com.vriche.adrm.dao.ibatis.IncomeModeDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--IncomeMode-END-->
+	<!--IncomePull-START-->
+	<bean id="incomePullDao" 	class="com.vriche.adrm.dao.ibatis.IncomePullDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--IncomePull-END-->
+	<!--IncomePurpose-START-->
+	<bean id="incomePurposeDao" class="com.vriche.adrm.dao.ibatis.IncomePurposeDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--IncomePurpose-END-->
+	<!--IncomeUsed-START-->
+	<bean id="incomeUsedDao" class="com.vriche.adrm.dao.ibatis.IncomeUsedDaoiBatis">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+	</bean>
+	<!--IncomeUsed-END-->
+    <!--ForetArrearage-START-->
+    <bean id="foretArrearageDao" class="com.vriche.adrm.dao.ibatis.ForetArrearageDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ForetArrearage-END-->
+	
+	<!-- //////////////////system////////////////////////// -->			
+    <!--Org-START-->
+    <bean id="orgDao" class="com.vriche.adrm.dao.ibatis.OrgDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--Org-END-->
+    <!--Branch-START-->
+    <bean id="branchDao" class="com.vriche.adrm.dao.ibatis.BranchDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--Branch-END-->	
+    <!--SysEvent-START-->
+    <bean id="sysEventDao" class="com.vriche.adrm.dao.ibatis.SysEventDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysEvent-END-->
+    <!--SysEventState-START-->
+    <bean id="sysEventStateDao" class="com.vriche.adrm.dao.ibatis.SysEventStateDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysEventState-END-->
+    <!--SysEventType-START-->
+    <bean id="sysEventTypeDao" class="com.vriche.adrm.dao.ibatis.SysEventTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysEventType-END-->
+    <!--SysPromptMode-START-->
+    <bean id="sysPromptModeDao" class="com.vriche.adrm.dao.ibatis.SysPromptModeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysPromptMode-END-->
+    <!--SysUserType-START-->
+    <bean id="sysUserTypeDao" class="com.vriche.adrm.dao.ibatis.SysUserTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysUserType-END-->	
+	<!--SysResource-START-->
+    <bean id="sysResourceDao" class="com.vriche.adrm.dao.ibatis.SysResourceDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysResource-END-->
+    <!--SysMenu-START-->
+    <bean id="sysMenuDao" class="com.vriche.adrm.dao.ibatis.SysMenuDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysMenu-END-->
+    <!--SysParam-START-->
+    <bean id="sysParamDao" class="com.vriche.adrm.dao.ibatis.SysParamDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysParam-END-->	
+    <!--SysSequence-START-->
+    <bean id="sysSequenceDao" class="com.vriche.adrm.dao.ibatis.SysSequenceDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--SysSequence-END-->	
+	
+    <!--UpdateSystem-START-->
+    <bean id="updateSystemDao" class="com.vriche.adrm.dao.ibatis.UpdateSystemDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--UpdateSystem-END-->		
+	
+	
+	
+	<!-- //////////////////docoument////////////////////////// -->  
+	
+    <!--OaDocument-START-->
+    <bean id="oaDocumentDao" class="com.vriche.adrm.dao.ibatis.OaDocumentDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaDocument-END-->
+    <!--OaDocumentCatalog-START-->
+    <bean id="oaDocumentCatalogDao" class="com.vriche.adrm.dao.ibatis.OaDocumentCatalogDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaDocumentCatalog-END-->
+    <!--OaDocumentCatalogPermitType-START-->
+    <bean id="oaDocumentCatalogPermitTypeDao" class="com.vriche.adrm.dao.ibatis.OaDocumentCatalogPermitTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaDocumentCatalogPermitType-END-->
+    <!--OaDocumentFile-START-->
+    <bean id="oaDocumentFileDao" class="com.vriche.adrm.dao.ibatis.OaDocumentFileDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaDocumentFile-END-->	
+		
+	
+	
+	
+	<!-- //////////////////assets////////////////////////// -->  
+    <!--OaAssets-START-->
+    <bean id="oaAssetsDao" class="com.vriche.adrm.dao.ibatis.OaAssetsDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaAssets-END-->
+    <!--OaAssetsState-START-->
+    <bean id="oaAssetsStateDao" class="com.vriche.adrm.dao.ibatis.OaAssetsStateDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaAssetsState-END-->
+    <!--OaAssetsType-START-->
+    <bean id="oaAssetsTypeDao" class="com.vriche.adrm.dao.ibatis.OaAssetsTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaAssetsType-END-->	
+	
+	
+	
+   <!-- ////////////////// work flow////////////////////////// -->  
+   <!--OaWorkFlow-START-->
+    <bean id="oaWorkFlowDao" class="com.vriche.adrm.dao.ibatis.OaWorkFlowDaoiBatis">     
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaWorkFlow-END-->
+    <!--OaWorkFlowCheck-START-->
+    <bean id="oaWorkFlowCheckDao" class="com.vriche.adrm.dao.ibatis.OaWorkFlowCheckDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaWorkFlowCheck-END-->
+    <!--OaWorkFlowCheckResult-START-->
+    <bean id="oaWorkFlowCheckResultDao" class="com.vriche.adrm.dao.ibatis.OaWorkFlowCheckResultDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaWorkFlowCheckResult-END-->
+    <!--OaWorkFlowType-START-->
+    <bean id="oaWorkFlowTypeDao" class="com.vriche.adrm.dao.ibatis.OaWorkFlowTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaWorkFlowType-END-->	
+    <!--OaApplyInfo-START-->
+    <bean id="oaApplyInfoDao" class="com.vriche.adrm.dao.ibatis.OaApplyInfoDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaApplyInfo-END-->
+    <!--OaWorkFlowCheckState-START-->
+    <bean id="oaWorkFlowCheckStateDao" class="com.vriche.adrm.dao.ibatis.OaWorkFlowCheckStateDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaWorkFlowCheckState-END-->	
+    <!--OaWorkFlowMoveType-START-->
+    <bean id="oaWorkFlowMoveTypeDao" class="com.vriche.adrm.dao.ibatis.OaWorkFlowMoveTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaWorkFlowMoveType-END-->
+	
+	
+	
+		
+	<!-- //////////////////oa product////////////////////////// -->  	
+    <!--OaProductInfo-START-->
+    <bean id="oaProductInfoDao" class="com.vriche.adrm.dao.ibatis.OaProductInfoDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaProductInfo-END-->
+    <!--OaProductType-START-->
+    <bean id="oaProductTypeDao" class="com.vriche.adrm.dao.ibatis.OaProductTypeDaoiBatis"> 
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaProductType-END-->
+    <!--OaProductUsed-START-->
+    <bean id="oaProductUsedDao" class="com.vriche.adrm.dao.ibatis.OaProductUsedDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaProductUsed-END-->	
+		
+	
+	
+	
+ 	<!-- //////////////////info manager////////////////////////// -->   
+    <!--OaInfo-START-->
+    <bean id="oaInfoDao" class="com.vriche.adrm.dao.ibatis.OaInfoDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaInfo-END-->
+    <!--OaInfoType-START-->
+    <bean id="oaInfoTypeDao" class="com.vriche.adrm.dao.ibatis.OaInfoTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaInfoType-END-->	
+	
+	
+	
+	
+	<!-- //////////////////tools////////////////////////// -->   	
+    <!--OaAreaCity-START-->
+    <bean id="oaAreaCityDao" class="com.vriche.adrm.dao.ibatis.OaAreaCityDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaAreaCity-END-->
+    <!--OaAreaPc-START-->
+    <bean id="oaAreaPcDao" class="com.vriche.adrm.dao.ibatis.OaAreaPcDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaAreaPc-END-->		
+    <!--OaBusinessCard-START-->
+    <bean id="oaBusinessCardDao" class="com.vriche.adrm.dao.ibatis.OaBusinessCardDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaBusinessCard-END-->
+    <!--OaBusinessCardType-START-->
+    <bean id="oaBusinessCardTypeDao" class="com.vriche.adrm.dao.ibatis.OaBusinessCardTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaBusinessCardType-END-->
+    <!--OaCalendarEvent-START-->
+    <bean id="oaCalendarEventDao" class="com.vriche.adrm.dao.ibatis.OaCalendarEventDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaCalendarEvent-END-->	   
+    <!--OaScratchpad-START-->
+    <bean id="oaScratchpadDao" class="com.vriche.adrm.dao.ibatis.OaScratchpadDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaScratchpad-END-->
+    <!--OaTeleExpenses-START-->
+    <bean id="oaTeleExpensesDao" class="com.vriche.adrm.dao.ibatis.OaTeleExpensesDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--OaTeleExpenses-END-->
+    <!--PublishArrange-START-->
+    <bean id="publishArrangeDao" class="com.vriche.adrm.dao.ibatis.PublishArrangeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--PublishArrange-END-->
+    <!--PublishArrangeDetail-START-->
+    <bean id="publishArrangeDetailDao" class="com.vriche.adrm.dao.ibatis.PublishArrangeDetailDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--PublishArrangeDetail-END-->
+	 <!--AnalyDao-START-->
+	<bean id="analyDao" class="com.vriche.adrm.dao.ibatis.AnalyDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+	 <!--AnalyDao-END-->
+
+
+    <!--FinanceTarget-START-->
+    <bean id="financeTargetDao" class="com.vriche.adrm.dao.ibatis.FinanceTargetDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--FinanceTarget-END-->
+    
+    
+    <!--ProCustomerType-START-->
+    <bean id="proCustomerTypeDao" class="com.vriche.adrm.dao.ibatis.ProCustomerTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProCustomerType-END-->
+    <!--ProCustomer-START-->
+    <bean id="proCustomerDao" class="com.vriche.adrm.dao.ibatis.ProCustomerDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProCustomer-END-->
+    <!--ProOrderType-START-->
+    <bean id="proOrderTypeDao" class="com.vriche.adrm.dao.ibatis.ProOrderTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProOrderType-END-->
+    <!--ProOrder-START-->
+    <bean id="proOrderDao" class="com.vriche.adrm.dao.ibatis.ProOrderDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProOrder-END-->
+    <!--ProProgramType-START-->
+    <bean id="proProgramTypeDao" class="com.vriche.adrm.dao.ibatis.ProProgramTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProProgramType-END-->
+    <!--ProProgram-START-->
+    <bean id="proProgramDao" class="com.vriche.adrm.dao.ibatis.ProProgramDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProProgram-END-->
+	<!--ProProgramDetail-START-->
+    <bean id="proProgramDetailDao" class="com.vriche.adrm.dao.ibatis.ProProgramDetailDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProProgramDetail-END-->
+    <!--ProPublishPlan-START-->
+    <bean id="proPublishPlanDao" class="com.vriche.adrm.dao.ibatis.ProPublishPlanDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProPublishPlan-END-->
+    <!--ProAudienceRat-START-->
+    <bean id="proAudienceRatDao" class="com.vriche.adrm.dao.ibatis.ProAudienceRatDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProAudienceRat-END-->
+	<!--ProAnalyze-START-->
+    <bean id="proAnalyzeDao" class="com.vriche.adrm.dao.ibatis.ProAnalyzeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProAnalyze-END-->
+	<!--ProFinance-START-->
+    <bean id="proFinanceDao" class="com.vriche.adrm.dao.ibatis.ProFinanceDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProFinance-END-->
+	<!--ProCheckIdea-START-->
+    <bean id="proCheckIdeaDao" class="com.vriche.adrm.dao.ibatis.ProCheckIdeaDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProCheckIdea-END-->
+	<!--ProExpenseType-START-->
+    <bean id="proExpenseTypeDao" class="com.vriche.adrm.dao.ibatis.ProExpenseTypeDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProExpenseType-END-->
+	<!--ProExpenseProgram-START-->
+    <bean id="proExpenseProgramDao" class="com.vriche.adrm.dao.ibatis.ProExpenseProgramDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--ProExpenseProgram-END-->
+	
+    <!--analySumDao-START-->
+    <bean id="analySumDao" class="com.vriche.adrm.dao.ibatis.AnalySumDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--analySumDao-END-->	
+
+	
+
+	<!-- bean id="sqlMapClientQuartz" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource" ref="dataSourceQuartz"/>
+	</bean -->	
+	
+    <bean id="quartzDao" class="com.vriche.adrm.dao.ibatis.QuartzDaoiBatis">
+      <property name="dataSource" ref="dataSourceQuartz"/>
+    </bean>	
+	
+	
+	
+	
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

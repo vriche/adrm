@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SysResourceSQL">
+    <typeAlias alias="sysResource" type="com.vriche.adrm.model.SysResource"/>
+
+	<cacheModel id="sysResource-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addSysResource"/>
+		<flushOnExecute statement="updateSysResource"/>
+		<flushOnExecute statement="deleteSysResource"/>
+		<flushOnExecute statement="deleteSysResources"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="sysResource">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resString" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="sysResource">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resString" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <!-- parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/ -->
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="sysResourceResult" class="sysResource">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="id"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="resString" column="res_string"/>
+        <result property="resType" column="res_type"/>
+        <result property="version" column="version"/>
+		<!-- result property="roles" column="id" select="getSysResourceRoles"/ -->
+    </resultMap>
+	
+	
+    <select id="getSysResourcesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_sys_resource 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="authorized">
+			( like #authorized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resString">
+			(res_string like #resString#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resType">
+			(res_type like #resType#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getSysResources" resultMap="sysResourceResult">
+    <![CDATA[
+        select * from tb_sys_resource 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="authorized">
+			( like #authorized#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo like #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resString">
+			(res_string like #resString#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resType">
+			(res_type like #resType#)
+			</isNotEmpty>
+		</dynamic>
+		
+		order by name,res_type 
+		
+    </select>
+	
+    <select id="getSysResourcesByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_sys_resource 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysResourceIdList">
+       	  <iterate prepend="AND" property="SysResourceIdList" open="(" close=")" conjunction="OR">
+		   			 id = #SysResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>   
+		
+		order by name,res_type 
+  </select>     
+
+    <select id="getSysResource" resultMap="sysResourceResult">
+    <![CDATA[
+        select * from tb_sys_resource
+         where id = #value#
+    ]]>
+    </select>
+	
+
+	
+    <insert id="addRoleSysResources" parameterClass="map">
+    <![CDATA[
+        insert into tb_sys_resource_role (resource_id, role_id)
+        values (#sysResId#, #roleId#);
+    ]]>
+    </insert>	
+	
+   <delete id="deleteRoleBySysResource" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_sys_resource_role where resource_id = #id#;
+    ]]>
+    </delete>
+		
+	
+	
+	<select id="getSysResourceByRole" resultClass="java.lang.Integer">
+    <![CDATA[
+		 select resource_id as id from tb_sys_resource_role where role_id = #id# order by name,res_type  ; 
+    ]]>
+    </select>	
+	
+	<select id="getSysResourceByRoleId" resultMap="sysResourceResult">
+    <![CDATA[
+		select r.* from tb_sys_resource r, tb_sys_resource_role rr
+        where (rr.resource_id = r.id) and rr.role_id=#id#;
+    ]]>
+    </select>	
+	
+
+   <delete id="deleteRoleBySysResourceIds" parameterClass="java.util.Map">
+    <![CDATA[
+        delete from tb_sys_resource_role 
+    ]]>
+		<dynamic prepend="WHERE"> 
+	      <isNotNull property="SysResourceIdList">
+       	  <iterate prepend="AND" property="SysResourceIdList" open="(" close=")" conjunction="OR">
+		   			 resource_id = #SysResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 	
+		  <isNotNull prepend="AND" property="roleId">
+		   			 role_id = #roleId#
+		  </isNotNull> 					
+		</dynamic> 
+	       
+    </delete>
+	
+	
+
+    <insert id="addSysResource" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_sys_resource (create_by,create_date,memo,modify_by,modify_date,name,res_string,res_type)
+            values ( ?,?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateSysResource" parameterMap="updateParam">
+    <![CDATA[
+        update tb_sys_resource set
+                   create_by = ?,
+                   create_date = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   res_string = ?,
+                   res_type = ?
+        where id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteSysResource">
+    <![CDATA[
+        delete from tb_sys_resource
+         where id = #value#
+    ]]>
+    </delete>
+   <update id="deleteSysResources" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_sys_resource 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="SysResourceIdList">
+       	  <iterate prepend="AND" property="SysResourceIdList" open="(" close=")" conjunction="OR">
+		   			 id = #SysResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+</sqlMap>

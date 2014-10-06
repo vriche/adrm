@@ -1,0 +1,40 @@
+8
+
+dir
+674
+svn://121.28.83.134:80/src1/adrm_2.0/src/web/org/apache/axis2/soapmonitor/servlet
+svn://121.28.83.134:80/src1
+
+
+
+2013-12-04T09:37:42.497621Z
+674
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+SOAPMonitorConstants.java
+file
+
+
+
+
+2013-12-03T08:21:21.540403Z
+1f675aeaffa5325f406e189ddbfd0b89
+2013-12-04T09:37:42.497621Z
+674
+lxz
+
+SOAPMonitorService.java
+file
+
+
+
+
+2013-12-03T08:21:27.946997Z
+0814e136eafda2e946d5674da680bcef
+2013-12-04T09:37:42.497621Z
+674
+lxz
+

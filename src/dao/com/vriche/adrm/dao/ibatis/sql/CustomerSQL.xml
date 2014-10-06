@@ -1,0 +1,1378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CustomerSQL">
+    <typeAlias alias="customer" type="com.vriche.adrm.model.Customer"/>
+	  <typeAlias alias="linkMan" type="com.vriche.adrm.model.LinkMan"/>
+	
+	<cacheModel id="customer-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addCustomer"/>
+		<flushOnExecute statement="updateCustomer"/>
+		<flushOnExecute statement="deleteCustomer"/>
+		<flushOnExecute statement="deleteCustomers"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+
+    <parameterMap id="addParam" class="customer">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="customerTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="accountAddress" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="accountBank" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="accountName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="accountNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="creditAccount" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="creditSpan" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="customerCategoryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="customerLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="customerState" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="delayDays" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="delayDateUnit" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="discountRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="fax" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="helpCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="industryTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="ownerAgent" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="paymentExpireDays" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="telephone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="webSite" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="customer">
+		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+		<parameter property="customerTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="accountAddress" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="accountBank" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="accountName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="accountNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="creditAccount" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="creditSpan" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="customerCategoryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="customerLevel" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="customerName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="customerState" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="delayDays" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="delayDateUnit" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="discountRate" jdbcType="VARCHAR" javaType="java.lang.Double"/>
+        <parameter property="fax" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="helpCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="industryTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="ownerAgent" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="paymentExpireDays" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="telephone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="webSite" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <resultMap id="customer-base-Result" class="customer">
+		<result property="id" column="customer_id"/>
+        <result property="accountAddress" column="account_address" nullValue=""/>
+        <result property="accountBank" column="account_bank" nullValue=""/>
+        <result property="accountName" column="account_name" nullValue=""/>
+        <result property="accountNumber" column="account_number" nullValue="0"/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="creditAccount" column="credit_account" nullValue="0"/>
+        <result property="creditSpan" column="credit_span" nullValue="0"/>
+        <result property="customerCategoryId" column="customer_category_id" nullValue="0"/>
+        <result property="customerTypeId" column="customer_type_id" nullValue="0"/>			
+        <result property="customerLevel" column="customer_level" nullValue="0"/>
+        <result property="customerName" column="customer_name" nullValue=""/>
+        <result property="customerState" column="state" nullValue="0"/>
+        <result property="delayDays" column="delay_days" nullValue="0"/>
+		<result property="delayDateUnit" column="delay_date_unit" nullValue="0"/>
+        <result property="discountRate" column="discount_rate" nullValue="0"/>
+        <result property="fax" column="fax" nullValue=""/>
+        <result property="helpCode" column="help_code" nullValue=""/>
+        <result property="industryTypeId" column="industry_type_id" nullValue="0"/>
+        <result property="memo" column="memo"  nullValue=""/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="ownerAgent" column="owner_agent" nullValue="0"/>
+        <result property="parentId" column="parent_id" nullValue="0"/>
+        <result property="paymentExpireDays" column="payment_expire_days" nullValue="0"/>
+        <result property="telephone" column="telephone" nullValue=""/>
+        <result property="version" column="version" nullValue="0"/>
+        <result property="webSite" column="web_site" nullValue=""/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="orgId" column="sys_org_id"/>
+    </resultMap>
+
+	<resultMap id="customerForOrderPrint" class="customer">
+		<result property="id" column="customer_id"/>
+        <result property="accountAddress" column="account_address" nullValue=""/>
+        <result property="accountBank" column="account_bank" nullValue=""/>
+        <result property="accountName" column="account_name" nullValue=""/>
+        <result property="accountNumber" column="account_number" nullValue="0"/>
+        <result property="createBy" column="create_by" nullValue="0"/>
+        <result property="creditAccount" column="credit_account" nullValue="0"/>
+        <result property="creditSpan" column="credit_span" nullValue="0"/>
+        <result property="customerCategoryId" column="customer_category_id" nullValue="0"/>
+        <result property="customerTypeId" column="customer_type_id" nullValue="0"/>			
+        <result property="customerLevel" column="customer_level" nullValue="0"/>
+        <result property="customerName" column="customer_name" nullValue=""/>
+        <result property="customerState" column="state" nullValue="0"/>
+        <result property="delayDays" column="delay_days" nullValue="0"/>
+		<result property="delayDateUnit" column="delay_date_unit" nullValue="0"/>
+        <result property="discountRate" column="discount_rate" nullValue="0"/>
+        <result property="fax" column="fax" nullValue=""/>
+        <result property="helpCode" column="help_code" nullValue=""/>
+        <result property="industryTypeId" column="industry_type_id" nullValue="0"/>
+        <result property="memo" column="memo"  nullValue=""/>
+        <result property="modifyBy" column="modify_by" nullValue="0"/>
+        <result property="ownerAgent" column="owner_agent" nullValue="0"/>
+        <result property="parentId" column="parent_id" nullValue="0"/>
+        <result property="paymentExpireDays" column="payment_expire_days" nullValue="0"/>
+        <result property="telephone" column="telephone" nullValue=""/>
+        <result property="version" column="version" nullValue="0"/>
+        <result property="webSite" column="web_site" nullValue=""/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyDate" column="modify_date"/>
+		<result property="postCode" column="postal_code"/>
+		<result property="orgId" column="sys_org_id"/>
+    </resultMap>
+	
+	
+    <resultMap id="customerResult" extends="customer-base-Result" class="customer">
+		<result property="category.categoryName" column="customer_category_name" nullValue=""/>
+		<result property="customerType.name" column="industry_name" nullValue=""/>
+		<result property="industry.name" column="industry_name" nullValue=""/>
+		<result property="linkMan.id" column="link_man_id" nullValue="0"/>
+		<result property="linkMan.linkmanName" column="link_man_name" nullValue=""/>
+    </resultMap>	
+
+	<select id="getCustomerForOrderPrint" resultMap="customerForOrderPrint">
+    <![CDATA[
+        select ci.*,ca.postal_code from tb_customer_info ci 
+		
+		left outer join tb_customer_address ca 
+			on ca.customer_id = ci.customer_id
+
+		left outer join tb_sys_org B 
+		
+			on B.sys_org_id  = ci.sys_org_id  	
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="customerTypeId">
+			(ci.customer_type_id = #customerTypeId#)
+			</isNotEmpty>			  
+			  
+			<isNotEmpty prepend="AND" property="accountAddress">
+			(ci.account_address = #accountAddress#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountBank">
+			(ci.account_bank = #accountBank#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountName">
+			(ci.account_name = #accountName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountNumber">
+			(ci.account_number = #accountNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(ci.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditAccount">
+			(ci.credit_account = #creditAccount#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditSpan">
+			(ci.credit_span = #creditSpan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerCategoryId">
+			(ci.customer_category_id = #customerCategoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerLevel">
+			(ci.customer_level = #customerLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerName">
+			(ci.customer_name = #customerName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerState">
+			(ci.state = #customerState#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="delayDays">
+			(ci.delay_days = #delayDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="discountRate">
+			(ci.discount_rate = #discountRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(ci.fax = #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="helpCode">
+			(ci.help_code = #helpCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ci.customer_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(ci.industry_type_id = #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(ci.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(ci.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ownerAgent">
+			(ci.owner_agent = #ownerAgent#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(ci.parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paymentExpireDays">
+			(ci.payment_expire_days = #paymentExpireDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="telephone">
+			(ci.telephone = #telephone#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="webSite">
+			(ci.web_site = #webSite#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(ci.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(ci.modify_date = #modifyDate#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>
+			  
+			  
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  ci.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 					  
+			  	
+			  			  
+		</dynamic>
+		
+		order by ci.customer_name 
+    </select>
+	
+ <select id="getCustomer" resultMap="customer-base-Result">
+    <![CDATA[
+        select * from tb_customer_info 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			  
+			<isNotEmpty prepend="AND" property="accountAddress">
+			(account_address = #accountAddress#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountBank">
+			(account_bank = #accountBank#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountName">
+			(account_name = #accountName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountNumber">
+			(account_number = #accountNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditAccount">
+			(credit_account = #creditAccount#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditSpan">
+			(credit_span = #creditSpan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerCategoryId">
+			(customer_category_id = #customerCategoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerLevel">
+			(customer_level = #customerLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerName">
+			(customer_name = #customerName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerState">
+			(state = #customerState#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="delayDays">
+			(delay_days = #delayDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="discountRate">
+			(discount_rate = #discountRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(fax = #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="helpCode">
+			(help_code = #helpCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(customer_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(industry_type_id = #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ownerAgent">
+			(owner_agent = #ownerAgent#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paymentExpireDays">
+			(payment_expire_days = #paymentExpireDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="telephone">
+			(telephone = #telephone#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="webSite">
+			(web_site = #webSite#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date = #modifyDate#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+		
+	<select id="getCustomersCount" resultClass="java.lang.Integer">
+		<![CDATA[
+			
+			select count(CUT.customer_id) 
+			
+		from tb_customer_info CUT 
+			
+		    left outer join  tb_customer_category  CAT
+		        on CUT.customer_category_id = CAT.customer_category_id
+		    left outer join tb_customer_type  TYPE 
+		        on CUT.customer_type_id = TYPE.customer_type_id
+			left outer join  tb_customer_industry_type  INDU
+		        on CUT.industry_type_id = INDU.customer_industry_type_id		
+			left outer join  tb_customer_link_man  LM
+		        on CUT.customer_id = LM.customer_id AND LM.is_customer_main = 1	
+			
+			left outer join tb_sys_org B on B.sys_org_id  = CUT.sys_org_id  
+			
+		]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="customerTypeId">
+			(CUT.customer_type_id = #customerTypeId#)
+			</isNotEmpty>				  
+			  
+			<isNotEmpty prepend="AND" property="accountAddress">
+			(CUT.account_address = #accountAddress#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountBank">
+			(CUT.account_bank = #accountBank#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountName">
+			(CUT.account_name = #accountName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountNumber">
+			(CUT.account_number = #accountNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(CUT.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditAccount">
+			(CUT.credit_account = #creditAccount#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditSpan">
+			(CUT.credit_span = #creditSpan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerCategoryId">
+			(CUT.customer_category_id = #customerCategoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerLevel">
+			(CUT.customer_level = #customerLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerName">
+			(CUT.customer_name = #customerName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerState">
+			(CUT.state = #customerState#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="delayDays">
+			(CUT.delay_days = #delayDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="discountRate">
+			(CUT.discount_rate = #discountRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(CUT.fax = #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="helpCode">
+			(CUT.help_code = #helpCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(CUT.customer_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(CUT.industry_type_id = #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(CUT.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(CUT.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ownerAgent">
+			(CUT.owner_agent = #ownerAgent#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(CUT.parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paymentExpireDays">
+			(CUT.payment_expire_days = #paymentExpireDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="telephone">
+			(CUT.telephone = #telephone#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="webSite">
+			(CUT.web_site = #webSite#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(CUT.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(CUT.modify_date = #modifyDate#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="OR" property="linkMan.linkmanName">
+				(LM.link_man_name like '%$linkMan.linkmanName$%')
+			</isNotEmpty>	
+			  
+			  
+			<isNotEmpty prepend="AND" property="orgId">
+			(CUT.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>	
+			  
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUT.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 					  
+			  			  
+			  
+		</dynamic>
+	</select>
+	
+    <select id="getCustomers" resultMap="customerResult">
+    <![CDATA[
+        select CUT.*,
+		    CAT.category_name as customer_category_name,
+		    TYPE.name as customer_type_name,
+		    INDU.name as industry_name,
+		    LM.customer_link_man_id as link_man_id,
+		    LM.link_man_name as link_man_name 
+		
+		from tb_customer_info CUT 
+		
+		    left outer join  tb_customer_category  CAT
+		        on CUT.customer_category_id = CAT.customer_category_id
+		    left outer join tb_customer_type  TYPE 
+		        on CUT.customer_type_id = TYPE.customer_type_id
+			left outer join  tb_customer_industry_type  INDU
+		        on CUT.industry_type_id = INDU.customer_industry_type_id		
+			left outer join  tb_customer_link_man  LM
+		        on CUT.customer_id = LM.customer_id 
+		
+			left outer join tb_sys_org B on B.sys_org_id  = CUT.sys_org_id  
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="accountAddress">
+			(CUT.account_address = #accountAddress#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="customerTypeId">
+			(CUT.customer_type_id = #customerTypeId#)
+			</isNotEmpty>		  
+			  
+			  
+			<isNotEmpty prepend="AND" property="accountBank">
+			(CUT.account_bank = #accountBank#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountName">
+			(CUT.account_name = #accountName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="accountNumber">
+			(CUT.account_number = #accountNumber#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(CUT.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditAccount">
+			(CUT.credit_account = #creditAccount#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creditSpan">
+			(CUT.credit_span = #creditSpan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerCategoryId">
+			(CUT.customer_category_id = #customerCategoryId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerLevel">
+			(CUT.customer_level = #customerLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerName">
+			(CUT.customer_name like  '%$customerName$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="customerState">
+			(CUT.state = #customerState#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="delayDays">
+			(CUT.delay_days = #delayDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="discountRate">
+			(CUT.discount_rate = #discountRate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(CUT.fax = #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="helpCode">
+			(CUT.help_code like  '%$helpCode$%')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(CUT.customer_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="industryTypeId">
+			(CUT.industry_type_id = #industryTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(CUT.memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(CUT.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ownerAgent">
+			(CUT.owner_agent = #ownerAgent#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(CUT.parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paymentExpireDays">
+			(CUT.payment_expire_days = #paymentExpireDays#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="telephone">
+			(CUT.telephone = #telephone#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="webSite">
+			(CUT.web_site = #webSite#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(CUT.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(CUT.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="orgId">
+			(CUT.sys_org_id = #orgId#)
+			</isNotEmpty>
+			  
+			 <isNotEmpty prepend="OR" property="linkMan.linkmanName">
+				(LM.link_man_name like '%$linkMan.linkmanName$%')
+			</isNotEmpty>		
+
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>		
+			  
+			  
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUT.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 					  
+			  		  
+			  
+		</dynamic>
+		order by CUT.customer_name 
+   </select>
+	
+	
+ <select id="getCustomersByRes" resultClass="customer" parameterClass="map">
+	 
+	 SELECT  DISTINCT CUT.customer_name AS customerName,CUT.customer_id as id 
+	 
+			FROM tb_customer_info CUT 
+	 
+	   		left outer join tb_order O   on CUT.customer_id = O.customer_id	
+	 
+	 		left outer join tb_order_detail DT   on DT.order_id = O.order_id
+	 
+			 left outer join tb_sys_org B on B.sys_org_id  = CUT.sys_org_id  
+	   
+		<dynamic prepend="WHERE"> 
+			
+ 	 		 <isNotNull property="resourceIdList">
+				<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
+					DT.ad_resource_info_id = #resourceIdList[]#
+				</iterate>
+			 </isNotNull> 		
+			
+ 	 		 <isNotNull property="userIdList">
+				<iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					 O.user_id = #userIdList[]#
+				</iterate>
+			 </isNotNull> 		
+		
+			<isNotEmpty prepend="AND" property="version">
+				(DT.version  = #version#)
+			</isNotEmpty>	
+			 
+			<isNotEmpty prepend="AND" property="version">
+				(O.version  = #version#)
+			</isNotEmpty>	
+			
+			
+			<isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>			
+
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUT.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 										
+		</dynamic>	   
+	   
+	 		  	   
+   </select>				
+   
+	
+	
+	
+    <select id="getCustomersByIdList" parameterClass="java.util.Map"  resultMap="customerResult">
+     <![CDATA[  
+        select CUT.*,
+		    CAT.category_name as customer_category_name,
+		    TYPE.name as customer_type_name,
+		    INDU.name as industry_name,
+		    LM.customer_link_man_id as link_man_id,
+		    LM.link_man_name as link_man_name 
+		 
+		from tb_customer_info CUT 
+		 
+		    left outer join  tb_customer_category  CAT
+		        on CUT.customer_category_id = CAT.customer_category_id
+		    left outer join tb_customer_type  TYPE 
+		        on CUT.customer_type_id = TYPE.customer_type_id
+			left outer join  tb_customer_industry_type  INDU
+		        on CUT.industry_type_id = INDU.customer_industry_type_id		
+			left outer join  tb_customer_link_man  LM
+		        on CUT.customer_id = LM.customer_id AND LM.is_customer_main = 1	 
+		 
+			 left outer join tb_sys_org B on B.sys_org_id  = CUT.sys_org_id  		 
+		 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	     	 <isNotNull property="CustomerIdList">
+				 <iterate prepend="AND" property="CustomerIdList" open="(" close=")" conjunction="OR">
+					   CUT.customer_id = #CustomerIdList[]#
+			  </iterate>
+			  </isNotNull> 
+				
+
+				
+				
+			<isNotNull prepend="AND" property="CustomerCategoryId">
+				(CUT.customer_category_id like #CustomerCategoryId#)
+			</isNotNull>
+
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUT.customer_name like '%$customerName$%')
+			</isNotEmpty>	
+				
+			<isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>						
+							  
+         </dynamic>  
+		
+		order by CUT.help_code
+  </select>     
+	
+	
+	
+	
+	
+	
+	
+       
+	
+	<resultMap id="customerResult_AllForCommand"  class="customer">
+		<result property="id" column="customer_id"/>
+		<result property="helpCode" column="help_code" nullValue=""/>
+		<result property="customerName" column="customer_name" nullValue=""/>
+		<result property="customerCategoryId" column="customer_category_id" nullValue="0"/>
+		<result property="category.categoryName" column="customer_category_name" nullValue=""/>
+    </resultMap>	
+	
+	<select id="getCustomersAllForCommand" parameterClass="java.util.Map"  resultMap="customerResult_AllForCommand">
+     <![CDATA[  
+		 
+      select CUT.customer_id,CUT.help_code,CUT.customer_name,
+		 
+		 CUT.customer_category_id, CAT.category_name as customer_category_name 
+		 
+		from tb_customer_info CUT 
+		 
+		    left outer join  tb_customer_category  CAT
+		        on CUT.customer_category_id = CAT.customer_category_id 
+		 
+			 left outer join tb_sys_org B on B.sys_org_id  = CUT.sys_org_id  		 
+		 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	     	 <isNotNull property="CustomerIdList">
+				 <iterate prepend="AND" property="CustomerIdList" open="(" close=")" conjunction="OR">
+					   CUT.customer_id = #CustomerIdList[]#
+			  </iterate>
+			  </isNotNull> 
+				
+			<isNotNull prepend="AND" property="CustomerCategoryId">
+				(CUT.customer_category_id like #CustomerCategoryId#)
+			</isNotNull>
+
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUT.customer_name like BINARY '%$customerName$%')
+			</isNotEmpty>			
+				
+			<isNotEmpty prepend="OR" property="customerName">
+				(CUT.help_code like  '%$customerName$%')
+			</isNotEmpty>		
+
+			<isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>						
+
+				
+				
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUT.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 																						  
+         </dynamic>  
+		
+		order by CUT.customer_name
+  </select>     
+	
+	
+
+    <!-- select id="getCustomer" resultMap="customer-base-Result">
+    <![CDATA[
+        select * from tb_customer_info
+         where customer_id = #value#
+    ]]>
+    </select -->
+	
+	
+	<select id="getCustomerClass" resultClass="customer">
+    <![CDATA[
+		
+        select customer_id as id,
+		customer_type_id as customerTypeId,
+		customer_name as customerName, 
+		customer_category_id as customerCategoryId 
+		
+		from tb_customer_info 
+		
+         where customer_id = #value#
+    ]]>
+    </select>
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+    <insert id="addCustomer" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_customer_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_customer_info (sys_org_id,customer_type_id,account_address,account_bank,account_name,account_number,create_by,credit_account,credit_span,customer_category_id,customer_level,customer_name,state,delay_days,delay_date_unit,discount_rate,fax,help_code,industry_type_id,memo,modify_by,owner_agent,parent_id,payment_expire_days,telephone,web_site,create_date,modify_date)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateCustomer" parameterMap="updateParam">
+    <![CDATA[
+        update tb_customer_info set
+				   sys_org_id = ?,		
+		           customer_type_id = ?,
+                   account_address = ?,
+                   account_bank = ?,
+                   account_name = ?,
+                   account_number = ?,
+                   create_by = ?,
+                   credit_account = ?,
+                   credit_span = ?,
+                   customer_category_id = ?,
+                   customer_level = ?,
+                   customer_name = ?,
+                   state = ?,
+                   delay_days = ?,
+				   delay_date_unit = ?,
+                   discount_rate = ?,
+                   fax = ?,
+                   help_code = ?,
+                   industry_type_id = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   owner_agent = ?,
+                   parent_id = ?,
+                   payment_expire_days = ?,
+                   telephone = ?,
+                   web_site = ?,
+                   create_date = ?,
+                   modify_date = ?,
+				   version = ? 
+        where customer_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteCustomer">
+    <![CDATA[
+        delete from tb_customer_info
+         where customer_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteCustomers" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_customer_info 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="CustomerIdList">
+       	  <iterate prepend="AND" property="CustomerIdList" open="(" close=")" conjunction="OR">
+		   			 customer_id = #CustomerIdList[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic>      
+  </update> 
+	
+	
+	<select id="getCustomerIdsByUserId" resultClass="java.lang.Long">
+    <![CDATA[
+        select customer_id as id from tb_customer_user_rel  where  user_id =#id#;
+    ]]>
+    </select>	
+	
+	<select id="getCustomerUserRel" resultClass="java.lang.Long">
+    <![CDATA[
+        select user_id as id from tb_customer_user_rel  where customer_id =#id#;
+    ]]>
+    </select>
+	
+	 <insert id="saveCustomerUserRel" parameterClass="map">
+    <![CDATA[
+        insert into tb_customer_user_rel (customer_id, user_id) 
+        values (#customerId#, #userId#);
+    ]]>
+    </insert>
+	
+	<delete id="deleteCustomerUserRelByParent" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_customer_user_rel where customer_id = #id#;
+    ]]>
+    </delete>
+	
+	
+
+	
+	<update id="updateCustomerId_matter" parameterClass="map">
+        update tb_adver_matter SET customer_id = #source#  
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic>  
+    </update>
+	
+	<update id="updateCustomerId_payment" parameterClass="map">
+         update tb_contract_payment SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>	
+	
+	<update id="updateCustomerId_order" parameterClass="map">
+         update tb_order SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>	
+	
+	<update id="updateCustomerId_contract" parameterClass="map">
+         update tb_contract SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>	
+	
+	<update id="updateCustomerId_address" parameterClass="map">
+         update tb_customer_address SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>	
+	
+	
+	<update id="updateCustomerId_agentInfo" parameterClass="map">
+         update tb_customer_agent_info SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>			
+		
+	<update id="updateCustomerId_feedback" parameterClass="map">
+         update tb_customer_feedback SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>	
+		
+	<update id="updateCustomerId_linkHisotry" parameterClass="map">
+         update tb_customer_link_hisotry SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>
+	
+	<update id="updateCustomerId_linkMan" parameterClass="map">
+         update tb_customer_link_man SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>	
+	
+
+	
+	<delete id="deleteCustomer_for_userRel" parameterClass="map">
+        delete from tb_customer_user_rel  
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </delete>		
+	
+	
+	<update id="updateCustomerId_income" parameterClass="map">
+         update tb_income SET customer_id = #source# 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </update>			
+	
+		
+	<delete id="deleteCustomer_for_unify" parameterClass="map">
+        delete from tb_customer_info 
+		 <dynamic prepend="WHERE"> 
+	      <isNotNull property="targ">
+       	  <iterate prepend="AND" property="targ" open="(" close=")" conjunction="OR">
+		   			 customer_id = #targ[]#
+		  </iterate>
+		  </isNotNull> 		
+         </dynamic> 
+    </delete>		
+	
+	
+
+	
+	
+	
+	<select id="getCustomersByLoginUserReturnObjects"  parameterClass="java.util.Map"  resultClass="customer">
+		  select  distinct 
+			CUST.customer_id as id,
+		    CUST.customer_name as customerName,
+		    CUST.customer_category_id as customerCategoryId,
+		    CUST.customer_type_id as customerTypeId,
+			CUST.parent_id as parentId
+		
+			from tb_order O  
+				left outer join tb_sys_user U  on O.user_id = U.id 
+				left outer join tb_customer_info CUST  on O.customer_id = CUST.customer_id  
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isNotEmpty prepend="AND" property="userId">
+			(U.id = #userId#)
+			</isNotEmpty>
+			
+			<isNotNull property="userIdList">
+				 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+							(U.id = #userIdList[]#)
+			  </iterate>
+			</isNotNull>
+			
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUST.customer_name like '%$customerName$%')
+			</isNotEmpty>	
+			
+			<isNotEmpty prepend="OR" property="helpCode">
+				(CUST.help_code like '%$helpCode$%')
+			</isNotEmpty>		
+						
+		</dynamic>
+		
+		
+		order by CUST.customer_name 
+	</select> 	
+	
+<select id="getCustomerFromIncomeNoInORrderReturnObjects"  resultClass="customer">
+     <![CDATA[  	
+		 select distinct
+			CUST.customer_id as id,
+		    CUST.customer_name as customerName,
+		    CUST.customer_category_id as customerCategoryId,
+		    CUST.customer_type_id as customerTypeId,
+			CUST.parent_id as parentId
+		 
+		 from tb_income_pull p
+		 
+				left outer join tb_income  I 
+		                 on p.income_id= I.income_id 
+		 
+				left outer join tb_customer_info CUST 
+		                 on I.customer_id = CUST.customer_id  
+		 
+		 where I.customer_id not in(select distinct customer_id from tb_order)
+
+       ]]>  	
+	
+		
+			
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUST.customer_name like '%$customerName$%')
+			</isNotEmpty>	
+	
+	
+			<isNotEmpty prepend="OR" property="helpCode">
+				(CUST.help_code like '%$helpCode$%')
+			</isNotEmpty>		
+			
+		order by CUST.customer_name 
+  </select>  	
+	
+	
+	
+	<resultMap id="customers-map-item-name" class="customer">  
+			<result property="id" column="id"/>
+			<result property="customerName" column="customerName" nullValue=""/>
+			<result property="helpCode" column="helpCode" nullValue=""/>
+		    <result property="customerCategoryId" column="customerCategoryId" nullValue="0"/>
+		    <result property="category.categoryName" column="customer_category_name" nullValue=""/>
+		    <!-- result property="category.categoryCode" column="categoryCode" nullValue=""/ -->
+	</resultMap>  
+	 
+	<select id="getCustomersAnalyze"  resultMap="customers-map-item-name">  
+		
+		select CUT.customer_id as id, CUT.customer_name as customerName,CUT.help_code as helpCode,
+		
+		 CUT.customer_category_id as customerCategoryId,
+		
+		  CAT.category_name as customer_category_name 
+		
+		
+		 
+		
+		 from tb_customer_info   CUT  
+
+		
+		left outer join tb_sys_org B on B.sys_org_id  = CUT.sys_org_id  
+		
+		
+				    left outer join  tb_customer_category  CAT
+		        on CUT.customer_category_id = CAT.customer_category_id 
+		
+		<dynamic prepend="WHERE"> 
+			
+			<isNotNull prepend="AND" property="customerCategoryId">
+				(CUT.customer_category_id = #customerCategoryId#)
+			</isNotNull>
+			
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUT.customer_name like '%$customerName$%' or CUT.help_code like '%$customerName$%')
+			</isNotEmpty>	
+			
+			<!-- isNotEmpty prepend="OR" property="customerName">
+				(CUT.help_code like '%$customerName$%')
+			</isNotEmpty -->	
+			
+			
+			<isNotEmpty prepend="AND" property="orgId">
+			(B.sys_org_id = #orgId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="orgAdminId">
+			(B.create_by = #orgAdminId#)
+			</isNotEmpty>				
+						
+		</dynamic>		
+		order by customer_name 
+	</select>  
+	
+	
+	
+<select id="getCustFromOrder" parameterClass="java.util.Map"  resultMap="customerResult_AllForCommand">
+     <![CDATA[  
+		 
+      select distinct CUT.customer_id,CUT.help_code,CUT.customer_name,
+		 
+		 CUT.customer_category_id, CAT.category_name as customer_category_name 
+		 
+		from tb_customer_info CUT  
+		 
+		    left outer join  tb_customer_category  CAT
+		        on CUT.customer_category_id = CAT.customer_category_id 
+		 
+			 left outer join   tb_order O 
+		           on O.customer_id = CUT.customer_id 
+ 
+		 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="orgId">
+			(CUT.sys_org_id = #orgId#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="version">
+			(O.version = #version#)
+			</isNotEmpty>		
+				
+								
+			<isNotNull prepend="AND" property="CustomerCategoryId">
+				(CUT.customer_category_id like #CustomerCategoryId#)
+			</isNotNull>
+
+
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUT.customer_name like BINARY '%$customerName$%' or CUT.help_code like '%$customerName$%')
+			</isNotEmpty>			
+				
+				
+	     	 <isNotNull property="customerIdList">
+				 <iterate prepend="AND" property="customerIdList" open="(" close=")" conjunction="OR">
+					   CUT.customer_id = #customerIdList[]#
+			  </iterate>
+			  </isNotNull> 							
+
+			  <isNotNull property="userIdList">
+				 <iterate prepend="AND" property="userIdList" open="(" close=")" conjunction="OR">
+					 	O.user_id  = #userIdList[]#
+			  </iterate>
+			  </isNotNull> 			
+				
+		     <isNotNull property="customerCateList">
+				 <iterate prepend="AND" property="customerCateList" open="(" close=")" conjunction="OR">
+					  CUT.customer_category_id = #customerCateList[]#
+			  </iterate>
+			  </isNotNull> 		
+				
+			<isNotNull property="yearIdList">
+				<iterate prepend="AND" property="yearIdList" open="(" close=")" conjunction="OR">
+					       O.version = #yearIdList[]#
+				</iterate>
+			</isNotNull>					
+				
+				
+																								  
+         </dynamic>  
+		
+		order by CUT.customer_name
+  </select>     	
+	
+	
+	<select id="getCustidsByOrg" parameterClass="java.util.Map"  resultClass="java.lang.Long">
+
+      select distinct customer_id from tb_customer_info   
+		
+ 	 	  <dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="orgId">
+			(sys_org_id = #orgId#)
+			</isNotEmpty>
+				
+			<isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       customer_category_id = #customerCates[]#
+				</iterate>
+			</isNotNull>			
+																					  
+         </dynamic>  
+
+	</select>     	
+		
+	
+	
+	<select id="getCustomerRemote" parameterClass="java.util.Map"  resultClass="customer">
+
+        select distinct CUT.customer_id as id,
+			
+			CUT.customer_name as customerName 
+			
+			from tb_customer_info  CUT  
+			
+			
+		 <isEqual  property="model" compareValue="1">
+			inner join tb_order O on CUT.customer_id = O.customer_id
+		 </isEqual> 
+			
+		 <isEqual  property="model" compareValue="2">
+			inner join tb_income I on CUT.customer_id = I.customer_id
+		 </isEqual> 
+		
+					
+		 <isEqual  property="model" compareValue="3">
+			inner join tb_contract_payment P on CUT.customer_id = P.customer_id
+		 </isEqual> 
+		
+		 <isEqual  property="model" compareValue="4">
+			inner join tb_contract CNT on CUT.customer_id = CNT.customer_id
+		 </isEqual> 		
+		
+					
+ 	 	  <dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="orgId">
+			(CUT.sys_org_id = #orgId#)
+			</isNotEmpty>
+				
+			<isNotEmpty prepend="AND" property="version">
+				 <isEqual  property="model" compareValue="1">
+					( O.version = #version#)
+				 </isEqual> 	
+				
+				 <isEqual  property="model" compareValue="2">
+					( I.version = #version#)
+				 </isEqual> 	
+				
+				 <isEqual  property="model" compareValue="3">
+					( P.version = #version#)
+				 </isEqual> 
+									
+				 <isEqual  property="model" compareValue="4">
+					( CNT.version = #version#)
+				 </isEqual> 					
+								 
+			</isNotEmpty>
+								
+			<isNotNull property="customerCates">
+				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
+					       CUT.customer_category_id = #customerCates[]#
+				</iterate>
+			</isNotNull>	
+				
+		    <isNotEmpty prepend="AND" property="customerName">
+				(CUT.customer_name like  '%$customerName$%' or CUT.help_code like '%$customerName$%')
+			</isNotEmpty>						
+																					  
+         </dynamic>  
+		
+		
+		 order by CUT.customer_name
+
+	</select>     	
+	
+		
+	  
+</sqlMap>

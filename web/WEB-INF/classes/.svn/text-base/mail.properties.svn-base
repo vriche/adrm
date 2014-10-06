@@ -1,0 +1,9 @@
+# This properties file is used to configure mail settings in 
+# /WEB-INF/applicationContext-service.xml.
+
+mail.default.from=master <postmaster@vriche.com>
+mail.debug=false
+mail.transport.protocol=smtp
+mail.host=192.168.1.100
+mail.username=admin
+mail.password=0987

@@ -1,0 +1,142 @@
+<XDtTagDef:tagDef namespace="Form" handler="org.example.antbook.xdoclet.FormTagsHandler1"/><XDtTagDef:tagDef namespace="MethodEx" handler="org.example.antbook.xdoclet.MethodExTagsHandler"/><?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="<XDtClass:className/>SQL">
+    
+    <typeAlias alias="<XDtForm:classNameLower/>" type="<XDtPackage:packageName/>.<XDtClass:className/>"/>
+
+	<cacheModel id="<XDtForm:classNameLower/>-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="add<XDtClass:className/>"/>
+		<flushOnExecute statement="update<XDtClass:className/>"/>
+		<flushOnExecute statement="delete<XDtClass:className/>"/>
+		<flushOnExecute statement="delete<XDtClass:className/>s"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="<XDtForm:classNameLower/>">
+    <XDtForm:forAllFields>
+    <XDtForm:ifIsNotIdOrVersionField>
+        <parameter property="<XDtForm:fieldName/>" jdbcType="<XDtForm:jdbcType/>" javaType="<XDtForm:javaType/>"/>
+    </XDtForm:ifIsNotIdOrVersionField>
+    </XDtForm:forAllFields>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="<XDtForm:classNameLower/>">
+    <XDtForm:forAllFields>
+    <XDtForm:ifIsNotIdOrVersionField>
+        <parameter property="<XDtForm:fieldName/>" jdbcType="<XDtForm:jdbcType/>" javaType="<XDtForm:javaType/>"/>
+    </XDtForm:ifIsNotIdOrVersionField>
+    <XDtForm:ifIsIdOrVersionField>
+        <parameter property="<XDtForm:fieldName/>" jdbcType="<XDtForm:jdbcType/>" javaType="<XDtForm:javaType/>"/>
+    </XDtForm:ifIsIdOrVersionField>
+    </XDtForm:forAllFields>         
+    </parameterMap>
+    <resultMap id="<XDtForm:classNameLower/>Result" class="<XDtForm:classNameLower/>">
+    <XDtForm:forAllFields>
+        <result property="<XDtForm:fieldName/>" column="<XDtForm:columnName/>"/>
+    </XDtForm:forAllFields>
+    </resultMap>
+    
+    
+    
+    
+    <sql id="<XDtClass:className/>_where_fragment">
+   		 <XDtForm:forAllFields>	 	
+			<isNotEmpty prepend="AND" property="<XDtForm:fieldName/>">
+			(<XDtForm:columnName/> like #<XDtForm:fieldName/>#)
+			</isNotEmpty>
+   		 </XDtForm:forAllFields> 
+    </sql>
+    
+    
+     <sql id="<XDtClass:className/>_idList_fragment">
+	      <isNotNull property="<XDtClass:className/>IdList">
+       	  <iterate prepend="AND" property="<XDtClass:className/>IdList" open="(" close=")" conjunction="OR">
+				<XDtMethod:forAllClassMethods>
+		        <XDtMethod:ifIsGetter>
+		          <XDtMethod:ifHasMethodTag tagName="hibernate.id" >
+		   			 <XDtMethod:methodTagValue tagName='hibernate.id' paramName='column'/> = #<XDtClass:className/>IdList[]#
+		          </XDtMethod:ifHasMethodTag>
+		        </XDtMethod:ifIsGetter>
+		        </XDtMethod:forAllClassMethods> 
+		  </iterate>
+		  </isNotNull> 
+    </sql>   
+    
+    
+    <select id="get<XDtClass:className/>sCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from <XDtClass:classTagValue tagName="hibernate.class" paramName="table"/> 
+    ]]>
+		<dynamic prepend="WHERE"> 
+ 	 	<include refid="<XDtClass:className/>_where_fragment"/>
+		</dynamic>  
+    </select>	
+    
+
+    <select id="get<XDtClass:className/>s" resultMap="<XDtForm:classNameLower/>Result">
+    <![CDATA[
+        select * from <XDtClass:classTagValue tagName="hibernate.class" paramName="table"/> 
+    ]]>
+		<include refid="<XDtClass:className/>_where_fragment"/>
+    </select>
+    
+    <select id="get<XDtClass:className/>sByMap" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from <XDtClass:classTagValue tagName='hibernate.class' paramName='table'/> 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  	<include refid="<XDtClass:className/>_idList_fragment"/>
+          </dynamic>      
+  </select>     
+
+    <select id="get<XDtClass:className/>" resultMap="<XDtForm:classNameLower/>Result">
+    <![CDATA[
+        select * from <XDtClass:classTagValue tagName="hibernate.class" paramName="table"/>
+         where <XDtMethodEx:idField getType="columnName"/> = #value#
+    ]]>
+    </select>
+
+    <insert id="add<XDtClass:className/>" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.<XDtMethodEx:idField getType="propertyType"/>" keyProperty="<XDtMethodEx:idField getType="propertyName"/>" >
+            SELECT SEQ_<XDtMethodEx:idField getType="columnName"/>.NextVal AS <XDtMethodEx:idField getType="propertyName"/> FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into <XDtClass:classTagValue tagName="hibernate.class" paramName="table"/> (<XDtForm:forAllFields><XDtForm:ifIsNotIdOrVersionField><XDtForm:columnName/><XDtForm:ifIsNotLastField>,</XDtForm:ifIsNotLastField></XDtForm:ifIsNotIdOrVersionField></XDtForm:forAllFields>)
+            values ( <XDtForm:forAllFields><XDtForm:ifIsNotIdOrVersionField>?<XDtForm:ifIsNotLastField>,</XDtForm:ifIsNotLastField></XDtForm:ifIsNotIdOrVersionField></XDtForm:forAllFields> )
+        ]]>
+        
+        <selectKey resultClass="java.lang.<XDtMethodEx:idField getType="propertyType"/>" keyProperty="<XDtMethodEx:idField getType="propertyName"/>">
+            SELECT LAST_INSERT_ID() AS <XDtMethodEx:idField getType="propertyName"/>
+        </selectKey>
+    </insert>
+
+    <update id="update<XDtClass:className/>" parameterMap="updateParam">
+    <![CDATA[
+        update <XDtClass:classTagValue tagName="hibernate.class" paramName="table"/> set
+               <XDtForm:forAllFields>
+                   <XDtForm:ifIsNotIdOrVersionField><XDtForm:columnName/> = ?<XDtForm:ifIsNotLastField>,</XDtForm:ifIsNotLastField></XDtForm:ifIsNotIdOrVersionField>
+               </XDtForm:forAllFields>
+        where <XDtMethodEx:idField getType="columnName"/> = ?
+    ]]>
+    </update>
+
+    <delete id="delete<XDtClass:className/>">
+    <![CDATA[
+        delete from <XDtClass:classTagValue tagName="hibernate.class" paramName="table"/>
+         where <XDtMethodEx:idField getType="columnName"/> = #value#
+    ]]>
+    </delete>
+    
+   <update id="delete<XDtClass:className/>s" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from <XDtClass:classTagValue tagName='hibernate.class' paramName='table'/> 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+			<include refid="<XDtClass:className/>_idList_fragment"/>
+          </dynamic>      
+  </update>   
+    
+</sqlMap>

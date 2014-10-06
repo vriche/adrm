@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaWorkFlowCheckSQL">
+    <typeAlias alias="oaWorkFlowCheck" type="com.vriche.adrm.model.OaWorkFlowCheck"/>
+
+	<cacheModel id="oaWorkFlowCheck-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaWorkFlowCheck"/>
+		<flushOnExecute statement="updateOaWorkFlowCheck"/>
+		<flushOnExecute statement="deleteOaWorkFlowCheck"/>
+		<flushOnExecute statement="deleteOaWorkFlowChecks"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaWorkFlowCheck">    
+		<!-- parameter property="checked" jdbcType="INTEGER" javaType="java.lang.Boolean"/ -->    
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="checkIdea" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="workFlowId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="checkUserId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="workFlowTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="checkStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaWorkFlowCheck">
+		<!-- parameter property="checked" jdbcType="INTEGER" javaType="java.lang.Boolean"/ -->
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="checkIdea" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="workFlowId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="checkUserId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="workFlowTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="checkStateId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaWorkFlowCheckResult" class="oaWorkFlowCheck">
+		<!-- result property="checked" column="checked"/ -->
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="work_flow_check_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="version" column="version"/>
+        <result property="checkIdea" column="check_idea"/>
+        <result property="workFlowId" column="work_flow_id"/>
+        <result property="checkUserId" column="check_user_id"/>
+		<result property="checkStateId" column="check_state_id"/>
+		<result property="workFlowTypeId" column="work_flow_type_id"/>
+		<result property="checkUser" column="check_user_id" select="getUser"/>
+        <result property="workFlowType" column="work_flow_type_id" select="getOaWorkFlowType"/>
+		<result property="checkState" column="check_state_id" select="getOaWorkFlowCheckState"/>
+		<result property="workFlow" column="work_flow_id" select="getOaWorkFlowClass"/>
+    </resultMap>
+    <select id="getOaWorkFlowChecksCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_work_flow_check 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(work_flow_check_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkIdea">
+			(check_idea like #checkIdea#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowId">
+			(work_flow_id like #workFlowId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkUserId">
+			(check_user_id like #checkUserId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(work_flow_type_id like #workFlowTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkStateId">
+			(check_state_id like #checkStateId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaWorkFlowChecks" resultMap="oaWorkFlowCheckResult">
+    <![CDATA[
+        select * from tb_oa_work_flow_check 
+    ]]>
+ 	 	<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(work_flow_check_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkIdea">
+			(check_idea like #checkIdea#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowId">
+			(work_flow_id like #workFlowId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkUserId">
+			(check_user_id like #checkUserId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="workFlowTypeId">
+			(work_flow_type_id like #workFlowTypeId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="checkStateId">
+			(check_state_id like #checkStateId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaWorkFlowChecksByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_work_flow_check 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowCheckIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowCheckIdList" open="(" close=")" conjunction="OR">
+		   			 work_flow_check_id = #OaWorkFlowCheckIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaWorkFlowCheck" resultMap="oaWorkFlowCheckResult">
+    <![CDATA[
+        select * from tb_oa_work_flow_check
+         where work_flow_check_id = #value#
+    ]]>
+    </select>
+	
+	
+	
+	
+	
+	<select id="getWorkFlowCheckByContractId" parameterClass="java.lang.Long" resultMap="oaWorkFlowCheckResult">
+    <![CDATA[
+        select fc.* from tb_oa_work_flow_check fc,tb_contract c, tb_oa_work_flow_result_contract frc 
+			where frc.work_flow_check_id = fc.work_flow_check_id and frc.contract_id = c.contract_id
+			and frc.contract_id like #contractId#
+    ]]>  
+		<!-- isNotEmpty prepend="AND" property="id">
+			(fc.work_flow_check_id like #id#)
+		</isNotEmpty -->
+		<!-- isNotEmpty prepend="AND" property="contractId">
+			(frc.contract_id like #contractId#)
+		</isNotEmpty -->
+    </select>
+	
+	
+	<select id="getWorkFlowCheckByOrderId" parameterClass="java.lang.Long" resultMap="oaWorkFlowCheckResult">
+    <![CDATA[
+        select fc.* from tb_oa_work_flow_check fc,tb_order o, tb_oa_work_flow_result_order fro 
+			where fro.work_flow_check_id = fc.work_flow_check_id and fro.order_id = o.order_id
+			and fro.order_id = #orderId#
+    ]]>  
+		<!-- isNotEmpty prepend="AND" property="id">
+			(fc.work_flow_check_id like #id#)
+		</isNotEmpty -->
+		<!-- isNotEmpty prepend="AND" property="contractId">
+			(frc.contract_id like #contractId#)
+		</isNotEmpty -->
+    </select>	
+	
+	
+	<select id="getOrderCheckLastTime" parameterClass="java.lang.Long" resultClass="java.util.Date">
+    <![CDATA[
+        select  max(fc.create_date)  create_date  
+		
+		from tb_oa_work_flow_check fc,tb_order o, tb_oa_work_flow_result_order fro 
+		
+			where fro.work_flow_check_id = fc.work_flow_check_id 
+		
+		    and fro.order_id = o.order_id
+		
+			and fro.order_id = #orderId# and (fc.check_state_id =4 or  fc.check_state_id =3)
+    ]]>  
+
+    </select>		
+	
+	
+    <insert id="addOaWorkFlowCheck" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_work_flow_check_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_work_flow_check (create_by,create_date,modify_by,modify_date,check_idea,work_flow_id,check_user_id,work_flow_type_id,check_state_id)
+            values ( ?,?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaWorkFlowCheck" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_work_flow_check set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   check_idea = ?,
+                   work_flow_id = ?,
+                   check_user_id = ?,
+                   work_flow_type_id = ?,
+                   check_state_id = ?,
+				   version = ?
+        where work_flow_check_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaWorkFlowCheck">
+    <![CDATA[
+        delete from tb_oa_work_flow_check
+         where work_flow_check_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaWorkFlowChecks" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_work_flow_check 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaWorkFlowCheckIdList">
+       	  <iterate prepend="AND" property="OaWorkFlowCheckIdList" open="(" close=")" conjunction="OR">
+		   			 work_flow_check_id = #OaWorkFlowCheckIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	
+	<insert id="saveOaWorkFlowCheckContracts" parameterClass="map">
+        <![CDATA[
+       	 insert into tb_oa_work_flow_result_contract (work_flow_check_id, contract_id)
+			values (#checkId#, #contractId#);
+        ]]>
+    </insert>	
+	
+	
+	<insert id="saveOaWorkFlowCheckOrders" parameterClass="map">
+        <![CDATA[
+       	 insert into tb_oa_work_flow_result_order (work_flow_check_id, order_id)
+			values (#checkId#, #orderId#);
+        ]]>
+    </insert>	
+	
+	
+	<insert id="saveOaWorkFlowCheckApplys" parameterClass="map">
+        <![CDATA[
+       	 insert into tb_oa_work_flow_result_apply (work_flow_check_id, apply_info_id)
+			values (#checkId#, #applyId#);
+        ]]>
+    </insert>		
+	
+		
+	
+    <update id="updateWorkFlowCheckStates" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_oa_work_flow_check set check_state_id = #stateId#
+    ]]>
+		<dynamic prepend="WHERE"> 
+		<isNotNull property="OaWorkFlowCheckIdList">
+		  <iterate  property="OaWorkFlowCheckIdList" open="(" close=")" conjunction="OR">
+		   			 work_flow_check_id = #OaWorkFlowCheckIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		</dynamic> 
+    </update>	
+	
+	
+	
+    <update id="updateContractChecked" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_oa_work_flow_result_contract set checked = #checked#
+    ]]>
+		<dynamic prepend="WHERE"> 
+		<isNotNull property="ContractIdList">
+		  <iterate  property="ContractIdList" open="(" close=")" conjunction="OR">
+		   			 contract_id = #ContractIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		</dynamic> 
+    </update>	
+	
+	
+    <update id="updateOrderChecked" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_oa_work_flow_result_order set checked = #checked#
+    ]]>
+		<dynamic prepend="WHERE"> 
+		<isNotNull property="OrderIdList">
+		  <iterate  property="OrderIdList" open="(" close=")" conjunction="OR">
+		   			 order_id = #OrderIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		</dynamic> 
+    </update>		
+	
+	
+    <update id="updateApplyChecked" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_oa_work_flow_result_apply set checked = #checked#
+    ]]>
+		<dynamic prepend="WHERE"> 
+		<isNotNull property="OaApplyInfoIdList">
+		  <iterate  property="OaApplyInfoIdList" open="(" close=")" conjunction="OR">
+		   			 apply_info_id = #OaApplyInfoIdList[]#
+		  </iterate>
+		  </isNotNull> 
+		</dynamic> 
+    </update>		
+		
+
+	
+</sqlMap>

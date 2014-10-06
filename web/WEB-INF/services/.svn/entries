@@ -1,0 +1,50 @@
+8
+
+dir
+661
+svn://121.28.83.134:80/src1/adrm_2.0/web/WEB-INF/services
+svn://121.28.83.134:80/src1
+
+
+
+2013-11-30T15:24:47.234320Z
+661
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+ImportProgramListService
+dir
+
+AdrmWebService
+dir
+
+version.aar
+file
+
+
+
+
+2013-11-30T12:16:57.944246Z
+eee529b91840d4d6c4b2e9df1fdf6209
+2013-11-30T15:24:47.234320Z
+661
+lxz
+has-props
+
+ImportMaterialService
+dir
+
+services.list
+file
+
+
+
+
+2013-11-30T12:16:57.931239Z
+78123c01ca59592034cb085c2333d548
+2013-11-30T15:24:47.234320Z
+661
+lxz
+

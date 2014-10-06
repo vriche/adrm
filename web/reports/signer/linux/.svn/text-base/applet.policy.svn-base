@@ -1,0 +1,8 @@
+
+keystore "/var/www/html/adrm/reports/applets/vriche.store", "JKS";
+
+grant signedBy "vriche"
+¡¡¡¡{ 
+ 	permission java.security.AllPermission;   
+};
+

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OaDocumentCatalogSQL">
+    <typeAlias alias="oaDocumentCatalog" type="com.vriche.adrm.model.OaDocumentCatalog"/>
+
+	<cacheModel id="oaDocumentCatalog-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOaDocumentCatalog"/>
+		<flushOnExecute statement="updateOaDocumentCatalog"/>
+		<flushOnExecute statement="deleteOaDocumentCatalog"/>
+		<flushOnExecute statement="deleteOaDocumentCatalogs"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="oaDocumentCatalog">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <!-- parameter property="permitTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->	
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="oaDocumentCatalog">
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="nodeLevel" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <!-- parameter property="permitTypeId" jdbcType="INTEGER" javaType="java.lang.Long"/ -->	
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>	
+        <parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="oaDocumentCatalogResult" class="oaDocumentCatalog">
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="id" column="document_catalog_id"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="version" column="version"/>
+        <result property="displayNo" column="display_no"/>
+        <result property="nodeLevel" column="node_level"/>
+        <result property="parentId" column="parent_id"/>
+        <!-- result property="permitTypeId" column="permit_type_id"/ -->
+	    <!-- result property="oaDocumentCatalogPermitType" column="permit_type_id" select="getOaDocumentCatalogPermitType"/ -->
+		<!-- result property="documents" column="document_catalog_id" select="getOaDocuments"/ -->
+    </resultMap>
+	
+    <select id="getOaDocumentCatalogsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_oa_document_catalog 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(document_catalog_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(node_level like #nodeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+    <select id="getOaDocumentCatalogs" resultMap="oaDocumentCatalogResult">
+    <![CDATA[
+        select * from tb_oa_document_catalog 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by like #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date like #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(document_catalog_id like #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by like #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date like #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name like #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="displayNo">
+			(display_no like #displayNo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="nodeLevel">
+			(node_level like #nodeLevel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id like #parentId#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+    <select id="getOaDocumentCatalogsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select* from tb_oa_document_catalog 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaDocumentCatalogIdList">
+       	  <iterate prepend="AND" property="OaDocumentCatalogIdList" open="(" close=")" conjunction="OR">
+		   			 document_catalog_id = #OaDocumentCatalogIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </select>     
+
+    <select id="getOaDocumentCatalog" resultMap="oaDocumentCatalogResult">
+    <![CDATA[
+        select * from tb_oa_document_catalog
+         where document_catalog_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addOaDocumentCatalog" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_document_catalog_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_oa_document_catalog (create_by,create_date,modify_by,modify_date,name,display_no,node_level,parent_id)
+            values ( ?,?,?,?,?,?,?,? )
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOaDocumentCatalog" parameterMap="updateParam">
+    <![CDATA[
+        update tb_oa_document_catalog set
+                   create_by = ?,
+                   create_date = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   display_no = ?,
+                   node_level = ?,
+                   parent_id = ?,
+				   version = ?
+        where document_catalog_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOaDocumentCatalog">
+    <![CDATA[
+        delete from tb_oa_document_catalog
+         where document_catalog_id = #value#
+    ]]>
+    </delete>
+   <update id="deleteOaDocumentCatalogs" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_document_catalog 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaDocumentCatalogIdList">
+       	  <iterate prepend="AND" property="OaDocumentCatalogIdList" open="(" close=")" conjunction="OR">
+		   			 document_catalog_id = #OaDocumentCatalogIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	
+
+	<insert id="addDocumentCatalogUsers" parameterClass="map">
+    <![CDATA[
+        insert into tb_oa_document_catalog_user (user_id, catalog_id)
+        values (#userId#, #catalogId#);
+    ]]>
+    </insert>	
+	
+   <delete id="deleteDocumentCatalogUsers" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_oa_document_catalog_user where catalog_id = #id#;
+    ]]>
+    </delete>
+	
+	<select id="getDocumentCatalogUsers" resultClass="java.lang.Integer">
+    <![CDATA[
+        select user_id as id from tb_oa_document_catalog_user where catalog_id = #id#;
+    ]]>
+    </select>	
+	
+	<select id="getDocumentCatalogByUserId" parameterClass="java.util.Map" resultMap="oaDocumentCatalogResult">
+    <![CDATA[
+        select d.* from tb_oa_document_catalog d,tb_sys_user u, tb_oa_document_catalog_user du 
+			where du.catalog_id = d.document_catalog_id and du.user_id = u.id
+    ]]>  
+		<isNotEmpty prepend="AND" property="parentId">
+			(d.parent_id like #parentId#)
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="userId">
+			(du.user_id like #userId#)
+		</isNotEmpty>
+    </select>
+	
+	<select id="getDocumentCatalogPermits" resultClass="java.lang.Integer">
+    <![CDATA[
+        select permit_type_id as id from tb_oa_document_catalog_permit where catalog_id = #id#;
+    ]]>
+    </select>		
+	
+	
+   <update id="deleteDocumentCatalogUsersByIds" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_document_catalog_user 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaDocumentCatalogIdList">
+       	  <iterate prepend="AND" property="OaDocumentCatalogIdList" open="(" close=")" conjunction="OR">
+		   			 catalog_id = #OaDocumentCatalogIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>  
+	
+		
+	
+	
+    <insert id="addDocumentCatalogPermits" parameterClass="map">
+    <![CDATA[
+        insert into tb_oa_document_catalog_permit (permit_type_id, catalog_id)
+        values (#permitTypeId#, #catalogId#);
+    ]]>
+    </insert>	
+	
+   <delete id="deleteDocumentCatalogPermits" parameterClass="java.lang.Long">
+    <![CDATA[
+        delete from tb_oa_document_catalog_permit where catalog_id = #id#;
+    ]]>
+    </delete>
+
+   <update id="deleteDocumentCatalogPermitsByIds" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_oa_document_catalog_permit 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OaDocumentCatalogIdList">
+       	  <iterate prepend="AND" property="OaDocumentCatalogIdList" open="(" close=")" conjunction="OR">
+		   			 catalog_id = #OaDocumentCatalogIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>  	
+		
+</sqlMap>

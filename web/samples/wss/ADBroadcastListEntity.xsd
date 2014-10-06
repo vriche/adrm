@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://dayang.com/ADP/schema/ADBroadcastListEntity/1.0" targetNamespace="http://dayang.com/ADP/schema/ADBroadcastListEntity/1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="ADBroadcastList" type="tns:ADBroadcastListType">
+		<xsd:annotation>
+			<xsd:documentation>广告播出单</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="ADBroadcastListType">
+		<xsd:sequence>
+			<xsd:element name="ListID" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>广告播出单ID</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListName" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>广告播出单名称</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListVersion" type="xsd:int" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>广告播出单版本，0,1,2……</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ChannelID" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>频道ID，唯一标识</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ChannelCode" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>频道代码</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ChannelName" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>频道名称</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PlayDate" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>播出日期。格式（yyyy-MM-dd）</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AuditTime" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>审核时间，String，（格式yyyy-MM-dd hh:mm:ss）</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Auditor" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>审核人</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Creator" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>创建人</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Editor" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>修改人</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LastModificationTime" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>最后修改时间，String，（格式yyyy-MM-dd hh:mm:ss）</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ADSegments" type="tns:ADSegmentType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>广告段信息</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>扩展属性</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ADSegmentType">
+		<xsd:sequence>
+			<xsd:element name="SegmentID" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>广告段ID，编单唯一标识ID</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SegmentBusinessID" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>广告段业务ID</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SegmentName" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>广告段名称</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SegmentType" type="xsd:int" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>0-栏目间广告段，1-栏目内广告段</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SegmentIndex" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>广告段播出序号，1,2,3……</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PlayTime" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>节目播出时间，格式yyyy-MM-dd HH:MM:SS</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ColumnCode" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>栏目代码，标明当前广告段所归属的栏目，栏目间广告时段该字段为空</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ColumnName" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>栏目名称</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Duration" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>段位总时长，单位：秒</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PlayPattern" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>播出方式，0-未知，1-录播，2-外场直播，3-演播室直播，4-热炒等</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="StudioName" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>演播室名称</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ADEntity" type="tns:ADEntityType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>广告条</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>扩展属性</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ExtendAttributesType">
+		<xsd:sequence>
+			<xsd:element name="ExtendAttribute" type="tns:ExtendAttributeType" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>扩展属性</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ExtendAttributeType">
+		<xsd:sequence>
+			<xsd:element name="AttributeName" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>属性名</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AttributeValue" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>属性值</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ADEntityType">
+		<xsd:sequence>
+			<xsd:element name="AdID" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>广告编单唯一标识ID</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MaterialID" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>素材ID</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MaterialName" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>素材名称</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="IndexID" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>广告条目序号，1,2,3……</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Duration" type="xsd:int">
+				<xsd:annotation>
+					<xsd:documentation>广告条长度，单位：秒</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ExtendAttributes" type="tns:ExtendAttributesType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>扩展属性</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

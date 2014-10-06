@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<toolbar name="Demo toolbar" width="100%" disableType="image" absolutePosition="auto" toolbarAlign="left">
+	<ImageButton src="" height="25" width="25" id="0_save" tooltip="Save"/>
+	<ImageButton src="" height="25" width="25" id="0_print" tooltip="Print"/>
+	<divider id="div_1"/>
+
+</toolbar>

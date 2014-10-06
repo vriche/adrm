@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PublishArrangeSQL">
+    <typeAlias alias="publishArrange" type="com.vriche.adrm.model.PublishArrange"/>
+
+	<cacheModel id="publishArrange-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addPublishArrange"/>
+		<flushOnExecute statement="updatePublishArrange"/>
+		<flushOnExecute statement="deletePublishArrange"/>
+		<flushOnExecute statement="deletePublishArranges"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+	
+    <parameterMap id="addParam" class="publishArrange">
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+		<parameter property="isArranged" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="carrierName" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="filePath" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="isEnable" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="isLocked" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="resourceMeno" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="resourceName" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
+        <parameter property="resourceTotalTimes" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+        <parameter property="resourceUsedTimes" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
+		<parameter property="beforehand" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="publishArrange">
+		 <parameter property="beforehand" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="carrierId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+		<parameter property="isArranged" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="carrierName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <!-- parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/ -->
+        <!-- parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/ -->
+        <parameter property="filePath" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="isEnable" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="isLocked" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+        <parameter property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="resourceId" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="resourceMeno" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="resourceTotalTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="resourceUsedTimes" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+    <resultMap id="publishArrangeResult" class="publishArrange">
+		<result property="isArranged" column="is_arranged"/>
+        <result property="carrierId" column="carrier_id"/>
+        <result property="carrierName" column="carrier_name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="filePath" column="file_path"/>
+        <result property="id" column="arrange_id"/>
+        <result property="isEnable" column="is_enable"/>
+        <result property="isLocked" column="is_locked"/>
+        <result property="memo" column="memo"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="resourceId" column="resource_id"/>
+        <result property="resourceMeno" column="resource_meno"/>
+        <result property="resourceName" column="resource_name"/>
+        <result property="resourceTotalTimes" column="resource_total_times"/>
+        <result property="resourceUsedTimes" column="resource_used_times"/>
+        <result property="version" column="version"/>
+		<result property="displayNo" column="displayNo"/>
+		<result property="broadcastStartTime" column="broadcast_start_time"/>	
+		<result property="broadcastEndTime" column="broadcast_end_time"/>	
+		<result property="beforehand" column="before_hand"/>	
+    </resultMap>
+	
+
+	
+	
+	<select id="getPublishArrangeIds"  resultClass="java.lang.Long">
+     <![CDATA[  
+		select pa.arrange_id from adrm.tb_published_arrang pa
+		 where pa.publish_date < #value#
+       ]]> 
+ 	 	
+   </select> 
+	
+    <select id="getPublishArrangesCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_published_arrang 
+			
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+
+			<isNotEmpty prepend="AND" property="carrierName">
+			(carrier_name = #carrierName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="filePath">
+			(file_path = #filePath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(arrange_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isEnable">
+			(is_enable = #isEnable#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isLocked">
+			(is_locked = #isLocked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(memo = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishDate">
+			(publish_date = #publishDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceId">
+			(resource_id = #resourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceMeno">
+			(resource_meno = #resourceMeno#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceTotalTimes">
+			(resource_total_times = #resourceTotalTimes#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceUsedTimes">
+			(resource_used_times = #resourceUsedTimes#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="carrierId">
+			(carrier_id = #carrierId#)
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="AND" property="isArranged">
+			(is_arranged = #isArranged#)
+			</isNotEmpty>
+		</dynamic>
+    </select>	
+
+	
+    <select id="getPublishArranges" resultClass="publishArrange">
+    <![CDATA[
+        select 1 as isArranged,
+		        ARR.carrier_id as carrierId,
+		        ARR.carrier_name as carrierName,		
+		        ARR.create_by as createBy,
+		        ARR.create_date as createDate,	
+		
+		        ARR.file_path as filePath,
+		        ARR.arrange_id as id,		
+		        ARR.is_enable as isEnable,
+		        ARR.is_locked as isLocked,				
+		
+		        ARR.memo as memo,
+		        ARR.modify_by as modifyBy,		
+		        ARR.modify_date as modifyDate,
+		        ARR.publish_date as publishDate,	
+		
+		        ARR.resource_id as resourceId,
+		        ARR.resource_meno as resourceMeno,		
+		        ARR.resource_name as resourceName,
+		        ARR.resource_total_times as resourceTotalTimes,	
+		
+		        RES.display_no as displayNo,
+			
+			    ARR.resource_used_times as resourceUsedTimes,
+		        ARR.version as version,	
+		        ARR.before_hand as beforehand	
+		
+		
+		
+		
+		 from tb_published_arrang ARR
+		
+		   left outer join tb_ad_resource_info RES 
+		on ARR.resource_id = RES.ad_resource_info_id
+		
+		
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="carrierName">
+			(ARR.carrier_name = #carrierName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(ARR.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate"> 
+			(ARR.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="filePath">
+			(ARR.file_path = #filePath#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(ARR.arrange_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isEnable">
+			(ARR.is_enable = #isEnable#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isLocked">
+			(ARR.is_locked = #isLocked#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="memo">
+			(ARR.resource_meno = #memo#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(ARR.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(ARR.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="publishDate">
+			(ARR.publish_date = #publishDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceId">
+			(ARR.resource_id = #resourceId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceMeno">
+			(ARR.resource_meno = #resourceMeno#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceName">
+			(ARR.resource_name = #resourceName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceTotalTimes">
+			(ARR.resource_total_times = #resourceTotalTimes#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceUsedTimes">
+			(ARR.resource_used_times = #resourceUsedTimes#)
+			</isNotEmpty>
+			  
+			  
+			<isNotEmpty prepend="AND" property="carrierId">
+			(ARR.carrier_id = #carrierId#)
+			</isNotEmpty>
+			  
+			<isNotEmpty prepend="AND" property="isArranged">
+			(ARR.is_arranged = #isArranged#)
+			</isNotEmpty>
+		</dynamic>
+    </select>
+	
+        
+	  
+	
+    <select id="getPublishArrangesByIdListFromHistory" parameterClass="java.util.Map" resultMap="publishArrangeResult">
+     <![CDATA[  
+      select ARR.is_arranged,ARR.carrier_id,ARR.carrier_name,ARR.create_by,ARR.create_date,ARR.file_path,ARR.arrange_id,ARR.is_enable,ARR.is_locked,
+		 ARR.memo,ARR.modify_by,ARR.modify_date,ARR.publish_date,ARR.resource_id,ARR.resource_total_times,ARR.resource_used_times,ARR.version,
+		 ARR.resource_meno as resource_meno,ARR.resource_name,
+		 ARR.before_hand as before_hand,
+		 RES.display_no as displayNo,if(ARW.broadcast_start_time<C.value,ARW.broadcast_start_time+86400,ARW.broadcast_start_time) as broadcast_start_time, 
+		 ARW.broadcast_end_time
+		  
+	 from tb_published_arrang ARR
+		 
+		 		   left outer join tb_ad_resource_info RES    
+		on ARR.resource_id = RES.ad_resource_info_id
+		 		   left outer join tb_ad_resource_workspan ARW
+		on ARW.ad_resource_info_id = RES.ad_resource_info_id
+		 		 	left outer join  tb_ad_resource_carrier CARR
+             on  CARR.ad_resource_carrier_id = RES.ad_resource_carrier_id 
+		 			left outer join  tb_ad_resource_channel C
+             on  CARR.ad_resource_channel_id = C.resource_mediaorg_id
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+	      <isNotNull property="PublishArrangeIdList">
+       	  <iterate prepend="AND" property="PublishArrangeIdList" open="(" close=")" conjunction="OR">
+		   		ARR.arrange_id = #PublishArrangeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+ 
+		
+	      <isNotNull property="ResourceIdList">
+       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+		   		ARR.resource_id = #ResourceIdList[]#
+		  </iterate>
+		  </isNotNull> 	
+			
+		 <isNotNull prepend="AND" property="PublishDate">
+			   (ARR.publish_date = #PublishDate#)
+		 </isNotNull>	
+				
+
+		 <isNotNull prepend="AND" property="PublishDate">
+			   <![CDATA[ (ARW.begin_date <= #PublishDate# )]]> 	
+		 </isNotNull>	
+				
+
+		 <isNotNull prepend="AND" property="PublishDate">
+			    <![CDATA[ (ARW.end_date >= #PublishDate#)]]> 	
+		 </isNotNull>	
+						
+			<!-- isEqual prepend="AND" property="withResourceSort" compareValue="1">	
+			   <![CDATA[ (ARW.begin_date <= #PublishDate# ) 	]]> 	
+			</isEqual>
+				 
+			<isEqual prepend="AND" property="withResourceSort" compareValue="1">	
+			   <![CDATA[ (ARW.end_date >= #PublishDate#) 	]]> 	
+			</isEqual -->				 
+			
+          </dynamic>   		
+		  
+  </select>   	
+	
+	
+    <resultMap id="publishArrangeResult_getPublishArrangesByIdList" extends="publishArrangeResult"  class="publishArrange">
+		<result property="postionMeno" column="position_memo"/>	
+    </resultMap>
+	
+    <select id="getPublishArrangesByIdList" parameterClass="java.util.Map" resultMap="publishArrangeResult_getPublishArrangesByIdList">
+     <![CDATA[  
+     	 select 
+		     #isArranged# as is_arranged,
+			 #createBy# as create_by,
+			 #createDate# as create_date,
+			 #filePath# as file_path,
+			 #id# as arrange_id,
+			 #isEnable# as is_enable,
+			 #isLocked# as is_locked,
+			 #memo# as memo,
+			 #modifyBy# as modify_by,
+			 #modifyDate# as modify_date,
+			 #version# as version,
+
+
+			 RDI.publish_date as publish_date,
+			 CARR.ad_resource_carrier_id AS carrier_id,
+			 CARR.carrier_name AS carrier_name,
+		     CARR.ad_resource_carrier_id AS carrier_id,
+			 RES.ad_resource_info_id AS resource_id,
+			 RES.resource_name AS resource_name,
+			 RES.memo AS resource_meno,
+		     WOK.memo AS position_memo,
+		     RES.display_no as displayNo,
+		     RES.before_hand AS before_hand,
+		 
+			 RDI.total AS resource_total_times,
+		     RDI.used AS resource_used_times,
+			 if(WOK.broadcast_start_time<C.value,WOK.broadcast_start_time+86400,WOK.broadcast_start_time) as broadcast_start_time,
+		     WOK.broadcast_end_time 
+		 
+		     
+		 
+			 from tb_ad_resource_info RES
+		             left outer join tb_ad_resource_workspan WOK
+            on WOK.ad_resource_info_id = RES.ad_resource_info_id 
+		 		    left outer join tb_ad_resource_day_info RDI
+            on RDI.ad_resource_workspan_id = WOK.ad_resource_workspan_id
+		 				left outer join  tb_ad_resource_carrier CARR
+             on  CARR.ad_resource_carrier_id = RES.ad_resource_carrier_id
+		 		 		left outer join  tb_ad_resource_channel C
+             on  CARR.ad_resource_channel_id = C.resource_mediaorg_id
+		 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+				
+	     	  <isNotNull property="ResourceIdList">
+				 <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+					   RES.ad_resource_info_id = #ResourceIdList[]#
+				  </iterate>
+			  </isNotNull> 
+					
+			  <isNotEmpty prepend="AND" property="PublishDate">
+				   (RDI.publish_date = #PublishDate#)
+			   </isNotEmpty>	
+				
+			 <isNotNull prepend="AND" property="PublishDate">
+			   <![CDATA[ (WOK.begin_date <= #PublishDate# )]]> 	
+			 </isNotNull>	
+				
+
+		 	<isNotNull prepend="AND" property="PublishDate">
+					<![CDATA[ (WOK.end_date >= #PublishDate#)]]> 	
+			 </isNotNull>				
+
+          </dynamic>    
+  </select>     
+	
+	
+	
+
+    <select id="getPublishArrange" resultMap="publishArrangeResult">
+    <![CDATA[
+
+	 select ARR.is_arranged,ARR.carrier_id,ARR.carrier_name,ARR.create_by,ARR.create_date,ARR.file_path,ARR.arrange_id,ARR.is_enable,ARR.is_locked,
+		 ARR.memo,ARR.modify_by,ARR.modify_date,ARR.publish_date,ARR.resource_id,ARR.resource_total_times,ARR.resource_used_times,ARR.version,
+		 ARR.resource_meno as resource_meno,ARR.resource_name,
+		 ARR.before_hand as before_hand,
+		 RES.display_no as displayNo,
+		 ARW.broadcast_start_time,
+		 ARW.broadcast_end_time 
+		
+	 from tb_published_arrang ARR
+				 		   left outer join tb_ad_resource_info RES 
+		on ARR.resource_id = RES.ad_resource_info_id
+				 		   left outer join tb_ad_resource_workspan ARW
+		on ARW.ad_resource_info_id = RES.ad_resource_info_id
+		
+         where ARR.arrange_id = #value#
+    ]]>
+    </select>
+
+    <insert id="addPublishArrange" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_arrange_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_published_arrang (carrier_id,is_arranged,carrier_name,create_by,create_date,file_path,is_enable,is_locked,memo,modify_by,modify_date,publish_date,resource_id,resource_meno,resource_name,resource_total_times,resource_used_times,before_hand)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+	
+	<insert id="addPublishArrangeBak" parameterClass="java.util.Map">
+        <![CDATA[           
+			LOAD DATA INFILE #publishArrangePath#  INTO TABLE adrm_bak.tb_published_arrang
+        ]]>
+    </insert>
+	
+	<insert id="addPublishArrangeDetailBak" parameterClass="java.util.Map">
+        <![CDATA[
+			LOAD DATA INFILE #publishArrangeDetailPath#  INTO TABLE adrm_bak.tb_published_arrang_detail
+        ]]>
+    </insert>
+	
+	<insert id="producePublishArrangeBak" parameterClass="java.util.Map">
+        <![CDATA[
+            select * from adrm.tb_published_arrang where publish_date < #curDate# into outfile #publishArrangePath# 
+        ]]>
+    </insert>
+	
+	<insert id="producePublishArrangeDetailBak" parameterClass="java.util.Map">
+        <![CDATA[          
+				select pad.* from adrm.tb_published_arrang_detail pad
+						left outer join adrm.tb_published_arrang pa
+							on pad.arrange_id=pa.arrange_id
+				where publish_date < #curDate# into outfile #publishArrangeDetailPath#
+        ]]>		
+    </insert>
+
+    <update id="updatePublishArrange" parameterMap="updateParam">
+    <![CDATA[
+        update tb_published_arrang set
+		           before_hand = ?,
+				   carrier_id  = ?,
+				   is_arranged = ?,
+                   carrier_name = ?,
+                   file_path = ?,
+                   is_enable = ?,
+                   is_locked = ?,
+                   memo = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   publish_date = ?,
+                   resource_id = ?,
+                   resource_meno = ?,
+                   resource_name = ?,
+                   resource_total_times = ?,
+                   resource_used_times = ?,
+                   version = ?
+        where arrange_id = ?
+    ]]>
+    </update>
+
+    <delete id="deletePublishArrange">
+    <![CDATA[
+        delete from tb_published_arrang
+         where arrange_id = #value#
+    ]]>
+    </delete>
+	
+	
+	
+	
+   <update id="deletePublishArranges" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_published_arrang 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="PublishArrangeIdList">
+       	  <iterate prepend="AND" property="PublishArrangeIdList" open="(" close=")" conjunction="OR">
+		   			 arrange_id = #PublishArrangeIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+	 <update id="updatePublishArrangeLock" parameterClass="java.util.Map">
+    <![CDATA[
+        update tb_published_arrang set is_locked = #isLocked#
+    ]]>
+		<dynamic prepend="WHERE"> 
+		<isNotNull property="idList">
+		  <iterate  property="idList" open="(" close=")" conjunction="OR">
+		   			 arrange_id = #idList[]#
+		  </iterate>
+		  </isNotNull> 
+		</dynamic> 
+    </update>
+	
+	<select id="getPublishArrangeIdsByDateResid"   parameterClass="java.util.Map" resultClass="java.lang.Long">
+
+		select pa.arrange_id from tb_published_arrang as pa 
+
+		<dynamic prepend="WHERE"> 
+			
+		<isNotEmpty prepend="AND" property="publishDate">
+				   (pa.publish_date = #publishDate#)
+		</isNotEmpty>	
+				
+			
+		<isNotNull prepend="AND"  property="residList">
+		  <iterate  property="residList" open="(" close=")" conjunction="OR">
+		   			 pa.resource_id = #residList[]#
+		  </iterate>
+		 </isNotNull>
+
+		</dynamic> 
+   </select> 
+	
+</sqlMap>

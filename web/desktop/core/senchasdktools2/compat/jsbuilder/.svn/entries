@@ -1,0 +1,88 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/senchasdktools2/compat/jsbuilder
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+.commit-template
+file
+
+
+
+
+2013-05-17T07:37:04.841658Z
+90eb3486cfe65253500e91fa5740226e
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+tests
+dir
+
+JSBuilder
+file
+
+
+
+
+2013-05-17T07:37:04.841658Z
+b9d4b82bc08ac324ed2a23dd63d3d8f6
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+ycompressor
+dir
+
+src
+dir
+
+bin
+dir
+
+JSBuilder.bat
+file
+
+
+
+
+2013-05-17T07:37:04.841658Z
+ba64daf3bba17831d6f5605986ad6429
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+README.md
+file
+
+
+
+
+2013-05-17T07:37:04.841658Z
+f6c68286e932de9d66220c67fcd93419
+2012-11-24T05:32:05.899594Z
+6
+lxz
+

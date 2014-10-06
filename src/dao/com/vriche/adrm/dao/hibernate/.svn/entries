@@ -1,0 +1,40 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/src/dao/com/vriche/adrm/dao/hibernate
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T04:14:11.185661Z
+5
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+applicationContext-hibernate.xml
+file
+
+
+
+
+2013-05-17T07:34:59.772669Z
+bcd1a7214a71a19e143fc7a3c6ba7a80
+2012-11-24T04:14:11.185661Z
+5
+lxz
+

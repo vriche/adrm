@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/lib/urlrewrite-3.0-beta
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T07:09:15.330141Z
+27
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+urlrewrite-3.0-beta.jar
+file
+
+
+
+
+2013-05-17T07:35:14.664067Z
+1f3893827c0dd9884a1a479e17943b6a
+2012-11-24T07:09:15.330141Z
+27
+lxz
+has-props
+

@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+    "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OrgSQL">
+    <typeAlias alias="org" type="com.vriche.adrm.model.Org"/>
+
+	<cacheModel id="org-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="addOrg"/>
+		<flushOnExecute statement="updateOrg"/>
+		<flushOnExecute statement="deleteOrg"/>
+		<flushOnExecute statement="deleteOrgs"/>
+		<property name="size" value="1000" />
+	</cacheModel>
+
+    <parameterMap id="addParam" class="org">
+		<parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="orgType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="reportSignature" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="logo" jdbcType="BLOB" javaType="[B"/>
+		<parameter property="logoType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="reportTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="bankCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="bankName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="fax" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="linkMan" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.address" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.city" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.country" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.postalCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.province" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </parameterMap>
+
+    <parameterMap id="updateParam" class="org">
+		<parameter property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="displayNo" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="orgType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="reportSignature" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="reportTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="bankCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="bankName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="fax" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="linkMan" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="tel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.address" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.city" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.country" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.postalCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="address.province" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<!-- parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/ -->
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>
+	
+	
+    <parameterMap id="updateParamLogo" class="org">
+		<parameter property="logo" jdbcType="BLOB" javaType="[B"/>
+        <parameter property="logoType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>	
+	
+	<parameterMap id="updateSystemVersionMap" class="org">
+		<parameter property="version" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<parameter property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </parameterMap>	
+	
+	
+    <resultMap id="orgResult" class="org">
+		<result property="parentId" column="parent_id"/>
+        <result property="displayNo" column="display_no"/>		
+		<result property="orgType"   column="org_type"/>
+		<result property="logo"   column="logo"/>
+		<result property="logoType" column="logo_type"/>
+		<result property="reportTitle" column="report_title"/>
+		<result property="reportSignature" column="report_signature"/>
+        <result property="bankCode" column="bank_code"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="fax" column="fax"/>
+        <result property="id" column="sys_org_id"/>
+        <result property="linkMan" column="link_man"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="name" column="name"/>
+        <result property="tel" column="tel"/>
+        <result property="version" column="version"/>
+        <result property="address.address" column="address"/>
+        <result property="address.city" column="city"/>
+        <result property="address.country" column="country"/>
+        <result property="address.postalCode" column="postal_code"/>
+        <result property="address.province" column="province"/>
+    </resultMap>
+	
+	
+	
+    <select id="getOrgsCount" resultClass="java.lang.Integer">
+    <![CDATA[
+        select count(*) from tb_sys_org 
+    ]]>
+ 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reportSignature">
+			(report_signature = #reportSignature#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reportTitle">
+			(report_title = #reportTitle#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bankCode">
+			(bank_code = #bankCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bankName">
+			(bank_name = #bankName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(fax = #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sys_org_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkMan">
+			(link_man = #linkMan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tel">
+			(tel = #tel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.address">
+			(address = #address.address#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.city">
+			(city = #address.city#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.country">
+			(country = #address.country#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.postalCode">
+			(postal_code = #address.postalCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.province">
+			(province = #address.province#)
+			</isNotEmpty>
+		</dynamic>
+
+    </select>	
+	
+	
+ <resultMap id="orderResult2" extends="orgResult"  class="org">
+		<result property="sysAdmin.firstName" column="sysFirstName" nullValue=""/>
+		<result property="sysAdmin.lastName" column="sysLastName" nullValue=""/>
+    </resultMap>	
+	
+ <select id="getOrgs2" resultMap="orderResult2">
+       select tb_sys_org.* ,
+		tb_sys_user.first_name AS sysFirstName,
+		tb_sys_user.last_name AS sysLastName
+		
+		from tb_sys_org
+		
+		left outer join tb_sys_user on tb_sys_user.id = tb_sys_org.create_by 
+	 
+	 <dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="parentId">
+			(tb_sys_org.parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reportSignature">
+			(tb_sys_org.report_signature = #reportSignature#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reportTitle">
+			(tb_sys_org.report_title = #reportTitle#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bankCode">
+			(tb_sys_org.bank_code = #bankCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bankName">
+			(tb_sys_org.bank_name = #bankName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(tb_sys_org.create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(tb_sys_org.create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(tb_sys_org.fax = #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(tb_sys_org.sys_org_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkMan">
+			(tb_sys_org.link_man = #linkMan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(tb_sys_org.modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(tb_sys_org.modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(tb_sys_org.name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tel">
+			(tb_sys_org.tel = #tel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.address">
+			(tb_sys_org.address = #address.address#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.city">
+			(tb_sys_org.city = #address.city#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.country">
+			(tb_sys_org.country = #address.country#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.postalCode">
+			(tb_sys_org.postal_code = #address.postalCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.province">
+			(tb_sys_org.province = #address.province#)
+			</isNotEmpty>
+		</dynamic>
+	    order by tb_sys_org.display_no 
+</select>	
+	
+	
+	
+	
+	
+	
+	
+
+    <select id="getOrgs" resultMap="orgResult">
+    <![CDATA[
+        select * 
+		from tb_sys_org
+
+    ]]>
+ 	 	<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="parentId">
+			(parent_id = #parentId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reportSignature">
+			(report_signature = #reportSignature#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reportTitle">
+			(report_title = #reportTitle#)
+			</isNotEmpty> 
+			<isNotEmpty prepend="AND" property="bankCode">
+			(bank_code = #bankCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bankName">
+			(bank_name = #bankName#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createBy">
+			(create_by = #createBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createDate">
+			(create_date = #createDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+			(fax = #fax#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="id">
+			(sys_org_id = #id#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkMan">
+			(link_man = #linkMan#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyBy">
+			(modify_by = #modifyBy#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="modifyDate">
+			(modify_date = #modifyDate#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+			(name = #name#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tel">
+			(tel = #tel#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.address">
+			(address = #address.address#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.city">
+			(city = #address.city#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.country">
+			(country = #address.country#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.postalCode">
+			(postal_code = #address.postalCode#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address.province">
+			(province = #address.province#)
+			</isNotEmpty>
+		</dynamic>
+		
+		order by display_no 
+    </select>
+	
+    <select id="getOrgsByIdList" parameterClass="java.util.Map">
+     <![CDATA[  
+      select * from tb_sys_org 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrgIdList">
+       	  <iterate prepend="AND" property="OrgIdList" open="(" close=")" conjunction="OR">
+		   			 sys_org_id = #OrgIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>   
+		   order by display_no 
+  </select>     
+
+    <select id="getOrg" resultMap="orgResult">
+    <![CDATA[
+        select * from tb_sys_org
+         where sys_org_id = #value# 
+		order by display_no 
+    ]]>
+    </select>
+	
+
+	
+	
+
+    <insert id="addOrg" parameterMap="addParam">
+        <!--selectKey resultClass="java.lang.Long" keyProperty="id" >
+            SELECT SEQ_sys_org_id.NextVal AS id FROM DUAL
+        </selectKey-->
+        <![CDATA[
+            insert into tb_sys_org (parent_id,display_no,org_type,report_signature,logo,logo_type,report_title,bank_code,bank_name,create_by,create_date,fax,link_man,modify_by,modify_date,name,tel,address,city,country,postal_code,province)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+        ]]>
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="updateOrg" parameterMap="updateParam">
+    <![CDATA[
+        update tb_sys_org set 
+                   parent_id = ?,
+                   display_no = ?,		
+				   org_type = ?,		
+				   report_signature = ?,
+				   report_title = ?,
+                   bank_code = ?,
+                   bank_name = ?,
+                   create_by = ?,
+                   create_date = ?,
+                   fax = ?,
+                   link_man = ?,
+                   modify_by = ?,
+                   modify_date = ?,
+                   name = ?,
+                   tel = ?,
+                   address = ?,
+                   city = ?,
+                   country = ?,
+                   postal_code = ?,
+                   province = ?
+        where sys_org_id = ?
+    ]]>
+    </update>
+	
+	
+	
+	<update id="updateOrgLogo" parameterMap="updateParamLogo">
+    <![CDATA[
+        update tb_sys_org set
+				   logo = ?,
+				   logo_type = ?
+        where sys_org_id = ?
+    ]]>
+    </update>
+
+    <delete id="deleteOrg">
+    <![CDATA[
+        delete from tb_sys_org
+         where sys_org_id = #value# 
+    ]]>
+    </delete>
+	
+	
+	
+
+	
+	 <select id="getOrgsNew" resultMap="orgResult">
+    <![CDATA[
+		SELECT tb_sys_org.* 
+		FROM
+		tb_sys_user
+		Inner Join tb_sys_user_branch ON tb_sys_user.id = tb_sys_user_branch.user_id
+		Inner Join tb_sys_branch ON tb_sys_user_branch.branch_id = tb_sys_branch.sys_branch_id
+		Inner Join tb_sys_org ON tb_sys_branch.sys_org_id = tb_sys_org.sys_org_id 
+    ]]>
+ 	 	<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="createBy">
+			(tb_sys_user.id = #createBy#)
+			</isNotEmpty>
+		</dynamic>
+	
+		 order by tb_sys_org.display_no
+    </select>
+	
+	
+
+	
+	
+   <update id="deleteOrgs" parameterClass="java.util.Map">
+     <![CDATA[  
+      delete from tb_sys_org 
+       ]]> 
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="OrgIdList">
+       	  <iterate prepend="AND" property="OrgIdList" open="(" close=")" conjunction="OR">
+		   			 sys_org_id = #OrgIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>      
+  </update>   
+	
+
+	<select id="getUserOrgs" parameterClass="java.util.Map" resultMap="orgResult">
+      select *  from tb_sys_org 
+		     left outer join tb_sys_branch ON  tb_sys_branch.sys_org_id = tb_sys_org.sys_org_id  
+		     left outer join  tb_sys_user_branch ON tb_sys_branch.sys_branch_id= tb_sys_user_branch.branch_id
+		     left outer join tb_sys_user on   tb_sys_user.id = tb_sys_user_branch.user_id
+		  where tb_sys_user.username=#loginUser#  
+		  order by tb_sys_org.display_no 
+    </select> 	
+	
+    <select id="getUserOrgs_new" resultMap="orgResult">
+    <![CDATA[
+         select *  from tb_sys_org 
+    ]]>
+ 	 	  <dynamic prepend="WHERE"> 
+	      <isNotNull property="orgIdList">
+       	  <iterate prepend="AND" property="orgIdList" open="(" close=")" conjunction="OR">
+		   			 sys_org_id = #orgIdList[]#
+		  </iterate>
+		  </isNotNull> 
+          </dynamic>  		
+    </select>		
+	
+	
+</sqlMap>

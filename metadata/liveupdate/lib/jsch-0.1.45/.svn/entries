@@ -1,0 +1,41 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/metadata/liveupdate/lib/jsch-0.1.45
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T06:14:43.251038Z
+7
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+jsch.jar
+file
+
+
+
+
+2013-05-17T07:33:56.878782Z
+2a8b34e5d9d6994a4dbfc82b3bc45643
+2012-11-24T06:14:43.251038Z
+7
+lxz
+has-props
+

@@ -1,0 +1,67 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/desktop/core/senchasdktools2/compat/jsbuilder/tests
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+run.js
+file
+
+
+
+
+2013-05-17T07:37:03.919735Z
+d9c2768e4c2d7f13d5eef84642e89dc1
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+builder.js
+file
+
+
+
+
+2013-05-17T07:37:03.935360Z
+bec8b4617fbbc5d2404155579b096b8a
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+parser.js
+file
+
+
+
+
+2013-05-17T07:37:03.935360Z
+1a699c907d54d54a929c0620a54a68a3
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+parser
+dir
+

@@ -1,0 +1,52 @@
+8
+
+dir
+543
+svn://121.28.83.134:80/src1/adrm_2.0/web/scripts/customer/bak
+svn://121.28.83.134:80/src1
+
+
+
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1d344516-34cf-0410-a568-a96508c741ef
+
+income.js
+file
+
+
+
+
+2013-05-17T07:36:32.933751Z
+6464b23fd671e7c7709eec9bd4f85a97
+2012-11-24T05:32:05.899594Z
+6
+lxz
+
+customerService.js
+file
+
+
+
+
+2013-05-17T07:36:32.933751Z
+135e771764b920b7ff929b1de0a9c21b
+2012-11-24T05:32:05.899594Z
+6
+lxz
+

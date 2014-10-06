@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+
+
+
+<!-- web-app -->
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+
+	 <display-name>vriche</display-name>
+
+    <!-- precompiled jsp mappings -->
+    
+    <!-- Define the default CSS Theme -->
+    <context-param>
+        <param-name>theme</param-name>
+        <param-value>adrmworkspance</param-value>
+    </context-param>
+	<context-param>
+        <param-name>contractsort</param-name>
+        <param-value>1</param-value>
+    </context-param>
+    <!-- Define the basename for a resource bundle for I18N -->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>ApplicationResources</param-value>
+    </context-param>
+    <!-- Fallback locale if no bundles found for browser's preferred locale -->
+    <!-- Force a single locale using param-name 'javax.servlet.jsp.jstl.fmt.locale' -->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
+        <param-value>en</param-value>
+    </context-param>
+    <!-- Context Configuration locations for Spring XML files -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/applicationContext-*.xml
+            /WEB-INF/security.xml
+        </param-value>
+    </context-param>	
+	
+
+    <filter>
+        <filter-name>securityFilter</filter-name>
+        <filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
+        <init-param>
+            <param-name>targetClass</param-name>
+            <param-value>org.acegisecurity.util.FilterChainProxy</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>cacheFilter</filter-name>
+        <filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>clickstreamFilter</filter-name>
+        <filter-class>com.opensymphony.clickstream.ClickstreamFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>gbk</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+	
+    <filter>
+        <filter-name>hibernateFilter</filter-name>
+        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    </filter>
+	
+    <filter>
+        <filter-name>rewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+        <init-param>
+            <param-name>logLevel</param-name>
+            <param-value>commons</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>exportFilter</filter-name>
+        <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>compressionFilter</filter-name>
+        <filter-class>com.vriche.adrm.webapp.filter.GZIPFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>localeFilter</filter-name>
+        <filter-class>com.vriche.adrm.webapp.filter.LocaleFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/j_security_check</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+	
+    <filter-mapping>
+        <filter-name>securityFilter</filter-name>
+        <url-pattern>/j_security_check</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>securityFilter</filter-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>securityFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>securityFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>  
+  	
+    <!-- Commented out for 2 reasons: 1) it's a pain when developing JSPs, and
+                                      2) it causes the Signup webtest to fail -->
+    <!--filter-mapping>
+        <filter-name>cacheFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping-->
+    <!--filter-mapping>
+        <filter-name>hibernateFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping-->
+    <filter-mapping>
+        <filter-name>clickstreamFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>localeFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>localeFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>exportFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>compressionFilter</filter-name>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>compressionFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>compressionFilter</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>compressionFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>rewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <!--dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher-->
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+        <!--dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher-->
+    </filter-mapping>
+
+
+	
+	<!-- print service -->
+	<servlet>
+		<servlet-name>FillServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.action.FillServlet</servlet-class>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>FillServlet</servlet-name>
+		<url-pattern>/reports/fill</url-pattern>
+	</servlet-mapping>
+		
+	<servlet>
+		<servlet-name>printPublishedInfo</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.PublishePrintServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>printPublishedInfo</servlet-name>
+		<url-pattern>/reports/printPublish</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>publishPrintInfo</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.InfoPrintServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>publishPrintInfo</servlet-name>
+		<url-pattern>/reports/printInfo</url-pattern>
+	</servlet-mapping>		
+	
+	<servlet>
+		<servlet-name>printOrder</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.OrderPrintServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>printOrder</servlet-name>
+		<url-pattern>/reports/printOrder</url-pattern>
+	</servlet-mapping>		
+
+	<servlet>
+		<servlet-name>printBro</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.BroPrintServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>printBro</servlet-name>
+		<url-pattern>/reports/printBro</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>printArrange</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.PublishArrangeServlet</servlet-class>
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>printArrange</servlet-name>
+		<url-pattern>/reports/printArrange</url-pattern>
+	</servlet-mapping>	
+
+	
+	<servlet>
+		<servlet-name>printArrange2</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.PublishArrangeServlet2</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>printArrange2</servlet-name>
+		<url-pattern>/reports/printArrange2</url-pattern>
+	</servlet-mapping>
+	
+
+	<servlet>
+		<servlet-name>printTimes</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.publishArrangeTimesServlet</servlet-class>
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>printTimes</servlet-name>
+		<url-pattern>/reports/printTimes</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>commonReport</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.CommonReport</servlet-class>
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>commonReport</servlet-name>
+		<url-pattern>/reports/commonReport</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>queryAdres</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.QueryAdresServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>queryAdres</servlet-name>
+		<url-pattern>/reports/queryAdres</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>channIncome</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.ChannIncomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>channIncome</servlet-name>
+		<url-pattern>/reports/channIncome</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>yearTarget</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.YearTargetServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>yearTarget</servlet-name>
+		<url-pattern>/reports/yearTarget</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>customerYear</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.customerYearServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>customerYear</servlet-name>
+		<url-pattern>/reports/customerYear</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>incomeDetail</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.IncomeDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>incomeDetail</servlet-name>
+		<url-pattern>/reports/incomeDetail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>customerIncomeMoney</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.CustomerIncomeMoneyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>customerIncomeMoney</servlet-name>
+		<url-pattern>/reports/customerIncomeMoney</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>resourcePrint</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.ResourcePrintServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>resourcePrint</servlet-name>
+		<url-pattern>/reports/resourcePrint</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>analyCarrierMatter</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.AnalyCarrierMatterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>analyCarrierMatter</servlet-name>
+		<url-pattern>/reports/analyCarrierMatter</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>resourceAnalyze</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.ResourceAnalyzeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>resourceAnalyze</servlet-name>
+		<url-pattern>/reports/resourceAnalyze</url-pattern>
+	</servlet-mapping>
+	<!--servlet>
+		<servlet-name>dateSourceChange</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.DateSourceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dateSourceChange</servlet-name>
+		<url-pattern>/dateSourceChange</url-pattern>
+	</servlet-mapping-->
+	
+	
+  <!-- JFreeChar service -->
+  <servlet>
+    <servlet-name>DisplayChart</servlet-name>
+    <display-name>DisplayChart</display-name>
+    <description></description>
+    <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisplayChart</servlet-name>
+    <url-pattern>/servlet/DisplayChart</url-pattern>
+  </servlet-mapping>	
+	
+	
+	
+	<servlet>
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.ReportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>/servlet/reportServlet</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>fusionChartsSave</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.FusionChartsExportImg</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>fusionChartsSave</servlet-name>
+		<url-pattern>/fusionChartsSave</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>ImportExcelServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.ImportExcelServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ImportExcelServlet</servlet-name>
+		<url-pattern>/importExcelServlet</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>ImportCtrExcelServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.ImportCtrExcelServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ImportCtrExcelServlet</servlet-name>
+		<url-pattern>/servlet/importCtrExcelServlet</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>PrintServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.PrintServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>PrintServlet</servlet-name>
+		<url-pattern>/reports/printServlet</url-pattern>
+	</servlet-mapping>	
+	
+	
+	<servlet>
+		<servlet-name>CommonReportImpl</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.CommonReportImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>CommonReportImpl</servlet-name>
+		<url-pattern>/reports/commonReportImpl</url-pattern>
+	</servlet-mapping>	
+	
+	
+	<servlet>
+		<servlet-name>OrderListServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.OrderListServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>OrderListServlet</servlet-name>
+		<url-pattern>/servlet/orderListServlet</url-pattern>
+	</servlet-mapping>		
+	
+
+	<servlet>
+		<servlet-name>PaymentListServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.PaymentListServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>PaymentListServlet</servlet-name>
+		<url-pattern>/servlet/paymentListServlet</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>MatterListServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.MatterListServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>MatterListServlet</servlet-name>
+		<url-pattern>/servlet/matterListServlet</url-pattern>
+	</servlet-mapping>		
+	
+	<servlet>
+		<servlet-name>IncomeListServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.IncomeListServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>IncomeListServlet</servlet-name>
+		<url-pattern>/servlet/incomeListServlet</url-pattern>
+	</servlet-mapping>	
+	
+	
+	<servlet>
+		<servlet-name>IncomeUsedListServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.IncomeUsedListServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>IncomeUsedListServlet</servlet-name>
+		<url-pattern>/servlet/incomeUsedListServlet</url-pattern>
+	</servlet-mapping>		
+	
+	
+		<servlet>
+		<servlet-name>FileBrowserServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.FileBrowserServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>FileBrowserServlet</servlet-name>
+		<url-pattern>/servlet/fileBrowserServlet</url-pattern>
+	</servlet-mapping>	
+	
+
+	<servlet>
+		<servlet-name>ResourceTreeServlet</servlet-name>
+		<servlet-class>com.vriche.adrm.webapp.serlet.ResourceTreeServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ResourceTreeServlet</servlet-name>
+		<url-pattern>/servlet/resourceTreeServlet</url-pattern>
+	</servlet-mapping>	
+	
+
+	<servlet>
+		 <servlet-name>log4j-init</servlet-name>
+         <servlet-class>com.vriche.adrm.util.Log4jInit</servlet-class>
+         <init-param>
+           <param-name>log4j</param-name>
+           <param-value>WEB-INF/classes/log4j.properties</param-value>
+         </init-param>
+         <load-on-startup>0</load-on-startup>
+      </servlet>
+	
+	
+	
+
+	
+	
+	
+	
+	<!-- servlet>
+		<servlet-name>context</servlet-name>
+		<servlet-class>org.springframework.web.context.ContextLoaderServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet --> 
+	
+	<!-- listener>  
+		 <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
+	 </listener -->	
+	
+    <listener>
+        <listener-class>com.opensymphony.clickstream.ClickstreamListener</listener-class>
+    </listener>
+    <!-- listener>
+        <listener-class>net.sf.navigator.menu.MenuContextListener</listener-class>
+    </listener -->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.vriche.adrm.webapp.listener.StartupListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.vriche.adrm.webapp.listener.UserCounterListener</listener-class>
+    </listener>
+	<listener>
+	        <listener-class>org.acegisecurity.ui.session.HttpSessionEventPublisher</listener-class>
+	</listener> 
+	
+
+	
+	<!--servlet>
+		<servlet-name>XFireServlet</servlet-name>
+		<display-name>XFire Servlet</display-name>
+		<servlet-class>org.codehaus.xfire.transport.http.XFireConfigurableServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>XFireServlet</servlet-name>
+		<url-pattern>/servlet/XFireServlet/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>XFireServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping-->   
+	
+	
+	<servlet>
+    	<servlet-name>DhtmlExcelGeneratorServlet</servlet-name>
+    	<servlet-class>com.vriche.adrm.webapp.serlet.DhtmlExcelGeneratorServlet</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	    <servlet-name>DhtmlExcelGeneratorServlet</servlet-name>
+	    <url-pattern>/servlet/dhtmlExcelGeneratorServlet</url-pattern>
+  	</servlet-mapping>
+  	
+  	<servlet>
+    	<servlet-name>DhtmlCSVGeneratorServlet</servlet-name>
+    	<servlet-class>com.vriche.adrm.webapp.serlet.DhtmlCSVGeneratorServlet</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	    <servlet-name>DhtmlCSVGeneratorServlet</servlet-name>
+	    <url-pattern>/servlet/dhtmlCSVGeneratorServlet</url-pattern>
+  	</servlet-mapping>
+  	
+  	<servlet>
+    	<servlet-name>DhtmlHTMLGeneratorServlet</servlet-name>
+    	<servlet-class>com.vriche.adrm.webapp.serlet.DhtmlHTMLGeneratorServlet</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+	    <servlet-name>DhtmlHTMLGeneratorServlet</servlet-name>
+	    <url-pattern>/servlet/dhtmlHTMLGeneratorServlet</url-pattern>
+  	</servlet-mapping>  
+
+	
+	
+	
+	<servlet>
+		<display-name>Apache-Axis Servlet</display-name>
+		<servlet-name>AxisServlet</servlet-name>
+		<servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
+	</servlet>	
+	
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>*.jws</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/servlet/AxisServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>	
+	
+	
+  <!--servlet>
+  	<servlet-name>axis2</servlet-name>
+  	<servlet-class>
+  		org.wso2.spring.ws.servlet.SpringAxis2Servlet
+  	</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>axis2</servlet-name>
+  	<url-pattern>/axis2/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>axis2</servlet-name>
+  	<url-pattern>/services/*</url-pattern>
+  </servlet-mapping -->	
+	
+    
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>dwr-invoker</servlet-name>
+        <servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>400</error-code>
+        <location>/index.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/403.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+</web-app>
