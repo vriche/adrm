@@ -1652,6 +1652,9 @@
 		 		 
 				 left outer join tb_order_detail DT 
 			 on DT.order_id = O.order_id
+			 
+			 	 left outer join tb_order_category OC 
+			 on   DT.order_category_id = OC.order_category_id
 		 
 				 left outer join tb_sys_user U 
 			 on O.user_id = U.id

@@ -23,6 +23,7 @@
 
 <script type="text/javascript" src="<c:url value='/scripts/common/tree.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common/page.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/common/hashMap.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/class/address.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/user.js'/>"></script>

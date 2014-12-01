@@ -39,8 +39,10 @@ public class Matter extends BaseObjectWithoutNestedFormValidation {
     protected String name;  // required
     protected String edit;
     protected String length;
-    protected Long brandId;
-    protected Long customerId;
+    protected Long brandId;     //ÐÐÒµ
+    protected Long brandId2;    //Æ·ÅÆ
+
+	protected Long customerId;
     protected Integer matterType;
     protected String tapeCode;
 
@@ -69,8 +71,12 @@ public class Matter extends BaseObjectWithoutNestedFormValidation {
     protected Long industryType;
     
     protected Industry industry = new Industry();
+    protected Brand brand = new Brand();
     
-    private Long orgId;
+    
+    
+ 
+	private Long orgId;
     protected String loginUser ="";
     protected String helpCodeName;
     protected String helpCodeEdit;
@@ -194,6 +200,12 @@ public class Matter extends BaseObjectWithoutNestedFormValidation {
     public String getLength() {
         return length;
     }
+    public Long getBrandId2() {
+		return brandId2;
+	}
+	public void setBrandId2(Long brandId2) {
+		this.brandId2 = brandId2;
+	}
     /**
      * 
      * Returns the brandId
@@ -555,6 +567,11 @@ public class Matter extends BaseObjectWithoutNestedFormValidation {
 	public void setSave2dayang(String save2dayang) {
 		this.save2dayang = save2dayang;
 	}	
-	
+	   public Brand getBrand() {
+			return brand;
+		}
+		public void setBrand(Brand brand) {
+			this.brand = brand;
+		}
 	
 }

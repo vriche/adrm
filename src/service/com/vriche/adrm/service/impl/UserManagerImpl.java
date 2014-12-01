@@ -796,14 +796,14 @@ public class UserManagerImpl extends BaseManager implements UserManager {
 	}
 	
 //	parentUserId,allCheckedBranches,IdPrefix
-	public void saveUserRel2(String parentUserId,String idStr, String IdPrefix) {
+	public void saveUserRel2(String[] orgs,String parentUserId,String idStr, String IdPrefix) {
 		
 //		System.out.println("parentUserId>>>>>>>>>>>>>>>>>>>>>>>>>>>77777777777777888888888888888888888888888877777777777777777777 parentUserId>>>>>>>>>>>>>>>>"+parentUserId) ;
 //		System.out.println("idStr>>>>>>>>>>>>>>>>>>>>>>>>>>>77777777777777888888888888888888888888888877777777777777777777 idStr >>>>>>>>>>>>>>>>"+idStr) ;
 //		System.out.println("idStr>>>>>>>>>>>>>>>>>>>>>>>>>>>77777777777777888888888888888888888888888877777777777777777777 idStr >>>>>>>>>>>>>>>>"+"".equals(idStr)) ;
 		
 		
-		String[] orgs = getUserOrgs(parentUserId);
+//		String[] orgs = getUserOrgs(parentUserId);
 		
 		
 		for(int i = 0;i<orgs.length;i++){
@@ -820,9 +820,6 @@ public class UserManagerImpl extends BaseManager implements UserManager {
 			}
 		}
 
-		
-
-		
 		String[] branchedIds = idStr.split(",");
 		
 		Map mp0 = new HashMap();

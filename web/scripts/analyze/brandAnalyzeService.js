@@ -644,6 +644,9 @@ function getResourceAdverTable(){
 		matterNames = matterNames ==''?new Array():matterNames.split(",");
 //		console.log(matterNames);
 //		alert(1)
+		
+		//alert(matterNames);
+		
 		analyzeClass.obj.orderDetail.matter.matterNames =  matterNames;
 	  
 		if(analyzeClass.obj.orderDetail.matter.resourceIds == null) analyzeClass.obj.orderDetail.matter.resourceIds = new Array();

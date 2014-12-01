@@ -15,7 +15,10 @@
 		<property name="size" value="1000" />
 	</cacheModel>
 	
+
+	
     <parameterMap id="addParam" class="matter">
+   	    <parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
 		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
@@ -37,6 +40,7 @@
 
 
     <parameterMap id="updateParam" class="matter">
+     	<parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
 		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
@@ -72,6 +76,7 @@
         <result property="edit" column="edit"/>
         <result property="length" column="length"/>
 		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="brandId2" column="brand_id"/>
 		<result property="customerId" column="customer_id"/>
         <result property="matterType" column="adver_matter_type"/>
 		<result property="customer" column="customer_id" select="getCustomerClass"/>
@@ -92,6 +97,7 @@
         <result property="edit" column="edit"/>
         <result property="length" column="length"/>
 		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="brandId2" column="brand_id"/>
 		<result property="customerId" column="customer_id"/>
         <result property="matterType" column="adver_matter_type"/>
 
@@ -100,7 +106,8 @@
 		<result property="customer.id" column="customer_id" />
 		<result property="matType.name" column="matType_name" />
 		
-		
+		<result property="brand.name" column="brand_name" />
+
 		<result property="industry.name" column="industry_name"/>
 		<result property="industry.parentName" column="industy_parent_name"/>
 		
@@ -109,6 +116,10 @@
     <resultMap id="matterResultTest2" class="matter">
         <result property="orgId" column="sys_org_id"/>
 		<result property="id" column="adver_matter_id"/>
+		
+		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="brandId2" column="brand_id"/>
+		
 		<result property="name" column="name"/>
 		<result property="memo" column="memo"/>
 		<result property="tapeCode" column="tape_code"/>
@@ -165,8 +176,8 @@
 				ci.customer_name,
 				ci.customer_id,
 				ci.customer_category_id,
-		        ty.name as matType_name
-				from tb_adver_matter mt
+		        ty.name as matType_name 
+				from tb_adver_matter mt 
 				left outer join tb_customer_info ci on mt.customer_id = ci.customer_id
 				left outer join tb_order_detail od on od.adver_matter_id = mt.adver_matter_id
 				left outer join tb_order_day_info  oi on od.order_detail_id = oi.order_detail_id 
@@ -196,6 +207,11 @@
                group by mt.adver_matter_id 
 		]]>
 			 <dynamic prepend="HAVING"> 
+			 
+			<isNotEmpty prepend="AND" property="brandId2">
+			(mt.brand_id = #brandId2#)
+			</isNotEmpty> 	
+						 
 			 <isNotEmpty property="endDate" prepend="AND">
                     <![CDATA[ max(oi.publish_date) = #endDate# ]]>
              </isNotEmpty> 
@@ -227,7 +243,10 @@
 				 left outer join tb_order O
 			 on DT.order_id = O.order_id		
 
-		 <dynamic prepend="WHERE"> 			
+		 <dynamic prepend="WHERE"> 	
+			<isNotEmpty prepend="AND" property="brandId2">
+			(MT.brand_id = #brandId2#)
+			</isNotEmpty> 			 		
 					
 			<isNotEmpty prepend="AND" property="name">
 			(MT.name like '%$name$%')
@@ -252,20 +271,23 @@
 	
 	 <select id="getMattersByResCut" parameterClass="java.util.Map"  resultClass="matter">
     <![CDATA[
-			SELECT DISTINCT MT.name 
-				FROM tb_adver_matter MT	
+			SELECT DISTINCT MT.name 	FROM tb_adver_matter MT	
 		
-						 left outer join  tb_order_detail DT
+				 left outer join  tb_order_detail DT
 			 on MT.adver_matter_id = DT.adver_matter_id 
 		
 				 left outer join tb_order O
 			 on DT.order_id = O.order_id	
 
-						left outer join tb_ad_resource_info RI
+				 left outer join tb_ad_resource_info RI
 			 on RI.ad_resource_info_id = DT.ad_resource_info_id 	
 		
 	]]>
 		 <dynamic prepend="WHERE"> 	
+		 
+			<isNotEmpty prepend="AND" property="brandId2">
+			(MT.brand_id = #brandId2#)
+			</isNotEmpty> 			 
 			 
 			<isNotNull property="carrierIdList">
 				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
@@ -292,7 +314,7 @@
 			</isNotNull> 			 	 		 		
 					
 			<isNotNull prepend="AND" property="matterName">
-				(MT.name like '%$matterName$%')
+				(MT.name like '%$matterName$%' )
 			</isNotNull>
 			 
 			<isNotNull prepend="AND" property="version">
@@ -357,6 +379,10 @@
 
     ]]>
 	 	<dynamic prepend="WHERE"> 
+			<isNotEmpty prepend="AND" property="brandId2">
+			(MT.brand_id = #brandId2#)
+			</isNotEmpty> 	
+	 	
 			<isNotEmpty prepend="AND" property="customerId">
 			(MT.customer_id = #customerId# OR O.customer_id = #customerId#)
 			</isNotEmpty>
@@ -396,11 +422,14 @@
 		mt.customer_id, 
 		mt.memo,		
 		mt.sys_org_id,
+		mt.adver_product_brand_id,		
+		mt.brand_id,		
+		
 		ci.customer_name,
 		ci.customer_id,
 		ci.customer_category_id,
 		ty.name as matType_name
-		
+
 		from tb_adver_matter mt
 		
 		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id 
@@ -411,6 +440,10 @@
 			<isNotEmpty prepend="AND" property="tapeCode">
 			(mt.tape_code = #tapeCode#)
 			</isNotEmpty>
+			
+			<isNotNull prepend="AND" property="brandId2">
+			(MT.brand_id = #brandId2#)
+			</isNotNull>			
 			<isNotEmpty prepend="AND" property="brandId">
 			(mt.adver_product_brand_id = #brandId#)
 			</isNotEmpty>
@@ -482,6 +515,10 @@
         select distinct mt.length from tb_adver_matter mt 	
 
 	 	<dynamic prepend="WHERE"> 
+	 	
+			<isNotEmpty prepend="AND" property="brandId2">
+			(mt.brand_id = #brandId2#)
+			</isNotEmpty>	 	
 			
 			<isNotEmpty prepend="AND" property="name">
 			(mt.name  = #name#)
@@ -514,6 +551,10 @@
      from tb_adver_matter mt 
 
 	 	<dynamic prepend="WHERE"> 
+	 	
+			<isNotEmpty prepend="AND" property="brandId2">
+			(mt.brand_id = #brandId2#)
+			</isNotEmpty>	 	
 			
 			<isNotEmpty prepend="AND" property="name">
 			(mt.name  = #name#)
@@ -545,6 +586,7 @@
  <select id="getMattersByOrderId"  parameterClass="matter" resultMap="matterResultTest2">
     <![CDATA[
         select 
+        
 		mt.name,
 		mt.adver_matter_id,
 		mt.enable,mt.edit,
@@ -554,12 +596,15 @@
 		mt.customer_id, 
 		mt.memo,		
 		mt.sys_org_id,
+		mt.adver_product_brand_id,		
+		mt.brand_id,		
+		
 		ci.customer_name,
 		ci.customer_id,
 		ci.customer_category_id,
 		ty.name as matType_name
 		
-		from tb_adver_matter mt
+		from tb_adver_matter mt 
 		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id 
 		left outer join tb_adver_matter_type ty on ty.matter_type_id = mt.adver_matter_type 
 		inner join  tb_order_detail od on mt.adver_matter_id = od.adver_matter_id
@@ -571,6 +616,9 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="brandId">
 			(mt.adver_product_brand_id = #brandId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="brandId2">
+			(mt.brand_id = #brandId2#)
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="createBy">
 			(mt.create_by = #createBy#)
@@ -625,6 +673,8 @@
 		ci.customer_category_id,
 		ty.name as matType_name,
 		
+		PRODUCTBRAND.name as brand_name,
+		
 		INDU.name as industry_name,
 		INDUPARENT.name as industy_parent_name   
 		
@@ -638,9 +688,17 @@
 		
 		left outer  join  tb_customer_industry_type INDUPARENT 
 		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+		                     
+		inner  join  tb_adver_product_brand PRODUCTBRAND   
+		                     on mt.brand_id = PRODUCTBRAND.adver_product_brand_id	                     
+		                     
  
 	 	<dynamic prepend="WHERE"> 
-			
+	 	
+			<isNotEmpty prepend="AND" property="brandId2">
+			(mt.brand_id = #brandId2#)
+			</isNotEmpty>	 	
+
 			<isEmpty prepend="AND" property="id">
 				<![CDATA[(mt.adver_matter_id > 0) ]]>
 			</isEmpty>
@@ -676,6 +734,10 @@
 		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id
     ]]>
 	 	<dynamic prepend="WHERE"> 
+	 	
+			<isNotEmpty prepend="AND" property="brandId2">
+			(mt.brand_id = #brandId2#)
+			</isNotEmpty>		 	
 			 
 			<isEmpty prepend="AND" property="id">
 				<![CDATA[(mt.adver_matter_id > 0) ]]>
@@ -701,6 +763,8 @@
 			</isNotEmpty>				 
 		</dynamic>
 	</select>
+	
+	
 <select id="getMattersCount" resultClass="java.lang.Integer">
 		<![CDATA[   
 		select count(*) from tb_adver_matter 
@@ -711,6 +775,9 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="brandId">
 			(adver_product_brand_id = #brandId#)
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="brandId2">
+			(brand_id = #brandId2#)
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="createBy">
 			(create_by = #createBy#)
@@ -749,8 +816,8 @@
 			(name = #name#)
 			</isNotEmpty>
 			 
-			 <isNotEmpty prepend="AND" property="orgId">
-				(sys_org_id = #orgId#) 
+			<isNotEmpty prepend="AND" property="orgId">
+			(sys_org_id = #orgId#) 
 			</isNotEmpty>	
 		</dynamic>
 		
@@ -758,9 +825,7 @@
 	
 	
     <select id="getMattersByIdList" parameterClass="java.util.Map" resultMap="matterResult">
-     <![CDATA[  
-      select * from tb_adver_matter 
-       ]]> 
+     <![CDATA[  select * from tb_adver_matter  ]]> 
  	 	  <dynamic prepend="WHERE"> 
 	      <isNotNull property="MatterIdList">
        	  <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
@@ -774,6 +839,9 @@
 	<resultMap id="orderResult_new_test" extends="matterResult"  class="matter">
 		<result property="industryType" column="industry_type_id"/>
 		<result property="industry.name" column="industry_name"/>
+		
+		<result property="brand.id" column="brand_id"/>
+		<result property="brand.name" column="brand_name"/>		
     </resultMap>	
 	
 	<resultMap id="orderResult_new_test2" extends="matterResult"  class="matter">
@@ -781,28 +849,43 @@
 		<result property="industry.name" column="industry_name"/>
 		<result property="industry.parentName" column="industy_parent_name"/>	
 		<result property="industry.id" column="industry_id"/>
+		
+		<result property="brand.id" column="brand_id"/>
+		<result property="brand.name" column="brand_name"/>
+		
     </resultMap>	
 	
     <select id="getMatterByTapCode" resultMap="orderResult_new_test2">
    
-        select MT.*
+        select MT.* 
 		,INDU.name as industry_name
 		,INDUPARENT.name as industy_parent_name 
 		,INDUPARENT.customer_industry_type_id as industry_id 
 		,MT.adver_product_brand_id as industry_type_id  
+		
+		,MT.brand_id as brand_id  
+		,PRODUCTBRAND.name as brand_name  
 		 
 		 from tb_adver_matter MT 
 		
-		left outer join tb_customer_industry_type INDU
+		 inner  join  tb_customer_industry_type INDU
 			 on INDU.customer_industry_type_id = MT.adver_product_brand_id 	
 		
-		  inner  join  tb_customer_industry_type INDUPARENT 
+		 left outer join tb_customer_industry_type INDUPARENT 
 		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+		                     
+		 inner  join  tb_adver_product_brand PRODUCTBRAND   
+		                     on MT.brand_id = PRODUCTBRAND.adver_product_brand_id	
+		                     	                     
+		                     
    
 	 	<dynamic prepend="WHERE"> 
 			 <isNotNull prepend="AND" property="id">
 			(MT.adver_matter_id = #id#)
 			</isNotNull>
+			<isNotNull prepend="AND" property="brandId2">
+			(MT.brand_id = #brandId2#)
+			</isNotNull>			
 			<isNotNull prepend="AND" property="edit">
 			(MT.edit = #edit#)
 			</isNotNull>
@@ -830,8 +913,15 @@
         select MT.*
 		,INDU.name as industry_name
 		,MT.adver_product_brand_id as industry_type_id  
+		
+		,MT.brand_id as brand_id  
+		,PRODUCTBRAND.name as brand_name  		
+		
 		 
 		 from tb_adver_matter MT 
+		 
+		 inner  join  tb_adver_product_brand PRODUCTBRAND   
+		                     on MT.brand_id = PRODUCTBRAND.adver_product_brand_id			 
 		
 		left outer join tb_customer_industry_type INDU
 			 on INDU.customer_industry_type_id = MT.adver_product_brand_id 	
@@ -840,6 +930,9 @@
 			 <isNotNull prepend="AND" property="id">
 			(MT.adver_matter_id = #id#)
 			</isNotNull>
+			<isNotNull prepend="AND" property="brandId2">
+			(MT.brand_id = #brandId2#)
+			</isNotNull>				
 			<isNotNull prepend="AND" property="edit">
 			(MT.edit = #edit#)
 			</isNotNull>
@@ -852,16 +945,15 @@
 			<isNotEmpty prepend="AND" property="tapeCode">
 			(MT.tape_code = #tapeCode#)
 			</isNotEmpty>
-			 
-			 <isNotEmpty prepend="AND" property="orgId">
-				(MT.sys_org_id = #orgId#) 
+			<isNotEmpty prepend="AND" property="orgId">
+			(MT.sys_org_id = #orgId#) 
 			</isNotEmpty>	
 		</dynamic>
     </select>
 
     <select id="getMatterClass" resultClass="matter">
     <![CDATA[
-        select adver_matter_id as id,name,edit,length,tape_code as tapeCode from tb_adver_matter
+        select brand_id as brandId2,adver_matter_id as id,name,edit,length,tape_code as tapeCode from tb_adver_matter
          where adver_matter_id = #value#
     ]]>
     </select>
@@ -871,8 +963,8 @@
             SELECT SEQ_adver_matter_id.NextVal AS id FROM DUAL
         </selectKey-->
         <![CDATA[
-            insert into tb_adver_matter (help_code_name,help_code_edit,sys_org_id,tape_code,adver_product_brand_id,create_by,create_date,customer_id,edit,enable,length,adver_matter_type,memo,modify_by,modify_date,name)
-            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+            insert into tb_adver_matter (brand_id,help_code_name,help_code_edit,sys_org_id,tape_code,adver_product_brand_id,create_by,create_date,customer_id,edit,enable,length,adver_matter_type,memo,modify_by,modify_date,name)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
         ]]>
 		
 		<selectKey resultClass="java.lang.Long" keyProperty="id">
@@ -883,6 +975,7 @@
     <update id="updateMatter" parameterMap="updateParam">
     <![CDATA[
         update tb_adver_matter set 
+        		   brand_id = ?,
 				   help_code_name = ?,
 				   help_code_edit = ?,
 				   sys_org_id = ?,
@@ -947,6 +1040,10 @@
 				(MT.adver_product_brand_id = #brandId#)
 			</isNotEmpty>	
 			
+			<isNotEmpty prepend="AND" property="brandId2">
+				(MT.brand_id = #brandId2#)
+			</isNotEmpty>			
+			
 		</dynamic>
 		 
 		 order by MT.adver_matter_id desc 
@@ -980,6 +1077,10 @@
 				(MT.adver_product_brand_id = #brandId#)
 			</isNotEmpty>	
 			
+			<isNotEmpty prepend="AND" property="brandId2">
+				(MT.brand_id = #brandId2#)
+			</isNotEmpty>			
+			
 		</dynamic>
 		 
 		 order by MT.adver_matter_id desc 
@@ -998,6 +1099,8 @@
 	<resultMap id="matterResult_new"   class="matter">
 		<result property="id" column="adver_matter_id"/>
 		<result property="brandId" column="adver_product_brand_id"/>
+		<result property="brandId2" column="brand_id"/>
+		<result property="brand.name" column="brand_name" nullValue=""/>
 		<result property="matterType" column="adver_matter_type"/>
 		<result property="matType.name" column="matType_name"/>
 		<result property="tapeCode" column="tape_code"/>
@@ -1022,6 +1125,9 @@
 		    CUT.customer_category_id,
 			MT.adver_matter_id,
 			MT.adver_product_brand_id,
+			MT.brand_id,
+			PRODUCTBRAND.name as brand_name,
+			
 		    MT.tape_code,
 		 	MT.adver_matter_type,
 			MT.name,
@@ -1044,38 +1150,38 @@
 					  on TY.matter_type_id = MT.adver_matter_type 	
 		 
 	  		left outer join tb_customer_info CUT 
-					  on MT.customer_id = CUT.customer_id  	 	 	   	
+					  on MT.customer_id = CUT.customer_id  	 
+					  	
+	 		inner  join  tb_adver_product_brand PRODUCTBRAND   
+		                     on MT.brand_id = PRODUCTBRAND.adver_product_brand_id						  
+					   	   	
 		 
-		 <dynamic prepend="WHERE"> 			
-		 
+		 <dynamic prepend="WHERE"> 		
+		 	
+			<isNotEmpty prepend="AND" property="brandId2">
+				(MT.brand_id = #brandId2#)
+			</isNotEmpty>			 
 			 <isNotEmpty prepend="AND" property="orgId">
 				(MT.sys_org_id = #orgId#) 
 			</isNotEmpty>
-			 
 			<isNotEmpty prepend="AND" property="name">
 				<![CDATA[  (MT.name like '%$name$%' or MT.help_code_name like '%$name$%')  ]]> 
 			</isNotEmpty>
-			 
 			<isNotEmpty prepend="AND" property="edit">
 				<![CDATA[  (MT.edit like '%$edit$%' or MT.help_code_edit like '%$edit$%')  ]]> 
-			</isNotEmpty>	
-			 		 
+			</isNotEmpty>	 
 			<isNotEmpty prepend="AND" property="length">
 				(MT.length = #length#)
 			</isNotEmpty>
-			 
 			<isNotEmpty prepend="AND" property="brandId">
 				<![CDATA[ (MT.adver_product_brand_id = #brandId# or INDUPARENT.customer_industry_type_id = #brandId# )  ]]> 
 			</isNotEmpty>	
-			 
 			<isNotEmpty prepend="AND" property="tapeCode">
 				<![CDATA[  (MT.tape_code like '%$tapeCode$%')  ]]> 
 			</isNotEmpty>			 
-
 			<isNotEmpty prepend="AND" property="matterType">
 				(MT.adver_matter_type = #matterType#)
 			</isNotEmpty>
-			 
 			<isNotEmpty prepend="AND" property="customerName">
 				(CUT.customer_name like '%$customerName$%' OR CUT.help_code like '%$customerName$%')
 			</isNotEmpty>				 
@@ -1088,9 +1194,7 @@
   <select id="getMattersNewsCount"  resultClass="java.lang.Integer">
 
 	 select 
-			count(MT.adver_matter_id)
-
-			FROM tb_adver_matter MT  
+			count(MT.adver_matter_id) FROM tb_adver_matter MT  
 		 
 			left outer join tb_customer_industry_type INDU
 				 on INDU.customer_industry_type_id = MT.adver_product_brand_id 		
@@ -1105,7 +1209,11 @@
 					  on MT.customer_id = CUT.customer_id  	 
 		 	 
 
-		 <dynamic prepend="WHERE"> 			
+		 <dynamic prepend="WHERE"> 		
+		 
+			<isNotEmpty prepend="AND" property="brandId2">
+				(MT.brand_id = #brandId2#)
+			</isNotEmpty>			 	
 		 
 			 <isNotEmpty prepend="AND" property="orgId">
 				(MT.sys_org_id = #orgId#) 
@@ -1122,7 +1230,7 @@
 			<isNotEmpty prepend="AND" property="length">
 				(MT.length = #length#)
 			</isNotEmpty>
-			 
+
 			<isNotEmpty prepend="AND" property="brandId">
 				<![CDATA[ (MT.adver_product_brand_id = #brandId# or INDUPARENT.customer_industry_type_id = #brandId# )  ]]> 
 			</isNotEmpty>	

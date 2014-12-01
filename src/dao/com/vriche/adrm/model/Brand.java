@@ -12,6 +12,7 @@ package com.vriche.adrm.model;
 import java.util.Date;
 
 
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -40,8 +41,11 @@ public class Brand extends BaseObject {
     protected Integer version;
     protected String memo;
     protected Boolean enable;
+    protected String helpCode;
+    protected Long parentId;
     
-    public Brand(){};
+    
+	public Brand(){};
     public Brand(String name) {
         this.name = name;
     }
@@ -225,4 +229,17 @@ public class Brand extends BaseObject {
                 .append("createBy", this.createBy).append("createDate",
                         this.createDate).toString();
     }
+    
+    public String getHelpCode() {
+		return helpCode;
+	}
+	public void setHelpCode(String helpCode) {
+		this.helpCode = helpCode;
+	}
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
 }

@@ -1353,7 +1353,11 @@
 		<result property="matter.tapeCode" column="matterTapeCode"/>
 		<result property="matter.edit" column="matterEdit"/>
 		<result property="matter.length" column="matterLength"/>
-		<result property="matter.matterType" column="matType"/>
+		<result property="matter.matterType" column="matType"/> 
+		<result property="matter.brandId2" column="brand_id"/>
+		<result property="matter.brand.id" column="brand_id"/>
+		<result property="matter.brand.name" column="brand_name"/>
+		
 		 
 		<result property="resource.resourceName" column="resourceName"/>
 		<result property="resource.memo" column="resourceMemo"/>
@@ -1395,6 +1399,10 @@
     <select id="getOrderDetail" parameterClass="java.lang.Long" resultMap="orderDetailResult_one_result">
 
 		 select 
+		 
+		 	 BRAN.name as brand_name,
+ 			 BRAN.adver_product_brand_id as brand_id,
+
 		     OD.*, 
 		     OD.sys_price*OD.sum_times  as money_base, 
 		
@@ -1430,6 +1438,9 @@
 			
 					  inner  join tb_adver_matter AM 
 				 on OD.adver_matter_id = AM.adver_matter_id 
+				 
+				      inner  join tb_adver_product_brand BRAN 
+				 on BRAN.adver_product_brand_id = AM.brand_id
 		
 				   inner  join   tb_ad_resource_info RS 
 				 on OD.ad_resource_info_id = RS.ad_resource_info_id

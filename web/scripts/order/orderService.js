@@ -15,6 +15,8 @@ var specific = new Specific();
 var oaAreaCity = new OaAreaCity();
 var customerAddress = new CustomerAddress();
 var linkMan = new LinkMan();
+var brand = new Brand();
+
  
 var report = new MyPrint();
 var user = new User();
@@ -138,8 +140,11 @@ function init(){
 	
 	_make_adrm_sys_year_select("order_year",_app_params.serviceDate.adrmSysYear);
 	
-
-	
+	var brandCmd = brand.getBrandCmd(brand.obj,'extBrandIdDiv','search_brand',null,80,'品牌...',null);
+//	brandCmd.on('expand', function(comboBox) {
+//	        comboBox.list.setWidth('240px'); //auto
+//	        comboBox.innerList.setWidth('auto');
+//	    }, this, { single: true }); 
 	
 	//如果订单号存在，则为编辑状态
 	var srcStr = window.location.href;
@@ -2310,6 +2315,9 @@ function setOrderDetail(o,isEdit,isRemove){
 	
 	inti_set_orderSubCate(o.orderCategoryId,o.orderCategory.name,o.orderCategory.calculateAuto);
     inti_set_industry(o.industry);
+    Ext.getCmp('search_brand').setValue(o.matter.brand.id);
+    Ext.getCmp('search_brand').setRawValue(o.matter.brand.name)
+//    alert(o.matter.brand.name)
     
 //	$("orderDetail_mod_by").value = Ext.fly('userId').dom.value;
 	$("orderDetail_mod_date").value = formatDateGlobal5(o.modifyDate);
@@ -3420,6 +3428,7 @@ function getMatterObj(oDetail){
 		matter.obj.matterType = matterType;
 //		matter.obj.brandId = $("industryTypeId").value; 
 		matter.obj.brandId = industry.treecombo.passField.getValue();
+		matter.obj.brandId2 =  Ext.getCmp('search_brand').getValue();
 		matter.obj.version = 0;
 		matter.obj.enable = true;
 		matter.obj.createBy = loginUserId;
@@ -6445,7 +6454,7 @@ function initOrderCategory1Cmd(){
 				  mode:mode,
 				  cls:'CURSOR: pointer;',
 		//		  readOnly:true,
-				   width:144,
+				   width:64,
 		//		   typeAhead: true,
 				   forceSelection:false, 
 				  allowBlank:false,
@@ -7014,7 +7023,8 @@ function close_search_adver_winWin(p,my_grid_matter,model){
 		
 		var rowId =(p == 1)? my_grid_matter.getSelectedId():my_grid_matter.id;
 		
-		var customerName =  (p == 1)?my_grid_matter.cells(rowId,0).getValue():my_grid_matter.customerName;
+//		var customerName =  (p == 1)?my_grid_matter.cells(rowId,0).getValue():my_grid_matter.customerName;
+		
 		var name = (p == 1)?decode_string_xml(my_grid_matter.cells(rowId,1).getValue()):decode_string_xml(my_grid_matter.name);
 		var edit = (p == 1)?decode_string_xml(my_grid_matter.cells(rowId,2).getValue()):decode_string_xml(my_grid_matter.edit);
 		var length = (p == 1)?my_grid_matter.cells(rowId,3).getValue():my_grid_matter.length;
@@ -7023,8 +7033,8 @@ function close_search_adver_winWin(p,my_grid_matter,model){
 		
 		var brandId =  (p == 1)?my_grid_matter.getUserData(rowId,"brandId"):my_grid_matter.brandId;
 		var matterType =  (p == 1)?my_grid_matter.getUserData(rowId,"matterType"):my_grid_matter.matterType;
-		var customerId =  (p == 1)?my_grid_matter.getUserData(rowId,"customerId"):my_grid_matter.customerId;
-		var customerCategoryId =  (p == 1)?my_grid_matter.getUserData(rowId,"customerCategoryId"):my_grid_matter.customerCategoryId;
+//		var customerId =  (p == 1)?my_grid_matter.getUserData(rowId,"customerId"):my_grid_matter.customerId;
+//		var customerCategoryId =  (p == 1)?my_grid_matter.getUserData(rowId,"customerCategoryId"):my_grid_matter.customerCategoryId;
 
 
 		if(model ==1){
@@ -7059,7 +7069,7 @@ function search_adver_cont(model){
    var matter_fin = new Matter();
    var industry_fin = new Industry();
    var customer_fin = new Customer();
-   var  customerId = Ext.getCmp('customerName').getValue();	
+   var customerId = Ext.getCmp('customerName').getValue();	
    var customerName =  Ext.fly('customerName').dom.value; 
    
    if(customerId =='') customerName ='';
@@ -7109,7 +7119,7 @@ function search_adver_cont(model){
    	   customer_fin.obj.orgId = orgId;
    	   matter_fin.obj.orgId = orgId;
    	   
-   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
+//   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
    	   var nameCmd = matter_fin.getCommandForSelect('search_adver_name','广告名称...','name',1,110,callFunction);
    	   var editCmd = matter_fin.getCommandForSelect('search_adver_edit','请输入广告版本...','edit',1,190,callFunction);
    	   var lengthCmd = matter_fin.getCommandForSelect('search_adver_len','长度...','length',1,70,callFunction);
@@ -7128,7 +7138,8 @@ function search_adver_cont(model){
 			width : 800,
 			height : 500, 
 //			tbar:[tapecodeCmd,'-',nameCmd,'-',nameCmd,'-',editCmd,'-',lengthCmd,'-',industryCmd],
-			tbar:[customerCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+//			tbar:[customerCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+			tbar:[nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
 			buttons: [addNewBtn,'-',closeBtn], 
 //			buttons: [closeBtn], 
 			contentEl : Ext.DomHelper.append(document.body, {

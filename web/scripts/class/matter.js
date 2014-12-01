@@ -8,6 +8,7 @@ function Matter(){
 	    edit:null,
 	    length:null,
 	    brandId:null,
+	    brandId2:null,
 	    customerId:null,
 	    matterType:null,
 		tapeCode:null,
@@ -63,6 +64,7 @@ Matter.prototype.reset = function(){
   	this.obj.edit = null;
   	this.obj.length = null;
   	this.obj.brandId = null;
+  	this.obj.brandId2 = null;
   	this.obj.customerId = null;
 	this.obj.matterType = null;
   	this.obj.tapeCode = null;  	
@@ -83,6 +85,7 @@ Matter.prototype.backupObject = function(sourObj,targObj){
 	targObj.edit = sourObj.edit;
 	targObj.length = sourObj.length;
 	targObj.brandId = sourObj.brandId;
+	targObj.brandId2 = sourObj.brandId2;
 	targObj.customerId = sourObj.customerId;
 	targObj.matterType = sourObj.matterType;
 	targObj.tapeCode = sourObj.tapeCode;
@@ -630,6 +633,7 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
  var params = combo.params;
  var q = qe.query;  
  var minChars = combo.minChars;
+ 
 
   eval("params."+ filterFiled +" =q");
   eval("params."+ filterFiled2 +" =q");
@@ -660,7 +664,7 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
 	             combo.onLoad();  
 	             
 	         }else{  
-	         	
+
 		         	 if(q !== ''){
 			             combo.store.baseParams[combo.queryParam] = q;  
 			             combo.store.load({  
@@ -705,6 +709,8 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
 //	mode = mode || 'local';
 	paramObj = paramObj || {};
 	var fileds= this.fileds;
+	
+	
 
 	var store = new Ext.data.Store({
 		proxy: new Ext.data.DWRHttpProxy({url: MatterManager.getMatterNamesStore}),
@@ -715,7 +721,8 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
 	  	store.on('beforeload', function(){
 	    	Ext.apply(this.baseParams, {dwrParams:[paramObj]});
 		}); 
-		store.load();			
+	  	if(paramObj.name != null) store.load();	
+				
 	}else{
 		store.load({params:{dwrParams:[paramObj]}});
 	}
@@ -728,12 +735,14 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
     var OBJ = this;
  	var mode = 'remote';
     var store = OBJ.getMatterNamesStoreList(mode,OBJ.obj);  
+
     
    	this.customerCommand = new Ext.ux.form.LovCombo({
+   		    showSelectAll   : true,  
 			id:id,
 			name: id,
 			displayField: 'name',
-//		  tiggerAction:'all',
+//		  tiggerAction:'all', 
 		  store:store,
 		  width:width,
 		   listWidth:300,
@@ -741,22 +750,22 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
 //		  triggerAction: 'all', //query all
 		  lastQuery:'l',
 //          typeAhead :true,
-		  valueField:'id',
+		  valueField:'name',
 		  mode:mode,
 		  allowBlank:false,
 		   resizable : true,  
 		   anchor : '60%',
 		   forceSelection:false, 
 //		  forceAll:true,
-		  allowBlank:false,
+		  allowBlank:true,
 		  emptyText:'请输入品牌...',
 		  minChars:2,
 //		  hiddenName:'helpCode', //提交传过去的值 
 		  filterFiled:'name',
 //		  filterFiled2:'helpCode',
 		  params:OBJ.obj,
-		  renderTo:renderTo,
-		  listeners:{beforequery:OBJ.comboFilterBy2.createDelegate(this)}	
+		  renderTo:renderTo
+		  ,listeners:{beforequery:OBJ.comboFilterBy2.createDelegate(this)}	
 	 });     
  	
   }		

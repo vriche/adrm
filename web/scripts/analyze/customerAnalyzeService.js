@@ -95,7 +95,7 @@ function init(){
  	this.myprint.buildButtons(this,"printReportDiv",[0,1,2,6],80);
  	
 
- 	this.myprint.getWeekCheckBox("weekDiv","weekCheckBox","ÐÇÆÚ",100,"");
+ 	this.myprint.getWeekCheckBox("weekDiv","weekCheckBox","ÐÇÆÚ",80,"");
  	
  	
  	

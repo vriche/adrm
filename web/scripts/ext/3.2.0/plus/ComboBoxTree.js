@@ -37,17 +37,17 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
     }),  
       
     //Default  
-    editable : false, // 禁止手写及联想功�???  
+    editable : false, // 禁止手写及联想功�???  
     mode : 'local',  
     triggerAction : 'all',  
     maxHeight : 500,  
     selectedClass : '',  
     onSelect : Ext.emptyFn,  
     canCollapse: true,
-    emptyText : '��ѡ��...',  
+    emptyText : '请选择...',  
 
     /**
-     * 清空�???
+     * 清空�???
      */
     clearValue : function() {  
         if (this.passField) {  
@@ -68,7 +68,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
     /**
      * --------------------------------------  
-     * 下拉树被点击事件添加�???处理方法
+     * 下拉树被点击事件添加�???处理方法
      * @param node
      * --------------------------------------
      */
@@ -146,20 +146,20 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
      */
     treeClk : function(node, e) {  
         if (!node.isLeaf() && !this.allowUnLeafClick) {  
-            e.stopEvent();// 非叶子节点则不触�???  
+            e.stopEvent();// 非叶子节点则不触�???  
             return;  
         }  
         
                     
                     	
-        this.setValue(node.text);// 设置option�???  
+        this.setValue(node.text);// 设置option�???  
         this.value = node.id;
         this.collapse();// 隐藏option列表  
 
         if (this.passField)  
             this.passField.value = node.id;// 以树的节点ID传�??  
 
-        // 选中树节点后的触发事�???  
+        // 选中树节点后的触发事�???  
         this.fireEvent('treeselected', node);  
 
     },  
@@ -170,7 +170,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 //      this.collapse();
 //    },
     /**
-     * 初始�???
+     * 初始�???
      * Init
      */
     initComponent : function() {  
@@ -187,9 +187,9 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
         
         /**
          * -----------------------  
-         * 添加treeselected事件�???
-         * 选中树节点会�???发这个事
-         * 件， 参数为树的节�???
+         * 添加treeselected事件�???
+         * 选中树节点会�???发这个事
+         * 件， 参数为树的节�???
          * ------------------------
          */
         this.addEvents('treeselected');  
@@ -202,7 +202,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
     /**
      * ------------------
-     * 事件监听�???  
+     * 事件监听�???  
      * Listener
      * ------------------
      */
@@ -223,7 +223,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
                 this.tree.root.reload();//每次下拉菜单出现的时候都重刷新树
                 this.tree.show();  
             },  
-            single : true //true 我感觉是执行�???次，我改成了false  
+            single : true //true 我感觉是执行�???次，我改成了false  
         },  
 
         'render' : {  
@@ -236,7 +236,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
                 /**
                  * -------------------------------------------  
-                 * 创建隐藏输入�???<input />
+                 * 创建隐藏输入�???<input />
                  * 并将其dom传给passField  
                  * ------------------------------------------
                  */
@@ -280,7 +280,7 @@ Ext.override(Ext.form.ComboBox, {
     });  
 /**
 * ---------------------------------  
-* 将ComboBoxTree注册为Ext的组�???,以便使用
+* 将ComboBoxTree注册为Ext的组�???,以便使用
 * Ext的延迟渲染机制，xtype:'combotree'  
 * ---------------------------------
 */

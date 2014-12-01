@@ -2,7 +2,9 @@ package com.vriche.adrm.service;
 
 import java.util.List;
 import java.util.Map;
+
 import org.acegisecurity.userdetails.UsernameNotFoundException;
+
 import com.ibatis.common.util.PaginatedList;
 import com.vriche.adrm.dao.UserDao;
 import com.vriche.adrm.model.User;
@@ -139,7 +141,7 @@ public interface UserManager {
 
     public void saveUserRelOrg(User user);
     
-    public void saveUserRel2(String parentUserId,String idStr, String IdPrefix);
+    public void saveUserRel2(String[] orgs,String parentUserId,String idStr, String IdPrefix);
     
     public String[] getUserOrgs(String uid);
     

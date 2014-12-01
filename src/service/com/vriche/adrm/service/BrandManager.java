@@ -53,5 +53,7 @@ public interface BrandManager extends Manager {
      * @param idList
      */
     public void removeBrands(final Map idList);
+    
+    public void saveBrandHelpCode();
 }
 

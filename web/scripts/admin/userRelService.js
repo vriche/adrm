@@ -126,6 +126,9 @@ function doOnSelect(itemId){
 	
 }
 
+
+
+
 function getParentUserIdByURL(){
 	var url = window.location.href;
 	var startPos = url.indexOf("=");
@@ -200,7 +203,7 @@ function loadUserRel2(uId){
 		}
    
    
-   
+  
    
 
 		
@@ -211,18 +214,24 @@ function loadUserRel2(uId){
 
 
 function saveUserRel(){
+	var map = new HashMap();
+	var orgidStr=  org.tree.dhtmlTree.getAllLeafs();
 	
-	var idStr=  org.tree.dhtmlTree.getAllCheckedBranches();
 
-
+	var ids = orgidStr.split(",");
+	for(var i =0;i<ids.length;i++){
+		var orgids = ids[i].split("_");
+		if(orgids.length>1){
+			map.put(orgids[0],orgids[0]);
+			 
+		}
+	}
+	var curOrgs = map.values();
+	
+   var idStr =  org.tree.dhtmlTree.getAllCheckedBranches();
    var userids = uniqueArray(org.tree.getAllCheckedBranches(user.IdPrefix));
+   if(userids == null) {userids = []; }
 
-   if(userids == null) {
-	   	userids = []; 
-	   	return false;
-   }
-   
-   
    var callBackFun = function(){
    	parent.userRelWin.close();
 //   	alert("±£´æ³É¹¦£¡");
@@ -233,9 +242,11 @@ function saveUserRel(){
 //   	return false;
 //   }
 //   user.saveUserRel(orgId,parentUserId,userids,callBackFun);
-
+   // var orgs = org.tree.getAllBranchesByPrefix(org.IdPrefix);
+    
+//  alert(curOrgs);
   
-   user.saveUserRel2(parentUserId,idStr,user.IdPrefix,callBackFun);
+   user.saveUserRel2(curOrgs,parentUserId,idStr,user.IdPrefix,callBackFun);
    
 }
 

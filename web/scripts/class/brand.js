@@ -9,6 +9,7 @@ function Brand(){
 	    modifyBy:null,
 	    modifyDate:null,
 	    version:null,
+	    helpCode:null,
 	    memo:null,
 	    enable:null
 	}
@@ -32,6 +33,13 @@ function Brand(){
 	this.enableEdit = false;
 	this.enableDel = false;
 	
+	
+	this.fileds =
+		[
+				{name: "id", type: "int"},
+				{name: "name", type: "string"}
+		];
+	
 	return this;	
 }	
 
@@ -45,6 +53,7 @@ Brand.prototype.reset = function(){
   	this.obj.modifyDate = null;
   	this.obj.version = null;
   	this.obj.memo = null;
+  	this.obj.helpCode = null;
   	this.obj.enable = null;
 }	
 Brand.prototype.getBrand = function(id,func){
@@ -65,6 +74,89 @@ Brand.prototype.getBrands = function(o,func){
 		BrandManager.getBrands(obj,func);	
     }
 }
+
+
+Brand.prototype.getStoreBrands = function(mode,paramObj){
+	paramObj = [paramObj || {}];
+	var fileds= this.fileds;
+	var store = new Ext.data.Store({
+		proxy: new Ext.data.DWRHttpProxy({url: BrandManager.getBrands}),
+		reader: new Ext.data.DWRObjectReader({id: "id"},fileds)
+	});
+	if(mode == 'remote'){
+	  	store.on('beforeload', function(){
+	    	Ext.apply(this.baseParams, {dwrParams:paramObj});
+		}); 
+		store.load();			
+	}else{
+		store.load({params:{dwrParams:paramObj}});
+	}
+		return store;
+};
+
+
+Brand.prototype.getBrandCmd =  function(paramObj,renderTo,elname,filterFiled,width,emptyText,callFunction){
+	
+	var store = this.getStoreBrands('local',this.obj);
+         
+	var conf ={
+        store: store,
+        id:elname,
+        name:elname,
+        listWidth: 200,
+        width:width,
+        lazyRender: true,
+        displayField:'name',
+         valueField:'id',
+        typeAhead: true,
+        forceSelection: true,
+        triggerAction: 'all',
+        emptyText:emptyText,
+        selectOnFocus:true,
+         mode: 'local',
+         minChars:1,
+         params:paramObj
+
+    };  
+
+    if(renderTo) conf.renderTo = renderTo;
+    if(filterFiled) conf.filterFiled = filterFiled;
+    if(callFunction) conf.callFunction = callFunction;
+    
+//	var cmd = new Ext.form.ClearableComboBox(conf);
+	var cmd = new Ext.form.ComboBox(conf);
+	
+
+// 	cmd.getEl().on("mousedown",function(){cmd.onTriggerClick();});
+     
+//	 function func(){
+//	 	 var filterFiled = cmd.filterFiled;
+//	 	 var params = cmd.params;
+//	 	 eval("params."+ filterFiled +" =null");
+//	 	 cmd.callFunction(params);
+//	 }
+//	 
+//	function func2(){
+//	 	 var filterFiled = cmd.filterFiled;
+//	 	 var params = cmd.params;
+//	 	 var value = cmd.getValue();
+//	 	 eval("params."+ filterFiled +" =value");
+//	 	 cmd.callFunction(params);
+//	 }
+//
+//     cmd.on("clear",func,this);	 
+//     cmd.on("select",func2,this);	 
+//	function func2(){
+//		 if(callFunction) callFunction();
+//	}
+//	 cmd.on("load",func2,this);	 
+     
+	return cmd;
+
+ };
+
+
+
 
 Brand.prototype.getCount = function(obj){
 	var count;
@@ -91,13 +183,15 @@ Brand.prototype.fillTable = function(objs){
 	 	row.setAttribute("name", rowData.name);
 	 	row.setAttribute("memo", rowData.memo);
 	 	row.setAttribute("enable", rowData.enable);
+		row.setAttribute("helpCode", rowData.helpCode);
+	 	
 	 }	
 	 
 	 
 	//一行中，各单元格返回的内容
 	var cellTable=[
 					function(obj){return obj.name},
-					function(obj){return obj.memo},
+					function(obj){return obj.helpCode},
 					function(obj){return obj.enable},
 //				    function(obj) {
 //				    	var editImg = makeImagHtml("image/edit.png","Btn_editPrices","18","18",obj.id,"editDocument");

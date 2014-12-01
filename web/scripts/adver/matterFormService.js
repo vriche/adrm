@@ -2,7 +2,7 @@ var matter = new Matter();
 var customer = new Customer();
 
 var industry = new Industry(); 
-
+var brand = new Brand();
 var orgId = 1;
 
 
@@ -41,7 +41,11 @@ function init(){
 //		$("length").disabled = true;
 //	}
 	
+	initBrand();
+	
 	initIndustry();
+	
+
 	
  	buttonEventFill();
  	
@@ -221,7 +225,7 @@ function saveMatterForm(){
 //	 var brandId = industry.treecombo.passField.value;
 
 	var callBack = function(obj){
-		console.log(obj)
+//		console.log(obj)
 
 		if(obj!=null){
             
@@ -235,6 +239,9 @@ function saveMatterForm(){
 				matter.obj.orgId = $("org_Id").value;
 				matter.obj.save2dayang = "1";
 //				matter.obj.brandId = brandId;
+				
+//				alert(matter.obj.brandId);
+//				alert(matter.obj.brandId2);
 				
 				var func = function(){
 					alert("保存成功！");
@@ -281,7 +288,7 @@ function saveMatterForm(){
 		}
 	}
 	
-
+ 
 		
 	matter.reset();
 	matter.obj.tapeCode = $("tapeCode").value;
@@ -300,6 +307,9 @@ function inti_set_industry(){
 	   	    var o = obj.industry;
 	        var id = obj.industryType;
 	        var name = o.name;
+	        
+//	        alert(obj.brandId);
+//	        alert(obj.brandId2);
 
 		    if(!industry.treecombo){
 		    	initIndustry();
@@ -307,15 +317,49 @@ function inti_set_industry(){
 		    
 
 		   	industry.treecombo.setValue(name);
-		   	industry.treecombo.passField.value = id; 	
-
-		    
+		   	industry.treecombo.passField.value = id; 	 
+		   	
+		   	
+		    var brandId2 = obj.brandId2;
+			Ext.getCmp('search_brand').setValue(brandId2);
 	   }
 
 	    matter.reset();
 		matter.obj.id = $("id").value;
 		matter.getMatterByTapCode(matter.obj,func1)		    
 	    
+}
+
+
+function initBrand(){
+	
+	function callbak(){
+		alert(999)
+		 var brandId2 = $("brandId2").value;
+		 Ext.getCmp('search_brand').setValue(brandId2);
+	}
+	var brandCmd = brand.getBrandCmd(brand.obj,'extBrandIdDiv','search_brand',null,120,'品牌...',callbak);
+	
+	function setValue(cmd){
+		$("brandId2").value = brandCmd.getValue();
+	}
+	
+//	function callbak(cmd){
+//		alert(99)
+//	}
+	
+	brandCmd.on("select",setValue,this);
+//	brandCmd.on("load",callbak,this);	
+	
+//	brandCmd.getStore().on('load',function(store,records){
+//		alert(99)
+//	});
+	
+//	brandCmd.store.on('load', function(){ alert(777) });
+//	brandCmd.on('selected', function(){ alert(777) });
+//	alert(brandCmd.listeners);
+//	brandCmd.listeners={select:callbak};
+
 }
 
 function initIndustry(){
@@ -366,7 +410,9 @@ function initIndustry(){
            
          
            
-           if( $("id").value > 0) inti_set_industry();
+           if( $("id").value > 0) {
+        	   inti_set_industry();
+           }
  
            
          

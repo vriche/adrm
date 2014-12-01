@@ -1,5 +1,5 @@
 <%@ include file="/common/taglibs.jsp"%>
-
+<%@ page language="java" errorPage="/error.jsp" pageEncoding="gbk" contentType="text/html;charset=gbk" %>
 <title><fmt:message key="brandDetail.title"/></title>
 <content tag="heading"><fmt:message key="brandDetail.heading"/></content>
 
@@ -56,11 +56,11 @@
 		</tr>
 	    <tr> 
 		    <td width="50%" nowrap="nowrap" class="dataLabel">
-		    	<fmt:message key="brandForm.memo"/>:       	
+		    	Öú¼ÇÂë:       	
 	        </td>
 	        <td>
-		        <html:errors property="memo"/>
-		        <html:text property="memo" styleId="memo"/>
+		        <html:errors property="helpCode"/>
+		        <html:text property="helpCode" styleId="helpCode"/>
 			</td>
 		</tr>
 	    <tr> 

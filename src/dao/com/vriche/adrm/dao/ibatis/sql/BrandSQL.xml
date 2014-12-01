@@ -13,6 +13,9 @@
 		<flushOnExecute statement="deleteBrands"/>
 		<property name="size" value="1000" />
 	</cacheModel>
+	
+	 
+	 
     <parameterMap id="addParam" class="brand">
         <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
         <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
@@ -21,9 +24,11 @@
         <parameter property="modifyBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
         <parameter property="modifyDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
         <parameter property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <parameter property="helpCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </parameterMap>
 
     <parameterMap id="updateParam" class="brand">
+        <parameter property="helpCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
         <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
         <parameter property="enable" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
@@ -45,9 +50,10 @@
         <result property="modifyDate" column="modify_date"/>
         <result property="name" column="name"/>
         <result property="version" column="version"/>
+         <result property="helpCode" column="help_code"/>
     </resultMap>
 
-    <select id="getBrands" resultMap="brandResult">
+    <select id="getBrands" resultMap="brandResult" cacheModel="brand-cache">
     <![CDATA[
         select * from tb_adver_product_brand 
     ]]>
@@ -77,10 +83,12 @@
 			(name like #name#)
 			</isNotEmpty>
 		</dynamic>
+		
+		order by name 
     </select>
     <select id="getBrandsByIdList" parameterClass="java.util.Map">
      <![CDATA[  
-      select* from tb_adver_product_brand 
+      select * from tb_adver_product_brand 
        ]]> 
  	 	  <dynamic prepend="WHERE"> 
 	      <isNotNull property="BrandIdList">
@@ -88,7 +96,10 @@
 		   			 adver_product_brand_id = #BrandIdList[]#
 		  </iterate>
 		  </isNotNull> 
-          </dynamic>      
+          </dynamic>   
+          
+          order by name 
+             
   </select>     
 
     <select id="getBrand" resultMap="brandResult">
@@ -133,8 +144,8 @@
             SELECT SEQ_adver_product_brand_id.NextVal AS id FROM DUAL
         </selectKey-->		
         <![CDATA[
-            insert into tb_adver_product_brand (create_by,create_date,enable,memo,modify_by,modify_date,name)
-            values ( ?,?,?,?,?,?,? )
+            insert into tb_adver_product_brand (create_by,create_date,enable,memo,modify_by,modify_date,name,help_code)
+            values ( ?,?,?,?,?,?,?,? )
         ]]>
 		
 		<selectKey resultClass="java.lang.Long" keyProperty="id">
@@ -145,6 +156,7 @@
     <update id="updateBrand" parameterMap="updateParam">
     <![CDATA[
         update tb_adver_product_brand set
+                   help_code = ?,
                    create_by = ?,
                    create_date = ?,
                    enable = ?,

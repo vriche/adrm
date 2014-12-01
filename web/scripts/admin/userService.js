@@ -12,7 +12,7 @@
  var yearWin;
  var utils = new MyUtils();
  var financeTarget = new FinanceTarget();
- var org = new SysOrg();
+// var org = new SysOrg();
  var mygrid;
  var selectbranchWin;
  var userRelWin;

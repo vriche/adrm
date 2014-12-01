@@ -1,5 +1,5 @@
 <%@ include file="/common/taglibs.jsp"%>
-
+<%@ page language="java" errorPage="/error.jsp" pageEncoding="gbk" contentType="text/html;charset=gbk" %>
 <title><fmt:message key="brandList.title"/></title>
 <content tag="heading"><fmt:message key="brandList.heading"/></content>
 <meta name="menu" content="BrandMenu"/>
@@ -53,7 +53,7 @@
 					                  <!--品牌名称-->
 					                  <TH><fmt:message key="brandForm.name"/></TH>
 					                  <!--备注-->
-					                  <TH><fmt:message key="brandForm.memo"/></TH>
+					                  <TH>助记码</TH>
 					                  <!--有效-->
 					                  <TH><fmt:message key="brandForm.enable"/></TH>
 			          			</tr>	

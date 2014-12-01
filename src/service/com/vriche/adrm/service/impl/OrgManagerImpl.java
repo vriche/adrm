@@ -146,7 +146,7 @@ public class OrgManagerImpl extends BaseManager implements OrgManager {
 		System.out.println("orgId>>>>>>>>>>>>>>>>>>>>ttttttttttvvvvv>>>>>>>>>>>>>>>>>>>>>>>>>>>" + orgId);
      
 		Org org2 = new Org();
-//		org2.setParentId("0");
+		org2.setParentId("0");
 
 		if(SysParamUtil.useMoreCarrierSortParam()){
 			if(!UserUtil.isSuperUser() || orgId>0){

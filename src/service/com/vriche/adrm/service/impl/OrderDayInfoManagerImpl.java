@@ -479,11 +479,13 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 			System.out.println("incMoney>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>"+incMoney.doubleValue()) ;	
 			
 		
-			if(!arrearagemode){
-				payMoney = -incMoney.doubleValue();
-			}else{
-				payMoney = 0;
-			}	
+			payMoney = -incMoney.doubleValue();
+			
+//			if(!arrearagemode){
+//				payMoney = -incMoney.doubleValue();
+//			}else{
+//				payMoney = 0;
+//			}	
 			
 //			System.out.println("incMoney>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>"+payMoney) ;	
 			

@@ -16,7 +16,7 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/ResourceManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/DateUtil.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/MatterManager.js'/>"></script>
-
+<script type="text/javascript" src="<c:url value='/dwr/interface/BrandManager.js'/>"></script>
 <html>
 <head>
 
@@ -86,6 +86,20 @@
    				
    }
    
+   
+      function saveBrandHelpCode(){
+    
+   
+   			var callBack=function(){
+   				$("btn_saveBrandHelpCode").disabled=false;
+   				alert("结束");
+   			}
+   			$("btn_saveBrandHelpCode").disabled=true;
+   			BrandManager.saveBrandHelpCode();
+   				
+   }
+   
+   
     function saveMattersAllindayang2zero(){
    			var callBack=function(){
    				$("btn_saveMatterAll2dayang").disabled=false;
@@ -132,11 +146,13 @@
 <input id="btn_ resetAllSpec" type="button" value="校对广告时间" onclick="javascript:resetAllSpecByOrderDayInfo()">
 <input id="btn_saveResource" type="button" value="段位复制" onclick="javascript:saveResourceFromOtherYear('2012','2013')">
 
+
+
 <input id="btn_saveMatterAll2dayang" type="button" value="重置保存到大洋素材" onclick="javascript:saveMattersAllindayang2zero()">
 
 <input id="btn_saveMatterAll2dayang2" type="button" value="保存到大洋素材所有11" onclick="javascript:saveMattersAll2dayang2()">
 
-
+<input id="btn_saveBrandHelpCode" type="button" value="初始化品牌助记码" onclick="javascript:saveBrandHelpCode()">
 
 
 </body>

@@ -74,7 +74,7 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/CustomerAddressManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/LinkManManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/MatterTypeManager.js'/>"></script>
-
+<script type="text/javascript" src="<c:url value='/dwr/interface/BrandManager.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/class/contract.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/contractpayment.js'/>"></script>
@@ -104,6 +104,7 @@
 <script type="text/javascript" src="<c:url value='/scripts/class/customerAddress.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/linkMan.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/oaWorkFlowCheckState.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/brand.js'/>"></script>
 
 
 <script type="text/javascript" src="<c:url value='/scripts/class/dayInfo.js'/>"></script>
@@ -243,7 +244,7 @@
 	              <tr> 
 	                <td width="50%" valign="top"> 
 	                
-	                	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" id="ep">
+	                	<table width="1%" border="0" align="center" cellpadding="0" cellspacing="1" id="ep">
 	                    <tbody>
 	                      <tr> <!-- 订单编号 -->
 	                        <td nowrap="nowrap" class="dataLabel"><fmt:message key="orderForm.orderCode"/></td>
@@ -355,17 +356,27 @@
 	            
 	            <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	              <tr> 
-	                <td width="50%" valign="top">
+	                <td width="50%" valign="top" align="left">
 	                
 	                
-	                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" id="ep">
+	                <table width="1%" border="0" align="center" cellpadding="0" cellspacing="1" id="ep">
 	                    <tbody>
-	                    
-	                      <!-- 订单子类 --> 
-						   <tr> 
-						      <td nowrap="nowrap" class="dataLabel">订单子类</td>
-						      <td width="350px" ><div id="extorderCategoryIdDiv"></td>
-						    </tr>	
+
+						 <tr>
+						      <td nowrap="nowrap"  class="dataLabel">订单子类</td>
+						      <td width="0px" align="left" valign="top">
+						        <table cellspacing=0 cellpadding=0 border=0>
+							        <tr>
+							        	<td width="0px"><div id="extorderCategoryIdDiv"/></td>
+							        	<td width="0px"><div id="extBrandIdDiv" name="extBrandIdDiv"/></td>
+							        </tr>
+						        </table>
+						      </td>
+						     
+						 </tr>					    
+						    
+
+						    
 						    					    
 						  <!-- 磁带编码 --> 
 	                      <tr>

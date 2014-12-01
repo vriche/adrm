@@ -77,7 +77,7 @@
 
 			 		   <input type="button"   class="button" id="btnSearche" value='²éÑ¯'>
  				
-						<div id="theDivSearch" style="position:absolute;  OVERFLOW: auto;left:0px;top:21px;width:550px;height:400px;visibility:hidden;border:solid green 2px;background-color:white;z-index:1">	
+						<div id="theDivSearch" style="position:absolute;  OVERFLOW: auto;left:0px;top:21px;width:600px;height:400px;visibility:hidden;border:solid green 2px;background-color:white;z-index:1">	
                     
                  
                			 <table width="100%">

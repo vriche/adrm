@@ -1678,6 +1678,23 @@ public void excuteSql() {
 			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
 		}
 		
+		//广告
+		if(curVersion < 32 ){
+			int curVer = 32; 
+			excuteSql("insert into tb_adver_product_brand (name,enable) values ('...',1);",curVer);
+			excuteSql("update tb_adver_product_brand set adver_product_brand_id=0 where name='...';",curVer);
+			excuteSql("alter table tb_adver_matter add column brand_id bigint(20) NOT NULL DEFAULT '0'",curVer);
+			excuteSql("alter table tb_adver_product_brand add column help_code varchar(50) DEFAULT NULL",curVer);
+			excuteSql("alter table tb_adver_product_brand add column parent_id bigint(20) DEFAULT 0",curVer);
+			excuteSql("ALTER TABLE tb_adver_matter DROP FOREIGN KEY fk_tb_adver_matter_industry",curVer);
+			excuteSql("alter table tb_adver_matter ADD CONSTRAINT fk_tb_adver_matter_brand FOREIGN KEY (brand_id)  REFERENCES tb_adver_product_brand(adver_product_brand_id)",curVer);
+			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
+		}
+		
+		//临时注释  
+//		mody_matter_helpcode(20);	
+
+		
 		
 		//临时注释  
 //		if("xmtv".equals(tvName)){
@@ -1686,6 +1703,31 @@ public void excuteSql() {
 
 }
 
+//public void mody_brand_helpcode(int curVer){
+//	String name = "";
+//	String helpCodeName = "";
+//	long id = 0;
+//	
+////	String rep ="\n\r\t";
+//
+//	try {
+//		ResultSet rsOrg = dao.getDefaultDataSource().getConnection().createStatement().executeQuery("select adver_product_brand_id,name from tb_adver_product_brand where adver_product_brand_id>0");
+//
+//		while (rsOrg.next()){	
+//			id = rsOrg.getLong("adver_product_brand_id");
+//			name = StringUtil.getNullValue(rsOrg.getString("name"),"");
+//			helpCodeName = GetFirstLetter.getPinYinHeadChar(name);
+//		
+//			String sql ="update tb_adver_product_brand set help_code ='"+ helpCodeName +"'  where adver_product_brand_id=" + id +"";
+//			System.out.println("mody_brand_helpcode>>>"+ helpCodeName +">>>"+sql);
+//			excuteSql(sql, curVer);
+//		}
+//		rsOrg.close();
+//	} catch (SQLException e1) {
+//		// TODO Auto-generated catch block
+//		e1.printStackTrace();
+//	}
+//}
 
 public void mody_matter_helpcode(int curVer){
 	String name = "";
@@ -1716,6 +1758,10 @@ public void mody_matter_helpcode(int curVer){
 		e1.printStackTrace();
 	}
 }
+
+
+
+
 
 public void mody_sysParam1(){
 	String orgName = "";

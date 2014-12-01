@@ -390,6 +390,9 @@
 
 			left outer join tb_order_detail DT 
 		on OD.order_detail_id = DT.order_detail_id
+		
+			left outer join tb_ad_resource_info RI
+			 on RI.ad_resource_info_id = DT.ad_resource_info_id 
 
 			left outer join tb_adver_matter MT
 		on MT.adver_matter_id = DT.adver_matter_id 
@@ -415,6 +418,13 @@
 								O.customer_id = #customerIdList[]#
 				</iterate>
 			  </isNotNull> 
+			  
+			<isNotNull property="carrierIdList">
+				<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
+					        ifnull(RI.ad_resource_carrier_id,-1) = #carrierIdList[]#
+				</iterate>
+			</isNotNull>		  
+			  
 			
  	 		 <isNotNull property="resourceIdList">
 				<iterate prepend="AND" property="resourceIdList" open="(" close=")" conjunction="OR">
@@ -430,7 +440,7 @@
 		
  	 		 <isNotNull property="namesList">
 				<iterate prepend="AND" property="namesList" open="(" close=")" conjunction="OR">
-					 MT.name = #namesList[]#
+					  MT.name like '%$namesList[]$%' 
 				</iterate>
 			 </isNotNull> 		
 		
@@ -444,15 +454,15 @@
              </isNotEmpty>
 		
 			<isNotEmpty prepend="AND" property="version">
-				(DT.version  like #version#)
+				(DT.version  = #version#)
 			</isNotEmpty>	
 			 
 			<isNotEmpty prepend="AND" property="version">
-				(O.version  like #version#)
+				(O.version  = #version#)
 			</isNotEmpty>		
 			
 			<isNotEmpty prepend="AND" property="version">
-				(OD.version  like #version#)
+				(OD.version  = #version#)
 			</isNotEmpty>	
 				
 		</dynamic>	   

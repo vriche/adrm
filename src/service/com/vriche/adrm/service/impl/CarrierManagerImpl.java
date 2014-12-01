@@ -848,7 +848,10 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 		List ls  = new ArrayList();
 		if(obj != null) ls = (List)obj;
 		return ls;
-	}	
+	}
+	
+	
+	
 
 	private void getCarriersByParentIdFromMap(String id, StringBuffer sb,String IdPrefix,String resourceIdPrefix,String publishDate,String resourceTypeId){
 		
@@ -859,6 +862,9 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 			Carrier carr = (Carrier) it.next();
 			Integer carYear = carr.getVersion();
 			String year = publishDate.substring(0,4);
+			String parentId = carr.getParentId();
+			
+			System.out.println("==============00000========= parentId >>>>>>>>>>>>>>>>>>>"+parentId);
 			
 //			List resList = resourceManager.getResListByCarrierId(carr.getId(),publishDate);
 //			boolean hasResChilens = resList.size() > 0? true:false;

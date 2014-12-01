@@ -1644,9 +1644,9 @@ User.prototype.getUserCmdTree = function (orgId,paras,cmdId,treeId,allowUnLeafCl
 }
 
 
-User.prototype.saveUserRel2 = function(parentUserId,allCheckedBranches,IdPrefix,callBackFun){
+User.prototype.saveUserRel2 = function(curOrgs,parentUserId,allCheckedBranches,IdPrefix,callBackFun){
 
-	UserManager.saveUserRel2(parentUserId,allCheckedBranches,IdPrefix,saveFun);
+	UserManager.saveUserRel2(curOrgs,parentUserId,allCheckedBranches,IdPrefix,saveFun);
 
 	function saveFun(){
 		callBackFun();

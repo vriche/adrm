@@ -5,9 +5,13 @@
 <content tag="heading"><fmt:message key="matterDetail.heading"/></content>
 
 
-<script type="text/javascript" src="<c:url value='/dwr/interface/MatterManager.js'/>"></script>
+
 
 <script type="text/javascript" src="<c:url value='/scripts/class/matter.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/MatterManager.js'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/scripts/class/brand.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/BrandManager.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/class/customer.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/CustomerManager.js'/>"></script>
@@ -29,6 +33,7 @@
 <html:hidden property="id" styleId="id"/>
 <html:hidden property="version"/>
 <html:hidden property="brandId" styleId="brandId"/>
+<html:hidden property="brandId2" styleId="brandId2"/>
 <html:hidden property="orgId" styleId="orgId"/>
 <html:hidden property="customerId" styleId="customerId"/>
 
@@ -97,6 +102,13 @@
 				</div>  	
 			</td -->
 		</tr> 
+		
+		
+		<tr> 
+		    <td width="50%" nowrap="nowrap" class="dataLabel">Æ·ÅÆ: </td>
+	        <td><div id="extBrandIdDiv"></td>
+		</tr>		
+		
 
 	    <tr> 
 		    <td nowrap="nowrap" class="requiredInput">
@@ -152,6 +164,11 @@
 	        <td><div id="initIndustryComboBoxTree"></td>
           
 		</tr>
+		
+	
+		
+		
+		
 	    <tr> 
 		    <td width="50%" nowrap="nowrap" class="dataLabel">
 		    	<fmt:message key="matterForm.matterType"/>:       	

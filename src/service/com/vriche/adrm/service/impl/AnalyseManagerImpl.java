@@ -3,32 +3,29 @@ package com.vriche.adrm.service.impl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.dao.AnalyDao;
 import com.vriche.adrm.model.AnalyzeClass;
-import com.vriche.adrm.model.CustomerProduct;
-import com.vriche.adrm.model.FinanceTarget;
 import com.vriche.adrm.model.User;
 import com.vriche.adrm.service.AnalyseManager;
 import com.vriche.adrm.service.CarrierManager;
 import com.vriche.adrm.service.IncomeManager;
 import com.vriche.adrm.service.UserManager;
+import com.vriche.adrm.util.AnalyseUtil;
 import com.vriche.adrm.util.CarrierUtil;
 import com.vriche.adrm.util.ConvertUtil;
 import com.vriche.adrm.util.DateUtil;
-import com.vriche.adrm.util.OrderDetailUtil;
 import com.vriche.adrm.util.StringUtil;
 import com.vriche.adrm.util.SysParamUtil;
 import com.vriche.adrm.util.UserUtil;
-import com.vriche.adrm.util.AnalyseUtil;
 
 public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 	
@@ -57,6 +54,7 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		Map mp = new HashMap();
 		List customerIdList = new ArrayList();
 		List resourceIdList = new ArrayList();
+		List carrierIdList = new ArrayList();
 		List userIdList = new ArrayList();
 		List namesList = new ArrayList();
 		String startDate = analyzeClass.getStartDate();
@@ -65,20 +63,40 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		
 		String userLongName = analyzeClass.getCurUserName();
 		String[] resIds = analyzeClass.getOrderDetail().getMatter().getResourceIds();
+		
+		  System.out.println("resIds>>333333333333   5555555555555   >>>>>>>>"+ resIds);
+		String loginUser = analyzeClass.getCurUserName();
+		 System.out.println("loginUser>>333333333333   5555555555555   >>>>>>>>"+ loginUser);
+		 
+		 String j = StringUtils.join(resIds, ",");  
+		 
+		 System.out.println("resIds.toString()>>333333333333   5555555555555   >>>>>>>>"+j);
+		carrierIdList = CarrierUtil.getCarrierIds(j,"2",loginUser);	
+		
+		 System.out.println("carrierIdList>>333333333333   5555555555555   >>>>>>>>"+ carrierIdList);
+		
 		String[] customerIds = analyzeClass.getOrderDetail().getMatter().getCustomerIds();
 		String[] userIds = analyzeClass.getOrderDetail().getMatter().getUserIds();
 		String[] matterNames = analyzeClass.getOrderDetail().getMatter().getMatterNames();
 		
 		if(customerIds.length >0){
 			CollectionUtils.addAll(customerIdList,customerIds);
+		
 		}
+		
+		
 //		else{
 //			customerIdList.add("-1");
 //		}
 		
-		if(resIds.length >0){
-			CollectionUtils.addAll(resourceIdList,resIds);
-		}
+//		if(resIds.length >0){
+//			CollectionUtils.addAll(resourceIdList,resIds);
+//		}
+		
+//		if(resIds.length >0){
+//			CollectionUtils.addAll(carrierIdList,carrierIdList);
+//		}
+		
 //		else{
 //			resourceIdList.add("-1");
 //		}
@@ -103,7 +121,9 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		   System.out.println("start>>>>>>>>>>"+ startDate);
 		   System.out.println("end>>>>>>>>>>"+ endDate);
 		   System.out.println("version>>>>>>>>>>"+ version);
-		   System.out.println("carrierId>>>>>>>>>>"+ resourceIdList.size());
+		   System.out.println("resourceIdList>>>>>>>>>>"+ resourceIdList.size());
+		   System.out.println("carrierId>>>>>>>>>>"+ carrierIdList);
+		   
 		   System.out.println("userIdList>>>>>>>>>>"+ userIdList.size());
 		   System.out.println("matterName>>>>>>>>>>"+ namesList.size());
 
@@ -113,8 +133,10 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		mp.put("version",version);
 		mp.put("customerIdList",customerIdList);
 		mp.put("resourceIdList",resourceIdList);
+		mp.put("carrierIdList",carrierIdList);
 		mp.put("userIdList",userIdList);
 		mp.put("namesList",namesList);
+		
 		
 		
      	if(UserUtil.isUserOrderYearRel()) {

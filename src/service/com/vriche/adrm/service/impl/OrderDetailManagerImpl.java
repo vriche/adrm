@@ -601,8 +601,8 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
         Integer type =orderDetail.getMatter().getMatterType();
         String meno = orderDetail.getMatter().getMemo();
         Long industryType = orderDetail.getMatter().getBrandId();
-        
-        Matter matter = matterManager.saveMatter(customerId,tapeCode,name,version,Length,createBy,type,meno,true,industryType);
+        Long brandId = orderDetail.getMatter().getBrandId2();
+        Matter matter = matterManager.saveMatter(customerId,tapeCode,name,version,Length,createBy,type,meno,true,industryType,brandId);
         orderDetail.getMatter().setId(matter.getId());
         orderDetail.getMatter().setTapeCode(matter.getTapeCode());  
  

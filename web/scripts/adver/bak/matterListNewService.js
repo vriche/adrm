@@ -69,7 +69,7 @@ callOnLoad(init);
 ////     	Ext.getCmp('search_adver_customer').setValue(customerName); 
 //     }
       
-//     customerName = parent.search_adver_win.getTopToolbar().getComponent('search_adver_customer').getRawValue();	
+     customerName = parent.search_adver_win.getTopToolbar().getComponent('search_adver_customer').getRawValue();	
      
 	setMatterPara(matter);	
 	
@@ -123,9 +123,7 @@ callOnLoad(init);
 //	    mygrid.setColSorting("str,str,str,str,str,str");
 		mygrid.setColAlign("left,left,left,center,center,center,center,center,center");
 		mygrid.setColTypes("ed,ed,ed,ed,ed,ed,ed,ed,img");
-//	    mygrid.setColSorting("str,str,str,int,str,str,str,str,str") ;  
-		
-		
+//	    mygrid.setColSorting("str,str,str,int,str,str,str,str,str") ;    
 	    
 	    
 	    
@@ -147,7 +145,7 @@ callOnLoad(init);
 	mygrid.setOnRowDblClickedHandler(onRowDblClicked,true);
 //	mygrid.enableAutoSizeSaving();
 //	mygrid.enableSmartRendering(true,100);
-
+	
 
 	mygrid.init();	
 	
@@ -181,22 +179,30 @@ callOnLoad(init);
 	var industryName =  tb.getComponent('search_adver_brandId_cmd').getValue();
 	var industryTreeNodeLevel =  tb.getComponent('search_adver_brandId_cmd').nodeLevel;
 	var matterType =   tb.getComponent('search_adver_matterType').getValue();
-//	var customer_name =   tb.getComponent('search_adver_customer').getRawValue();
+	var customer_name =   tb.getComponent('search_adver_customer').getRawValue();
 	var initCustomer =false;
     var cutid = customerId;
 //	alert('customerId>>url>>'+cutid);
 	
-//	if(cutid == null || cutid == '' || cutid == '0'){
-//		cutid =   tb.getComponent('search_adver_customer').getValue();
-//		initCustomer = true; 
-//	}
+	if(cutid == null || cutid == '' || cutid == '0'){
+		cutid =   tb.getComponent('search_adver_customer').getValue();
+//		alert('customerId>>getComponent1>>'+cutid);
+		initCustomer = true; 
+	}
 	
-
+	
+//		if(customerId > 0){
+//			    alert('customerId>>getComponent2>>'+customerId);
+//		        var rec = tb.getComponent('search_adver_customer').store.getById(customerId)
+//				var customerCategoryId  = rec.get('customerCategoryId');
+//			    parent.inti_set_customer(null,1,customerId,customerName,customerCategoryId); 
+//		}
 
 	var paramObj = {
 					orgId:orgId,
 					customerId:cutid,
-//					customerName:customer_name,
+					customerName:customer_name,
+//					customerCategoryId:customerCategoryId,
 			        tapeCode:tapeCode,
 			        matterType:matterType,
 				 	name: name,
@@ -216,8 +222,8 @@ callOnLoad(init);
 function checkTapeCode(params){
 	var isBug = false;
 	var curtapeCode = params.tapeCode;
-//	var cutid = params.customerId;
-//	var customer_name = params.customerName;
+	var cutid = params.customerId;
+	var customer_name = params.customerName;
 	var brandId = params.brandId;
 	var length = params.length;
 	var name = params.name;
@@ -260,19 +266,28 @@ function checkTapeCode(params){
 		}	
 	}
 	
-//	if(cutid ==null || cutid ==0 || cutid ==''||customer_name ==cutid){
-//
-//		if(customerName == '' ){
-//				extjMessage('新添素材前,客户名称!');isBug = true;
-//		}else{
-//			parent.checkCustomer(2);isBug = true;
-//		}
-//	}else{
-//		customerId = cutid;
-//	}
+	if(cutid ==null || cutid ==0 || cutid ==''||customer_name ==cutid){
+
+		if(customerName == '' ){
+				extjMessage('新添素材前,客户名称!');isBug = true;
+		}else{
+			
+//            alert('checkTapeCode>customerId>'+ cutid)
+//            alert('checkTapeCode>customerName>'+ customerName)
+			parent.checkCustomer(2);isBug = true;
+		}
+//		extjMessage('新添素材前,请先选择客户名称!');isBug = true;
+		
+	}else{
+		customerId = cutid;
+	}
 		
 	
-
+//	matter.reset();
+//	matter.obj.orgId = orgId;
+//	matter.obj.name = params.name;
+//	matter.obj.edit = params.edit;
+//	matter.obj.length = params.length;
     var matterOBJ = (new Matter()).obj;
     matterOBJ.orgId =params.orgId;
     matterOBJ.edit =params.edit;
@@ -333,26 +348,32 @@ function save_new_matter(){
  
 
  function loadGridData(params){ 
-
+// 	    var brandId =  parent.search_adver_win.tbar.getComponent('search_adver_tapecode');
+// 	     alert(brandId)
+ 	     
+// 	     var tb = parent.search_adver_win.getTopToolbar();
+// 	     alert(tb.getComponent('search_adver_tapecode'))
+// 	    Ext.getDom('search_adver_tapecode');
        
-// 	    var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null|| params.customerName !=null;
- 	   var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null;
+ 	    var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null|| params.customerName !=null;
 
  	    mygrid.clearAll();
  	    if(!fid) return false;
+// 	    var sortStr =  mygrid.getSortingState();
+// 	    if(sortStr != '')params.sortStr = sortStr;
+   
+// 	    alert(params.sortStr)
         var loadDataURL = ctxPath + "servlet/matterListServlet?" + $H(params).toQueryString();	
 		mygrid.enableSmartRendering(true);
 //		mygrid.setSortImgState(true,0,"ASC"); 
 		mygrid.loadXML(loadDataURL);
-		
-//		mygrid.setColumnHidden(0,true);
 		mygrid.setSizes();	
  }
 
 
 function resetQueryWhere(){
 	var tb = parent.search_adver_win.getTopToolbar();
-//	tb.getComponent('search_adver_customer').setValue('');
+	tb.getComponent('search_adver_customer').setValue('');
 	tb.getComponent('search_adver_name').setValue('');	
 	tb.getComponent('search_adver_edit').setValue('');
 	tb.getComponent('search_adver_len').setValue('');		
@@ -361,16 +382,14 @@ function resetQueryWhere(){
 	tb.getComponent('search_adver_matterType').setValue(1);  
 	
 	   	
-
-
-//	var customerCmd = tb.getComponent('search_adver_customer');
-//	customerCmd.params.customerName = null;
-//	customerCmd.params.name = null;
-//	customerCmd.params.edit = null;
-//	customerCmd.params.length = null;
-//	customerCmd.params.tapeCode = null;
-//	customerCmd.params.brandId = 0;
-//	customerCmd.params.matterType = 0;
+	var customerCmd = tb.getComponent('search_adver_customer');
+   	   	    customerCmd.params.customerName = null;
+   	   	    customerCmd.params.name = null;
+   	   	    customerCmd.params.edit = null;
+   	   	    customerCmd.params.length = null;
+   	   	    customerCmd.params.tapeCode = null;
+   	   	    customerCmd.params.brandId = 0;
+   	   	    customerCmd.params.matterType = 0;
 }
 
 function copyQueryWhere(){
@@ -380,10 +399,10 @@ function copyQueryWhere(){
  	
    	   	 if(rowId > 0){
    	   	 	
-//   	   	 	var customerCmd = tb.getComponent('search_adver_customer');
-//   	   	 	var customerName = mygrid.cells(rowId,0).getValue();
-//   	   	 	var customerId = mygrid.getUserData(rowId,"customerId");
-//   	   	 	var customerCategoryId = mygrid.getUserData(rowId,"customerCategoryId");
+   	   	 	var customerCmd = tb.getComponent('search_adver_customer');
+   	   	 	var customerName = mygrid.cells(rowId,0).getValue();
+   	   	 	var customerId = mygrid.getUserData(rowId,"customerId");
+   	   	 	var customerCategoryId = mygrid.getUserData(rowId,"customerCategoryId");
    	   	 	
    	   	 	var name = mygrid.cells(rowId,1).getValue();
    	   	 	var edit = mygrid.cells(rowId,2).getValue();
@@ -392,8 +411,8 @@ function copyQueryWhere(){
    	   	 	var brandId = mygrid.getUserData(rowId,"brandId");
    	   	 	var matterType = mygrid.getUserData(rowId,"matterType");
    	   	 	
-//   	   	 	parent.inti_set_customer(customerCmd,2,customerId,customerName,customerCategoryId); 
-//   	   	  	tb.getComponent('search_adver_name').setValue(name);
+   	   	 	parent.inti_set_customer(customerCmd,2,customerId,customerName,customerCategoryId); 
+   	   	  	tb.getComponent('search_adver_name').setValue(name);
    	   	   	tb.getComponent('search_adver_edit').setValue(edit);
    	   	    tb.getComponent('search_adver_len').setValue(length);
    	   	    tb.getComponent('search_adver_tapecode').setValue(tapeCode);
@@ -405,7 +424,7 @@ function copyQueryWhere(){
           
    	   	    tb.getComponent('search_adver_matterType').setValue(matterType); 
 
-//   	   	    customerCmd.params.customerName = customerName;
+   	   	    customerCmd.params.customerName = customerName;
    	   	    customerCmd.params.name = name;
    	   	    customerCmd.params.edit = edit;
    	   	    customerCmd.params.length = length;

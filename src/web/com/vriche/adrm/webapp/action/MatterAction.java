@@ -117,7 +117,6 @@ public final class MatterAction extends BaseAction {
         Matter mattapcode = new Matter();
         mattapcode.setTapeCode(matter.getTapeCode());
 //        System.out.println(" matterID   "+matter.getId());
-        
 //        System.out.println(" matterID   "+matter.getEnable().booleanValue());
         
         SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
@@ -133,7 +132,11 @@ public final class MatterAction extends BaseAction {
 	        }
         }
         
-        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   ");
+        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getIndustryType());
+        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getBrandId());
+        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getBrandId2());
+        
+        
         matter.setSave2dayang("1");
         mgr.saveMatter(matter);
         // add success messages
