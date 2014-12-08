@@ -279,7 +279,7 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
     public String saveMatter(Matter matter) {
 //        return dao.saveMatter(matter).toString();
     	
-//    	System.out.println("saveMatter matter:>>>>>>>>dfsdf>>" + matter.toString());
+    	System.out.println("saveMatter matter:>>>>>>>>11111111111 333333333    55555555555 dfsdf>>" + matter.getBrandId2());
     	
     	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2()).getId().toString();
     }
@@ -319,6 +319,8 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
 	  matter.setLength(StringUtil.String2kenizer(length,rep));
 	  matter.setTapeCode(StringUtil.String2kenizer(tapeCode,rep));
 	  getHelpCodeEdit(matter);
+	  
+	  if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
 	  
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,matter);
@@ -523,6 +525,9 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 	if(orgId == null ) orgId = new Long(1);
 	
 	
+	System.out.println(" eee tt >>>>>>>>>>>tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt>>>brandId>>>>>>"+brandId);
+	
+	
 	
 //	System.out.println(">>>>>>>>>>>orderDetail.getIsNotInSeries().booleanValue()>>>>>>>>>"+orderDetail.getIsNotInSeries());
 	
@@ -542,6 +547,9 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 		Matter newMatter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId);
 		getHelpCodeEdit(newMatter);
 		newMatter = fiter(newMatter);
+		
+		
+		if(newMatter.getBrandId2() == null) newMatter.setBrandId2(new Long(0));
 		
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,newMatter);
@@ -566,6 +574,7 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 		
 		getHelpCodeEdit(matterTest);
 		
+		if(matterTest.getBrandId2() == null) matterTest.setBrandId2(new Long(0));
 		
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,matterTest);
@@ -627,6 +636,7 @@ public Matter saveMatter(Long customerId, String tapeCode, String name, String e
 		
 		getHelpCodeEdit(matter);
 		
+		if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
 		
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,matter);
@@ -654,6 +664,8 @@ public Matter saveMatter(Long customerId, String tapeCode, String name, String e
 		}
 		
 		getHelpCodeEdit(matter);
+		
+		if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
 		
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,matter);
@@ -728,6 +740,10 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		 
 			Matter obj = new Matter();
 			ConvertUtil.copyBeanProperties2(obj,matter);
+			
+		if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
+		
+//		System.out.println(">>>>>>>>>+matter.getBrandId2 1111111111 333333333    55555555555 >>>>>>>"+matter.getBrandId2());
 		
 		matterId = dao.saveMatter(matter);
 		matter.setId(matterId);
@@ -755,8 +771,25 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		
 		getHelpCodeEdit(matter);
 		
+		if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
+		
+//		System.out.println(">>>>>>>>>>>orgId>>>>>>>>>"+orgId);
+//		System.out.println(">>>>>>>>>>>customerId>>>>>>>>>"+customerId);
+//		System.out.println(">>>>>>>>>>>tapeCode>>>>>>>>>"+tapeCode);	
+//		System.out.println(">>>>>>>>>>>name>>>>>>>>>"+name);
+//		System.out.println(">>>>>>>>>>>length>>>>>>>>>"+length);
+//		System.out.println(">>>>>>>>>>>createBy>>>>>>>>>"+createBy);
+//		System.out.println(">>>>>>>>>>>type>>>>>>>>>"+type);
+//		System.out.println(">>>>>>>>>>>meno>>>>>>>>>"+meno);
+		
+		
+		
+		
+		
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,matter);
+		
+//		System.out.println(">>>>>>>>>>>(matter.getBrandId2()>>>>>>>>>"+matter.getBrandId2());		
 
 		matterId = dao.saveMatter(matter);
 		matter.setId(matterId);
@@ -1073,6 +1106,7 @@ public String getMattersNewsPageXML(String strQueryString) {
 //		System.out.println(">>>>>>>>  LMan.getBrandId():"+ LMan.getBrandId());
 		
 		String brandId = String.valueOf(LMan.getBrandId());
+		String brandId2 = String.valueOf(LMan.getBrandId2());
 		String name = StringUtil.getNullValue(LMan.getName(),"");
 		String edit = StringUtil.getNullValue(LMan.getEdit(),"");
 
@@ -1131,6 +1165,7 @@ public String getMattersNewsPageXML(String strQueryString) {
 		
 		sb.append("<userdata name=\"id\"><![CDATA["+ id +"]]></userdata>");
 		sb.append("<userdata name=\"brandId\"><![CDATA["+ brandId +"]]></userdata>");
+		sb.append("<userdata name=\"brandId2\"><![CDATA["+ brandId2 +"]]></userdata>");
 		sb.append("<userdata name=\"matterType\"><![CDATA["+ LMan.getMatterType().toString() +"]]></userdata>");
 		sb.append("<userdata name=\"customerCategoryId\"><![CDATA["+ customer.getCustomerCategoryId().toString() +"]]></userdata>");
 		sb.append("<userdata name=\"customerId\"><![CDATA["+ LMan.getCustomerId() +"]]></userdata>");

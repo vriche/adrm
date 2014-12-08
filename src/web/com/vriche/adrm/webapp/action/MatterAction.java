@@ -4,11 +4,13 @@ package com.vriche.adrm.webapp.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.hsqldb.lib.StringUtil;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.model.Matter;
@@ -116,6 +118,8 @@ public final class MatterAction extends BaseAction {
        
         Matter mattapcode = new Matter();
         mattapcode.setTapeCode(matter.getTapeCode());
+//        if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
+        
 //        System.out.println(" matterID   "+matter.getId());
 //        System.out.println(" matterID   "+matter.getEnable().booleanValue());
         

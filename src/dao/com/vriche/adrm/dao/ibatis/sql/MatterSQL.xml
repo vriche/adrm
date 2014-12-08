@@ -40,7 +40,7 @@
 
 
     <parameterMap id="updateParam" class="matter">
-     	<parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+     	<parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long"/>
 		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
@@ -79,7 +79,14 @@
 		<result property="brandId2" column="brand_id"/>
 		<result property="customerId" column="customer_id"/>
         <result property="matterType" column="adver_matter_type"/>
-		<result property="customer" column="customer_id" select="getCustomerClass"/>
+        
+		<!-- result property="customer" column="customer_id" select="getCustomerClass"/ -->
+		
+		<result property="customer.customerName" column="customer_name" />
+		<result property="customer.customerCategoryId" column="customer_category_id" />
+		<result property="customer.id" column="customer_id" />		
+		
+		
     </resultMap>
 	
     <resultMap id="matterResultTest" class="matter">
@@ -167,7 +174,10 @@
     </resultMap>
 	
 	<select id="getAllMatters" resultMap="matterResult">
-        select * from tb_adver_matter where name like '%value%'
+             select MT.* ,ci.customer_name,ci.customer_category_id   from tb_adver_matter MT  
+           left outer join tb_customer_info ci on MT.customer_id = ci.customer_id      
+        
+         where MT.name like '%value%'
 	</select>
 	
 	<select id="getMattersByDate"  parameterClass="java.util.Map" resultMap="matterResultByDate">
@@ -825,14 +835,21 @@
 	
 	
     <select id="getMattersByIdList" parameterClass="java.util.Map" resultMap="matterResult">
-     <![CDATA[  select * from tb_adver_matter  ]]> 
+     select MT.* 
+		,ci.customer_name  
+		,ci.customer_category_id      
+         from tb_adver_matter MT 
+         
+       left outer join tb_customer_info ci on MT.customer_id = ci.customer_id       
  	 	  <dynamic prepend="WHERE"> 
 	      <isNotNull property="MatterIdList">
        	  <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
-		   			 adver_matter_id = #MatterIdList[]#
+		   			 MT.adver_matter_id = #MatterIdList[]#
 		  </iterate>
 		  </isNotNull> 
-          </dynamic>      
+          </dynamic>  
+          
+              
   </select>     
 	
 	
@@ -865,6 +882,9 @@
 		
 		,MT.brand_id as brand_id  
 		,PRODUCTBRAND.name as brand_name  
+		
+		,ci.customer_name 
+		,ci.customer_category_id
 		 
 		 from tb_adver_matter MT 
 		
@@ -876,6 +896,9 @@
 		                     
 		 inner  join  tb_adver_product_brand PRODUCTBRAND   
 		                     on MT.brand_id = PRODUCTBRAND.adver_product_brand_id	
+		                     
+		 left outer join tb_customer_info ci on MT.customer_id = ci.customer_id                       
+		                     
 		                     	                     
 		                     
    
@@ -917,6 +940,9 @@
 		,MT.brand_id as brand_id  
 		,PRODUCTBRAND.name as brand_name  		
 		
+		,ci.customer_name 
+		,ci.customer_category_id
+
 		 
 		 from tb_adver_matter MT 
 		 
@@ -925,6 +951,8 @@
 		
 		left outer join tb_customer_industry_type INDU
 			 on INDU.customer_industry_type_id = MT.adver_product_brand_id 	
+			 
+	    left outer join tb_customer_info ci on MT.customer_id = ci.customer_id  
     ]]>
 	 	<dynamic prepend="WHERE"> 
 			 <isNotNull prepend="AND" property="id">
@@ -1003,6 +1031,7 @@
          where adver_matter_id = #value#
     ]]>
     </delete>
+    
    <update id="deleteMatters" parameterClass="java.util.Map">
      <![CDATA[  
       delete from tb_adver_matter 

@@ -332,9 +332,7 @@ function inti_set_industry(){
 
 
 function initBrand(){
-	
 	function callbak(){
-		alert(999)
 		 var brandId2 = $("brandId2").value;
 		 Ext.getCmp('search_brand').setValue(brandId2);
 	}

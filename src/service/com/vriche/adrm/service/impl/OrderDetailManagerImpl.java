@@ -235,9 +235,17 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 
     	boolean industryLevel2 = SysParamUtil.getIndustryLevel2Param();
     	
+    	
+    	
 //    	System.out.println("getIndustryLevel2Param vvvvvvvvvvvvvvvvvv>>>>>>>>>>>>>>>" + industryLevel2);	
 //    	System.out.println("id vvvvvvvvvvvvvvvvvv>>>>>>>>>>>>>>>" + id);
+    	
+    	System.out.println("saveOrderDetail>*****************************************>>>>saveOrderDetail>>>>>go>>>>>saveOrderDetail>>>>>>>  33 44 55 " );	
+    	  
     	OrderDetail orderDetail = dao.getOrderDetail(new Long(id));
+    	
+    	System.out.println("saveOrderDetail>*****************************************>>>>saveOrderDetail>>>>>go>>>>>saveOrderDetail>>>>>>>  33 44 55 66" );	
+    	  
     	
 //    	System.out.println("getOrderDetail 8888888888888888888888888888>>>>>>>>>>>>>>>" + orderDetail.toString());	
     	
@@ -717,9 +725,13 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		            OrderLogUtil.saveLog(orderDetail, changeContent);
 			  }			
 			
+			  
+//			  System.out.println("saveOrderDetail>*****************************************>>>>saveOrderDetail>>>>>go>>>>>saveOrderDetail>>>>>>>  33 44 55 " );	
+  
 			 dao.saveOrderDetail(orderDetail);
 			 
-			 
+//			 System.out.println("saveOrderDetail>*****************************************>>>>saveOrderDetail>>>>>go>>>>>saveOrderDetail>>>>>>> 33 44 55 66"  );	
+
 
 			//判断是否需要保存日信息
 //			 System.out.println("saveOrderDetail orderDetail.getIsSaveOrderDayInfo().booleanValue()>>>>> 1111 111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + orderDetail.getIsSaveOrderDayInfo().booleanValue() );	
