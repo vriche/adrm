@@ -389,6 +389,8 @@
 		        CUT.customer_name AS customerName,
 		        MATT.tape_code AS tapeCode,
 		        MATT.name AS matterName,
+		        PRODUCTBRAND.adver_product_brand_id as brandId,
+		        PRODUCTBRAND.name  AS brandName,
 		        MATT.EDIT AS matterEdit,
 		        MATT.length AS matterLength,
 				ODD.ad_day_times AS adverTimes,	
@@ -420,6 +422,9 @@
 		
 				left outer join  tb_adver_matter MATT
              on  MATT.adver_matter_id = DT.adver_matter_id	
+             
+               left outer join tb_adver_product_brand PRODUCTBRAND   
+		                     on MATT.brand_id = PRODUCTBRAND.adver_product_brand_id	
 		
 				left outer join  tb_ad_resource_info RES
              on  RES.ad_resource_info_id = DT.ad_resource_info_id	
@@ -487,6 +492,8 @@
 		        CUT.customer_name AS customerName,
 		        MATT.tape_code AS tapeCode,
 		        MATT.name AS matterName,
+		        PRODUCTBRAND.adver_product_brand_id as brandId,
+		        PRODUCTBRAND.name  AS brandName,
 		        MATT.EDIT AS matterEdit,
 		        MATT.length AS matterLength,
 				ODD.ad_day_times AS adverTimes,	
@@ -508,6 +515,9 @@
 		  
 				left outer join  tb_adver_matter MATT
          on  MATT.adver_matter_id = DT.adver_matter_id  
+         
+         left outer join tb_adver_product_brand PRODUCTBRAND   
+		                     on MATT.brand_id = PRODUCTBRAND.adver_product_brand_id	
 		  			 
 				left outer join  tb_ad_resource_specific SP
          on  SP.ad_resource_specific_id = DT.ad_resource_specific_id

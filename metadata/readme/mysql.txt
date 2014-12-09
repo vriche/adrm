@@ -1,0 +1,11 @@
+ start slave;
+ stop slave;
+ show slave status\G
+ 
+  show slave status;
+  show slave status LIKE 'Slave_IO_Running%';
+  reset slave;
+  set GLOBAL SQL_SLAVE_SKIP_COUNTER=1;
+  
+ change master to master_host='168.168.168.2', master_user='root', master_password='root', master_log_file='mysql-bin-3306.000013', master_log_pos=643986060;
+ 

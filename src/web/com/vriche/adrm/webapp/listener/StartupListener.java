@@ -950,6 +950,12 @@ public class StartupListener extends ContextLoaderListener
     	 mgr.saveSysParams(Constants.ORDER_BASE_PRICE_ENABLE_MODY_PARAM,orderBasePriceEnableModyParam,ls);
     	 config.put(Constants.ORDER_BASE_PRICE_ENABLE_MODY_PARAM,orderBasePriceEnableModyParam);  
     	 
+    	 
+    	 // 广告编排是否显示品牌
+    	 String arrangeWithBrandParam = sysParam.getArrangeWithBrandParam();
+    	 mgr.saveSysParams(Constants.ARRANGE_WITH_BRAND_PARAM,arrangeWithBrandParam,ls);
+    	 config.put(Constants.ARRANGE_WITH_BRAND_PARAM,arrangeWithBrandParam);  
+    	 
   
 //    	 log.info("orderDisplayIncomeParam>>>>>>>>>>>>>>>>>>"+orderCalculateModel);
     

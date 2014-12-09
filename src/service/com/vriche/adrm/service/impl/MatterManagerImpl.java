@@ -553,6 +553,9 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 		
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,newMatter);
+		
+		
+		System.out.println(" eee tt getBrandId2 >>>>>>>>>>>tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt>>>brandId>>>>>>"+newMatter.getBrandId2());
 
 		matterId = dao.saveMatter(newMatter); 
 
@@ -580,8 +583,12 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 		ConvertUtil.copyBeanProperties2(obj,matterTest);
 //		obj.setId(matterId);
 //		saveDayangMatter(obj,importOption);	
-
+		
+		
+//		System.out.println("1111 >>>>>>>>>>>tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt>>>getBrandId2>>>>>>"+matterTest.getBrandId2());
+		
 		matterId = dao.saveMatter(matterTest);
+//		System.out.println("2222  >>>>>>>>>>>tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt>>>getBrandId2>>>>>>"+matterTest.getBrandId2());
 		
 		
 		obj.setId(matterId);
@@ -789,7 +796,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,matter);
 		
-//		System.out.println(">>>>>>>>>>>(matter.getBrandId2()>>>>>>>>>"+matter.getBrandId2());		
+		System.out.println(">>>>>>>>11111111111 666          7777 >>>(matter.getBrandId2()>>>>>>>>>"+matter.getBrandId2());		
 
 		matterId = dao.saveMatter(matter);
 		matter.setId(matterId);
@@ -1107,6 +1114,7 @@ public String getMattersNewsPageXML(String strQueryString) {
 		
 		String brandId = String.valueOf(LMan.getBrandId());
 		String brandId2 = String.valueOf(LMan.getBrandId2());
+		String brandName = String.valueOf(LMan.getBrand().getName());
 		String name = StringUtil.getNullValue(LMan.getName(),"");
 		String edit = StringUtil.getNullValue(LMan.getEdit(),"");
 
@@ -1147,7 +1155,8 @@ public String getMattersNewsPageXML(String strQueryString) {
 
 		sb.append("<row  id=\""+ id  +"\">");
 //		sb.append("<cell><![CDATA["+ i++ +"]]></cell>");
-		sb.append("<cell><![CDATA["+ StringUtil.encodeStringXML(customer.getCustomerName()) +"]]></cell>");
+//		sb.append("<cell><![CDATA["+ StringUtil.encodeStringXML(customer.getCustomerName()) +"]]></cell>");
+		sb.append("<cell><![CDATA["+ StringUtil.encodeStringXML(brandName) +"]]></cell>");
 //		sb.append("<cell><![CDATA["+ "11111111" +"]]></cell>");
 		sb.append("<cell><![CDATA["+ StringUtil.encodeStringXML(name) +"]]></cell>");
 		sb.append("<cell><![CDATA["+ StringUtil.encodeStringXML(edit) +"]]></cell>");
@@ -1194,6 +1203,7 @@ public Map buildParamBy(String strQueryString){
 	String length =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"length"),""));
 	String tapeCode =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"tapeCode"),""));
 	String brandId =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"brandId"),""));
+	String brandId2 =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"brandId2"),""));
 	String matterType =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"matterType"),""));
 	String sortStr =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"sortStr"),""));
 	String customerName =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"customerName"),""));
@@ -1217,6 +1227,7 @@ public Map buildParamBy(String strQueryString){
 	mp.put("edit",edit);
 	mp.put("length",length);	
 	mp.put("brandId",brandId);
+	mp.put("brandId2",brandId2);
 	mp.put("matterType",matterType);
 	mp.put("sortStr",sortStr);
 	mp.put("customerName",customerName);

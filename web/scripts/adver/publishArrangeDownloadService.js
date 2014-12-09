@@ -223,6 +223,8 @@ function saveFiles(){
 	    
 	    var type = config_piblishExportModelParam;
 	    
+//	    alert(type);
+	    
 	    
 	    //福州电视台只需要频道级别的数据！所以可以不用求出各个resourceIds,从而提高速度！
 	    if(type==3){
@@ -257,6 +259,8 @@ function saveFiles(){
 			function callBackFun(objs){
 				var carriers= new Array();
 				var carrierNames = getArrayFromObjs(objs,"carrierId","carrierName",carrierId);
+				
+//				alert(carrierNames);
 	
 				for(var i = 0; i<carrierNames.length; i++){
 					if(carriers.indexOf(carrierNames[i]) == -1) carriers.push(carrierNames[i]);

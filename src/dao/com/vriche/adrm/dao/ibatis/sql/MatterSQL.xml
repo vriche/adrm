@@ -18,12 +18,12 @@
 
 	
     <parameterMap id="addParam" class="matter">
-   	    <parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+   	    <parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long"/>
 		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="orgId" jdbcType="VARCHAR" javaType="java.lang.Long"/>
 		<parameter property="tapeCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        <parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Long" nullValue="0"/>
+        <parameter property="brandId" jdbcType="INTEGER" javaType="java.lang.Long"/>
         <parameter property="createBy" jdbcType="INTEGER" javaType="java.lang.Long"/>
         <parameter property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
         <parameter property="customerId" jdbcType="INTEGER" javaType="java.lang.Long"/>
@@ -126,6 +126,8 @@
 		
 		<result property="brandId" column="adver_product_brand_id"/>
 		<result property="brandId2" column="brand_id"/>
+		<result property="brand.id" column="brand_id"/>
+		<result property="brand.name" column="brand_name"/>		
 		
 		<result property="name" column="name"/>
 		<result property="memo" column="memo"/>
@@ -357,6 +359,11 @@
 		<result property="industryType" column="industry_type_id"/>
 		<result property="industry.name" column="industry_name"/>
 		<result property="industry.parentName" column="industy_parent_name"/>	
+		
+		<result property="brandId2" column="brand_id"/>
+		<result property="brand.id" column="brand_id"/>
+		<result property="brand.name" column="brand_name"/>			
+		
     </resultMap>
 	
 	<select id="getMattersByCustomerIdAndLength"  parameterClass="matter" resultMap="matterResultByCustomerIdAndLength">
@@ -371,7 +378,11 @@
 			MT.adver_product_brand_id as industry_type_id,
 		    MT.sys_org_id,
 		    INDU.name as industry_name,
-		    INDUPARENT.name as industy_parent_name   
+		    INDUPARENT.name as industy_parent_name,
+		    
+		    MT.brand_id as brand_id,
+		    PRODUCTBRAND.name as brand_name 
+
 		
 		from tb_adver_matter MT
 
@@ -386,6 +397,10 @@
 		
 		      left outer  join  tb_customer_industry_type INDUPARENT 
 		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
+		                     
+		      left outer join tb_adver_product_brand PRODUCTBRAND   
+		                     on MT.brand_id = PRODUCTBRAND.adver_product_brand_id			                     
+		                     
 
     ]]>
 	 	<dynamic prepend="WHERE"> 
@@ -438,12 +453,15 @@
 		ci.customer_name,
 		ci.customer_id,
 		ci.customer_category_id,
-		ty.name as matType_name
+		ty.name as matType_name,
+		
+		PRODUCTBRAND.name as brand_name 
 
 		from tb_adver_matter mt
 		
 		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id 
 		left outer join tb_adver_matter_type ty on ty.matter_type_id = mt.adver_matter_type 
+		left outer join tb_adver_product_brand PRODUCTBRAND   on mt.brand_id = PRODUCTBRAND.adver_product_brand_id	
 		 
     ]]>
 	 	<dynamic prepend="WHERE"> 
@@ -612,12 +630,16 @@
 		ci.customer_name,
 		ci.customer_id,
 		ci.customer_category_id,
-		ty.name as matType_name
+		ty.name as matType_name,
 		
-		from tb_adver_matter mt 
+		PRODUCTBRAND.name as brand_name 
+		
+		from tb_adver_matter mt  
+		
 		left outer join tb_customer_info ci on mt.customer_id = ci.customer_id 
 		left outer join tb_adver_matter_type ty on ty.matter_type_id = mt.adver_matter_type 
 		inner join  tb_order_detail od on mt.adver_matter_id = od.adver_matter_id
+		left outer join tb_adver_product_brand PRODUCTBRAND   on mt.brand_id = PRODUCTBRAND.adver_product_brand_id	
 		 
     ]]>
 	 	<dynamic prepend="WHERE"> 
@@ -699,7 +721,7 @@
 		left outer  join  tb_customer_industry_type INDUPARENT 
 		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
 		                     
-		inner  join  tb_adver_product_brand PRODUCTBRAND   
+		left outer  join  tb_adver_product_brand PRODUCTBRAND   
 		                     on mt.brand_id = PRODUCTBRAND.adver_product_brand_id	                     
 		                     
  
@@ -894,7 +916,7 @@
 		 left outer join tb_customer_industry_type INDUPARENT 
 		                     on INDUPARENT.customer_industry_type_id = INDU.parent_id	
 		                     
-		 inner  join  tb_adver_product_brand PRODUCTBRAND   
+		 left outer join tb_adver_product_brand PRODUCTBRAND   
 		                     on MT.brand_id = PRODUCTBRAND.adver_product_brand_id	
 		                     
 		 left outer join tb_customer_info ci on MT.customer_id = ci.customer_id                       
@@ -946,7 +968,7 @@
 		 
 		 from tb_adver_matter MT 
 		 
-		 inner  join  tb_adver_product_brand PRODUCTBRAND   
+		 left outer join  tb_adver_product_brand PRODUCTBRAND   
 		                     on MT.brand_id = PRODUCTBRAND.adver_product_brand_id			 
 		
 		left outer join tb_customer_industry_type INDU

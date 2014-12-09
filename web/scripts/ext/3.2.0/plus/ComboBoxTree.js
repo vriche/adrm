@@ -2,14 +2,14 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
     /**
      * -------------------------------------  
-     * 作为隐藏域的name属�??
+     * 浣滀负闅愯棌鍩熺殑name灞烇拷??
      * -------------------------------------
      */
     passName : 'id',  
 
     /**
      * -------------------------------------  
-     * 是否允许非叶子结点的单击事件
+     * 鏄惁鍏佽闈炲彾瀛愮粨鐐圭殑鍗曞嚮浜嬩欢
      *  
      * @default false  
      * -------------------------------------
@@ -18,13 +18,13 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
     /**
      * ---------------------  
-     * 树渲染的模板tpl  
+     * 鏍戞覆鏌撶殑妯℃澘tpl  
      * ---------------------
      */
-    // tpl: '<div id="treeTpl"></div>', //html代码  
+    // tpl: '<div id="treeTpl"></div>', //html浠ｇ爜  
     /**
      * -----------------------
-     * 树显示的高度，默认为180
+     * 鏍戞樉绀虹殑楂樺害锛岄粯璁や负180
      * -----------------------
      */
     treeHeight : 180,  
@@ -37,17 +37,17 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
     }),  
       
     //Default  
-    editable : false, // 禁止手写及联想功�???  
+    editable : false, // 绂佹鎵嬪啓鍙婅仈鎯冲姛锟�??  
     mode : 'local',  
     triggerAction : 'all',  
     maxHeight : 500,  
     selectedClass : '',  
     onSelect : Ext.emptyFn,  
     canCollapse: true,
-    emptyText : '请选择...',  
+    emptyText : '...',  
 
     /**
-     * 清空�???
+     * 娓呯┖锟�??
      */
     clearValue : function() {  
         if (this.passField) {  
@@ -58,7 +58,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
             },  
       
     /**
-     * 设置传�??
+     * 璁剧疆浼狅拷??
      * @param passvalue
      */
     setPassValue: function(passvalue){  
@@ -68,7 +68,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
     /**
      * --------------------------------------  
-     * 下拉树被点击事件添加�???处理方法
+     * 涓嬫媺鏍戣鐐瑰嚮浜嬩欢娣诲姞锟�??澶勭悊鏂规硶
      * @param node
      * --------------------------------------
      */
@@ -140,37 +140,37 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
     /**
      * ----------------------------------  
-     * 树的单击事件处理
+     * 鏍戠殑鍗曞嚮浜嬩欢澶勭悊
      * @param node,event
      * ----------------------------------
      */
     treeClk : function(node, e) {  
         if (!node.isLeaf() && !this.allowUnLeafClick) {  
-            e.stopEvent();// 非叶子节点则不触�???  
+            e.stopEvent();// 闈炲彾瀛愯妭鐐瑰垯涓嶈Е锟�??  
             return;  
         }  
         
                     
                     	
-        this.setValue(node.text);// 设置option�???  
+        this.setValue(node.text);// 璁剧疆option锟�??  
         this.value = node.id;
-        this.collapse();// 隐藏option列表  
+        this.collapse();// 闅愯棌option鍒楄〃  
 
         if (this.passField)  
-            this.passField.value = node.id;// 以树的节点ID传�??  
+            this.passField.value = node.id;// 浠ユ爲鐨勮妭鐐笽D浼狅拷??  
 
-        // 选中树节点后的触发事�???  
+        // 閫変腑鏍戣妭鐐瑰悗鐨勮Е鍙戜簨锟�??  
         this.fireEvent('treeselected', node);  
 
     },  
 
 
-//    //新增 隐藏下拉
+//    //鏂板 闅愯棌涓嬫媺
 //    collapsed:function(){
 //      this.collapse();
 //    },
     /**
-     * 初始�???
+     * 鍒濆锟�??
      * Init
      */
     initComponent : function() {  
@@ -187,9 +187,9 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
         
         /**
          * -----------------------  
-         * 添加treeselected事件�???
-         * 选中树节点会�???发这个事
-         * 件， 参数为树的节�???
+         * 娣诲姞treeselected浜嬩欢锟�??
+         * 閫変腑鏍戣妭鐐逛細锟�??鍙戣繖涓簨
+         * 浠讹紝 鍙傛暟涓烘爲鐨勮妭锟�??
          * ------------------------
          */
         this.addEvents('treeselected');  
@@ -202,7 +202,7 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
     /**
      * ------------------
-     * 事件监听�???  
+     * 浜嬩欢鐩戝惉锟�??  
      * Listener
      * ------------------
      */
@@ -220,10 +220,10 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 				
                     this.tree.render('ext-combobox-tree' + this.tplId);
                 }  
-                this.tree.root.reload();//每次下拉菜单出现的时候都重刷新树
+                this.tree.root.reload();//姣忔涓嬫媺鑿滃崟鍑虹幇鐨勬椂鍊欓兘閲嶅埛鏂版爲
                 this.tree.show();  
             },  
-            single : true //true 我感觉是执行�???次，我改成了false  
+            single : true //true 鎴戞劅瑙夋槸鎵ц锟�??娆★紝鎴戞敼鎴愪簡false  
         },  
 
         'render' : {  
@@ -236,8 +236,8 @@ ComboBoxTree = Ext.extend(Ext.form.ClearableComboBox, {
 
                 /**
                  * -------------------------------------------  
-                 * 创建隐藏输入�???<input />
-                 * 并将其dom传给passField  
+                 * 鍒涘缓闅愯棌杈撳叆锟�??<input />
+                 * 骞跺皢鍏禿om浼犵粰passField  
                  * ------------------------------------------
                  */
                 if (this.passName) {  
@@ -280,8 +280,8 @@ Ext.override(Ext.form.ComboBox, {
     });  
 /**
 * ---------------------------------  
-* 将ComboBoxTree注册为Ext的组�???,以便使用
-* Ext的延迟渲染机制，xtype:'combotree'  
+* 灏咰omboBoxTree娉ㄥ唽涓篍xt鐨勭粍锟�??,浠ヤ究浣跨敤
+* Ext鐨勫欢杩熸覆鏌撴満鍒讹紝xtype:'combotree'  
 * ---------------------------------
 */
 Ext.reg('combotree', ComboBoxTree);

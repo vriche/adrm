@@ -53,7 +53,7 @@
          <result property="helpCode" column="help_code"/>
     </resultMap>
 
-    <select id="getBrands" resultMap="brandResult" cacheModel="brand-cache">
+    <select id="getBrands" resultMap="brandResult">
     <![CDATA[
         select * from tb_adver_product_brand 
     ]]>
@@ -80,7 +80,7 @@
 			(modify_date like #modifyDate#)
 			</isNotEmpty>
 			<isNotEmpty prepend="AND" property="name">
-			(name like #name#)
+			(name like  '%$name$%'  )
 			</isNotEmpty>
 		</dynamic>
 		

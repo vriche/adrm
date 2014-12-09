@@ -916,16 +916,31 @@ public class StringUtil {
 	  public    static String map2QueryString(Map  map) {
 	    	StringBuffer sb = new StringBuffer();
 	        Iterator it =  map.entrySet().iterator();
+	        int i =0;
 	        while(it.hasNext()){
+//	        	 System.out.println("6 0********************* entry.getKey() ******************  "+it.next());
 	        	Map.Entry entry = (Map.Entry)it.next();
 //	        	String value = (String)map.get(key);
+//	        	 System.out.println("6 0********************* entry ******************  "+ entry);
 	        	 if (sb.length() > 0) {
 	        		  sb.append("&");
 	        	 }
-	        	 sb.append(urlEncodeUTF8(entry.getKey().toString()));
-	        	 sb.append("=");
-	        	 sb.append(urlEncodeUTF8(entry.getValue().toString()));
+	        	
+	        	 
+		        	 sb.append(urlEncodeUTF8(entry.getKey().toString()));
+		        	 sb.append("=");
+		        	 if(entry.getValue() != null){
+		        		 sb.append(urlEncodeUTF8(entry.getValue().toString()));  
+	        	     }
+
+	        	 
+//	        	 System.out.println("6 0*********************entry.getKey() end******************  "+(i++)+"_"+entry.getValue());
+	        	 
+//	        	 System.out.println("6 0*********************entry.getKey()******************  "+ entry.getKey());
+	        	 
 	        }
+	        
+//	        System.out.println("6 0*********************entry.getKey() end******************  ");
 
 	        return sb.toString();       
 	    }	   

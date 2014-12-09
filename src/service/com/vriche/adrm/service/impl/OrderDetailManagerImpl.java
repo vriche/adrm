@@ -4202,13 +4202,13 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
     		boolean isOutstripTimeLimit = resource.getIsClosed().booleanValue();
     		orderDetail.setId(null);  
     		
-     	Double sysPrice = new Double(0);
-		try {
-			sysPrice = getResourceSysPrice(resId,length,priceTypeId);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	     	Double sysPrice = new Double(0);
+			try {
+				sysPrice = getResourceSysPrice(resId,length,priceTypeId);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
     		sysPrice = (sysPrice == null)? new Double(0):sysPrice;
     		orderDetail.setSysPrice(sysPrice);
     		

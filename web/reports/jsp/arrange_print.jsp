@@ -56,7 +56,7 @@
 <%}%>
 
 <%
-if(model.equals("export")){
+if(model.equals("export")||model.equals("pdf")){
 	response.sendRedirect("../../reports/printArrange");
 }
 %>

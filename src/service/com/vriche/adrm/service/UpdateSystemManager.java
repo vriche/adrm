@@ -15,5 +15,7 @@ public interface UpdateSystemManager  extends Manager{
 	public void excuteSqlClearDataDBorder();
 	
 	public void excuteSqlTransferDataDB();
+	
+	public void clearOrderByYear(String year);
 
 }

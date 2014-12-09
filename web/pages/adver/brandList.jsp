@@ -25,6 +25,9 @@
                     <td><span class="tile1">
 					   
 						<a href="editBrand.html" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<fmt:message key="button.add"/>&nbsp;&nbsp;&nbsp;&nbsp;</a>
+						
+						Ãû³Æ£º<input name="name" id="name" type=text >
+						<input type="button"   class="button" id="btnSearche" value='<fmt:message key="publishArrangeDownload.query"/>'>
 					
                     </span>
                     </td>

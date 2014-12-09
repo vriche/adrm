@@ -71,7 +71,7 @@ public class OrderListServlet extends HttpServlet
 		    
 		    System.out.println("service>>>>>>>>>>>>strQueryString>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + strQueryString);   
 
-			
+		    int orgId =  Integer.parseInt(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"orgId"),"-1"));
 	        
 	        int posStart =  Integer.parseInt(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"posStart"),"0"));
 //	        System.out.println(">>>>>>>>>>>>posStart>>>>>>>>>>>111111111111111>>>>>>>>>>>>>>>>>>>>>>>>>" + posStart);   
@@ -154,7 +154,7 @@ public class OrderListServlet extends HttpServlet
 
 	        try {
 //	        	System.out.println("search orders>eeeeeeeeeeeee>>>"+pageList.size());
-				this.createXML(request,response,pageList,objSum,posStart,count,scrollTop,fromEdit,tvName);
+				this.createXML(request,response,pageList,objSum,posStart,count,scrollTop,fromEdit,tvName,new Long(orgId));
 //				System.out.println("search orders>ffffffffffffffff>>>"+pageList.size());
 
 			} catch (IOException e) {
@@ -223,7 +223,7 @@ public class OrderListServlet extends HttpServlet
 		return orderDetailRowCss;
 	}	
 	//	 Get base XML for grid
-	public void createXML(HttpServletRequest request,HttpServletResponse response,List pageList,Order  objSum,int posStart,int count,int scrollTop,int fromEdit,String tvName) throws IOException, ClassNotFoundException, SQLException{
+	public void createXML(HttpServletRequest request,HttpServletResponse response,List pageList,Order  objSum,int posStart,int count,int scrollTop,int fromEdit,String tvName,Long orgId) throws IOException, ClassNotFoundException, SQLException{
 		boolean isWithoutSubmit = SysParamUtil.getWithoutSubmitParam();
 		boolean isOrderDisplayRelcode = SysParamUtil.getOrderDisplayRelcodeParam();
 		boolean isOrderDisplayIncomeParam = SysParamUtil.getOrderDisplayIncomeParam();
@@ -413,9 +413,11 @@ public class OrderListServlet extends HttpServlet
 		int k = 0;
 		while (it.hasNext()){
 			Order order = (Order)it.next();
-			
-			Long orgId = order.getOrgId();
-//			System.out.println("*******************************************orgId********************  "+ orgId);
+			if(orgId == -1){
+				orgId = order.getOrgId();
+			}
+//			Long orgId = order.getOrgId();
+			System.out.println("1*******************************************orgId********************  "+ orgId);
 			
 			row = xmldoc.createElementNS(null,"row");
 			row.setAttributeNS(null,"id",order.getId().toString());
@@ -428,6 +430,8 @@ public class OrderListServlet extends HttpServlet
 			}else{
 				 orderDetailRowCss = getOrderRowCss(k++,orderStates,order.getIsCkecked().toString());
 			}
+			
+			System.out.println("2*******************************************orgId********************  "+ orgId);
 
 			
 			row.setAttributeNS(null,"class",orderDetailRowCss);
@@ -439,7 +443,7 @@ public class OrderListServlet extends HttpServlet
 			
 			if(isWithoutSubmit){
 				
-				
+				System.out.println("3******************************************orgId********************  "+ orgId);
 //				 System.out.println(">>>>>55555555555555555555555555555555555555555555555555555555555>>>>>>" +orderStates);
 				
 				if( "5".equals(orderStates)||"6".equals(orderStates)||"0".equals(orderStates) ){
@@ -469,7 +473,7 @@ public class OrderListServlet extends HttpServlet
 //				}
 			}else{
 				
-				
+				System.out.println("4*******************************************orgId********************  "+ orgId);
 				
 				if( "5".equals(orderStates) ){
 					
@@ -512,7 +516,7 @@ public class OrderListServlet extends HttpServlet
 			
 			row.appendChild(cell);
 			
-			
+			System.out.println("5*******************************************orgId********************  "+ orgId);
 			
 //		    String deco = "<a href='" +request.getContextPath() +"/editOrder.html?id=" + order.getId() +"&pos="+ posStart +"&orderStates="+ orderStates ;
 //		     deco = "&userId="+ userId+"&categoryId="+ orderMeno+"&customerId="+ customerId+"&customerForm.customerName="+ customerName;
@@ -528,9 +532,15 @@ public class OrderListServlet extends HttpServlet
 //			}
 			
 			
+//			System.out.println("6*******************************************strQueryString********************  "+ strQueryString);
+			
 			mp.put("orgId",orgId) ;
 			mp.put("id",order.getId());
+			
+			System.out.println("6 0*******************************************orgId********************  "+ orgId);
 			strQueryString = StringUtil.map2QueryString(mp);
+			
+			System.out.println("6 0 1*******************************************orgId********************  "+ orgId);
 
 			String url1 = strQueryString ;
 //			String url1 = request.getContextPath()+ "/editOrder.html?"+ strQueryString ;
@@ -541,16 +551,18 @@ public class OrderListServlet extends HttpServlet
 //			cell.setAttribute("type","link");
 //			cell.appendChild(xmldoc.createTextNode("ÍË»Ø^javascript:alert(1);^_self"));			
 			
+			System.out.println("6 1*******************************************orgId********************  "+ order.getOrderCode());
 			
 //			sb.append("<userdata name=\"type\">1</userdata>");
 			userdata = xmldoc.createElementNS(null,"userdata");
 			userdata.setAttribute("name","href");
 			userdata.appendChild(xmldoc.createTextNode(url1));
 			row.appendChild(userdata);
-	
-	
-			
+
 //			System.out.println("getAuthorList2>root>>>>>>>>"+ url);
+			
+			
+			System.out.println("6 2*******************************************orgId********************  "+ url3);
 			
 			cell = xmldoc.createElementNS(null,"cell");
 			cell.setAttribute("type","link");
@@ -561,6 +573,8 @@ public class OrderListServlet extends HttpServlet
 			row.appendChild(cell);
 			
 			
+			System.out.println("6 3*******************************************orgId********************  "+ orgId);
+			
 			if(isOrderDisplayRelcode){
 				cell = xmldoc.createElementNS(null,"cell");
 				cell.appendChild(xmldoc.createTextNode(StringUtil.null2String(order.getRelationCode())));
@@ -568,7 +582,7 @@ public class OrderListServlet extends HttpServlet
 			}
 
 			
-			
+			System.out.println("7*******************************************orgId********************  "+ orgId);
 			
 			cell = xmldoc.createElementNS(null,"cell");
 			cell.appendChild(xmldoc.createTextNode(StringUtil.null2String(order.getContract().getCode())));
@@ -624,6 +638,8 @@ public class OrderListServlet extends HttpServlet
 			root.appendChild(row);				
 		}
 	
+		
+		System.out.println("8*******************************************orgId********************  ");
 
 		xmldoc.appendChild(root);
 		
@@ -631,7 +647,7 @@ public class OrderListServlet extends HttpServlet
 	    format.setIndenting(true); 
 	    XMLSerializer serializer = new XMLSerializer(out,format);
 	    
-//	    System.out.println(">>>>>>>>>>>>>>xmldoc>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+xmldoc);
+	    System.out.println(">>>>>>>>>>>>>>xmldoc>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+xmldoc);
 		
 	    
 

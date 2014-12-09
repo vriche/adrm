@@ -56,8 +56,12 @@ public class PublishArrangeDetail extends BaseObject implements Comparable{
     protected Long orderDetailId;
     protected Long matterId;      
     protected Long ownerUserId;   //πÈ Ù“µŒÒ‘±
+    protected Long brandId;
+    protected String brandName;
     
-    protected String firstName;	
+
+
+	protected String firstName;	
     protected String lastName;	
     
     protected String orderCode;
@@ -97,7 +101,18 @@ public class PublishArrangeDetail extends BaseObject implements Comparable{
 		return publishArrangeId;
 	}
 	
-
+    public Long getBrandId() {
+		return brandId;
+	}
+	public void setBrandId(Long brandId) {
+		this.brandId = brandId;
+	}
+	public String getBrandName() {
+		return brandName;
+	}
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
 	/**
 	 * 
 	 * Returns the publishSort

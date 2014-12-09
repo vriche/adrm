@@ -81,6 +81,8 @@ callOnLoad(init);
  	ctxPath =  _app_params.ctxPath;	 	
  	
  	config_serviceDate = _app_params.serviceDate.def;
+ 	
+// 	alert(_app_params.serviceDate.adrmSysYear);
    
  	_make_adrm_sys_year_select("order_year",_app_params.serviceDate.adrmSysYear);
  	

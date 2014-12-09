@@ -115,7 +115,8 @@ callOnLoad(init);
 	mygrid.setImagePath(ctxPath+"image/grid/");
 
 	    
-		var	flds  = "客户名称,广告名称,版本,长度,磁带号,行业,分类,创建时间,用";
+//		var	flds  = "客户名称,广告名称,版本,长度,磁带号,行业,分类,创建时间,用";
+		var	flds  = "品牌,广告名称,版本,长度,磁带号,行业,分类,创建时间,用";
 	    var	columnIds =  "customer_name,name,edit,length,tape_code,adver_product_brand_id,adver_matter_type,create_date,use_end_date";  
 		mygrid.setHeader(flds);
 		mygrid.setColumnIds(columnIds);
@@ -173,6 +174,8 @@ callOnLoad(init);
 	 var tb = parent.search_adver_win.getTopToolbar();
      
 //    var brandId =  Ext.getCmp("customer_name").getValue();
+	 
+	var brandId2 =  Ext.getCmp("search_brand_cmd").getValue();
     var name = tb.getComponent('search_adver_name').getRawValue();
     var edit = tb.getComponent('search_adver_edit').getRawValue();
     var length = tb.getComponent('search_adver_len').getRawValue();
@@ -196,6 +199,7 @@ callOnLoad(init);
 	var paramObj = {
 					orgId:orgId,
 					customerId:cutid,
+					brandId2:brandId2,
 //					customerName:customer_name,
 			        tapeCode:tapeCode,
 			        matterType:matterType,
@@ -333,11 +337,14 @@ function save_new_matter(){
  
 
  function loadGridData(params){ 
+	 
+//	 alert( params.brandId2)
 
-       
 // 	    var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null|| params.customerName !=null;
- 	   var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null;
+ 	   var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null|| params.brandId2 !=null;
 
+ 	   if(params.brandId2 == 0) params.brandId2 = null;
+ 	   
  	    mygrid.clearAll();
  	    if(!fid) return false;
         var loadDataURL = ctxPath + "servlet/matterListServlet?" + $H(params).toQueryString();	

@@ -8,6 +8,7 @@ encoding//web/WEB-INF/classes/displaytag_zh_CN.properties=GBK
 encoding//web/scripts/common/dwr-lib.js=UTF-8
 encoding//web/scripts/common/utils.js=UTF-8
 encoding//web/scripts/ext/3.2.0/ext-lang-zh_CN.js=UTF-8
+encoding//web/scripts/ext/3.2.0/plus/ComboBoxTree.js=UTF-8
 encoding//web/scripts/ext/3.2.0/plus/ComboBoxTree_bak.js=UTF-8
 encoding//web/scripts/ext/3.2.0/plus/TreeCheckNodeUI.js=UTF-8
 encoding//web/scripts/ext/ext-4.0.0/locale/ext-lang-zh_CN.js=UTF-8

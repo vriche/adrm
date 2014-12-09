@@ -101,6 +101,19 @@ CustomerAddress.prototype.saveCustomerAddressFormOrder = function(custId,provinc
 			CustomerAddressManager.saveCustomerAddressList(this.obj);
 }
 
+CustomerAddress.prototype.saveCustomerAddressFormOrder2 = function(custId,province,address){
+	this.obj.id = null;
+	this.obj.customerId = custId;
+	this.obj.addressType = "";
+	this.obj.address = address;
+	this.obj.city =  "";
+	this.obj.country = "÷–π˙";
+	this.obj.postalCode = "";
+	this.obj.province = province;
+	this.obj.version = 0;
+	CustomerAddressManager.saveCustomerAddressList(this.obj);
+}
+
 CustomerAddress.prototype.removeCustomerAddressById = function(id){
 	CustomerAddressManager.removeCustomerAddress(id);	
 }
@@ -315,5 +328,25 @@ CustomerAddress.prototype.addNewRow = function(mode,editRow){
 	setColors(tBody,this.color1,this.color2);
 }
 
+CustomerAddress.prototype.buildOfficeTelField = function(rederId,elname,width) {
+	
+	new Ext.form.ComboBox({
+     store:  new Ext.data.Store(),
+     hideLabels:true,
+     id:elname,
+     name:elname,
+     width:width,
+     displayField:'name',
+      valueField:'id',
+     typeAhead: true,
+     forceSelection: false,
+     triggerAction: 'all',
+     fieldLabel: '«ÎÃÓµÿ÷∑',
+     emptyText:'«ÎÃÓ–¥µÿ÷∑...',
+     selectOnFocus:true,
+      mode: 'local',
+     renderTo:rederId
+ });	
 
+}
 

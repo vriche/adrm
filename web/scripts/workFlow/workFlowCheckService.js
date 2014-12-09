@@ -597,6 +597,9 @@ function saveChechResult(chechResultPara){
 
 	//obj.checkStateId = getCheckStateByResult();
 	obj.checkStateId = chechResultPara;
+	obj.version = $("order_year").value;
+	
+	
 	
 	if(obj.checkStateId==null||obj.checkStateId==0){
 		alert("请选择审批意见！");

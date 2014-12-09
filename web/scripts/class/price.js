@@ -83,12 +83,27 @@ Price.prototype.makeSelectItemAnalyze = function(obj,name,event){
 
 
 Price.prototype.getPricesForImport = function(obj,name,event){
-
-	PriceManager.getPricesForImport(fillFun,obj);
-	
+   
+    var el = document.getElementById(name);
+  
+    el.setAttribute("style","width:100px;overflow:hidden;");
+	DWRUtil.removeAllOptions(el);
 	function fillFun(objs){
-		makeSelectHtmlAnalyze(objs,name,event);
+		DWRUtil.addOptions(el, objs);
+		el.setAttribute("onChange","javascript:"+ event +"(this)");
 	}
+
+	PriceManager.getPricesForImport(obj,fillFun);
+	
+//	function fillFun(objs){
+//		makeSelectHtmlAnalyze(objs,name,event);
+////		makeSelectHtmlWidth(objs,name,event,18);
+//	}
+	
+
+	
+	
+	
 }
 
 
@@ -270,7 +285,7 @@ Price.prototype.getPricesByResId = function(resId,func){
     }
 }
 Price.prototype.savePrice = function(o,func){
-	PriceManager.savePrice(func,o);
+	PriceManager.savePrice(o,func);
 }
 
 Price.prototype.getCountByResId = function(resId){

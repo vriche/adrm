@@ -581,6 +581,12 @@ private void getBranchByParnetId(Long branchId,List BranchParentList){
 				param.setOrderBasePriceEnableModyParam(v); 
 			}	
 			
+			if(sysParam.getName().equals(Constants.ARRANGE_WITH_BRAND_PARAM)){
+				String v = sysParam.getValue();
+				v = v ==null|| "".equals(v)?"0":v;
+				param.setArrangeWithBrandParam(v); 
+			}	
+			
 		}
 		return param;
 		
@@ -1691,7 +1697,7 @@ public void excuteSql() {
 			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
 		}
 		
-		//¡Ÿ ±◊¢ Õ  
+		//¡Ÿ ±◊¢ Õ   
 //		mody_matter_helpcode(20);	
 
 		
@@ -2102,7 +2108,7 @@ public void saveSysParams(String target,String value,List ls) {
 		}
 		
 		if(target.equals(Constants.ADRM_SYS_YEAR_PROGRAM_LIST)){
-			sysParam.setValue("2006,2007,2008,2009,2010,2011,2012,2013,2014");
+			sysParam.setValue("2006,2007,2008,2009,2010,2011,2012,2013,2014,2015");
 		}
 
 		sysParam.setMemo(sysParam.getMenoByName(target));

@@ -15,6 +15,8 @@ import java.util.List;
 
 
 
+
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -43,8 +45,13 @@ public class CMatter extends BaseObjectWithoutNestedFormValidation {
     protected String tapeCode;
     protected Integer industryType;
     
+    protected Long brandId2;    //Æ·ÅÆ
+    protected Brand brand = new Brand();
     
-    protected Industry industry = new Industry();
+    
+
+
+	protected Industry industry = new Industry();
 
 //    protected Long createBy;				  //default sysdate
 //    protected Date createDate;					  
@@ -213,6 +220,19 @@ public class CMatter extends BaseObjectWithoutNestedFormValidation {
 	}
 	public void setIndustry(Industry industry) {
 		this.industry = industry;
+	}
+	
+    public Long getBrandId2() {
+		return brandId2;
+	}
+	public void setBrandId2(Long brandId2) {
+		this.brandId2 = brandId2;
+	}
+	public Brand getBrand() {
+		return brand;
+	}
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
     
 	public static String encodeStringXML(String strData){

@@ -37,7 +37,8 @@ function Brand(){
 	this.fileds =
 		[
 				{name: "id", type: "int"},
-				{name: "name", type: "string"}
+				{name: "name", type: "string"},
+				{name: "helpCode", type: "string"}
 		];
 	
 	return this;	
@@ -95,6 +96,80 @@ Brand.prototype.getStoreBrands = function(mode,paramObj){
 };
 
 
+
+Brand.prototype.comboFilterBy2 = function(qe){
+	 var combo = qe.combo;  
+	 var filterFiled = combo.filterFiled;
+	 var filterFiled2 = combo.filterFiled2;
+	 var params = combo.params;
+	 var q = qe.query;  
+	 var minChars = combo.minChars;
+
+
+	 
+	//  if(q.length < minChars) return false;
+	  eval("params."+ filterFiled +" =q");
+	  eval("params."+ filterFiled2 +" =q");
+
+	 var forceAll = qe.forceAll;  
+	 
+	
+	 
+		 if(forceAll === true || (q.length >= combo.minChars)){  
+		     if(combo.lastQuery !== q){  
+		         combo.lastQuery = q;  
+
+		         if(combo.mode == 'local'){  
+		             combo.selectedIndex = -1;  
+		             if(forceAll){  
+		                 combo.store.clearFilter();  
+		             }else{  
+		            	 
+//		            	 alert(filterFiled)
+//		            	 alert(filterFiled2)
+		                 combo.store.filterBy(function(record,id){  
+		                 	
+//		                     var text = record.get(filterFiled);  
+//		                     //在这里写自己的过滤代码  
+//		                     return (text.indexOf(q)!=-1);  
+		                     
+		                     
+		                     var text = record.get(filterFiled);  
+		                     var match = (text.indexOf(q)!=-1);  
+		                     if(!match && filterFiled2){
+		                     	match = (record.get(filterFiled2).indexOf(q)!=-1);
+		                     }
+		                     
+		                    
+		                     
+		                     //在这里写自己的过滤代码  
+		                     return match;  	                     
+
+		                 });  
+		             }  
+		             combo.onLoad();   
+		             
+		         }else{  
+		         	
+		         	 if(q !== ''){
+			             combo.store.baseParams[combo.queryParam] = q;  
+			             combo.store.load({  
+							  params:{dwrParams:[params]}   
+			             });  
+		         	 }
+
+			         combo.expand(); 
+
+		         }  
+		     }else{  
+		     	
+		         combo.selectedIndex = -1;  
+		         combo.onLoad();  
+		     }  
+		 }  
+	 	return false;  
+	 	} 
+
 Brand.prototype.getBrandCmd =  function(paramObj,renderTo,elname,filterFiled,width,emptyText,callFunction){
 	
 	var store = this.getStoreBrands('local',this.obj);
@@ -108,14 +183,17 @@ Brand.prototype.getBrandCmd =  function(paramObj,renderTo,elname,filterFiled,wid
         lazyRender: true,
         displayField:'name',
          valueField:'id',
-        typeAhead: true,
+//        typeAhead: true,
         forceSelection: true,
         triggerAction: 'all',
         emptyText:emptyText,
         selectOnFocus:true,
          mode: 'local',
          minChars:1,
-         params:paramObj
+         params:paramObj,
+		 filterFiled:'name',
+		 filterFiled2:'helpCode',
+         listeners:{beforequery:this.comboFilterBy2.createDelegate(this)}	
 
     };  
 
@@ -123,8 +201,8 @@ Brand.prototype.getBrandCmd =  function(paramObj,renderTo,elname,filterFiled,wid
     if(filterFiled) conf.filterFiled = filterFiled;
     if(callFunction) conf.callFunction = callFunction;
     
-//	var cmd = new Ext.form.ClearableComboBox(conf);
-	var cmd = new Ext.form.ComboBox(conf);
+	var cmd = new Ext.form.ClearableComboBox(conf);
+//	var cmd = new Ext.form.ComboBox(conf);
 	
 
 // 	cmd.getEl().on("mousedown",function(){cmd.onTriggerClick();});
@@ -145,6 +223,11 @@ Brand.prototype.getBrandCmd =  function(paramObj,renderTo,elname,filterFiled,wid
 //	 }
 //
 //     cmd.on("clear",func,this);	 
+	
+	function func2(){
+		cmd.callFunction(cmd.getRawValue());
+//		getMatterNames(cmd.getRawValue());
+	}
 //     cmd.on("select",func2,this);	 
 //	function func2(){
 //		 if(callFunction) callFunction();
@@ -226,5 +309,72 @@ Brand.prototype.fillTable = function(objs){
 	setColors(tBody, color1, color2); 
 	 
 }	
+
+
+
+
+
+
+Brand.prototype.getCommandForSelect =  function(paramObj,renderTo,elname,searchFilterFiled,width,emptyText,callFunction){
+	var OBJ = this;
+	var store = OBJ.getStoreBrands('remote',OBJ.obj);
+         
+	var conf ={
+	        store: store,
+	        id:elname,
+	        name:elname,
+	        listWidth: 200,
+	        width:width,
+	        lazyRender: true,
+	        displayField:'name',
+	         valueField:'id',
+//	        typeAhead: true,
+	        forceSelection: true,
+	        triggerAction: 'all',
+	        emptyText:emptyText,
+	        selectOnFocus:true,
+	         mode: 'local',
+	         minChars:1,
+	         params:paramObj,
+			 filterFiled:'name',
+			 filterFiled2:'helpCode'
+	         ,listeners:{beforequery:this.comboFilterBy2.createDelegate(this)}	
+
+    };  
+
+    if(renderTo) conf.renderTo = renderTo;
+    if(searchFilterFiled) conf.searchFilterFiled = searchFilterFiled;
+    if(callFunction) conf.callFunction = callFunction;
+    
+	var cmd = new Ext.form.ClearableComboBox(conf);
+
+// 	cmd.getEl().on("mousedown",function(){cmd.onTriggerClick();});
+     
+	 function clear(){
+	 	 var searchFilterFiled = cmd.searchFilterFiled;
+	 	 var params = cmd.params;
+	 	 eval("params."+ searchFilterFiled +" =null");
+	 	 cmd.callFunction(params);
+	 }
+	 
+	function select(){
+	 	 var searchFilterFiled = cmd.searchFilterFiled;
+	 	 var params = cmd.params;
+	 	 var value = cmd.getValue();
+	 	 eval("params."+ searchFilterFiled +" =value");
+	 	 cmd.callFunction(params);
+	 }
 	
-		
+//	function beforequery(){
+//		 alert(99)
+//	}
+	
+
+     cmd.on("clear",clear,this);	 
+     cmd.on("select",select,this);	
+//     cmd.on("beforequery",this.comboFilterBy2,this);	
+
+     
+	return cmd;
+
+ };

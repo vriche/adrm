@@ -1223,13 +1223,25 @@ lastCarrierId:<input name="text" id="lastCarrierId" value="">
       		 <tr> <td colspan="2">&nbsp;</td> </tr>
       		  
             <tr> 
-
               <td><div id="regCustomerDiv" name="regCustomerDiv"></td> 
               <td><div id="regCustomerAreaDiv" name="regCustomerAreaDiv"></td> 
-  			  <1-- td><div id="regCustomterLinkManDiv" name="regCustomterLinkManDiv"></td --> 
-  			
             </tr>
+            
+             <tr> <td colspan="2">&nbsp;</td> </tr>
+             
+             <tr> 
+	            
+	             <td><div id="regCustomterLinkManOfficeTelDiv" name="regCustomterLinkManOfficeTelDiv"></td> 
+	              <td><div id="regCustomterLinkManDiv" name="regCustomterLinkManDiv"></td> 
+             </tr>
+             
            <tr> <td colspan="2">&nbsp;</td> </tr>
+           
+            <tr> <td colspan="2"><div id="regCustomterAddressDiv" name="regCustomterAddressDiv"></td> </tr>
+           
+            <tr> <td colspan="2">&nbsp;</td> </tr>
+           
+           
            <tr> 
             <td width="100%" colspan="2">
 	                <!-- span><fmt:message key="orderForm.regCustomerGrid"/></span -->

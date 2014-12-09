@@ -1,0 +1,129 @@
+财务
+1、查询不起作用
+2、到款录入，需要自动分隔
+3、到款浏览，行选中
+4、催款提醒（有余款的同时还有欠款的客户）
+5、到款分配明细可以查询
+6、余款的分配规则
+7、到款分配做个挂账标识，有标识的到款是不允许分配的
+
+业务员下的品牌
+以品牌为主看各用户投放
+汇总统计增加品牌
+品牌不同年度对比
+
+
+
+01280 版本有& 显示的问题
+1、修改完，返回原来的界面事，回到原来的那一条
+
+
+时段维护，如果载体选择了默认属性，那么资源都使用默认属性
+
+
+
+1、广告换版本 长度为0不能可以更换   ok
+2、广告资源查询最好按天出，播出位置需要时间描述
+3、汇总统计 客户名称查找问题 ok
+4、统计时间格式，与金额格式
+5、正常订单手动输入价格时计算价格不稳定
+6、刊例价格可以手动输入
+7、可以根据折扣查订单
+
+
+
+
+			 
+			 
+			 SELECT
+RS.ad_resource_info_id,
+RS.memo,
+RS.resource_name,
+
+
+ WS.broadcast_start_time,
+ WS.sun_length,
+ WS.mon_length,
+ WS.tue_length,
+ WS.thi_length,
+ WS.wen_length,
+ WS.fri_length,
+ WS.sat_length 
+
+FROM
+
+tb_ad_resource_info  RS,
+
+LEFT OUTER JOIN (
+SELECT 
+WSP.ad_resource_workspan_id,
+WSP.ad_resource_info_id,
+WSP.broadcast_start_time,
+WSP.begin_date,
+WSP.end_date,
+WSP.broadcast_end_time,
+WSP.sun_length,
+WSP.mon_length,
+WSP.tue_length,
+WSP.thi_length,
+WSP.wen_length,
+WSP.fri_length,
+WSP.sat_length  
+
+FROM 
+tb_ad_resource_workspan AS WSP  
+
+WHERE  WSP.begin_date = MAX(WSP.begin_date) 
+
+ ) AS WS 
+
+ ON  WS.ad_resource_info_id = RS.ad_resource_info_id ; 
+ 
+ 
+ 
+ 
+ 
+ update tb_order_detail AS A set  A.money_in = (select ifnull(sum(C.money_in),0) from tb_order_day_info AS B ,tb_income_used  AS C where B.order_detail_id = A.order_detail_id and B.order_day_info_id = C.order_day_info_id);
+		
+
+		
+		
+update  tb_order_day_info set day_rel_puton = 0;
+update  tb_order_detail set money_in = 0;
+TRUNCATE  TABLE tb_income_used ;
+
+
+
+
+
+
+1、如果没指定换成有指定，需要已指定提示
+2、自动排期，orderDetailBackUp会清空，所有会遗留以前的排期，因为后台只有插入
+3、换段位时，如果次数减少要提示
+
+4、统计分析里的客户进款，受年份限制
+5、需要增加各年份到款分配情况
+
+
+1、中途指定位置
+2、大单输入（同版本不同段位）
+3、批量修改价格（套装）
+4、刷新保存有提示
+5、多段停播
+6、逐条审核
+7、播证（按段位出）
+
+
+时间统计
+串联单审核前频道可出
+时段按分钟计算
+改名 频道+日期广告时段占有统计
+时段占有按月份只出总计数
+余款分配规则（分到电视栏目等）
+做个挂账标记 不允许分配
+
+
+财务到款查询，频道、客户、业务员需要多选。
+
+
+

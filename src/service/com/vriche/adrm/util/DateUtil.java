@@ -502,6 +502,29 @@ public class DateUtil {
 	    return t;
 	}
     
+	public static String getBroadcastTimeFormatStart(Integer startTime) {
+		 String broStartTime = "";
+		 if(startTime != null){
+	         String s1 = converTime(startTime,3);
+	         broStartTime = converTime(startTime,1) + ":"+converTime(startTime,2);
+	         if(!"00".equals(s1)) broStartTime =  broStartTime +":"+ converTime(startTime,3); 
+		 }
+
+
+       return broStartTime;
+	}
+	
+	public static String getBroadcastTimeFormatStart2(Integer startTime) {
+		 String broStartTime = "";
+		 if(startTime != null){
+	         String s1 = converTime(startTime,3);
+	         broStartTime = converTime(startTime,1) + "£º"+converTime(startTime,2);
+	         if(!"00".equals(s1)) broStartTime =  broStartTime +"£º"+ converTime(startTime,3); 
+		 }
+
+
+      return broStartTime;
+	}  
     
     
 

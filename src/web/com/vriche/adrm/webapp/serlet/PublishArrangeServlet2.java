@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -99,6 +100,8 @@ public class PublishArrangeServlet2  extends HttpServlet{
 		   String orgId =  (String)session.getAttribute("orgId");
 
 		   System.out.println(">>>>>>>>orgId>>>>>>>"+orgId);
+		   
+//		   System.out.println("*****************model 3333333333333333333333333333333333333*******************"+model);
 		   
 //		   int week = DateUtil.getDaysOfWeek(new Integer(publishDate).intValue());
 		 
@@ -249,8 +252,37 @@ public class PublishArrangeServlet2  extends HttpServlet{
 	             }					
 			}
 
-		}
-		else
+		}else if(model.equals("pdf")){
+            ByteArrayOutputStream oStream = new ByteArrayOutputStream();
+            JRPdfExporter exporter = new JRPdfExporter();
+
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT,jasperPrint);
+            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,oStream);
+            exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,Boolean.TRUE); 
+            exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
+            exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
+            try {
+           	 exporter.exportReport();
+            }catch (JRException ex) {
+//           	 out.println("Jasper Output Error:" + ex.getMessage());
+            }
+            
+
+            byte[] bytes = oStream.toByteArray();
+
+            if (bytes != null && bytes.length > 0) {
+                response.reset();
+                response.setHeader("Content-Disposition","attachment;filename=export.pdf");   
+                response.setContentType("application/pdf"); 
+                response.setContentLength(bytes.length);
+                ServletOutputStream ouputStream = response.getOutputStream();
+                ouputStream.write(bytes, 0, bytes.length);
+                ouputStream.flush();
+                ouputStream.close();
+            } else {
+//                    out.println("bytes were null!");  
+            }					
+		}else
 		{
 			response.setContentType("text/html");
 			PrintWriter out = response.getWriter();

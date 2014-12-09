@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -108,6 +109,9 @@ public class PublishArrangeServlet  extends HttpServlet{
 		   
 //		   String name = user.getFullName();
 //		   System.out.println(">>>>>>parentName>>>>>" +parentName);
+		   
+//		   System.out.println("*****************model 1111111111111111111111  22222222222222222222 *******************"+model);
+		   
 		   int week = DateUtil.getDaysOfWeek(new Integer(publishDate).intValue());
 		   String weekStr = DateUtil.getWeekConvert(week);
 		   
@@ -328,6 +332,11 @@ public class PublishArrangeServlet  extends HttpServlet{
 				}
 
 				
+//				System.out.println("model.equals       222222222  3333333333  55555555555                >>>>>"+model);	
+//				
+//				System.out.println("model.equals       222222222  3333333333  55555555555                >>>>>"+model.equals("pdf"));	
+				
+				
 				if(model.equals("export")){
 		             ByteArrayOutputStream oStream = new ByteArrayOutputStream();
 		             JRXlsExporter exporter = new JRXlsExporter();
@@ -362,8 +371,43 @@ public class PublishArrangeServlet  extends HttpServlet{
 				}
 
 			}
-			else
-			{
+			
+			if(model.equals("pdf")){  
+				
+//				System.out.println("model.equals       222222222  3333333333  55555555555                >>>>>"+model.equals("pdf"));	
+				
+				 ByteArrayOutputStream oStream = new ByteArrayOutputStream();
+			        JRPdfExporter exporter = new JRPdfExporter();
+
+		             exporter.setParameter(JRExporterParameter.JASPER_PRINT,jasperPrint);
+		             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,oStream);
+		             exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,Boolean.TRUE); 
+		             exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
+		             exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
+		             exporter.setParameter(JRXlsExporterParameter.IS_FONT_SIZE_FIX_ENABLED,Boolean.TRUE);
+		             
+			       	try {
+						exporter.exportReport();
+					} catch (JRException e) {
+						e.printStackTrace();
+					}
+			 
+			        
+			        byte[] bytes = oStream.toByteArray();
+
+			        if (bytes != null && bytes.length > 0) {
+			                response.reset();
+			                response.setHeader("Content-Disposition","attachment;filename=export.pdf");   
+			                response.setContentType("application/pdf"); 
+			                response.setContentLength(bytes.length);
+			                ServletOutputStream ouputStream = response.getOutputStream();
+			                ouputStream.write(bytes, 0, bytes.length);
+			                ouputStream.flush();
+			                ouputStream.close();
+			        } else {
+//			                out.println("bytes were null!");  
+			        }							
+			}else{
 				response.setContentType("text/html");
 				PrintWriter out = response.getWriter();
 				out.println("<html>");

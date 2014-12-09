@@ -61,6 +61,7 @@ public class PriceManagerImpl extends BaseManager implements PriceManager {
      * @see com.vriche.adrm.adres.service.PriceManager#savePrice(Price price)
      */
     public String savePrice(Price price) {
+//    	System.out.println("price 1111111 222222222 33333333333  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+price.toString());  
         return dao.savePrice(price).toString();
     }
 

@@ -64,6 +64,9 @@ function init(){
 	$("reference_date").value =  _app_params.serviceDate.format1;
 	$("bro_date_history").value = _app_params.serviceDate.format1;
 	
+//	alert($("bro_date").value);
+//	$("bro_date").value ="2014-01-01"
+	
 	
 
 	if(tvNameParam =='fztv' && srcStr.indexOf("publishDate")>0){
@@ -123,7 +126,7 @@ function init(){
      }
     
   	this.ctxPath = _app_params.ctxPath;
-	this.report.buildButtons(this,"printReportDiv",[0,1,2],70); 
+	this.report.buildButtons(this,"printReportDiv",[0,1,2,3],70); 
     
     document.oncontextmenu=function stop(){return false;};
 }
@@ -353,6 +356,10 @@ function printReport(mode){
 	}
 	if(mode =="excel"){
 		button_export_bro();
+	}
+	
+	if(mode =="pdf"){
+		button_pdf_bro();
 	}
 	   
 }
@@ -1434,6 +1441,12 @@ function button_build_bro(referenceDate){
 	var isRefDate = referenceDate>0;
 	var rebuild = false
 	var isRoll = true;
+	
+
+	
+
+	
+	
 	if(tvNameParam =='fztv') isRoll=false; //滚动播出
 	var onlyHistory = false;	
 	//判断是否选择建立级别
@@ -1446,7 +1459,6 @@ function button_build_bro(referenceDate){
 
      
 	var resourceIds = getBuildResourceIds();
-	
 
 	
 	var isContinued=false;
@@ -1637,9 +1649,11 @@ function button_build_bro(referenceDate){
 //		arrange.obj.modifyBy = 0;
 	  	arrange.obj.arrangeforce= tag_publish_arrangeforce == true?"1":"0";
 //	    alert(arrange.obj.isArranged);
-		arrange.getTreeGrid(arrange.obj,resource.IdPrefix,arrange.IdPrefix,rebuild,isRoll,onlyHistory,func);	
+	  	arrange.getTreeGrid(arrange.obj,resource.IdPrefix,arrange.IdPrefix,rebuild,isRoll,onlyHistory,func);	
 	}
-		
+	
+
+	
 
 }
 
@@ -1715,10 +1729,8 @@ function getArrangeType(resourceIds,publishDate,callBackFun){
 		arrange.obj.resourceIds = resourceIds;
 		arrange.obj.publishDate = publishDate;
 		arrange.obj.orgId = $('orgId').value;
-		
-
-		
 		arrange.getPublishArrangesByIdListFromHistory(arrange.obj,func);
+
 
 	}	
 
@@ -2086,6 +2098,18 @@ function button_export_bro(){
 	}
 
 }
+function button_pdf_bro(){
+	if(tvNameParam =='fztv'){
+		 		displayExportDiv();
+	}else{
+		 $("model").value = "pdf";
+   		 button_print();
+	}
+
+}
+
+
+
 function button_print(){
 	
 	

@@ -1357,15 +1357,27 @@ function OnEditCellGrid1(state,rowId,cellIndex){
 
  }
 
+ 
+
+ 
+ 
 function initGrid2(){
 	
 	function onBlockSelected(cell){
 		this.unmarkAll();
 		this.setActive(true);
+		
+		alert(11)
+//		mygrid1.setActive(false);
+//		mygrid1.uncheckAll();
+		
+		
+		
+//		selectRow
 	}
 	
 	function mygrid2OnKeyPressed(keyCode,ctrlKey,shiftKey,ev){
-		
+//		alert(88)
 		
 //        this.setActive(true);
         
@@ -1444,6 +1456,9 @@ function initGrid2(){
 	function onRightClick(rowId,cellIndex,ev){
 //			var row = this.getRowById(rowId);
 //			var cell = this.cells(rowId,cellIndex);
+		
+		
+		
 //			var td = cell.cell;
           this.unmarkAll();	
 //            if(cellIndex < 4){	
@@ -1534,6 +1549,8 @@ function initGrid2(){
     mygrid2.enableMultiselect(true);
     mygrid2.setEditable(true);
     
+    
+    
 	var wd = $("gridbox2").offsetWidth;
 	var flds = "版本,段位,年,月,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,次,应收,grid1_id";
 	mygrid2.setHeader(flds);
@@ -1584,6 +1601,9 @@ function initGrid2(){
 	mygrid2.setColumnHidden(37,true);
 	
 //	mygrid2.enableEditEvents(true);
+//	mygrid2.setOnEditCellHandler(onEditCellHandler);
+//	alert(mygrid2.setOnRowSelectHandler)
+//	mygrid2.setOnRowSelectHandler(onRowSelectHandler, 1);
 	
 
     var ss_header = "BORDER-RIGHT: #000000 2px solid; 1px solid;  BORDER-BOTTOM: #000000 2px solid;  BORDER-TOP: #000000 2px solid;TEXT-ALIGN: center;"
@@ -1594,10 +1614,20 @@ function initGrid2(){
 	mygrid2.setStyle(ss_header,ss_grid,ss_selCell,ss_mark);
 
 
-
-	mygrid2.attachEvent("onBlockSelected", onBlockSelected);
-	mygrid2.attachEvent("onBeforeSelect",function(rowId,psid){ return false }); 	
 	
+//	 function unSelectGrid1(){
+//		 var rows = mygrid1.getSelectedId();
+//		 alert(1113); alert(rows);
+//	 }
+//	 
+//		function onRowSelectHandler(parentNodeId,_cellIndex,ev){
+//			alert(111);
+//		}
+		
+	mygrid2.attachEvent("onBlockSelected", onBlockSelected);
+	mygrid2.attachEvent("onBeforeSelect",function(rowId,psid){return false }); 	
+//	mygrid2.setOnRightClick(unSelectGrid1);
+
 	
 
 	mygrid2.customGroupFormat = function(text, count) {
@@ -1605,6 +1635,9 @@ function initGrid2(){
 	    return "Grouped by " + text + ", there are " + count + " related records";
 	};
 	
+	
+	
+
  	
  	function onLeftClick(parentNodeId,_cellIndex,ev){
 // 		 this.selectCell(parentNodeId, _cellIndex, false, false, true);
@@ -1614,6 +1647,8 @@ function initGrid2(){
 // 		if (!this.isActive) this.setActive(true);
 // 		 this.mark(parentNodeId,_cellIndex,true);
 //		 this.setActive(true);
+ 		
+ 	
       
  		 this._HideSelection();
           var cell =  this.cells(parentNodeId,_cellIndex);
@@ -1624,9 +1659,14 @@ function initGrid2(){
 		  var event ={keyCode:48,ctrlKey:false,shiftKey:false,button:0,target:td,cell:cell}		
 		  mygrid2onKeypressClick(event);
  	}
+ 	
+ 	
+// 	function onLeftClick2(parentNodeId,_cellIndex,ev){
+// 		alert(11)
+// 	}
     mygrid2.attachEvent("onKeyPress", mygrid2OnKeyPressed);
     mygrid2.attachEvent("onRightClick", onRightClick);
-//    mygrid2.attachEvent("onLeftClick", onLeftClick);
+//    mygrid2.attachEvent("onLeftClick", onLeftClick2);
 
 //    function onRowDblClicked(rowId,_cellIndex){
 // 
@@ -3293,6 +3333,15 @@ function set_grid2_month_times(td,bak_value,curValue){
 }
 
 function mygrid2onKeypressClick(ev){
+	
+//	mygrid1._HideSelection();
+	mygrid1.setActive(false);
+//	mygrid1.selectRow(1,0)
+//	alert(mygrid1.getSelectedRows())
+//	var row = mygrid1.getRowById(mygrid1.getSelectedId());
+//	mygrid1.selectRow(row, false, true, false);
+	
+	
 //			alert(111)
 		if(ev.button == 0){ev.keyCode = 49;}
 		if(ev.button == 2){ev.keyCode = 48;}
@@ -3970,7 +4019,12 @@ function fillBroArrange(grid1,grid2,startDt,endDt,times,mode,selectValue){
 				
 
 	var rows = grid1.selectedRows;
+	
+	
+	
 	var rowCount = rows.length;
+	
+	
 	for (var i = 0; i < rowCount; i++){
 		
 		var rowId1 = rows[i].idd;

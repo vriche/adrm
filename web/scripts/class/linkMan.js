@@ -481,6 +481,18 @@ LinkMan.prototype.saveLinkManFormOrder = function(custId,linkmanName){
 			LinkManManager.saveCustomerLinkMan(this.obj);	
 }
 
+LinkMan.prototype.saveLinkManFormOrder2 = function(custId,linkmanName,officeTel){
+    this.obj.id = null;
+	this.obj.customerId = custId;
+	this.obj.linkmanName = linkmanName;
+	this.obj.homeTel = "";
+	this.obj.officeTel = officeTel;
+	this.obj.mobile = "";
+	this.obj.favorEmail = "";
+	this.obj.isCustomerMain = 1;
+	this.obj.version = 0;
+	LinkManManager.saveCustomerLinkMan(this.obj);	
+}
 
 
 LinkMan.prototype.buildTextField = function(rederId,elname,width) {
@@ -494,7 +506,7 @@ LinkMan.prototype.buildTextField = function(rederId,elname,width) {
 	        displayField:'name',
 	         valueField:'id',
 	        typeAhead: true,
-	        forceSelection: true,
+	        forceSelection: false,
 	        triggerAction: 'all',
 	        fieldLabel: '请填写联系人',
 	        emptyText:'请填写联系人...',
@@ -518,7 +530,27 @@ LinkMan.prototype.buildTextField = function(rederId,elname,width) {
 //    });
 }
 
+LinkMan.prototype.buildOfficeTelField = function(rederId,elname,width) {
+	
+	new Ext.form.ComboBox({
+     store:  new Ext.data.Store(),
+     hideLabels:true,
+     id:elname,
+     name:elname,
+     width:width,
+     displayField:'name',
+      valueField:'id',
+     typeAhead: true,
+     forceSelection: false,
+     triggerAction: 'all',
+     fieldLabel: '请填写办公电话',
+     emptyText:'请填写办公电话...',
+     selectOnFocus:true,
+      mode: 'local',
+     renderTo:rederId
+ });	
 
+}
 
 
 

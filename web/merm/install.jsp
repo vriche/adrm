@@ -76,7 +76,7 @@
    			if(sourceYear==null||sourceYear=="") return false;
    			if(tagYear==null || tagYear=="") return false;
    			
-   
+
    			var callBack=function(){
    				$("btn_saveResource").disabled=false;
    				alert("结束");
@@ -85,6 +85,23 @@
    			ResourceManager.saveResourceFromOtherYear(sourceYear,tagYear,callBack);
    				
    }
+   
+     function cearOrderByYear(){
+     		var tagYear = prompt("请输入要清除的年份","2008");
+   			if(tagYear==null || tagYear=="") return false;
+   			
+   			if(confirm("真的要清空"+ tagYear +"订单数据么？")){
+	   			var callBack=function(){
+	   				$("btn_clearOrderByYear").disabled=false;
+	   				alert("结束");
+	   			}
+	   			$("btn_clearOrderByYear").disabled=true;
+	   			UpdateSystemManager.clearOrderByYear(tagYear,callBack);   			
+   			}
+   				
+   } 
+   
+   
    
    
       function saveBrandHelpCode(){
@@ -153,6 +170,8 @@
 <input id="btn_saveMatterAll2dayang2" type="button" value="保存到大洋素材所有11" onclick="javascript:saveMattersAll2dayang2()">
 
 <input id="btn_saveBrandHelpCode" type="button" value="初始化品牌助记码" onclick="javascript:saveBrandHelpCode()">
+
+<input id="btn_clearOrderByYear" type="button" value="清空某一年的订单" onclick="javascript:cearOrderByYear()">
 
 
 </body>

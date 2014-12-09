@@ -62,7 +62,7 @@ public class CommonReportImpl  extends HttpServlet{
 		boolean isVertical = Boolean.valueOf(request.getParameter("isVertical")).booleanValue();
 		
 		
-//		System.out.println("*****************1111111111111111111111111 222222222222222222   33333333333333333333333333333333333333333333333333333333333333333333333333*******************");
+//		System.out.println("*****************model 3333333333333333333333333333333333333*******************"+model);
 		
 		
 		

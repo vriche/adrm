@@ -221,11 +221,13 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
 // 订单刊例价格是否可以修改
    protected String  orderBasePriceEnableModyParam; 
    
+// 广告编排是否显示品牌
+   protected String  arrangeWithBrandParam;    
    
    
    
-   
-    public String getChannelPullParam() {
+
+	public String getChannelPullParam() {
 		return channelPullParam;
 	}
 	public void setChannelPullParam(String channelPullParam) {
@@ -841,6 +843,14 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
 	public void setDayangBeiboEnableParam(String dayangBeiboEnableParam) {
 		this.dayangBeiboEnableParam = dayangBeiboEnableParam;
 	}
+	
+	public String getArrangeWithBrandParam() {
+		return arrangeWithBrandParam;
+	}
+
+	public void setArrangeWithBrandParam(String arrangeWithBrandParam) {
+		this.arrangeWithBrandParam = arrangeWithBrandParam;
+	}
 
 	public String getMenoByName(String name){
 		
@@ -978,6 +988,8 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
 			meno = "系统启用的年份";	
 		}else if(name.equals(Constants.ORDER_BASE_PRICE_ENABLE_MODY_PARAM)){
 			meno = "订单刊例价格是否可以修改";	
+		}else if(name.equals(Constants.ARRANGE_WITH_BRAND_PARAM)){
+			meno = "广告编排是否显示品牌";	
 		}
 		
 		

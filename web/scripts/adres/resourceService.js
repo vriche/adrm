@@ -397,76 +397,81 @@ function grid_wspand_save(callBakFun){
                  var id = rowId;
                  
 	        	 DWRUtil.getValues(workspan.obj);
+	        	 
+	        	 if(workspan.obj.resourceId ==-1 ||workspan.obj.resourceId ==null){
+	        		 button_saveResource();
+	        	 }else{
+	        		 
+	        		 
+		        	 var id_temp = id+'';
+		             if(id_temp.indexOf("new_")== 0){
+		             	id = null;	
+		             }
 
-	        	 var id_temp = id+'';
-	             if(id_temp.indexOf("new_")== 0){
-	             	id = null;	
-	             }
-               
-               
-	             
-	        	workspan.obj.id = id;
-	        	workspan.obj.version = resource_year; 
-	        	workspan.obj.beginDate = getFormatDay(mygrid.cells(rowId,0).getValue(),'ymd')*1;
-	        	workspan.obj.endDate = getFormatDay(mygrid.cells(rowId,1).getValue(),'ymd')*1;
-	        	workspan.obj.broadcastStartTh = mygrid.cells(rowId,2).getValue();
-	        	workspan.obj.broadcastStartTm = mygrid.cells(rowId,3).getValue();
-	        	workspan.obj.broadcastStartTs = mygrid.cells(rowId,4).getValue();
-	        	workspan.obj.monLength = mygrid.cells(rowId,5).getValue();
-	        	workspan.obj.tueLength = mygrid.cells(rowId,6).getValue();
-	        	workspan.obj.wenLength = mygrid.cells(rowId,7).getValue();
-	        	workspan.obj.thiLength = mygrid.cells(rowId,8).getValue();
-	        	workspan.obj.friLength = mygrid.cells(rowId,9).getValue();
-	        	workspan.obj.satLength = mygrid.cells(rowId,10).getValue();
-	        	workspan.obj.sunLength = mygrid.cells(rowId,11).getValue();
-	        	workspan.obj.resourceType = mygrid.cells(rowId,12).getValue();
-//				workspan.obj.resourceType = 0;
-				
-				 if(id_temp.indexOf("new_")== 0 || i < rowCount-1){
-	             	workspan.obj.memo = mygrid.cells(rowId,13).getValue();
-				}else{
-//	             	var memo =  $("resourceName").value + $("memo").value;  
-	             	var memo = $("resourceName").value;
-//	             	if(tvNameParam =='hntv'){
-//	             		 memo =  $("resourceName").value;
-//	             	}
-	             	workspan.obj.memo = memo !=''?memo:mygrid.cells(rowId,13).getValue();
-	             }
-	             
-	        	
-	        	
-	        	
-				if(config_withBroPoint != 1){
-					 workspan.obj.broadcastEndTime = $("broadcastStartTime").value;
-					 workspan.obj.broadcastStartTime = 0;
-				}
-				
-//				console.log(workspan.obj);
-                
-                function callbak(){
-                	
-//                	if(rowCount == i){
-  
-                		 func();
-                		 Ext.MessageBox.alert('系统提示', '保存完毕', function(btn) {});
-//                	}
-                	
-                }
-                
-//                var wasChanged = false;
-//                for(var j = 0;j< 14;j++){
-//                	  if(!wasChanged) wasChanged =mygrid.cells(rowId,j).wasChanged();
-//                }
-				
-		
-//				if(wasChanged || id == null){
-                    if(rowCount == i+1){
-                    	workspan.saveWorkspan(workspan.obj,callbak);
-                    }else{
-                    	workspan.saveWorkspan(workspan.obj,function(){});
-                    }
+		        	workspan.obj.id = id;
+		        	workspan.obj.version = resource_year; 
+		        	workspan.obj.beginDate = getFormatDay(mygrid.cells(rowId,0).getValue(),'ymd')*1;
+		        	workspan.obj.endDate = getFormatDay(mygrid.cells(rowId,1).getValue(),'ymd')*1;
+		        	workspan.obj.broadcastStartTh = mygrid.cells(rowId,2).getValue();
+		        	workspan.obj.broadcastStartTm = mygrid.cells(rowId,3).getValue();
+		        	workspan.obj.broadcastStartTs = mygrid.cells(rowId,4).getValue();
+		        	workspan.obj.monLength = mygrid.cells(rowId,5).getValue();
+		        	workspan.obj.tueLength = mygrid.cells(rowId,6).getValue();
+		        	workspan.obj.wenLength = mygrid.cells(rowId,7).getValue();
+		        	workspan.obj.thiLength = mygrid.cells(rowId,8).getValue();
+		        	workspan.obj.friLength = mygrid.cells(rowId,9).getValue();
+		        	workspan.obj.satLength = mygrid.cells(rowId,10).getValue();
+		        	workspan.obj.sunLength = mygrid.cells(rowId,11).getValue();
+		        	workspan.obj.resourceType = mygrid.cells(rowId,12).getValue();
+//					workspan.obj.resourceType = 0;
 					
-//				}	
+					 if(id_temp.indexOf("new_")== 0 || i < rowCount-1){
+		             	workspan.obj.memo = mygrid.cells(rowId,13).getValue();
+					}else{
+//		             	var memo =  $("resourceName").value + $("memo").value;  
+		             	var memo = $("resourceName").value;
+//		             	if(tvNameParam =='hntv'){
+//		             		 memo =  $("resourceName").value;
+//		             	}
+		             	workspan.obj.memo = memo !=''?memo:mygrid.cells(rowId,13).getValue();
+		             }
+		             
+		        	
+		        	
+		        	
+					if(config_withBroPoint != 1){
+						 workspan.obj.broadcastEndTime = $("broadcastStartTime").value;
+						 workspan.obj.broadcastStartTime = 0;
+					}
+					
+//					console.log(workspan.obj);
+	                
+	                function callbak(){
+	                	
+//	                	if(rowCount == i){
+	  
+	                		 func();
+	                		 Ext.MessageBox.alert('系统提示', '保存完毕', function(btn) {});
+//	                	}
+	                	
+	                }
+	                
+//	                var wasChanged = false;
+//	                for(var j = 0;j< 14;j++){
+//	                	  if(!wasChanged) wasChanged =mygrid.cells(rowId,j).wasChanged();
+//	                }
+					
+			
+//					if(wasChanged || id == null){
+	                    if(rowCount == i+1){
+	                    	workspan.saveWorkspan(workspan.obj,callbak);
+	                    }else{
+	                    	workspan.saveWorkspan(workspan.obj,function(){});
+	                    }
+						
+//					}		        		 
+	        		 
+	        	 }
 				
 	}	
 	
@@ -1816,6 +1821,8 @@ function button_saveResource(){
 	        //判断有价格信息是否处于编辑状态,新添有效信息
 	        var Btn_savePrices = $("Btn_savePrices");
 	        
+	      
+	        
 	        if(!isUndefined(Btn_savePrices)){
 	        	
 			        	var tr =Btn_savePrices.parentNode.parentNode;
@@ -1828,10 +1835,15 @@ function button_saveResource(){
 			        	
 									var func = function(){
 										loadPrices($("resourceId").value);
-										
 										getPriceNameByYear();
 									}
-						
+				   if(price.obj.id>0){
+					   
+				   }else{
+					   price.obj.id = null;
+				   }
+				  
+				   
 		           price.savePrice(price.obj,func); 
 	        				}	
 			}
@@ -2253,6 +2265,13 @@ function saveAddandEditPrice(event){
 		getPriceNameByYear();
 	}
 
+	if(id >0){
+		
+	}else{
+		id = null;
+	}
+	
+	
 	price.obj.id = id;
 	DWRUtil.getValues(price.obj);
 

@@ -8,9 +8,16 @@ function init(){
 	setBrandPara(brand);
 	
 	getBrandTable();
+	
+	buttonEventFill();
 
 }
 
+function buttonEventFill(){
+	var btnSearche = $("btnSearche");
+	btnSearche.setAttribute("href","javascript:void 0");
+	btnSearche.onclick = searche;
+}
 function setBrandPara(obj){
 	 obj.enableEdit	= true;
 	 obj.enableDel	= true;
@@ -30,6 +37,17 @@ function setBrandPara(obj){
 
 function getBrandTable(){
 	brand.reset();
+	
+	var func = function(objs){
+		brand.fillTable(objs);
+	}
+	
+	brand.getBrands(brand.obj,func);
+}
+
+function searche(){
+	brand.reset();
+	brand.obj.name = $("name").value;
 	
 	var func = function(objs){
 		brand.fillTable(objs);

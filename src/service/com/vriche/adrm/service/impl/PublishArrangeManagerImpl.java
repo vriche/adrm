@@ -29,8 +29,6 @@ import mreml2.schema.programlist.ChannelInfoType;
 import mreml2.schema.programlist.ColumnInfoType;
 import mreml2.schema.programlist.ExecuteActionType;
 import mreml2.schema.programlist.ProgramInfoType;
-import mreml2.schema.programlistparameter.ImportProgramListRequest;
-import mreml2.schema.programlistparameter.ImportProgramListRequestType;
 
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
@@ -60,12 +58,12 @@ import com.vriche.adrm.model.PublishArrange;
 import com.vriche.adrm.model.PublishArrangeDetail;
 import com.vriche.adrm.model.Resource;
 import com.vriche.adrm.model.ResourceChannel;
-import com.vriche.adrm.model.ResourceChannelConfig;
 import com.vriche.adrm.model.ResourceSort;
 import com.vriche.adrm.model.SysParam;
 import com.vriche.adrm.model.Workspan;
 import com.vriche.adrm.service.PublishArrangeManager;
 import com.vriche.adrm.util.ArrangeUtil;
+import com.vriche.adrm.util.ArrangeUtil3;
 import com.vriche.adrm.util.CarrierUtil;
 import com.vriche.adrm.util.ConvertUtil;
 import com.vriche.adrm.util.DateUtil;
@@ -334,7 +332,8 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 // System.out.println(">>>>>>listResource.size>>>>>>>>>"+listResource.size());
 // System.out.println(">>>>>>listAdver.size>>>>>>>>>"+listAdver.size());
 
-			ArrangeUtil.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
+//			ArrangeUtil.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
+			ArrangeUtil3.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
 //			 System.out.println(">>>>>>all.size>>>>>>>>>"+all.size());
 		// 重新载入，单如果是锁定的，则不要重新编排
 		}else{
@@ -391,7 +390,9 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 //			System.out.println(">>>>>>> noLocked.size()>>>>>>>" + noLocked.size());
 			
 			
-			ArrangeUtil.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
+//			ArrangeUtil.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
+			
+			ArrangeUtil3.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
 		}	
 		
 		
@@ -602,6 +603,22 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 			
 //			Collections.sort(resourceList,new PublishArrangeComparator());
 			
+			
+			
+//			for(Iterator it = resourceList.iterator();it.hasNext();){
+//				PublishArrange publish = (PublishArrange)it.next();
+//				
+//				System.out.println("first sort ttttttttttt>>>myFile>>>>>>"+ DateUtil.getBroadcastTimeFormatStart(publish.getBroadcastStartTime()) +"__"+ publish.getResourceMeno());
+//				
+//			}
+			
+			
+			
+//			if(type == 2){
+//				Collections.sort(resourceList,new PublishArrangeEntryComparator());
+//			}
+			
+			int seq = 1;
 			for(Iterator it = resourceList.iterator();it.hasNext();){
 				PublishArrange publish = (PublishArrange)it.next();
 				Long resourceId = publish.getResourceId();
@@ -622,7 +639,19 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				if(type == 2){
 					advers.clear();
 					advers.add(fileString);
-					myFile = publish.getResourceName();
+					String se = ""+seq++;
+					if(seq<11) se ="0"+se;
+					myFile = se +" "+ publish.getResourceName();
+
+//					String broTime = DateUtil.getBroadcastTimeFormatStart2(publish.getBroadcastStartTime());
+//					myFile = broTime +" "+ myFile;
+//					myFile = myFile +" "+ broTime;
+					
+//					myFile =  myFile.matches("[^\\s\\\\/:\\*\\?\\\"<>\\|](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|])*[^\\s\\\\/:\\*\\?\\\"<>\\|\\.]$");
+//					System.out.println("ttttttttttttttttttttttttttttttttttttttttttttttttttt>>>myFile>>>>>>"+ publish.getBroadcastStartTime());
+//					System.out.println("after sort ttttttttttttttttttttt>>>myFile>>>>>>"+publish.getBroadcastStartTime()+"__"+ publish.getResourceMeno());
+					
+					
 					// 保存文件
 					FileUtil.saveFile(myDir,myFile,advers);
 					// 压缩文件
@@ -1641,6 +1670,9 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 		       		
 	//	       		ExtendAttributeType[] extendAttributes3 = new ExtendAttributeType[0];
 	//	       		listItem.setExtendAttributes(extendAttributes3);
+		       		
+		       		//2015年1月6日 播出要求 段位名称前 加上日期
+		       		resourceName = publish_date + " "+resourceName;
 	
 		       		
 	//				<!-- 广告播出单段信息 -->

@@ -1,0 +1,2 @@
+订单号 201300736 第五条 
+delete from tb_order_day_info where order_detail_id =17628 and order_day_info_id >=782679;

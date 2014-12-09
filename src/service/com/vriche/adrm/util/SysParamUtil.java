@@ -464,6 +464,15 @@ public class SysParamUtil {
 		return ("0".equals(sysParam.getFastSignOrderParam())|| sysParam.getFastSignOrderParam() == null)?false:true;
 	}	
 	
+	
+	
+	
+	public static  boolean getArrangeWithBrandParamParam(){
+	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+	    if(StringUtils.isEmpty(sysParam.getArrangeWithBrandParam())) sysParam.setArrangeWithBrandParam("0");
+	    return (sysParam.getArrangeWithBrandParam().equals("0"))?false:true;
+	}
+	
 
 //	开启订单类别过滤
 	public static boolean getFinancialAudit(){

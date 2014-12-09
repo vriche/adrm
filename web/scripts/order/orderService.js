@@ -140,7 +140,7 @@ function init(){
 	
 	_make_adrm_sys_year_select("order_year",_app_params.serviceDate.adrmSysYear);
 	
-	var brandCmd = brand.getBrandCmd(brand.obj,'extBrandIdDiv','search_brand',null,80,'品牌...',null);
+	var brandCmd = brand.getBrandCmd(brand.obj,'extBrandIdDiv','search_brand',null,89,'品牌...',null);
 //	brandCmd.on('expand', function(comboBox) {
 //	        comboBox.list.setWidth('240px'); //auto
 //	        comboBox.innerList.setWidth('auto');
@@ -1243,7 +1243,7 @@ function buttonEventFill(){
 	Bt_matterName.onclick = getMatterAutoComplet;	
 	Bt_matterName.onkeypress = function a(event){DWRUtil.onReturn(event,getMatterNames);}
 //	Bt_matterName.onkeypress = function a(event){DWRUtil.onReturn(event,getMatterAutoComplet);}
-
+	
 	var Bt_matterEdit = $("matter.edit");
 	Bt_matterEdit.onclick = getMatterAutoComplet;
 
@@ -1608,17 +1608,27 @@ function getBroArrange_from_broArrangService(){
 	getBroArrange(_app_params,orderDetailBackUp,broArrange,fun);  
 };
 
-function getMatterNames(){
-   var name = $("matter.name").value
+function getMatterNames(matter_name){
+   var name = matter_name||$("matter.name").value;
+ 
    if(name !='' && name.length>0){
+//	    $("matter.name").value = name;
 //       getMatterAutoComplet();
 		matter.reset();
 		matter.obj.orgId =orgId;
 		matter.obj.customerId = null;
-	    matter.obj.name=$("matter.name").value;
+	    matter.obj.name= name;
 //	    matter.obj.length =  $("length").value*1;
 		matter.getMatterAutoCompletDIV(mattersAutoComplete3,matter.obj);
-//	    matter.getMattersByCustomerIdAndLength(matter.obj,mattersAutoComplete);        
+//	    matter.getMattersByCustomerIdAndLength(matter.obj,mattersAutoComplete);   
+		
+//		if(name.length>0){
+//			var name2 = name.substring(0,1);
+//			var cmd = Ext.getCmp('search_brand');
+//			cmd.setRawValue(name2);
+////			this.fireEvent('losfoce', cmd);   
+//			cmd.onTriggerClick(); 
+//		}
    }
 };
 
@@ -4217,6 +4227,47 @@ function checkCustomer(aaa){
 						);  
 			 	    	return false;
 			 	    }
+			 	    
+			 	   if(tvNameParam=='hntv') {
+
+			 		var areaCityId = Ext.getCmp('customterAreaCity').getValue();
+			 		if(areaCityId == 0){
+			 	    	Ext.MessageBox.hide(); 
+						Ext.MessageBox.show(
+								 	{title:'系统提示!',msg:"请选择区域!",width:300,heigth:270,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
+						);  
+			 	    	return false;
+			 	    } 	
+			 		
+			 	    var linkmanName =  Ext.fly('customterLinkMan').dom.value; 			 		
+			 		if(linkmanName =='' || linkmanName =='请填写联系人...'){
+			 	    	Ext.MessageBox.hide(); 
+						Ext.MessageBox.show(
+								 	{title:'系统提示!',msg:"请填写联系人!",width:300,heigth:270,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
+						);  
+			 	    	return false;
+			 	    } 				 		
+			 		
+			 	    var customterAddress =  Ext.fly('customterAddress').dom.value; 			 		
+			 		if(customterAddress =='' || customterAddress =='请填写地址...'){
+			 	    	Ext.MessageBox.hide(); 
+						Ext.MessageBox.show(
+								 	{title:'系统提示!',msg:"请填写地址!",width:300,heigth:270,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
+						);  
+			 	    	return false;
+			 	    } 		
+			 		
+			 	    var linkManOfficeTel =  Ext.fly('linkManOfficeTel').dom.value; 			 		
+			 		if(linkManOfficeTel =='' || linkManOfficeTel =='请填写办公电话...'){
+			 	    	Ext.MessageBox.hide(); 
+						Ext.MessageBox.show(
+								 	{title:'系统提示!',msg:"请填写办公电话!",width:300,heigth:270,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
+						);  
+			 	    	return false;
+			 	    } 				 		
+			 		
+			 		
+			 }	
 			
 				   var regcustomerName =  Ext.fly('regCustomerName').dom.value; 
 				   var regcustomerId =  Ext.getCmp('regCustomerName').getValue();	
@@ -4232,7 +4283,7 @@ function checkCustomer(aaa){
 			 	    	inti_set_customer(customer.customerCommand,1,id,cut.customerName,cut.customerCategoryId);  
 			 	    	order.obj.customerId = id;
 						saveAreaCity(id);
-//						saveLinkMan(id);
+						if(tvNameParam=='hntv') saveLinkMan(id);
 			 	    	regCustomerWin.hide();
 			 	    	if(aaa == 1) save_Order();	
 			 	    	if(aaa == 2) {
@@ -4242,20 +4293,31 @@ function checkCustomer(aaa){
 			 }	
 
 			 function saveAreaCity(cutId){
+				        var customterAddress = "";
 			 	 		var areaCityId = Ext.getCmp('customterAreaCity').getValue();
-			 	 		if(areaCityId >0) customerAddress.saveCustomerAddressFormOrder(cutId,areaCityId);
+			 	 	    customterAddress = Ext.fly('customterAddress')? Ext.fly('customterAddress').dom.value:""; 
+			 	 		if(areaCityId >0) customerAddress.saveCustomerAddressFormOrder2(cutId,areaCityId,customterAddress);
 			 }
 			 
 			 function saveLinkMan(cutId){
-			 	 		var linkmanName = Ext.getCmp('customterLinkMan').getValue();
-			 	 		if(areaCityId >0) linkMan.saveLinkManFormOrder(cutId,linkmanName);
+//			 	 		var linkmanName = Ext.getCmp('customterLinkMan').getValue();
+			 	 	    var linkmanName =  Ext.fly('customterLinkMan').dom.value; 
+			 	 	    var linkManOfficeTel =  Ext.fly('linkManOfficeTel').dom.value; 
+//			 	 		if(linkmanName !='' && linkmanName !='请填写联系人...'){
+			 	 			linkMan.saveLinkManFormOrder2(cutId,linkmanName,linkManOfficeTel);
+//			 	 		}
 			 }			 
 
      if(!regCustomerWin){
      	
      	  buildRegCustomer(winW,winH*0.8,customerName);
 		  oaAreaCity.buildCommand("regCustomerAreaDiv","customterAreaCity",winW*0.2);
-//		  linkMan.buildTextField("regCustomterLinkManDiv","customterLinkMan",winW*0.2);
+		  if(tvNameParam=='hntv'){
+			  linkMan.buildTextField("regCustomterLinkManDiv","customterLinkMan",winW*0.2);  
+			  linkMan.buildOfficeTelField("regCustomterLinkManOfficeTelDiv","linkManOfficeTel",winW*0.5);  
+			  customerAddress.buildOfficeTelField("regCustomterAddressDiv","customterAddress",winW*0.95);  
+		  }
+
 		  regCustomerWin = new Ext.Window({
 			   title : '新客户注册',
 			   width : winW,
@@ -4271,7 +4333,14 @@ function checkCustomer(aaa){
      }
 
 	var cmd1 =  Ext.getCmp('customterAreaCity');
+	var cmd2 =  Ext.getCmp('customterLinkMan');
+	var cmd3 =  Ext.getCmp('linkManOfficeTel');
+	var cmd4 =  Ext.getCmp('customterAddress');
+	
 	if(cmd1)cmd1.clearValue();   
+	if(cmd2)cmd2.clearValue();  
+	if(cmd3)cmd3.clearValue();   
+	if(cmd4)cmd4.clearValue();  
  	regCustomerWin.show(); 	
  			
 	}
@@ -4630,6 +4699,22 @@ function checkOrder(){
     
     
     if(Ext.getCmp('orderCategoryId').getValue() == ''){extjMessage('定单子类别为空,不允许保存!');return false;}
+    
+    var search_brand_id = Ext.getCmp('search_brand').getValue();	
+    if(search_brand_id =='') {
+    	Ext.MessageBox.hide(); 
+	    Ext.MessageBox.show(
+			{title:'系统提示',msg:'没选择品牌,不允许保存!',width:300,heigth:200,buttons: Ext.Msg.OK, icon: Ext.MessageBox.INFO,fn:function callBack(id) {
+				Ext.getCmp('search_brand').onTriggerClick();
+			} }
+		); 		
+    	return false;
+    }
+    
+//    if(Ext.getCmp('search_brand').getValue() == ''){extjMessage('品牌为空,不允许保存!');Ext.getCmp('search_brand').onTriggerClick();return false;}
+    
+ 
+    
 	if(config_adverCodeModelParam == '0'){
 		if($("matter.tapeCode").value == ""){extjMessage('磁带号为空,不允许保存!');return false;}
 	}
@@ -5625,7 +5710,7 @@ function mattersAutoCompleteTapeCode(objs){
 	var oText_tapeCode = $("matter.tapeCode");
 	var oDiv_tapeCode = $("theDivTapeCode");
 	var indexColumName_tapeCode = ["tapeCode","id"];
-	var allColumsName_tapeCode =["id","tapeCode","name","edit","length","matterType","industryType","industry.name"];
+	var allColumsName_tapeCode =["id","tapeCode","name","edit","length","matterType","industryType","industry.name","brandId2"];
 	var allColumsTitle_tapeCode = ["磁带号","广告名称","广告版本","长度"];
 	var onDivMouseDown_tapeCode = function(ev){
 		var tr = getElementByEvent(ev);
@@ -5640,10 +5725,14 @@ function mattersAutoCompleteTapeCode(objs){
 		var industryName =  getCellValue(tr,7);
  		industry.treecombo.passField.value =  getCellValue(tr,6);
    		industry.treecombo.setValue(industryName);	
+   		
+   		var brandId2 =  getCellValue(tr,8);
+   	    Ext.getCmp('search_brand').setValue(brandId2);
+   	 
 		if(isChanged) copyBroTimesToCurBroArrange();
 		oText_tapeCode.value = getCellValue(tr,1);
 	}
-	var hidenColumName = ["id","matterType","industryType","industry.name"];
+	var hidenColumName = ["id","matterType","industryType","industry.name","brandId2"];
 	var onTextBlur = function(ev){
 		oDiv_tapeCode.style.visibility = "hidden";
 		if(trim(oText_tapeCode.value) == "" )$("matter.tapeCode").value = "";
@@ -5655,7 +5744,7 @@ function mattersAutoComplete(objs){
 	var oText_tapeCode = $("matter.tapeCode");
 	var oDiv_tapeCode = $("theDivTapeCode");
 	var indexColumName_tapeCode = ["tapeCode","id"];
-	var allColumsName_tapeCode =["id","tapeCode","name","edit","length","matterType","industryType","industry.name"];
+	var allColumsName_tapeCode =["id","tapeCode","name","edit","length","matterType","industryType","industry.name","brandId2"];
 	var allColumsTitle_tapeCode = ["磁带号","广告名称","广告版本","长度"];
 	var onDivMouseDown_tapeCode = function(ev){
 		var tr = getElementByEvent(ev);
@@ -5669,6 +5758,10 @@ function mattersAutoComplete(objs){
 		var industryName =  getCellValue(tr,7);
  		industry.treecombo.passField.value =  getCellValue(tr,6); 
    		industry.treecombo.setValue(industryName);	
+   		
+   		var brandId2 =  getCellValue(tr,8);
+   	    Ext.getCmp('search_brand').setValue(brandId2);
+   	    
 		if(isChanged) copyBroTimesToCurBroArrange();
 		oText_tapeCode.value = getCellValue(tr,1);
 	}
@@ -5676,7 +5769,7 @@ function mattersAutoComplete(objs){
 	var oText_name = $("matter.name");
 	var oDiv_name = $("theDivMatterName");
 	var indexColumName_name = ["name","id"];
-	var allColumsName_name =["id","name","edit","length","tapeCode","matterType","industryType","industry.name"];
+	var allColumsName_name =["id","name","edit","length","tapeCode","matterType","industryType","industry.name","brandId2"];
 	var allColumsTitle_name = ["广告名称","广告版本","长度","磁带号"];
 	var onDivMouseDown_name = function(ev){
 		var tr = getElementByEvent(ev);
@@ -5690,14 +5783,18 @@ function mattersAutoComplete(objs){
 		$("matterType").value = getCellValue(tr,5);
 		var industryName =  getCellValue(tr,7);
  		industry.treecombo.passField.value =  getCellValue(tr,6);
-   		industry.treecombo.setValue(industryName);			
+   		industry.treecombo.setValue(industryName);	
+   		
+   		var brandId2 =  getCellValue(tr,8);
+   	    Ext.getCmp('search_brand').setValue(brandId2);
+   	    
 		oText_name.value = getCellValue(tr,1);
 	}	
 	
 	var oText_edit = $("matter.edit");
 	var oDiv_edit = $("theDivMatterEdit");
 	var indexColumName_edit = ["edit","id"];
-	var allColumsName_edit =["id","edit","name","length","tapeCode","matterType","industryType","industry.name"];
+	var allColumsName_edit =["id","edit","name","length","tapeCode","matterType","industryType","industry.name","brandId2"];
 	var allColumsTitle_edit = ["广告版本","广告名称","长度","磁带号"];
 	var onDivMouseDown_edit = function(ev){
 		var tr = getElementByEvent(ev);
@@ -5716,11 +5813,15 @@ function mattersAutoComplete(objs){
 		var industryName =  getCellValue(tr,7);
  		industry.treecombo.passField.value =  getCellValue(tr,6);
    		industry.treecombo.setValue(industryName);		
+   		
+   		var brandId2 =  getCellValue(tr,8);
+   	    Ext.getCmp('search_brand').setValue(brandId2);
+   	    
 		oText_edit.value = edit;
 	}		
 	
 
-	var hidenColumName = ["id","matterType","industryType","industry.name"];
+	var hidenColumName = ["id","matterType","industryType","industry.name","brandId2"];
 	var onTextBlur = function(ev){
 		oDiv_tapeCode.style.visibility = "hidden";
 		oDiv_name.style.visibility = "hidden";
@@ -5797,7 +5898,7 @@ function mattersAutoComplete3(objs){
 	var oText_tapeCode = $("matter.tapeCode");
 	var oDiv_tapeCode = $("theDivTapeCode");
 	var indexColumName_tapeCode = ["tapeCode","id"];
-	var allColumsName_tapeCode =["id","tapeCode","name","edit","length","matterType","industryType","industry.name"];
+	var allColumsName_tapeCode =["id","tapeCode","name","edit","length","matterType","industryType","industry.name","brandId2"];
 	var allColumsTitle_tapeCode = ["磁带号","广告名称","广告版本","长度"];
 	var onDivMouseDown_tapeCode = function(ev){
 		var tr = getElementByEvent(ev);
@@ -5811,6 +5912,10 @@ function mattersAutoComplete3(objs){
 		var industryName =  getCellValue(tr,7);
  		industry.treecombo.passField.value =  getCellValue(tr,6); 
    		industry.treecombo.setValue(industryName);	
+   		
+   		var brandId2 =  getCellValue(tr,8);
+   	    Ext.getCmp('search_brand').setValue(brandId2);
+   	    
 		if(isChanged) copyBroTimesToCurBroArrange();
 		oText_tapeCode.value = getCellValue(tr,1);
 	}   
@@ -5818,7 +5923,7 @@ function mattersAutoComplete3(objs){
 	var oText_edit = $("matter.edit");
 	var oDiv_edit = $("theDivMatterEdit");
 	var indexColumName_edit = ["edit","id"];
-	var allColumsName_edit =["id","edit","name","length","tapeCode","matterType","industryType","industry.name"];
+	var allColumsName_edit =["id","edit","name","length","tapeCode","matterType","industryType","industry.name","brandId2"];
 	var allColumsTitle_edit = ["广告版本","广告名称","长度","磁带号"];
 	var onDivMouseDown_edit = function(ev){
 		var tr = getElementByEvent(ev);
@@ -5833,6 +5938,10 @@ function mattersAutoComplete3(objs){
 		var industryName =  getCellValue(tr,7);
  		industry.treecombo.passField.value =  getCellValue(tr,6);
    		industry.treecombo.setValue(industryName);		
+   		
+   		var brandId2 =  getCellValue(tr,8);
+   	    Ext.getCmp('search_brand').setValue(brandId2);
+   	    
 		oText_edit.value = getCellValue(tr,1);
 	}		
 	
@@ -6454,7 +6563,8 @@ function initOrderCategory1Cmd(){
 				  mode:mode,
 				  cls:'CURSOR: pointer;',
 		//		  readOnly:true,
-				   width:64,
+				   width:55,
+				   listWidth: 150,
 		//		   typeAhead: true,
 				   forceSelection:false, 
 				  allowBlank:false,
@@ -7017,14 +7127,10 @@ function changeMatterEdit(){
 
 function close_search_adver_winWin(p,my_grid_matter,model){
 	
-
+    //p =1  订单中选择素材 
 	if(p == 1 || p == 2){
-	
-		
 		var rowId =(p == 1)? my_grid_matter.getSelectedId():my_grid_matter.id;
-		
 //		var customerName =  (p == 1)?my_grid_matter.cells(rowId,0).getValue():my_grid_matter.customerName;
-		
 		var name = (p == 1)?decode_string_xml(my_grid_matter.cells(rowId,1).getValue()):decode_string_xml(my_grid_matter.name);
 		var edit = (p == 1)?decode_string_xml(my_grid_matter.cells(rowId,2).getValue()):decode_string_xml(my_grid_matter.edit);
 		var length = (p == 1)?my_grid_matter.cells(rowId,3).getValue():my_grid_matter.length;
@@ -7032,6 +7138,7 @@ function close_search_adver_winWin(p,my_grid_matter,model){
 		var industryName = (p == 1)?my_grid_matter.cells(rowId,5).getValue():my_grid_matter.industryName;
 		
 		var brandId =  (p == 1)?my_grid_matter.getUserData(rowId,"brandId"):my_grid_matter.brandId;
+		var brandId2 =  (p == 1)?my_grid_matter.getUserData(rowId,"brandId2"):my_grid_matter.brandId2;
 		var matterType =  (p == 1)?my_grid_matter.getUserData(rowId,"matterType"):my_grid_matter.matterType;
 //		var customerId =  (p == 1)?my_grid_matter.getUserData(rowId,"customerId"):my_grid_matter.customerId;
 //		var customerCategoryId =  (p == 1)?my_grid_matter.getUserData(rowId,"customerCategoryId"):my_grid_matter.customerCategoryId;
@@ -7053,7 +7160,8 @@ function close_search_adver_winWin(p,my_grid_matter,model){
 	 		industry.treecombo.passField.value =  brandId;
 	   		industry.treecombo.setValue(industryName);	
 	   		
-	
+	   	    Ext.getCmp('search_brand').setValue(brandId2);
+
 	//   		if(my_grid_matter.initCustomer){
 	//   			  inti_set_customer(null,1,customerId,customerName,customerCategoryId); 
 	//   		}
@@ -7072,6 +7180,9 @@ function search_adver_cont(model){
    var customerId = Ext.getCmp('customerName').getValue();	
    var customerName =  Ext.fly('customerName').dom.value; 
    
+   var brandId2 = Ext.getCmp('search_brand').getValue();	
+  
+   
    if(customerId =='') customerName ='';
    
 
@@ -7085,6 +7196,7 @@ function search_adver_cont(model){
       
        urlStr = urlStr + "&customerName="+customerName;
        urlStr = urlStr + "&model="+model;
+       urlStr = urlStr + "&brandId2="+brandId2;
    
    if(!search_adver_win){
 
@@ -7119,6 +7231,11 @@ function search_adver_cont(model){
    	   customer_fin.obj.orgId = orgId;
    	   matter_fin.obj.orgId = orgId;
    	   
+   	   
+//    	var brandCmd = brand.getBrandCmd(brand.obj,null,'search_brand_cmd',null,80,'品牌...',null);
+    	var brandCmd = brand.getCommandForSelect(brand.obj,null,'search_brand_cmd','brandId2',110,'品牌...',callFunction);
+    	   
+   	   
 //   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
    	   var nameCmd = matter_fin.getCommandForSelect('search_adver_name','广告名称...','name',1,110,callFunction);
    	   var editCmd = matter_fin.getCommandForSelect('search_adver_edit','请输入广告版本...','edit',1,190,callFunction);
@@ -7139,7 +7256,8 @@ function search_adver_cont(model){
 			height : 500, 
 //			tbar:[tapecodeCmd,'-',nameCmd,'-',nameCmd,'-',editCmd,'-',lengthCmd,'-',industryCmd],
 //			tbar:[customerCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
-			tbar:[nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+//			tbar:[nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+			tbar:[brandCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
 			buttons: [addNewBtn,'-',closeBtn], 
 //			buttons: [closeBtn], 
 			contentEl : Ext.DomHelper.append(document.body, {

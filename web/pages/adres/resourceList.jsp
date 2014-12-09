@@ -530,7 +530,7 @@
 				  			 <td><select id="resource_price_year"  style="CURSOR: pointer;" /></td>     
 				  		
 				  			
-				  			<td><select name="select" id="priceName"/></td>
+				  			<td><div><select name="select" id="priceName"/></div></td>
 				  			<td><input  style="CURSOR: pointer;" type="button" id="btn_importPrice" value="&nbsp;确定&nbsp;"></td>
 				  			<td><input  style="CURSOR: pointer;" type="button" id="btn_closePrice" value="&nbsp;取消&nbsp;"></td>
 				  			</tr></table>

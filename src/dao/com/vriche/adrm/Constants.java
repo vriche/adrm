@@ -465,6 +465,11 @@ public class Constants {
 	 //订单刊例价格是否可以修改
 	 public static final String ORDER_BASE_PRICE_ENABLE_MODY_PARAM = "orderBasePriceEnableModyParam";
 	 
+	 
+	 //广告编排是否显示品牌
+	 public static final String ARRANGE_WITH_BRAND_PARAM = "arrangeWithBrandParam"; 
+	 
+	 
 
 //    public static final String AVAILABLE_CARRIER_ORG_MAP = "availableCarrierOrgMap";
    

@@ -560,7 +560,7 @@ public class ArrangeUtil {
 		  }
 		  if(details.size() > 0){
 			  //编排过或锁定
-			  if( state == 0){
+			  if(state == 0){
 				  if(getFztvSpecialParam()){
 					  int i=1;
 					  List advers= new ArrayList();
@@ -578,11 +578,7 @@ public class ArrangeUtil {
 				  Object[] objs = details.toArray();
 				  
 				  getSortAdvers(objs,beforeSpecific,afterSpecific,middleAdver);
-				  
-//				  System.out.println("<<<<<<<beforeSpecific.size<<<<<<<" +beforeSpecific.size());
-//				  System.out.println("<<<<<<<afterSpecific.size<<<<<<<" +afterSpecific.size());
-//				  System.out.println("<<<<<<<middleAdver.size<<<<<<<" +middleAdver.size());
-				  
+
 				  int i = 1;
 				  //指定正位置  如 正一、正二...
 				  if(beforeSpecific.size()>0){
@@ -832,6 +828,9 @@ public class ArrangeUtil {
      
      public static  int decomposeAdverByTimes(boolean isSpaceAdver,int index,Map allMiddleAdver,PublishArrangeDetail publishArrangeDetail){
     	 int times = publishArrangeDetail.getAdverTimes().intValue();
+    	 
+    	 System.out.println("888888888888       99999999999999           >>>>>>isSpaceAdver>>>>>>>>>"+ isSpaceAdver);
+    	 
     	 if(times > 1 && isSpaceAdver){
         	 for(int z = 0; z< times;z++){
     			 PublishArrangeDetail detail = new PublishArrangeDetail();
