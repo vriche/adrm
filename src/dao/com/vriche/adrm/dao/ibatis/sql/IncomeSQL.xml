@@ -983,9 +983,7 @@
 			  </iterate>
 			</isNotNull> 			
 			
-			
-				
-			
+
 			<isNotNull property="carrierIdList">
 					<iterate prepend="AND" property="carrierIdList" open="(" close=")" conjunction="OR">
 								pll.ad_resource_carrier_id = #carrierIdList[]#

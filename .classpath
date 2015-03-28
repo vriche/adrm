@@ -123,5 +123,7 @@
 	<classpathentry kind="lib" path="lib/axis-1.5.4/XmlSchema-1.4.3.jar"/>
 	<classpathentry kind="lib" path="lib/jasperreports-1.2.8/jxl-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jsr173-api-1.0/jsr173-api-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/axis2/wsdl4j-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/axis2/wstx-asl-3.2.9.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

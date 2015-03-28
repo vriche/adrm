@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -50,11 +49,11 @@ import com.vriche.adrm.model.Carrier;
 import com.vriche.adrm.model.Org;
 import com.vriche.adrm.model.PublishArrange;
 import com.vriche.adrm.model.PublishedInfo;
-import com.vriche.adrm.model.SysParam;
 import com.vriche.adrm.service.PublishArrangeManager;
 import com.vriche.adrm.util.DateUtil;
 import com.vriche.adrm.util.StringUtil;
 import com.vriche.adrm.util.SysParamUtil;
+import com.vriche.adrm.webapp.util.Utils;
 /**
  * PublishArrangeServlet class
  * 
@@ -374,7 +373,7 @@ public class PublishArrangeServlet  extends HttpServlet{
 			
 			if(model.equals("pdf")){  
 				
-//				System.out.println("model.equals       222222222  3333333333  55555555555                >>>>>"+model.equals("pdf"));	
+				System.out.println("channName      222222222  3333333333  55555555555                >>>>>"+ parentName);	
 				
 				 ByteArrayOutputStream oStream = new ByteArrayOutputStream();
 			        JRPdfExporter exporter = new JRPdfExporter();
@@ -397,7 +396,9 @@ public class PublishArrangeServlet  extends HttpServlet{
 
 			        if (bytes != null && bytes.length > 0) {
 			                response.reset();
-			                response.setHeader("Content-Disposition","attachment;filename=export.pdf");   
+			                Utils.setFileDownloadHeader(request,response,channName +".pdf");
+//			                response.setHeader("Content-Disposition","attachment;filename="+channName +".pdf");   
+//			                response.setHeader("Content-Disposition","attachment;filename=export.pdf");   
 			                response.setContentType("application/pdf"); 
 			                response.setContentLength(bytes.length);
 			                ServletOutputStream ouputStream = response.getOutputStream();

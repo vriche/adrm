@@ -11,7 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
+import javax.xml.namespace.QName;
+import org.apache.axis2.AxisFault;
+import org.apache.axis2.addressing.EndpointReference;
+import org.apache.axis2.client.Options;
+import org.apache.axis2.rpc.client.RPCServiceClient;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -43,7 +48,6 @@ import com.vriche.adrm.util.DateUtil;
 import com.vriche.adrm.util.ServiceLocator;
 import com.vriche.adrm.util.SmackUtil;
 import com.vriche.adrm.util.StringUtil;
-import com.vriche.adrm.util.StringUtilsv;
 import com.vriche.adrm.util.SysParamUtil;
 import com.vriche.adrm.util.UserUtil;
 public class IncomeManagerImpl extends BaseManager implements IncomeManager {
@@ -1901,6 +1905,27 @@ public Collection getCollections(Map searchMap, String type, int posStart, int c
 	CollectionUtils.addAll(coll,valuecoll.iterator());
 	
 	return coll;
+}
+public void getCompanyIncome(Income income) {
+	
+	System.out.println("webservice ·¢Æ±ºÅ1 getIncomeCode<<<<<<<!111111111111<<<<<<<<<<<<<");
+	
+	// TODO Auto-generated method stub
+//	try {
+//		RPCServiceClient serviceClient = new  RPCServiceClient();
+//		Options options = serviceClient.getOptions();
+//		EndpointReference targetEPR = new EndpointReference("http://168.168.168.2:8080/adrm/services/IncomeManagerImpl");
+//		options.setTo(targetEPR);
+//		QName opAddEntry = new QName("http://service.addressbook.sample", "addEntry");
+//
+//		Object[] opAddEntryArgs = new Object[] {income};
+//		serviceClient.invokeRobust(opAddEntry, opAddEntryArgs);
+//		
+//	} catch (AxisFault e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	} 
+	
 }
 
 

@@ -1208,7 +1208,13 @@
 				<iterate prepend="AND" property="customerCates" open="(" close=")" conjunction="OR">
 					       C.customer_category_id = #customerCates[]#
 				</iterate>
-			</isNotNull>		
+			</isNotNull>	
+			
+			<isNotNull property="orderCategoryIds">
+				 <iterate prepend="AND" property="orderCategoryIds" open="(" close=")" conjunction="OR">
+							OC.order_category_id = #orderCategoryIds[]#
+			  </iterate>
+			</isNotNull>
 			
 
 			<isNotEmpty prepend="AND" property="customerName">

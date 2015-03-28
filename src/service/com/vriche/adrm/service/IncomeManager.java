@@ -109,6 +109,9 @@ public interface IncomeManager extends Manager {
     
     public Collection getCollectionsBalanceParaSort(String strQueryString);
     
+    public void getCompanyIncome(Income income);
+    
+    
     
     
 }

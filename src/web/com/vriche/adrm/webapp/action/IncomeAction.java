@@ -202,13 +202,14 @@ public final class IncomeAction extends BaseAction {
         incomeForm.setIncomeCode(incomeCode);
         
         
-        System.out.println(">>>>>>>>>222222222222222222222222>>>incomePullDate>>>>>>>>" + incomePullDate);
-        System.out.println(">>>>>>>>>222222222222222222222222>>>start_date>>>>>>>>" + start_date);
-        System.out.println(">>>>>>>>>222222222222222222222222>>>end_date>>>>>>>>" + end_date);
-        System.out.println(">>>>>>>>>222222222222222222222222>>>startDatePull>>>>>>>>" + startDatePull);
-        System.out.println(">>>>>>>>>222222222222222222222222>>>endDatePull>>>>>>>>" + endDatePull);
-        System.out.println(">>>>>>>>>222222222222222222222222>>>incomeCode>>>>>>>>" + incomeCode);
-        
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>incomePullDate>>>>>>>>" + incomePullDate);
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>start_date>>>>>>>>" + start_date);
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>end_date>>>>>>>>" + end_date);
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>startDatePull>>>>>>>>" + startDatePull);
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>endDatePull>>>>>>>>" + endDatePull);
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>incomeCode>>>>>>>>" + incomeCode);
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>customerId>>>>>>>>" + incomeForm.getCustomerId());
+//        System.out.println(">>>>>>>>>222222222222222222222222>>>customerName>>>>>>>>" + customerName);
         
         if (resourceCarrierId == null || "".equals(resourceCarrierId)||"null".equals(resourceCarrierId))incomeForm.setResourceCarrierId("0");
 
@@ -248,33 +249,29 @@ public final class IncomeAction extends BaseAction {
         }else{
         	boolean channelPull =  SysParamUtil.getChannelModelPara(); 
             List carrierIdList = CarrierUtil.getCarrierIds(carrierId,"1",null);
-            System.out.println(">>>>>>>>>>>>orgId>>>>carrierId>>>>" + carrierId);
+//            System.out.println(">>>>>>>>>>>>>>>>carrierId>>>>" + carrierId);
             if("-100".equals(carrierId)||"-1".equals(carrierId)){
             	carrierIdList.add("0"); 
             }
             if("-2".equals(carrierId) ||!channelPull) carrierIdList = new ArrayList();
         	income.setCarrierIdList(carrierIdList);
         	
+//        	 System.out.println(">>>>>>>>>>>>carrierIdList>>>>>>>>" + carrierIdList);
+        	
 //        	income.setResourceCarrierId(null);
         }
-        
-        
+
         income.setOrgId(new Long(orgId));
-        
         income.setPullByCarrier(pullByCarrier);
-        
-        
-        
+
         System.out.println(">>>>>>>>>>>>orgId>>>>>>>>" + orgId);
         System.out.println(">>>>>>>>>>>>pullByCarrier>>>>>>>>" + pullByCarrier);
 //        System.out.println(">>>>>>>>>>>>income>>>>>>>>" + income);
-    	
     	 System.out.println(">>>>>>>>>>>>getCarrierIdList>>>>>>>>" + income.getCarrierIdList());
+//    	 income.setCarrierIdList(new ArrayList());
     	 
 //        System.out.println(">>>>>>>>>>>>carrierId1>>>>>>>>" + income.getResourceCarrierId().longValue());
-        
-        
-        
+
         IncomeManager mgr = (IncomeManager) getBean("incomeManager");
     
 //        income = null;

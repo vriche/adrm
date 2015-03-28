@@ -400,17 +400,19 @@ function getYearTree(){
 	
 	var childrenData = new Array();
 	var y = 0;
-	function aa(objs){
-		var size = objs.tarMonths.length;
+//	function aa(objs){
+		var objs = _app_params.serviceDate.adrmSysYear
+		 objs = objs.split(",");
+		var size =objs.length;
 		for(var i = 0 ;i < size;i++){
-		 	y = objs.tarMonths[i];
+		 	y = objs[i];
 		 	//var item =eval('{id:'+ y +',text:'+y+',leaf:true}');
 		 	childrenData.push({id:y,text:y,leaf:true});
 	 	}
 	 	y = y*1+1;
 	 	y =y+'';
 	 	childrenData.push({id:y,text:y,leaf:true});
-	}
+//	}
 	
 	
 //		for(var y = 2006 ;y < 2013;y++){
@@ -421,7 +423,10 @@ function getYearTree(){
 	
 	
 	
-	financeTarget.getCustomerYearRelPut2(financeTarget,aa);
+//	financeTarget.getCustomerYearRelPut2(financeTarget,aa);
+	
+	
+	
 	
 	var baseAttrs ={uiProvider: Ext.tree.TreeCheckNodeUI};
 	
