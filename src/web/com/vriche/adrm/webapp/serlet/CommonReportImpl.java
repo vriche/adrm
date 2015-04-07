@@ -26,7 +26,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.vriche.adrm.service.FinanceTargetManager;
+import com.vriche.adrm.service.FinanceTargetRatioManager;
 import com.vriche.adrm.service.IncomeManager;
 import com.vriche.adrm.service.OrderDetailManager;
 import com.vriche.adrm.service.OrderManager;
@@ -311,7 +311,28 @@ public class CommonReportImpl  extends HttpServlet{
         	title[0] = "订单浏览";
         	OrderManager mgr = (OrderManager) getBean("orderManager");
     		coll = mgr.getCollectionsOrderList(queryString,"report");
-        }       
+        }   
+        
+       
+        
+        
+//        if(type.endsWith("financeTargetRatioCarrierList")){
+//        	
+//        	title[0] = "公司上报数"; 
+//        	
+//        	 System.out.println("financeTargetRatioCarrierList>>>>>>>>>>>>>financeTargetRatioCarrierList   1111111111 66666666666666666666666666 vvvvvvvvvvvvvv>>>>>>>>>>>>>>>>>>>"+type);
+//
+//        	FinanceTargetRatioManager mgr = (FinanceTargetRatioManager) getBean("financeTargetRatioManager");
+//        	
+//        	 System.out.println("financeTargetRatioCarrierList>>>>>>>>>>>>> mgr 2222222222222222  66666666666666666666666666 vvvvvvvvvvvvvv>>>>>>>>>>>>>>>>>>>"+mgr);
+//      		
+//        	 
+//        	
+//    		coll = mgr.getFinanceTargetRaioCarriers(queryString);
+//    		
+//    		System.out.println("financeTargetRatioCarrierList>>>>>>>>>>>>>financeTargetRatioCarrierList 66666666666666666666666666 vvvvvvvvvvvvvv>>>>>>>>>>>>>>>>>>>"+coll.size());
+//    		
+//        }  
         
         
         

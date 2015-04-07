@@ -564,6 +564,12 @@
     </bean>
     <!--FinanceTarget-END-->
     
+        <!--FinanceTarget-START-->
+    <bean id="financeTargetRatioDao" class="com.vriche.adrm.dao.ibatis.FinanceTargetRatioDaoiBatis">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+    <!--FinanceTarget-END-->
+    
     
     <!--ProCustomerType-START-->
     <bean id="proCustomerTypeDao" class="com.vriche.adrm.dao.ibatis.ProCustomerTypeDaoiBatis">

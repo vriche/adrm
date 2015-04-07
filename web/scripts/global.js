@@ -2108,6 +2108,25 @@ t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
 return t.split("").reverse().join("") + "." + r;  
 }  
 
+
+
+function global_bulid_month(id,width,def){
+var selectObj = document.getElementById(id);
+if(typeof(selectObj)=="undefined"){
+	return;
+}
+
+selectObj.style.width= width;
+
+for( var i = 1;i<13;i++){
+var sOption = document.createElement("OPTION");
+sOption.text = i+"ÔÂ";
+sOption.value = i;
+if(def == i ) sOption.selected = true;
+selectObj.options.add(sOption);
+}
+}
+
 //
 //function fmoney(number,pattern){
 //    var str            = number.toString();

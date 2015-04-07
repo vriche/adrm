@@ -881,12 +881,18 @@
 		<property name="orderDayInfoManager" ref="orderDayInfoManager"/>
 		<property name="carrierManager" ref="carrierManager"/>
 		<property name="incomeManager" ref="incomeManager"/>
-		
-		
     </bean>
     <!--FinanceTarget-END-->
 
-    
+	<!--FinanceTarget-START-->    
+    <bean id="financeTargetRatioManager" class="com.vriche.adrm.service.impl.FinanceTargetRatioManagerImpl">
+        <property name="financeTargetRatioDao" ref="financeTargetRatioDao"/>
+		<property name="userManager" ref="userManager"/>
+		<property name="orderDayInfoManager" ref="orderDayInfoManager"/>
+		<property name="carrierManager" ref="carrierManager"/>
+		<property name="incomeManager" ref="incomeManager"/>
+    </bean>
+    <!--FinanceTarget-END-->    
     
     <!--ProCustomerType-START-->    
     <bean id="proCustomerTypeManager" class="com.vriche.adrm.service.impl.ProCustomerTypeManagerImpl">
@@ -984,6 +990,7 @@
 		<property name="orderDetailManager" ref="orderDetailManager"/>
 		<property name="analyseSumManager" ref="analyseSumManager"/>
 		<property name="resourceManager" ref="resourceManager"/>
+		<property name="financeTargetRatioManager" ref="financeTargetRatioManager"/>
     </bean>
 	
 	

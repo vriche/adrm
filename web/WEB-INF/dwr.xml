@@ -450,7 +450,9 @@
 			<param name="beanName" value="analyseSumManager"/>
         </create>			
 		
-		
+		 <create creator="spring" javascript="FinanceTargetRatioManager">
+			<param name="beanName" value="financeTargetRatioManager"/>
+        </create>			
 		
 		
 		

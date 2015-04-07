@@ -98,6 +98,9 @@ public class JasperReportUtil {
      */  
 	
 	public static JasperReport getJasperReport(Map searchMap,Map parameters)   throws JRException {  
+		String isPage = (String)parameters.get("IS_IGNORE_PAGINATION");
+		 System.out.println(">>>>>>>>>"+isPage+">>>>>>>>>>>>>>>>>>>>>>"+ isPage);
+		 
 		String titl = (String)StringUtil.getURLDecoderStr((String)searchMap.get("title"));
 		String reportType = (String)StringUtil.getURLDecoderStr((String)searchMap.get("reportType"));
 		String header =  (String)StringUtil.getURLDecoderStr((String)searchMap.get("headers"));
@@ -333,7 +336,10 @@ public class JasperReportUtil {
 		     design.setDetail(detail);
 		     
 		     drawColumnFooterBand(design,pageColumnWidth);
-		     drawPageFooterBand(design,pageColumnWidth,pageWidth);
+		     if("1".equals(isPage)){
+		    	 drawPageFooterBand(design,pageColumnWidth,pageWidth);
+		     }
+		     
 		
 		     
 		     drawSumBand(design,displaySumColums,alias,textWidth,X,isSum,widthsPs);
@@ -536,7 +542,11 @@ public class JasperReportUtil {
      design.setDetail(detail);
      
      drawColumnFooterBand(design,pageColumnWidth);
-     drawPageFooterBand(design,pageColumnWidth,pageWidth);
+    
+     
+//     if(isPage){
+    	 drawPageFooterBand(design,pageColumnWidth,pageWidth);
+//     }
 //     drawSumBand(design,displaySumColum,alias,textWidth,X,isSum);
     
 

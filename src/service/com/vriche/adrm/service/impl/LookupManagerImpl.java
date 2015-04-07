@@ -1697,6 +1697,32 @@ public void excuteSql() {
 			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
 		}
 		
+		if(curVersion < 33 ){
+			int curVer = 33; 
+			excuteSql("DROP TABLE IF EXISTS `tb_finance_target_ratio`",curVer);  
+			StringBuffer sb2 = new StringBuffer();
+			sb2.append("CREATE TABLE `tb_finance_target_ratio` (");
+			sb2.append(" `finance_target_id` bigint(20) NOT NULL AUTO_INCREMENT,");
+			sb2.append(" `ad_resource_carrier_id` bigint(20) NOT NULL DEFAULT '0',");
+			sb2.append(" `year` int(4) NOT NULL DEFAULT '0',");
+			sb2.append(" `month` int(4) NOT NULL DEFAULT '0',");
+			sb2.append(" `money` double NOT NULL DEFAULT '0',");
+			sb2.append(" `create_by` bigint(20) DEFAULT NULL,");
+			sb2.append(" `create_date` datetime DEFAULT NULL,");
+			sb2.append(" `modify_by` bigint(20) DEFAULT NULL,");
+			sb2.append(" `modify_date` datetime DEFAULT NULL,");
+			sb2.append(" `version` int(11) NOT NULL DEFAULT '0',");
+			sb2.append("  PRIMARY KEY (`finance_target_id`),");
+			sb2.append("  KEY `fk_tb_finance_target_ratio_carrierid` (`ad_resource_carrier_id`),");
+			sb2.append("  CONSTRAINT `fk_tb_finance_target_ratio_carrierid` FOREIGN KEY (`ad_resource_carrier_id`) REFERENCES `tb_ad_resource_carrier` (`ad_resource_carrier_id`)");
+			
+			sb2.append(") ENGINE=InnoDB DEFAULT CHARSET=gbk");
+			excuteSql(sb2.toString(),curVer);  	
+
+			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
+		}		
+		
+
 		//ÁÙÊ±×¢ÊÍ   
 //		mody_matter_helpcode(20);	
 

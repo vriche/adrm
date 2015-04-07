@@ -141,7 +141,7 @@ IncomePurpose.prototype.getLovCombo = function(id,checkBox){
 		});		
  }
  
-IncomePurpose.prototype.getCombo = function(id,width,checkBox){
+IncomePurpose.prototype.getCombo = function(id,width,checkBox,renderTo){
 	
    var OBJ = this;
    var paramObj = this.obj;
@@ -167,8 +167,10 @@ IncomePurpose.prototype.getCombo = function(id,width,checkBox){
 		,triggerAction:'all'
 		,valueField:'id'
 		,displayField:'name'
-		,mode:'local'		 	
+		,mode:'local'
 		};
+    if(renderTo) conf.renderTo = renderTo;
+    
 	var cmd;
     if(checkBox){
     	  cmd = new Ext.ux.form.LovCombo(conf);

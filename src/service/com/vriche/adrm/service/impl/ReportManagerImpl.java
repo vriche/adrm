@@ -7,6 +7,7 @@ import com.vriche.adrm.service.AnalyseSumManager;
 import com.vriche.adrm.service.ContractManager;
 import com.vriche.adrm.service.ContractPaymentManager;
 import com.vriche.adrm.service.FinanceTargetManager;
+import com.vriche.adrm.service.FinanceTargetRatioManager;
 import com.vriche.adrm.service.IncomeManager;
 import com.vriche.adrm.service.IncomePullManager;
 import com.vriche.adrm.service.OrderDayInfoManager;
@@ -27,6 +28,8 @@ public class ReportManagerImpl implements ReportManager {
 	private OrderDetailManager orderDetailManager;
 	private AnalyseSumManager analyseSumManager;
 	private ResourceManager resourceManager;
+	private FinanceTargetRatioManager financeTargetRatioManager;
+	
 	
 	
 	
@@ -73,7 +76,9 @@ public void setOrderDetailManager(OrderDetailManager orderDetailManager) {
 	public void setResourceManager(ResourceManager resourceManager) {
 		this.resourceManager = resourceManager;
 	}
-	
+	public void setFinanceTargetRatioManager(FinanceTargetRatioManager financeTargetRatioManager) {
+		this.financeTargetRatioManager = financeTargetRatioManager;
+	}	
 	
 
 	public Collection getCollectionByType(String queryString,Map searchMap, Map parameters)throws Exception{
@@ -175,7 +180,15 @@ public void setOrderDetailManager(OrderDetailManager orderDetailManager) {
 
 		 coll = orderDetailManager.getCollectionsBroReport(queryString,"report");
 	
-	  }  	
+	  }  
+	 
+	 
+	 if(type.endsWith("financeTargetRatioCarrierList")){ 
+			coll = financeTargetRatioManager.getFinanceTargetRaioCarriers(queryString);
+	  } 
+	 
+
+	 
 		return coll;
 	}
 

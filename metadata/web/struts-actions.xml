@@ -406,4 +406,12 @@
 
 
 
+    <action path="/selectPopup/financeTargetRatio" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/financeTargetRatio.jsp"/>      
+        
+    <action path="/financeTargetRatio" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/financeTargetRatioList.jsp"/>
+        
+    <action path="/financeTargetRatioCarrier" type="org.apache.struts.actions.ForwardAction"
+        parameter="/WEB-INF/pages/finance/financeTargetRatioCarrierList.jsp"/>
 

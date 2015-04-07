@@ -498,3 +498,103 @@ MyPrint.prototype.getFtiterSort = function(comboBox_ID,fieldLabel,width,defValue
 	    }      
         
 };
+
+MyPrint.prototype.getComMonth = function(model,checkBox,comboBox_ID,fieldLabel,width,defValue,xtype,renderTo){
+
+    Ext.QuickTips.init();
+    
+    var data = [[1,"1"],[2,"2"],[3,"3"],[4,"4"],[5,"5"],[6,"6"],[7,"7"],[8,"8"],[9,"9"],[10,"10"],[11,"11"],[12,"12"]];
+    if(model ==1){
+    	 data = [[1,'一月'], [2,'二月'], [3,'三月'], [4,'四月'], [5,'五月'], [6,'六月'], [7,'七月'], [8,'八月'],[9,'九月'], [10,'十月'], [11,'十一月'], [12,'十二月']];
+    }else if(model ==2){
+    	 data = [[1,"01"],[2,"02"],[3,"03"],[4,"04"],[5,"05"],[6,"06"],[7,"07"],[8,"08"],[9,"9"],[10,"10"],[11,"11"],[12,"12"]]; 
+    }
+    var store = new Ext.data.SimpleStore({fields:["id","name"],data:data});    
+
+    var conf = {    
+        	fieldLabel: fieldLabel,    
+            id:comboBox_ID,
+            name: comboBox_ID,
+            emptyText: '请选择...',
+            editable:false,
+            allowBlank:false,
+            store:store,
+            mode: 'local',
+            typeAhead: true,
+            triggerAction: 'all',
+            selectOnFocus:true,
+            width:width,
+            readOnly : false,
+            frame:true,
+			displayField:'name',
+			valueField:'id',
+            resizable:true
+        };
+    
+         if(renderTo) conf.renderTo = renderTo;
+      
+        
+	    if(xtype){
+	    	conf.xtype = 'clearableComboBox';
+	    	 if(defValue)  conf.value = defValue; 
+	    	return conf;
+	    }else{
+		    var cmd;
+		    if(checkBox){
+		    	  cmd = new Ext.ux.form.LovCombo(conf);
+		    }else{
+		    	  cmd = new Ext.form.ClearableComboBox(conf);	
+		    }
+		    if(defValue)  cmd.setValue(defValue);  
+		    
+		    return cmd;
+	    }      
+        
+};
+
+
+//MyPrint.prototype.getComMonth = function(comboBox_ID,fieldLabel,width,defValue,model,renderTo){
+//
+//    Ext.QuickTips.init();
+//	
+//    var store  = new Ext.data.SimpleStore({
+//        fields : ['text', 'value'],
+//        data :  [[1,"1"],[2,"2"],[3,"3"],[4,"4"],[5,"5"],[6,"6"],[7,"7"],[8,"8"],[9,"9"],[10,"10"],[11,"11"],[12,"12"]]
+//    });
+//    
+//
+// 
+//         if(model ==1){
+//         	store.data= [[1,'一月'], [2,'二月'], [3,'三月'], [4,'四月'], [5,'五月'], [6,'六月'], [7,'七月'], [8,'八月'],[9,'九月'], [10,'十月'], [11,'十一月'], [12,'十二月']];
+//         }else if(model ==2){
+//         	store.data = [[1,"01"],[2,"02"],[3,"03"],[4,"04"],[5,"05"],[6,"06"],[7,"07"],[8,"08"],[9,"9"],[10,"10"],[11,"11"],[12,"12"]]; 
+//         }
+//
+//         
+//         var conf = {
+//         	     fieldLabel: fieldLabel
+//        		,id:comboBox_ID
+//        		,name:comboBox_ID
+//        		,width:width
+//        		,hideOnSelect:false
+//        		,maxHeight:230
+//        		,readOnly: false 
+//          		,editable: false
+//          		,typeAhead: true
+//          		,selectOnFocus:true
+//          		,forceSelection: true
+//        		,emptyText: '请选择月分...' 
+//        		,store:store
+//        		,triggerAction:'all'
+//        		,valueField:'value'
+//        		,displayField:'text'
+//        		,mode:'local'
+//        		};
+//         
+//         
+//         if(renderTo) conf.renderTo = renderTo;  
+//		 var comboBox = new Ext.form.ComboBox(conf);
+//        if(defValue) comboBox.setValue(defValue);  
+//
+//        return comboBox;
+//};

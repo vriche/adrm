@@ -333,7 +333,11 @@
     <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/FinanceTargetSQL.xml" />
     <!--FinanceTarget-END-->
     
-    
+ 
+     <!--FinanceTarget-START-->
+    <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/FinanceTargetRatioSQL.xml" />
+    <!--FinanceTarget-END-->
+       
     <!--ProCustomerType-START-->
     <sqlMap resource="com/vriche/adrm/dao/ibatis/sql/ProCustomerTypeSQL.xml" />
     <!--ProCustomerType-END-->

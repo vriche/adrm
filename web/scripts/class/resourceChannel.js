@@ -91,7 +91,7 @@ ResourceChannel.prototype.getStoreMap = function(mode,paramObj){
 
 
 
-ResourceChannel.prototype.getLovCombo = function(id,width,mode,checkBox){
+ResourceChannel.prototype.getLovCombo = function(id,width,mode,checkBox,renderTo){
 		 var OBJ = this;
   	     var paramObj = this.obj;
          var store = this.getStoreMap(mode,paramObj);
@@ -138,7 +138,8 @@ ResourceChannel.prototype.getLovCombo = function(id,width,mode,checkBox){
 			,displayField:'value'
 			,mode:mode 		  	
 		};
-			
+	
+    if(renderTo) conf.renderTo = renderTo;
 			
 	var cmd;
     if(checkBox){

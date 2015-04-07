@@ -1,11 +1,12 @@
 package com.vriche.adrm.util;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.vriche.adrm.model.FinanceTarget;
-import com.vriche.adrm.model.OrderDayInfo;
+import com.vriche.adrm.model.FusionChartObject;
 
 public class FinanceTargetUtil {
 	
@@ -24,6 +25,26 @@ public class FinanceTargetUtil {
 //				System.out.println("obj.getTarMonths()["+ i +"]>>>>>>>>>>>>>>>>>>>>21<<<<<<<<<<<<<<"+obj.getTarMonths()[i]);
 			}
 //			sb.append("<cell><![CDATA["+ j++  +"]]></cell>");
+			sb.append("</row>");
+		}
+		sb.append("</rows>");	
+		return sb.toString();
+	}
+	
+	public static  String makeFinanceTargetRatiosGridXML(Collection all){
+		StringBuffer sb  = new StringBuffer();
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		sb.append("<rows>");   
+		int j=1;
+		for(Iterator it = all.iterator();it.hasNext();){
+			FusionChartObject obj = (FusionChartObject)it.next();
+			sb.append("<row  id=\""+ j++  +"\"" +">");
+			sb.append("<cell><![CDATA["+ obj.getLable()  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ obj.getValue1() +"ÔÂ" +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat3(obj.getValue2())  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ new Double(obj.getValue3())*100+"%"  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat3(obj.getValue4())  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat3(obj.getValue5())  +"]]></cell>");
 			sb.append("</row>");
 		}
 		sb.append("</rows>");	

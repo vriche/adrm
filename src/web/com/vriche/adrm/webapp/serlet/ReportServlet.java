@@ -130,6 +130,7 @@ public class ReportServlet  extends HttpServlet{
 		 
 
 		Map parameters = new HashMap();	
+
 		
 //		//不起作用
 //		if(EXCEL_TYPE.equals(model)) parameters.put("IS_IGNORE_PAGINATION", Boolean.valueOf(true)); 
@@ -158,6 +159,10 @@ public class ReportServlet  extends HttpServlet{
 					e1.printStackTrace();
 				}
 				
+				 if (EXCEL_TYPE.equals(model)) {
+					 parameters.put("IS_IGNORE_PAGINATION","1"); 
+				 }
+				
 				jasperReport = JasperReportUtil.getJasperReport(searchMap,parameters);
 				
 				jasperPrint =JasperFillManager.fillReport(
@@ -166,7 +171,9 @@ public class ReportServlet  extends HttpServlet{
 						new JRBeanCollectionDataSource(coll));
 
 				
-				starSiglejasperPrint(request,response,jasperPrint,model);	
+	
+				starSiglejasperPrint(request,response,jasperPrint,model);
+				
 //				jasperReport = JasperReportUtil.getJasperReport(title,headers,alias,displaySumColums,isSum,isVertical,orgId);
 			}else{
 				
@@ -495,7 +502,7 @@ public class ReportServlet  extends HttpServlet{
          exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
          exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
 //         exporter.setParameter(JRXlsExporterParameter.IGNORE_PAGE_MARGINS,Boolean.TRUE); 
-   
+       
  		//不起作用
 // 		if(EXCEL_TYPE.equals(model)) parameters.put("IS_IGNORE_PAGINATION", Boolean.valueOf(true)); 
          

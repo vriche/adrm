@@ -247,22 +247,26 @@ MyUtils.prototype.getComYear = function(comboBox_ID,fieldLabel,width,defValue,xt
         
 };
 
-MyUtils.prototype.getComMonth = function(comboBox_ID,fieldLabel,width,defValue,model){
+MyUtils.prototype.getComMonth = function(comboBox_ID,fieldLabel,width,defValue,model,renderTo){
 
+
+	 
     Ext.QuickTips.init();
-    
+	
     var store  = new Ext.data.SimpleStore({
         fields : ['value', 'text'],
         data :  [[1,"1"],[2,"2"],[3,"3"],[4,"4"],[5,"5"],[6,"6"],[7,"7"],[8,"8"],[9,"9"],[10,"10"],[11,"11"],[12,"12"]]
     });
     
-
+ 
          if(model ==1){
          	store.data= [[1,'一月'], [2,'二月'], [3,'三月'], [4,'四月'], [5,'五月'], [6,'六月'], [7,'七月'], [8,'八月'],[9,'九月'], [10,'十月'], [11,'十一月'], [12,'十二月']];
          }else if(model ==2){
          	store.data = [[1,"01"],[2,"02"],[3,"03"],[4,"04"],[5,"05"],[6,"06"],[7,"07"],[8,"08"],[9,"9"],[10,"10"],[11,"11"],[12,"12"]]; 
          }
 
+
+    
 		 var comboBox = new Ext.form.ComboBox({    
         	fieldLabel: fieldLabel,    
             id:comboBox_ID,
@@ -283,8 +287,12 @@ MyUtils.prototype.getComMonth = function(comboBox_ID,fieldLabel,width,defValue,m
             frame:true,
             resizable:true
         });
-	
+    
+
+		if(renderTo) comboBox.renderTo = renderTo;  
+
         if(defValue) comboBox.setValue(defValue);  
+    
         return comboBox;
 };
 
@@ -325,7 +333,7 @@ MyUtils.prototype.getComWeek = function(comboBox_ID,fieldLabel,width,defValue,mo
             resizable:true
         });
 	
-        if(defValue) comboBox.setValue(defValue);  
+//        if(defValue) comboBox.setValue(defValue);  
         return comboBox;
 };
 
