@@ -121,8 +121,6 @@ function init(){
 	config_financeBalanceModelParam= _app_params.sysParam.financeBalanceModelParam;
 	config_fastSignOrderParam = _app_params.sysParam.fastSignOrderParam;
 	config_orderCalculateModel=  _app_params.sysParam.orderCalculateModel;
-	
-	
 
 
 	tag_time_out =  _app_params.rights.tag_time_out;
@@ -223,9 +221,9 @@ function init(){
 
 //    var sortWidth = config_signCompages?80:140;
     if(orderDetailStates == 1){
-    		resourceSort.makeSelectFromMap5("resourceSortId",80,"onchangeResourceSort",getPosition);
+    	resourceSort.makeSelectFromMap5("resourceSortId",80,"onchangeResourceSort",getPosition);
     }else{
-    		resourceSort.makeSelectFromMap5("resourceSortId",80,"onchangeResourceSort",init_resourceCarrier);
+    	resourceSort.makeSelectFromMap5("resourceSortId",80,"onchangeResourceSort",init_resourceCarrier);
     }
 
 	priceType.makeSelectFromMap(priceType.obj,"resourcePriceType","145","onResourceChange",function(){

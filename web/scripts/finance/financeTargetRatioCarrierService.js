@@ -195,7 +195,7 @@ function sumColumn(ind){
        	var value =mygrid.cells2(i,ind).getValue()==""?0:mygrid.cells2(i,ind).getValue();
             out+= parseFloat(value)
         }
-        return out/10000;
+        return ForDight(out/10000,2);;
  }
 
 
@@ -223,12 +223,13 @@ function getParams(){
 	
 	var months =  Ext.getCmp('month_id')?Ext.getCmp('month_id').getCheckedValue():null;
 	months = months ==""?null:months;
-	
+  
 	var customerIds = $("customerName").value;
 	var incomePurposeIds = Ext.getCmp("incomePurpose_id").getValue();
 	incomePurposeIds = incomePurposeIds ==""?null:incomePurposeIds;
 	var channels =  Ext.getCmp('channel_cmd')?Ext.getCmp('channel_cmd').getCheckedValue():null;
 	channels = channels ==""?null:channels;
+
 	
 
 	var paramObj = {
@@ -256,10 +257,10 @@ function button_print(model){
 	                reportFile:'',
 	                headers:heads, 
 	                displaySumColum:"0,0,1,0,1,1",
-	                colAlign:"center,center,center,left,left,left",
+	                colAlign:"center,center,right,right,right,right",
 	                colTypes:"ed,ed,ed,ed,ed,ed",
 	                widthsP:"20,16,16,16,16,16",
-	                isSum:false,
+	                isSum:true,
 	                isVertical:false
 	 	}; 
 	

@@ -176,11 +176,18 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
 	
 	public Collection getFinanceTargetRaioCarriers(String paramQueryString) {
 //		List valuecoll = new ArrayList();
+		paramQueryString =  StringUtil.getURLDecoderStr(paramQueryString);
+		 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>paramQueryString>> "+paramQueryString);
+		 
 		String year = StringUtil.getNullValue(StringUtil.getParamFromUrl(paramQueryString,"year"),"");
 		String months = StringUtil.getNullValue(StringUtil.getParamFromUrl(paramQueryString,"months"),"");
-		String channelIds = StringUtil.getNullValue(StringUtil.getParamFromUrl(paramQueryString,"channelIds"),"");
+		String channels = StringUtil.getNullValue(StringUtil.getParamFromUrl(paramQueryString,"channels"),"");
 		String customerIds = StringUtil.getNullValue(StringUtil.getParamFromUrl(paramQueryString,"customerIds"),"");
 		String incomePurposeIds = StringUtil.getNullValue(StringUtil.getParamFromUrl(paramQueryString,"incomePurposeIds"),"");
+		
+		 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>months>> "+months);
+		 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>channels>> "+channels);
+		 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>incomePurposeIds>> "+incomePurposeIds);
 	
 
 		List allMonth = new ArrayList();
@@ -194,19 +201,28 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
         if(!StringUtils.isEmpty(months)){
      	   String[] ms = months.split(",");
      	   if(ms.length >0) CollectionUtils.addAll(monthIdList, ms);
-        }  
-        if(!StringUtils.isEmpty(channelIds)){
-        	   String[] cs = channelIds.split(",");
+        }else{
+        	monthIdList.add("-1");
+        }
+
+        if(!StringUtils.isEmpty(channels)){
+        	   String[] cs = channels.split(",");
          	   if(cs.length >0) CollectionUtils.addAll(channelIdList, cs);
-        } 
+        }else{
+        	channelIdList.add("-1");
+        }
        if(!StringUtils.isEmpty(customerIds)){
     	   String[] cs = customerIds.split(",");
      	   if(cs.length >0) CollectionUtils.addAll(customerIdList, cs);
        }
+       
        if(!StringUtils.isEmpty(incomePurposeIds)){
     	   String[] ips = incomePurposeIds.split(",");
      	   if(ips.length >0) CollectionUtils.addAll(incomePurposesList, ips);
+       }else{
+    	   incomePurposesList.add("-1");
        }
+       
     	Map keyMap = new HashMap();
     	mp.put("year",year);
     	mp.put("monthIdList",monthIdList);
@@ -233,11 +249,11 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
 
             FusionChartObject fObject = new FusionChartObject();
             fObject.setLable(name);
-            fObject.setValue1(tDateMonth+"");
-            fObject.setValue2(income+"");
-            fObject.setValue3(rate+"");
-            fObject.setValue4(upValue+"");
-            fObject.setValue5(leavleValue+"");
+            fObject.setValue1(tDateMonth+"ÔÂ");
+            fObject.setValue2(StringUtil.doubleFormat33(income+""));
+            fObject.setValue3(StringUtil.doubleFormat33(rate*100+"")+"%");
+            fObject.setValue4(StringUtil.doubleFormat33(upValue+""));
+            fObject.setValue5(StringUtil.doubleFormat33(leavleValue+""));
 			allMonth.add(fObject);
         }
     	

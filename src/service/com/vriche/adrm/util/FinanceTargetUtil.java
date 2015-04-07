@@ -40,11 +40,11 @@ public class FinanceTargetUtil {
 			FusionChartObject obj = (FusionChartObject)it.next();
 			sb.append("<row  id=\""+ j++  +"\"" +">");
 			sb.append("<cell><![CDATA["+ obj.getLable()  +"]]></cell>");
-			sb.append("<cell><![CDATA["+ obj.getValue1() +"ÔÂ" +"]]></cell>");
-			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat3(obj.getValue2())  +"]]></cell>");
-			sb.append("<cell><![CDATA["+ new Double(obj.getValue3())*100+"%"  +"]]></cell>");
-			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat3(obj.getValue4())  +"]]></cell>");
-			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat3(obj.getValue5())  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ obj.getValue1() +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat33(obj.getValue2())  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ obj.getValue3() +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat33(obj.getValue4())  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat33(obj.getValue5())  +"]]></cell>");
 			sb.append("</row>");
 		}
 		sb.append("</rows>");	

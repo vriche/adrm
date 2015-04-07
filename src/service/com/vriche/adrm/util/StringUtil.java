@@ -274,7 +274,11 @@ public class StringUtil {
 //	NumberFormat nf = NumberFormat.getPercentInstance();
 	
 	
-	
+	public static String doubleFormat33(String s) {
+		s = (s == null||s.equals(""))?"0":s;
+		DecimalFormat formatter = new DecimalFormat("##0.00");
+	    return formatter.format(new Double(s).doubleValue());
+	}
 	
 	public static String doubleFormat3(String s) {
 		s = (s == null||s.equals(""))?"0":s;

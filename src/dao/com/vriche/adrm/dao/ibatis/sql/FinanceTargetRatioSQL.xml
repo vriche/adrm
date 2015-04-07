@@ -248,7 +248,7 @@
 		sum(INC.income_money) AS value5
 		FROM tb_income INC
 		INNER JOIN tb_income_pull PULL ON INC.income_id = PULL.income_id 
-		INNER JOIN tb_finance_target_ratio RATIO  on RATIO.`year` = INC.version and RATIO.`month` = substring(INC.income_date,5,2)*1
+		left outer JOIN tb_finance_target_ratio RATIO  on RATIO.`year` = INC.version and RATIO.`month` = substring(INC.income_date,5,2)*1
 		INNER JOIN tb_ad_resource_carrier CARR ON CARR.ad_resource_carrier_id = RATIO.ad_resource_carrier_id and  PULL.ad_resource_carrier_id = CARR.ad_resource_carrier_id
 		INNER JOIN tb_ad_resource_channel CHANNEL ON CHANNEL.resource_mediaorg_id = CARR.ad_resource_channel_id 
 
@@ -285,7 +285,7 @@
 		</dynamic>  
 		
 	   	    GROUP BY CHANNEL.resource_mediaorg_id,RATIO.year,RATIO.month 
-			order by CHANNEL.resource_mediaorg_id,INC.income_date  
+			order by CHANNEL.resource_mediaorg_id,RATIO.year,RATIO.month
 		
     </select>	
 
