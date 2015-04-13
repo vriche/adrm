@@ -27,8 +27,9 @@ public interface FinanceTargetRatioDao extends Dao {
      */
     public List getFinanceTargetsByMap(final Map mp);
     
-    public List getFinanceTargetRaioCarriersByMap(final Map mp);
+    public Map getFinanceTargetRaioCarriersByMap1(final Map mp);
     
+    public List getFinanceTargetRaioCarriersByMap2(final Map mp);
     
     public List getCarrierTargetsByMap(final Map mp);
     

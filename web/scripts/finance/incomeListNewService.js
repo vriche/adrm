@@ -2181,9 +2181,13 @@ function editIncomeInfo(isNew,type){
        }
        
 //       incomeWindow.show();		
+ 
+    
        
        if(!isNew){
        	 	var incomeId = mygrid.getUserData(mygrid.getSelectedId(),"incomeId"); 
+       	 	
+      
 
 					 	if(incomeId > 0){
 					 		
@@ -2366,6 +2370,8 @@ function saveIncome(){
 //	alert(Ext.getCmp('extCustomer').getValue());
 //	alert(Ext.fly('extCustomer').getValue());
 
+	
+	
 	income.obj.id = incomeId ==""?null:incomeId;
 	income.obj.customerId = customerId;
 	income.obj.customer = (new Customer()).obj;
@@ -3055,7 +3061,7 @@ function saveIncomeCheck(isNew){
 	if(config_incomeCodeModelParam == 0){
 		var incomeCode = Ext.getCmp('incomeCode').getValue().Trim();
 		if(incomeCode == ""){alert('收入编号不能为空!');return true;}	
-		return ckeckIncomeCode();
+//		return ckeckIncomeCode();
 	}
 
 	

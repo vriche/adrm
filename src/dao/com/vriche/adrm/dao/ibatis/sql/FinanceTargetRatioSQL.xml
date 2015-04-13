@@ -233,23 +233,30 @@
 	
 	
 	
-	
-	
+	<select id="getFinanceTargetRaioCarriersByMap1" resultClass="fusionChartObject">
+		SELECT CONCAT(CHANNEL.resource_mediaorg_id,RATIO.year,RATIO.month) as id,
+		RATIO.money  AS value4 
+		FROM tb_finance_target_ratio RATIO
+		INNER JOIN tb_ad_resource_carrier CARR ON CARR.ad_resource_carrier_id = RATIO.ad_resource_carrier_id 
+		INNER JOIN tb_ad_resource_channel CHANNEL ON CHANNEL.resource_mediaorg_id = CARR.ad_resource_channel_id 	
+		<isNotNull prepend="AND" property="year">
+		         RATIO.year =#year#
+		</isNotNull>   
+	</select>
  
     
-	<select id="getFinanceTargetRaioCarriersByMap" resultClass="fusionChartObject">
+	<select id="getFinanceTargetRaioCarriersByMap2" resultClass="fusionChartObject">
 		SELECT
 		CHANNEL.resource_mediaorg_id as id,
 		CHANNEL.`name` as lable,
 		CARR.alias_name as value1,
-		RATIO.`year` as value2,
-		RATIO.`month`  as value3,
-		RATIO.money  AS value4,
+		substring(INC.income_date,1,4) as value2,
+		substring(INC.income_date,5,2)  as value3,
+		0 AS value4,
 		sum(INC.income_money) AS value5
-		FROM tb_income INC
+		FROM tb_income INC 
 		INNER JOIN tb_income_pull PULL ON INC.income_id = PULL.income_id 
-		left outer JOIN tb_finance_target_ratio RATIO  on RATIO.`year` = INC.version and RATIO.`month` = substring(INC.income_date,5,2)*1
-		INNER JOIN tb_ad_resource_carrier CARR ON CARR.ad_resource_carrier_id = RATIO.ad_resource_carrier_id and  PULL.ad_resource_carrier_id = CARR.ad_resource_carrier_id
+		INNER JOIN tb_ad_resource_carrier CARR ON CARR.ad_resource_carrier_id = PULL.ad_resource_carrier_id 
 		INNER JOIN tb_ad_resource_channel CHANNEL ON CHANNEL.resource_mediaorg_id = CARR.ad_resource_channel_id 
 
 		<dynamic prepend="WHERE"> 
@@ -284,8 +291,8 @@
 		        
 		</dynamic>  
 		
-	   	    GROUP BY CHANNEL.resource_mediaorg_id,RATIO.year,RATIO.month 
-			order by CHANNEL.resource_mediaorg_id,RATIO.year,RATIO.month
+	   	    GROUP BY CHANNEL.resource_mediaorg_id,substring(INC.income_date,1,4),substring(INC.income_date,5,2) 
+			order by CHANNEL.resource_mediaorg_id,substring(INC.income_date,1,4),substring(INC.income_date,5,2)
 		
     </select>	
 

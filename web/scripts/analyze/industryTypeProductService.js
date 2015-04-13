@@ -9,6 +9,7 @@ var mygrid2;
 var myDate = new MyDate();
 var config_serviceDate;
 var myprint =new MyPrint();
+ 
 
 callOnLoad(init);	
 
@@ -19,7 +20,14 @@ function init(){
 	channelModelParam = _app_params.sysParam.channelModelParam;
 	config_serviceDate = _app_params.serviceDate.def;	
 	
+ 	config_isDisplayStandPrice = _app_params.sysParam.isDisplayStandPrice;
+	config_useCarrierAliname = _app_params.sysParam.useCarrierAliname;
+    config_useMoreCarrierSortParam = _app_params.sysParam.useMoreCarrierSortParam;
+    config_withResourceSort = _app_params.sysParam.withResourceSort;//是否启用播出入点(启用1,不启用0)系统参数默认是0;
+    
+	
 	userName =  _app_params.user.username;	
+	loginUser =  _app_params.user.username;
 	
 	_make_org_select("orgId",120,"");	
 		
@@ -29,7 +37,7 @@ function init(){
 	setUserPara(user);
 	carrier.obj.nodeLevel =1;
 //	carrier.makeSelectItemAnalyze(carrier.obj,"carrierName","");
-	makeCarrierSelectItem();
+//	makeCarrierSelectItem();
 //	hiddenChartButton();
 	user.makeSelectAnalyze(user,user.selectName,"",setUserSelected);
 
@@ -47,6 +55,59 @@ function init(){
 	
 	
 }
+
+
+
+
+function getCarrierTree(obj){
+	obj.tree = new Tree('carrierTree'); 
+	var obj_tree = obj.tree.dhtmlTree;
+	
+	obj_tree.dadmode=2;
+	obj_tree.enableCheckBoxes(true);
+	obj_tree.enableThreeStateCheckboxes(true);
+	obj_tree.enableItemEditor(false);
+	obj_tree.enableDragAndDrop(true);
+	obj_tree.setOnClickHandler(doOnTreeSelect);//set function to call on dbl click
+//	obj_tree.setDragHandler(doOnBeforeDrop);
+	
+	var getxml = function(strXML){
+		obj_tree.loadXMLString(strXML);
+		obj_tree.setSubChecked('root',true); 
+	}
+
+	carrier.getTree(loginUser,getxml);
+}
+function doOnTreeSelect(itemId){
+	if(itemId == "root") return false;
+	var isItemChecked = carrier.tree.dhtmlTree.isItemChecked(itemId);
+	carrier.tree.dhtmlTree.setSubChecked(itemId,!isItemChecked); 
+}
+
+function displayCarrierTree(){
+	var oDiv = $("carrierTree");
+	oDiv.style.visibility = "visible";
+}
+function confirmCarrierTree(){
+		
+	var resourceIds = new Array();
+	var texts = new Array();
+
+	var allCheckedIds = carrier.tree.getAllCheckedBranches("sub");
+	if(allCheckedIds!=null){
+		$("carrierName").value = allCheckedIds.join(',');
+	}else{
+		$("carrierName").value ='';
+	}
+	
+	closeCarrierTree();
+}
+
+function closeCarrierTree(){
+	var oDiv = $("carrierTree");
+	oDiv.style.visibility = "hidden";
+}
+
 function initGrid(){
 	mygrid = new dhtmlXGridObject('industryProductAnalyze_gridbox');
 	mygrid.selMultiRows = true;
@@ -169,6 +230,14 @@ function buttonEventFill(){
 	btn_search.setAttribute("href","javascript:void 0");
 	btn_search.onclick = queryList;	
 	
+	var carrierName2 = $("carrierName");
+	carrierName2.onclick = displayCarrierTree2; 
+	
+	var btn_treeConfirm2 = $("btn_carrierTreeConfirm");
+	btn_treeConfirm2.onclick = confirmCarrierTree; 
+	
+	var btn_treeCancel2 = $("btn_carrierTreeCancel");
+	btn_treeCancel2.onclick = closeCarrierTree;	
 	
 //	
 //	var btn_search = $("search");
@@ -329,6 +398,8 @@ function queryList(){
 	var endDate = getFormatDay($("overDate").value,'ymd');
 	var userId = $(user.selectName).value==0?null:$(user.selectName).value;
 	var carrierName = $("carrierName").value==null?0:$("carrierName").value;
+	
+	
 	isPrint="false";
 	
 	if(beginDate != '' && endDate != ''){
@@ -346,6 +417,8 @@ function queryList(){
 		}
 		Ext.getBody().mask('数据加载中……', 'x-mask-loading');
 //		customerProduct.getIndustryTypeProductByBeginAndEndDate(channelModelParam,beginDate,endDate,userId,carrierName,userName,isPrint,func);
+		
+	
 		customerProduct.getIndustryTypeProductByBeginAndEndDateXML(channelModelParam,beginDate,endDate,userId,carrierName,userName,isPrint,func);
 		
 	}else{
@@ -470,6 +543,47 @@ function getFusionChartObjs(){
 		window.open(url);
 	}
 }
+
+
+function displayCarrierTree2(){
+	  var ids = $("carrierName").value;
+	  var urlStr="selectPopup/selectUserCarrierRel.html?mode=2&loginUser="+loginUser+"&ids="+ids +"&useCarrierAliname="+config_useCarrierAliname+"&orgId="+$("orgId").value;
+	  var cleanBtn ={text: '重置',handler: function(){document.getElementById('userCarrReliframe').contentWindow.refreshTreeCarriers();}};	
+	  var closeBtn ={text: '确定',handler: function(){removeWin();}};
+	  
+	        
+	 var win = new Ext.Window({
+	   title : '选择频道',
+	   width : 400,
+	   height : 300,
+	   isTopContainer : true,
+	   modal : true,
+	   resizable : false,
+	    buttons: [cleanBtn,closeBtn],
+	   contentEl : Ext.DomHelper.append(document.body, {
+	    tag : 'iframe',
+	     id : 'userCarrReliframe',
+	    style : "border 0px none;scrollbar:true",
+	    src : urlStr,
+	    height : "100%",
+	    width : "100%"
+	   })
+	  })
+	  win.show(); 
+	  
+	     function removeWin(){
+	    	var ids = document.getElementById('userCarrReliframe').contentWindow.getCheckedCarriers();
+	    	if(ids!=null && ids.length>0){
+				$("carrierName").value = ids.join(',');
+			}else{
+				$("carrierName").value ='';
+			}
+	 
+	  		win.destroy();
+	   	} 
+	   win.on({'close': {fn: removeWin}});   
+	    
+	}
 //function gettotalBrowserChartObjs(){
 //
 //	var beginDate = getFormatDay($("beginDate").value,'ymd');

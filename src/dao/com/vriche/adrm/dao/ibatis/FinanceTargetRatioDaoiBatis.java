@@ -38,8 +38,12 @@ public class FinanceTargetRatioDaoiBatis extends BaseDaoiBATIS implements Financ
           return getSqlMapClientTemplate().queryForList("getFinanceTargetsByIdList2", mp);
     }
     
-    public List getFinanceTargetRaioCarriersByMap(Map mp) {
-        return getSqlMapClientTemplate().queryForList("getFinanceTargetRaioCarriersByMap", mp);
+    public Map getFinanceTargetRaioCarriersByMap1(Map mp) {
+        return getSqlMapClientTemplate().queryForMap("getFinanceTargetRaioCarriersByMap1", mp,"id","value4");
+  }
+    
+    public List getFinanceTargetRaioCarriersByMap2(Map mp) {
+        return getSqlMapClientTemplate().queryForList("getFinanceTargetRaioCarriersByMap2", mp);
   }
     
     public List getCarrierTargetsByMap(Map mp) {

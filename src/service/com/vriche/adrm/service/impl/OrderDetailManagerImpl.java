@@ -2792,7 +2792,15 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		if(channelModel==1){
 			 channelPull = true;
 		}
-		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
+		
+		
+		String[] carrierIds = carrierName.split(",");
+		for(String cc:carrierIds){
+			List carrierIdList22 = carrierManager.getCarrierIdLists(cc,channelPull,curUserName);
+			CollectionUtils.addAll(carrierIdList, carrierIdList22.iterator());
+		}
+
+//		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
 		mp.put("carrierIdList",carrierIdList);
 		
 		if((!"".equals(userId) &&  userId!=null)){
@@ -2829,7 +2837,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		return getIndustryTypeByListDetails(ls,inputonMap);
 	}
 	 
-	 public Map getIndustryTypeProductByBeginAndEndDate2(int channelModel,String beginDate,String endDate,String userId,String carrierName,String curUserName,String isPrint) {
+	 public Map getIndustryTypeProductByBeginAndEndDate2(int channelModel,String beginDate,String endDate,String userId,String carrierNames,String curUserName,String isPrint) {
 //			List lsAll = new ArrayList();
 			
 //			PaginatedList paginatedList = new PaginatedList();
@@ -2849,7 +2857,23 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 			if(channelModel==1){
 				 channelPull = true;
 			}
-			carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
+			
+			String[] carrierIds = carrierNames.split(",");
+			
+//			System.out.println(">>>>> carrierNames.split>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+carrierIds.length) ;
+			
+			for(String cc:carrierIds){
+//				System.out.println(">>>>> carrierNames.split>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+cc) ;
+				
+				List carrierIdList22 = carrierManager.getCarrierIdLists(cc,channelPull,curUserName);
+				
+//				System.out.println(">>>>> carrierNames.split>>>>>>>>carrierIdList22>>>>>>>>>>>>>>>>>>>>>>  "+carrierIdList22.size()) ;
+				
+				CollectionUtils.addAll(carrierIdList, carrierIdList22.iterator());
+			}
+			
+//			System.out.println(">>>>> carrierNames.split>>>>>>>>>>carrierIdList>>>>>>>>>>>>>>>>>>>>  "+carrierIdList.size()) ;
+			
 			mp.put("carrierIdList",carrierIdList);
 			
 			if((!"".equals(userId) &&  userId!=null)){
@@ -3145,7 +3169,14 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		if(channelModel==1){
 			 channelPull = true;
 		}
-		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
+		
+		String[] carrierIds = carrierName.split(",");
+		for(String cc:carrierIds){
+			List carrierIdList22 = carrierManager.getCarrierIdLists(cc,channelPull,curUserName);
+			CollectionUtils.addAll(carrierIdList, carrierIdList22.iterator());
+		}
+		
+//		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
 		mp.put("carrierIdList",carrierIdList);
 		
 		if((!"".equals(userId) &&  userId!=null)){
@@ -3256,7 +3287,14 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 			 channelPull = true;
 			}
 		
-		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
+		
+		String[] carrierIds = carrierName.split(",");
+
+		for(String cc:carrierIds){
+			List carrierIdList22 = carrierManager.getCarrierIdLists(cc,channelPull,curUserName);
+			CollectionUtils.addAll(carrierIdList, carrierIdList22.iterator());
+		}
+//		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
 		mp.put("carrierIdList",carrierIdList);
 		
 //		System.out.println(">>>>>  1  "+isPrint) ;
@@ -3441,7 +3479,14 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 			 channelPull = true;
 			}
 		
-		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
+		
+		
+		String[] carrierIds = carrierName.split(",");
+		for(String cc:carrierIds){
+			List carrierIdList22 = carrierManager.getCarrierIdLists(cc,channelPull,curUserName);
+			CollectionUtils.addAll(carrierIdList, carrierIdList22.iterator());
+		}
+//		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
 		mp.put("carrierIdList",carrierIdList);
 		
 		if((!"".equals(userId) &&  userId!=null)){
@@ -3483,6 +3528,15 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		boolean channelPull = false;
 		if(channelModelParam==1){
 			 channelPull = true;
+		}
+		
+		
+		
+		
+		String[] carrierIds = carrierName.split(",");
+		for(String cc:carrierIds){
+			List carrierIdList22 = carrierManager.getCarrierIdLists(cc,channelPull,null);
+			CollectionUtils.addAll(carrierIdList, carrierIdList22.iterator());
 		}
 		
 		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,null);
@@ -3782,17 +3836,24 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		this.saveOrderDetailPublicInfo(orderDetail,1);
 	}
 	//行业品牌投放量统计
-	public String getIndustryTypeProductByBeginAndEndDateXML(int channelModelParam, String beginDate, String endDate, String userId, String carrierName, String curUserName, String isPrint) {
+	public String getIndustryTypeProductByBeginAndEndDateXML(int channelModelParam, String beginDate, String endDate, String userId, String carrierNames, String curUserName, String isPrint) {
 //		List ls = getIndustryTypeProductByBeginAndEndDate(channelModelParam,beginDate,endDate,userId,carrierName,curUserName,isPrint);
-		Map mp = getIndustryTypeProductByBeginAndEndDate2(channelModelParam,beginDate,endDate,userId,carrierName,curUserName,isPrint);
+		Map mp = getIndustryTypeProductByBeginAndEndDate2(channelModelParam,beginDate,endDate,userId,carrierNames,curUserName,isPrint);
 		return OrderDetailUtil.makeTreeGridXML30(mp);
 	}
 	//品牌投播情况表
-	public String getIndustryTypeProductChannelByBeginAndEndDateXML(int channelModelParam, String beginDate, String endDate, String userId, String carrierName, String curUserName, String isPrint) {
-		Map mp = getIndustryTypeProductByBeginAndEndDate2(channelModelParam,beginDate,endDate,userId,carrierName,curUserName,isPrint);
+	public String getIndustryTypeProductChannelByBeginAndEndDateXML(int channelModelParam, String beginDate, String endDate, String userId, String carrierNames, String curUserName, String isPrint) {
+		Map mp = getIndustryTypeProductByBeginAndEndDate2(channelModelParam,beginDate,endDate,userId,carrierNames,curUserName,isPrint);
 		Map channelMp = new HashMap();
+		List lst = new ArrayList();
+		
+		String[] carrierIds = carrierNames.split(",");
+		for(String cc:carrierIds){
+			List ls11  = this.getChannelRelIncome(channelModelParam,beginDate,endDate,userId,cc,curUserName,isPrint);
+			CollectionUtils.addAll(lst, ls11.iterator());
+		}
 
-		List lst = this.getChannelRelIncome(channelModelParam,beginDate,endDate,userId,carrierName,curUserName,isPrint);
+		
 		ResourceChannel resourceChannel = new ResourceChannel();
 		resourceChannel.setEnable(new Integer(1));
 		List channels = resourceChannelManager.getResourceChannels(resourceChannel);
@@ -3817,7 +3878,16 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		if(channelModel==1){
 			 channelPull = true;
 		}
-		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
+		
+		
+		
+		String[] carrierIds = carrierName.split(",");
+		for(String cc:carrierIds){
+			List carrierIdList22 = carrierManager.getCarrierIdLists(cc,channelPull,curUserName);
+			CollectionUtils.addAll(carrierIdList, carrierIdList22.iterator());
+		}
+		
+//		carrierIdList = carrierManager.getCarrierIdLists(carrierName,channelPull,curUserName);
 		mp.put("carrierIdList",carrierIdList);
 		
 		if((!"".equals(userId) &&  userId!=null)){

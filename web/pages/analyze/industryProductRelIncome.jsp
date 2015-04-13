@@ -21,6 +21,7 @@
 <script type="text/javascript" src="<c:url value='/scripts/calendar/calendar-setup.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/calendar/lang/calendar-zh-gbk.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common/print.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/common/tree.js'/>"></script>
 
 
 <script type="text/javascript" src="<c:url value='/dwr/interface/OrderDetailManager.js'/>"></script>
@@ -56,7 +57,19 @@
 					 <td width="1%"><input type ="text" id ="overDate" name="overDate" size=10></td>  
                    	
                     <td width="1%" style="display:none"><select name="userOwner" id="userOwner" /></td>
-	                <td width="1%"> <select name="select" id="carrierName"/></td>
+                    
+	                <!-- td width="1%"> <select name="select" id="carrierName"/></td -->
+	                <td>
+						                  <div  style="position:relative;overflow:visible">
+										      		<fmt:message key="carrierForm.channelId"/><input name="carrierName" id="carrierName" size="12px" type="text" autocomplete=off/>
+										      		 <div id="carrierTree" 
+														 style="position:absolute;OVERFLOW: auto;left:0px;top:21px;width:150px;height:300px;visibility:hidden;border:solid green 2px;background-color:white;z-index:1"; 
+													 >
+														<input  style="CURSOR: pointer;" type="button" id="btn_carrierTreeConfirm" value="&nbsp;<fmt:message key="button.confim"/>&nbsp;"/> 
+								        				<input  style="CURSOR: pointer;" type="button" id="btn_carrierTreeCancel" value="&nbsp;<fmt:message key="button.cancel"/>&nbsp;"/> 
+													 </div>
+											</div>  
+					 </td>
 	                
 	            	 <td width="1%"><input type="button"   class="button" id="search" value='²éÑ¯'>	</td>   
 

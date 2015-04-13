@@ -1744,7 +1744,7 @@
 		
 	 <include refid="incomeResult_having_new"/> 
 		
-		order by I.income_date desc,I.income_code desc 
+		order by I.income_code desc 
 		
  </select>
 		

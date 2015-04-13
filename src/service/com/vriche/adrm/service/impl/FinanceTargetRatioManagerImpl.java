@@ -32,6 +32,7 @@ import com.vriche.adrm.util.DateUtil2;
 import com.vriche.adrm.util.FinanceTargetComparator;
 import com.vriche.adrm.util.FinanceTargetUtil;
 import com.vriche.adrm.util.StringUtil;
+import com.vriche.adrm.util.StringUtilsv;
 import com.vriche.adrm.util.SysParamUtil;
 import com.vriche.adrm.util.UserUtil;
 
@@ -230,7 +231,13 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
     	mp.put("customerIdList",customerIdList);
     	mp.put("incomePurposeIdList",incomePurposesList);
     	
-        List ls = dao.getFinanceTargetRaioCarriersByMap(mp);
+      
+        Map mpp = dao.getFinanceTargetRaioCarriersByMap1(mp);
+        
+        
+        StringUtilsv.printMap(mpp);
+        
+        List ls = dao.getFinanceTargetRaioCarriersByMap2(mp);
         
         for(Iterator it = ls.iterator();it.hasNext();){
         	FusionChartObject fTarget = (FusionChartObject)it.next();
@@ -239,12 +246,18 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
         	String chanAlias = fTarget.getValue1();
         	String tDateYear = fTarget.getValue2();
         	String tDateMonth =fTarget.getValue3();
-        	double rate = new Double(StringUtil.getNullValue(fTarget.getValue4(),"1"));
+        	
+        	String key = chanId + tDateYear.toString() +Integer.valueOf(tDateMonth);
+        	String value = StringUtil.getNullValue(mpp.get(key),"1");
+//        	 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>key>> "+key);
+//        	 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>value>> "+value);
+        	
+        	double rate = new Double(value);
         	double income = new Double(StringUtil.toDouble(fTarget.getValue5()));
         	double upValue =  new Double(StringUtil.toDouble(income*rate));
         	double leavleValue = income - upValue;
         	
-        	String key = chanId + tDateYear.toString() +tDateMonth.toString();
+        	
         	String name = chanName +"("+ chanAlias +")";
 
             FusionChartObject fObject = new FusionChartObject();

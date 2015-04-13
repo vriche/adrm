@@ -344,14 +344,14 @@ CustomerProduct.prototype.getIndustryTypeProductByBeginAndEndDate = function(cha
 //	}
 }
 
-CustomerProduct.prototype.getIndustryTypeProductByBeginAndEndDateXML = function(channelModelParam,sDate,eDate,userId,carrierName,userName,isPrint,callBackFun){
+CustomerProduct.prototype.getIndustryTypeProductByBeginAndEndDateXML = function(channelModelParam,sDate,eDate,userId,carrierNames,userName,isPrint,callBackFun){
 
-		OrderDetailManager.getIndustryTypeProductByBeginAndEndDateXML(callBackFun,channelModelParam,sDate,eDate,userId,carrierName,userName,isPrint);	
+		OrderDetailManager.getIndustryTypeProductByBeginAndEndDateXML(callBackFun,channelModelParam,sDate,eDate,userId,carrierNames,userName,isPrint);	
 
 }
-CustomerProduct.prototype.getIndustryTypeProductChannelByBeginAndEndDateXML = function(channelModelParam,sDate,eDate,userId,carrierName,userName,isPrint,callBackFun){
+CustomerProduct.prototype.getIndustryTypeProductChannelByBeginAndEndDateXML = function(channelModelParam,sDate,eDate,userId,carrierNames,userName,isPrint,callBackFun){
 
-		OrderDetailManager.getIndustryTypeProductChannelByBeginAndEndDateXML(callBackFun,channelModelParam,sDate,eDate,userId,carrierName,userName,isPrint);	
+		OrderDetailManager.getIndustryTypeProductChannelByBeginAndEndDateXML(callBackFun,channelModelParam,sDate,eDate,userId,carrierNames,userName,isPrint);	
 
 }
 CustomerProduct.prototype.getIndustryTypeProductTotalBrowser = function(channelModelParam,sDate,eDate,userId,carrierName,userName,isPrint,callBackFun){
