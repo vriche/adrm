@@ -320,6 +320,7 @@ public class SysParamUtil {
 	
 	
 	
+	
 	public static Map getWebServiceUrlChannelConfig(String channelId){
 		Map mp = new HashMap();
 		Map mp2 = new HashMap();
@@ -524,6 +525,14 @@ public class SysParamUtil {
 		return ("0".equals(sysParam.getAutoRelationCodeParam())|| sysParam.getAutoRelationCodeParam() == null)?false:true;
 	}
 	
+	// 新签订单广告排期默认月份,默认当前月份+2
+	public static String getOrderArrangDefaultMonthsParam(){
+	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+	    if(StringUtils.isEmpty(sysParam.getOrderArrangDefaultMonths())) sysParam.setOrderArrangDefaultMonths("2");
+	    return sysParam.getOrderArrangDefaultMonths();		
+	}
+	
+	
 	public static String getUserOrgs(String loginUser){
 		loginUser = (loginUser == null||"".equals(loginUser))?UserUtil.getCurrentPrincipalUser():loginUser;
 		Map mp = (Map)Constants.APPLACTION_MAP.get(Constants.GLOBAL_CUSRUSER_ORGS);
@@ -553,6 +562,9 @@ public class SysParamUtil {
 	public static String getOrgTypeById(String orgId){
 		Map mp = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_ORG);
 		Org org = (Org)mp.get(orgId);
+		
+//		System.out.println(" getOrgTypeById >>>wwwwwwwwwwwwwwwwwwwww >>>orgId>>>>>>" + orgId);
+		
 		return org.getOrgType();
 
 	}
@@ -597,6 +609,14 @@ public class SysParamUtil {
 	    String v = sysParam.getOrderBasePriceEnableModyParam();	
 	    return ("0".equals(v)|| "false".equals(v)||v == null)?false:true;
 	}
+	
+	public static boolean getResourceUseCustomerCatelogParam(){
+	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+	    String v = sysParam.getResourceUseCustomerCatelog();
+	    return ("0".equals(v)|| "false".equals(v)||v == null)?false:true;
+	}
+	
+	
 	
 	
 	 public  String getGlobalParams(String loginName){

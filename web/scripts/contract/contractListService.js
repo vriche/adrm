@@ -65,7 +65,7 @@
  	
     buildcustomerCommand();
  	
- 	if(tvNameParam =='hntv' && tvNameParam =='sjz'){
+ 	if(tvNameParam =='hntv' || tvNameParam =='sjz'||tvNameParam =='fztv'){
  		$("contract_sort").hide();
  	}else{
  		if(contract_sort > 0) $("contract_sort").value = contract_sort;
@@ -95,9 +95,7 @@
 	 	});	
  	}
  	
- 	
 
- 	
  	
  	if(channelModelParam == 1 && tvNameParam =='hntv'){
  	    initCarrier(getCategorys);
@@ -544,6 +542,10 @@ function getContractTable(i){
 
     
     if(contractSort =='') contractSort =null;
+
+//    if(carrierId =='') carrierId = null;
+    
+    
 	contract.reset();
 	contract.obj.version = contract_year;
 	contract.obj.orgId = i;

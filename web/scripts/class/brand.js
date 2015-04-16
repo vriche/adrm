@@ -238,7 +238,64 @@ Brand.prototype.getBrandCmd =  function(paramObj,renderTo,elname,filterFiled,wid
 
  };
 
+ Brand.prototype.getBrandCmd2 =  function(paramObj,renderTo,elname,filterFiled,width,emptyText,mode,callFunction){
+		
+		var store = this.getStoreBrands(mode,this.obj);
+	         
+		var conf ={
+	        store: store,
+	        id:elname,
+	        name:elname,
+	        listWidth: 200,
+	        width:width,
+	        lazyRender: true,
+	        displayField:'name',
+	         valueField:'id',
+//	        typeAhead: true,
+	        forceSelection: true,
+	        triggerAction: 'all',
+	        emptyText:emptyText,
+	        selectOnFocus:true,
+	         mode: mode,
+	         minChars:1,
+	         params:paramObj,
+			 filterFiled:'name',
+			 filterFiled2:'helpCode',
+	         listeners:{beforequery:this.comboFilterBy2.createDelegate(this)}	
 
+	    };  
+
+	    if(renderTo) conf.renderTo = renderTo;
+	    if(filterFiled) conf.filterFiled = filterFiled;
+	    if(callFunction) conf.callFunction = callFunction;
+	    
+		var cmd = new Ext.form.ClearableComboBox(conf);
+
+		
+	     
+		 function clearFunc(){
+			 var filterFiled = cmd.filterFiled;
+		 	 var filterFiled2 = cmd.filterFiled2;
+		 	 var params = cmd.params;
+		 	 eval("params.brandId2 =null");
+		 	 cmd.callFunction(params);
+		 }
+		 
+		function selectFunc(){
+		 	 var filterFiled = cmd.filterFiled;
+		 	 var filterFiled2 = cmd.filterFiled2;
+		 	 var params = cmd.params;
+		 	 var value = cmd.getValue();
+		 	 eval("params.brandId2 =value");
+		 	 cmd.callFunction(params);
+		 }
+
+	     cmd.on("clear",clearFunc,this);	 
+	     cmd.on("select",selectFunc,this);	
+	     
+		return cmd;
+
+	 };
 
 
 Brand.prototype.getCount = function(obj){

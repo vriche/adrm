@@ -121,6 +121,8 @@ function init(){
 	config_financeBalanceModelParam= _app_params.sysParam.financeBalanceModelParam;
 	config_fastSignOrderParam = _app_params.sysParam.fastSignOrderParam;
 	config_orderCalculateModel=  _app_params.sysParam.orderCalculateModel;
+	config_orderArrangDefaultMonths=  _app_params.sysParam.orderArrangDefaultMonths*1;
+	config_resourceUseCustomerCatelog = _app_params.sysParam.resourceUseCustomerCatelog;
 
 
 	tag_time_out =  _app_params.rights.tag_time_out;
@@ -244,27 +246,42 @@ function init(){
 	paramObJ.loginUser = loginUserName;
 	paramObJ.loginUserId = loginUserId;
 	user.obj = paramObJ;
+	
+ 
 	var userCmd = user.getUsersByOrgLimit("extUserIdDiv","userId",144,setCurUserId,null);
+	if(tvNameParam=='fztv' && orderDetailStates==2){
+		userCmd.setValue(loginUserId);
+	}
 	
 
-	if(tvNameParam=='fztv'){
-//		$('Btn_print_order').hide();
-//		$('Btn_export_order').hide();
-		$('gridbox1').hide(); 
-//		if(config_signCompages ==1)$('resourceSortId').disabled=false; 
-	}else{
-//		$('Btn_export_order').hide();
-		$('gridbox1').hide(); 
-//		if(config_signCompages ==1){$('resourceSortId').disabled=false;}; 		
-	}
+//	if(tvNameParam=='fztv'){
+//		$('gridbox1').hide(); 
+//	}else{
+//		$('gridbox1').hide(); 	
+//	}
+//	
+	$('gridbox1').hide(); 
 	
 	this.ctxPath = ctxPath;
-	if(orderDetailStates == 2||!tag_orderDetail_save){
-		this.report.buildButtons(this,"printReportDiv",[0,1,2],70);
-	}else{
-		this.report.buildButtons(this,"printReportDiv",[0,1,2,7],70);
+	
+	var btns =[0,1,2];
+	
+	if(orderDetailStates != 2||tag_orderDetail_save){
+		btns.push(7);
 	}
+	
+	 
+	if(tag_check_right){
+		btns.push(11);
+		btns.push(12);
+	};
+//	if(orderDetailStates == 2||!tag_orderDetail_save){
+//		this.report.buildButtons(this,"printReportDiv",[0,1,2],70);
+//	}else{
+//		this.report.buildButtons(this,"printReportDiv",[0,1,2,7],70);
+//	}
 
+	this.report.buildButtons(this,"printReportDiv",btns,70);
 
 	
 //	if(config_signCompages ==1)$('resourceSortId').disabled=false; 		
@@ -925,14 +942,16 @@ function resetHeigth(){
 
 
 function setCurUserId(){
-		if(tvNameParam=='fztv'){
-			var callback=function(objs){
-				for(var i in objs){
-					if(objs[i]=='宣传片录入') isFree = true;
-				}
-			}
-			user.getUserRolesCols(loginUserId,'lable',callback); 
-		}
+	
+
+//		if(tvNameParam=='fztv'){
+//			var callback=function(objs){
+//				for(var i in objs){
+//					if(objs[i]=='宣传片录入') isFree = true;
+//				}
+//			}
+//			user.getUserRolesCols(loginUserId,'lable',callback); 
+//		}
 		if(orderDetailStates == 2) {
 			int_set_user(loginUserId,loginUserFullName);
 //			Ext.getCmp("userId").setValue(loginUserId);
@@ -1260,7 +1279,7 @@ function buttonEventFill(){
 	var Btn_addNewAdver1 = $("Btn_addNewAdver1"); 
 	Btn_addNewAdver1.onclick = addnewOrderDetail1;
 	
-		//新添广告1
+	//快速下单
 	var Btn_addNewAdver2 = $("Btn_addNewAdver2");
 	Btn_addNewAdver2.onclick = add_new_OrderDetail_more;
 	//单击广告长度 183
@@ -2229,6 +2248,8 @@ function setOrder(o){
 	int_set_user(o.userId,o.user.fullName);
 //	init_set_orderCate(o.orderCategory,o.categoryId,"categoryId",145,null);
 	setOrderPublic(o.orderPublic);
+	
+	document.title= "订单号:"+ order.obj.orderCode;
 };
 
 function setContractCode(o){
@@ -2389,6 +2410,7 @@ function resetOrder(){
 	order.reset();
 	orderBackUp = (new Order()).obj;
 	$("orderCode").value = null;
+	document.title= "订单号:";
 	$("relationCode").value = null;
 	$("orderMeno").value = null;
 	$("textareaOrderMeno").value = null;
@@ -4025,7 +4047,7 @@ function save_order_detail(orderId,isPass,isOrderChanged,isNewOder){
 	
 	 function saveDetailFnc(detailId,orderDetail_obj){save_orderDetail_fun(isPackeg,orderId,detailId,isNewOder,orderDetail_obj); };
 
-
+   
 
 	 if(isOrderDetailChanged) {
 		 orderDetail.saveOrderDetail(orderDetail_obj,isPackeg,
@@ -5246,7 +5268,11 @@ function getMonthInfos(isLock,rsId,specificValue,startDate,endDate,func,isFirstL
 	orderDetail_obj.version = order_year;
 	orderDetail_obj.orderDetailStates = orderDetailStates;
 //	orderDetail_obj.orderDetailStates = $("isCkecked").value;
+	
+//	 var customerCategoryId  = getValueFromStoreById(Ext.getCmp('customerName'),"customerCategoryId");
+	orderDetail_obj.resourceSortId = getValueFromStoreById(Ext.getCmp('customerName'),"customerCategoryId");
 
+	
 	if(resourceSort == 2){
     	orderDetail_obj.compagesId =999;
 //    		orderDetail_obj.resourceInfoId = 0;
@@ -5338,16 +5364,18 @@ function addNewOrderDayInfo(ev){
 	var startDate = myDate.getStartDay(cur_date);
 	var temp = myDate.getMonth(startDate)*1;
 //	var nextMonth = myDate.getMonth(startDate)*1 + 2;
-	
+
 	var nextMonth = 0;
 	if(tvNameParam =='hbtv'){
 		nextMonth = myDate.getMonth(startDate)*1;
 		if(cur_day >24){
-			nextMonth = nextMonth + 1;
+			nextMonth = nextMonth + config_orderArrangDefaultMonths;
 		}
 	}else{
-		nextMonth = myDate.getMonth(startDate)*1 + 2;
+		nextMonth = myDate.getMonth(startDate)*1 + config_orderArrangDefaultMonths;
 	}
+	
+
 	
 	if( temp+2 >= 13)  nextMonth = 12;
 	var endDate   = myDate.getNewDayEndDay(startDate,nextMonth);
@@ -6142,7 +6170,70 @@ function printReport(mode){
 	}
 	if(mode =="copy"){
 		button_print_copy();
-	}	   
+	}	
+	
+	
+
+	if(order.obj.id >0){
+		var checkeds=[order.obj.id];
+		var changeState = 1;
+		var defMsg ="【订单编辑上提交审核】";
+		
+		function callBak(){
+	        if(config_allowModiyPassedOrderParam ==0)lockDestopOrderDetail(false);
+		}  
+		
+		if(mode =="pass"){
+			//document.title=order.obj.id;
+		     changeState = 3;
+			 var oldState = $("isCkecked").value;
+			 if(oldState != 3){
+				   Ext.MessageBox.confirm('系统提示', '请确认是否通过？', function(btn) {
+			 			  if (btn == 'yes') {
+								order.updateOrderStates2(checkeds,changeState,loginUserId,oldState,defMsg,callBak); 
+								$("orderDetail_mod_states").value="通过";  
+								$("isCkecked").value = changeState; 							
+			              } });					 
+
+			 }
+
+		}
+	
+		if(mode =="return"){
+		    changeState = 4;
+			var oldState = $("isCkecked").value;
+			 if(oldState != 1 && oldState != 4){
+				   Ext.MessageBox.confirm('系统提示', '请确认是否退回？', function(btn) {
+			 			  if (btn == 'yes') {
+								order.updateOrderStates2(checkeds,changeState,loginUserId,oldState,defMsg,callBak); 
+								$("orderDetail_mod_states").value="被退回";  
+								$("isCkecked").value = changeState; 						
+			              } });					 
+
+			 }
+
+		}
+	}
+	
+	
+				  	
+
+
+
+   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 //	if(mode =="prove"){
 //		button_chose_prove();
@@ -7177,9 +7268,9 @@ function search_adver_cont(model){
    var customer_fin = new Customer();
    var customerId = Ext.getCmp('customerName').getValue();	
    var customerName =  Ext.fly('customerName').dom.value; 
-   
    var brandId2 = Ext.getCmp('search_brand').getValue();	
-  
+   var ad_length = $("matterLength").value;
+   var orderCkeckState = $("isCkecked").value;
    
    if(customerId =='') customerName ='';
    
@@ -7188,13 +7279,17 @@ function search_adver_cont(model){
    	   	   document.getElementById('matteriframe').contentWindow.loadGridData(params);	        
    	}  
    
-   
-   
+
       var urlStr= ctxPath + "selectPopup/selectMatters.html?orgId="+orgId+"&customerId="+customerId+"&version="+$("order_year").value;
       
        urlStr = urlStr + "&customerName="+customerName;
        urlStr = urlStr + "&model="+model;
        urlStr = urlStr + "&brandId2="+brandId2;
+       urlStr = urlStr + "&orderCkeckState="+orderCkeckState;
+       urlStr = urlStr + "&adLength="+ad_length;
+
+
+//      
    
    if(!search_adver_win){
 
@@ -7232,8 +7327,6 @@ function search_adver_cont(model){
    	   
 //    	var brandCmd = brand.getBrandCmd(brand.obj,null,'search_brand_cmd',null,80,'品牌...',null);
     	var brandCmd = brand.getCommandForSelect(brand.obj,null,'search_brand_cmd','brandId2',110,'品牌...',callFunction);
-    	   
-   	   
 //   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
    	   var nameCmd = matter_fin.getCommandForSelect('search_adver_name','广告名称...','name',1,110,callFunction);
    	   var editCmd = matter_fin.getCommandForSelect('search_adver_edit','请输入广告版本...','edit',1,190,callFunction);
@@ -7273,6 +7366,15 @@ function search_adver_cont(model){
 //		 search_adver_win.show(this);
 
 		 
+   }else{
+	   var adver_len_cmd = search_adver_win.getTopToolbar().getComponent('search_adver_len');
+	   adver_len_cmd.setRawValue(ad_length);
+	   adver_len_cmd.setValue(ad_length);
+//	   alert(adver_len_cmd.superclass.un)
+//	   adver_len_cmd.un("click",adver_len_cmd.onTrigger2Click);
+	   
+	   var params={length:ad_length};
+	   document.getElementById('matteriframe').contentWindow.loadGridData(params);
    }
    
 //   else{
@@ -7296,6 +7398,7 @@ function search_adver_cont(model){
 
 }
 
+//快速下单
 function add_new_OrderDetail_more(){
 
 	var orderCategoryMain = getSelectParamFromAttribute($("categoryId"),"calculateauto");//根据付款分配应收 
@@ -7307,8 +7410,10 @@ function add_new_OrderDetail_more(){
 	var orderCode = $("orderCode").value;
 	var customerCategoryId = $("customerCategoryId").value;
 	var paymentId = $("paymentId").value;
+//	var adLength = $("matterLength").value;
 //	var orderCheckState =  $("paymentId").value;
 //	var isEdit = getEditOrderStates(colIndex,$("isCkecked").value);
+	
 	
 	var resource_sort = getSelectParamFromAttribute($("resourceSortId"),"paramvalue");
 	
@@ -7331,6 +7436,7 @@ function add_new_OrderDetail_more(){
 			orderCkeckState:$("isCkecked").value,
 			customerCategoryId:customerCategoryId,
 			paymentId:paymentId,
+//			adLength:adLength,
 			fromModel:1
 	}      
     build_more_paraArray =  get_fast_sign_order_win(ctxPath,paramObj);

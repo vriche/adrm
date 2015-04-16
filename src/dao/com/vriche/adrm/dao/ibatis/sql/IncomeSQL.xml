@@ -891,6 +891,9 @@
 		<result property="customer.customerName" column="customerName" nullValue=""/>
 		<result property="user.firstName" column="firstName"/>
 		<result property="user.lastName" column="lastName"/>
+		<result property="incomePublic.carrierName" column="channel_name"/>
+		
+		
     </resultMap>
 	
 	
@@ -1090,6 +1093,8 @@
 			I.income_pull_date,
 			I.memo,
 			sum(iu.money_in) as money_in,
+			
+			chanl.name as  channel_name,
 		
 		  I.sys_org_id,
 
@@ -1103,6 +1108,17 @@
 		
 				left outer join tb_income_pull pll 
 		                  on pll.income_id = I.income_id
+		                  
+			
+				left outer join tb_ad_resource_carrier rc
+		                 on rc.ad_resource_carrier_id  = pll.ad_resource_carrier_id	
+		
+		        left outer join  tb_ad_resource_channel AS chanl 
+						ON chanl.resource_mediaorg_id = rc.ad_resource_channel_id	                  
+		                  
+		                  
+		                  
+		                  
 
 			 	left outer join tb_income_used iu
 		                  on iu.income_pull_id = pll.income_pull_id	
@@ -1706,6 +1722,7 @@
 			CUST.customer_name as customerName, 
 			US.first_name as firstName,
 			US.last_name as lastName
+			
 		
 		 from tb_income  I
 		

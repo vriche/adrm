@@ -27,8 +27,10 @@ public class DhtmlExcelGeneratorServlet extends HttpServlet {
 //		xml = URLDecoder.decode(xml, "UTF-8");
 		
 //		 System.out.println("DhtmlExcelGeneratorServlet URLDecoder>yyyyyyyyyyyyyyyy >>>1111111111111" + xml);
-		
-		(new ExcelWriter()).generate(xml, resp);
+		ExcelWriter exw = new ExcelWriter();
+//		exw.setFontSize(9);
+
+		(exw).generate(xml, resp);
 	}
 //	public void service(HttpServletRequest req,	HttpServletResponse resp) throws IOException, ServletException
 //	{

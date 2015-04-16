@@ -61,6 +61,8 @@ public interface ResourceManager extends Manager {
     
     public void getResourceItemsByCarrierIdByYear(StringBuffer sb,String carrierId, String resourceIdPrefix,String year,boolean orderCarrierLevelOne,Integer resType,String orgType);
     
+    public void getResourceItemsByCarrierIdByYearTest(StringBuffer sb,String carrierId, String resourceIdPrefix,String year,boolean orderCarrierLevelOne,Integer resType,String orgType,boolean enable);
+    
     public void getResourceItemsByCarrierIdFromMapByYear(StringBuffer sb, String carrierId, String resourceIdPrefix,String year);
     
     public void getResourceItemsByCarrierIdFromMap(StringBuffer sb, String carrierId, String resourceIdPrefix,String publishDate,String resourceTypeId);
@@ -121,6 +123,12 @@ public interface ResourceManager extends Manager {
 	
 	public String getResourceXMLforDhtmlTree(String strQueryString);
 	
+	
+	public String getResourceIdsByYearUser(String year,String uid);
+//	public void removeResourceIdsYearUser(String resourceIds,String uid,String rate);
+	public void saveResourceIdsYearUser(String resourceIds,String uid,String rate);
+	
+	public void removeResourceIdsYearUser(String ids);
 	
 }
 

@@ -154,6 +154,11 @@ public class ContractManagerImpl extends BaseManager implements ContractManager 
 							}
 							contract.setCarrierIdList(carrierIdList);
 						}
+						
+						if("fztv".equals(tvName)){
+							contract.setCarrierId(null);
+							contract.setCarrierIdList(null);
+						}
 					
 						
 					}

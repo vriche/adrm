@@ -136,5 +136,71 @@ Category.prototype.getCategorys = function(callBackFun) {
 
 
 
+Category.prototype.getStore = function(mode,paramObj){
+	paramObj = [paramObj || {}];
+	var fileds= this.fileds;
+	var store = new Ext.data.Store({
+		proxy: new Ext.data.DWRHttpProxy({url: CategoryManager.getCategorys}),
+		reader: new Ext.data.DWRObjectReader({id: "id"},fileds)
+	});
+	if(mode == 'remote'){
+	  	store.on('beforeload', function(){
+	    	Ext.apply(this.baseParams, {dwrParams:paramObj});
+		}); 
+		store.load();			
+	}else{
+		store.load({params:{dwrParams:paramObj}});
+	}
+		return store;
+};
+
+Category.prototype.getCmd =  function(rederId,elname,width,callBackFun,xtype){
+    var OBJ = this;
+	var paramObj = this.obj;
+    var store = OBJ.getStore('remote',paramObj);
+
+
+	
+	 var conf = {
+	   store: store,
+	   id:elname,
+	   name:elname,
+	   width:width,
+	   lazyRender: true,
+	   displayField:'categoryName',
+	    valueField:'id',
+	   typeAhead: true,
+	   forceSelection: false,
+	   triggerAction: 'all',
+	   fieldLabel: '客户分类',
+	   emptyText:'请选择...',
+	   selectOnFocus:true,
+	    mode: 'local',
+	    minChars:1
+	
+	};
+
+	if (rederId) conf.renderTo = rederId;
+
+	store.on('load', function() {callBackFun();});
+
+	if (xtype) {
+		conf.xtype = 'clearableComboBox';
+		conf.listeners = {
+			mousedown : function() {this.onTriggerClick()}
+		};
+		return conf;
+	} else {
+		var comboBox = new Ext.form.ClearableComboBox(conf);
+		comboBox.on("mousedown", function() {cmd.onTriggerClick();});
+
+		return comboBox;
+	}
+
+};
+
+
+
+
 
 

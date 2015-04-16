@@ -260,6 +260,9 @@ function buttonEventFill(){
 	Btn_customerType_user.onclick = showCustomerTypeWin;	
 	
 	
+
+	
+	
 	
 	document.body.onfocus = closePopup;	
 	
@@ -1823,3 +1826,6 @@ function saveUserCutType(i){
 	$('city').value = checkedNodes.join(',');
 	saveUser(null,true);
 }
+
+
+

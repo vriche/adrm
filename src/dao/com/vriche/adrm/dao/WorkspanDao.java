@@ -63,7 +63,9 @@ public interface WorkspanDao extends Dao {
 	public Map getOrderDayTimeSpec(Integer startDate,Integer endDate,Long resourceId);
 	public Map getOrderDayTimeUsed(Integer startDate,Integer endDate,Long resourceId);
 	
-
+	
+	public void removeResourceDayInfo(Long workspanId,Integer beginDate,Integer endDate);
+	public void addResourceDayInfo(Workspan workspan);
 
 
 }

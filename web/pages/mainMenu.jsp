@@ -23,9 +23,6 @@
 
 
 
-
-
-
 <script type="text/javascript" src="<c:url value='/scripts/common/popupWindow.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common/popupWindow.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common/dwr-lib.js'/>"></script>

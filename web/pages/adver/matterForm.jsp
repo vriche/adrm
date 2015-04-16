@@ -196,6 +196,9 @@
 		        <html:errors property="enable"/>
 		        <html:checkbox property="enable"  styleId="enable"/>
 			</td>
+			
+
+			
 		</tr>
 	</tbody>
  </table>

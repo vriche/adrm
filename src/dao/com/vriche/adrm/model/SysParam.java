@@ -3,6 +3,7 @@ package com.vriche.adrm.model;
 import java.util.Date;
 
 import com.vriche.adrm.Constants;
+
 /**
  * SysParam class
  * 
@@ -225,8 +226,24 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
    protected String  arrangeWithBrandParam;    
    
    
+// 新签订单广告排期默认月份,默认当前月份+2
+   protected String  orderArrangDefaultMonths;    
+   
+   // 出串联单限制排期的修改
+   protected String  outLimitBroarrang;
+   // 使用客户广告投放的时间比率
+   protected String resourceUseCustomerCatelog;
    
 
+
+
+
+/**
+ * @param resourceUseCustomerCatelog the resourceUseCustomerCatelog to set
+ */
+public void setResourceUseCustomerCatelog(String resourceUseCustomerCatelog) {
+	this.resourceUseCustomerCatelog = resourceUseCustomerCatelog;
+}
 	public String getChannelPullParam() {
 		return channelPullParam;
 	}
@@ -990,6 +1007,12 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
 			meno = "订单刊例价格是否可以修改";	
 		}else if(name.equals(Constants.ARRANGE_WITH_BRAND_PARAM)){
 			meno = "广告编排是否显示品牌";	
+		}else if(name.equals(Constants.ORDER_ARRANG_DEFAULT_MONTHS)){
+			meno = "新签订单广告排期默认月份,默认当前月份+2";	
+		}else if(name.equals(Constants.OUT_LIMIT_BROARRANG)){
+			meno = "出串联单限制排期的修改";	
+		}else if(name.equals(Constants.RESOURCE_USE_CUSTOMER_CATELOG)){
+			meno = "使用客户广告投放的时间比率";	
 		}
 		
 		
@@ -1025,6 +1048,31 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
 	}
 	
 
+	public String getOrderArrangDefaultMonths() {
+		return orderArrangDefaultMonths;
+	}
 
+	public void setOrderArrangDefaultMonths(String orderArrangDefaultMonths) {
+		this.orderArrangDefaultMonths = orderArrangDefaultMonths;
+	}
+	
+	/**
+ * @return the outLimitBroarrang
+ */
+public String getOutLimitBroarrang() {
+	return outLimitBroarrang;
+}
+/**
+ * @param outLimitBroarrang the outLimitBroarrang to set
+ */
+public void setOutLimitBroarrang(String outLimitBroarrang) {
+	this.outLimitBroarrang = outLimitBroarrang;
+}
+/**
+ * @return the resourceUseCustomerCatelog
+ */
+public String getResourceUseCustomerCatelog() {
+	return resourceUseCustomerCatelog;
+}
 
 }

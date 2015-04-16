@@ -1171,6 +1171,8 @@ User.prototype.getUsersByOrgLimit =  function(rederId,elname,width,callBackFun,s
          var loginUserId =  paramObj.loginUserId;
 
          var orgId =  paramObj.orgId;
+         
+  
  
       var conf = {
         store: storeUser,
@@ -1193,20 +1195,18 @@ User.prototype.getUsersByOrgLimit =  function(rederId,elname,width,callBackFun,s
     };
     
     if(rederId) conf.renderTo = rederId;
-//    alert(conf.renderTo)
+
     
      var cmd = new Ext.form.ClearableComboBox(conf);
-    
-    
-// 	cmd.getEl().on("mousedown",function(){
-//      cmd.onTriggerClick();
-//     });
-     
+
+
      cmd.on("mousedown",function(){
+
       cmd.onTriggerClick();
      });
 			 
 	storeUser.on('load', function() {callBackFun();});
+
  
     
     function checkUser(){
@@ -1223,29 +1223,7 @@ User.prototype.getUsersByOrgLimit =  function(rederId,elname,width,callBackFun,s
     		
     	}
 
-    	
-//    	function process_Result(btn, text){
-//    			
-//    			if (btn == 'yes'){
-//    				
-//    		
-//    				OBJ.displayUsersBranchs(logninUser,orgId,userName,cmd);
-//
-//
-//                  return true;
-//    			}
-//    		}
-//    	
-//    	
-//    	if(uid == userName && uid !=''){
-//            if(userName.length<2){
-//            	Ext.Msg.alert("提示", "用户名必须不少于两个字？");
-//            	return false;
-//            }else{
-//            	Ext.Msg.confirm("提示", "新用户是否注册？",process_Result);
-//            	
-//            }
-//    	}
+  
     }
 	
 	return cmd;

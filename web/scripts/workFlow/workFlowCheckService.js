@@ -145,10 +145,17 @@ function buttonEventFill(){
 //	btn_chose_workFlowType.onclick = getTable;	
 //	btn_chose_workFlowType.onchange = setWorkFlowSelect;
 //	btn_chose_workFlowType.onclick = getTable;	
-	btn_chose_workFlowType.onchange = getTable;
+	btn_chose_workFlowType.onchange = function(){
+		var type =  $(workFlowType.selectName).value;
+	    var userId = $(user.selectName).value;
+		workFlow.makeSelect(type,userId,workFlow.selectName,"");//随type的改变而改变
+		getTable();
+	} 
 		
 	var btn_chose_workFlow = $(workFlow.selectName);
-	btn_chose_workFlow.onchange = workFlowSelectChange;
+//	btn_chose_workFlow.onchange = workFlowSelectChange;
+	btn_chose_workFlow.onchange = getTable;
+	
 	
 	var btn_search_order = $("searchOrder");
 	btn_search_order.onclick = searchOrderBtn;
@@ -411,7 +418,8 @@ function getTable(){
 //	ispage="getTable";
 	var type =  $(workFlowType.selectName).value;//1合同 2订单
 	var userId = $(user.selectName).value;
-	workFlow.makeSelect(type,userId,workFlow.selectName,"");//随type的改变而改变
+	
+//	workFlow.makeSelect(type,userId,workFlow.selectName,"");//随type的改变而改变
 	
 	workFlowId1 =  $(workFlow.selectName).value;//主任
 	
@@ -607,10 +615,14 @@ function saveChechResult(chechResultPara){
 }
 
 	if(!isUndefined(obj.checkStateId) && obj.contracts !=""){
-		if(state == 3 && $("isEndPoint").value =="false"){
-	      alert("上级已同意不允许再提交，请与上级联系!");
-	      return false;
-		}		
+//		alert($("isEndPoint").values)
+//		alert(workFlow.obj.isEndPoint)
+		
+		
+//		if(state == 3 && $("isEndPoint").value =="false"){
+//	      alert("上级已同意不允许再提交，请与上级联系!");
+//	      return false;
+//		}		
 //		alert(obj.workFlowTypeId);
 //		alert(obj.checkIdea);
 //		alert(obj.checkStateId);

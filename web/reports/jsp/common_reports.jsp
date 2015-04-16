@@ -258,6 +258,8 @@
 	 	String incomPurs = request.getParameter("incomPurs");
 		String returnValue = request.getParameter("returnValue1");
 		String orgId = request.getParameter("orgIdForm");
+		String putYear = request.getParameter("putYear");
+		
 
 		request.getSession().setAttribute("type",type);
 	 	request.getSession().setAttribute("channelModelParam",channelModelParam);
@@ -271,6 +273,8 @@
 		request.getSession().setAttribute("incomPurs",incomPurs); 
 		request.getSession().setAttribute("returnValue",returnValue); 
 		request.getSession().setAttribute("orgId",orgId); 
+		request.getSession().setAttribute("putYear",putYear); 
+		
 	 }
 	 if(reportType.equals("industryTypeProduct")){
 	 	String startDate = request.getParameter("startDate");
@@ -338,13 +342,13 @@
 		String endDate = request.getParameter("endForm");
 		String carrierIds = request.getParameter("carrierIdsForm");
 		String userId = request.getParameter("userId");
-		
 	 	String userName = request.getParameter("userName");
 		String isPrint = request.getParameter("isPrint");
 		
+		
+		
 		request.getSession().setAttribute("isPrint",isPrint); 
 		request.getSession().setAttribute("userId",userId); 
-		
 		request.getSession().setAttribute("userName",userName); 
 		request.getSession().setAttribute("startDate",startDate); 
 		request.getSession().setAttribute("endDate",endDate);

@@ -11,10 +11,9 @@ var oaAreaCity = new OaAreaCity();
 var customerAddress = new CustomerAddress();
 var customer = new Customer();
 var linkMan = new LinkMan();
-
 var orderBackUp = (new Order()).obj;
 
-
+var brand = new Brand();
 var matter_fin = new Matter();
 var industry_fin = new Industry();
 var customer_fin = new Customer();
@@ -34,6 +33,7 @@ var build_more_paraArray;
  var mygrid;
  var mygrid1;
  var mygrid2;
+ var menu;
  var regCustomerGrid;
  
  
@@ -116,6 +116,7 @@ var build_more_paraArray;
 		config_industryLevelParam =  _app_params.sysParam.industryLevelParam;
 		config_orderCalculateModel=  _app_params.sysParam.orderCalculateModel;
 		config_withoutSubmit =  _app_params.sysParam.withoutSubmit;
+		config_adverCodeModelParam = _app_params.sysParam.adverCodeModelParam;
 		
 	 	order_check_right =  _app_params.rights.tag_orderList_check;
 	 	tag_orderDetail_save =  _app_params.rights.tag_orderDetail_save;
@@ -144,6 +145,7 @@ var build_more_paraArray;
 		orderCategoryMain = getParamFromUrl(srcStr,"orderCategoryMain");
 		orderCategoryMainId = getParamFromUrl(srcStr,"orderCategoryMainId");
 		orderCkeckState = getParamFromUrl(srcStr,"orderCkeckState");
+		
 		fromModel= getParamFromUrl(srcStr,"fromModel");
 		
 		paymentId= getParamFromUrl(srcStr,"paymentId");
@@ -155,17 +157,25 @@ var build_more_paraArray;
 		sum_money = getParamFromUrl(srcStr,"sumMoney");
 		sum_times = getParamFromUrl(srcStr,"sumTimes");
 		order_code = getParamFromUrl(srcStr,"orderCode");
+		ad_length = getParamFromUrl(srcStr,"adLength");
+		
+	
 		
 //		order_check_state = getParamFromUrl(srcStr,"orderCkeckState");
 			
 		
 		isOrderEditState = order_id > 0;
+		
+	
 
 	    if(config_withoutSubmit == 1){
 	    	isDisabledSaveButton = orderCkeckState == 3?true:false;
 	    }else{
-	    	isDisabledSaveButton = orderCkeckState !=0?true:false;
+	    	//通过 审核中
+	    	isDisabledSaveButton = orderCkeckState ==1 ||orderCkeckState ==3 ?true:false;
 	    }
+	    
+//	    if(!isOrderEditState) isDisabledSaveButton = false;
 
 		add_build_more_paraArray_win_topToolbar();
 
@@ -203,19 +213,28 @@ var build_more_paraArray;
 		Btn_orderCode_for_paraArray.onkeypress = function a(event){DWRUtil.onReturn(event,getOrder_by_orderCode);}; 	
 	
 
-	    
-	    
-		if(isOrderEditState && paymentId == 0){
+
+
+//		if(isOrderEditState && paymentId == 0){
+//			getOrderDetails_to_mygrid1(order_id,true);
+//			rebackBroArrange.show();
+//		}else{
+//			addGrid1NewRow();
+//			rebackBroArrange.hide();
+//		}
+		
+		
+		if(isOrderEditState){
 			getOrderDetails_to_mygrid1(order_id,true);
 			rebackBroArrange.show();
 		}else{
 			addGrid1NewRow();
 			rebackBroArrange.hide();
 		}
+
 		
 		
-		
-		
+		 disableDestop();
 //		alert(Ext.lib.Dom.getViewWidth())
   }
   
@@ -266,9 +285,6 @@ var build_more_paraArray;
 			
 		if(backup){
 				orderBackUp = save_more_orderDetail(1);
-				
-				
-				
 				orderBackUp.mygrid1 = new HashMap();
 	
 				for (var i = 0; i < mygrid1.getRowsNum(); i++){
@@ -292,17 +308,18 @@ var build_more_paraArray;
 					rows[rows.length] = mygrid1.getUserData(row_id,"pos");
 					rows[rows.length] = mygrid1.getUserData(row_id,"matterId");
 					rows[rows.length] = mygrid1.getUserData(row_id,"id");
-					
-					
+
 					orderBackUp.mygrid1.put(row_id,rows);
 	
 				}				
 		}
 
+		
 
 		 window.setTimeout(function(){
 				if(mygrid1.getRowsNum()>0) mygrid1.selectRow(0,true);
 				Ext.getBody().unmask(); 
+				mygrid1.clearChangedState();
 			}, 1000);
 
 //			if(ids.length>0) mygrid1.selectRowById(ids[0]);
@@ -332,8 +349,12 @@ var build_more_paraArray;
 	var rowId2s = getRowByUserData(mygrid2,"grid1_rowId",mygrid1_row_id);
 	for (var j = 0; j < rowId2s.length; j++){
 		for (var i = 0; i < 33; i++){
-					var td = mygrid2.cells(rowId2s[j],i+4).cell;
-					 td.innerHTML ='';
+				 var type = mygrid2.getUserData(rowId2s[j],"grid1_row_type");
+				   if(type != 0){
+						var td = mygrid2.cells(rowId2s[j],i+4).cell;
+						 td.innerHTML ='';   
+				   }
+
 		}
 	}	 	
   }
@@ -342,8 +363,12 @@ var build_more_paraArray;
 	  		var ids = mygrid2.getAllItemIds(mygrid2.delim).split(mygrid2.delim);
 			for(var i =0;i< ids.length;i++){
 				   for(var j =0;j<33;j++){
-						var td = mygrid2.cells(ids[i],j+4).cell;
-						td.innerHTML ='';
+					   var type = mygrid2.getUserData(ids[i],"grid1_row_type");
+					   if(type != 0){
+							var td = mygrid2.cells(ids[i],j+4).cell;
+							td.innerHTML ='';
+					   }
+
 //						 mygrid2.cells(ids[i],j+4).setValue('');			
 				   }
 					
@@ -496,27 +521,27 @@ var build_more_paraArray;
 // 	function save_more_orderDetail(){ return  save_more_orderDetail();}	
 // 	function setSelectGridChecked(){ return setSelectGridChecked();}
 // 		tbbutton tooltip: '加段位',
- 	var btnAddResource = {xtype:'button', text: '加段位',iconCls:'admin-tool-add',handler: function(){
+ 	var btnAddResource = {xtype:'button', id:'btn_displayCompagesTree_2', text: '多段位',iconCls:'admin-tool-add',handler: function(){
  		displayCompagesTree2(2);} 
  		};
-
-    var btnAddGrid1NewRow = {xtype:'button',text: '加空行',iconCls:'admin-tool-add',handler: function(){
+ 	
+    var btnAddGrid1NewRow = {xtype:'button',id:'btn_addGrid1NewRow',text: '新建',iconCls:'admin-tool-add',handler: function(){
     	addGrid1NewRow();} }; 
 
-    var btnChoseResource = {xtype:'button',text: '设段位',iconCls:'admin-tool-add',handler: function(){
+    var btnChoseResource = {xtype:'button',id:'btn_displayCompagesTree_1',text: '单段位',iconCls:'admin-tool-add',handler: function(){
  		if(setSelectGridChecked()) displayCompagesTree2(1);} }; 	
 
- 	var btnChoseEdit = {xtype:'button',text: '设版本',iconCls:'admin-tool-add',handler: function(){
+ 	var btnChoseEdit = {xtype:'button',id:'btn_search_adver_cont',text: '设版本',iconCls:'admin-tool-add',handler: function(){
  		if(setSelectGridChecked()) search_adver_cont(1);} 
  	};
  	
 // 	var btnChoseApp = {xtype:'button',text: '设指定',iconCls:'admin-tool-add',handler: function(){
 // 		if(setSelectGridChecked()) getSpecificTreeWin();} }; 
  	
- 	var btnChoseArray = {xtype:'button',text: '设排期',iconCls:'admin-tool-add',handler: function(){
+ 	var btnChoseArray = {xtype:'button',id:'btn_setAutoBroArray',text: '设排期',iconCls:'admin-tool-add',handler: function(){
  		if(setSelectGridChecked()) setAutoBroArray();} };
 
-    var btnRemove = {xtype:'button',text: ' 删 除 ',iconCls:'admin-tool-delete',handler: function(){
+    var btnRemove = {xtype:'button',id:'btn_removeGrid1NewRow',text: ' 删 除 ',iconCls:'admin-tool-delete',handler: function(){
     	if(setSelectGridChecked()) removeGrid1NewRow();} };
 
  	
@@ -553,6 +578,7 @@ var build_more_paraArray;
 	user.obj = paramObJ;
 	var userCmd = user.getUsersByOrgLimit2(null,"userId_for_paraArray",80,null,true);	
 
+
 	
 
 	
@@ -562,24 +588,26 @@ var build_more_paraArray;
 
 	var cmdYear = myUtils.getComYear('year_for_paraArray','年份',50,order_year,true) ;
 	
-
+	
 //,paymoney_text,totalTime_text
 //	var tbar =[btnAddResource,btnAddGrid1NewRow,btnChoseResource,btnChoseEdit,btnChoseApp,btnChoseArray,fitterComboBox,cmdYear,cutCmd,userCmd,cateMain_com,paymoney_text,totalTime_text];
    var tbar =[btnAddResource,btnAddGrid1NewRow,btnChoseResource,btnChoseEdit,btnChoseArray,fitterComboBox,cmdYear,cutCmd,userCmd,cateMain_com,paymoney_text,totalTime_text,orderCode_text];
    
-   
+  
    
 //	var tbar1 =[btnAddResource,btnAddGrid1NewRow,btnChoseResource,btnChoseEdit,btnChoseApp,btnChoseArray];
 //   	var tbar2 =[fitterComboBox,cmdYear,cutCmd,userCmd,cateMain_com,paymoney_text,totalTime_text];
      
 
 
- 	var btnNew = {text: '新建',handler: function(){
+ 	var btnNew = {text: '新建'
+ 			,id:'Btn_save_more_new'
+ 			,handler: function(){
  		
 // 		mygrid2.toExcel(ctxPath + 'servlet/dhtmlExcelGeneratorServlet');
 // 		
 // 		return false;
- 		
+ 				
  		
  		mygrid1.clearAll();mygrid2.clearAll();isOrderEditState = false;
  		footerToolbar.getComponent("Btn_save_more_orderDetail").setDisabled(false);
@@ -593,9 +621,10 @@ var build_more_paraArray;
 		parent.document.getElementById("totalTime_for_paraArray").value = sum_times;	
 		parent.document.getElementById("orderCode_for_paraArray").value = order_code;	
 		addGrid1NewRow();
+		enableDestop();
  	} };
  	
-  	var btnSave = {text: '保存',id:'Btn_save_more_orderDetail',handler: function(){save_more_orderDetail();},disabled:isDisabledSaveButton };
+  	var btnSave = {text: '保存',id:'Btn_save_more_orderDetail',handler: function(){save_more_orderDetail();},disabled:false };
  	var btnClose = {text: '关闭',handler: function(){
  		
  	
@@ -623,7 +652,8 @@ var build_more_paraArray;
  	} };		
  		
 // 	var checkBoxDisplayWeek =  {xtype:"checkbox", boxLabel:"显示星期",handler: function(e,v){displayWeek = v;getAllResourceMonthInfos();}};
-   	var	fbar = [btnNew,'->',btnSave,btnClose];
+//   	var	fbar = [btnNew,'->',btnSave,btnClose];
+	var	fbar = ['->',btnSave,btnClose];
 // 	var fotterBars = [];
 // 	fotterBars.push(btnNew);
 // 	fotterBars.push('->');
@@ -676,7 +706,11 @@ var build_more_paraArray;
 	userCmd = toolbar.getComponent("userId_for_paraArray");
 	if(userId > 0){inti_set_cmd(userCmd,userId,fullName,2);}	
 	
+	if(tvNameParam=='fztv' && order_id=='0'){
+		userCmd.setValue(loginUserId);
+	}
 	
+
 	
 
 //	toolbar.addButton(tbar)	  
@@ -703,20 +737,35 @@ var build_more_paraArray;
 		}
 
  }
+  
+  function sleep(n)
+  {
+    var start=new Date().getTime();
+   
+    while(true) if(new Date().getTime()-start>n) break;
+  }
  
 function createGrid1(param,caFun){
 	 var objs =  param.resources;
 	 var rs_cindex = mygrid1.getColIndexById('resourceName');
 	 var newIdArray = new Array();
+//	 Ext.getBody().mask('数据处理中……', 'x-mask-loading'); 	
 
 	 for(var i = 0;i<objs.length;i++){
 	 	 var row_id = addGrid1NewRow();
+//	 	 sleep(2000);
 	 	 newIdArray.push(row_id);
-	 	 var  resourceName = objs[i].broTime +' '+ objs[i].resourceMemo  +' '+ objs[i].resourceName;
-		 mygrid1.cells(row_id,rs_cindex).setValue(resourceName);
+	 	 var  broTime = objs[i].broTime;
+	 	 var  resourceMemo =  objs[i].resourceMemo  ;
+	 	 var  resourceName =  objs[i].resourceName  ;
+	 	 var  resourceName =  resourceMemo!=resourceName? resourceName:"";
+//	 	 var  pos = broTime +' '+ resourceMemo  +' '+ resourceName;
+	 	 var  pos =  resourceMemo  +' '+ resourceName +' '+broTime;
+		 mygrid1.cells(row_id,rs_cindex).setValue(pos);
 		 mygrid1.setUserData(row_id,"resourceId",objs[i].id);
 		 mygrid1.setUserData(row_id,"pos",objs[i].resourceMemo);
 	 }
+//	 	Ext.getBody().unmask(); 
 	 return newIdArray;
 }
 
@@ -937,8 +986,8 @@ function build_grid1_menuStr(){
 	sb = sb + "<item  type=\"separator\"  id=\"file_sep_2\"/>";
 	
 	sb = sb + "<item text=\"复制并新添\" img=\"new.gif\"  id=\"copy_post\"/>";	
-	sb = sb + "<item text=\"漂移并新添\" img=\"new.gif\"  id=\"copy_move\"/>";
-	sb = sb + "<item text=\"顺延一个月\" img=\"new.gif\"  id=\"add_one_month\"/>";
+//	sb = sb + "<item text=\"漂移并新添\" img=\"new.gif\"  id=\"copy_move\"/>";
+//	sb = sb + "<item text=\"顺延一个月\" img=\"new.gif\"  id=\"add_one_month\"/>";
 	sb = sb + "<item  type=\"separator\"  id=\"file_sep_3\"/>";
 	
 //	sb = sb + "<item text=\"绑定排期\" img=\"green.gif\"  id=\"menu_ext_radio\"/>";
@@ -1171,6 +1220,11 @@ function onButtonClick(menuitemId, type) {
 		    	    	}
 	
 		    	    	reset_mygrid2_row(row_id,2,copy_grid1_rowid);
+		    	    	
+//		    	    	alert(11)
+		    	    	var row = mygrid1.getRowById(row_id); 
+		    	    	mygrid1.selectRow(row,true);
+		    	    	
 		    	  	}	
 		    	  	
 					if(menuitemId =='copy_move'){
@@ -1220,17 +1274,25 @@ function onButtonClick(menuitemId, type) {
 	
 function doOnRowSelectedGrid1(rid,cellIndex){
 	
-		mygrid2.unmarkAll();
-		mygrid2._HideSelection();
-//		getOneResourceMonthInfos(rid,0,true,mygrid1.getRowsNum(),0,[]); 
-	    var rowids = getRowByUserData(mygrid2,"grid1_rowId",rid);
- 		hidden_mygrid1(rid);
-	    if(rowids.length == 0){reset_mygrid2_row(rid,0); }	
+//	    var rows = mygrid1.selectedRows;
+//		mygrid2.unmarkAll();
+//		mygrid2._HideSelection();
+////		getOneResourceMonthInfos(rid,0,true,mygrid1.getRowsNum(),0,[]); 
+//	    var grid2_row_ids = getRowByUserData(mygrid2,"grid1_rowId",rid);
+// 		hidden_mygrid1(rid);
+//	    if(grid2_row_ids.length == 0){reset_mygrid2_row(rid,0); }	
 
-	}	
+	    showGrid2ByBlockSelectedGrid1();
+
+}	
+
+
+
 	
 	
 function OnEditCellGrid1(state,rowId,cellIndex){
+	
+
 
 		if(this.getColumnId(cellIndex)=='sumTime' || this.getColumnId(cellIndex)=='sumPay'){
 			return false;
@@ -1292,7 +1354,65 @@ function OnEditCellGrid1(state,rowId,cellIndex){
 			}
 		}
 		this._HideSelection();
-	}		
+		showGrid2ByBlockSelectedGrid1();
+	}	
+	
+	
+	function showGrid2ByBlockSelectedGrid1(){
+		var map = new HashMap();
+		var rows = mygrid1.selectedRows;
+
+		for(var i = 0;i<rows.length;i++){
+			var row_id =  mygrid1.selectedRows[i].idd;
+			map.put(row_id,row_id);
+		}
+	
+		mygrid2.unmarkAll();
+		mygrid2._HideSelection();
+		var rowCount = mygrid1.getRowsNum();
+
+		var ids = mygrid2.getAllItemIds(mygrid2.delim).split(mygrid2.delim);
+		for(var i = 0;i<ids.length;i++){
+			mygrid2.setRowHidden(ids[i],true);
+		}		
+
+		for(var i = 0;i<rowCount;i++){
+			var row_id = mygrid1.getRowId(i);
+
+			if(map.contains(row_id)){
+				var grid2_row_ids = getRowByUserData(mygrid2,"grid1_rowId",row_id);
+				if(grid2_row_ids.length == 0){reset_mygrid2_row(row_id,0); };
+				
+				for(var j = 0;j<grid2_row_ids.length;j++){
+					var grid2_row_id = grid2_row_ids[j];
+					var type = mygrid2.getUserData(grid2_row_id,"grid1_row_type");
+					if(type == 0 && displayWeek){
+						mygrid2.setRowHidden(grid2_row_ids[j],false);
+					}
+					if(type !=0){
+						mygrid2.setRowHidden(grid2_row_ids[j],false);
+					}
+				}
+			}
+	
+		}		
+	
+		
+		
+	}
+	
+
+//	function doOnRowSelectedGrid1(rid,cellIndex){
+//		   
+//		mygrid2.unmarkAll();
+//		mygrid2._HideSelection();
+////		getOneResourceMonthInfos(rid,0,true,mygrid1.getRowsNum(),0,[]); 
+//	    var grid2_row_ids = getRowByUserData(mygrid2,"grid1_rowId",rid);
+// 		hidden_mygrid1(rid);
+// 	
+//	    if(grid2_row_ids.length == 0){reset_mygrid2_row(rid,0); }	
+//
+//}	
 	
 
 	
@@ -1346,6 +1466,10 @@ function OnEditCellGrid1(state,rowId,cellIndex){
 	mygrid1.attachEvent("OnEditCell", OnEditCellGrid1);
 	mygrid1.attachEvent("onBlockSelected", onBlockSelectedGrid1);
 //	mygrid1.attachEvent("onRowDblClicked", onRowDblClicked);
+	
+//	this.cell.wasChanged=true;
+	mygrid1.attachEvent("onCellChanged", OnCellChangedGrid1);
+	
 
 	
 	mygrid1.enableAlterCss("even","uneven");
@@ -1358,28 +1482,24 @@ function OnEditCellGrid1(state,rowId,cellIndex){
  }
 
  
-
  
+ function OnCellChangedGrid1(rowId,cellIndex,val){
+	 var cell = this.cells(rowId,cellIndex);
+	 var row = this.getRowById(rowId);
+	 row.childNodes[cellIndex].wasChanged=true;
+ }
  
 function initGrid2(){
 	
 	function onBlockSelected(cell){
 		this.unmarkAll();
 		this.setActive(true);
-		
-		alert(11)
 //		mygrid1.setActive(false);
 //		mygrid1.uncheckAll();
-		
-		
-		
-//		selectRow
 	}
 	
 	function mygrid2OnKeyPressed(keyCode,ctrlKey,shiftKey,ev){
-//		alert(88)
-		
-//        this.setActive(true);
+
         
 		if(ctrlKey||shiftKey) return false;
 
@@ -1814,51 +1934,14 @@ function getOneResourceMonthInfos(row_id,cindex,isMore,rowCount,rowIndex,bak_arr
 	}else{
 		endDate = getFormatDay(endDate,'y-m-d');
 	}
-
 	
 	 endDate = myUtils.parseDate(endDate,'y-m-d');	
     
 	endDate = new Date(endDate.getFullYear(),endDate.getMonth(),endDate.getMonthDays(), 0, 0, 0); 
 	endDate = myUtils.formatDateSimple(endDate,''); 
 
-
-
-
 	var edit = mygrid1.cells(row_id,edit_cindex).getValue();
 	var adLength = mygrid1.cells(row_id,len_cindex).getValue();
-//	var isMonMoney = mygrid1.cells(row_id,isMonMoney_cindex).getValue();
-	
-
-	
-	
-	
-//	 mygrid1.editStop();
-
-//	if(!isMore){
-//		for(var i=0;i<mygrid1.selectedRows.length;i++){
-//		 	mygrid1.selectedRows[i].className=mygrid1.selectedRows[i].className.replace(/rowselected2/g,"");
-//		}
-//		mygrid1.getRowById(row_id).className+= " rowselected2"		
-//	}
-
-
-	
-//    mygrid1.clearSelection();
-// 	mygrid1.editStop();
-// 	alert()
-//	 for(var i=0;i<mygrid1.selectedRows.length;i++){
-//	 	var id = mygrid1.selectedRows[i].id;
-////	 	mygrid1.selectedRows[i].className=mygrid1.selectedRows[i].className.replace(/rowselected/g,"");
-//	 	mygrid1.setRowColor(id,"white");
-//	 }
-	 
-//    var id = mygrid1.getSelectedId();
-//    mygrid1.setRowColor(id,"white");
-
-//	mygrid1.setRowTextStyle(row_id,"background-color:#e1e0d7;color:black;");
-//	mygrid1.setRowColor(row_id,"#e1e0d7");
-
-//    this.row.className+= " rowselected"
 
 	
    
@@ -1871,6 +1954,7 @@ function getOneResourceMonthInfos(row_id,cindex,isMore,rowCount,rowIndex,bak_arr
 //	orderDetail_obj.version = order_year;
 	orderDetail_obj.orderDetailStates = orderDetailStates;
 //	orderDetail_obj.isMonMoney = isMonMoney;
+	orderDetail_obj.resourceSortId = getValueFromStoreById(toolbar.getComponent("customerName_for_paraArray"),"customerCategoryId");
 
 
 
@@ -1901,7 +1985,7 @@ function getOneResourceMonthInfos(row_id,cindex,isMore,rowCount,rowIndex,bak_arr
 //	  		if(matterId > 0){
 	  			month_obj.bak_arr = bak_arr;
 	  			
-
+	  			
 
 	  			if(bak_arr.length > 0){
 		  			var used_months = getMonthFrom_bak_arr(bak_arr);
@@ -1922,6 +2006,7 @@ function getOneResourceMonthInfos(row_id,cindex,isMore,rowCount,rowIndex,bak_arr
 		  				}
 		  			}
 	  			}else{
+	  			
 	  				createMonthRow(month_obj);
 	  			}
 
@@ -1958,6 +2043,8 @@ function getOneResourceMonthInfos(row_id,cindex,isMore,rowCount,rowIndex,bak_arr
 
 function hidden_mygrid1(rid){ 
 	
+
+	
 	if(!$("displayAllBroArray").checked){
 			
 		    var rowId2s =  getRowByUserData(mygrid2,"grid1_rowId",rid);	
@@ -1986,14 +2073,22 @@ function hidden_mygrid1(rid){
 			
 			var ids = mygrid2.getAllItemIds(mygrid2.delim).split(mygrid2.delim);
 			for(var i =0;i<ids.length;i++){
-//				var type = mygrid2.getUserData(ids[i],"grid1_row_type");
+				var type = mygrid2.getUserData(ids[i],"grid1_row_type");
 				mygrid2.setRowHidden(ids[i],false);
+				if(type == 0 && !displayWeek){
+					mygrid2.setRowHidden(ids[i],true);
+				}
+				if(type == 0 && displayWeek){
+					mygrid2.setRowHidden(ids[i],false);
+				}
+				
 			}
 		}
 }
 
 
 function createMonthRow(obj){
+	
  
 	  var grid1_rowId = obj.grid1_rowId;
 	  var pos = obj.pos;
@@ -2044,6 +2139,7 @@ function createMonthRow(obj){
 		  mygrid2.setUserData(row_id,"grid1_rowId",grid1_rowId);
 		  mygrid2.setUserData(row_id,"grid1_row_type",0); 
 		 
+		  
 	      mygrid2.setRowHidden(row_id,!displayWeek);
 
 		  	  rowArray2.push(edit);
@@ -2071,6 +2167,10 @@ function createMonthRow(obj){
 
 
 		  var row_id =   (new Date()).valueOf();
+		  
+//		  console.log(row_id);
+//		  alert(row_id)
+		  
 		  mygrid2.addRow(row_id,rowArray2,-1);
 		  mygrid2.setUserData(row_id,"grid1_rowId",grid1_rowId);
   		  mygrid2.setUserData(row_id,"grid1_row_type",1);
@@ -2101,71 +2201,13 @@ function createMonthRow(obj){
 				}
                
     
-//               function money_click(ev){
-//               		var value = window.prompt("修改价格：","");
-//					if(!isDigit(value)) return false; 
-//					this.innerHTML = value;
-//               }
-//		     	if(j == 36){
-//		     		dhtmlxEvent(td,"click", money_click);
-//		     	}
-				
-//				dhtmlxEvent(cell,"click", mygrid2onKeypressClick);
 
-				 
-//				if(j>10){
-//					td.readonly = true;
-//					
-//				}
-				
-//				cell.setDisabled(disabled);
-//				function func(){};
-//				td.removeEventListener('click',func);//Mozilla下，删除事件func  
-//				 td.removeEventListener("click", function () {  //无效！
-//    				return false;
-//				}, false);  
-				
-//				console.log(cell.firstChild)
-//				td.firstChild.disabled = true;
-//				cell.setDisabled(disabled);
-//				cell.setEditable(false);
-//				td.disabled  = disabled;
 				
 			}
 
 
 
-//	        if(obj.bak_arr.length>0){
-//	        	
-//	        	var bak_arr = obj.bak_arr;
-//	        	
-//	        	for(var i = 0;i<bak_arr.length;i++){
-//	        		
-//	        		for(var j = 0;j<31;j++){
-//	        			var vvv = bak_arr[i][j];
-//						if(vvv){
-//				        		var values = vvv.split('_');
-//				        		var value_day = values[0]
-//				        		var value = values[1];
-//				        		var rowIndex = values[2];
-//				        		var cellIndex = values[3]
-//				        		alert(rowIndex+'_'+cellIndex);
-//				        		var cell = mygrid2.cells2(rowIndex,cellIndex);
-//				        		cell._cellIndex = cellIndex;
-//				        		var td = cell.cell;
-//				        		var dayObj = td.dayObj;
-//				        		if(dayObj){
-//				        			var day = dayObj.dayDate;
-//									if(value >0 && value_day == day){
-//										var keyCode = 48 + value*1;
-//									 	var event ={keyCode:keyCode,ctrlKey:false,shiftKey:false,target:td};
-//									 	mygrid2onKeypressClick(event);		
-//									}	
-//				        		}
-//			        		}
-//	        		}
-//	        	}
-//	        }
+
 
     
 	        if(obj.bak_arr.length>0){
@@ -2200,9 +2242,9 @@ function createMonthRow(obj){
 	        	}
 	        }
          
-         if(!isOrderEditState){
-         	display_mygrid1_all_broArray();	
-         }
+//         if(!isOrderEditState){
+//         	display_mygrid1_all_broArray();	
+//         }
            
 //           mygrid1.setActive(true);
 
@@ -2400,7 +2442,7 @@ function displayCompagesTree2_bak(model){
 	
 
 
-function displayCompagesTree2(model){
+function displayCompagesTree2(model,wasChanged){
 	
 
 //	if(cellIndex !=1) return false;
@@ -2519,9 +2561,15 @@ function set_resInfo_to_grid1(resources,is2win){
 		
 		for(var i = 0; i< count;i++){
 			var row_id =  mygrid1.selectedRows[i].idd;
+			
+		 	 var  broTime = res_obj.broTime;
+		 	 var  resourceMemo =  res_obj.resourceMemo  ;
+		 	 var  resourceName =  res_obj.resourceName  ;
+		 	 var  resourceName =  resourceMemo!=resourceName? resourceName:"";
+//		 	 var  pos = broTime +' '+ resourceMemo  +' '+ resourceName;
+		 	 var  pos =  resourceMemo  +' '+ resourceName +' '+broTime;
 
-			var resourceName =  res_obj.broTime +' '+ res_obj.resourceMemo  +' '+res_obj.resourceName;
- 			mygrid1.cells(row_id,res_cindex).setValue(resourceName);
+ 			mygrid1.cells(row_id,res_cindex).setValue(pos);
 			mygrid1.setUserData(row_id,"resourceId",res_obj.id);
 			mygrid1.setUserData(row_id,"pos",res_obj.resourceMemo);
 //			mygrid1.setUserData(row_id,"resourceSortId",res_obj.resourceSort);
@@ -2577,7 +2625,7 @@ function reset_mygrid2_row(rowId1,mode,copy_grid1_rowid,new_arr){
 			}	
 		}
 
-      
+    
 		getOneResourceMonthInfos(rowId1,0,true,mygrid1.getRowsNum(),0,bak_arr); 
 		
 	
@@ -2772,6 +2820,8 @@ function get_bak_arr_by_grid1rowid(copy_grid1_rowid,modle,rowId1){
 
 function clos_win_res_tree(model,is2win){
 	
+
+	
 			var tree = carrierType.tree.dhtmlTree;
 			var resourceIds = new Array();
 			
@@ -2802,11 +2852,14 @@ function clos_win_res_tree(model,is2win){
             
             var newIdArray = new Array();
             
+        	
             
             if(model == 1){
             	newIdArray = set_resInfo_to_grid1(resources,is2win);
             }else{
+            	
             	newIdArray = createGrid1(paramFromUrl);
+            	
             }
 	 	
 	 		
@@ -2867,7 +2920,7 @@ function getCarrierTypeTree(obj,model){
 	obj.obj.fitterCarrier = 1;
 	obj.obj.loginUser = loginUserName;
 	
-	obj.getTreeXMLByYear("carrierId","resourceId",order_year,getxml);
+	obj.getTreeXMLByYear2("carrierId","resourceId",order_year,getxml);
 
 }
 
@@ -2934,10 +2987,12 @@ function setBasePrices(resourceIds,matterOj,callFun){
 	var adlen = matterOj.length;
 
 	function callBakFun(objs){
+	
 				for(var i = 0;i<objs.length;i++){
 					 var rsid = objs[i].value1;
 					 var price =  objs[i].value4;
 					 var key = rsid +''+ adlen;
+
 					 map.put(key,price);
 				}
 		var count = mygrid1.selectedRows.length;		
@@ -2966,6 +3021,8 @@ function setBasePrices(resourceIds,matterOj,callFun){
 	paramFromUrl.priceTypeId = priceTypeId;	
 	paramFromUrl.adLength = adlen;
 	paramFromUrl.resourceIds = resourceIds.join(',');
+	
+
 
 	var queryString = $H(paramFromUrl).toQueryString();
 	resource.getResourcesByIds(queryString,callBakFun);			
@@ -2986,13 +3043,16 @@ function addGrid1NewRow(menuitemId,copy_grid1_rowid){
 
 	var rowArray = new Array();
 //	var row_id =  mygrid1.uid();
-	var row_id =  (new Date()).valueOf();
+	var row_id =  new Date().getTime();
+//	var row_id =  mygrid1.uid();
+
+
 	var row_index =  mygrid1.getRowsNum()*1 ;
 	var isMoveNextMonth = menuitemId == 'copy_move';
 	var start_date = startDate2;
 	var end_date = endDate1;
 	
-	
+
 	
 	if(isMoveNextMonth){
 
@@ -3042,7 +3102,8 @@ function addGrid1NewRow(menuitemId,copy_grid1_rowid){
     
     
     var count = mygrid1.selectedRows.length;	
-
+    
+ 
     
     if(count ==1){
     	
@@ -3064,7 +3125,7 @@ function addGrid1NewRow(menuitemId,copy_grid1_rowid){
 		if(group_value == 1){
 			rowArray[edit_cindex] = edit_txt;
 		}	
-		
+	 
 		 mygrid1.addRow(row_id,rowArray,-1);
 		   
 	   	if(group_value == 0){
@@ -3080,7 +3141,7 @@ function addGrid1NewRow(menuitemId,copy_grid1_rowid){
 		}			
 
     }else{
-    	  
+    	 
     	   mygrid1.addRow(row_id,rowArray,-1);
     }
  
@@ -3090,7 +3151,8 @@ function addGrid1NewRow(menuitemId,copy_grid1_rowid){
     mygrid1.clearSelection();
     
     var row = mygrid1.getRowById(row_id);
-    mygrid1.selectRow(row,true);
+    
+//    mygrid1.selectRow(row,true);
 
 //	mygrid1.callEvent("onRowSelect", [row_id,0]);		
 
@@ -3164,14 +3226,20 @@ function removeOrderDetail(detailId,year_month){
 
 function removeGrid1NewRow(){
 	var rows = mygrid1.selectedRows;
+	
+	
+
+	
+
+	
 	if(rows.length > 0){
 		Ext.MessageBox.confirm('系统提示', '请确认是否删除这条记录？', function(btn) {
  			  if (btn == 'yes') {
- 				 	for (var i = 0; i < rows.length; i++){
-						var row = rows[i];
+ 				    var rowCount =  rows.length;
+ 				 	for (var i = 0; i < rowCount; i++){
+						var row = rows[0];
 						var rowId1 = row.idd;
 						var rowId2s =  getRowByUserData(mygrid2,"grid1_rowId",rowId1);
-						
 						for (var j = 0; j < rowId2s.length; j++){
 							mygrid2.deleteRow(rowId2s[j]);
 						}
@@ -3180,24 +3248,12 @@ function removeGrid1NewRow(){
 						var detailId = mygrid1.getUserData(rowId1,"id"); 
 						var year_month = mygrid1.getUserData(rowId1,"year_month"); 
 						 if(!isNew)  removeOrderDetail(detailId,year_month);
+						 
 						 mygrid1.deleteRow(rowId1);
 					}
 					
 					var index = mygrid1.getRowsNum()-1;
 					if(index >-1) mygrid1.selectRow(index,true); 
-					
-//					var rows2 =  mygrid1.selectedRows;
-//					alert(rows2.length)
-//					for(var i = 0;i<rows2.length;i++){
-//						var detailId = rows2[i].idd;
-//						alert(mygrid1.getUserData(detailId,"isNew"))
-//						var isNew =  (mygrid1.getUserData(detailId,"isNew") ==1);
-//						 if(!isNew)  removeOrderDetail(detailId);
-//						mygrid1.deleteRow(detailId);
-//					}
-
-					
-//					mygrid1.deleteSelectedRows();
 				}
               return false; 	
 		 });
@@ -3494,6 +3550,9 @@ function getNextCell(acell, dir, i){
 	
 	function close_search_adver_winWin(p,my_grid_matter,model){
 		
+	
+	
+		
 		function adver_win_close_fun(matterOj){
 				var ed_cindex = mygrid1.getColIndexById('edit');
 				var len_cindex = mygrid1.getColIndexById('len');
@@ -3511,6 +3570,7 @@ function getNextCell(acell, dir, i){
 					}
 		
 				}
+				
 				if(resourceIds.length>0) setBasePrices(resourceIds,matterOj);
 		}		
 		
@@ -3529,8 +3589,26 @@ function getNextCell(acell, dir, i){
 	
 	function search_adver_cont(model){
 		
-	
 		
+		if(orderCkeckState == 1||orderCkeckState==3){
+			var len_cindex = mygrid1.getColIndexById('len');	
+			var count = mygrid1.selectedRows.length;
+			var map = new HashMap();
+			for(var i = 0; i< count;i++){
+				var row_id =  mygrid1.selectedRows[i].idd;
+	 			var len = mygrid1.cells(row_id,len_cindex).getValue();
+	 			map.put(len,len);
+			}
+			var keyArr = map.keySet();   
+			if(keyArr.length >1) {
+				alert("换版的广告长度为("+keyArr.join(",")+"),订单在审核中或通过状态下，换版的广告长度必须统一，不能出现两种或两种以上的长度 ！") ;
+				return false;
+			}else{
+				ad_length = keyArr[0];
+			}
+			
+		}
+
 		var matter_fin = new Matter();
 		var industry_fin = new Industry();
 		var customer_fin = new Customer();
@@ -3549,13 +3627,14 @@ function getNextCell(acell, dir, i){
 	   	}  
 	   	
 
-	   	
-
       var urlStr= ctxPath + "selectPopup/selectMatters.html?orgId="+orgId+"&customerId="+customerId+"&version="+order_year;
        urlStr = urlStr + "&customerName="+customerName;
        urlStr = urlStr + "&model="+model;
+       urlStr = urlStr + "&orderCkeckState="+orderCkeckState;
+       urlStr = urlStr + "&adLength="+ad_length;
 
-   
+
+       
    if(!search_adver_win){
 
    	   var addNewBtn ={text: '新添素材',handler: function(){document.getElementById('matteriframe').contentWindow.save_new_matter();}};
@@ -3564,14 +3643,17 @@ function getNextCell(acell, dir, i){
    	   var copyBtn ={text: '复制素材',handler:function(){document.getElementById('matteriframe').contentWindow.copyQueryWhere();}};
    	   customer_fin.obj.orgId = orgId;
 
-   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
+//   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,100,300,'请选择客户...',callFunction);
+       var brandCmd = brand.getBrandCmd2(brand.obj,null,'search_brand_cmd',null,89,'品牌...','local',callFunction); 
+       var industryCmd = industry_fin.getIndustryCmd(matter_fin.obj,'search_adver_brandId_cmd','search_adver_brandId_tree',true,null,config_industryLevelParam,'brandId','选择行业...',100,callFunction);
    	   var nameCmd = matter_fin.getCommandForSelect('search_adver_name','广告名称...','name',1,110,callFunction);
    	   var editCmd = matter_fin.getCommandForSelect('search_adver_edit','请输入广告版本...','edit',1,190,callFunction);
    	   var lengthCmd = matter_fin.getCommandForSelect('search_adver_len','长度...','length',1,70,callFunction);
    	   var tapecodeCmd = matter_fin.getCommandForSelect('search_adver_tapecode','磁带...','tapeCode',2,70,callFunction);
-	   var industryCmd = industry_fin.getIndustryCmd(matter_fin.obj,'search_adver_brandId_cmd','search_adver_brandId_tree',true,null,config_industryLevelParam,'brandId','选择行业...',100,callFunction);
-	   var matterTypeCmd = matterType.getMatterTypeCmd(matter_fin.obj,null,'search_adver_matterType','matterType',70,'分类...',callFunction);
+	   var matterTypeCmd = matterType.getMatterTypeCmd(matter_fin.obj,null,'search_adver_matterType','matterType',70,'分类...','local',callFunction);
+	   
 
+	   
 	   search_adver_win =new Ext.Window({
 			title:"素材库-(广告名称、广告版本可以用汉字声母查询，选择素材时用鼠标双击)",
 			modal : true,
@@ -3581,7 +3663,8 @@ function getNextCell(acell, dir, i){
 			width : 800,
 			height :  parent.build_more_paraArray.getInnerHeight() - footerToolbar.getHeight()/5,
 //			tbar:[tapecodeCmd,'-',nameCmd,'-',nameCmd,'-',editCmd,'-',lengthCmd,'-',industryCmd],
-			tbar:[customerCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+//			tbar:[customerCmd,brandCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+			tbar:[brandCmd,industryCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,matterTypeCmd],
 			buttons: [addNewBtn,'-',closeBtn], 
 			html:"<iframe id='matteriframe' src='"+ urlStr +"' scrolling='auto' style='width:100%;height:100%;border 0px none;scrollbar:true;margin:0;padding:0'></iframe>"
 //			contentEl : Ext.DomHelper.append(document.body, {
@@ -3595,6 +3678,19 @@ function getNextCell(acell, dir, i){
 		});
 		
 		 search_adver_win.on({'close': {fn: close_search_adver_winWin}});
+
+   }else{
+	   var adver_len_cmd = search_adver_win.getTopToolbar().getComponent('search_adver_len');
+	   adver_len_cmd.setRawValue(ad_length);
+	   adver_len_cmd.setValue(ad_length);
+//	   alert(adver_len_cmd.onTrigger1Click)
+//	   adver_len_cmd.un("clear",adver_len_cmd.onTrigger2Click);
+	   
+	   var params={length:ad_length};
+	   document.getElementById('matteriframe').contentWindow.loadGridData(params);
+      
+//	   adver_len_cmd.fireEvent("onclick");
+//	   adver_len_cmd.fireEvent("onchange");
    }
    
 	
@@ -3982,7 +4078,7 @@ function setAutoBroArray(){
 						}
 				}
 				
-				
+			
 			
 				fillBroArrange(mygrid1,mygrid2,startDate,endDate,times,mode,selectValue);
 
@@ -4016,6 +4112,8 @@ function fillBroArrange(grid1,grid2,startDt,endDt,times,mode,selectValue){
 	var e_cindex = grid1.getColIndexById('end');
 	var startDate = myUtils.formatDateSimple(startDt,'');
 	var endDate = myUtils.formatDateSimple(endDt,'');   
+	
+	
 				
 
 	var rows = grid1.selectedRows;
@@ -4073,7 +4171,7 @@ function fillBroArrange(grid1,grid2,startDt,endDt,times,mode,selectValue){
 			mm = start_month<10?'0'+start_month:start_month;
 
 			for(var j = 0 ;j < 31;j++){
-				dd = j<10?'0'+(j+1):j+1;
+				dd = j<9?'0'+(j+1):j+1;
 	            var day =   start_year +''+ mm +''+dd;
 	            isMatch = false;
 	              
@@ -4445,8 +4543,35 @@ function checkOrder(){
 	return true;
 }
 
+
+function isChangedOrder(orderBackUp,curOrder){
+	
+	if(orderBackUp.customerId != curOrder.customerId){
+		return true;
+	}
+	if(orderBackUp.categoryId != curOrder.categoryId){
+		return true;
+	}
+	if(orderBackUp.orderCategoryMain != curOrder.orderCategoryMain){
+		return true;
+	}
+	if(orderBackUp.userId != curOrder.userId){
+		return true;
+	}
+	if(orderBackUp.orderPublic.moneyRealpay != curOrder.orderPublic.moneyRealpay){
+		return true;
+	}
+	return false;
+}
+
 		
 function save_more_orderDetail(opt){
+	
+	
+
+//	alert(changeRowIds.split(mygrid1.delim));
+//	alert(changeRowIds.split(mygrid1.delim).length);
+	
 	var order = new Order();
 	var isPass = checkOrder();
 	if(!isPass) {return false;};
@@ -4466,7 +4591,8 @@ function save_more_orderDetail(opt){
 	
 //	alert(obj.tempStr);  
 	
-	obj.id = isOrderEditState?order_id:null;
+
+	obj.id = order_id>0?order_id:null;
 	obj.orderCode = isOrderEditState?order_code:null; 
 	obj.orgId = orgId;
 	obj.customerId = customerId;
@@ -4493,7 +4619,18 @@ function save_more_orderDetail(opt){
 //	obj.orderDetails =  get_order_details(obj);
 //	alert(obj.toSource())
 //	var orderDetailsObj = get_order_details(obj);
-	obj.orderDetailsObj = get_order_details(obj);
+	obj.orderDetailsObj = get_order_details(obj,opt);
+	
+//	alert(opt+">>"+obj.orderDetailsObj.length)
+
+	
+	if(opt != 1 && obj.orderDetailsObj.length ==0){
+		if(!isChangedOrder(orderBackUp,obj)){
+			return false;
+		}
+	}
+	
+	
 
 //	console.log(obj);
 //	alert(obj.toSource())
@@ -4503,8 +4640,6 @@ function save_more_orderDetail(opt){
 	if(obj.orderDetailsObj.length == 0){
 		if(opt == 1){
 			return obj;
-		}else{
-			return false;
 		}
 	}
 
@@ -4569,7 +4704,7 @@ function save_more_orderDetail(opt){
 
 
 //orderId,year,customerId,userId
-function get_order_details(or_obj){
+function get_order_details(or_obj,opt){
 
 	var orderDetail_objs = new Array();
 
@@ -4603,13 +4738,30 @@ function get_order_details(or_obj){
 	
 
 //	parent.document.getElementById("paymoney_for_paraArray").value;
+	
+	var changeRowIds = mygrid1.getChangedRows(true);
+	var rowIds = new Array();
+	if(opt !=1 && changeRowIds != ""){
+		rowIds = changeRowIds.split(mygrid1.delim);
+	}
+    
+	if(opt == 1){
+		for(var i = 0;i< mygrid1.getRowsNum();i++){
+			var row_id = mygrid1.getRowId(i);
+			rowIds.push(row_id);
+		}
+	}
 
-	for(var i = 0;i< mygrid1.getRowsNum();i++){
+	
+
+	for(var i = 0;i< rowIds.length;i++){
 		
 	 	var obj = (new OrderDetail()).obj; 
 	 	
 	 	
-		var row_id = mygrid1.getRowId(i);
+//		var row_id = mygrid1.getRowId(i);
+		var row_id = rowIds[i];
+
 		
 		var parentId = 0;
 		
@@ -5106,4 +5258,105 @@ function regCustomerComboBox(winW,customerName){
 		  	    var id = cbo.value;
 	            var rec = cbo.store.getById(id)
 	    }
+}
+
+
+function disableDestop(){
+
+	if(order_id > 0){
+		 toolbar.getComponent("year_for_paraArray").setDisabled(true);
+	}
+	//通过 1  审核中 3 允许换版本，不能改变长度
+	if(orderCkeckState ==1 ||orderCkeckState ==3){
+
+		 toolbar.getComponent("customerName_for_paraArray").setDisabled(true);
+		 toolbar.getComponent("userId_for_paraArray").setDisabled(true);
+		 toolbar.getComponent("year_for_paraArray").setDisabled(true);
+		 toolbar.getComponent("categoryId_for_paraArray").setDisabled(true);
+		 
+		 toolbar.getComponent("btn_displayCompagesTree_2").setDisabled(true);
+		 toolbar.getComponent("btn_addGrid1NewRow").setDisabled(true);
+		 toolbar.getComponent("btn_displayCompagesTree_1").setDisabled(true);
+//		 toolbar.getComponent("btn_search_adver_cont").setDisabled(true);
+		 toolbar.getComponent("btn_setAutoBroArray").setDisabled(true);
+//		 toolbar.getComponent("btn_removeGrid1NewRow").setDisabled(true); //没有加载
+
+		 
+//		 footerToolbar.getComponent("Btn_save_more_new").setDisabled(true);
+		 
+		 parent.document.getElementById("paymoney_for_paraArray").readOnly = true; 
+		 
+		 $("isDisplayMonDetail").disabled = true;
+		 $("cleanBroArrange").disabled = true;
+		 $("addNextMonthBroArrange").disabled = true;
+		 $("rebackBroArrange").disabled = true;
+		 
+
+//		 menu.hideContextMenu();
+		 menu.unload();
+//		 menu.hide();
+		 
+		 
+		 mygrid1.setEditable(false);
+		 mygrid2.detachAllEvents();
+			  
+		 var ids = mygrid2.getAllItemIds(mygrid2.delim).split(mygrid2.delim);
+			for(var i =0;i< ids.length;i++){
+				   for(var j =0;j<33;j++){
+					   var type = mygrid2.getUserData(ids[i],"grid1_row_type");
+					   if(type != 0){
+						   var rowId = ids[i];
+						   var cellIndex = j+4;
+						   var td = mygrid2.cells(rowId,cellIndex).cell;
+							td.removeEventListener("click", mygrid2onKeypressClick, false);
+					   }	
+				   }
+					
+			}
+			
+		 
+	}
+}
+
+
+
+function enableDestop(){
+		 toolbar.getComponent("customerName_for_paraArray").setDisabled(false);
+		 toolbar.getComponent("userId_for_paraArray").setDisabled(false);
+		 toolbar.getComponent("year_for_paraArray").setDisabled(false);
+		 toolbar.getComponent("categoryId_for_paraArray").setDisabled(false);
+		 toolbar.getComponent("btn_displayCompagesTree_2").setDisabled(false);
+		 toolbar.getComponent("btn_addGrid1NewRow").setDisabled(false);
+		 toolbar.getComponent("btn_displayCompagesTree_1").setDisabled(false);
+		 toolbar.getComponent("btn_setAutoBroArray").setDisabled(false);
+		 parent.document.getElementById("paymoney_for_paraArray").readOnly = false; 
+		 
+		 $("isDisplayMonDetail").disabled = false;
+		 $("cleanBroArrange").disabled = false;
+		 $("addNextMonthBroArrange").disabled = false;
+		 $("rebackBroArrange").disabled = false;
+		 
+
+//		 menu.hideContextMenu();
+		 menu.loadXMLString(build_grid1_menuStr()); 
+		 menu.renderAsContextMenu();
+//		 menu.show();
+		 
+		 mygrid1.setEditable(true);
+		 mygrid2.detachAllEvents();
+			  
+		 var ids = mygrid2.getAllItemIds(mygrid2.delim).split(mygrid2.delim);
+			for(var i =0;i< ids.length;i++){
+				   for(var j =0;j<33;j++){
+					   var type = mygrid2.getUserData(ids[i],"grid1_row_type");
+					   if(type != 0){
+						   var rowId = ids[i];
+						   var cellIndex = j+4;
+						   var td = mygrid2.cells(rowId,cellIndex).cell;
+							dhtmlxEvent(td,"click", mygrid2onKeypressClick);
+					   }	
+				   }
+					
+			}
+	
 }

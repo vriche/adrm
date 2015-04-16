@@ -771,3 +771,33 @@ Resource.prototype.getStoreResourceCtrData = function(mode,paramObj){
 Resource.prototype.getResourcesByIds = function(queryString,callBackFun){
 	ResourceManager.getResourcesByIds(queryString,callBackFun);
 }
+
+
+//Resource.prototype.getResourceByYearUserStore = function(mode,paramObj){
+//	paramObj = [paramObj || {}];
+//	var fileds= this.fileds;
+//	var store = new Ext.data.Store({
+//		proxy: new Ext.data.DWRHttpProxy({url: CarrierManager.getCarrierAlisnamesStore}),
+//		reader: new Ext.data.DWRObjectReader({id: "id"},fileds)
+//	});
+//	if(mode == 'remote'){
+//	  	store.on('beforeload', function(){
+//	    	Ext.apply(this.baseParams, {dwrParams:paramObj});
+//		}); 
+//		store.load();			
+//	}else{
+//		store.load({params:{dwrParams:paramObj}});
+//	}
+//	return store;
+//};
+
+Resource.prototype.getResourceIdsByYearUser = function(year,uid,callBackFun){
+	ResourceManager.getResourceIdsByYearUser(year,uid,callBackFun);
+}
+Resource.prototype.saveResourceIdsYearUser = function(resourceIds,uid,rate,callBackFun){
+	ResourceManager.saveResourceIdsYearUser(resourceIds,uid,rate,callBackFun);
+}
+Resource.prototype.removeResourceIdsYearUser = function(ids,callBackFun){
+	ResourceManager.removeResourceIdsYearUser(ids,callBackFun);
+}
+

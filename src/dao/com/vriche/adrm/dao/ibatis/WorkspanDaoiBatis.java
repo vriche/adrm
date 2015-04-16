@@ -114,7 +114,7 @@ public class WorkspanDaoiBatis extends BaseDaoiBATIS implements WorkspanDao {
 
 	/*根据资源信息修改日信息，同时根据订单修改使用，和指定信息*/
 
-private void addResourceDayInfo(Workspan workspan){
+	public void addResourceDayInfo(Workspan workspan){
     	
     	Long workspanId = workspan.getId();
     	Long resourceId = workspan.getResourceId();
@@ -256,7 +256,7 @@ private void addResourceDayInfo(Workspan workspan){
 	
 
    //根据资源有效时间范围，删除资源信息
-	private void removeResourceDayInfo(Long workspanId,Integer beginDate,Integer endDate) {
+	public void removeResourceDayInfo(Long workspanId,Integer beginDate,Integer endDate) {
 		Map mp = new HashMap();
 		mp.put("workspanId",workspanId);
 		mp.put("beginDate",beginDate.toString());

@@ -16,6 +16,7 @@
 		<pattern>/merm/*</pattern>
 		<pattern>/blank.jsp</pattern>
 		<pattern>/desktop/*</pattern>
+		<pattern>/grid_report/*</pattern>
     </excludes> 
     <decorator name="default" page="adrm.jsp">
         <pattern>/*</pattern>

@@ -463,8 +463,6 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
 //			   + "["+ mat.getEdit().toString() +"]\">"); 
 			   
 			    sb.append("<userdata name=\"type\">2</userdata>");
-			
-
 				sb.append("<userdata name=\"id\">" + mat.getId().toString()+ "</userdata>");
 				sb.append("<userdata name=\"publishSort\">0</userdata>");
 				sb.append("<userdata name=\"tapeCode\">" + mat.getTapeCode()+ "</userdata>");
@@ -1207,6 +1205,8 @@ public Map buildParamBy(String strQueryString){
 	String matterType =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"matterType"),""));
 	String sortStr =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"sortStr"),""));
 	String customerName =  StringUtil.getURLDecoderStr(StringUtil.getNullValue(StringUtil.getParamFromUrl(strQueryString,"customerName"),""));
+	
+//	if("".equals(matterType)) matterType = null;
 
 //	System.out.println(">>>>>>>> year:"+year);
 //	System.out.println(">>>>>>>> loginUser:"+loginUser);
@@ -1218,9 +1218,9 @@ public Map buildParamBy(String strQueryString){
 //	System.out.println(">>>>>>>> tapeCode:"+tapeCode);
 //	System.out.println(">>>>>>>> brandId:"+brandId);
 //	System.out.println(">>>>>>>> customerName:"+customerName);
+	System.out.println("buildParamBy 666666  555  >>>>>>>> matterType:"+matterType);
 
 	mp.put("year",year);
-	
 	mp.put("orgId",orgId);
 	mp.put("tapeCode",tapeCode);
 	mp.put("name",name);

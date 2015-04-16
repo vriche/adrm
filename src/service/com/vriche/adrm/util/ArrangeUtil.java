@@ -71,9 +71,9 @@ public class ArrangeUtil {
 //				totalTimes = publishArrange.getResourceTotalTimes()==null?0:publishArrange.getResourceTotalTimes().intValue();	
 				usedTimes+=publishArrange.getResourceUsedTimes()==null?0: publishArrange.getResourceUsedTimes().intValue();
 			 }
-			if(getFztvSpecialParam()){
-				getSumXML(sb,lineNums,usedTimes,totalTimes);
-			}
+//			if(getFztvSpecialParam()){
+//				getSumXML(sb,lineNums,usedTimes,totalTimes);
+//			}
 			sb.append("</rows>");
 	  }
 	  						
@@ -108,35 +108,33 @@ public class ArrangeUtil {
 		   double resourceLeave = Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceTotalTimes(),"0"))- Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
 		   String resourceRowCss = getResourceRowCss(publishArrange,resourceLeave);
 		   
-		   boolean isFztv = getFztvSpecialParam();
+//		   boolean isFztv = getFztvSpecialParam();
 		   int ogt = Integer.parseInt(orgType);
-		   if(isFztv){
-			   makeOneAdver(sb,publishArrange,resId,adverIdPrefix,rebuild);
-		   }
+//		   if(isFztv){
+//			   makeOneAdver(sb,publishArrange,resId,adverIdPrefix,rebuild);
+//		   }
 			sb.append("<row  id=\""+ resId +"\"" +"  style=\""+ resourceRowCss +"\">");
 			sb.append("<cell id=\"1\" image='folder.gif'></cell>");
-			if(isFztv){
-			    sb.append("<cell id=\"2\" image='folder.gif'></cell>");
-			    sb.append("<cell id=\"3\"><![CDATA[" + StringUtil.null2String(publishArrange.getResourceName())+ "]]></cell>");
-			    sb.append("<cell><![CDATA[" + publishArrange.getResourceMeno()+ "]]></cell>");
-			    sb.append("<cell>"+ publishArrange.getResourceUsedTimes() +"</cell>");
-			    sb.append("<cell>"+ resourceLeave +"</cell>");
-			    sb.append("<cell>"+ publishArrange.getResourceTotalTimes()+"</cell>");  
-			}else{
+//			if(isFztv){
+//			    sb.append("<cell id=\"2\" image='folder.gif'></cell>");
+//			    sb.append("<cell id=\"3\"><![CDATA[" + StringUtil.null2String(publishArrange.getResourceName())+ "]]></cell>");
+//			    sb.append("<cell><![CDATA[" + publishArrange.getResourceMeno()+ "]]></cell>");
+//			    sb.append("<cell>"+ publishArrange.getResourceUsedTimes() +"</cell>");
+//			    sb.append("<cell>"+ resourceLeave +"</cell>");
+//			    sb.append("<cell>"+ publishArrange.getResourceTotalTimes()+"</cell>");  
+//			}else{
 			    sb.append("<cell id=\"2\" image='folder.gif'><![CDATA[" + publishArrange.getResourceName()+ "]]></cell>");
 			    sb.append("<cell id=\"3\"><![CDATA[" + StringUtil.null2String(publishArrange.getResourceMeno())+ "]]></cell>");
 			    sb.append("<cell>"+ publishArrange.getResourceTotalTimes()+"</cell>");
 			    sb.append("<cell>"+ publishArrange.getResourceUsedTimes() +"</cell>");
 			    sb.append("<cell>"+ resourceLeave +"</cell>");
 			    sb.append("<cell></cell>");  
-			}
+//			}
 		    sb.append("<cell></cell>");	
 		    
-//		    if(ogt == 1){
-//		    	 sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrange.getResourceName())  +"]]></cell>");	
-//		    }else{
-		    	 sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrange.getMemo())  +"]]></cell>");	
-//		    }
+
+		    sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrange.getMemo())  +"]]></cell>");	
+
 		   
 		    
 		    sb.append("<cell><![CDATA["+ publishArrange.getResourceId()  +"]]></cell>");
@@ -151,18 +149,22 @@ public class ArrangeUtil {
 		    String beforehandStr = beforehand > 0? String.valueOf(beforehand):"";
 		    sb.append("<cell><![CDATA["+ beforehandStr  +"]]></cell>");
 		    sb.append("</row>");
-			if(!isFztv){
+//			if(!isFztv){
 				   makeOneAdver(sb,publishArrange,resId,adverIdPrefix,rebuild);
-			}  
+//			}  
+			
+			
+			
+			
 //		    makeOneAdver(sb,publishArrange,resId,adverIdPrefix,rebuild);
 //		    if(!displayTree)  makeOneAdver(sb,publishArrange,resId,adverIdPrefix);
 	  }
 	  
- 	private static  boolean getFztvSpecialParam(){
-	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
-	    if(StringUtils.isEmpty(sysParam.getFztvSpecialParam())) sysParam.setFztvSpecialParam("0");
-	    return (sysParam.getFztvSpecialParam().equals("0"))?false:true;
-	}
+// 	private static  boolean getFztvSpecialParam(){
+//	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+//	    if(StringUtils.isEmpty(sysParam.getFztvSpecialParam())) sysParam.setFztvSpecialParam("0");
+//	    return (sysParam.getFztvSpecialParam().equals("0"))?false:true;
+//	}
  	
  	private static  boolean getQztvSpecialParam(){
 	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
@@ -177,10 +179,10 @@ public class ArrangeUtil {
 		  if(resourceLeave > 0) resourceRowCss = "font-weight:bold;" +" background-color: #99FF66;";
 		  if(resourceLeave < 0) resourceRowCss = "font-weight:bold;" +" background-color: #FFFF00;";
 		  
-		  if(getFztvSpecialParam()){
-			  if(resourceLeave >= 0) resourceRowCss = "font-weight:bold;" +" background-color: #99FF66;";
-			  if(resourceLeave < 0) resourceRowCss = "font-weight:bold;" +" background-color: #FF0000;";
-		  }
+//		  if(getFztvSpecialParam()){
+//			  if(resourceLeave >= 0) resourceRowCss = "font-weight:bold;" +" background-color: #99FF66;";
+//			  if(resourceLeave < 0) resourceRowCss = "font-weight:bold;" +" background-color: #FF0000;";
+//		  }
 		  return resourceRowCss;  
 		  
 	  }
@@ -222,7 +224,7 @@ public class ArrangeUtil {
 //		  String style = " style=\"cursor: pointer;\"";
 		 String orgId = StringUtil.getNullValue(publishArrangeDetail.getOrgId(),"1");
 
-		  if(getFztvSpecialParam()&&publishArrangeDetail.getSpaceAdver().booleanValue()) style = " style=\"color: #F00;\"";
+//		  if(getFztvSpecialParam()&&publishArrangeDetail.getSpaceAdver().booleanValue()) style = " style=\"color: #F00;\"";
 		  if(isLocked) style = " style=\"background-color: #CCCCCC;\"";  
 		  
 		  
@@ -469,9 +471,9 @@ public class ArrangeUtil {
 		  boolean isLocked = publishArrange.getIsLocked().booleanValue();
 		  boolean isArranged = publishArrange.getIsArranged().booleanValue();
 		  if(isLocked) state = 0;
-		  if(getFztvSpecialParam()){
-			  if(!rebuild) state = 0;  
-		  }
+//		  if(getFztvSpecialParam()){
+//			  if(!rebuild) state = 0;  
+//		  }
 		  if(isArranged && !rebuild) state = 0;
           		  
 		  return state;
@@ -561,14 +563,14 @@ public class ArrangeUtil {
 		  if(details.size() > 0){
 			  //±àÅÅ¹ý»òËø¶¨
 			  if(state == 0){
-				  if(getFztvSpecialParam()){
-					  int i=1;
-					  List advers= new ArrayList();
-					  decomposeAdverByTimes(advers,details);
-					  details.clear();
-					  details.addAll(advers);
-					  i = setAdverOrder2(details,i);   
-				  }
+//				  if(getFztvSpecialParam()){
+//					  int i=1;
+//					  List advers= new ArrayList();
+//					  decomposeAdverByTimes(advers,details);
+//					  details.clear();
+//					  details.addAll(advers);
+//					  i = setAdverOrder2(details,i);   
+//				  }
 				  Collections.sort(details);        
 			  }else{
 				  List oneResourceAdvers = new ArrayList();

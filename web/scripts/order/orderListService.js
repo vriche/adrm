@@ -89,15 +89,14 @@ callOnLoad(init);
 
 
 
- 	if(tvNameParam =='fztv'){
- 		$('selectOrder').show();
- 		$('Btn_myOrder').show();   	
-// 		span1.setAttribute("id","span1");
- 	 	var func=function(userId){
-			curSessionId = userId;
-		}
-		user.getCurUserId(userName,func)	
- 	}
+// 	if(tvNameParam =='fztv'){
+// 		$('selectOrder').show();
+// 		$('Btn_myOrder').show();   	
+// 	 	var func=function(userId){
+//			curSessionId = userId;
+//		}
+//		user.getCurUserId(userName,func)	
+// 	}
 
 	if(tvNameParam =='xmtv'){
 		$('TDcarrierType').show();
@@ -428,10 +427,10 @@ function buttonEventFill(){
 		Btn_addNewOrder.onclick = addNewOrder;
 	}
 	
-	if(tvNameParam =='fztv'){
-		var Btn_selectOrder = $("selectOrder");
-		Btn_selectOrder.onchange = getTable;
-	} 
+//	if(tvNameParam =='fztv'){
+//		var Btn_selectOrder = $("selectOrder");
+//		Btn_selectOrder.onchange = getTable;
+//	} 
 	
 	
 	var change_order_year = $("order_year");
@@ -822,11 +821,11 @@ function button_print(){
 		$("moneyRPayForm").value = $("moneyRPay").value;
 		
 	}
-	if(tvNameParam == 'fztv'){
-		$("selectImportOrderForm").value  = $("selectOrder").value;
-	}else{
+//	if(tvNameParam == 'fztv'){
+//		$("selectImportOrderForm").value  = $("selectOrder").value;
+//	}else{
 		$("selectImportOrderForm").value  = 0;  
-	}
+//	}
 	
 	
 	if(tvNameParam == 'xmtv'){
@@ -969,11 +968,11 @@ function searchyear(beginDate,endDate){
 	return ispass;
 }
 function getTable(){
-	if(tvNameParam == 'fztv'){
-		$('publishMemo').value = $('selectOrder').value;
-	}else{
+//	if(tvNameParam == 'fztv'){
+//		$('publishMemo').value = $('selectOrder').value;
+//	}else{
 		$('publishMemo').value = 0;
-	}
+//	}
 	 
 	var state = $(checkState.selectName).value;
 //	state = (state == 5)?"0,1,2,4":state;

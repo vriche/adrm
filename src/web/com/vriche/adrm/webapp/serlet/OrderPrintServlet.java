@@ -98,7 +98,7 @@ public class OrderPrintServlet extends HttpServlet
 //			String orderId =  (String)request.getParameter("orderId");
 //			String copys =  (String)request.getParameter("copys");
 			
-		   String tvName = SysParamUtil.getTvNameParam();
+//		   String tvName = SysParamUtil.getTvNameParam();
 		   
 		   int orderPublishTempleParam = SysParamUtil.getOrderPublishTempleParam();
 		

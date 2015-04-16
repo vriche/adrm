@@ -597,7 +597,7 @@ function getFusionChartObjs(){
 	
 	function func(objs){
 		fusionChartObjects = objs;
-		alert(fusionChartObjects.length);
+//		alert(fusionChartObjects.length);
 	}
 		
 		var a = {

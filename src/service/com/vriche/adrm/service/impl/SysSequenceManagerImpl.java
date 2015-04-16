@@ -85,7 +85,7 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
     }    
     
     
-    public  String getSysSequenceByObject2(String name) {
+    public  synchronized String getSysSequenceByObject2(String name) {
     	SysSequence sequence = new SysSequence();
     	sequence.setName(name);
     	SysSequence sysSequence = dao.getSysSequenceByObject(sequence);
@@ -99,7 +99,7 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
     	String date = DateUtil.getDate();
     	String autoCode ="";
     	String tvName = SysParamUtil.getTvNameParam();
-    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
+//    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
 //    	boolean xmtv = SysParamUtil.isXMTVParam(tvName);
 		int startNo = 5;
 		String nextIncomeCode = "1";
@@ -132,21 +132,21 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
 
     	if(currentNext == null){
     		SysSequence sysobj = new SysSequence();
-    		if(fztv && Constants.SEQUENCE_TB_INCOME.equals(name)){
-    			try {
-					dao.getDefaultDataSource().getConnection().createStatement().execute("update tb_income set income_code =income_id");
-					ResultSet rs = dao.getDefaultDataSource().getConnection().createStatement().executeQuery("select max(income_code)+1 as id from tb_income");
-					while (rs.next()){nextIncomeCode = (String)rs.getString("id");}
-
-					sysobj.setCurrentNext( new Long(Long.valueOf(nextIncomeCode).longValue()+1));
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    			
-    		}else{
+//    		if(fztv && Constants.SEQUENCE_TB_INCOME.equals(name)){
+//    			try {
+//					dao.getDefaultDataSource().getConnection().createStatement().execute("update tb_income set income_code =income_id");
+//					ResultSet rs = dao.getDefaultDataSource().getConnection().createStatement().executeQuery("select max(income_code)+1 as id from tb_income");
+//					while (rs.next()){nextIncomeCode = (String)rs.getString("id");}
+//
+//					sysobj.setCurrentNext( new Long(Long.valueOf(nextIncomeCode).longValue()+1));
+//				} catch (SQLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//    			
+//    		}else{
     			sysobj.setCurrentNext(new Long("2"));
-    		}
+//    		}
     		sysobj.setVersion(new Integer(orgId));
     		sysobj.setName(name);
     		sysobj.setStartNo(new Long(startNo));
@@ -184,7 +184,7 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
     }
     
  	
- 	public SysSequence getSysSequenceByObject(SysSequence sysSequence){
+ 	public synchronized SysSequence getSysSequenceByObject(SysSequence sysSequence){
  		return dao.getSysSequenceByObject(sysSequence);
  	}
     public synchronized String getSysSequenceByObject(String orgId,String name,String year) {
@@ -196,7 +196,7 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
     	String mm="";
     	
     	String tvName = SysParamUtil.getTvNameParam();
-    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
+//    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
     	boolean xmtv = SysParamUtil.isXMTVParam(tvName);
     	boolean qztv = SysParamUtil.isQZTVParam(tvName);
     	boolean hbtv = SysParamUtil.isHBTVParam(tvName);
@@ -231,10 +231,10 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
 		
 //    	String datecode = date.substring(2,6);
     	String datecode = yy + mm;
-    	if(fztv){
-    		datecode = year;
-    		startNo = 8;
-    	}
+//    	if(fztv){
+//    		datecode = year;
+//    		startNo = 8;
+//    	}
     	
     	if((xmtv||qztv||hbtv||sxtv)){
     		if(Constants.SEQUENCE_TB_INCOME.equals(name)){

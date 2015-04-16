@@ -270,6 +270,19 @@
     <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=resourceAdverAnalyze_report">Ö´ÐÐ</a></td>
   </tr>  
   
+  
+  <tr> 
+  <td width="10%"><div align="center">32</div></td>
+  <td><a href="<%=request.getContextPath()%>/reports/template/resourceAdverAnalyze_report2.jrxml">resourceAdverAnalyze_report2</a></td>
+  <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=resourceAdverAnalyze_report2">Ö´ÐÐ</a></td>
+</tr>  
+
+<tr> 
+<td width="10%"><div align="center">32-3</div></td>
+<td><a href="<%=request.getContextPath()%>/reports/template/resourceAdverAnalyze_report3.jrxml">resourceAdverAnalyze_report3</a></td>
+<td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=resourceAdverAnalyze_report3">Ö´ÐÐ</a></td>
+</tr>  
+
   <tr> 
     <td width="10%"><div align="center">33</div></td>
     <td><a href="<%=request.getContextPath()%>/reports/template/orderCategoryCarrier_report.jrxml">orderCategoryCarrier_report</a></td>

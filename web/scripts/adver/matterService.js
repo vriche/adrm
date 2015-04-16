@@ -182,7 +182,7 @@ function setCustomerPara(obj){
 
 
 function getMatterTable1(){
-	matter.obj.orgId = $("orgId").value
+//	matter.obj.orgId = $("orgId").value;
 	matter.getMattersSearch(matter,null,null,null,null);
 	
 //	customer.obj.orgId = $("orgId").value;

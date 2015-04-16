@@ -57,6 +57,7 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		List carrierIdList = new ArrayList();
 		List userIdList = new ArrayList();
 		List namesList = new ArrayList();
+		List yearIdList = new ArrayList();
 		String startDate = analyzeClass.getStartDate();
 		String endDate = analyzeClass.getEndDate();
 		Integer version = analyzeClass.getVersion();
@@ -64,45 +65,33 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		String userLongName = analyzeClass.getCurUserName();
 		String[] resIds = analyzeClass.getOrderDetail().getMatter().getResourceIds();
 		
-		  System.out.println("resIds>>333333333333   5555555555555   >>>>>>>>"+ resIds);
+//		  System.out.println("resIds>>333333333333   5555555555555   >>>>>>>>"+ resIds);
 		String loginUser = analyzeClass.getCurUserName();
-		 System.out.println("loginUser>>333333333333   5555555555555   >>>>>>>>"+ loginUser);
+//		 System.out.println("loginUser>>333333333333   5555555555555   >>>>>>>>"+ loginUser);
 		 
 		 String j = StringUtils.join(resIds, ",");  
 		 
-		 System.out.println("resIds.toString()>>333333333333   5555555555555   >>>>>>>>"+j);
+//		 System.out.println("resIds.toString()>>333333333333   5555555555555   >>>>>>>>"+j);
 		carrierIdList = CarrierUtil.getCarrierIds(j,"2",loginUser);	
 		
-		 System.out.println("carrierIdList>>333333333333   5555555555555   >>>>>>>>"+ carrierIdList);
+//		 System.out.println("carrierIdList>>333333333333   5555555555555   >>>>>>>>"+ carrierIdList);
 		
 		String[] customerIds = analyzeClass.getOrderDetail().getMatter().getCustomerIds();
 		String[] userIds = analyzeClass.getOrderDetail().getMatter().getUserIds();
 		String[] matterNames = analyzeClass.getOrderDetail().getMatter().getMatterNames();
 		
 		if(customerIds.length >0){
-			CollectionUtils.addAll(customerIdList,customerIds);
+			if(StringUtils.isNotBlank(customerIds[0])){
+				CollectionUtils.addAll(customerIdList,customerIds);
+			}
 		
 		}
 		
 		
-//		else{
-//			customerIdList.add("-1");
-//		}
-		
-//		if(resIds.length >0){
-//			CollectionUtils.addAll(resourceIdList,resIds);
-//		}
-		
-//		if(resIds.length >0){
-//			CollectionUtils.addAll(carrierIdList,carrierIdList);
-//		}
-		
-//		else{
-//			resourceIdList.add("-1");
-//		}
-		
 		if(matterNames.length >0){
-			CollectionUtils.addAll(namesList,matterNames);
+			if(StringUtils.isNotBlank(matterNames[0])){
+				CollectionUtils.addAll(namesList,matterNames);
+			}
 		}
 //		else{
 //			namesList.add("-1");
@@ -116,8 +105,14 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 			CollectionUtils.addAll(userIdList,userIds);
 		}
 		
+		
+     	if(UserUtil.isUserOrderYearRel()) {
+     		yearIdList = UserUtil.getUserYearRelByLoginUser(userLongName);
+     		
+     	}
+		
 
-		   System.out.println("start>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+//		   System.out.println("start>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		   System.out.println("start>>>>>>>>>>"+ startDate);
 		   System.out.println("end>>>>>>>>>>"+ endDate);
 		   System.out.println("version>>>>>>>>>>"+ version);
@@ -126,22 +121,24 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		   
 		   System.out.println("userIdList>>>>>>>>>>"+ userIdList.size());
 		   System.out.println("matterName>>>>>>>>>>"+ namesList.size());
+		   System.out.println("customerIdList>>>>>>>>>>"+ customerIdList.size());
+		   System.out.println("userLongName>>>>>>>>>>"+ userLongName);
+		   
+		   System.out.println("yearIdList>>>>>>>>>>"+ yearIdList);
 
 		   
 		mp.put("startDate",startDate);
 		mp.put("endDate",endDate);
 		mp.put("version",version);
-		mp.put("customerIdList",customerIdList);
+//		mp.put("customerIdList",customerIdList);
 		mp.put("resourceIdList",resourceIdList);
 		mp.put("carrierIdList",carrierIdList);
 		mp.put("userIdList",userIdList);
 		mp.put("namesList",namesList);
+		mp.put("yearIdList",UserUtil.getUserYearRelByLoginUser(userLongName));
 		
 		
-		
-     	if(UserUtil.isUserOrderYearRel()) {
-     		mp.put("yearIdList",UserUtil.getUserYearRelByLoginUser(userLongName));
-     	}
+
 		
 		
 		return mp;
@@ -157,7 +154,7 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 		
 		List ls = dao.getBrand(mp,1,2000);
 		
-		System.out.println("ls.size()>>>>>>>>>>"+ ls.size());
+		System.out.println("getBrand>>>>>>>>>>>>>>>>>>>>>>>ls.size()>>>>>>>>>>"+ ls.size());
 		
 //		if(Integer.parseInt(pageCount) == Integer.parseInt(pageIndex)){
 			List ls2 = dao.getBrand(mp,Integer.parseInt(pageIndex),0);
@@ -173,9 +170,10 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 	public Collection getBrandReport(AnalyzeClass analyzeClass) {
 		Collection coll= new ArrayList();
 		Map mp = this.getBrandWhere(analyzeClass);
-		List ls = dao.getBrand(mp,0,0);
+//		List ls = dao.getBrand(mp,0,0);
+		List ls = dao.getBrand(mp,1,2000);
 		
-//		System.out.println("ls.size()>>>>>>>>>>"+ ls.size());
+		System.out.println("ls.size()>>>>>>>>>>"+ ls.size());
 		if(ls.size() > 0){
 			AnalyzeClass analyze = getBrandSum(ls);
 			ls.add(analyze);
@@ -289,7 +287,12 @@ public class AnalyseManagerImpl extends BaseManager implements AnalyseManager {
 			obj.getObj().add(0,obj.getOrder().getOrderCode());
 //			obj.getObj().add(1,obj.getOrder().getContract().getCode());
 			obj.getObj().add(1,resourceLable);
-			obj.getObj().add(2,obj.getOrder().getRelationCode());
+			
+			System.out.println("getResourceAdverReport>>>>33333333 555    7777777777  9999>>>>>>"+ obj.getOrderDetail().getMoneyRealpay());
+			
+//			obj.getObj().add(2,obj.getOrder().getRelationCode());
+			obj.getObj().add(2,StringUtil.null2String(obj.getOrderDetail().getMoneyRealpay()));
+			
 			obj.getObj().add(3,obj.getOrderDetail().getOrderCategoryMain());
 			obj.getObj().add(4,obj.getOrder().getCustomer().getCustomerName());
 			obj.getObj().add(5,obj.getOrderDetail().getMatter().getName());

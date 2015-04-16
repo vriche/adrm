@@ -201,9 +201,7 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 		List incomePurposeIdList = new ArrayList();
 		boolean isNotReturnValue = returnValue.equals("1")?true:false;
 		String  tvName  = SysParamUtil.getTvNameParam();
-		boolean fztv = SysParamUtil.isFZTVParam(tvName);
-		boolean xmtv = SysParamUtil.isXMTVParam(tvName);
-		boolean hntv = SysParamUtil.isHNTVParam(tvName);
+
 		boolean isResourceSort = SysParamUtil.getWithResourceSort();
 		boolean arrearagemode = SysParamUtil.getArrearageMode();
 		
@@ -218,6 +216,9 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 		mp.put("startDate",startDate);
 		mp.put("endDate",endDate);
 		mp.put("putYear",putYear);	
+		
+//		System.out.println("result[4]>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK 8888888888888888888888888888888888888             8888888888888888888888        YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>") ;
+//		
 		
 		if(financialAuditSwitch && incomePurposeIdList.size() == 0)incomePurposeIdList.add("-1");
 		
@@ -243,7 +244,7 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
      		mp.put("yearIdList",UserUtil.getUserYearRelByLoginUser(theUser));
      	}
        
-     	 System.out.println("carrierName33333333333333333333333333333333333333333333333333333333333333333333>>>>>>>>"+carrierName);
+//     	 System.out.println("carrierName33333333333333333333333333333333333333333333333333333333333333333333>>>>>>>>"+carrierName);
 //     	System.out.println("theUser33333333333333333333333333333333333333333333333333333333333333333333>>>>>>>>"+theUser);
      	 
 //		List carrierIdList2 = CarrierUtil.getCarrierIds(carrierName,"2",theUser);
@@ -271,13 +272,19 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 			if(customerls.size() == 0)customerls.add("-1");
     		mp.put("customerIdList",customerls);
 		}
-
+		
+//		System.out.println("userId>>>>>>>>>>>>>>"+userId) ;
+//		System.out.println("theUser>>>>>>>>>>>>>>"+theUser) ;
+//		System.out.println("orgId>>>>>>>>>>>>>>"+orgId) ;
+		
 		if((!"".equals(userId) &&  userId!=null)){
     		List userls = new ArrayList();
     		CollectionUtils.addAll(userls, userId.split(","));
     		mp.put("UserIdList",userls);
     	}else{
     		userIdList = UserUtil.getCurUserRels(theUser,orgId);
+//    		System.out.println("userIdList>>>>>>>>>>>>>>"+userIdList.toString()) ;
+//    		System.out.println("userIdList>>>>>>>>>>>>>>"+userIdList.size()) ;  		
     		if(userIdList.size() == 0)userIdList.add("-1");
     		mp.put("UserIdList",userIdList);
     	}
@@ -382,7 +389,7 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 //		System.out.println("userIdList>>>>>>>>>>>>>>>>>>>>>"+userIdList) ;
 //		System.out.println("customerId>>>>>>>>>>>>>>>>>>>>>"+customerId) ;
 //		System.out.println("incomePurposeIdList>>>>>>>>>>>>>>>>>>>>>"+incomePurposeIdList) ;
-		System.out.println("incMap>>>>>>>>>>>>>>>>>>>>>"+incMap.size()) ;
+//		System.out.println("incMap>>>>>>>>>>>>>>>>>>>>>"+incMap.size()) ;
 //		System.out.println("incMap>>>>>>>>>>>>>>>>>>>>>"+returnValueMap.size()) ;
 //		System.out.println("inputonMap>>>>>>>>>>>>>>>>>>>>>"+inputonMap.size()) ;
 		
@@ -419,23 +426,13 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 				realIncom = new Double(realIncom.doubleValue()-returnValue1.doubleValue()); 
 				relPuton = new Double(relPuton.doubleValue()-returnValue1.doubleValue()); 
 			}
-//			Double relPuton = orderDayInfo.getDayRelPuton() == null?new Double(0):orderDayInfo.getDayRelPuton();	
-//            double payMoney = realIncom.doubleValue()-relPuton.doubleValue();
+
 			double payMoney =0; 
-//			boolean arrearagemode = getArrearageMode();
 			if(arrearagemode){
 				payMoney = realIncom.doubleValue()-incMoney.doubleValue();
-				
-//				if((incMoney.doubleValue()==0 && relPuton.doubleValue()>0) ||(relPuton.doubleValue()>incMoney.doubleValue())){
-//					payMoney = realIncom.doubleValue()-relPuton.doubleValue();
-//				}
 			}else{
 				payMoney = realIncom.doubleValue()-relPuton.doubleValue();
 			}		
-			
-//			if(payMoney<0) payMoney = 0;
-			
-			
 			
 
 			customerColl.setSortStr(sorStr);
@@ -463,7 +460,7 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 		double payMoney =0; 
 
 		
-		System.out.println("incMoney>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>"+incMap.size());
+//		System.out.println("incMap.size()>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>"+incMap.size());
 		
 		for(Iterator it = incMap.keySet().iterator();it.hasNext();){
 			CustomerAnalyzeColl customerColl = new CustomerAnalyzeColl();
@@ -476,7 +473,7 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 			result[3]+=incMoney.doubleValue();
 			result[0]+=relPuton.doubleValue();
 			
-			System.out.println("incMoney>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>"+incMoney.doubleValue()) ;	
+//			System.out.println("incMoney>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>"+incMoney.doubleValue()) ;	
 			
 		
 			payMoney = -incMoney.doubleValue();
@@ -497,6 +494,7 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 			customerColl.setDayRelIncome("0");
 			customerColl.setAdSumTimes("0");
 			customerColl.setDayPayMoney(String.valueOf(payMoney));
+			
 			resu.add(customerColl);
 		}
 		
@@ -506,7 +504,8 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 		
 //		 Collections.sort(resu,new CustomerAnalyzeCollComparator());
 		
-		
+//		System.out.println("result[4]>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK 8888888888888888888888888888888888888             8888888888888888888888        YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>") ;
+//		
 		
 		 if(resu.size() >0){
 				CustomerAnalyzeColl totalAnalyzeColl =new CustomerAnalyzeColl();
@@ -516,8 +515,21 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 				totalAnalyzeColl.setDayRelIncome(new Double(result[1]).toString());
 				totalAnalyzeColl.setAdSumTimes(new Double(result[2]).toString());
 				totalAnalyzeColl.setCustomerIncome(new Double(result[3]).toString());
-				totalAnalyzeColl.setDayPayMoney(new Double(result[4]).toString());
+//				totalAnalyzeColl.setDayPayMoney(new Double(result[4]).toString());
+				
 				totalAnalyzeColl.setDayStandardPrice(new Double(result[5]).toString());
+				
+				if(arrearagemode){
+					result[4] = result[1]-result[3];
+
+				}else{
+					result[4] =result[1]-result[0];
+				}		
+				
+//				System.out.println("result[4]>>>>>>>>>>>KKKKKKKKKKKKKKKKKKKKKKKK YYYYYYYYYYYYYYYYYYYYYYY>>>>>>>>>>"+result[4]) ;	
+				
+				totalAnalyzeColl.setDayPayMoney(new Double(result[4]).toString());
+				
 				resu.add(totalAnalyzeColl); 
 		 }
 
@@ -3861,10 +3873,10 @@ private Map getParamMap(String strQueryString){
     		  sb.append("<row id=\""+i+"\">");   
 	          sb.append("<cell image='leaf.gif'>"+ (i++) +"</cell>");
 	          
-
 	  		  sb.append("<cell><![CDATA["+  StringUtil.encodeStringXML(publishArrangeDetail.getMatterName()) +"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+   StringUtil.encodeStringXML(publishArrangeDetail.getMatterEdit()) +"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(adLen+"*"+adverTimes)+"]]></cell>");
+	  		  sb.append("<cell><![CDATA["+   StringUtil.encodeStringXML(publishArrangeDetail.getSpecificName()) +"]]></cell>");
 	  		  
 //	  		System.out.println(">>>>>>> adver 11111111111111111111111111111111111111111 publishArrangeDetail.getOwnerUserName()>>>>>>>" +publishArrangeDetail.getOwnerUserName()); 
 //	  		System.out.println(">>>>>>> adver 11111111111111111111111111111111111111111 publishArrangeDetail.getOwnerUserName()>>>>>>>" +publishArrangeDetail.getFirstName()+publishArrangeDetail.getLastName()); 

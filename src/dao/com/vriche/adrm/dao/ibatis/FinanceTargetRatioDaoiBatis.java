@@ -218,6 +218,9 @@ public Map getChannelOrderRealPuton(Map mp) {
 	// TODO Auto-generated method stub
 	return getSqlMapClientTemplate().queryForMap("getChannelOrderRealPuton2", mp,"id");
 }
+public List getFinanceTargetRaioCarriersByMap3(Map mp) {
+	  return getSqlMapClientTemplate().queryForList("getFinanceTargetRaioCarriersByMap3", mp);
+}
 
 
 }

@@ -1,8 +1,12 @@
 package com.vriche.adrm.model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * Org class
@@ -18,11 +22,12 @@ import java.util.Set;
  * 
  */
 public class Org extends BaseObjectWithoutNestedFormValidation {
-
+//	public class Org extends BaseObject {
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1855963576059804082L;
 
 	protected Long id;
 	protected String name; // required
@@ -367,20 +372,7 @@ public class Org extends BaseObjectWithoutNestedFormValidation {
 		this.branchs = branchs;
 	}
 
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public boolean equals(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 
@@ -462,4 +454,23 @@ public class Org extends BaseObjectWithoutNestedFormValidation {
 		this.parentId = parentId;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 }

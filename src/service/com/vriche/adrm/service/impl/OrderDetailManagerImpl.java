@@ -36,6 +36,7 @@ import com.vriche.adrm.model.ContractPayment;
 import com.vriche.adrm.model.CustomerProduct;
 import com.vriche.adrm.model.DayInfo;
 import com.vriche.adrm.model.DayInfoArray;
+import com.vriche.adrm.model.FusionChartObject;
 import com.vriche.adrm.model.Industry;
 import com.vriche.adrm.model.Matter;
 import com.vriche.adrm.model.MonthInfo;
@@ -285,8 +286,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
     
     private String getCarrierParentStr(OrderDetail orderDetail){
     	String tvName = SysParamUtil.getTvNameParam();
-    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
-    	boolean xmtv = SysParamUtil.isXMTVParam(tvName);
+
     	boolean displayCarrierType = SysParamUtil.getCarrierTypeDisplay();
     	boolean orderCarrierLevelOne = SysParamUtil.getOrderCarrierLevelOne();
     	
@@ -626,6 +626,8 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
     
     public OrderDetail saveOrderDetailReturnObj(OrderDetail orderDetail) {
     	
+    	 System.out.println("saveOrderDetailReturnObj>>>>>>>>>>>>>111111111111111111111  ffffffffffffffffffffffff >>>>>>>>>>>>>>>>>>>> abc "  );	
+    	
     	   try {
     		   saveOrderDetail(orderDetail);
 
@@ -647,7 +649,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
      */
 	public String saveOrderDetail(OrderDetail orderDetail) throws OrderDetailUnableSaveException{ 
 		
-		
+//		System.out.println("saveOrderDetailReturnObj>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> abc "  );
 //		 System.out.println("saveOrderDetailReturnObj getMoneyRealpay>>>>>>>>>>>>>>>> 8888888888888888888888888888888888            99999999999999999999999          >>>>>>>>>>>>>>>>>" +orderDetail.getMoneyRealpay() );	
 		 
 		 
@@ -660,8 +662,10 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		 Map orderDayInfoMapBak  = new HashMap();
 		 Map orderDayInfoMapCur  = new HashMap();
 		 Map newResMap = new HashMap();
-//		 返回的排期状态标志 0、不修改  1、是新添  2、修改订单日信息及资源信息  3、修改资源信息（只修改指定）
+//		 返回的排期状态标志 0、不修改  1、是新添  2、修改订单日信息及资源信息  3、修改资源信息（只修改指定）  4、修改订单日信,资源信息不动，可能是广告时长为0
 		 int model = OrderDayInfoUtil.getModiyState(orderDetail,orderDayInfoMapBak,orderDayInfoMapCur);
+		 
+		 System.out.println("saveOrderDetailReturnObj>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> model abc>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " +model );
 		 
 //		 System.out.println("saveOrderDetail>>>>>>>>>>>>>>>>>>>>>>>>>>>> getResourceInfoId >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + orderDetail.getResourceInfoId() );	
 		 
@@ -669,6 +673,9 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		
 		 String msg = OrderDayInfoUtil.unAbleSaveWarn(model,orderDetail,orderDayInfoMapBak,orderDayInfoMapCur,newResMap);
 
+		  System.out.println("unAbleSaveWarn>>>>>>>>>>>>>>>>>>>>>>>>>>>> newResMap size>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + newResMap.size() );	
+		  System.out.println("unAbleSaveWarn>>>>>>>>>>>>>>>>>>>>>>>>>>>> msg >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + msg );	
+		  
 		 if (!"".equals(msg) && !isPackeg) {
 			 
 //			   System.out.println("unAbleSaveWarn>>>>>>>>>>>>>>>>>>>>>>>>>>>> msg >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + msg );	
@@ -688,7 +695,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		}else{
 			 
 			
-			System.out.println("saveOrderDetailReturnObj getMoneyRealpay>>>>>>>>>>>>>>>>77777777   8888888888888888888888888888888888            99999999999999999999999          >>>>>>>>>>>>>>>>>" +orderDetail.getMoneyRealpay() );	
+//			System.out.println("saveOrderDetailReturnObj getMoneyRealpay>>>>>>>>>>>>>>>>77777777   8888888888888888888888888888888888            99999999999999999999999          >>>>>>>>>>>>>>>>>" +orderDetail.getMoneyRealpay() );	
 			  
 			 
 	    	orderDetail = saveMatterReturnObj(orderDetail, orderDetail.getCreateBy());
@@ -734,12 +741,15 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 
 
 			//判断是否需要保存日信息
-//			 System.out.println("saveOrderDetail orderDetail.getIsSaveOrderDayInfo().booleanValue()>>>>> 1111 111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + orderDetail.getIsSaveOrderDayInfo().booleanValue() );	
-				
+			 System.out.println("saveOrderDetail orderDetail.getIsSaveOrderDayInfo().booleanValue()>>>>> 1111 111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + orderDetail.getIsSaveOrderDayInfo().booleanValue() );	
+			
 			if(orderDetail.getIsSaveOrderDayInfo().booleanValue()){
 
-				 if(model != 0 && newResMap.size()>0){
-//					 System.out.println("saveOrderDetail>*****************************************>>>>financeBalanceModelParam>>>>>go>>1>>>>>>>>>>" + financeBalanceModelParam );	
+				 System.out.println("newResMap.size()>>>>> 1111 111>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + newResMap.size() );	
+				 //如果时间资源不变，但有改动排期 newResMap.size() = 0
+//				 if(model != 0 && newResMap.size()>0){
+				 if(model != 0 ){
+					 System.out.println("saveOrderDetail>*****************************************>>>>financeBalanceModelParam>>>>>go>>1>>>>>>>>>>" + financeBalanceModelParam );	
 					 if(financeBalanceModelParam == 0){
 						  OrderDayInfoUtil.saveOrderDayInfos(model,orderDetail,newResMap,orderDayInfoMapBak,orderDayInfoMapCur);
 					 }
@@ -2006,14 +2016,30 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 //				log.info("used1 time endDate>>" + endDate +"秒");
 //				log.info("used1 time orderYear>>" + orderYear +"秒");
 				
+				
+				//从资源信息表里查
 				resList = dayInfoDao.getDayInfos(resDayInfo);	
 				//由于时间日信息不准，所以重新订单日信息查询
 				resList2 = dayInfoDao.getDayInfosFromOrder(resDayInfo);	
 				
-				OrderDetailUtil.resetResList(resList,resList2);
+				//是否启用客户使用时间比率
+				boolean isResourceUseCustomerCatelog = SysParamUtil.getResourceUseCustomerCatelogParam();
+				double rate = 1;
+				if(isResourceUseCustomerCatelog){
+					Map mp = new HashMap();
+					mp.put("resourceid", resourceId.toString());
+					mp.put("uid", orderDetail.getResourceSortId().toString()); //客户类别
+					List all = resourceDao.getResourceIdsByYearUser(mp);
+					for(Iterator it = all.iterator();it.hasNext();){
+						FusionChartObject obj = (FusionChartObject)it.next();
+						rate = Double.parseDouble(obj.getValue5());
+					}
+				}
+
+				System.out.println("rate 9999999999999    77777777777        66666666666====================>>>>>>"+ rate);    
 				
-				
-				
+				OrderDetailUtil.resetResList(resList,resList2,rate);
+
 //				long end = System.currentTimeMillis();System.out.println("dayInfoDao.getDayInfos >>>>>>>>>>>>>>>>>>>>>>>===="+(end-start));  
 			}else{
 				DayInfoUtil.getDayInfosFree(resDayInfo,resList);
@@ -2025,11 +2051,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 			if(orderDetailId > 0){
 				long start = System.currentTimeMillis();
 				dayList= orderDayInfoDao.getOrderDayInfos(orderDayInfo);
-//				long end = System.currentTimeMillis();System.out.println("orderDayInfoDao.getOrderDayInfos >>>>>>>>>>>>>>>>>>>>>>>===="+(end-start));  
-//				log.info("used1 time orderDetailId>>" + dayList.size() +"秒");
-				
 				//修改时需要显示时间资源状态
-			   
 			}else{
 				 displayOverDate = true;
 			}
@@ -2039,24 +2061,19 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 			Map groupLeftTimeMp = new HashMap();
 			
 //			long start = System.currentTimeMillis();
-			if((SysParamUtil.isFZTVParam(tvName) || SysParamUtil.isXMTVParam(tvName)) && resourceId.longValue() > 0){
-				
-				Map mp = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_RESOURCENAME_MAP);
-				Resource resource = (Resource)mp.get(""+resourceId);
-				
-//				 System.currentTimeMillis();System.out.println(" resource.getIsClosed() >>>>>>>>>>>>>>>>>>>>>>>===="+ resource);  
-				 
-				 if(resource.getIsClosed() == null) resource.setIsClosed(new Boolean(false));
-				if(resource.getCarrierId()!=null && resource.getIsClosed().booleanValue()){          
-					resDayInfo.setCarrierId(""+resource.getCarrierId());
-					List groupLeftTime= dayInfoDao.getGroupLeftTime(resDayInfo); 
-					for(Iterator it=groupLeftTime.iterator();it.hasNext();){
-						DayInfo dayInfo = (DayInfo)it.next();
-						groupLeftTimeMp.put(dayInfo.getPublishDate()+"",dayInfo.getUsed());
-//						System.out.println(dayInfo.getPublishDate()+"middle===="+dayInfo.getUsed());        
-					}   
-				}
-			}
+//			if(("fztv".equals(tvName) || "xmtv".equals(tvName)) && resourceId.longValue() > 0){
+//				Map mp = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_RESOURCENAME_MAP);
+//				Resource resource = (Resource)mp.get(""+resourceId);
+//				if(resource.getIsClosed() == null) resource.setIsClosed(new Boolean(false));
+//				if(resource.getCarrierId()!=null && resource.getIsClosed().booleanValue()){          
+//					resDayInfo.setCarrierId(""+resource.getCarrierId());
+//					List groupLeftTime= dayInfoDao.getGroupLeftTime(resDayInfo); 
+//					for(Iterator it=groupLeftTime.iterator();it.hasNext();){
+//						DayInfo dayInfo = (DayInfo)it.next();
+//						groupLeftTimeMp.put(dayInfo.getPublishDate()+"",dayInfo.getUsed());   
+//					}   
+//				}
+//			}
 
 //			long end = System.currentTimeMillis();System.out.println("getMonthInfos >>>>>>>>>>>>>>>>>>>>>>>===="+(end-start));  
 			
@@ -4218,6 +4235,10 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		String returnStrNoTotalTime = "";
 		String returnStrSum = "";
 		String id="";
+		
+//		 System.out.println("resourceIds.length>>>>>>>>>>>>>>>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW >>>>>>>>>>>>>>>>>>" );
+
+		 
 		OrderDayInfo[] orderDayInfos = orderDetail.getOrderDayInfos();
 
 						

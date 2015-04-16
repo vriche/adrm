@@ -729,6 +729,8 @@ function button_print(model){
 	reportForm.action="reports/jsp/queryAdress_print.jsp";
 	reportForm.submit(); 			
 	}
+	
+
 	if(i == 2){
 		  
 			var paramObj ={}; var printParam ={};
@@ -746,6 +748,7 @@ function button_print(model){
 		                colAlign:"center,center,right,right,right,right",
 		                colTypes:"ed,ed,ed,ed,ed,ed",
 		                widthsP:"10,10,20,20,20,20",
+		                fontSize:8,
 		                isSum:false,
 		                isVertical:false
 		 				}; 	

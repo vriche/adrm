@@ -1472,7 +1472,7 @@
 									   GROUP BY  OD.publish_date,WSP.ad_resource_info_id  
 									
 									
-										) AS ORDERDAY ON  RSDAY.ad_resource_workspan_id  = ORDERDAY.ad_resource_workspan_id  AND ORDERDAY.publish_date = RSDAY.publish_date 
+										) AS ORDERDAY ON  RSDAY.ad_resource_info_id  = ORDERDAY.ad_resource_info_id  AND ORDERDAY.publish_date = RSDAY.publish_date 
 									
 									
 				
@@ -1502,11 +1502,11 @@
 								</iterate>
 							 </isNotNull> 		
 														
-										 <isNotNull property="workspanIdList">
+							<!-- isNotNull property="workspanIdList">
 										<iterate prepend="AND" property="workspanIdList" open="(" close=")" conjunction="OR">
 											 RSDAY.ad_resource_workspan_id = #workspanIdList[]#
 										</iterate>
-									 </isNotNull> 														
+							</isNotNull --> 														
 		
 								
 						</dynamic>
@@ -1557,6 +1557,109 @@
 			</dynamic>	
 			
 		</select>		
+		
+		
+	<resultMap id="paramObj_result3"   class="fusionChartObject">
+				<result property="id" column="id" nullValue="0"/>
+				<result property="value1" column="value1" nullValue="0"/>
+				<result property="value2" column="value2" nullValue="0"/>
+				<result property="value3"  column="value3" nullValue="0"/>
+				<result property="value4"  column="value4" nullValue="0"/>
+				<result property="value5"  column="value5" nullValue="0"/>
+				<result property="value6"  column="value6" nullValue="0"/>
+				<result property="value7"  column="value7" nullValue="0"/>
+    </resultMap>	
+		
+		
+		<select id="getResourceIdsByYearUser" resultMap="paramObj_result3"  parameterClass="map">
+
+		SELECT
+			RU.id as id,
+			RC2.carrier_name as value1, 
+			RC.carrier_name as value2, 
+			RS.memo as value3,
+			RS.resource_name as value4,
+			RU.rate  as value5,
+			RS.ad_resource_info_id  as value6,
+			RU.customer_category_id  as value7  
+		FROM
+			tb_ad_resource_info AS RS 
+		
+				 left outer join tb_ad_resource_carrier RC
+		 	on RS.ad_resource_carrier_id = RC.ad_resource_carrier_id
+		 	
+			 	left outer join tb_ad_resource_carrier RC2
+		 	on RC.parent_id = RC2.ad_resource_carrier_id
+		 	
+				 left outer join tb_sys_resource_cutcaterate RU
+		 	on RU.resource_id = RS.ad_resource_info_id	 	
+
+			<dynamic prepend="WHERE"> 
+							<isNotEmpty property="year" prepend="AND">
+									<![CDATA[ RS.version = #year# ]]>
+							 </isNotEmpty> 
+					
+							<isNotEmpty property="uid" prepend="AND">
+									<![CDATA[ RU.customer_category_id = #uid# ]]>
+							 </isNotEmpty> 
+							 
+					      <isNotNull property="ResourceIdList">
+					       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+							   		RU.resource_id = #ResourceIdList[]#
+							  </iterate>
+						  </isNotNull> 
+						  
+						  <isNotNull  prepend="AND" property="resourceid">
+						   			 RU.resource_id = #resourceid# 
+						  </isNotNull> 							 
+							 
+			</dynamic>	
+			
+		</select>		
+
+
+ <update id="deleteResourceUserRate" parameterClass="java.util.Map">
+
+      delete from tb_sys_resource_cutcaterate 
+   
+ 	 	  <dynamic prepend="WHERE"> 
+ 	 	  
+ 		      <isNotNull property="IdList">
+		       	  <iterate prepend="AND" property="IdList" open="(" close=")" conjunction="OR">
+				   		id = #IdList[]#
+				  </iterate>
+			  </isNotNull> 	 	  
+				
+		      <isNotNull property="ResourceIdList">
+		       	  <iterate prepend="AND" property="ResourceIdList" open="(" close=")" conjunction="OR">
+				   		resource_id = #ResourceIdList[]#
+				  </iterate>
+			  </isNotNull> 
+			  
+			  <isNotNull  prepend="AND" property="resourceid">
+			   			 resource_id = #resourceid# 
+			  </isNotNull> 
+					
+		      <isNotNull  prepend="AND" property="userid">
+			   			 customer_category_id = #userid# 
+			  </isNotNull> 
+								
+          </dynamic>      
+  </update>   
+  
+  
+  
+      <insert id="addResourceUserRate" parameterClass="java.util.Map">
+        <![CDATA[
+            insert into tb_sys_resource_cutcaterate (resource_id,customer_category_id,rate)
+            values ( #resourceid#,#userid#,#rate# )
+        ]]>
+		
+		<selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
 
 	
 </sqlMap>

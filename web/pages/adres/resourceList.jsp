@@ -110,18 +110,12 @@
             <td width="1px"><select id="resource_year"  style="CURSOR: pointer;" /></td>     
                 
                    
- 			 <!-- td width="1px">
-                            <select id="resource_year"  >
-						    <% for(int i= 2008; i< 2014;i++){ %>
-						   		 <option value="<%=i%>"><%=i%></option>
-					            <%}%>
-						    </select>
-			</td -->
+ 
 			
 			<td width="1px">
 			                   <select id="carrier_displayMode"  >
-									   		 <option value="1">显示启用频道</option>
-								             <option value="2">显示所有频道</option>
+									   		 <option value="1">显示启用</option>
+								             <option value="2">显示全部</option>
 								</select>
 			</td>				
 			
@@ -140,7 +134,7 @@
              <td width="1px"><input type="button"    class="button"  id="Bt_ckeckAllTime" value='校对时间'></td> 
             <td width="1px"><input type="button"    class="button"  id="Bt_reload" value='重载选项'></td> 
     		  <td  width="1px" ><div id="printReportDiv" name="printReportDiv"/></td>
-           
+            <td width="1px"><input type="button"    class="button" style="width:90px;" id="Btn_setUserResourceUseRate" value='使用时间比率'></td> 
 					
                     
                     <td>&nbsp;</td>      
@@ -230,15 +224,15 @@
 	                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="1" id="ep">
 	                      <tr> 
 	                        <td nowrap="nowrap" class="requiredInput"> 
-	                          <!-- 位置 -->
-	                          <fmt:message key="resourceForm.resourceName"/>: </td>
-	                        <td ><input name="resourceName" type="text"  id="resourceName"></td>
+	                             <!-- 备注 -->
+	                         	 编码: </td>
+	                        <td><input name="memo" type="text"  id="memo"></td>
 	                      </tr>
 	                      <tr> 
 	                        <td height="26" nowrap="nowrap" class="dataLabel"> 
-	                          <!-- 备注 -->
-	                          <fmt:message key="resourceForm.memo"/>: </td>
-	                        <td ><input name="memo" type="text"  id="memo"></td>
+	                              <!-- 位置 -->
+	                       	   描述: </td>
+	                        <td><input name="resourceName" type="text"  id="resourceName"></td>
 	                      </tr>
 
 	                  </table>

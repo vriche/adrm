@@ -89,14 +89,16 @@ public class ReportServlet  extends HttpServlet{
 		String displaySumColum =  (String)StringUtil.getURLDecoderStr((String)searchMap.get("displaySumColum"));
 		boolean isSum = Boolean.valueOf((String)searchMap.get("isSum")).booleanValue();
 		boolean isVertical = Boolean.valueOf((String)searchMap.get("isVertical")).booleanValue();
+		
+//		int fontSize = Integer.parseInt(StringUtil.getNullValue(searchMap.get("fontSize"), "12"));
 		String orgId = (String)StringUtil.getURLDecoderStr((String)searchMap.get("orgId"));
 		if("".equals(orgId)) orgId ="1";
 		
 		String tvname = SysParamUtil.getTvNameParam();
 		boolean qztv = SysParamUtil.isQZTVParam(tvname);
 		boolean xmtv = SysParamUtil.isXMTVParam(tvname);
-		boolean sjz = SysParamUtil.isSJZTVParam(tvname);
-		boolean hntv = SysParamUtil.isHNTVParam(tvname);		
+//		boolean sjz = SysParamUtil.isSJZTVParam(tvname);
+//		boolean hntv = SysParamUtil.isHNTVParam(tvname);		
 
 
 		Org org = SysParamUtil.getOrgFromMap(orgId);	

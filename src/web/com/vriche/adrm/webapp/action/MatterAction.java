@@ -101,11 +101,16 @@ public final class MatterAction extends BaseAction {
     public ActionForward save(ActionMapping mapping, ActionForm form,
                               HttpServletRequest request,
                               HttpServletResponse response)
+    
+    
+    
     throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("Entering 'save' method");
         }
-
+        
+        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " );
+       
         // Extract attributes and parameters we will need
         ActionMessages messages = new ActionMessages();
         ActionMessages messageadd = new ActionMessages();
@@ -114,6 +119,9 @@ public final class MatterAction extends BaseAction {
         boolean isNew = ("".equals(matterForm.getId()) || matterForm.getId() == null);
 
         MatterManager mgr = (MatterManager) getBean("matterManager");
+        
+   
+        
         Matter matter = (Matter) convert(matterForm);
        
         Matter mattapcode = new Matter();

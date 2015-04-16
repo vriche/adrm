@@ -268,7 +268,22 @@ public class StringUtil {
 		String u = formatter.format(value);
 		String usum = u + "%";
 	    return usum;
+	}
+	
+	public static String persentFormat2(double s,double sum) {
+//		DecimalFormat formatter = new DecimalFormat("#,##0.###");
+		DecimalFormat formatter = new DecimalFormat("##0");
+		
+		double value=0;
+		if(s==0 || sum==0){ 
+			value=0.0;}
+		else{
+			value=(s/sum)*100;}
+		String u = formatter.format(value);
+		String usum = u + "%";
+	    return usum;
 	}	
+	
 	
 	
 //	NumberFormat nf = NumberFormat.getPercentInstance();

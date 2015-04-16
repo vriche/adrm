@@ -158,6 +158,9 @@
 			<isNotEmpty prepend="AND" property="wenLength">
 			(wen_length = #wenLength#)
 			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="version">
+				(version = #version#)
+			</isNotEmpty>
 		</dynamic>
     </select>
     <select id="getWorkspansByIdList" parameterClass="java.util.Map" resultMap="workspanResult">

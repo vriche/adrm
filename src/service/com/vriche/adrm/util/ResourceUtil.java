@@ -132,27 +132,25 @@ public class ResourceUtil {
 
 	
 	public static  String getResourceName(final Resource resource,int type){
-		String lable = "";
-		
+
 		boolean withBroPoint = SysParamUtil.getwithBroPoint();
     	boolean withResourceSort= SysParamUtil.getWithResourceSort();
 		boolean isMeno = SysParamUtil.getResourceDisplay();
-		 
+
 		int orgId = Integer.parseInt(StringUtil.getNullValue(resource.getOrgId(),"1"));
-		
-		
 		int orgType = Integer.parseInt(SysParamUtil.getOrgTypeById(String.valueOf(orgId)));
+		
+		String tvName = SysParamUtil.getTvNameParam();
+		String lable = ""; 
 //		System.out.println("orgType>>>>>>>>222222      666666666666666   777777777777>>>>>>>>" + orgType);
 //		System.out.println("orgType>>>>>>>>222222      666666666666666   777777777777>>>>>>>>" + resource);
 //		System.out.println("type>>>>>>>>222222      666666666666666   777777777777>>>>>>>>" + type);
     	if(resource !=null){
-    		
-    		String tvName = SysParamUtil.getTvNameParam();
 
     		String resourceType = StringUtil.getNullValue(resource.getResourceType(),"");
     		String resourceName = resource.getResourceName();
     		String memo = resource.getMemo();
-    		
+
     		String broTime ="";
     		String broTimeStar = "";
     		String broTimeEnd = "";
@@ -168,14 +166,17 @@ public class ResourceUtil {
     		if(type == 1){
 	        	if("hntv".equals(tvName)){
 	        		 lable = memo +" "+ resourceName+ " ["  + broTime +"]";
-//	      			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
-//	      			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+//	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 }
+
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("sjz".equals(tvName)){
-//	   	   			 lable = broTime+" ["+ resourceName+"]";
 	   	   		     lable =  resourceName+ "["+ broTime+"]";
 	   	   		}else if("xmtv".equals(tvName)){
 	   	   			 if(orgType == 1){
@@ -185,15 +186,11 @@ public class ResourceUtil {
 	   	   			 }else{
 	   	   				 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	   	   			 }
-	   	   		
 	   	   		}else if("catv".equals(tvName)){
-//	   	   		     broTime = org.apache.commons.lang.StringUtils.upperCase(broTime);
-//	   	   		     broTime = StringUtil.truncateString(broTime,18,true);
 	   	   			 lable = broTime+"  "+ resourceName;
 	   	   		}else if("hbtv".equals(tvName)){
 	   	   			 lable = broTimeStar+" ["+ memo +" "+  resourceName+"]";
 	   	   		}else{
-//	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
 	   	   			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	   	   		}
 	       		
@@ -204,9 +201,16 @@ public class ResourceUtil {
 	        	if("hntv".equals(tvName)){
 	      			 lable =  memo+"["+ resourceName+"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			 lable =  memo+"["+ resourceName+"]";
+//	   	   			 lable =  memo+"["+ resourceName+"]";
+	   	   			 
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 }			 
+	   	   			 
+	   	   			 
 	   	   		}else if("qztv".equals(tvName)){
-//	   	   			 lable =memo+" ["+ resourceName+"]";
 	   	   			 lable =resourceName;
 	   	   		}else if("xmtv".equals(tvName)){
 	   	   			 if(orgType == 1){
@@ -229,11 +233,15 @@ public class ResourceUtil {
     		
     		if(type == 3){
 	        	if("hntv".equals(tvName)){
-//	      			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
-//	      			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	      			lable = memo +" "+ resourceName+ " ["  + broTime +"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+//	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 }
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("sjz".equals(tvName)){
@@ -265,7 +273,14 @@ public class ResourceUtil {
 	        	if("hntv".equals(tvName)){
 	      			 lable = " ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			 lable =  "["+ memo+" "+ resourceName+"]";
+//	   	   			 lable =  "["+ memo+" "+ resourceName+"]";
+	   	   			 
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ resourceName+"]";
+	   	   			 }
+	   	   		 
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			 lable = " ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("sjz".equals(tvName)){
@@ -363,7 +378,7 @@ public class ResourceUtil {
        				if("xmtv".equals(tvName)){
            				lable =  !isMeno?resource.getResourceName().toString():resource.getMemo().toString();
            				lable +=  isMeno?"["+resource.getResourceName().toString()+"]":"["+resource.getMemo().toString()+"]";
-       				}else if("hntv".equals(tvName)||"hbtv".equals(tvName)){
+       				}else if("hntv".equals(tvName)||"hbtv".equals(tvName)||"fztv".equals(tvName)){
        					lable = resource.getMemo().toString();
        				}else if("catv".equals(tvName)||"sjz".equals(tvName)){
        					lable = resource.getResourceName().toString();
@@ -416,7 +431,14 @@ public class ResourceUtil {
 //	      			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	        		lable = broTimeStar+" ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+//	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 } 
+	   	   			 
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			 lable = broTimeStar+" ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("sjz".equals(tvName)){
@@ -453,7 +475,14 @@ public class ResourceUtil {
 	        	if("hntv".equals(tvName)){
 	      			 lable =  memo+"["+ resourceName+"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			 lable =  memo+"["+ resourceName+"]";
+//	   	   			 lable =  memo+"["+ resourceName+"]";
+	   	   			 
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 } 
+		   	   		 
 	   	   		}else if("qztv".equals(tvName)){
 //	   	   			 lable =memo+" ["+ resourceName+"]";
 	   	   			 lable =resourceName;
@@ -481,7 +510,14 @@ public class ResourceUtil {
 //	      			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
 	      			 lable = memo +" "+ resourceName+ " ["  + broTime +"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+//	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   			 } 
+		   	   		 
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("hbtv".equals(tvName)){
@@ -509,6 +545,13 @@ public class ResourceUtil {
 	        		lable =  memo+" ["+  resourceName+"]";
 	   	   		}else if("fztv".equals(tvName)){
 	   	   			lable =  memo+" ["+  resourceName+"]";
+	   	   			
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo ;
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ resourceName+"]";
+	   	   			 } 
+		   	   		 
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			lable =  memo+" ["+  resourceName+"]";
 	   	   		}else if("sjz".equals(tvName)){
@@ -526,7 +569,12 @@ public class ResourceUtil {
 	        	if("hntv".equals(tvName)){
 	        		lable =  memo+" ["+  resourceName+"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			lable =  memo+" ["+  resourceName+"]";
+//	   	   			lable =  memo+" ["+  resourceName+"]";
+		   	   		 if(memo.trim().equals(resourceName)){
+	   	   				 lable =  memo ;
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ resourceName+"]";
+	   	   			 } 
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			lable =  memo+" ["+  resourceName+"]";
 	   	   		}else if("sjz".equals(tvName)){
@@ -624,6 +672,7 @@ public class ResourceUtil {
 		Iterator it2 = resMap.keySet().iterator();
 		while(it2.hasNext()){
 			String key_workSpanId = (String)it2.next();
+			
 			FusionChartObject objectRes = (FusionChartObject)resMap.get(key_workSpanId);
 
 		    int adTotalTimes = Integer.parseInt(StringUtil.getNullValue(objectRes.getValue6(),"0"));
@@ -641,7 +690,7 @@ public class ResourceUtil {
 		    		adTotalTimes = Integer.parseInt(StringUtil.getNullValue(objectRes.getValue10(),"0"));
 		    	}
 		    	if(adTotalTimes  == 0){
-		    		adTotalTimes = Integer.parseInt(StringUtil.getNullValue(objectRes.getValue11(),"0"));
+		    		adTotalTimes = Integer.parseInt(StringUtil.getNullValue(objectRes.getValue11(),"0")); 
 		    	}
 		    	if(adTotalTimes  == 0){
 		    		adTotalTimes = Integer.parseInt(StringUtil.getNullValue(objectRes.getValue5(),"0"));
@@ -659,12 +708,16 @@ public class ResourceUtil {
 		while(it.hasNext()){ 
 			
 			FusionChartObject objectDay = (FusionChartObject)it.next();
-			String key_workSpanId = objectDay.getValue2();
+			String key_workSpanId = objectDay.getValue1();
+
 			String total = StringUtil.getNullValue(objectDay.getValue4(),"0");
 			String used = StringUtil.getNullValue(objectDay.getValue5(),"0");
 			String leave =  String.valueOf(Double.valueOf(total).doubleValue() - Double.valueOf(used).doubleValue());
 			if(seachType == 2) used = leave;
 			
+//			 System.out.println("getResourcesForQuery2<<<<<<<<<key_workSpanId11111111111"+key_workSpanId);
+				
+			 
 			if(!sumTotalMap.containsKey(key_workSpanId)){
 				sumTotalMap.put(key_workSpanId,total);
 			}else{
@@ -692,9 +745,11 @@ public class ResourceUtil {
 			String totalSum =(String)sumTotalMap.get(key_workSpanId);
 			String usedSum =(String)sumUsedMap.get(key_workSpanId);
 			if(Double.parseDouble(totalSum) == 0) totalSum ="1";
-			String rate = String.valueOf((Double.valueOf(usedSum).doubleValue()/Double.valueOf(totalSum).doubleValue())*100);
-			rate = StringUtil.doubleFormat2(new Double(rate));
-			rateMap.put(key_workSpanId,rate+"%");
+//			String rate = String.valueOf((Double.valueOf(usedSum).doubleValue()/Double.valueOf(totalSum).doubleValue())*100);
+//			rate = StringUtil.doubleFormat2(new Double(rate));
+			String rate2 = StringUtil.persentFormat2(Double.valueOf(usedSum).doubleValue(),Double.valueOf(totalSum).doubleValue());
+			
+			rateMap.put(key_workSpanId,rate2);
 		}
 		
 		

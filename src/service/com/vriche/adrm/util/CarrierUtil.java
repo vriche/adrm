@@ -1,25 +1,16 @@
 package com.vriche.adrm.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.HttpSessionContextIntegrationFilter;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import uk.ltd.getahead.dwr.WebContext;
-import uk.ltd.getahead.dwr.WebContextFactory;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.dao.CarrierDao;
-import com.vriche.adrm.dao.ResourceDao;
-import com.vriche.adrm.dao.ibatis.ResourceDaoiBatis;
 import com.vriche.adrm.model.Carrier;
 import com.vriche.adrm.model.Resource;
 
@@ -103,17 +94,41 @@ public class CarrierUtil {
 		
 		if("null".equals(carrierIds) || "-100".equals(carrierIds) || "".equals(carrierIds)) carrierIds ="0";
 		
+//		System.out.println("getCarrierIds getCurrentPrincipalUser 111111111111111111111111111>>>>>>"+UserUtil.getCurrentPrincipalUser()) ;
+//		HttpSessionIntegrationFilter  s = new HttpSessionIntegrationFilter();
+//		HttpSessionContextIntegrationFilter ff = new HttpSessionContextIntegrationFilter();
 		
+//		System.out.println("getCarrierIds HttpSessionContextIntegrationFilter.getContext() 111111111111111111111111111>>>>>>"+ ff.getContext()) ;
+//		 SecurityContext ctx = HttpSessionContextIntegrationFilter.getContext();
+//		 HttpSessionContextIntegrationFilter
+		
+//		 SecurityContext ctx = SecurityContextHolder.getContext();
+//		 System.out.println("getCarrierIds SecurityContext 111111111111111111111111111>>>>>>"+ ctx) ;
+//		  Authentication auth = ctx.getAuthentication();
+//		  System.out.println("getCarrierIds Authentication 111111111111111111111111111>>>>>>"+ auth) ;
+		  
 		
 		//***************************判断是否分频道管理  start******************************************
 		if(channelPull){
 			
+//			System.out.println("getCarrierIds loginUser 00 >>>>>>>>>>111111111111111111 999999999999999999       7777777777777>>>>>>>"+loginUser) ;
+//
+//			System.out.println("getCarrierIds loginUser 22 >>>>>>>>>>111111111111111111 999999999999999999       7777777777777>>>>>>>"+(loginUser == null)) ;
+////			System.out.println("getCarrierIds loginUser 11 >>>>>>>>>>111111111111111111 999999999999999999       7777777777777>>>>>>>"+loginUser.length()) ;
+//			System.out.println("getCarrierIds loginUser 33 >>>>>>>>>>111111111111111111 999999999999999999       7777777777777>>>>>>>"+"null".equals(loginUser)) ;
+		
+//			System.out.println("getCarrierIds getCurrentPrincipalUser 22>>>>>>"+UserUtil.getCurrentPrincipalUser()) ;
+			
+			
 			loginUser = UserUtil.getLoginUser(loginUser);
+			
 			List carIds = (List)userCarrierRelsIdsMap.get(loginUser);
 			
+//			System.out.println("getCarrierIds loginUser 22 >>>>>>>>>>111111111111111111 999999999999999999       7777777777777>>>>>>>"+loginUser) ;
+//			System.out.println("getCarrierIds carIds>>>>>>>>>>111111111111111111 999999999999999999       7777777777777>>>>>>>"+carIds) ;
 
 			
-			
+			if(carIds == null) carIds = new ArrayList();
             if(carIds.size() == 0)carIds.add("-1");
 			//***************************判断是否多频道ID  start**************************************
 			if(isMoreCarrierId){

@@ -413,6 +413,7 @@ function getChannelIncomeList(){
     	    mygrid.clearAll();
 			mygrid.loadXMLString(xml);
 			Ext.getBody().unmask();
+			mygrid.setSizes();	
     }	
 	Ext.getBody().mask('数据加载中……', 'x-mask-loading');
 	incomeUsed.getIncomeChannelXML(orgId,start,end,customerId,carrierId,channelModelParam,userName,isPutYear,isNotReturnValue,purpose,userId,getFun)

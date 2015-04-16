@@ -84,8 +84,15 @@ public interface ResourceDao extends Dao {
     public List getStoreResourceByOrderId(Map mp);
     
     public Map getResourcesForQuery1(Map mp);
+    public Map getResourcesForQuery1_1(Map mp);
+    
     public List getResourcesForQuery2(Map mp);
     public List getResourcesByIds(Map mp);
+    
+    public List getResourceIdsByYearUser(Map mp);
+    public void removeResourceUserRate(final Map mp);
+    public Long saveResourceUserRate(final Map mp);
+    
     
     
 }

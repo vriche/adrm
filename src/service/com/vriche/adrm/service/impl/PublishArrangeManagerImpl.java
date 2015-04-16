@@ -256,6 +256,7 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 		boolean arrangeforce = "1".equals(publishArrange.getArrangeforce());
 		String referenceDate = StringUtil.getNullValue(publishArrange.getReferenceDate(),"0");
 		String orgId = StringUtil.getNullValue(publishArrange.getOrgId(),"1");
+		String tvname = SysParamUtil.getTvNameParam();
 		
 		// 所有选中的段位
 		Set resourceIds = publishArrange.getResourceIds();
@@ -303,7 +304,13 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 			List listResource = dao.getPublishArrangesByIdListFromHistory(mp);
 			List listAdver =new ArrayList();
 //			List listAdver = publishArrangeDetailDao.getPublishArrangeDetailsByIdListFromHistory(mp);	
-			if(SysParamUtil.isFZTVParam(null)  && publishArrange.getIsEnable().booleanValue()&& resLocked.size()==0){   
+//			if(SysParamUtil.isFZTVParam(null)  && publishArrange.getIsEnable().booleanValue()&& resLocked.size()==0){   
+//				listAdver = publishArrangeDetailDao.getPublishArrangeDetailsByIdListForPublishSort(mp);
+//			}else{
+//				listAdver = publishArrangeDetailDao.getPublishArrangeDetailsByIdListFromHistory(mp);  
+//			}
+			
+			if(publishArrange.getIsEnable().booleanValue()&& resLocked.size()==0){   
 				listAdver = publishArrangeDetailDao.getPublishArrangeDetailsByIdListForPublishSort(mp);
 			}else{
 				listAdver = publishArrangeDetailDao.getPublishArrangeDetailsByIdListFromHistory(mp);  
@@ -331,9 +338,12 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 			
 // System.out.println(">>>>>>listResource.size>>>>>>>>>"+listResource.size());
 // System.out.println(">>>>>>listAdver.size>>>>>>>>>"+listAdver.size());
+			if("catv".equals(tvname)){
+				ArrangeUtil.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
+			}else{
+				ArrangeUtil3.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
+			}
 
-//			ArrangeUtil.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
-			ArrangeUtil3.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
 //			 System.out.println(">>>>>>all.size>>>>>>>>>"+all.size());
 		// 重新载入，单如果是锁定的，则不要重新编排
 		}else{
@@ -389,10 +399,12 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 //			System.out.println(">>>>>>> resArranged.size()>>>>>>>" + resArranged.size());
 //			System.out.println(">>>>>>> noLocked.size()>>>>>>>" + noLocked.size());
 			
+			if("catv".equals(tvname)){
+				ArrangeUtil.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
+			}else{
+				ArrangeUtil3.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
+			}
 			
-//			ArrangeUtil.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
-			
-			ArrangeUtil3.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
 		}	
 		
 		
@@ -1165,7 +1177,7 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
     	}
     }
     public String getAdversByResourceId(String resourceId,String  publishDate,String  orgId) {
-//    	System.out.println(">>>>>>> adver 11111111111111111111111111111111111111111 mp>>>>>>>" +mp); 
+    	System.out.println(">>>>>>> getAdversByResourceId 8888888888888888888888888 resourceId>>>>>>>" +resourceId ); 
     	List checkedList =new ArrayList();
     	Map mp = new HashMap();
 		 String ctxpath =RequestUtil.getReqInfo().getCtxPath();
@@ -1180,7 +1192,7 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 		int sum=0;
 		String checkStr="";
     	for(Iterator it=ls.iterator();it.hasNext();){
-    		PublishArrangeDetail publishArrangeDetail=(PublishArrangeDetail)it.next();
+    		PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)it.next();
     		  sum+=Integer.parseInt(publishArrangeDetail.getMatterLength())*publishArrangeDetail.getAdverTimes().intValue();
     		  if(publishArrangeDetail.getPublishSort()!=null){
         		  int checkState = publishArrangeDetail.getPublishSort().intValue();
@@ -1198,6 +1210,7 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getMatterName())+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getMatterEdit())+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getMatterLength()+"*"+publishArrangeDetail.getAdverTimes())+"]]></cell>");
+	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getSpecificName())+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getOwnerUserName())+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getCustomerName())+"]]></cell>");
 //	  		  sb.append("<cell><![CDATA[" +  StringUtil.null2String(publishArrangeDetail.getOrderCode()) + "]]></cell>");
@@ -1213,6 +1226,7 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 		  sb.append("<cell><![CDATA["+ "" +"]]></cell>");
 		  sb.append("<cell><![CDATA["+ ""+"]]></cell>");
 		  sb.append("<cell><![CDATA["+ sum +"]]></cell>");
+		  sb.append("<cell>"+ ""+"</cell>");
 		  sb.append("<cell>"+ ""+"</cell>");
   		  sb.append("</row>"); 
   		  sb.append("</rows>");
@@ -1273,7 +1287,7 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
     	
     	System.out.println("yyyyyyyyyyyyyyyyyyyyyyyy getArrangedAdversByResourceId  opt>>>>>>>>>>"+opt) ;
     	System.out.println("yyyyyyyyyyyyyyyyyyyyyyyy getArrangedAdversByResourceId  publishDate>>>>>>>>>>"+publishDate) ;
-     System.out.println("yyyyyyyyyyyyyyyyyyyyyyyy getArrangedAdversByResourceId  carrierId>>>>>>>>>>"+carrierId) ;
+    	System.out.println("yyyyyyyyyyyyyyyyyyyyyyyy getArrangedAdversByResourceId  carrierId>>>>>>>>>>"+carrierId) ;
     	System.out.println("yyyyyyyyyyyyyyyyyyyyyyyy getArrangedAdversByResourceId  resourceIdList>>>>>>>>>>"+resourceIdList) ;
     	System.out.println("yyyyyyyyyyyyyyyyyyyyyyyy getArrangedAdversByResourceId  ls size>>>>>>>>>>"+ls.size()) ;
     

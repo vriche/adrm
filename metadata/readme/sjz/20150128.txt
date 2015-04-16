@@ -1,3 +1,23 @@
 1、费订单查不到
 2、优势公司的业务员 职位是业务经理 看不到指定查询
 3、订单查询里 增加一个频道二级查询
+
+206  8082 admin STVay6598!@
+
+ssh -l root root@10.10.211.203
+
+
+cp /usr/local/java/tomcat/webapps/adrm/upload/upload/common_reports.jsp ./
+
+2016-01-15  客户统计〉业务员统计〉到款统计导出问题
+
+
+2016-04-01  
+到款录入，查询和添加按钮问题
+上传的文件名 incomelistservice.js  改成 incomeListService.js
+mv sysParams.js sysParams.js_20160401 
+cp /usr/local/java/tomcat/webapps/adrm/upload/upload/sysParams.js .
+
+mv incomeList.jsp incomeList.jsp_20160401 
+cp /usr/local/java/tomcat/webapps/adrm/upload/upload/incomeList.jsp .
+

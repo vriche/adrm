@@ -57,8 +57,7 @@ public class JasperReportUtil {
 	private final static int textHeight = 20;  
 	/** coulumnHeaderï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð? */  
 	private final static int columnHeaderfontSize = 14;  
-	/** detail ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð? */  
-	private final static int fontSize = 12;  
+
 	/** ï¿½ï¿½ï¿½Ã¼ï¿½ï¿? */  
 //	private final static int X = 80;  
 	/** coulumnHeaderï¿½ï¿½ï¿½ï¿½ß¶ï¿? */  
@@ -67,6 +66,9 @@ public class JasperReportUtil {
 	private final static int detailHeight = 20;  
 	/**  */  
 	private static String aliasColumn = "value";  
+	
+	/** detail ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð? */  
+	private  static int fontSize = 12;  
 
     
     
@@ -108,7 +110,7 @@ public class JasperReportUtil {
 		boolean isqueryAdres2 = "queryAdres2".equals(reportType);
 		if(isqueryAdres2){
 			  header2 =  (String)StringUtil.getURLDecoderStr((String)searchMap.get("headers2")); 
-//			  System.out.println(">>>>>>>>>"+header2+">>>>>>>>>>>>>>>>>>>>>>"+ header2.split(","));
+			  System.out.println(">>>>>>>>>"+header2+">>>>>>>>>>>>>>>>>>>>>>"+ header2.split(","));
 		 }
 		
 		
@@ -121,6 +123,10 @@ public class JasperReportUtil {
 		
 		boolean isSum = Boolean.valueOf((String)searchMap.get("isSum")).booleanValue();
 		boolean isVertical = Boolean.valueOf((String)searchMap.get("isVertical")).booleanValue();
+		
+		fontSize = Integer.parseInt(StringUtil.getNullValue(searchMap.get("fontSize"), "12"));
+		
+		
 		String orgId = (String)StringUtil.getURLDecoderStr((String)searchMap.get("orgId"));
 		if("".equals(orgId)) orgId ="1";
 		String[] headers = header.split(",");
@@ -136,6 +142,7 @@ public class JasperReportUtil {
 
 		  JasperDesign design = new JasperDesign();  
 //		     JRDesignStyle normalStyle = setReportSytle(design);  
+
 		     
 		     int pageWidth = 595;
 		     int pageHeight =842;
@@ -184,24 +191,30 @@ public class JasperReportUtil {
 		     design.setSummaryNewPage(false);  
 		     
 		     
+		     
 	    	  int textWidth = pageColumnWidth/headers.length;
 	    	  int X = textWidth;	   
 		     
 		      
 		     JRDesignBand title = new JRDesignBand();  
 		     title.setHeight(50);  
+		     
 		     JRDesignStaticText staticText = new JRDesignStaticText();  
 		     
 		     staticText.setText(titl);  
 //		     System.out.println(">>>>>>>>>"+widthsP+">>>>>>>>>>>>>>>>>>>>>>"+widthsP);
 		     staticText.setX(0);
-		     staticText.setFontSize(20);  
+		     staticText.setFontSize(15);  
 		     staticText.setHeight(50);  
 		     staticText.setWidth(pageColumnWidth);  
 		     staticText.setTextAlignment(JRBasePrintText.HORIZONTAL_ALIGN_CENTER);
+		     staticText.setFontName("ËÎÌå");
 		     staticText.setPdfFontName("STSong-Light");    
 		     staticText.setPdfEmbedded(true);    
 		     staticText.setPdfEncoding("UniGB-UCS2-H");
+		     
+		     
+		     
 //		     staticText.setStyle(normalStyle);  
 		     title.addElement(staticText);  
 		     
@@ -221,7 +234,12 @@ public class JasperReportUtil {
 		      staticText.setText(headers[i]);  
 		      staticText.setFontSize(columnHeaderfontSize);  
 		      staticText.setHeight(textHeight);  
+		      staticText.setFontSize(fontSize);
 		      
+		      if(isqueryAdres2){
+		    	  staticText.setFontSize(6);
+		      }
+
 //		      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.>>>>>11111111111111111111111>>>>>>>>>>>>>>>>>>>"+ header2.split(",")[i]);
 		     
 		      if(!"".equals(widthsP)){
@@ -242,21 +260,11 @@ public class JasperReportUtil {
 		    	  X = X * i; 
 		      }
 		      
-		      
-//		      if(!"".equals(widthsP)){
-//		    	  textWidth =  (int) Math.floor(pageColumnWidth * Integer.valueOf(widthsPs[i]).intValue()/100);
-//		    	  widthsPs[i] = textWidth+"";
-//		    	  X =  tempSum; 
-//		    	  tempSum = tempSum + textWidth;
-//		      }else{
-//		    	  X = X * i; 
-//		      }		      
-		      
+
 		      
 		      staticText.setX(X); 
 		      staticText.setWidth(textWidth);  
-		      
-		      
+		      staticText.setFontName("ËÎÌå");
 		      staticText.setPdfFontName("STSong-Light");  
 		      staticText.setPdfEmbedded(true);  
 		      staticText.setPdfEncoding("UniGB-UCS2-H");  
@@ -269,10 +277,17 @@ public class JasperReportUtil {
 		      }
 
 		      staticText.setBottomBorder(JRBaseLine.PEN_1_POINT);  
-		      columnHeader.addElement(staticText);  
+		      columnHeader.addElement(staticText); 
+		      
+		      columnHeader.addElement(staticText);
+		      
+		      
+		      
+		      
 		      
 		      // define fields  
 		      JRDesignField field = new JRDesignField();  
+		      
 		      field.setName(alias[i]);  
 		      field.setValueClass(java.lang.String.class);  
 		      design.addField(field);  
@@ -283,6 +298,7 @@ public class JasperReportUtil {
 		      
 			  expression.setValueClass(java.lang.String.class);  
 			  expression.setText("$F{" + alias[i] + "}");  
+			 
 			  
 //			  if(displaySumColums[i].equals("1")){
 //				  textField.setTextAlignment(JRBasePrintText.HORIZONTAL_ALIGN_RIGHT);
@@ -294,15 +310,23 @@ public class JasperReportUtil {
 			  }else{
 				  textField.setTextAlignment(getAlign(colAligns[i]));   
 			  }
+//			  textField.setFontSize(fontSize);
 			
 			  
 
-//			  textField.setPositionType(JRElement.POSITION_TYPE_FLOAT);
+			  textField.setPositionType(JRElement.POSITION_TYPE_FLOAT);
 			  textField.setMode(JRElement.MODE_TRANSPARENT);
-			  textField.setPositionType(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP);
+//			  textField.setPositionType(JRElement.POSITION_TYPE_FIX_RELATIVE_TO_TOP);
 			  textField.setStretchType(JRElement.STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT);
 			  textField.setStretchWithOverflow(true);
 			
+			  
+			  
+			  
+
+			  
+			  
+			  
 	
 //			  if("queryAdres2".equals(reportType)){
 //				  System.out.println("AAAAAAAAAAAAAA ************************************"+ "$F{" + alias[i] + "}");
@@ -314,9 +338,14 @@ public class JasperReportUtil {
 		      textField.setHeight(textHeight);  
 		      textField.setWidth(textWidth);  
 		      textField.setX(X);  
-		      textField.setPdfFontName("STSong-Light");  
-		      textField.setPdfEmbedded(true);  
-		      textField.setPdfEncoding("UniGB-UCS2-H");  
+		      
+		      
+
+			   textField.setFontName("ËÎÌå");
+			   textField.setPdfFontName("STSong-Light");  
+			   textField.setPdfEncoding("UniGB-UCS2-H");  
+			   textField.setPdfEmbedded(true);  
+//			   textField.setTextAlignment(JRBasePrintText.HORIZONTAL_ALIGN_CENTER);  
 
 		      
 		      textField.setLeftBorder(JRBaseLine.PEN_1_POINT);  

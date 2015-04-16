@@ -198,10 +198,22 @@ function initGrid(){
 	mygrid.setSkin("modern2");
 	//mygrid.enableAutoHeigth(true); 
 	
+//	alert(88)
+	
 	mygrid.enableMathEditing(true); 
 	mygrid.setOnEditCellHandler(calculateFooterValues);
 	mygrid.attachFooter("合计(万),<div id='month1'/>,<div id='month2'/>,<div id='month3'/>,<div id='month4'/>,<div id='month5'/>,<div id='month6'/>,<div id='month7'/>,<div id='month8'/>,<div id='month9'/>,<div id='month10'/>,<div id='month11'/>,<div id='month12'/>,<div id='month13'/>");
+	
+	
+//	mygrid.attachFooter('合计:, , , , , , ',['text-align:center;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;']);
+
+	
 	mygrid.init();	 
+	mygrid.setSizes();	
+//	mygrid.attachFooter("合计(万),<div id='month1'/>,<div id='month2'/>,<div id='month3'/>,<div id='month4'/>,<div id='month5'/>,<div id='month6'/>,<div id='month7'/>,<div id='month8'/>,<div id='month9'/>,<div id='month10'/>,<div id='month11'/>,<div id='month12'/>,<div id='month13'/>");
+
+//  mygrid.setSizes();
+	
 	//mygrid.attachFooter('合计:, , , , , , , , , , , , , , , ',['text-align:center;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;']);
 }
 
@@ -212,7 +224,9 @@ function calculateFooterValues(){
 //        srQ.innerHTML = sumColumn(2);
         for(var i=0;i<13;i++){
         	var el = $("month"+(i+1));
-        	el.innerHTML = sumColumn(i+1);
+        	var v =  sumColumn(i+1);
+        	el.innerHTML = v;
+//        	alert(el)
         }
         return true;
     }
@@ -233,6 +247,7 @@ function getFinanceTargetList(year){
 	var carrierId = $(carrier.selectName).value==null||$(carrier.selectName).value==""?0:$(carrier.selectName).value;
     function getFun(xml){
     	    mygrid.clearAll();
+//    	    alert(999)
 	    mygrid.loadXMLString(xml,calculateFooterValues);
 	    Ext.getBody().unmask();
 	    //setCarrierSelect();

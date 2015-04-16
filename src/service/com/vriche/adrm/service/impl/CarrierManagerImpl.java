@@ -486,7 +486,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 //		boolean isDisplayCarrierType = (sysParam.getOrderCarrierTypeDisplayParam().equals("0")|| sysParam.getOrderCarrierTypeDisplayParam() == null)?false:true;
 //		System.out.println(" %%%%%%%%%%%%%%%%%%%%%%%%%"+isDisplayCarrierType);
 		String tvName = SysParamUtil.getTvNameParam();
-		boolean xmtv = SysParamUtil.isXMTVParam(tvName);
+		boolean xmtv = tvName.equals("xmtv");
 		String orgType = SysParamUtil.getOrgTypeById(orgId);
 		 
     	int i=0;
@@ -790,7 +790,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 
 	public void getCarriersItemsByCarrierTypeIdFromMap(StringBuffer sb, String carrierTypeId, String carrierIdPrefix,String resourceIdPrefix,String publishDate,String resourceTypeId) {
 		String tvName = SysParamUtil.getTvNameParam();
-		boolean fztv =SysParamUtil.isFZTVParam(tvName);
+//		boolean fztv =SysParamUtil.isFZTVParam(tvName);
 		
 //		System.out.println("==============getCarriersItemsByCarrierTypeIdFromMap=========");
 		
@@ -801,12 +801,14 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 //			如果分频道取得当前用户相对应的频道 
 			Map userCarrierRelsMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_CARRIER_RELS);
 			ls = getOwnerUsersList(userCarrierRelsMap);
-
 		}else{
 			ls = (List)getCarriersByTypeByCarrierTypeId(new Long(carrierTypeId));
 		}
 		
-		if(fztv) carrierIdPrefix =resourceTypeId+"_"+carrierIdPrefix;  
+//		if(fztv) carrierIdPrefix =resourceTypeId+"_"+carrierIdPrefix;  
+//		carrierIdPrefix =resourceTypeId+"_"+carrierIdPrefix;  
+		
+//		System.out.println("carrierIdPrefixvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv   "+carrierIdPrefix);
 		
 		Collections.sort(ls,new CarrierComparator());
 		
@@ -829,7 +831,11 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 
 				resourceManager.getResourceItemsByCarrierIdFromMap(sb,carrier.getId().toString(),resourceIdPrefix,publishDate,resourceTypeId);
 				
-				if(!fztv||!resourceTypeId.equals("3")){
+//				if(!fztv||!resourceTypeId.equals("3")){
+//					getCarriersByParentIdFromMap(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,publishDate,resourceTypeId);
+//				}
+				
+				if(!resourceTypeId.equals("3")){
 					getCarriersByParentIdFromMap(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,publishDate,resourceTypeId);
 				}
 				sb.append("</item>");
@@ -1483,7 +1489,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 				System.out.println(">>>>>>>>>>>>>>>orderCarrierLevelOne = " + orderCarrierLevelOne);
 			}
 			resourceManager.getResourceItemsByCarrierIdByYear(sb,carrier.getId().toString(),resourceIdPrefix,year,orderCarrierLevelOne,resourceType,orgType); 	
-			if(!orderCarrierLevelOne) getCarriersByParentIdByYear(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,year,orderCarrierLevelOne,resourceType);
+			if(!orderCarrierLevelOne) getCarriersByParentIdByYear(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,year,orderCarrierLevelOne,resourceType,null);
 			sb.append("</item>");  
 			
 		}
@@ -1525,12 +1531,11 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 			boolean displayMode = carrier.getEnable().booleanValue();
 			displayCarModerier = StringUtil.getNullValue(displayCarModerier,"");
 			
-//			System.out.println("displayMode>>>>>>>>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ??????????????????????? >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + displayMode);
-//			System.out.println("displayCarModerier>>>>>>>>>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ???????????????????????>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + displayCarModerier);
-
+			System.out.println("displayMode>>>>>>>>%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ???????????????????????>>>>>>>>>>>>>>>> " + displayMode);
+			System.out.println("displayCarModerier>>>>>>>>>%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ?????????????????????>>>>>>>>>>>>> " + displayCarModerier);
+			System.out.println(" carrier.getCarrierName()>>>>>>>>%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ???????????????????????>>>>>>>>>>>>>>>> " +  carrier.getCarrierName());
 			
-			//时段维护 displayCarModerier ＝ 1  displayMode ＝ true
-			
+			//时段维护 displayCarModerier ＝ 1  displayMode ＝ true 启用
 			if("1".equals(displayCarModerier) && displayMode){
 				sb.append("<item id='" +carrierIdPrefix
 						+ carrier.getId().toString()
@@ -1547,8 +1552,8 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 					System.out.println(">>>>>>>>>>>>>>>resourceType = " + resourceType);
 					System.out.println(">>>>>>>>>>>>>>>orderCarrierLevelOne = " + orderCarrierLevelOne);
 				}
-				resourceManager.getResourceItemsByCarrierIdByYear(sb,carrier.getId().toString(),resourceIdPrefix,year,orderCarrierLevelOne,resourceType,orgType); 	
-				if(!orderCarrierLevelOne) getCarriersByParentIdByYear(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,year,orderCarrierLevelOne,resourceType);
+				resourceManager.getResourceItemsByCarrierIdByYearTest(sb,carrier.getId().toString(),resourceIdPrefix,year,orderCarrierLevelOne,resourceType,orgType,true); 	
+				if(!orderCarrierLevelOne) getCarriersByParentIdByYear(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,year,orderCarrierLevelOne,resourceType,displayCarModerier);
 				sb.append("</item>");  
 			}
 
@@ -1569,7 +1574,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 					System.out.println(">>>>>>>>>>>>>>>orderCarrierLevelOne = " + orderCarrierLevelOne);
 				}
 				resourceManager.getResourceItemsByCarrierIdByYear(sb,carrier.getId().toString(),resourceIdPrefix,year,orderCarrierLevelOne,resourceType,orgType); 	
-				if(!orderCarrierLevelOne) getCarriersByParentIdByYear(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,year,orderCarrierLevelOne,resourceType);
+				if(!orderCarrierLevelOne) getCarriersByParentIdByYear(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,year,orderCarrierLevelOne,resourceType,displayCarModerier);
 				sb.append("</item>");  
 			}
 
@@ -1605,7 +1610,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 		}
 		
 	}
-	private void getCarriersByParentIdByYear(String id, StringBuffer sb,String IdPrefix,String resourceIdPrefix,String year,boolean orderCarrierLevelOne,Integer resType){
+	private void getCarriersByParentIdByYear(String id, StringBuffer sb,String IdPrefix,String resourceIdPrefix,String year,boolean orderCarrierLevelOne,Integer resType,String displayCarModerier){
 //		System.out.println("==============1222=========");
 		Carrier carrier = new Carrier();
 		
@@ -1617,8 +1622,11 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 			Carrier carr = (Carrier) it.next();
 			Integer carYear = carr.getVersion();
 			
+			
 			if(carr.getOrgId() == null){
-				System.out.println("error ==============good good good good good good========="+carr.getOrgId());
+				System.out.println("error ==============error error error error error error========="+carr.getId()+"|"+carr.getCarrierName());
+			}else{
+				System.out.println("error ==============good good good good good good========="+carr.getId()+"|"+carr.getCarrierName());
 			}
 
 			
@@ -1637,7 +1645,12 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 						+ "</userdata>");
 				sb.append("<userdata name=\"type\">2</userdata>");
 				
-				resourceManager.getResourceItemsByCarrierIdByYear(sb,carr.getId().toString(),resourceIdPrefix,year,orderCarrierLevelOne,resType,orgType);
+				if("1".equals(displayCarModerier)){
+					resourceManager.getResourceItemsByCarrierIdByYearTest(sb,carr.getId().toString(),resourceIdPrefix,year,orderCarrierLevelOne,resType,orgType,true);
+				}else{
+					resourceManager.getResourceItemsByCarrierIdByYear(sb,carr.getId().toString(),resourceIdPrefix,year,orderCarrierLevelOne,resType,orgType);
+				}
+				
 				getCarriersByParentId(carr.getId().toString(), sb,IdPrefix,resourceIdPrefix);
 		//		System.out.println("==============00000========="); 
 				sb.append("</item>");  

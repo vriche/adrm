@@ -758,7 +758,7 @@ public class CommonReport extends HttpServlet
 //			   System.out.println("version>>>>>>>>>>"+ version);
 			   
 			   
-
+			   reportType = reportType+"3";
 
 			   reportFile = new File(context.getRealPath(reportsTemplePath + reportType +".jasper")) ;
 			   
@@ -854,6 +854,7 @@ public class CommonReport extends HttpServlet
 	             exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,Boolean.TRUE); 
 	             exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
 	             exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
+	             exporter.setParameter(JRExporterParameter.OUTPUT_FILE, "export.xls");
 
 	             try {
 	            	 exporter.exportReport();
@@ -866,7 +867,7 @@ public class CommonReport extends HttpServlet
 
 	             if (bytes != null && bytes.length > 0) {
 	                     response.reset();
-	                     response.setContentType("application/vnd.ms-excel");
+	                     response.setContentType("application/vnd.ms-excel;filename=export.xls");
 	                     response.setContentLength(bytes.length);
 	                     ServletOutputStream ouputStream = response.getOutputStream();
 	                     ouputStream.write(bytes, 0, bytes.length);
@@ -1142,7 +1143,7 @@ public class CommonReport extends HttpServlet
         	income.setCarrierIdList(null);
         	income.setResourceCarrierId(null);
         }else{
-            List carrierIdList = CarrierUtil.getCarrierIds(resourceCarrierId,"1",null);
+            List carrierIdList = CarrierUtil.getCarrierIds(resourceCarrierId,"1",currentUser);
         	income.setCarrierIdList(carrierIdList);
         	income.setResourceCarrierId(null);
         }

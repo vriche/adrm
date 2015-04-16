@@ -203,7 +203,9 @@ MyUtils.prototype.getChecked =function(tree,proty,node,type){
 
 	return ids;
 };
-MyUtils.prototype.getComYear = function(comboBox_ID,fieldLabel,width,defValue,xtype){
+MyUtils.prototype.getComYear = function(comboBox_ID,fieldLabel,width,defValue,xtype,dArray){
+	
+	
 
     Ext.QuickTips.init();
         
@@ -216,6 +218,16 @@ MyUtils.prototype.getComYear = function(comboBox_ID,fieldLabel,width,defValue,xt
 //			                    	beforequery:customer.comboFilterBy.createDelegate(this),
 //									collapse:comboCollapse.createDelegate(this) //下拉框消失时
 //									select:comboCollapse.createDelegate(this), //下拉框消失时
+    
+    	if(dArray){
+    	       if(!Ext.isArray(dArray)){
+    	    	   dArray =  dArray.split(",");
+    	       }
+    	}
+
+    
+    	var dataArray = ["2006","2007","2008","2009","2010","2011","2012","2013","2014"];
+    	
 
 		var conf = {    
         	fieldLabel: fieldLabel,    
@@ -224,7 +236,7 @@ MyUtils.prototype.getComYear = function(comboBox_ID,fieldLabel,width,defValue,xt
 //            emptyText: '��ѡ��...',
             editable:false,
             allowBlank:false,
-            store:["2006","2007","2008","2009","2010","2011","2012","2013","2014"],
+            store:dataArray,
             mode: 'local',
             typeAhead: true,
             triggerAction: 'all',
@@ -235,13 +247,16 @@ MyUtils.prototype.getComYear = function(comboBox_ID,fieldLabel,width,defValue,xt
             resizable:true
         };
 
+	
 	    if(xtype){
 	    	conf.xtype = 'combo';
 	    	 if(defValue)  conf.value = defValue;  
+	    	 if(dArray) conf.store = dArray;  
 	    	return conf;
 	    }else{
+	    	if(dArray) conf.store = dArray;  
 		    var comboBox =   new Ext.form.ComboBox(conf);
-		    if(defValue)  comboBox.setValue(defValue);  
+		    if(defValue)  comboBox.setValue(defValue); 
 		    return comboBox
 	    }         
         

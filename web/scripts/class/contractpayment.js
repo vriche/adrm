@@ -983,6 +983,10 @@ PayMent.prototype.savePayMent = function(o,mode){
 	obj.resourceTypeId = $("resourceType").value;
 	
 	
+	
+//	console.log(payment.obj);
+//	alert(1111111)
+	
 //	alert(id);
 	
 //	alert(obj.memo);

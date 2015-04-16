@@ -36,6 +36,7 @@ Tree.prototype.loadDataTreeArray1 = function(IdPrefix,array1){
 		this.refreshTree();
 		
 		for (var i = 0; i < array1.length; i++){
+
 			this.dhtmlTree.setCheck(IdPrefix + array1[i],1);					
 		}	
 }

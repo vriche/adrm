@@ -26,6 +26,8 @@
 <script type="text/javascript" src="<c:url value='/scripts/global.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/generic.js'/>"></script>
 
+<script type="text/javascript" src="<c:url value='/scripts/common/hashMap.js'/>"></script>
+
 <script type="text/javascript" src="<c:url value='/dwr/interface/SysParamUtil.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/admin/sysParams.js'/>"></script>   
  
@@ -48,6 +50,8 @@
 
 <script type="text/javascript" src="<c:url value='/dwr/interface/MatterManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/matter.js'/>"></script>
+
+
 
 
 <script type="text/javascript" src="<c:url value='/scripts/calendar/calendar.js'/>"></script>

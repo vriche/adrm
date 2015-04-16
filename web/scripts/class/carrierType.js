@@ -78,6 +78,12 @@ CarrierType.prototype.getTreeXMLByYear = function(carrierIdPrefix,resourceIdPref
 
 }
 
+CarrierType.prototype.getTreeXMLByYear2 = function(carrierIdPrefix,resourceIdPrefix,year,getFun){
+
+	CarrierTypeManager.getCarrierTypeXMLByYear2(this.obj,this.IdPrefix,carrierIdPrefix,resourceIdPrefix,year,getFun);
+
+}
+
 
 CarrierType.prototype.getTreeXMLFromMap= function(carrierIdPrefix,resourceIdPrefix,callBackFun){
 	var OBJ = this;

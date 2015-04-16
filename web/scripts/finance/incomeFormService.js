@@ -708,6 +708,7 @@ function showPullTable(id){
 //    alert(channelPullParam);
     if(channelPullParam == 0){
 		$("incomePull_div").hide();
+		if(tvNameParam =='catv') getIncomePullTable(id);
 	}else{
 		$("incomePull_div").show();
 		getIncomePullTable(id);
@@ -953,9 +954,13 @@ function saveIncomeCheck(isNew){
 	}
 	
 	
+	
+	
 	if(channelPullParam == 0){
 		if(!isNew){
 			var trs = incomePull.tBody.getElementsByTagName("tr");
+			
+
 			var moneyPull = $("incomeMoney").value*1;
 			var moneyIn = getCellValue(trs[0],2)*1;
 			if(tvNameParam=='fztv'){

@@ -51,6 +51,7 @@ import com.vriche.adrm.model.Carrier;
 import com.vriche.adrm.model.CarrierType;
 import com.vriche.adrm.model.Category;
 import com.vriche.adrm.model.Customer;
+import com.vriche.adrm.model.FusionChartObject;
 import com.vriche.adrm.model.IncomeMode;
 import com.vriche.adrm.model.IncomePurpose;
 import com.vriche.adrm.model.Industry;
@@ -565,6 +566,9 @@ private void getBranchByParnetId(Long branchId,List BranchParentList){
 				param.setDayangWebServiceUrlProLitstParam(sysParam.getValue()); 
 			}
 			
+			
+			
+			
 			if(sysParam.getName().equals(Constants.ADRM_SYS_YEAR_PROGRAM_LIST)){
 				String v = sysParam.getValue();
 //				param.setDayangWebServiceUrlProLitstParam(sysParam.getValue()); 
@@ -585,6 +589,25 @@ private void getBranchByParnetId(Long branchId,List BranchParentList){
 				String v = sysParam.getValue();
 				v = v ==null|| "".equals(v)?"0":v;
 				param.setArrangeWithBrandParam(v); 
+			}	
+			
+			if(sysParam.getName().equals(Constants.ORDER_ARRANG_DEFAULT_MONTHS)){
+				String v = sysParam.getValue();
+				v = v ==null|| "".equals(v)?"2":v;
+				param.setOrderArrangDefaultMonths(v); 
+			}	
+			
+			 // 出串联单限制排期的修改
+			if(sysParam.getName().equals(Constants.OUT_LIMIT_BROARRANG)){
+				String v = sysParam.getValue();
+				v = v ==null|| "".equals(v)?"0":v;
+				param.setOutLimitBroarrang(v); 
+			}	
+		    // 使用客户广告投放的时间比率
+			if(sysParam.getName().equals(Constants.RESOURCE_USE_CUSTOMER_CATELOG)){
+				String v = sysParam.getValue();
+				v = v ==null|| "".equals(v)?"0":v;
+				param.setResourceUseCustomerCatelog(v); 
 			}	
 			
 		}
@@ -649,8 +672,6 @@ public Map getResourceMap() {
 		Carrier carrierRes = (Carrier)it.next();
 		Resource resource = new Resource();
 		resource.setCarrierId(carrierRes.getId());
-		
-		
 		mp.put(carrierRes.getId(),resourceDao.getResources(resource));
 	}
 	return mp;
@@ -1721,7 +1742,25 @@ public void excuteSql() {
 
 			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
 		}		
+
+
 		
+		if(curVersion < 37 ){
+			int curVer = 37; 
+			excuteSql("DROP TABLE IF EXISTS `tb_sys_resource_cutcaterate`",curVer);  
+			StringBuffer sb2 = new StringBuffer();
+			sb2.append("CREATE TABLE `tb_sys_resource_cutcaterate` (");
+			sb2.append(" `id` bigint(20) NOT NULL AUTO_INCREMENT,");
+			sb2.append(" `rate` double(10,2) DEFAULT NULL,");
+			sb2.append(" `customer_category_id` bigint(20) DEFAULT NULL,");
+			sb2.append(" `resource_id` bigint(20) DEFAULT NULL,");
+			sb2.append("  PRIMARY KEY (`id`), ");
+			sb2.append("  KEY `FK_tb_sys_resource_cuttomer_cate` (`customer_category_id`), ");
+			sb2.append("  CONSTRAINT `FK_tb_sys_resource_cuttomer_cate` FOREIGN KEY (`customer_category_id`) REFERENCES `tb_customer_category` (`customer_category_id`) ");
+			sb2.append(") ENGINE=InnoDB DEFAULT CHARSET=gbk;");
+			excuteSql(sb2.toString(),curVer);  	
+			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
+		}		
 
 		//临时注释   
 //		mody_matter_helpcode(20);	
@@ -2134,7 +2173,22 @@ public void saveSysParams(String target,String value,List ls) {
 		}
 		
 		if(target.equals(Constants.ADRM_SYS_YEAR_PROGRAM_LIST)){
-			sysParam.setValue("2006,2007,2008,2009,2010,2011,2012,2013,2014,2015");
+			sysParam.setValue("2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017");
+		}
+		
+		if(target.equals(Constants.ORDER_ARRANG_DEFAULT_MONTHS)){
+			// 新签订单广告排期默认月份,默认当前月份+2
+			sysParam.setValue("2");
+		}
+		
+	    // 出串联单限制排期的修改
+		if(target.equals(Constants.OUT_LIMIT_BROARRANG)){
+			sysParam.setValue("0");
+		}
+		
+		  // 使用客户广告投放的时间比率
+		if(target.equals(Constants.RESOURCE_USE_CUSTOMER_CATELOG)){
+			sysParam.setValue("0");
 		}
 
 		sysParam.setMemo(sysParam.getMenoByName(target));
@@ -2479,7 +2533,7 @@ public  Map getUserOrgs(){
  */
 
 public List getOrgs() {
-	// TODO Auto-generated method stub
+
 	return orgDao.getOrgs(null);
 }
 
@@ -2638,10 +2692,59 @@ public List finaciaAuditFitter() {
 	
 	return ls;
 	
-	
-	
-	
-	
 }
+
+
+//RU.id as id,
+//RC2.carrier_name as value1, 
+//RC.carrier_name as value2, 
+//RS.memo as value3,
+//RS.resource_name as value4,
+//RU.rate  as value5,
+//RS.ad_resource_info_id  as value6,
+//RU.customer_category_id  as value7  
+
+public Map getResourceUseRateTable() {
+	Map mp = new HashMap();
+	List all = resourceDao.getResourceIdsByYearUser(mp);
+	for(Iterator it = all.iterator();it.hasNext();){
+		FusionChartObject obj = (FusionChartObject)it.next();
+		String rsId = obj.getValue6();
+		String cutcatId = obj.getValue7();
+		String rate = obj.getValue7();
+		
+		if(mp.containsKey(rsId)){
+			Map mp2 = (Map)mp.get(rsId);
+			mp2.put(cutcatId, rate);
+		}else{
+			Map mp2 = new HashMap();
+			mp2.put(cutcatId, rate);
+			mp.put(rsId, mp2);
+		}
+	}
+	
+	Iterator it = mp.keySet().iterator();
+	while(it.hasNext()){
+		String rsId = (String)it.next();
+		Map mp3 = (Map)mp.get(rsId);
+		Iterator it2 = mp3.keySet().iterator();
+		while(it2.hasNext()){
+			String cutcatId = (String)it2.next();
+			String rate = (String)mp3.get(cutcatId);
+		}
+
+	}
+	
+
+	return mp;
+}
+
+
+
+
+
+
+
+
 
 }

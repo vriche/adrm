@@ -12,6 +12,7 @@ import com.vriche.adrm.dao.Dao;
 import com.vriche.adrm.dao.DayInfoDao;
 import com.vriche.adrm.dao.IncomePullDao;
 import com.vriche.adrm.dao.IndustryDao;
+import com.vriche.adrm.dao.MatterDao;
 import com.vriche.adrm.dao.OaWorkFlowCheckDao;
 import com.vriche.adrm.dao.OrderDao;
 import com.vriche.adrm.dao.OrderDayInfoDao;
@@ -177,6 +178,11 @@ public class ServiceLocator {
     public static MatterManager getMatterManager() {
    	 return (MatterManager)SpringContext.getBean("matterManager");
    } 
+    
+    
+    public static MatterDao getMatterDao() {
+      	 return (MatterDao)SpringContext.getBean("matterDao");
+      } 
 
     public static CarrierTypeDao getCarrierTypeDao() {
       	 return (CarrierTypeDao)SpringContext.getBean("carrierTypeDao");

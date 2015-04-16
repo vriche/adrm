@@ -239,6 +239,23 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
         
         List ls = dao.getFinanceTargetRaioCarriersByMap2(mp);
         
+        List ls2 = dao.getFinanceTargetRaioCarriersByMap3(mp);
+        
+        Map mppp = new HashMap();
+        
+        for(Iterator it = ls2.iterator();it.hasNext();){
+        	FusionChartObject fTarget = (FusionChartObject)it.next();
+        	String chanId = fTarget.getId();
+        	String chanName = fTarget.getLable();
+        	String chanAlias = fTarget.getValue1();
+        	String tDateYear = fTarget.getValue2();
+        	String tDateMonth =fTarget.getValue3();
+        	double income = new Double(StringUtil.toDouble(fTarget.getValue5()));
+        	String key = chanId + tDateYear.toString() +Integer.valueOf(tDateMonth);
+        	mppp.put(key, income);
+        	
+        }
+        
         for(Iterator it = ls.iterator();it.hasNext();){
         	FusionChartObject fTarget = (FusionChartObject)it.next();
         	String chanId = fTarget.getId();
@@ -249,6 +266,8 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
         	
         	String key = chanId + tDateYear.toString() +Integer.valueOf(tDateMonth);
         	String value = StringUtil.getNullValue(mpp.get(key),"1");
+        	
+        	String value2 = StringUtil.getNullValue(mppp.get(key),"0");
 //        	 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>key>> "+key);
 //        	 System.out.println("targetMp key>>>>>>>>>>>>>>>>>>>>>>>>22222222222  44444444  5555555>>>>>>>>>>>>>>>value>> "+value);
         	
@@ -257,16 +276,24 @@ public class FinanceTargetRatioManagerImpl extends BaseManager implements Financ
         	double upValue =  new Double(StringUtil.toDouble(income*rate));
         	double leavleValue = income - upValue;
         	
+        	double value22 =  new Double(StringUtil.toDouble(value2));
+        	double sumTotal1 = upValue + value22;
+        	double sumTotal2 = income + value22;
+        	
+        	
         	
         	String name = chanName +"("+ chanAlias +")";
 
             FusionChartObject fObject = new FusionChartObject();
             fObject.setLable(name);
             fObject.setValue1(tDateMonth+"月");
-            fObject.setValue2(StringUtil.doubleFormat33(income+""));
-            fObject.setValue3(StringUtil.doubleFormat33(rate*100+"")+"%");
-            fObject.setValue4(StringUtil.doubleFormat33(upValue+""));
-            fObject.setValue5(StringUtil.doubleFormat33(leavleValue+""));
+            fObject.setValue2(StringUtil.doubleFormat33(income+""));  //公司收入
+            fObject.setValue3(StringUtil.doubleFormat33(rate*100+"")+"%"); //比率
+            fObject.setValue4(StringUtil.doubleFormat33(upValue+""));  //公司转台
+            fObject.setValue5(StringUtil.doubleFormat33(value22+"")); //电视台收入
+            fObject.setValue6(StringUtil.doubleFormat33(sumTotal1+"")); //电视台收入合计
+            fObject.setValue7(StringUtil.doubleFormat33(sumTotal2+""));//公司+台
+            
 			allMonth.add(fObject);
         }
     	

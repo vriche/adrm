@@ -30,6 +30,8 @@ public interface FinanceTargetRatioDao extends Dao {
     public Map getFinanceTargetRaioCarriersByMap1(final Map mp);
     
     public List getFinanceTargetRaioCarriersByMap2(final Map mp);
+    //Ã®µΩ’ 
+    public List getFinanceTargetRaioCarriersByMap3(final Map mp);
     
     public List getCarrierTargetsByMap(final Map mp);
     

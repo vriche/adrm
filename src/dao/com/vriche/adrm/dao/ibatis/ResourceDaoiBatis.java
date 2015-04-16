@@ -207,6 +207,10 @@ public class ResourceDaoiBatis extends BaseDaoiBATIS implements ResourceDao {
 	}
 
 	public Map getResourcesForQuery1(Map mp) {
+		return getSqlMapClientTemplate().queryForMap("getResourcesForQuery1",mp,"lable");
+	}
+	
+	public Map getResourcesForQuery1_1(Map mp) {
 		return getSqlMapClientTemplate().queryForMap("getResourcesForQuery1",mp,"value3");
 	}
 
@@ -216,6 +220,21 @@ public class ResourceDaoiBatis extends BaseDaoiBATIS implements ResourceDao {
 
 	public List getResourcesByIds(Map mp) {
 		return getSqlMapClientTemplate().queryForList("getResourcesByIds", mp);
+	}
+
+	
+	
+	
+	public List getResourceIdsByYearUser(Map mp) {
+		return getSqlMapClientTemplate().queryForList("getResourceIdsByYearUser", mp);
+	}
+
+	public void removeResourceUserRate(Map mp) {
+		getSqlMapClientTemplate().update("deleteResourceUserRate", mp);
+	}
+
+	public Long saveResourceUserRate(Map mp) {
+		return (Long) getSqlMapClientTemplate().insert("addResourceUserRate", mp);
 	}
    
 	

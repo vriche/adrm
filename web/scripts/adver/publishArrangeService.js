@@ -21,13 +21,6 @@ var rowIds=[];
 var userName;
 var report = new MyPrint();
 
-/*
- * 增加参考日期
- * 根据日期读取指已经编排过的广告，保存在 map里, key = ordderId + resourceId + matterCode +"_"+ sequence,    value = sequence;
- * 根据 map 修改界面上各段位下的广告序号，修改方法， 备份当前有指定的广告 map2 key = res_dayInfoId  value = sequence，把新添的广告位置改9999;
- * 最后依次修改各段位的广告顺序； 
- */
-
 
 callOnLoad(init);
 
@@ -42,8 +35,8 @@ function init(){
     config_specArowMoveParam =  _app_params.sysParam.specArowMoveParam;
     config_piblishModelParam =  _app_params.sysParam.piblishModelParam;
     
-	tag_publish_arrange =  _app_params.rights.tag_publish_arrange;
-	tag_publish_arrangeforce =  _app_params.rights.tag_publish_arrangeforce;
+    	tag_publish_arrange =  _app_params.rights.tag_publish_arrange;
+    	tag_publish_arrangeforce =  _app_params.rights.tag_publish_arrangeforce;
     
 	config_serviceDate = _app_params.serviceDate.def;
 	userName =   _app_params.user.fullName;
@@ -61,21 +54,17 @@ function init(){
     if(config_oneOrgMoreSuborgsParam == '1'){$('orgId').hide();}	
 	
 	$("bro_date").value =  _app_params.serviceDate.format1;
-	$("reference_date").value =  _app_params.serviceDate.format1;
 	$("bro_date_history").value = _app_params.serviceDate.format1;
-	
-//	alert($("bro_date").value);
-//	$("bro_date").value ="2014-01-01"
 	
 	
 
-	if(tvNameParam =='fztv' && srcStr.indexOf("publishDate")>0){
-			publishDate = getParamFromUrl(srcStr,"publishDate");
-			$("bro_date").value = getFormatDay(publishDate,'y/m/d'); ;
-			$("buttonImport").show();
-	}else{
+//	if(tvNameParam =='fztv' && srcStr.indexOf("publishDate")>0){
+//			publishDate = getParamFromUrl(srcStr,"publishDate");
+//			$("bro_date").value = getFormatDay(publishDate,'y/m/d'); ;
+//			$("buttonImport").show();
+//	}else{
 		$("buttonImport").hide();
-	}
+//	}
 	
 //	if(tvNameParam ='fztv' ){
 //		$("buttonImport").style="display:block";
@@ -103,8 +92,6 @@ function init(){
 //	isDisplay(true);
 	resetHeigth();
 	getDate("bro_date","bro_date");
-	getDate2("reference_date","reference_date");
-	
 //	$("bro_date").value = curDate;
 //	$("bro_date_view").value = myFormatDate(curDate);
 	
@@ -113,20 +100,17 @@ function init(){
 
 
     
-    if(tvNameParam=='fztv'){
-    	$('buttonImport').hide(); 
-    }else{         
-//    	$('displayTree').hide();  
-//    	getContractPayMentsAutoComplete();
-    }
+//    if(tvNameParam=='fztv'){
+//    	$('buttonImport').hide(); 
+//    }
     
     
-     if(tvNameParam !='hntv'){
+     if(tvNameParam !='hntv' || tvNameParam !='fztv'){
      	$('Btn_removeRow').show(); 
      }
     
   	this.ctxPath = _app_params.ctxPath;
-	this.report.buildButtons(this,"printReportDiv",[0,1,2,3],70); 
+	this.report.buildButtons(this,"printReportDiv",[0,1,2],70); 
     
     document.oncontextmenu=function stop(){return false;};
 }
@@ -254,14 +238,14 @@ function loadCarrTree(){
 			obj_tree.deleteChildItems(0);	
 		}
 		obj_tree.loadXMLString(xml);
-		if(tvNameParam =='fztv' &&srcStr.indexOf("publishDate")>0){ 
-			var carrierId = getParamFromUrl(srcStr,"carrierId");
-			if(carrierId!=''){				               
-					obj_tree.selectItem(carrierId);
-					doOnSelect(carrierId);
-					button_build_bro();
-			}
-		}
+//		if(tvNameParam =='fztv' &&srcStr.indexOf("publishDate")>0){ 
+//			var carrierId = getParamFromUrl(srcStr,"carrierId");
+//			if(carrierId!=''){				               
+//					obj_tree.selectItem(carrierId);
+//					doOnSelect(carrierId);
+//					button_build_bro();
+//			}
+//		}
 		
 		Ext.getBody().unmask();
 	}
@@ -299,15 +283,15 @@ function setMatterTypePara(obj){
 //}
 
 function setPublishArrangeCol(obj){
-	if(tvNameParam =='fztv'){
-			obj.col_resName = 2;
-			obj.col_resMeno = 3;
-			obj.col_resTotalTimes = 6;
-	}else{
+//	if(tvNameParam =='fztv'){
+//			obj.col_resName = 2;
+//			obj.col_resMeno = 3;
+//			obj.col_resTotalTimes = 6;
+//	}else{
 			obj.col_resName = 1;
 			obj.col_resMeno = 2;
 			obj.col_resTotalTimes = 3;
-	}
+//	}
 //	obj.col_resName = 1;
 //	obj.col_resMeno = 2;
 	obj.col_2 = 0;
@@ -357,10 +341,6 @@ function printReport(mode){
 	if(mode =="excel"){
 		button_export_bro();
 	}
-	
-	if(mode =="pdf"){
-		button_pdf_bro();
-	}
 	   
 }
 
@@ -386,12 +366,7 @@ function buttonEventFill(){
 
 
 	
-	var Btn_reference = $("Btn_reference");
-	Btn_reference.onclick = function(){
-		var referenceDate = $("reference_date").value;
-		referenceDate = getFormatDay($("bro_date").value,'ymd');
-		button_build_bro(referenceDate);
-	};
+	
 	
 	var Btn_import = $("btn_import");
 	Btn_import.onclick = displaySearchDiv;
@@ -629,18 +604,6 @@ function getDate(name,btn){
 	
 }
 
-function getDate2(name,btn){
-	Calendar.setup({
-		inputField  : name,	  // id of the input field
-		//ifFormat	: "%Y%m%d",	  // the date format
-		singleClick	  : true,
-//		onClose : reLoadTree,
-		button	  : btn	// id of the button
-	});
-	
-}
-
-
 function setCarrierTypePara(obj){
 	 obj.className  = "carrierType";
 	 obj.IdPrefix 	= obj.className + "Id";
@@ -710,12 +673,12 @@ function initGrid(){
 //	var flds = "序号,磁带号,广告名称,版本,长度,指定,备注,指定参数,日播编号,资源编号,客户名称,业务员,明细编号,编号/广告编排状态,锁定";
 	var flds = "序,磁带号,广告名称,版本,长度,指定,备注,,,,,,,,,订单号,预留";
 
-	if(tvNameParam =='fztv'){
-		flds = "序,,广告名称,版本,长度,指定,备注,,,,客户名称,业务员,,,,订单号"; 
-		mygrid.setInitWidthsP("3,0,23,20,6,6,11,0,0,0,16,8,0,0,0,8");  
-	}else{
+//	if(tvNameParam =='fztv'){
+//		flds = "序,,广告名称,版本,长度,指定,备注,,,,客户名称,业务员,,,,订单号"; 
+//		mygrid.setInitWidthsP("3,0,23,20,6,6,11,0,0,0,16,8,0,0,0,8");  
+//	}else{
 		mygrid.setInitWidthsP("3,12,22,21,7,7,11,0,0,0,0,0,0,0,0,10,7");  
-	}
+//	}
 //	var flds = "序号,磁带号,广告名称,版本,长度,指定,备注,,,";
 	mygrid.setHeader(flds);
 	
@@ -738,15 +701,15 @@ function initGrid(){
 	//mygrid.enableLightMouseNavigation(true);
 	mygrid.setOnEditCellHandler(do_onEditCell);
 	
-	if(tvNameParam =='fztv'){
-			mygrid.enableDragAndDrop(false);
-			mygrid.setOnRightClick(do_rightClick);
-			mygrid.setOnRowDblClickedHandler(do_dblClick);  
-	}else{
+//	if(tvNameParam =='fztv'){
+//			mygrid.enableDragAndDrop(false);
+//			mygrid.setOnRightClick(do_rightClick);
+//			mygrid.setOnRowDblClickedHandler(do_dblClick);  
+//	}else{
 		mygrid.enableDragAndDrop(true);
 		mygrid.setDragHandler(do_drag);
 		mygrid.setDropHandler(do_drop);
-	}
+//	}
 
 	mygrid.enableAlterCss("even","uneven"); 
 	mygrid.setSkin("modern2");
@@ -897,50 +860,48 @@ function do_drag(r1,r2){
     	if(isUndefined(r2)) return false;
     	
     	var r1s = r1.split(",");
-    	for(var i =0;i<r1s.length;i++){
-    		    	
-    		r1 = r1s[i];
-    		    	
-	 		var type =  treeObj.getUserData(r1,"type"); 
-	        var isFromTree = checkIsFomTree(type);
-	        if(type == 0||type == 1) return false;
-	      
-	        
-	        if(isFromTree) r1 = r1+ arrange.IdPrefix;
-			var r1_isAdver = isAdverNode(r1);
-			var r2_isAdver = isAdverNode(r2);
+    	for(var i =0;i<r1s.length;i++)
+    	r1 = r1s[i];
+	var type =  treeObj.getUserData(r1,"type"); 
+        var isFromTree = checkIsFomTree(type);
+        if(type == 0||type == 1) return false;
+      
+        
+        if(isFromTree) r1 = r1+ arrange.IdPrefix;
+	var r1_isAdver = isAdverNode(r1);
+	var r2_isAdver = isAdverNode(r2);
+
+	//源和目标都是段位
+	if(!r1_isAdver && !r2_isAdver) return false;
+	//源是段位目标是广告
+	if(!r1_isAdver && r2_isAdver) return false;
+	    
+	//不能跨段位调整!
+	var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
+	var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
+	if(config_stridePositionParam == 0){
+		if(dragParId_rel != dragInParId_rel) return false;
+	}
 	
-			//源和目标都是段位
-			if(!r1_isAdver && !r2_isAdver) return false;
-			//源是段位目标是广告
-			if(!r1_isAdver && r2_isAdver) return false;
-			    
-			//不能跨段位调整!
-			var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
-			var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
-			if(config_stridePositionParam == 0){
-				if(dragParId_rel != dragInParId_rel) return false;
-			}
-		
-		    
-		 	//源或是指定广告不能拖动  alert("指定位置的广告，不能调整位置");
-			//广告锁定  alert("已锁定的广告，不能调整位置");
-	        var v1 = "";var v2 = "";
-	        if(isFromTree){
-	        	v1 = treeObj.getUserData(r1,"specificValue");
-	        }else{
-	        	v1 = getCellValue(r1,detail.col_specificValue);
-	        }
-	        v2 = getCellValue(r2,detail.col_isLocked);
-			v1 = (v1 == '' || v1 == null || isUndefined(v1))? "&":v1.Trim();
-			v2 = (v2 == '' || v2 == null || isUndefined(v2))? "&":v2.Trim();
+	    
+ 	//源或是指定广告不能拖动  alert("指定位置的广告，不能调整位置");
+	//广告锁定  alert("已锁定的广告，不能调整位置");
+        var v1 = "";var v2 = "";
+        if(isFromTree){
+        	v1 = treeObj.getUserData(r1,"specificValue");
+        }else{
+        	v1 = getCellValue(r1,detail.col_specificValue);
+        }
+        v2 = getCellValue(r2,detail.col_isLocked);
+	v1 = (v1 == '' || v1 == null || isUndefined(v1))? "&":v1.Trim();
+	v2 = (v2 == '' || v2 == null || isUndefined(v2))? "&":v2.Trim();
+
+//	if(tvNameParam !='fztv' && myComparator(v1,"123456789ABCDEFGHI"))return false;  
+	if(myComparator(v1,"123456789ABCDEFGHI"))return false;  
+			
+	if(myComparator(v2,"true"))return false;	
 	
-			if(tvNameParam !='fztv' && myComparator(v1,"123456789ABCDEFGHI"))return false;  
-					
-			if(myComparator(v2,"true"))return false;	   		    	
-    		    	
-    	}
-	
+				
 
 	return true;
    
@@ -955,45 +916,39 @@ function do_drop(r1,r2){
 	if(isUndefined(r2)) return false;
 
     	var r1s = r1.split(",");
-    	for(var i =0;i<r1s.length;i++){
-			r1 = r1s[i];
-			//alert(r1);
-			
-			//var treeObj = matterType.tree.dhtmlTree;
-			var type =  treeObj.getUserData(r1,"type"); 
-	        var isFromTree = checkIsFomTree(type);	
+    	for(var i =0;i<r1s.length;i++)
+    	r1 = r1s[i];
+	//alert(r1);
+	
+	//var treeObj = matterType.tree.dhtmlTree;
+	var type =  treeObj.getUserData(r1,"type"); 
+        var isFromTree = checkIsFomTree(type);	
 
  
-		//垫片广告时，不需要处理
-		var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
-		var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
-	
-		if(isFromTree){
-			mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
-			var seconds = (new Date()).getSeconds();
-			var r1_new  =  dragInParId_rel +"_" + arrange.IdPrefix + seconds;
-			mygrid.changeRowId(r1,r1_new);
-			r1 = r1_new;
-		}
+	//垫片广告时，不需要处理
+	var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
+	var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
+
+	if(isFromTree){
+		mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
+		var seconds = (new Date()).getSeconds();
+		var r1_new  =  dragInParId_rel +"_" + arrange.IdPrefix + seconds;
+		mygrid.changeRowId(r1,r1_new);
+		r1 = r1_new;
+	}
 
 
-	 	var dragParId = resource.IdPrefix +"" + dragParId_rel;
-		var dragInParId = resource.IdPrefix +"" + dragInParId_rel;
-		//var is2AdverMove = (dragParId == dragInParId);
-	    
-		//如果是跨段调整，需要改变两个资源的信息
-		if(config_stridePositionParam == 1){
-			mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
-			setResourceAdverOrder(dragParId,detail.col_publishSort,detail.col_resourceId);
-			changeUsedTime(dragParId);
-		}
-	
-//		changeUsedTime(dragInParId);
-//		setResourceAdverOrder(dragInParId,detail.col_publishSort,detail.col_resourceId);
-    }
+ 	var dragParId = resource.IdPrefix +"" + dragParId_rel;
+	var dragInParId = resource.IdPrefix +"" + dragInParId_rel;
+	//var is2AdverMove = (dragParId == dragInParId);
     
-    var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
-    var dragInParId = resource.IdPrefix +"" + dragInParId_rel;
+	//如果是跨段调整，需要改变两个资源的信息
+	if(config_stridePositionParam == 1){
+		mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
+		setResourceAdverOrder(dragParId,detail.col_publishSort,detail.col_resourceId);
+		changeUsedTime(dragParId);
+	}
+
 	changeUsedTime(dragInParId);
 	setResourceAdverOrder(dragInParId,detail.col_publishSort,detail.col_resourceId);
    
@@ -1062,19 +1017,19 @@ function setResourceAdverOrder(rowId,col_order,col_resourceId){
 function getChiledByParentId(parentId,col_resourceId){
 	var rows = mygrid.getRowsNum();
     var ids = new Array();
-    if(tvNameParam =='fztv'){
-		var itemIds =mygrid.getRowById(parentId).parentNode.childNodes; 
-		for(var i=1;i<itemIds.length;i++){    
-			var id = itemIds[i].idd;
-			if(id.indexOf(parentId+"_")>-1) ids.push(id);
-		}
-	}else{ 
+//    if(tvNameParam =='fztv'){
+//		var itemIds =mygrid.getRowById(parentId).parentNode.childNodes; 
+//		for(var i=1;i<itemIds.length;i++){    
+//			var id = itemIds[i].idd;
+//			if(id.indexOf(parentId+"_")>-1) ids.push(id);
+//		}
+//	}else{ 
 		for(var i=0;i<rows;i++){
-			var pid = resource.IdPrefix +""+ mygrid.cells2(i,col_resourceId).getValue();
-			var id = mygrid.getRowId(i);
-			if( pid == parentId && id.indexOf("_")>-1) ids.push(id);
+		var pid = resource.IdPrefix +""+ mygrid.cells2(i,col_resourceId).getValue();
+		var id = mygrid.getRowId(i);
+		if( pid == parentId && id.indexOf("_")>-1) ids.push(mygrid.getRowId(i));
 		}
-	}
+//	}
 
 	return ids;
 }
@@ -1130,7 +1085,7 @@ function getRowCellData(row_id,col){
 }
 
 function removeRow(){
-  if(tvNameParam !='fztv'){
+//  if(tvNameParam !='fztv'){
     var id = mygrid.getSelectedId();
      //alert(id);
     var id_isAdver = isAdverNode(id);	
@@ -1144,11 +1099,11 @@ function removeRow(){
     	 window.setTimeout("mygrid.deleteSelectedItem();",200);
     	 //changeUsedTime(parentId);
     }
-  }else{
-  
-     removeRowFZTV();
-  
-  }
+//  }else{
+//  
+//     removeRowFZTV();
+//  
+//  }
 }
 function removeRowFZTV(){
 	var usedTimes=getRowCellData(-1,arrange.col_resUsedTimes)-0;
@@ -1396,7 +1351,8 @@ function isBuildLevel(){
     } 
     if (type == 2){
     	
-    	var curCarrierId =  carrierType.tree.getIdByPrefix(isFztv(selectId),carrier.IdPrefix);
+//    	var curCarrierId =  carrierType.tree.getIdByPrefix(isFztv(selectId),carrier.IdPrefix);
+    	var curCarrierId =  carrierType.tree.getIdByPrefix(selectId,carrier.IdPrefix);
     	var can = carrier.getCarrierBuildLevel(curCarrierId);
     	if(can == false) {
     		 extjMessage('请选择正确的载体级别建立串联单!');
@@ -1435,19 +1391,11 @@ function getBuildResourceIds(){
 }
 	
 //建立前先判断是否已经编排过，如果有则提示是否重新编排	
-function button_build_bro(referenceDate){
+function button_build_bro(){
 	var dateStr =  getFormatDay($("bro_date").value,'ymd');
-	var referenceDate =  referenceDate?referenceDate:getFormatDay($("reference_date").value,'ymd');
-	var isRefDate = referenceDate>0;
 	var rebuild = false
 	var isRoll = true;
-	
-
-	
-
-	
-	
-	if(tvNameParam =='fztv') isRoll=false; //滚动播出
+//	if(tvNameParam =='fztv') isRoll=false;
 	var onlyHistory = false;	
 	//判断是否选择建立级别
 	if(isBuildLevel() == false) return false;
@@ -1459,14 +1407,10 @@ function button_build_bro(referenceDate){
 
      
 	var resourceIds = getBuildResourceIds();
-
 	
 	var isContinued=false;
 	
 	var callback=function(obj){
-		
-			
-			
 		if(obj.length>0){
 			var dialogcontent = $("dialogcontentDiv");
 			var dialogcontentW = dialogcontent.offsetWidth;
@@ -1526,21 +1470,12 @@ function button_build_bro(referenceDate){
 
 //			getArrangeType(resourceIds,dateStr,callBackFun);
 			
-			
-//			alert(tag_publish_arrangeforce)
-			
 			if(!tag_publish_arrangeforce){ 
 				isContinued=true;
 				mygrid.clearAll();
 				Ext.getBody().unmask();
 			}else{
-//				var isRefDate = referenceDate>0;
-				if(!isRefDate){
-					getArrangeType(resourceIds,dateStr,callBackFun);
-				}else{
-					callBackFun(2);
-				}
-				
+				getArrangeType(resourceIds,dateStr,callBackFun);
 			}
 			
 			
@@ -1552,16 +1487,7 @@ function button_build_bro(referenceDate){
 //				getArrangeType(resourceIds,dateStr,callBackFun);
 //			}
 		}else{
-			
-//			var isRefDate = referenceDate>0;
-			
-			if(!isRefDate){
-				getArrangeType(resourceIds,dateStr,callBackFun);
-			}else{
-				callBackFun(2);
-			}
-			
-			
+			getArrangeType(resourceIds,dateStr,callBackFun);
 		}
 	}
 	if(resourceIds=="") resourceIds =0;
@@ -1607,11 +1533,11 @@ function button_build_bro(referenceDate){
 		if(type == 1){
 			  arrange.obj.isArranged = false;
 			  rebuild = true;
-			  if(tvNameParam =='fztv') {
-			  	rebuild =false;  
-			  	arrange.obj.isArranged = true;
-			  	arrange.obj.isEnable = true;
-			  }
+//			  if(tvNameParam =='fztv') {
+//			  	rebuild =false;  
+//			  	arrange.obj.isArranged = true;
+//			  	arrange.obj.isEnable = true;
+//			  }
 		}
 		if(type == 2)  arrange.obj.isArranged = false;
 		if(type == 3)  arrange.obj.isArranged = true;
@@ -1639,21 +1565,14 @@ function button_build_bro(referenceDate){
 		arrange.obj.carrierName =  carrierType.tree.dhtmlTree.getParentId(selectId);
 		arrange.obj.resourceIds = resourceIds;
 		arrange.obj.publishDate = dateStr;
-		
-		//判断是否引用参考日期
-		if(isRefDate){
-			arrange.obj.referenceDate = referenceDate;
-		}
 		arrange.obj.orgId = $('orgId').value;
 //		arrange.obj.createBy = 0;
 //		arrange.obj.modifyBy = 0;
-	  	arrange.obj.arrangeforce= tag_publish_arrangeforce == true?"1":"0";
+	  arrange.obj.arrangeforce= tag_publish_arrangeforce == true?"1":"0";
 //	    alert(arrange.obj.isArranged);
-	  	arrange.getTreeGrid(arrange.obj,resource.IdPrefix,arrange.IdPrefix,rebuild,isRoll,onlyHistory,func);	
+		arrange.getTreeGrid(arrange.obj,resource.IdPrefix,arrange.IdPrefix,rebuild,isRoll,onlyHistory,func);	
 	}
-	
-
-	
+		
 
 }
 
@@ -1677,8 +1596,6 @@ function getArrangeType(resourceIds,publishDate,callBackFun){
 //            if(isArrangeds.length > 0) msg ="已经编排过的段位[" + carrierType.tree.getNodeTxtByRelIds(resource.IdPrefix,isArrangeds) +"]" +'\n';;
 //            if(isLockeds.length > 0) msg += "已经锁定的段位[" + carrierType.tree.getNodeTxtByRelIds(resource.IdPrefix,isLockeds) +"]不能编排" +'\n';
 //            msg += "是否重新编排?" +'\n';
-            
-//            alert(isArrangeds.length)
             
             if(isArrangeds.length > 0){
             	var nodeTextArray =carrierType.tree.getNodeTxtByRelIds(resource.IdPrefix,isArrangeds);
@@ -1730,7 +1647,6 @@ function getArrangeType(resourceIds,publishDate,callBackFun){
 		arrange.obj.publishDate = publishDate;
 		arrange.obj.orgId = $('orgId').value;
 		arrange.getPublishArrangesByIdListFromHistory(arrange.obj,func);
-
 
 	}	
 
@@ -1788,7 +1704,7 @@ function savePublishArrange(){
 	 var resourceIds = getBuildResourceIds();
 	 var publishDate =  getFormatDay($("bro_date").value,'ymd');
 	 var isRoll = true; 
-	 if(tvNameParam =='fztv') isRoll=false;
+//	 if(tvNameParam =='fztv') isRoll=false;
 	 var rebuid = false;
 	 var onlyHistory = false;	
 	 
@@ -1798,10 +1714,7 @@ function savePublishArrange(){
 	 arrange.obj.resourceIds = resourceIds;
 	 arrange.obj.publishDate = publishDate;
 	 arrange.obj.carrierName =  carrierType.tree.dhtmlTree.getParentId(selectId);
-	 arrange.obj.orgId = $('orgId').value; 
-	 arrange.obj.loginUserId = curUserId; 
-	 var carrierLevelFirstId = $("carrierLevelFirstId").value;
-	 arrange.obj.carrierId  = carrierLevelFirstId;
+	 arrange.obj.orgId = $('orgId').value;
 
 	//检测资源是否锁定
 	checkArrangeLocked(arrange,callBackFun);
@@ -1872,18 +1785,19 @@ function getCarrierParent(itemId,arr){
 	
 	
 	function setCarrierIdLevelFirst(itemId){
-		 $("carrierLevelFirstId").value =  carrierType.tree.getIdByPrefix(isFztv(itemId),carrier.IdPrefix); 
+//		 $("carrierLevelFirstId").value =  carrierType.tree.getIdByPrefix(isFztv(itemId),carrier.IdPrefix); 
+		 $("carrierLevelFirstId").value =  carrierType.tree.getIdByPrefix(itemId,carrier.IdPrefix); 
 //		 alert($("carrierLevelFirstId").value);
 	}
 	
 	
 }
-function isFztv(selectId){
-	if(tvNameParam =='fztv'){
-		return selectId.substring(selectId.indexOf('_')+1); 
-	}
-	return selectId;
-}
+//function isFztv(selectId){
+//	if(tvNameParam =='fztv'){
+//		return selectId.substring(selectId.indexOf('_')+1); 
+//	}
+//	return selectId;
+//}
 
 
 function getPublishArrangeFromGrid(){ 
@@ -1934,9 +1848,9 @@ function getPublishArrangeFromGrid(){
 //			  	arr.modifyDate = new Date();
 			  	arr.version = 0;
 			  	arr.isArranged = true;
-			  	if(tvNameParam =='fztv' && selectId.substring(0,1)!=3){
-			  		arr.isArranged = false;
-			  	}	 
+//			  	if(tvNameParam =='fztv' && selectId.substring(0,1)!=3){
+//			  		arr.isArranged = false;
+//			  	}	 
 			  	
 			  	arr.beforehand = getCellValue(row_id,col_beforehand);
 			  	
@@ -1952,14 +1866,7 @@ function getPublishArrangeFromGrid(){
 	//			arr.publishArrangeDetails =[];
 	// 			arr.publishArrangeDetails =	getPublishArrangeDetailByParent(row_id,arr.id);
 	            arr.details =	getPublishArrangeDetailByParent(row_id,arr.id);
-						}
-						
-						
-
-				
-		
-//			 alert(arr.resourceName +"          "+ arr.resourceMeno);
-			 
+			}
 			publishArranges.push(arr);
 		}
 		
@@ -1982,8 +1889,6 @@ function getPublishArrangeDetailByParent(parentId,publishArrangeId){
 			det.publishArrangeId = publishArrangeId;  
 			
 			det.publishSort = getCellValue(row_id,col_publishSort);
-			det.ctrBroSort = det.publishSort;
-
 			det.orderDayId = getCellValue(row_id,col_orderDayId);
 			det.specificValue = getCellValue(row_id,col_specificValue);
 			det.ownerUserName = getCellValue(row_id,col_ownerUserName);
@@ -1991,16 +1896,8 @@ function getPublishArrangeDetailByParent(parentId,publishArrangeId){
 			det.lastName = '';
 			det.customerName = getCellValue(row_id,col_customerName);
 			det.tapeCode = getCellValue(row_id,col_tapeCode);
-			
-			var strvalue1 = getCellValue(row_id,col_matterName); 
-			strvalue1 = strvalue1.replace(/&amp;/g,"&");
-			det.matterName = strvalue1;		
-//			det.matterName = getCellValue(row_id,col_matterName);
-			
-			var strvalue2 = getCellValue(row_id,col_matterEdit); 
-			strvalue2 = strvalue2.replace(/&amp;/g,"&");
-			det.matterEdit = strvalue2;
-
+			det.matterName = getCellValue(row_id,col_matterName);
+			det.matterEdit = getCellValue(row_id,col_matterEdit);
 			det.matterLength = getCellValue(row_id,col_matterLength);
 //			det.adverTimes = getCellValue(row_id,col_adverTimes);
 			det.adverTimes = 1;
@@ -2085,31 +1982,14 @@ function button_print_bro(){
 //	 }
 }
 function button_export_bro(){
-	if(tvNameParam =='fztv'){
-//		 var selectId =  carrierType.tree.dhtmlTree.getSelectedItemId();
-//		 if(selectId.substring(0,1)!=3){
-//		 		window.location.href=getReportURL('export');
-//		 }else{
-		 		displayExportDiv();
-//		 }
-	}else{
+//	if(tvNameParam =='fztv'){
+//		 displayExportDiv();
+//	}else{
 		 $("model").value = "export";
    		 button_print();
-	}
+//	}
 
 }
-function button_pdf_bro(){
-	if(tvNameParam =='fztv'){
-		 		displayExportDiv();
-	}else{
-		 $("model").value = "pdf";
-   		 button_print();
-	}
-
-}
-
-
-
 function button_print(){
 	
 	
@@ -2121,7 +2001,8 @@ function button_print(){
 	getCarrierName();
 
 	var selectId = obj_tree.getSelectedItemId();
-	var carrierId = carrierType.tree.getIdByPrefix(isFztv(selectId),carrier.IdPrefix); 
+//	var carrierId = carrierType.tree.getIdByPrefix(isFztv(selectId),carrier.IdPrefix); 
+	var carrierId = carrierType.tree.getIdByPrefix(selectId,carrier.IdPrefix); 
 	var parentName =  carrierType.tree.dhtmlTree.getParentId(selectId);
     
 	var carrierName = $("carrierName").value;
@@ -2156,7 +2037,8 @@ function forPrint(){
 	getCarrierName();
 	
 	var selectId = obj_tree.getSelectedItemId(); 
-	var carrierId = carrierType.tree.getIdByPrefix(isFztv(selectId),carrier.IdPrefix);
+//	var carrierId = carrierType.tree.getIdByPrefix(isFztv(selectId),carrier.IdPrefix);
+	var carrierId = carrierType.tree.getIdByPrefix(selectId,carrier.IdPrefix);
 	var parentName =  carrierType.tree.dhtmlTree.getParentId(selectId);
 	
 	if(carrierId==null||carrierId==""){
@@ -2220,33 +2102,3 @@ function getReportURL(model){
 			return url;
 	    }
 }
-
-
-
-//function encodeDataXML_bak(strDataXML){
-//		
-//			var regExpReservedCharacters=["\\$","\\+"];
-//			var arrDQAtt=strDataXML.match(/=\s*\".*?\"/g);
-//			if (arrDQAtt){
-//				for(var i=0;i<arrDQAtt.length;i++){
-//					var repStr=arrDQAtt[i].replace(/^=\s*\"|\"$/g,"");
-//					repStr=repStr.replace(/\'/g,"%26apos;");
-//					var strTo=strDataXML.indexOf(arrDQAtt[i]);
-//					var repStrr="='"+repStr+"'";
-//					var strStart=strDataXML.substring(0,strTo);
-//					var strEnd=strDataXML.substring(strTo+arrDQAtt[i].length);
-//					var strDataXML=strStart+repStrr+strEnd;
-//				}
-//			}
-//			
-//			strDataXML=strDataXML.replace(/\"/g,"%26quot;");
-//			strDataXML=strDataXML.replace(/%(?![\da-f]{2}|[\da-f]{4})/ig,"%25");
-//			strDataXML=strDataXML.replace(/\&/g,"%26");
-//
-//			return strDataXML;
-//
-//}
-	
-	
-
-	

@@ -88,7 +88,7 @@
   <tr>
     <td  valign="top"> 
     <div>
-    <div id="gridbox" width="100%" height="400" style="background-color:white;"/> 
+    <div id="gridbox" width="100%" height="500" style="background-color:white;"/> 
     </div>
     </td>
 </table>

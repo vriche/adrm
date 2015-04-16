@@ -1,0 +1,11 @@
+SET FOREIGN_KEY_CHECKS=0;
+delete from tb_oa_work_flow_result_order where order_id < 14943 ; 
+delete from tb_oa_work_flow_check  where work_flow_check_id < 23958;
+delete from  tb_published_arrang where  publish_date <20160101;
+delete from tb_published_arrang_detail where arrange_id <164566;
+delete from  tb_order_log where order_id < 14943 ; 
+delete from  tb_contract_payment  where order_id < 14943 and version<2016; 
+delete from  tb_order_day_info where version<2016;
+delete from  tb_order_detail where version<2016;
+delete from  tb_order where version<2016;
+SET FOREIGN_KEY_CHECKS=1;

@@ -4,16 +4,24 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
-
+import jxl.SheetSettings;
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
+import jxl.format.PageOrientation;
+import jxl.format.PaperSize;
 import jxl.format.VerticalAlignment;
-import jxl.write.*;
+import jxl.write.Label;
 import jxl.write.Number;
-import jxl.write.biff.*;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableImage;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 
 
 public class ExcelWriter extends BaseWriter {
@@ -69,6 +77,18 @@ public class ExcelWriter extends BaseWriter {
 		*/
 		wb = Workbook.createWorkbook(resp.getOutputStream());
 		sheet = wb.createSheet("First Sheet", 0);
+		this.setFontSize(8);
+//		sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE,PaperSize.A4,0.5d,0.5d);
+		sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE,PaperSize.A4,0,0);
+		SheetSettings sheetSettings = sheet.getSettings();
+		sheetSettings.setLeftMargin(0.2d);
+		sheetSettings.setRightMargin(0.2d);
+//		sheetSettings.setPaperSize(PaperSize.A4);s
+//		sheetSettings.setFitWidth(200);
+//		sheetSettings.setPrintArea(1, 1, 13, 13);
+	
+		
+//		sheet.setPageSetup(PageOrientation.LANDSCAPE.LANDSCAPE,PaperSize.A4,0,0);
 		colors = new RGBColor();
 	}
 

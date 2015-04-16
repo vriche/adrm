@@ -328,7 +328,6 @@ public class CarrierTypeManagerImpl extends BaseManager implements CarrierTypeMa
 	
 	private void getCarrierTypesIdsByParentForArrange(CarrierType carrType, StringBuffer sb,String IdPrefix,String carrierIdPrefix,String resourceIdPrefix,String publishDate){
 		String tvName = SysParamUtil.getTvNameParam();
-		
 //		List ls =  getAllCarrierTypesFromMap(id);
 		
 		CarrierType carrierType = new CarrierType();
@@ -351,12 +350,15 @@ public class CarrierTypeManagerImpl extends BaseManager implements CarrierTypeMa
            
 //			System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
 			
-			if(SysParamUtil.isFZTVParam(tvName)){
-				getResourceTypesIdsByParentByYear(ct.getId().toString(), sb,IdPrefix,carrierIdPrefix,resourceIdPrefix,publishDate);
-			}else{
+//			if(SysParamUtil.isFZTVParam(tvName)){
+//				getResourceTypesIdsByParentByYear(ct.getId().toString(), sb,IdPrefix,carrierIdPrefix,resourceIdPrefix,publishDate);
+//			}else{
+			
+//			System.out.println("carrierIdPrefixvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"+carrierIdPrefix);
+			
 				getCarrierTypesIdsByParentForArrange(ct, sb,IdPrefix,carrierIdPrefix,resourceIdPrefix,publishDate);
 				carrierManager.getCarriersItemsByCarrierTypeIdFromMap(sb,ct.getId().toString(),carrierIdPrefix,resourceIdPrefix,publishDate,"");
-			}
+//			}
 			
 			sb.append("</item>");            
 		}	
@@ -657,77 +659,157 @@ public class CarrierTypeManagerImpl extends BaseManager implements CarrierTypeMa
 	}
 
 	public String getCarrierTypeXMLByYear(CarrierType carrierType, String IdPrefix, String carrierIdPrefix, String resourceIdPrefix, String year) {
-		StringBuffer sb = new StringBuffer("");
-		sb.append("<?xml version=\"1.0\"?>");
-		sb.append("<tree id=\"0\">");
 		
-//		String[]   sOrgs= UserUtil.getUserOrgs(null).split(",");
-		
-		
-		int orgId = new Integer(StringUtil.null2String(carrierType.getOrgId())).intValue();
-		Integer enableStr = carrierType.getEnable();
-		 Integer fitterCarrierStr = carrierType.getFitterCarrier();
-		String loginUser = carrierType.getLoginUser();
-		
-		boolean isFineRes = "1".equals(StringUtil.getNullValue(carrierType.getIsFineRes(),"0"))?true:false;
-		boolean enable = "1".equals(StringUtil.getNullValue(enableStr,"0"))?true:false;
-//		boolean fitterCarrier = "1".equals(StringUtil.getNullValue(fitterCarrierStr,"0"))?true:false;
-		boolean fitterCarrier = SysParamUtil.getChannelModelPara();
-		
+		String curUser = UserUtil.getCurrentPrincipalUser();
+		String key = curUser+year;
 		
 
-     
-		Org org2 = new Org();
-		
-		if(orgId > 0){org2.setId(new Long(orgId));}
-
-
-		
-		List ls = orgDao.getOrgs(org2);
-		
-//		System.out.println("getCarrierTypeXMLByYear orgId>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + ls.size());
-//		System.out.println("getCarrierTypeXMLByYear enable>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + enable);
-//		System.out.println("getCarrierTypeXMLByYear fitterCarrier>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + fitterCarrier);
-//		System.out.println("getCarrierTypeXMLByYear isFineRes>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + isFineRes);
-		
-		for (Iterator it = ls.iterator();it.hasNext();){
+			StringBuffer sb = new StringBuffer("");
+			sb.append("<?xml version=\"1.0\"?>");
+			sb.append("<tree id=\"0\">");
 			
-			Org org = (Org)it.next();	
-			sb.append("<item text=\""+org.getName()+"\" id=\"root"+org.getId().toString()+"\" open=\"1\" im0=\"books_close.gif\" im1=\"tombs.gif\" im2=\"tombs.gif\"  >");
-			sb.append("<userdata name=\"id\"> "+ org.getId().toString() +"</userdata>");
-			sb.append("<userdata name=\"type\">0</userdata>");
+			int orgId = new Integer(StringUtil.null2String(carrierType.getOrgId())).intValue();
+			Integer enableStr = carrierType.getEnable();
+			 Integer fitterCarrierStr = carrierType.getFitterCarrier();
+			String loginUser = carrierType.getLoginUser();
 			
-				CarrierType cType = new CarrierType();
-				cType.setOrgId(new Long(org.getId().toString()));
-				cType.setParentId(new Long("0"));
-				List ls2 = this.getCarrierTypes(cType);
-				Iterator it2 = ls2.iterator();
-//				System.out.println("ls2.size>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +ls2.size());
-				while (it2.hasNext()) {
-					
-					CarrierType ct = (CarrierType) it2.next();
-					String catypeId =IdPrefix+ ct.getId().toString();
-					
-					
-					sb.append("<item  id='" + catypeId + "' open='" + catypeId + "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" text=\""+ ct.getName().toString() + "\">");
-					sb.append("<userdata name=\"id\">" + ct.getId().toString()+ "</userdata>");
-					sb.append("<userdata name=\"type\">1</userdata>");
-					sb.append("<userdata name=\"parentId\">"+ ct.getParentId()+"</userdata>");
-					
-					getCarrierTypesIdsByParentByYear(ct.getId().toString(),sb,IdPrefix,carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo(),carrierType.getMemo(),enable,fitterCarrier,loginUser,isFineRes);
-//					System.out.println("getCarrierTypeXMLByYear  ct.getName()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +  ct.getName());
-					carrierManager.getCarriersItemsByCarrierTypeIdByYear2(sb,ct.getId().toString(),carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo(),carrierType.getMemo(),enable,fitterCarrier,loginUser,isFineRes);
+			boolean isFineRes = "1".equals(StringUtil.getNullValue(carrierType.getIsFineRes(),"0"))?true:false;
+			boolean enable = "1".equals(StringUtil.getNullValue(enableStr,"0"))?true:false;
+//			boolean fitterCarrier = "1".equals(StringUtil.getNullValue(fitterCarrierStr,"0"))?true:false;
+			boolean fitterCarrier = SysParamUtil.getChannelModelPara();
+			Org org2 = new Org();
+			if(orgId > 0){org2.setId(new Long(orgId));}
+			List ls = orgDao.getOrgs(org2);
+			
+			for (Iterator it = ls.iterator();it.hasNext();){
+				
+				Org org = (Org)it.next();	
+				sb.append("<item text=\""+org.getName()+"\" id=\"root"+org.getId().toString()+"\" open=\"1\" im0=\"books_close.gif\" im1=\"tombs.gif\" im2=\"tombs.gif\"  >");
+				sb.append("<userdata name=\"id\"> "+ org.getId().toString() +"</userdata>");
+				sb.append("<userdata name=\"type\">0</userdata>");
+				
+					CarrierType cType = new CarrierType();
+					cType.setOrgId(new Long(org.getId().toString()));
+					cType.setParentId(new Long("0"));
+					List ls2 = this.getCarrierTypes(cType);
+					Iterator it2 = ls2.iterator();
+//					System.out.println("ls2.size>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +ls2.size());
+					while (it2.hasNext()) {
+						
+						CarrierType ct = (CarrierType) it2.next();
+						String catypeId =IdPrefix+ ct.getId().toString();
 
-//					carrierManager.getCarriersItemsByCarrierTypeIdByYear(sb,ct.getId().toString(),carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo());
-					sb.append("</item>");
-				}
+						sb.append("<item  id='" + catypeId + "' open='" + catypeId + "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" text=\""+ ct.getName().toString() + "\">");
+						sb.append("<userdata name=\"id\">" + ct.getId().toString()+ "</userdata>");
+						sb.append("<userdata name=\"type\">1</userdata>");
+						sb.append("<userdata name=\"parentId\">"+ ct.getParentId()+"</userdata>");
+						
+						getCarrierTypesIdsByParentByYear(ct.getId().toString(),sb,IdPrefix,carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo(),carrierType.getMemo(),enable,fitterCarrier,loginUser,isFineRes);
+//						System.out.println("getCarrierTypeXMLByYear  ct.getName()>>>>>>>>>>>>>>abc>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +  ct.getName());
+						carrierManager.getCarriersItemsByCarrierTypeIdByYear2(sb,ct.getId().toString(),carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo(),carrierType.getMemo(),enable,fitterCarrier,loginUser,isFineRes);
 
-			sb.append("</item>");
+//						carrierManager.getCarriersItemsByCarrierTypeIdByYear(sb,ct.getId().toString(),carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo());
+						sb.append("</item>");
+					}
+
+				sb.append("</item>");
+			}
+			
+			sb.append("</tree>");
+			
+			String rs = sb.toString();
+			
+			Map mp2 = new HashMap();
+			mp2.put(key, rs);
+			Constants.APPLACTION_MAP.put(Constants.AVAILABLE_CARRIER_RESOURCE_TREE, mp2);
+		
+			return rs;
+	
+
+	}
+	
+	
+	public String getCarrierTypeXMLByYear2(CarrierType carrierType, String IdPrefix, String carrierIdPrefix, String resourceIdPrefix, String year) {
+		Map mp = new HashMap();
+		String curUser = UserUtil.getCurrentPrincipalUser();
+		String key = curUser+year;
+		
+
+		Object obj1 = Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_RESOURCE_TREE);
+		if(obj1 != null){
+			 mp =(Map)obj1;
+		}else{
+			mp.put(Constants.AVAILABLE_CARRIER_RESOURCE_TREE, new HashMap());
 		}
 		
-		sb.append("</tree>");
+		
+		Object obj = mp.get(key);
+		if(obj != null){
+			return (String)obj;
+		}else{
+			StringBuffer sb = new StringBuffer("");
+			sb.append("<?xml version=\"1.0\"?>");
+			sb.append("<tree id=\"0\">");
+			
+			int orgId = new Integer(StringUtil.null2String(carrierType.getOrgId())).intValue();
+			Integer enableStr = carrierType.getEnable();
+			 Integer fitterCarrierStr = carrierType.getFitterCarrier();
+			String loginUser = carrierType.getLoginUser();
+			
+			boolean isFineRes = "1".equals(StringUtil.getNullValue(carrierType.getIsFineRes(),"0"))?true:false;
+			boolean enable = "1".equals(StringUtil.getNullValue(enableStr,"0"))?true:false;
+//			boolean fitterCarrier = "1".equals(StringUtil.getNullValue(fitterCarrierStr,"0"))?true:false;
+			boolean fitterCarrier = SysParamUtil.getChannelModelPara();
+			Org org2 = new Org();
+			if(orgId > 0){org2.setId(new Long(orgId));}
+			List ls = orgDao.getOrgs(org2);
+			
+			for (Iterator it = ls.iterator();it.hasNext();){
+				
+				Org org = (Org)it.next();	
+				sb.append("<item text=\""+org.getName()+"\" id=\"root"+org.getId().toString()+"\" open=\"1\" im0=\"books_close.gif\" im1=\"tombs.gif\" im2=\"tombs.gif\"  >");
+				sb.append("<userdata name=\"id\"> "+ org.getId().toString() +"</userdata>");
+				sb.append("<userdata name=\"type\">0</userdata>");
+				
+					CarrierType cType = new CarrierType();
+					cType.setOrgId(new Long(org.getId().toString()));
+					cType.setParentId(new Long("0"));
+					List ls2 = this.getCarrierTypes(cType);
+					Iterator it2 = ls2.iterator();
+//					System.out.println("ls2.size>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +ls2.size());
+					while (it2.hasNext()) {
+						
+						CarrierType ct = (CarrierType) it2.next();
+						String catypeId =IdPrefix+ ct.getId().toString();
+						
+						
+						sb.append("<item  id='" + catypeId + "' open='" + catypeId + "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" text=\""+ ct.getName().toString() + "\">");
+						sb.append("<userdata name=\"id\">" + ct.getId().toString()+ "</userdata>");
+						sb.append("<userdata name=\"type\">1</userdata>");
+						sb.append("<userdata name=\"parentId\">"+ ct.getParentId()+"</userdata>");
+						
+						getCarrierTypesIdsByParentByYear(ct.getId().toString(),sb,IdPrefix,carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo(),carrierType.getMemo(),enable,fitterCarrier,loginUser,isFineRes);
+//						System.out.println("getCarrierTypeXMLByYear  ct.getName()>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +  ct.getName());
+						carrierManager.getCarriersItemsByCarrierTypeIdByYear2(sb,ct.getId().toString(),carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo(),carrierType.getMemo(),enable,fitterCarrier,loginUser,isFineRes);
 
-		return sb.toString();
+//						carrierManager.getCarriersItemsByCarrierTypeIdByYear(sb,ct.getId().toString(),carrierIdPrefix,resourceIdPrefix,year,carrierType.getNodeLevel(),carrierType.getDisplayNo());
+						sb.append("</item>");
+					}
+
+				sb.append("</item>");
+			}
+			
+			sb.append("</tree>");
+			
+			String rs = sb.toString();
+			
+			Map mp2 = new HashMap();
+			mp2.put(key, rs);
+			Constants.APPLACTION_MAP.put(Constants.AVAILABLE_CARRIER_RESOURCE_TREE, mp2);
+		
+			return rs;
+		}
+
 	}
 	
 	private void getCarrierTypesIdsByParentByYear(String parentId, StringBuffer sb,String IdPrefix,String carrierIdPrefix,String resourceIdPrefix, String year,Integer resourceType,Integer orderBy,String displayCarModerier,boolean enable,boolean fitterCarrier,String loginUser,boolean isFineRes ){

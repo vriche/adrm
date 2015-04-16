@@ -401,7 +401,10 @@ public class UserUtil {
 		return getCurUser(currentUser);
 	}
 	public static String getLoginUser(String loginUser){
-		loginUser = (loginUser == null||"".equals(loginUser))?getCurrentPrincipalUser():loginUser;
+		
+//		System.out.println("getCarrierIds getCurrentPrincipalUser >>>>>>"+getCurrentPrincipalUser()) ;
+
+		loginUser = (loginUser == null||"".equals(loginUser)||"null".equals(loginUser))?getCurrentPrincipalUser():loginUser;
 		return loginUser;
 	}
 	

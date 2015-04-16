@@ -43,6 +43,8 @@ public class Constants {
     
     public static final String SELET_CONPTCH ="selet_contpatch";
     
+    public static final String FILE_GRID_REPORT_DIR ="grid_report";
+    
     //系统SQL脚本存放路径
     public static final String FILE_PATH_SQL_SCRIPT ="com/vriche/adrm/dao/ibatis/script/";
     
@@ -63,6 +65,7 @@ public class Constants {
     
     public static final String APP_SYS_LOGO_FILE ="appSystemLogoFile";
     public static final String REPORTS_TEMPLE_PATH ="reportsTemplePath";
+    public static final String REPORTS_TEMPLE_PATH2 ="reportsTemplePath2";
     public static final String FILE_PATH_SERVELT_CONTEXT_ROOT ="filePathServletContexRoot";
     public static final String FILE_PATH_APP_CONTEXT_ROOT ="filePathAppContexRoot";
     
@@ -260,7 +263,21 @@ public class Constants {
     
     public static final String FITTER_INCOME_POURS_WITHOUT= "fitterIncomePoursWithout";  
     
+    
+ // 新签订单广告排期默认月份,默认当前月份+2
+    public static final String  ORDER_ARRANG_DEFAULT_MONTHS= "orderArrangDefaultMonths";   
+    
 
+    // 出串联单限制排期的修改
+    public static final String  OUT_LIMIT_BROARRANG= "outLimitBroarrang";   
+    
+    // 使用客户广告投放的时间比率
+    public static final String  RESOURCE_USE_CUSTOMER_CATELOG= "resourceUseCustomerCatelog";   
+    
+    
+    // 时间使用比率表
+    public static final String  RESOURCE_USE_RATE_TABLE= "resourceUseRateTable";   
+    
     
     /*
      * 编号规则 根据名称查找下一编号
@@ -468,6 +485,10 @@ public class Constants {
 	 
 	 //广告编排是否显示品牌
 	 public static final String ARRANGE_WITH_BRAND_PARAM = "arrangeWithBrandParam"; 
+	 
+	 
+	 //广告资源树缓存
+	 public static final String AVAILABLE_CARRIER_RESOURCE_TREE = "available_carrier_resource_tree"; 
 	 
 	 
 

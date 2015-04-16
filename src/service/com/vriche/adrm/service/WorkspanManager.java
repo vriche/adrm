@@ -61,5 +61,7 @@ public interface WorkspanManager extends Manager {
 	public List getWorkspansByResourceIdList(String[] resourceIds); 
 	
 	public void resetAllSpecByOrderDayInfo(String year);
+	
+	public void saveDayinfoByWorkspan(String version);
 }
 

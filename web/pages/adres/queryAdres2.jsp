@@ -63,6 +63,7 @@
 
 
 
+
 <script type="text/javascript" src="<c:url value='/scripts/ext/3.2.0/plus/gridfilters/menu/ListMenu.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/ext/3.2.0/plus/gridfilters/menu/RangeMenu.js'/>"></script>
 
@@ -121,8 +122,8 @@
 		             
 				     <td width="1px">
 							    <select id="unitss"  style="CURSOR: pointer;">
-								   		 <option value="1" selected>∑÷÷”</option>
-							             <option value="2">√Î</option>
+								   		 <option value="2" selected>√Î</option>
+								   		 <option value="1" >∑÷÷”</option>
 								 </select>
 		             </td>  
 		             		                       

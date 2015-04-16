@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE form-validation PUBLIC "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN" "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+     <global>
+      <constant>
+        <constant-name>phone</constant-name>
+        <constant-value>^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$</constant-value>
+      </constant>
+      <constant>
+        <constant-name>zip</constant-name>
+        <constant-value>^\d{5}\d*$</constant-value>
+      </constant>
+      <constant>
+        <constant-name>currency</constant-name>
+        <constant-value>^\d{1,3}(,?\d{1,3})*\.?(\d{1,2})?$</constant-value>
+      </constant> 
+   </global>
+   <formset>
+        <form name="uploadForm">
+            <field property="name" depends="required">
+                <arg0 key="uploadForm.name"/>
+            </field>
+            <!-- Client-side Javascript won't catch this, but server-side will -->
+            <field property="file" depends="required">
+                <arg0 key="uploadForm.file"/>
+            </field>
+        </form>
+    </formset>
+
+  <formset>
+  <!--
+    Define form validation config in validation-forms.xml
+  -->
+
+      <form name="agentInfoForm">
+              <field property="categoryForm.categoryName"
+                     depends="required">
+
+                  <arg0 key="agentInfoForm.categoryForm.categoryName"/>
+              </field>
+              <field property="customerId"
+                     depends="required">
+
+                  <arg0 key="agentInfoForm.customerId"/>
+              </field>
+      </form>
+      <form name="linkManForm">
+              <field property="linkmanName"
+                     depends="required">
+
+                  <arg0 key="linkManForm.linkmanName"/>
+              </field>
+      </form>
+      <form name="sysPromptModeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysPromptModeForm.name"/>
+              </field>
+      </form>
+      <form name="compagesForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="compagesForm.name"/>
+              </field>
+      </form>
+      <form name="linkHisotryForm">
+              <field property="subject"
+                     depends="required">
+
+                  <arg0 key="linkHisotryForm.subject"/>
+              </field>
+      </form>
+      <form name="carrierTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="carrierTypeForm.name"/>
+              </field>
+      </form>
+      <form name="productCategoryForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="productCategoryForm.name"/>
+              </field>
+      </form>
+      <form name="publishArrangeDetailForm">
+              <field property="matterName"
+                     depends="required">
+
+                  <arg0 key="publishArrangeDetailForm.matterName"/>
+              </field>
+              <field property="publishArrangeForm.publishDate"
+                     depends="required">
+
+                  <arg0 key="publishArrangeDetailForm.publishArrangeForm.publishDate"/>
+              </field>
+      </form>
+      <form name="resourceSortForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="resourceSortForm.name"/>
+              </field>
+      </form>
+      <form name="oaWorkFlowCheckResultForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowCheckResultForm.name"/>
+              </field>
+      </form>
+      <form name="addressForm">
+              <field property="city"
+                     depends="required">
+
+                  <arg0 key="addressForm.city"/>
+              </field>
+              <field property="province"
+                     depends="required">
+
+                  <arg0 key="addressForm.province"/>
+              </field>
+              <field property="country"
+                     depends="required">
+
+                  <arg0 key="addressForm.country"/>
+              </field>
+              <field property="postalCode"
+                     depends="required,mask">
+                  <msg
+                    name="mask"
+                    key="errors.zip"/>
+
+                  <arg0 key="addressForm.postalCode"/>
+                  <var>
+                    <var-name>mask</var-name>
+                    <var-value>${zip}</var-value>
+                  </var>
+              </field>
+      </form>
+      <form name="specificForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="specificForm.name"/>
+              </field>
+      </form>
+      <form name="oaDocumentForm">
+              <field property="title"
+                     depends="required">
+
+                  <arg0 key="oaDocumentForm.title"/>
+              </field>
+      </form>
+      <form name="matterTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="matterTypeForm.name"/>
+              </field>
+      </form>
+      <form name="oaWorkFlowForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowForm.name"/>
+              </field>
+              <field property="workFlowTypeId"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowForm.workFlowTypeId"/>
+              </field>
+      </form>
+      <form name="foretArrearageForm">
+              <field property="customerName"
+                     depends="required">
+
+                  <arg0 key="foretArrearageForm.customerName"/>
+              </field>
+              <field property="incomeDate"
+                     depends="required">
+
+                  <arg0 key="foretArrearageForm.incomeDate"/>
+              </field>
+              <field property="payDate"
+                     depends="required">
+
+                  <arg0 key="foretArrearageForm.payDate"/>
+              </field>
+      </form>
+      <form name="customerTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="customerTypeForm.name"/>
+              </field>
+      </form>
+      <form name="oaAreaPcForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaAreaPcForm.name"/>
+              </field>
+      </form>
+      <form name="accountForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="accountForm.name"/>
+              </field>
+      </form>
+      <form name="priceTypeForm">
+              <field property="priceTypeName"
+                     depends="required">
+
+                  <arg0 key="priceTypeForm.priceTypeName"/>
+              </field>
+      </form>
+      <form name="matterForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="matterForm.name"/>
+              </field>
+              <field property="length"
+                     depends="required">
+
+                  <arg0 key="matterForm.length"/>
+              </field>
+      </form>
+      <form name="oaAreaCityForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaAreaCityForm.name"/>
+              </field>
+              <field property="code"
+                     depends="required">
+
+                  <arg0 key="oaAreaCityForm.code"/>
+              </field>
+      </form>
+      <form name="contractPaymentForm">
+              <field property="resourceTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="contractPaymentForm.resourceTypeForm.name"/>
+              </field>
+              <field property="payDate"
+                     depends="required">
+
+                  <arg0 key="contractPaymentForm.payDate"/>
+              </field>
+      </form>
+      <form name="carrierForm">
+              <field property="carrierName"
+                     depends="required">
+
+                  <arg0 key="carrierForm.carrierName"/>
+              </field>
+              <field property="resourceChannelForm.name"
+                     depends="required">
+
+                  <arg0 key="carrierForm.resourceChannelForm.name"/>
+              </field>
+      </form>
+      <form name="mediaOrgForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="mediaOrgForm.name"/>
+              </field>
+      </form>
+      <form name="oaWorkFlowMoveTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowMoveTypeForm.name"/>
+              </field>
+      </form>
+      <form name="incomeUsedForm">
+              <field property="moneyIn"
+                     depends="required">
+
+                  <arg0 key="incomeUsedForm.moneyIn"/>
+              </field>
+              <field property="incomeForm.incomeCode"
+                     depends="required">
+
+                  <arg0 key="incomeUsedForm.incomeForm.incomeCode"/>
+              </field>
+              <field property="incomeForm.customerId"
+                     depends="required">
+
+                  <arg0 key="incomeUsedForm.incomeForm.customerId"/>
+              </field>
+              <field property="orderDayInfoForm.dayInfoForm.resourceForm.resourceName"
+                     depends="required">
+
+                  <arg0 key="incomeUsedForm.orderDayInfoForm.dayInfoForm.resourceForm.resourceName"/>
+              </field>
+              <field property="orderDayInfoForm.dayInfoForm.resourceForm.resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="incomeUsedForm.orderDayInfoForm.dayInfoForm.resourceForm.resTypeForm.name"/>
+              </field>
+              <field property="orderDayInfoForm.dayInfoForm.publishDate"
+                     depends="required">
+
+                  <arg0 key="incomeUsedForm.orderDayInfoForm.dayInfoForm.publishDate"/>
+              </field>
+      </form>
+      <form name="sysUserTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysUserTypeForm.name"/>
+              </field>
+      </form>
+      <form name="sysMenuForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysMenuForm.name"/>
+              </field>
+      </form>
+      <form name="orderDetailForm">
+              <field property="resourceInfoId"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.resourceInfoId"/>
+              </field>
+              <field property="resourceForm.resourceName"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.resourceForm.resourceName"/>
+              </field>
+              <field property="resourceForm.resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.resourceForm.resTypeForm.name"/>
+              </field>
+              <field property="specificForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.specificForm.name"/>
+              </field>
+              <field property="compagesForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.compagesForm.name"/>
+              </field>
+              <field property="orderCategoryForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.orderCategoryForm.name"/>
+              </field>
+              <field property="priceTypeForm.priceTypeName"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.priceTypeForm.priceTypeName"/>
+              </field>
+              <field property="orderForm.customerId"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.orderForm.customerId"/>
+              </field>
+              <field property="orderForm.categoryId"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.orderForm.categoryId"/>
+              </field>
+              <field property="orderForm.userId"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.orderForm.userId"/>
+              </field>
+              <field property="orderForm.orderCategoryForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailForm.orderForm.orderCategoryForm.name"/>
+              </field>
+      </form>
+      <form name="oaAssetsForm">
+              <field property="assetsCode"
+                     depends="required">
+
+                  <arg0 key="oaAssetsForm.assetsCode"/>
+              </field>
+      </form>
+      <form name="contractTargetForm">
+              <field property="contractId"
+                     depends="required">
+
+                  <arg0 key="contractTargetForm.contractId"/>
+              </field>
+      </form>
+      <form name="orderForm">
+              <field property="customerId"
+                     depends="required">
+
+                  <arg0 key="orderForm.customerId"/>
+              </field>
+              <field property="categoryId"
+                     depends="required">
+
+                  <arg0 key="orderForm.categoryId"/>
+              </field>
+              <field property="userId"
+                     depends="required">
+
+                  <arg0 key="orderForm.userId"/>
+              </field>
+              <field property="orderCategoryForm.name"
+                     depends="required">
+
+                  <arg0 key="orderForm.orderCategoryForm.name"/>
+              </field>
+      </form>
+      <form name="oaBusinessCardForm">
+              <field property="firstName"
+                     depends="required">
+
+                  <arg0 key="oaBusinessCardForm.firstName"/>
+              </field>
+              <field property="lastName"
+                     depends="required">
+
+                  <arg0 key="oaBusinessCardForm.lastName"/>
+              </field>
+      </form>
+      <form name="userForm">
+              <field property="username"
+                     depends="required">
+
+                  <arg0 key="userForm.username"/>
+              </field>
+              <field property="password"
+                     depends="required,twofields">
+                  <msg
+                    name="twofields"
+                    key="errors.twofields"/>
+
+                  <arg0 key="userForm.password"/>
+                  <arg1
+                    key="userForm.confirmPassword"
+                  />
+                  <var>
+                    <var-name>secondProperty</var-name>
+                    <var-value>confirmPassword</var-value>
+                  </var>
+              </field>
+              <field property="confirmPassword"
+                     depends="required">
+
+                  <arg0 key="userForm.confirmPassword"/>
+              </field>
+              <field property="passwordHint"
+                     depends="required">
+
+                  <arg0 key="userForm.passwordHint"/>
+              </field>
+              <field property="firstName"
+                     depends="required">
+
+                  <arg0 key="userForm.firstName"/>
+              </field>
+              <field property="lastName"
+                     depends="required">
+
+                  <arg0 key="userForm.lastName"/>
+              </field>
+              <field property="email"
+                     depends="required,email">
+
+                  <arg0 key="userForm.email"/>
+              </field>
+              <field property="phoneNumber"
+                     depends="mask">
+                  <msg
+                    name="mask"
+                    key="errors.phone"/>
+
+                  <arg0 key="userForm.phoneNumber"/>
+                  <var>
+                    <var-name>mask</var-name>
+                    <var-value>${phone}</var-value>
+                  </var>
+              </field>
+              <field property="website"
+                     depends="required">
+
+                  <arg0 key="userForm.website"/>
+              </field>
+      </form>
+      <form name="oaApplyInfoForm">
+              <field property="applyStart"
+                     depends="required">
+
+                  <arg0 key="oaApplyInfoForm.applyStart"/>
+              </field>
+              <field property="applyEnd"
+                     depends="required">
+
+                  <arg0 key="oaApplyInfoForm.applyEnd"/>
+              </field>
+      </form>
+      <form name="resourceChannelForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="resourceChannelForm.name"/>
+              </field>
+      </form>
+      <form name="publishArrangeForm">
+              <field property="publishDate"
+                     depends="required">
+
+                  <arg0 key="publishArrangeForm.publishDate"/>
+              </field>
+      </form>
+      <form name="oaProductUsedForm">
+              <field property="useMan"
+                     depends="required">
+
+                  <arg0 key="oaProductUsedForm.useMan"/>
+              </field>
+      </form>
+      <form name="orgForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="orgForm.name"/>
+              </field>
+      </form>
+      <form name="incomeModeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="incomeModeForm.name"/>
+              </field>
+      </form>
+      <form name="oaProductTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaProductTypeForm.name"/>
+              </field>
+      </form>
+      <form name="oaCalendarEventForm">
+              <field property="content"
+                     depends="required">
+
+                  <arg0 key="oaCalendarEventForm.content"/>
+              </field>
+              <field property="title"
+                     depends="required">
+
+                  <arg0 key="oaCalendarEventForm.title"/>
+              </field>
+      </form>
+      <form name="orderDayInfoForm">
+              <field property="dayInfoForm.resourceForm.resourceName"
+                     depends="required">
+
+                  <arg0 key="orderDayInfoForm.dayInfoForm.resourceForm.resourceName"/>
+              </field>
+              <field property="dayInfoForm.resourceForm.resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDayInfoForm.dayInfoForm.resourceForm.resTypeForm.name"/>
+              </field>
+              <field property="dayInfoForm.publishDate"
+                     depends="required">
+
+                  <arg0 key="orderDayInfoForm.dayInfoForm.publishDate"/>
+              </field>
+      </form>
+      <form name="oaTeleExpensesForm">
+              <field property="expenses"
+                     depends="required">
+
+                  <arg0 key="oaTeleExpensesForm.expenses"/>
+              </field>
+              <field property="registerDate"
+                     depends="required">
+
+                  <arg0 key="oaTeleExpensesForm.registerDate"/>
+              </field>
+              <field property="branchId"
+                     depends="required">
+
+                  <arg0 key="oaTeleExpensesForm.branchId"/>
+              </field>
+              <field property="branchForm.name"
+                     depends="required">
+
+                  <arg0 key="oaTeleExpensesForm.branchForm.name"/>
+              </field>
+      </form>
+      <form name="oaAssetsTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaAssetsTypeForm.name"/>
+              </field>
+      </form>
+      <form name="customerAddressForm">
+              <field property="customerId"
+                     depends="required">
+
+                  <arg0 key="customerAddressForm.customerId"/>
+              </field>
+              <field property="city"
+                     depends="required">
+
+                  <arg0 key="customerAddressForm.city"/>
+              </field>
+              <field property="province"
+                     depends="required">
+
+                  <arg0 key="customerAddressForm.province"/>
+              </field>
+              <field property="country"
+                     depends="required">
+
+                  <arg0 key="customerAddressForm.country"/>
+              </field>
+              <field property="postalCode"
+                     depends="required,mask">
+                  <msg
+                    name="mask"
+                    key="errors.zip"/>
+
+                  <arg0 key="customerAddressForm.postalCode"/>
+                  <var>
+                    <var-name>mask</var-name>
+                    <var-value>${zip}</var-value>
+                  </var>
+              </field>
+      </form>
+      <form name="oaAssetsStateForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaAssetsStateForm.name"/>
+              </field>
+      </form>
+      <form name="sysParamForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysParamForm.name"/>
+              </field>
+              <field property="value"
+                     depends="required">
+
+                  <arg0 key="sysParamForm.value"/>
+              </field>
+      </form>
+      <form name="CContractPaymentForm">
+              <field property="resourceTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="CContractPaymentForm.resourceTypeForm.name"/>
+              </field>
+      </form>
+      <form name="incomePurposeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="incomePurposeForm.name"/>
+              </field>
+      </form>
+      <form name="resourceForm">
+              <field property="resourceName"
+                     depends="required">
+
+                  <arg0 key="resourceForm.resourceName"/>
+              </field>
+              <field property="resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="resourceForm.resTypeForm.name"/>
+              </field>
+      </form>
+      <form name="sysEventTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysEventTypeForm.name"/>
+              </field>
+      </form>
+      <form name="oaDocumentCatalogPermitTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaDocumentCatalogPermitTypeForm.name"/>
+              </field>
+      </form>
+      <form name="priceRegularForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="priceRegularForm.name"/>
+              </field>
+              <field property="regularExpr"
+                     depends="required">
+
+                  <arg0 key="priceRegularForm.regularExpr"/>
+              </field>
+      </form>
+      <form name="oaScratchpadForm">
+              <field property="content"
+                     depends="required">
+
+                  <arg0 key="oaScratchpadForm.content"/>
+              </field>
+      </form>
+      <form name="incomePullForm">
+              <field property="moneyIn"
+                     depends="required">
+
+                  <arg0 key="incomePullForm.moneyIn"/>
+              </field>
+              <field property="incomeForm.incomeCode"
+                     depends="required">
+
+                  <arg0 key="incomePullForm.incomeForm.incomeCode"/>
+              </field>
+              <field property="incomeForm.customerId"
+                     depends="required">
+
+                  <arg0 key="incomePullForm.incomeForm.customerId"/>
+              </field>
+              <field property="resourceTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="incomePullForm.resourceTypeForm.name"/>
+              </field>
+      </form>
+      <form name="incomeForm">
+              <field property="incomeCode"
+                     depends="required">
+
+                  <arg0 key="incomeForm.incomeCode"/>
+              </field>
+              <field property="customerId"
+                     depends="required">
+
+                  <arg0 key="incomeForm.customerId"/>
+              </field>
+      </form>
+      <form name="contractForm">
+              <field property="code"
+                     depends="required">
+
+                  <arg0 key="contractForm.code"/>
+              </field>
+              <field property="customerId"
+                     depends="required">
+
+                  <arg0 key="contractForm.customerId"/>
+              </field>
+      </form>
+      <form name="orderLogForm">
+              <field property="orderId"
+                     depends="required">
+
+                  <arg0 key="orderLogForm.orderId"/>
+              </field>
+              <field property="orderDetailId"
+                     depends="required">
+
+                  <arg0 key="orderLogForm.orderDetailId"/>
+              </field>
+              <field property="changeContent"
+                     depends="null">
+
+                  <arg0 key="orderLogForm.changeContent"/>
+              </field>
+              <field property="orderForm.customerId"
+                     depends="required">
+
+                  <arg0 key="orderLogForm.orderForm.customerId"/>
+              </field>
+              <field property="orderForm.categoryId"
+                     depends="required">
+
+                  <arg0 key="orderLogForm.orderForm.categoryId"/>
+              </field>
+              <field property="orderForm.userId"
+                     depends="required">
+
+                  <arg0 key="orderLogForm.orderForm.userId"/>
+              </field>
+              <field property="orderForm.orderCategoryForm.name"
+                     depends="required">
+
+                  <arg0 key="orderLogForm.orderForm.orderCategoryForm.name"/>
+              </field>
+      </form>
+      <form name="oaInfoTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaInfoTypeForm.name"/>
+              </field>
+      </form>
+      <form name="sysSequenceForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysSequenceForm.name"/>
+              </field>
+              <field property="startNo"
+                     depends="required">
+
+                  <arg0 key="sysSequenceForm.startNo"/>
+              </field>
+              <field property="incrementNo"
+                     depends="required">
+
+                  <arg0 key="sysSequenceForm.incrementNo"/>
+              </field>
+              <field property="currentNext"
+                     depends="required">
+
+                  <arg0 key="sysSequenceForm.currentNext"/>
+              </field>
+              <field property="currentNextSys"
+                     depends="required">
+
+                  <arg0 key="sysSequenceForm.currentNextSys"/>
+              </field>
+      </form>
+      <form name="sysResourceForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysResourceForm.name"/>
+              </field>
+      </form>
+      <form name="publishMemoForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="publishMemoForm.name"/>
+              </field>
+      </form>
+      <form name="priceForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="priceForm.name"/>
+              </field>
+              <field property="priceDetailForm.price"
+                     depends="required">
+
+                  <arg0 key="priceForm.priceDetailForm.price"/>
+              </field>
+              <field property="resourceForm.resourceName"
+                     depends="required">
+
+                  <arg0 key="priceForm.resourceForm.resourceName"/>
+              </field>
+              <field property="resourceForm.resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="priceForm.resourceForm.resTypeForm.name"/>
+              </field>
+              <field property="priceTypeForm.priceTypeName"
+                     depends="required">
+
+                  <arg0 key="priceForm.priceTypeForm.priceTypeName"/>
+              </field>
+              <field property="compagesForm.name"
+                     depends="required">
+
+                  <arg0 key="priceForm.compagesForm.name"/>
+              </field>
+      </form>
+      <form name="categoryForm">
+              <field property="categoryName"
+                     depends="required">
+
+                  <arg0 key="categoryForm.categoryName"/>
+              </field>
+      </form>
+      <form name="resourceTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="resourceTypeForm.name"/>
+              </field>
+      </form>
+      <form name="oaBusinessCardTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaBusinessCardTypeForm.name"/>
+              </field>
+      </form>
+      <form name="contractTargetMonthForm">
+              <field property="monthDate"
+                     depends="null">
+
+                  <arg0 key="contractTargetMonthForm.monthDate"/>
+              </field>
+              <field property="yearDate"
+                     depends="null">
+
+                  <arg0 key="contractTargetMonthForm.yearDate"/>
+              </field>
+      </form>
+      <form name="customerForm">
+              <field property="customerName"
+                     depends="required">
+
+                  <arg0 key="customerForm.customerName"/>
+              </field>
+              <field property="helpCode"
+                     depends="required">
+
+                  <arg0 key="customerForm.helpCode"/>
+              </field>
+              <field property="categoryForm.categoryName"
+                     depends="required">
+
+                  <arg0 key="customerForm.categoryForm.categoryName"/>
+              </field>
+              <field property="linkManForm.linkmanName"
+                     depends="required">
+
+                  <arg0 key="customerForm.linkManForm.linkmanName"/>
+              </field>
+      </form>
+      <form name="financeTargetForm">
+              <field property="carrierId"
+                     depends="required">
+
+                  <arg0 key="financeTargetForm.carrierId"/>
+              </field>
+      </form>
+      <form name="oaDocumentFileForm">
+              <field property="fileName"
+                     depends="required">
+
+                  <arg0 key="oaDocumentFileForm.fileName"/>
+              </field>
+      </form>
+      <form name="CMatterForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="CMatterForm.name"/>
+              </field>
+              <field property="length"
+                     depends="required">
+
+                  <arg0 key="CMatterForm.length"/>
+              </field>
+              <field property="customerId"
+                     depends="required">
+
+                  <arg0 key="CMatterForm.customerId"/>
+              </field>
+              <field property="brandForm.name"
+                     depends="required">
+
+                  <arg0 key="CMatterForm.brandForm.name"/>
+              </field>
+      </form>
+      <form name="brandForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="brandForm.name"/>
+              </field>
+      </form>
+      <form name="oaDocumentCatalogForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaDocumentCatalogForm.name"/>
+              </field>
+      </form>
+      <form name="publishedInfoForm">
+              <field property="customerId"
+                     depends="required">
+
+                  <arg0 key="publishedInfoForm.customerId"/>
+              </field>
+              <field property="publishDate"
+                     depends="required">
+
+                  <arg0 key="publishedInfoForm.publishDate"/>
+              </field>
+      </form>
+      <form name="feedbackInfoForm">
+              <field property="feedContent"
+                     depends="required">
+
+                  <arg0 key="feedbackInfoForm.feedContent"/>
+              </field>
+      </form>
+      <form name="resourceLimitForm">
+              <field property="limitTime"
+                     depends="required">
+
+                  <arg0 key="resourceLimitForm.limitTime"/>
+              </field>
+              <field property="starTh"
+                     depends="required">
+
+                  <arg0 key="resourceLimitForm.starTh"/>
+              </field>
+              <field property="starTm"
+                     depends="required">
+
+                  <arg0 key="resourceLimitForm.starTm"/>
+              </field>
+              <field property="endTh"
+                     depends="required">
+
+                  <arg0 key="resourceLimitForm.endTh"/>
+              </field>
+              <field property="endTm"
+                     depends="required">
+
+                  <arg0 key="resourceLimitForm.endTm"/>
+              </field>
+              <field property="resourceForm.resourceName"
+                     depends="required">
+
+                  <arg0 key="resourceLimitForm.resourceForm.resourceName"/>
+              </field>
+              <field property="resourceForm.resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="resourceLimitForm.resourceForm.resTypeForm.name"/>
+              </field>
+      </form>
+      <form name="branchForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="branchForm.name"/>
+              </field>
+      </form>
+      <form name="orderDetailBakForm">
+              <field property="resourceInfoId"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.resourceInfoId"/>
+              </field>
+              <field property="resourceForm.resourceName"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.resourceForm.resourceName"/>
+              </field>
+              <field property="resourceForm.resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.resourceForm.resTypeForm.name"/>
+              </field>
+              <field property="specificForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.specificForm.name"/>
+              </field>
+              <field property="compagesForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.compagesForm.name"/>
+              </field>
+              <field property="orderCategoryForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.orderCategoryForm.name"/>
+              </field>
+              <field property="priceTypeForm.priceTypeName"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.priceTypeForm.priceTypeName"/>
+              </field>
+              <field property="orderForm.customerId"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.orderForm.customerId"/>
+              </field>
+              <field property="orderForm.categoryId"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.orderForm.categoryId"/>
+              </field>
+              <field property="orderForm.userId"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.orderForm.userId"/>
+              </field>
+              <field property="orderForm.orderCategoryForm.name"
+                     depends="required">
+
+                  <arg0 key="orderDetailBakForm.orderForm.orderCategoryForm.name"/>
+              </field>
+      </form>
+      <form name="oaWorkFlowTypeForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowTypeForm.name"/>
+              </field>
+      </form>
+      <form name="priceDetailForm">
+              <field property="price"
+                     depends="required">
+
+                  <arg0 key="priceDetailForm.price"/>
+              </field>
+      </form>
+      <form name="oaWorkFlowCheckForm">
+              <field property="checkUserId"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowCheckForm.checkUserId"/>
+              </field>
+              <field property="workFlowForm.name"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowCheckForm.workFlowForm.name"/>
+              </field>
+              <field property="workFlowForm.workFlowTypeId"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowCheckForm.workFlowForm.workFlowTypeId"/>
+              </field>
+      </form>
+      <form name="oaProductInfoForm">
+              <field property="fittings"
+                     depends="required">
+
+                  <arg0 key="oaProductInfoForm.fittings"/>
+              </field>
+      </form>
+      <form name="sysEventStateForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="sysEventStateForm.name"/>
+              </field>
+      </form>
+      <form name="oaWorkFlowCheckStateForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="oaWorkFlowCheckStateForm.name"/>
+              </field>
+      </form>
+      <form name="oaInfoForm">
+              <field property="content"
+                     depends="required">
+
+                  <arg0 key="oaInfoForm.content"/>
+              </field>
+              <field property="title"
+                     depends="required">
+
+                  <arg0 key="oaInfoForm.title"/>
+              </field>
+      </form>
+      <form name="industryForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="industryForm.name"/>
+              </field>
+      </form>
+      <form name="dayInfoForm">
+              <field property="resourceForm.resourceName"
+                     depends="required">
+
+                  <arg0 key="dayInfoForm.resourceForm.resourceName"/>
+              </field>
+              <field property="resourceForm.resTypeForm.name"
+                     depends="required">
+
+                  <arg0 key="dayInfoForm.resourceForm.resTypeForm.name"/>
+              </field>
+              <field property="publishDate"
+                     depends="required">
+
+                  <arg0 key="dayInfoForm.publishDate"/>
+              </field>
+      </form>
+      <form name="orderCategoryForm">
+              <field property="name"
+                     depends="required">
+
+                  <arg0 key="orderCategoryForm.name"/>
+              </field>
+      </form>
+  </formset>
+</form-validation>

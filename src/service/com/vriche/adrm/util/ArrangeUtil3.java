@@ -12,7 +12,6 @@ package com.vriche.adrm.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -27,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.model.FusionChartObject;
+import com.vriche.adrm.model.Matter;
 import com.vriche.adrm.model.PublishArrange;
 import com.vriche.adrm.model.PublishArrangeDetail;
 import com.vriche.adrm.model.PublishedInfo;
@@ -176,7 +176,7 @@ public class ArrangeUtil3 {
 //			  System.out.println("<<<<<<<getState   <<<<<<<" +state);
 			  
 			  List details = new ArrayList();
-			  getAdverList(details,adverList,resourceId,publishDate,state,isRoll);
+			  getAdverList(publishArrange,details,adverList,resourceId,publishDate,state,isRoll);
 			  
 
 			  publishArrange.setPublishArrangeDetails(details);
@@ -189,9 +189,9 @@ public class ArrangeUtil3 {
 		  boolean isLocked = publishArrange.getIsLocked().booleanValue();
 		  boolean isArranged = publishArrange.getIsArranged().booleanValue();
 		  if(isLocked) state = 0;
-		  if(getFztvSpecialParam()){
-			  if(!rebuild) state = 0;  
-		  }
+//		  if(getFztvSpecialParam()){
+//			  if(!rebuild) state = 0;  
+//		  }
 		  if(isArranged && !rebuild) state = 0;
           		  
 		  return state;
@@ -213,7 +213,7 @@ public class ArrangeUtil3 {
 		  return i++;
 	  }
 	  
-	  public static void getAdverList(List details,List adverList,Long resourceId,Integer publishDate,int state,boolean isRoll){
+	  public static void getAdverList(PublishArrange publishArrange ,List details,List adverList,Long resourceId,Integer publishDate,int state,boolean isRoll){
 		  
 		      boolean arrangeWithBrandParam = SysParamUtil.getArrangeWithBrandParamParam();
 
@@ -245,14 +245,14 @@ public class ArrangeUtil3 {
 		  if(details.size() > 0){
 			  //编排过或锁定
 			  if(state == 0){
-				  if(getFztvSpecialParam()){
-					  int i=1;
-					  List advers= new ArrayList();
-					  decomposeAdverByTimes(advers,details);
-					  details.clear();
-					  details.addAll(advers);
-					  i = setAdverOrder2(details,i);   
-				  }
+//				  if(getFztvSpecialParam()){
+//					  int i=1;
+//					  List advers= new ArrayList();
+//					  decomposeAdverByTimes(advers,details);
+//					  details.clear();
+//					  details.addAll(advers);
+//					  i = setAdverOrder2(details,i);   
+//				  }
 				  Collections.sort(details);        
 			  }else{
 				  List oneResourceAdvers = new ArrayList();
@@ -272,12 +272,8 @@ public class ArrangeUtil3 {
 				  //如果有多次，需要串开的广告 把它与没指定的广告进行串开
 //				  middleAdver = resetMiddleAdverByspaceAdvers(middleAdver1, spaceAdvers);
 
-				  decomposeAdverByTimes2(objs,beforeSpecific,afterSpecific,middleAdver,spaceAdvers);
+				  decomposeAdverByTimes2(publishArrange,objs,beforeSpecific,afterSpecific,middleAdver,spaceAdvers);
 
-				  			  
-				  
-				  
-				  
 				  
 //				  //修改有指定的序号
 				 
@@ -285,7 +281,7 @@ public class ArrangeUtil3 {
 				  int  midSize = middleAdver.size();
 				  int  afterSize =afterSpecific.size();
 				  int  total =befSize + midSize +afterSize;
-				  int startRows = befSize +midSize;
+//				  int startRows = befSize +midSize;
 				  
 				  Collections.sort(beforeSpecific, new SpecificComparator());
 				  List specBefoIndexs = getIndexBySepcValue(befSize,midSize,afterSize,beforeSpecific, new ArrayList(),specBefoNoPlay,0);
@@ -949,12 +945,14 @@ public class ArrangeUtil3 {
 	 
 	     } 
 	   
-	   public static  void decomposeAdverByTimes2(Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver,List spaceAdvers){
+	   public static  void decomposeAdverByTimes2(PublishArrange publishArrange,Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver,List spaceAdvers){
 	    	 int index =1;
 	         String destBefo="123456789"; 
            String destAfter="ABCDEFGHI"; 
+           
+           System.out.println("decomposeAdverByTimes2 >>>>>>>>>>>>>>>>>>>>>>>>>> objs.length>>>>>>>>>   "+  objs.length);
 
-	    	 
+	    	 double resourceUsedTimes = 0;
 	    	 for (int i = 0; i< objs.length; i++){
 	    		 
 	    		 PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)objs[i];
@@ -965,7 +963,10 @@ public class ArrangeUtil3 {
 	             int k = destAfter.indexOf(specificValue);
 
 		    	 int times = publishArrangeDetail.getAdverTimes().intValue();
-		
+		    	 double length = Double.parseDouble( publishArrangeDetail.getMatterLength());
+		    	 resourceUsedTimes +=  times*length;
+		    	 
+		    	 
 		    	 if(times > 1){
 		        	 for(int z = 0; z< times;z++){
 		    			 PublishArrangeDetail detail = new PublishArrangeDetail();
@@ -1000,8 +1001,140 @@ public class ArrangeUtil3 {
 		    	 }
 	    	 
 	    	 }
+	    	
+	    	 long aa = Math.round(resourceUsedTimes);
+	
+	    	 //自动填冲公益广告
+	    	 publishArrange.setResourceUsedTimes(Integer.valueOf(aa+""));
+	    	 getPublicSerAdver(publishArrange,middleAdver);
 	 
 	     } 
+	   
+	   
+	
+	   //公益广告自动填
+	   public static void getPublicSerAdver(PublishArrange publishArrange,List<PublishArrangeDetail> middleAdver){
+			SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+			String[] matterTypeList = sysParam.getDianpianParam().split(","); //垫片广告类型
+			Map mp = new HashMap();
+//			mp.put("matterType","3");
+			mp.put("matterTypeList",matterTypeList);
+
+			List<Matter> ls = ServiceLocator.getMatterDao().getMattersByIdList(mp);
+			setPublicSerAdveRoll(ls,publishArrange.getPublishDate());
+//			System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
+			
+//			getOneResUsedTimes(publishArrange);
+//			System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>>getResourceUsedTimes>>>>>>>>>   "+ StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
+		    double resourceLeave = Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceTotalTimes(),"0"))- Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
+			   
+
+			double pushTimes = 0;
+			PublishArrangeDetail detail = new PublishArrangeDetail();
+			if(ls.size() >0){
+				Matter mat = (Matter)ls.get(0);
+				 Object obj = mat.getEnable();
+				 Long matterId = mat.getId();
+				 boolean isEnable = obj==null?false:mat.getEnable().booleanValue();
+			     String tapeCode =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getTapeCode()));
+				 String matterName =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getName()));
+				 String matterEdit =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getEdit()));
+				 String matterLength = mat.getLength();
+				 Long brandId = mat.getBrandId();
+				 Long brandId2 = mat.getBrandId2();
+				 pushTimes = Double.parseDouble(matterLength);
+	
+				 detail.setPublishSort(new Integer(0));
+				 detail.setResourceId(new Long(0));
+				 detail.setTapeCode(tapeCode);
+				 detail.setMatterName(matterName);
+				 detail.setMatterId(matterId);
+				 detail.setMatterEdit(matterEdit);
+				 detail.setMatterLength(matterLength);
+				 detail.setAdverTimes(new Integer(1));
+				 detail.setSpecificName("");
+				 detail.setSpecificValue("");
+				 detail.setOrderDayId(new Long(0));
+				 detail.setOrderDetailId(new Long(0));
+				 detail.setOrderId(new Long(0));
+				 detail.setBrandId(brandId);
+			}
+			
+			
+		
+			
+			 while(resourceLeave >= pushTimes){
+				 
+//					System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>>resourceLeave>>>>>>>>>   "+ resourceLeave);
+					
+				 PublishArrangeDetail det = new PublishArrangeDetail();
+				 try {
+	    				org.apache.commons.beanutils.BeanUtils.copyProperties(det,detail);
+	    			 } catch (IllegalAccessException e) {
+	    				// TODO Auto-generated catch block
+	    				e.printStackTrace();
+	    			 } catch (InvocationTargetException e) {
+	    				// TODO Auto-generated catch block
+	    				e.printStackTrace();
+	    			 }
+				 middleAdver.add(det);
+				 resourceLeave = resourceLeave - pushTimes;
+			 }
+			
+				
+			
+//		  
+	   }
+	   
+	   //设置滚动播出
+		  public static void setPublicSerAdveRoll(List adverList,Integer publishDate){
+			  List positiveList = new ArrayList();
+			  List negativeList = new ArrayList();
+			  int size = adverList.size();
+			  int days = DateUtil.getDaysOfYear(publishDate.intValue());
+			  int num = days/size;
+			  int max = days - num*size;
+			  
+			  int i = 0;
+			  int k = 0;
+
+			  for(Iterator it = adverList.iterator();it.hasNext();){
+				  Matter matter = (Matter)it.next();
+				  matter.setSort(new Integer(i++));
+			  }
+			  
+
+			  //把序号-当前天数
+			  for(Iterator it = adverList.iterator();it.hasNext();){
+				  Matter matter = (Matter)it.next();
+				  int no = matter.getSort().intValue();
+				  int newNo = no - days;
+				  if(k < max){
+					  matter.setSort(new Integer(newNo));
+					  k++;
+				  }
+			  }		
+
+			  for(Iterator it = adverList.iterator();it.hasNext();){
+				  Matter matter = (Matter)it.next();
+				  int no = matter.getSort().intValue();
+				  if(no >= 0){
+					  positiveList.add(matter);
+				  }else{
+					  negativeList.add(matter);
+				  }
+			  }			  
+
+			  
+			  //排序
+			  Collections.sort(positiveList);
+			  Collections.sort(negativeList);
+			  
+			  adverList.clear();
+			  if(positiveList.size()>0) adverList.addAll(positiveList);
+			  if(negativeList.size()>0) adverList.addAll(negativeList);
+		  }	  
+	   	   
 	   public static int getMax(Object[] intArray){
 		   int max = 0; //最大的数
 		   if( intArray.length >0){

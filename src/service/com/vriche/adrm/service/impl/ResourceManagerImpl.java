@@ -29,6 +29,7 @@ import com.vriche.adrm.model.CtrData;
 import com.vriche.adrm.model.DayInfo;
 import com.vriche.adrm.model.FusionChartObject;
 import com.vriche.adrm.model.Org;
+import com.vriche.adrm.model.ParamClass;
 import com.vriche.adrm.model.ParamObj;
 import com.vriche.adrm.model.Resource;
 import com.vriche.adrm.model.ResourcePrint;
@@ -344,23 +345,18 @@ public class ResourceManagerImpl extends BaseManager implements ResourceManager 
 			res.setIsSeralized(isSeralized)	;	
 			res.setInPublishDate(new Integer(publishDate));
 //			long start1 = System.currentTimeMillis();
-			List ls =new ArrayList();
-			if(isFztv)res.setResourceType(new Integer(resourceTypeId));
+//			List ls =new ArrayList();
 			
-			if(isFztv && resourceTypeId.equals("3")){       
-				res.setEnable(new Boolean(true));
-				res.setCarrierId(new Long(carrierId));           
-//				res.setResourceType(new Integer(resourceTypeId));
-				ls = dao.getResourcesNameByIdList(res);       
-			}else{
-//				if(arrangeOrderOrEntry){
-//					ls = dao.getResourcesForArrangeOrderByBroTime(res);
-//				}else{
-					ls = dao.getResourcesForArrange(res);
-//				}
-
-			}
-//			List ls = dao.getResourcesForArrange(res);
+//			if(isFztv)res.setResourceType(new Integer(resourceTypeId));
+			
+//			if(isFztv && resourceTypeId.equals("3")){       
+//				res.setEnable(new Boolean(true));
+//				res.setCarrierId(new Long(carrierId));           
+//				ls = dao.getResourcesNameByIdList(res);       
+//			}else{
+//					ls = dao.getResourcesForArrange(res);
+//			}
+			List ls = dao.getResourcesForArrange(res);
 //			 long end1 = System.currentTimeMillis();
 			int week = DateUtil.getDaysOfWeek(new Integer(publishDate).intValue());
 //			System.out.println("carrierId >>>>>>>>>>>>>>>>>>>>>>>>>>>>>.. " + carrierId.toString());
@@ -987,10 +983,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		 boolean withBroPoint = SysParamUtil.getwithBroPoint();
 //		  按播出入点排序
 		 boolean arrangeOrderOrEntry = SysParamUtil.getArrangeOrderOrEntry() && withBroPoint;
-
-		    
 		 boolean orderCarrierLevelOne = SysParamUtil.getOrderCarrierLevelOne();
-		 
 		 int  paramYear = res.getResourceYear().intValue();		
 //		 Calendar   cal   =   Calendar.getInstance(); 
 //		 String tvName = SysParamUtil.getTvNameParam();
@@ -999,8 +992,6 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //		 String orgId = StringUtil.getNullValue(res.getOrgId(),"1") ;
 //		 String resourceSort = StringUtil.getNullValue(res.getResourceSort(),"1") ;
 //		 如何编排串联单(按显示顺序(0),还是播出入点(1)排序)
-		
-
 		Map reply = new LinkedHashMap();
 		Map replyTemp = new LinkedHashMap();
 
@@ -1021,8 +1012,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 			resourceList = dao.getResourcesOrderbyBroStartTimeLevelOne(res);
 		}
 
-
-			Collections.sort(resourceList,new ResourceComparator());
+		Collections.sort(resourceList,new ResourceComparator());
 		
 	    Iterator it = resourceList.iterator();
     	reply.put("0","");
@@ -1033,8 +1023,6 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 	    	int   resYear = resource.getVersion().intValue();
 	    	if(paramYear == resYear){ 
 	    		String lable = ResourceUtil.getResourceName(resource,1);
-	    		
-	    		 
 	    		String key = resource.getId().toString();
 	    		int startDate1 = resource.getWorkspan().getBeginDate().intValue();
 	    		if(replyTemp.containsKey(key)){
@@ -1327,30 +1315,13 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		
 		List resourceList = new ArrayList();
 
-//		if(isArrangeOrderOrEntry){
-//			resourceList = dao.getResourcesOrderbyBroStartTime(res);
-//		}else{
-//			resourceList = dao.getResources(res);
-//		}
 
-//		System.out.println(">>>>>>>>>>>>>>>orderCarrierLevelOne = " + orderCarrierLevelOne);
-		
-//		if(arrangeOrderOrEntry){
-//			if(orderCarrierLevelOne){
-//				resourceList = dao.getResourcesOrderbyBroStartTimeLevelOne(res);
-//			}else{
-//				resourceList = dao.getResourcesOrderbyBroStartTime(res);
-//			}
-//
-//		}else{
 			if(orderCarrierLevelOne){
 				resourceList = dao.getResourcesLevelOne(res);
 			}else{
 				resourceList = dao.getResources(res);
 			}
-//			List ls = StringUtilsv.singleElement(resourceList);
-//		}	s
-		
+
 		
 //			System.out.println(">>>>>>>>yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy>>>>>>tooltip = " + tvName);
 		
@@ -1362,13 +1333,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
    					
    			String tooltip =lable;
 //			System.out.println(">>>>>>>>11111111111111 2222222222222222 >>>>>>>tooltip = " + tvName);
-			
-//			String broTime = resource.getWorkspan().getBroadcastTimeFormat();  		
-			
-//			String lable =  ResourceUtil.getResourceName(resource,8);
-//			String lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
-//			String lable =  tooltip;
-		
+
    			
    			Workspan workspan = resource.getWorkspan();
    			String broTime = workspan.getBroadcastTimeFormat();
@@ -1390,7 +1355,75 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		} 
 		
 	}
-	
+	public void getResourceItemsByCarrierIdByYearTest(StringBuffer sb, String carrierId, String resourceIdPrefix, String year,boolean orderCarrierLevelOne,Integer resType,String orgType,boolean enable) {
+		
+//		System.out.println(">>>>>>>>>>>>>>>isMeno = " + SysParamUtil.getResourceDisplay());
+		boolean isMeno = SysParamUtil.getResourceDisplay();
+		String tvName = SysParamUtil.getTvNameParam();
+////	    启用播出入点功能
+//	    boolean withBroPoint = SysParamUtil.getwithBroPoint();
+////	    按播出入点排序
+//	    boolean arrangeOrderOrEntry = SysParamUtil.getArrangeOrderOrEntry() && withBroPoint;
+//		boolean orderCarrierLevelOne = SysParamUtil.getOrderCarrierLevelOne();
+		
+		Resource res = new Resource();
+		res.setCarrierId(new Long(carrierId));
+		res.setVersion(new Integer(year));
+		
+//		System.out.println("getResourceItemsByCarrierIdByYearTest>>>>>kkkkkkkkkkkkkk>>>>>>>>>>enable = " +enable);
+		
+		if(enable){
+			res.setEnable(new Boolean(true));
+		}
+		
+		if(resType != null){
+			if(resType.intValue() !=999 ) res.setResourceType(resType);
+		}
+		
+		List resourceList = new ArrayList();
+
+
+			if(orderCarrierLevelOne){
+				resourceList = dao.getResourcesLevelOne(res);
+			}else{
+				resourceList = dao.getResources(res);
+			}
+			
+			System.out.println("getResourceItemsByCarrierIdByYearTest>>>>>kkkkkkkkkkkkkk>>>>>>>>>>resourceList.size = " +resourceList.size());
+
+		
+//			System.out.println(">>>>>>>>yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy>>>>>>tooltip = " + tvName);
+		
+		for(Iterator it = resourceList.iterator();it.hasNext();){
+			Resource resource = (Resource)it.next();
+//			String tooltip =ResourceUtil.getResourceName(resource,7);
+			
+			String lable =  ResourceUtil.getResourceName(resource,8);
+   					
+   			String tooltip =lable;
+//			System.out.println(">>>>>>>>11111111111111 2222222222222222 >>>>>>>tooltip = " + tvName);
+
+   			
+   			Workspan workspan = resource.getWorkspan();
+   			String broTime = workspan.getBroadcastTimeFormat();
+   			
+//   			System.out.println(">>>>>>>>yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy>>>>>>tooltip = " + broTime);
+   			
+			sb.append("<item id='" + resourceIdPrefix
+							+ resource.getId().toString()
+							+ "' im0=\"\" im1=\"\" im2=\"\" tooltip=\""+ tooltip +"\" text=\""
+							+ lable +"\">");
+			sb.append("<userdata name=\"type\">3</userdata>");
+			sb.append("<userdata name=\"resourceTypeId\">"+ resource.getResourceType()+"</userdata>");
+			sb.append("<userdata name=\"broTime\">"+ broTime +"</userdata>");
+			sb.append("<userdata name=\"resourceName\">"+ resource.getResourceName() +"</userdata>");
+			sb.append("<userdata name=\"resourceMemo\">"+ resource.getMemo() +"</userdata>");
+			
+			sb.append("</item>");
+
+		} 
+		
+	}
 	public void getResourceItemsByChannelIdByYear(StringBuffer sb, String carrierId, String resourceIdPrefix, String year,Integer resourceType,Integer orderBy) {
 		boolean isMeno = SysParamUtil.getResourceDisplay();
 		Resource res = new Resource();
@@ -1678,7 +1711,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //					isLeaf = true;
 //				}
 		
-                if(!"hntv".equals(tvName)){
+                if(!"hntv".equals(tvName)&&!"fztv".equals(tvName)){
     				map.put("id", "carrierType_"+ ct.getId());
     				map.put("text", ct.getName());
     				map.put("leaf", new Boolean(false));
@@ -2335,7 +2368,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 	}
 	 
 	public Collection getCollectionsForQuery(String queryString, String type,Map printParamMap) throws  Exception{
-		
+		 String tvName = SysParamUtil.getTvNameParam();
 		ParamObj paramObj =  this.buildParamBy(queryString);
 		int displayModel = Integer.parseInt(StringUtil.getNullValue(paramObj.getDisplayModel(),"0"));
 		int seachType = Integer.parseInt(StringUtil.getNullValue(paramObj.getValue8(),"0"));
@@ -2360,14 +2393,21 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 
 			//key ad_resource_workspan_id value3
 			Map resMap  = dao.getResourcesForQuery1(mp);
+			Map resMapWorkSpance  = dao.getResourcesForQuery1_1(mp);
 			ResourceUtil.getADlengthFormWeek(resMap);
-			
+			List resourceIdList = new ArrayList();
 			List workspanIdList = new ArrayList();
-			CollectionUtils.addAll(workspanIdList,resMap.keySet().iterator());
-			if(workspanIdList.size()>0) mp.put("workspanIdList",workspanIdList);
+			CollectionUtils.addAll(resourceIdList,resMap.keySet().iterator());
+			CollectionUtils.addAll(workspanIdList,resMapWorkSpance.keySet().iterator());
+			if(resourceIdList.size()>0){
+				mp.put("workspanIdList",workspanIdList);
+				mp.put("resourceIdList",resourceIdList);
+			}
 			Collection ls  = dao.getResourcesForQuery2(mp);
 			
-//			 System.out.println("getResourcesForQuery2<<<<<<<<<!222222222<<ls<<<<<<<< 11111111111111111111111111111111111111111111");
+//			 System.out.println("getResourcesForQuery2<<<<<<<<<!resourceIdList<<<<<<<"+resourceIdList);
+//			 System.out.println("getResourcesForQuery2<<<<<<<<<!workspanIdList<<<<<<<"+workspanIdList);
+//			 System.out.println("getResourcesForQuery2<<<<<<<<<!ls.size()s<<<<<<<"+ls.size());
 			
 			ResourceUtil.getSumTotalUsedRateMap(ls,sumTotalMap,sumUsedMap,rateMap,displayModel,seachType);
 		
@@ -2400,7 +2440,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 
 				FusionChartObject objectDay = (FusionChartObject)it.next();
 				
-				String key_workSpanId = objectDay.getValue2();
+				String key_workSpanId = objectDay.getValue1();
 	
 				if(!tempMap.containsKey(key_workSpanId)){
 					FusionChartObject object = new FusionChartObject();
@@ -2410,9 +2450,16 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 					String bro_time =  DateUtil.formatTime(Math.round(Double.parseDouble(brotime)*1000),"h:m");
 					
 					
+
 					
+//					String bro_pos = objectRes.getValue1()+objectRes.getValue2();
+					String bro_pos ="";
+					if("hntv".equals(tvName) || "fztv".equals(tvName)){
+						 bro_pos = objectRes.getValue2()+objectRes.getValue1();
+					}else{
+						 bro_pos = objectRes.getValue1()+objectRes.getValue2();
+					}
 					
-					String bro_pos = objectRes.getValue1()+objectRes.getValue2();
 					String total = objectRes.getValue36();
 					object.setId(key_workSpanId);
 					object.setLable(bro_time);//时间
@@ -2449,13 +2496,13 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 				 List colls = (List)object.getColls();
 //				Iterator it3 = colls.iterator();
 				
-				 Map mpp = ConvertUtil.convertListToMap(colls,"value3");
+				 Map mpp = ConvertUtil.convertListToMap(colls,"value3"); //publish_date
 					
 					int i = 3;
 					long k = days-1;
 					
 					for(int j = 0;j<days;j++){
-						String key = ddays[j].toString();
+						String key = ddays[j].toString(); 
 						Object obj = mpp.get(key);
 						FusionChartObject objectDay  = (obj == null)?new FusionChartObject():(FusionChartObject)obj;
 						
@@ -2807,7 +2854,73 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //        }   
         buffer.append("</tree> ");   
         return buffer.toString();   
-    }  
+    }
+
+	public String getResourceIdsByYearUser(String year, String uid) {
+		Map mp = new HashMap();
+		mp.put("year", year);
+		mp.put("uid", uid);
+		List all = dao.getResourceIdsByYearUser(mp);
+		StringBuffer sb = new StringBuffer();
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		sb.append("<rows>");   
+		for(Iterator it = all.iterator();it.hasNext();){
+			FusionChartObject obj = (FusionChartObject)it.next();
+			sb.append("<row  id=\""+ obj.getId()  +"\"" +">");
+			sb.append("<cell><![CDATA["+ ""  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ obj.getValue1()  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ obj.getValue2() +"]]></cell>");
+			sb.append("<cell><![CDATA["+ obj.getValue3()  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ obj.getValue4()  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat2(Double.parseDouble(obj.getValue5()))  +"]]></cell>");
+			sb.append("</row>");
+		}
+		sb.append("</rows>");	
+		return sb.toString();
+	}
+
+//	public double getResourceUseRateByCutcate(String resourceid, String uid) {
+//		Map mp = new HashMap();
+//		mp.put("resourceid", resourceid);
+//		mp.put("uid", uid);
+//		List all = dao.getResourceIdsByYearUser(mp);
+//		for(Iterator it = all.iterator();it.hasNext();){
+//			FusionChartObject obj = (FusionChartObject)it.next();
+//			double rate = Double.parseDouble(obj.getValue5());
+//			return rate;
+//		}
+//
+//		return 1;
+//	}
+	
+	
+	public void saveResourceIdsYearUser(String resourceIds,String uid,String rate) {
+		Map mp = new HashMap();
+		String[] ids = resourceIds.split(",");
+
+		for(int i = 0;i<ids.length;i++){
+			mp.put("userid", uid);
+			mp.put("resourceid", ids[i]);
+			mp.put("rate", rate);
+			mp.put("ResourceIdList", null);
+//			System.out.println("saveResourceIdsYearUser>>>>> user_id>>>>>>>>:"+uid);
+//			System.out.println("saveResourceIdsYearUser>>>>> resource_id>>>>>>>>:"+ ids[i]);
+//			System.out.println("saveResourceIdsYearUser>>>>> rate>>>>>>>>:"+rate);
+			dao.removeResourceUserRate(mp);
+			dao.saveResourceUserRate(mp);
+		}
+		
+		
+
+		
+	}
+
+	public void removeResourceIdsYearUser(String ids) {
+		Map mp = new HashMap();
+		String[] IdList = ids.split(",");
+		mp.put("IdList", IdList);
+		dao.removeResourceUserRate(mp);
+	}  
 	
 	
 

@@ -92,26 +92,26 @@ function initGrid(){
 
 	mygrid.selMultiRows = true;
 	
-	mygrid.setImagePath("../image/grid/");
+	mygrid.setImagePath(this.ctxPath+"/image/grid/");
 
-	var flds = "频道名称,月份,总收入,分配比率,应缴金额,留存金额";
+	var flds = "频道名称,月份,公司收入总计,公司转台比率,公司转台金额,电视台收入,电视台收入合计,(公司+台)总计";
 	mygrid.flds  = flds;
 	mygrid.setHeader(flds);
 
-	mygrid.setInitWidthsP("20,16,16,16,16,16");
-	mygrid.setColAlign("left,center,right,right,right,right");
-	mygrid.setColTypes("coro,ed,ed,ed,ed,ed");
+	mygrid.setInitWidthsP("15,12,12,12,12,12,12,13");
+	mygrid.setColAlign("left,center,right,right,right,right,right,right");
+	mygrid.setColTypes("coro,ed,ed,ed,ed,ed,ed,ed");
 	mygrid.enableAlterCss("even","uneven"); 
-	mygrid.setColSorting("str,int,int,int,int,int") ;
+	mygrid.setColSorting("str,int,int,int,int,int,int,int") ;
  
 // 	makeCarrierSelectItem();
  	
 	mygrid.setSkin("modern2");
 	//mygrid.enableAutoHeigth(true); 
 	
-	mygrid.enableMathEditing(true); 
+	mygrid.enableMathEditing(false); 
 	mygrid.setOnEditCellHandler(calculateFooterValues);
-	mygrid.attachFooter("合计(万),<div id='month1'/>,<div id='month2'/>,<div id='month3'/>,<div id='month4'/>,<div id='month5'/>");
+	mygrid.attachFooter("合计(万),<div id='month1'/>,<div id='month2'/>,<div id='month3'/>,<div id='month4'/>,<div id='month5'/>,<div id='month6'/>,<div id='month7'/>");
 	mygrid.init();	 
 	//mygrid.attachFooter('合计:, , , , , , , , , , , , , , , ',['text-align:center;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;','text-align:right;']);
 }
@@ -180,7 +180,7 @@ function getResourceIds(){
 
 
 function calculateFooterValues(){
-        for(var i=0;i<5;i++){
+        for(var i=0;i<7;i++){
         	var el = $("month"+(i+1));
         	if( i != 0 &&  i != 2){
         		el.innerHTML = sumColumn(i+1);
@@ -256,10 +256,10 @@ function button_print(model){
 	                reportType: "financeTargetRatioCarrierList",
 	                reportFile:'',
 	                headers:heads, 
-	                displaySumColum:"0,0,1,0,1,1",
-	                colAlign:"center,center,right,right,right,right",
-	                colTypes:"ed,ed,ed,ed,ed,ed",
-	                widthsP:"20,16,16,16,16,16",
+	                displaySumColum:"0,0,1,0,1,1,1,1",
+	                colAlign:"center,center,right,right,right,right,right,right",
+	                colTypes:"ed,ed,ed,ed,ed,ed,ed,ed",
+	                widthsP:"15,12,12,12,12,12,12,13",
 	                isSum:true,
 	                isVertical:false
 	 	}; 

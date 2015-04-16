@@ -40,7 +40,7 @@ function init(){
 	resetHeigth();
 	
 	ctxPath = _app_params.ctxPath;	 	
-	myUtils = new MyUtils(config_serviceDate);
+	myUtils = new MyUtils(_app_params.sysParam.serviceDate);
 	_make_org_select("orgId",100,"resetStore");	
 	
 //	this.myprint.buildButtons2(this,"printReportDiv",[0,1,2,8],60);
@@ -136,7 +136,9 @@ function getGridParams(){
 			var dateField_start = Ext.getCmp('start_date_query');
  			var dateField_end = Ext.getCmp('end_date_query');
  			
- 			var hed1 = $("seach_type").value == 1?"占用":"剩余";
+// 			var hed1 = $("seach_type").value == 1?"占用":"剩余";
+ 			var hed1 ="饱和度";
+ 			
  			
  			var s1;
 			var s2;
@@ -202,31 +204,31 @@ function getGridParams(){
 //		 	        alert(days2[i]);
 //		}            
  		  	var size = days2.length;
- 		  	var s = 60/size+'';
+ 		  	var s = 82/size+'';
 				var w = s.replace(/(\.\d)\d+/ig,"$1")*1;
 				var s2 = w*size+'';
 				var w2 = s2.replace(/(\.\d)\d+/ig,"$1")*1;
-				var oneWidth= 77-w2;
+				var oneWidth= 86-w2;
 				oneWidth = oneWidth+'';
 				oneWidth= oneWidth.replace(/(\.\d)\d+/ig,"$1")*1;
 				
 				
 					var stylecss ='text-align:left;';
 					var stylecss0 ='text-align:right;font-weight: bold;';
-					var stylecss1 ='text-align:center;font-family: Arial, Helvetica, sans-serif;font-weight: bold;font-size: 7pt;';
+					var stylecss1 ='text-align:center;font-family: Arial, Helvetica, sans-serif;font-weight: bold;font-size: 8px;';
 //					var stylecss2 ='text-align:right; font-family: Arial, Helvetica, sans-serif;font-weight: bold;font-size: 7pt;';
 					var stylecss1 ='text-align:center;';
-					var stylecss2 ='text-align:right;font-size: 7pt;';
+					var stylecss2 ='text-align:right;font-size: 8px;';
 					var stylecss3 ='text-align:right;text-vlign:center;';
 				
 					
  
 
- 		    gridParams.heads = "时段,段位描述,规定,";  
+ 		    gridParams.heads = "时段,描述,规定,";  
  		    gridParams.columnIds = "posTime,pos,stand,";
- 		    gridParams.headsPrint = "时段,段位描述,规定,";
+ 		    gridParams.headsPrint = "时段,描述,规定,";
  		    gridParams.headsPrint2 = "0,0,0,";
- 		    gridParams.widths = "5,"+oneWidth+",5,";
+ 		    gridParams.widths = "4,"+oneWidth+",3,";
  		    gridParams.colTypes ="ed,ed,ed,";
  		    gridParams.colAlign ="left,left,center,";
  		    gridParams.colSorting ="str,str,str,";
@@ -238,7 +240,7 @@ function getGridParams(){
 //			gridParams.attachFooter2 ="饱和度:,#cspan,<div id='month_stand_time2'/> , ";
 			gridParams.attachFooter ="总计:,#cspan,#cspan, ";
 			gridParams.attachFooter2 ="总规定:,#cspan,#cspan, ";
-			gridParams.attachFooter3 =hed1+"比例:,#cspan,#cspan, ";
+			gridParams.attachFooter3 =hed1+":,#cspan,#cspan, ";
  
 // 		    gridParams.attachFooter2 = new Array();
  		    gridParams.attachFooterStyle =stylecss0+","+stylecss1+","+stylecss1+",";
@@ -258,11 +260,16 @@ function getGridParams(){
  		    	
 //		 		    	gridParams.heads +=days2[i].dy+",";
 		 		    	gridParams.heads +=days2[i].sm*1+",";
-		 		    	gridParams.headsPrint +=days2[i].dy+",";
+		 		    
 		 		    	gridParams.chartColoum.push(days2[i].dy);
 		 		    	gridParams.chartColoum2.push(i+3);
 		 		    	
+		 		    	gridParams.headsPrint +=days2[i].dy+",";
 		 		    	gridParams.headsPrint2 +=days2[i].dy3+",";
+		 		    	
+//		 		    	gridParams.headsPrint +=days2[i].sm*1+",";
+//		 		    	gridParams.headsPrint2 +=days2[i].sd*1+",";
+		 		    	
 		 		    	gridParams.widths +=w+",";
 		 		    	gridParams.colTypes +="ed"+",";
 		 		    	gridParams.colAlign +="right"+",";
@@ -271,19 +278,19 @@ function getGridParams(){
 		 		    	gridParams.attachHeader2 +=days2[i].wk+",";
 						gridParams.displaySumColum +="0,";
 						gridParams.columnIds += "dayTimes_"+days2[i].dy2+" ,";
-		 		    	gridParams.attachFooter +="<div id='day_use"+ (i+1) +"'/>"+",";
-		 		    	gridParams.attachFooter2 +="<div id='day_total"+ (i+1) +"'/>"+",";
-		 		    	gridParams.attachFooter3 +="<div id='day_rate"+ (i+1) +"'/>"+",";
+		 		    	gridParams.attachFooter +="<div id='day_use"+ (i+1) +"' style='font-size:8px;'/>"+",";
+		 		    	gridParams.attachFooter2 +="<div  style='font-size:8px;text-align:center;' id='day_total"+ (i+1) +"'/>"+",";
+		 		    	gridParams.attachFooter3 +="<div  style='font-size:8px;text-align:center;' id='day_rate"+ (i+1) +"'/>"+",";
 		 		    	gridParams.attachFooterStyle +=stylecss2+",";
 //		 		    	gridParams.attachFooter2.push(stylecss);
  		    			}
  		    			
+ 		   
  		    			
- 		    			
-				gridParams.heads +="总计,"+hed1+"比例";
-				gridParams.headsPrint+="总计,"+ hed1 +"比例";
+				gridParams.heads +="总计,"+hed1+"";
+				gridParams.headsPrint+="总计,"+ hed1 +"";
 				gridParams.headsPrint2+="0,0";
-				gridParams.widths +="7,6";
+				gridParams.widths +="4,3";
 				gridParams.displaySumColum +="0,0";
 				gridParams.colTypes +="ed,ed";
 				gridParams.colAlign +="right,right";
@@ -293,9 +300,9 @@ function getGridParams(){
 				gridParams.columnIds += "total_used,total_rate";
 				
 				
-				gridParams.attachFooter +="<div id='day_total_use'/>,#cspan";
-				gridParams.attachFooter2 +="<div id='day_total'/>,#cspan";
-				gridParams.attachFooter3 +="<div id='day_rate'/>,#cspan";
+				gridParams.attachFooter +="<div  style='font-size:8px;text-align:center;' id='day_total_use'/>,#cspan";
+				gridParams.attachFooter2 +="<div  style='font-size:8px;text-align:center;' id='day_total'/>,#cspan";
+				gridParams.attachFooter3 +="<div  style='font-size:8px;text-align:center;' id='day_rate'/>,#cspan";
 				gridParams.attachFooterStyle += stylecss2+","+stylecss2;
 //				gridParams.attachFooter2.push(stylecss2);
 //				gridParams.attachFooter2.push(stylecss2);
@@ -313,10 +320,9 @@ function getCahrtParams(){
 }
 
 
-function getAdvers(workSpanId,publishDate,orgId){
+function getAdvers(resourceId,publishDate,orgId){
 //	$('CNZZ_AD_BOTTOM_').show();
-	
-	
+
 		var dialogcontent = $("dialogcontentDiv");
 		var dialogcontentW = dialogcontent.offsetWidth;
 		var dialogcontentH = dialogcontent.offsetHeight; 
@@ -325,7 +331,7 @@ function getAdvers(workSpanId,publishDate,orgId){
 
 // 		var paramObj =  getParams(); 
 		var title = getTitle2(publishDate*1); 
-		var urlStr =  getCtxPath()+"selectPopup/checkAdver.html?publishDate="+publishDate*1+"&workSpanId="+workSpanId*1+"&resourceId=0&orgId="+orgId;//$('CNZZ_AD_content_box').src=urlStr;
+		var urlStr =  getCtxPath()+"selectPopup/checkAdver.html?publishDate="+publishDate*1+"&workSpanId=0&resourceId="+ resourceId*1+"&orgId="+orgId;//$('CNZZ_AD_content_box').src=urlStr;
   
             
  	function removeWin(){winAdver.destroy();} 		
@@ -380,14 +386,9 @@ function initGrid(model){
 								
 //								console.log(mygrid.cells(rowId,cellIndex));
 //								 mygrid.setCellTextStyle("row1",0,"color:red;border:1px solid gray;");
-                     
-                               
-                                 
 								var cln = mygrid.getColumnId(cellIndex);
 								var resourceId = rowId;
-								
-								
-								 
+
 								if(states == 0 && cln.indexOf('dayTimes') > -1 && resourceId >0){
 		
 									var value = mygrid.cells(rowId,cellIndex).getValue()==""?0:mygrid.cells(rowId,cellIndex).getValue();
@@ -400,7 +401,7 @@ function initGrid(model){
 //									    alert(mygrid.getUserData(rowId,name))
 									    
 //									     alert(mygrid.getUserData(rowId,"1242_20130802"))
-									    
+									
 										getAdvers(resourceId,publishDate,1);
 									}
 								}
@@ -413,7 +414,7 @@ function initGrid(model){
 							 mygrid.setImagePath("image/grid/");
 							 mygrid.setMultiLine(false);
 //							 mygrid.setEditable(false);
-							 mygrid.setSkin("modern2");
+//							 mygrid.setSkin("modern2");
 							 mygrid.enableAlterCss("even","uneven"); 
 							 mygrid.setOnEditCellHandler(doOnEditCell);
 							
@@ -478,7 +479,12 @@ function getParams(){
 	endDate = myDate.myFormatDate(endDate,myDate.dateFormat);   
 	if(endDate =='') endDate = myDate.myFormatDate(def_Date_end,myDate.dateFormat);
 
-	var resourceIds =  Ext.getCmp('res_select_cmd').getValue();
+	var resourceIds =[];
+	 resourceIds =  Ext.getCmp('res_select_cmd').getValue();
+	 if(resourceIds.length ==0){
+		 resourceIds =  Ext.getCmp('search_resource_tree').getAllCheckedIds(3).split('_').join(',');
+	 }
+
 	var userIds =  Ext.getCmp('userId1').getValue();
 	var customerIds = 	Ext.getCmp('customerName').getValue();
 	var inWeekDates = Ext.getCmp('weekCheckBox').getCheckedValue();
@@ -523,22 +529,26 @@ function loadGridData(){
 
 	 initGrid();
 
- 	 Ext.getCmp('res_select_cmd').collapse();
+ 	Ext.getCmp('res_select_cmd').collapse();
+ 	Ext.getCmp('search_resource_cmd').collapse();
  
 	 var paramObj =  getParams();
 	 
-	
-
 	 if(paramObj.value3 ==''){
-	 	 Ext.getCmp('res_select_cmd').onTriggerClick();  
-	 	 var rows= Ext.getCmp('res_grid_cmd').getSelectionModel().getSelections(); //获取所有选中行，
-	 	 if(rows == 0 || rows ==''|| rows ==null){
-	 	 	Ext.getCmp('carrier_cmd').onTriggerClick();  
-	 	 }
-//	 	 Ext.getCmp('carrier_cmd').onTriggerClick();  
-//	 	 extjMessage('没有选择广告资源!');
+	 	 extjMessage('没有选择广告资源!');
 	 	 return false;
-	 }
+	 }	
+
+//	 if(paramObj.value3 ==''){
+//	 	 Ext.getCmp('res_select_cmd').onTriggerClick();  
+//	 	 var rows= Ext.getCmp('res_grid_cmd').getSelectionModel().getSelections(); //获取所有选中行，
+//	 	 if(rows == 0 || rows ==''|| rows ==null){
+//	 	 	Ext.getCmp('carrier_cmd').onTriggerClick();  
+//	 	 }
+////	 	 Ext.getCmp('carrier_cmd').onTriggerClick();  
+////	 	 extjMessage('没有选择广告资源!');
+//	 	 return false;
+//	 }
 	 
 	 var queryString =  $H(paramObj).toQueryString();	
 
@@ -661,7 +671,7 @@ function calculateFooterValues(){
         	}
 
         }
-       
+        
         
         for(var i=0;i< cur_days;i++){ 
         	var el = $("day_use"+(i+1));
@@ -672,8 +682,18 @@ function calculateFooterValues(){
         	v2 = isDigit(v2)?v2:0;
         	sumArrUsed.push(v1);
         	sumArrTotal.push(v2);
-        	var el_v =  isDigit(v1) && v1 >0 ?myUtils.FormatDateTime(v1):"";
-        	var e2_v =  isDigit(v2) && v2 >0 ?myUtils.FormatDateTime(v2):"";
+        	
+        	var el_v =  "";
+        	var e2_v =  "";
+        	if(comTimeSort == 1){
+           	 el_v =  isDigit(v1) && v1 >0  ?myUtils.FormatDateTime(v1):"";
+        	 e2_v =  isDigit(v2) && v2 >0 ?myUtils.FormatDateTime(v2):"";
+        	}else{
+           	 el_v =  isDigit(v1) && v1 >0 ?v1:"";
+        	 e2_v =  isDigit(v2) && v2 >0 ?v2:"";
+        	}
+
+
         	el.innerHTML =  el_v;
         	e2.innerHTML =   e2_v;
         	
@@ -687,7 +707,7 @@ function calculateFooterValues(){
          	 vv1 = (vv1=='')?0:vv1;
          	 var vv2 =  sumArrTotal[i]; 
          	 vv2 = (vv2==''||vv2==0)?1:vv2;
-         	 var e3_v =  isDigit(vv1) &&  isDigit(vv2) && vv1 > 0?ForDight((vv1/vv2)*100,2)+"%":"";
+         	 var e3_v =  isDigit(vv1) &&  isDigit(vv2) && vv1 > 0?ForDight((vv1/vv2)*100,0)+"%":"";
 	         document.getElementById("day_rate"+(i+1)).innerHTML = e3_v;
 	          _gobal_colSumRate.push(e3_v);   
         }        
@@ -714,7 +734,7 @@ function calculateFooterValues(){
 
         var srQ = document.getElementById("day_rate");
         vv2 = vv2==''||vv2==0?1:vv2;
-        var srQ_v3 =isDigit(vv) &&  isDigit(vv2) && vv > 0?ForDight((vv/vv2)*100,2)+"%":"";  
+        var srQ_v3 =isDigit(vv) &&  isDigit(vv2) && vv > 0?ForDight((vv/vv2)*100,0)+"%":"";  
         srQ.innerHTML =   srQ_v3;
         
         
@@ -877,6 +897,9 @@ function resetStore(){
 	}
 	
 	
+	
+	
+	
 	var cmd4 =  Ext.getCmp('carrier_cmd');
 	var store4 = cmd4.getStore();
 	if(store4.baseParams){
@@ -896,8 +919,11 @@ function resetStore(){
 			cmd5.clearValue(); 	 			
 		}
 	}		
-	
 	resetResourceStore();
+	
+	
+	
+	rest_resource_tree();
 	
 
  
@@ -911,12 +937,13 @@ function showSearchWin(){
 	
    var test = false;
 	if(!queryWindow){
- 	test = true;
+// 	test = true;
 	var items = new Array();
 	
 	var my_cur_year =_app_params.serviceDate.year;
 //	var comTimeSort = myUtils.getComTimeSort('unitss','统计单位',180,1);  	
-	var comYear = myUtils.getComYear('year','年份',180,my_cur_year);  	
+
+	var comYear = myUtils.getComYear('year','年份',180,my_cur_year,null, _app_params.serviceDate.adrmSysYear);  	
 	comYear.on("select" , function(box){resetStore();});	
 
 	var def_start_Dat =   myDate.parseDate(getFormatDay(_app_params.serviceDate.format2,"y-m-d"));
@@ -925,6 +952,7 @@ function showSearchWin(){
 	
 	function close_res_list(){
 		Ext.getCmp('res_select_cmd').collapse();
+		Ext.getCmp('search_resource_cmd').collapse();
 	}
 	
 
@@ -969,6 +997,9 @@ function showSearchWin(){
 	
 	var comboxGrid = getComBoxGrid();
 	
+	resource.obj.version = comYear.getValue();
+    var comboxGrid2 = resource.getResourceCmdTree(orderCategory.obj.orgId,resource.obj,'search_resource_cmd','search_resource_tree',true,null,'resourceId','选时段...',180,true,false,true,function callFunction(){});
+	
 //	items.push(comTimeSort);
 	items.push(comYear);
 	items.push(startDateFileld);	
@@ -976,7 +1007,9 @@ function showSearchWin(){
 	items.push(weekCmd);	 
 //	items.push(channelCmd);	
 //	items.push(carrierCmd);	
-		items.push(comboxGrid);
+	items.push(comboxGrid);
+	items.push(comboxGrid2);
+		
 //	items.push(resourceSortCmd);	
 //	items.push(resourceCmd);	
 	items.push(categoryCommand);	
@@ -1010,6 +1043,10 @@ function showSearchWin(){
 				    			{text:'确定',handler:function(){ 
 				    				
 				    				Ext.getCmp('res_select_cmd').collapse();
+				    				Ext.getCmp('search_resource_cmd').collapse();
+				    				
+				    				
+				    				
 				    				queryWindow.hide();
 				    				
 				    				if(queryWindow.query_model == 1){
@@ -1021,7 +1058,12 @@ function showSearchWin(){
 				    				
 				    				}},
 								{text:'重置',handler:function(){fromPannel.form.reset();}},
-								{text:'关闭',handler:function(){queryWindow.hide();Ext.getCmp('res_select_cmd').collapse(); }}
+								{text:'关闭',handler:function(){queryWindow.hide();
+								
+								Ext.getCmp('res_select_cmd').collapse(); 
+								Ext.getCmp('search_resource_cmd').collapse();
+								
+								}}
 				            ],
 						items:fromPannel  
 		});	
@@ -1034,12 +1076,12 @@ function showSearchWin(){
  queryWindow.show(this);
  queryWindow.query_model = 1;
  
- if(test){
-  	 Ext.getCmp('res_select_cmd').onTriggerClick(); 
-     Ext.getCmp('carrier_cmd').onTriggerClick();  	
- }else{
- 	 Ext.getCmp('res_select_cmd').onTriggerClick(); 
- }
+// if(test){
+//  	 Ext.getCmp('res_select_cmd').onTriggerClick(); 
+//     Ext.getCmp('carrier_cmd').onTriggerClick();  	
+// }else{
+// 	 Ext.getCmp('res_select_cmd').onTriggerClick(); 
+// }
 
  
 
@@ -1239,6 +1281,31 @@ function resetResourceStore(){
 	}	
 }
 
+
+function rest_resource_tree(){
+	var resource_year = Ext.getCmp('year').getValue();
+//	var startDate = Ext.getCmp('start_date_query').getValue();
+//	var endDate = Ext.getCmp('end_date_query').getValue();
+//	startDate = myDate.myFormatDate(startDate,myDate.dateFormat);
+//	endDate = myDate.myFormatDate(endDate,myDate.dateFormat);  
+	
+	 var cmdRes = Ext.getCmp('search_resource_tree');
+	 if(cmdRes) {
+		 cmdRes.loader.params.orgId = $("orgId").value;
+		 cmdRes.loader.params.version = resource_year;
+		 resource.obj.version = resource_year;
+		 cmdRes.root.attributes.version = resource_year;
+	 	 cmdRes.root.reload();
+	 	 mygrid.clearAll();
+	 }
+	
+	 
+	 
+}
+
+
+
+
 function getComBoxGrid(){
 	
 
@@ -1277,7 +1344,7 @@ function getComBoxGrid(){
 	carrierCmd.on("select" , function(box){resetResourceStore();});		
 	carrierCmd.on("clear" , function(box){resetResourceStore();});		
          
-  resourceSort.obj.orgId =  config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value;	
+    resourceSort.obj.orgId =  config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value;	
 	var resourceSortCmd  = resourceSort.getResourceSortCmd('resourceSort_cmd','remote',90,'时段属性','时段属性...');
 	resourceSortCmd.on("select" , function(box){resetResourceStore2(0);});		
  	resourceSortCmd.on("clear" , function(box){resetResourceStore2(-1);});		
@@ -1288,6 +1355,7 @@ function getComBoxGrid(){
 	resource.obj.version = Ext.getCmp('year').getValue();
 	resource.obj.carrierId =  Ext.getCmp('carrier_cmd').getValue() == ""?null: Ext.getCmp('carrier_cmd').getValue();
 	resource.obj.resourceSort = resourceSortCmd.getValue() == ""?null:resourceSortCmd.getValue();
+	resource.obj.isOverweight = true;
 	
 	
 	
@@ -1389,7 +1457,12 @@ function getComBoxGrid(){
 	store.on("load" , function(store,recs,opts){resetBrocatTime(store)});		
 	
 //	var okBtn ={text: '确定',idth : 30,handler: function(){Ext.getCmp('res_select_cmd').collapse();}};	
-	var closeBtn ={text: '关 闭',xtype:'button',iconCls:'admin-tool-delete',handler: function(){  Ext.getCmp('res_select_cmd').collapse();}};
+	var closeBtn ={text: '关 闭',xtype:'button',iconCls:'admin-tool-delete',handler: function(){ 
+		
+		Ext.getCmp('res_select_cmd').collapse();
+		Ext.getCmp('search_resource_cmd').collapse();
+		
+	}};
 //	var searchBtn = {text:'查询',handler:function(){ loadGridData();}};
 
 	var cm = new Ext.grid.ColumnModel([  
@@ -1498,14 +1571,16 @@ function getTitle1(){
 		
 		
 		var temp = seach_type ==1?"占用":"剩余";
-		var  title1 = Ext.getCmp('carrier_cmd').getRawValue()+'时段'+temp +"时间";
+//		var  title1 = Ext.getCmp('carrier_cmd').getRawValue()+'时段'+temp +"时间";
+		var  title1 ='时段'+temp +"时间";
         var  titleSub = "(" + getFormatDay(startDate,"y-m-d") +"至"+ getFormatDay(endDate,"y-m-d") +")";
 		var  title = title1+"  "+titleSub;
 		return title;
 }
 
 function getTitle2(publishDate){
-		var  title1 = Ext.getCmp('carrier_cmd').getRawValue()+'播出的广告';
+//		var  title1 = Ext.getCmp('carrier_cmd').getRawValue()+'播出的广告';
+		var  title1 = "";
         var  titleSub = "(" + getFormatDay(publishDate +'',"y-m-d")  +")";
 		var  title = title1+"  "+titleSub;
 		return title;
@@ -1537,9 +1612,9 @@ function printReport(model){
 		var paramObj = getParams();
 		var paramObjGrid = getGridParams();
 		
-		if(!check(paramObj,3)){
-			 return false;
-		}
+//		if(!check(paramObj,3)){
+//			 return false;
+//		}
 		
 		chartParam = {
 			model:  1,
@@ -1572,7 +1647,9 @@ function printReport(model){
 		var paramObjGrid = getGridParams();
 		var title = getTitle1();
 
-		if(!check(paramObj,2)) return false;
+//		if(!check(paramObj,2)) return false;
+		
+
 
 		printParam = {
 							model:  model,
@@ -1585,6 +1662,8 @@ function printReport(model){
 			                colAlign:paramObjGrid.colAlign,
 			                colTypes:paramObjGrid.colTypes,
 			                widthsP:paramObjGrid.widths,
+			                fontSize:8,
+			                columnHeaderfontSize:6,
 			                isSum:false,
 			                isVertical:false
 		}; 	

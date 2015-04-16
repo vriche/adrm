@@ -108,10 +108,9 @@ MatterType.prototype.getMatterTypeXML = function(OBJ,matterIdPrefix,callBackFun)
 };
  
   
-MatterType.prototype.getMatterTypeCmd =  function(paramObj,renderTo,elname,filterFiled,width,emptyText,callFunction){
+MatterType.prototype.getMatterTypeCmd =  function(paramObj,renderTo,elname,filterFiled,width,emptyText,model,callFunction){
 	var OBJ = this;
-	var store = OBJ.getStoreMatterType('remote',OBJ.obj);
-         
+	var store = OBJ.getStoreMatterType(model,OBJ.obj);
 	var conf ={
         store: store,
         id:elname,
@@ -127,6 +126,7 @@ MatterType.prototype.getMatterTypeCmd =  function(paramObj,renderTo,elname,filte
         selectOnFocus:true,
          mode: 'local',
          minChars:1,
+         filterFiled:'matterType',
          params:paramObj
 
     };  
@@ -155,7 +155,9 @@ MatterType.prototype.getMatterTypeCmd =  function(paramObj,renderTo,elname,filte
 	 }
 
      cmd.on("clear",func,this);	 
-     cmd.on("select",func2,this);	 
+     cmd.on("select",func2,this);	
+     
+     store.on("load",function(){cmd.setValue(1);},this);	
 
      
 	return cmd;

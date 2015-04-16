@@ -153,10 +153,10 @@ public class PublishArrangeServlet  extends HttpServlet{
             publishArrange.setCarrierName(parentName);
             publishArrange.setPublishDate(new Integer(publishDate));
             publishArrange.setIsArranged(new Boolean(isArranged));
-            if(fztv && importType.equals("2")){    
-                publishArrange.setResourceMeno(startTime);
-                publishArrange.setResourceName(endTime);
-            }
+//            if(fztv && importType.equals("2")){    
+//                publishArrange.setResourceMeno(startTime);
+//                publishArrange.setResourceName(endTime);
+//            }
             publishArrange.setIsEnable(new Boolean(false));  
             List ls = (List)mgr.getReportColl(publishArrange,rebuild,isRoll,onlyHistory);
           
@@ -174,19 +174,19 @@ public class PublishArrangeServlet  extends HttpServlet{
             
     	    
     	    
-    	    if(fztv && importType.equals("1")){ 
-                for(Iterator it = ls.iterator();it.hasNext();){
-                	
-                	PublishedInfo publishInfo=(PublishedInfo)it.next();
-                	if(publishInfo.getTapeCode()==null||publishInfo.getPublishMemo().equals("+")){
-                		coll.add(publishInfo);       
-                	} 
-                }
-    	    }else{
+//    	    if(fztv && importType.equals("1")){ 
+//                for(Iterator it = ls.iterator();it.hasNext();){
+//                	
+//                	PublishedInfo publishInfo=(PublishedInfo)it.next();
+//                	if(publishInfo.getTapeCode()==null||publishInfo.getPublishMemo().equals("+")){
+//                		coll.add(publishInfo);       
+//                	} 
+//                }
+//    	    }else{
                 for(Iterator it = ls.iterator();it.hasNext();){
                 		coll.add((PublishedInfo)it.next());
                 }
-    	    }
+//    	    }
 
 //	        System.out.println(">>>>>>coll>>>>>" +coll.size());
 	        
@@ -237,21 +237,21 @@ public class PublishArrangeServlet  extends HttpServlet{
 			List carrierlist = (List)carrierMap.get(new Long(carrierId));		
 			for(Iterator is = carrierlist.iterator();is.hasNext();){
 				Carrier car = (Carrier)is.next();  
-				if(fztv){
-					if(carrierlist.size()==2){
-						if(car.getNodeLevel().intValue()==2){                    
-							channName = car.getCarrierName(); 
-						}
-					}else{
-						if(car.getNodeLevel().intValue()==1){
-							channName = car.getCarrierName(); 
-						}
-					}
-				}else{
+//				if(fztv){
+//					if(carrierlist.size()==2){
+//						if(car.getNodeLevel().intValue()==2){                    
+//							channName = car.getCarrierName(); 
+//						}
+//					}else{
+//						if(car.getNodeLevel().intValue()==1){
+//							channName = car.getCarrierName(); 
+//						}
+//					}
+//				}else{
 					if(car.getNodeLevel().intValue()==1){
 						channName = car.getCarrierName(); 
 					}
-				}
+//				}
 			}
 			parameters.put("ReportTitle", org.getReportTitle()+ channName+"广告编播单");
 //			parameters.put("ReportTitle", channName+"广告编播单");

@@ -961,25 +961,29 @@ public class DateUtil {
     public static String[] getDefaultSingDate(String cur_year,String cur_month,String cur_day){
     	
     	String tvNameParam = SysParamUtil.getTvNameParam();
+    	// 新签订单广告排期默认月份,默认当前月份+2
+    	int  orderArrangDefaultMonths = Integer.parseInt(SysParamUtil.getOrderArrangDefaultMonthsParam());  
 
     	String[] ss = new String[2];
-    	
     	int nextYear = Integer.parseInt(cur_year);
 		int nextMonth = Integer.parseInt(cur_month);
+
 		if("hbtv".equals(tvNameParam)){
 			if(Integer.parseInt(cur_day) >24){
 				nextMonth = nextMonth + 1;
 			}
 		}else{
-			nextMonth = nextMonth + 2;
+			nextMonth = nextMonth + orderArrangDefaultMonths;
 		}
+		
+		
 		if(nextMonth >12){
 			nextYear = nextYear+1;
 			nextMonth = nextMonth-12;
 		}
         
 
-//    	System.out.println("tvNameParam 444444444>>>>ttttttttttttttttttttttttt>>>>   "+nextMonth);
+    	System.out.println("tvNameParam 444444444>>>>ttttttttttttttttttttttttt>>>>   "+nextMonth);
     	
     	
 		ss[0] = getFirstDate(cur_year,cur_month);

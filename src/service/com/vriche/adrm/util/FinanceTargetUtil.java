@@ -45,6 +45,8 @@ public class FinanceTargetUtil {
 			sb.append("<cell><![CDATA["+ obj.getValue3() +"]]></cell>");
 			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat33(obj.getValue4())  +"]]></cell>");
 			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat33(obj.getValue5())  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat33(obj.getValue6())  +"]]></cell>");
+			sb.append("<cell><![CDATA["+ StringUtil.doubleFormat33(obj.getValue7())  +"]]></cell>");
 			sb.append("</row>");
 		}
 		sb.append("</rows>");	

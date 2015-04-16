@@ -302,6 +302,25 @@ public class WorkspanManagerImpl extends BaseManager implements WorkspanManager 
 
 	}
 	
+	public void saveDayinfoByWorkspan(String version) {
+		//先删除资源日信息
+		Map mp = new HashMap();
+		Workspan workspanParam = new Workspan();
+		workspanParam.setVersion(Integer.valueOf(version));
+        List ls = dao.getWorkspans(workspanParam);
+        System.out.println("saveDayinfoByWorkspan Workspan count >>>>>>>>>>>>>>>>>> "+ ls.size());
+        Iterator it = ls.iterator();
+        while(it.hasNext()){
+        	Workspan ws = (Workspan)it.next();
+        	Long id = ws.getId();
+   
+        	 System.out.println("saveDayinfoByWorkspan Workspan id >>>>>>>>>>>>>>>>>> "+ id);
+         	dao.removeResourceDayInfo(id,ws.getBeginDate(),ws.getEndDate());
+         	dao.addResourceDayInfo(ws);	
 
+        }
+
+		
+	}
 	
 }

@@ -416,6 +416,7 @@
                     <td width="1px"><input type="button"    class="button" style="width:90px;" id="Btn_user_year_rel" value='订单年份授权'></td> 
                     <td width="1px"><input type="button"    class="button" style="width:90px;" id="Btn_user_customerType_rel" value='客户类别授权'></td> 
                     
+                    
                      <td>&nbsp;</td> 	
 		        </tr>
 		      </table>

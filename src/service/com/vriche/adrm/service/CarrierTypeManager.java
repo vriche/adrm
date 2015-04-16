@@ -53,6 +53,8 @@ public interface CarrierTypeManager extends Manager {
     
     public String getCarrierTypeXMLByYear(CarrierType carrierType, String IdPrefix,String carrierIdPrefix,String resourceIdPrefix,String year);
 
+    public String getCarrierTypeXMLByYear2(CarrierType carrierType, String IdPrefix,String carrierIdPrefix,String resourceIdPrefix,String year);
+    
     public String getCarrierTypeXMLFromMapByYear(CarrierType carrierType, String IdPrefix,String carrierIdPrefix,String resourceIdPrefix,String year);
     
     public String getCarrierTypeXMLForArrange(CarrierType carrierType, String IdPrefix,String carrierIdPrefix,String resourceIdPrefix,String publishDate);

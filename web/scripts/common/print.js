@@ -16,46 +16,58 @@ MyPrint.prototype.getWinY = function(height){
 MyPrint.prototype.getDatas = function(){
 	return datas2 =[
 	   			{
-                    text:'预览',
+                    text:'预览',  //0
                     iconCls:'admin-tool-view',
                     handler:self.printReport.createDelegate(self,['view'])
                 },{
-                    text:'打印',
+                    text:'打印',  //1
                     iconCls:'admin-tool-print',
                     handler:self.printReport.createDelegate(self,['print'])
                 },{
-                    text:'导出',
+                    text:'导出', //2
                     iconCls:'admin-tool-export-xls',
                     handler:self.printReport.createDelegate(self,['excel'])
                 }
                 ,{
-                    text:'导出pdf',
+                    text:'导出pdf', //3
                     iconCls:'admin-tool-export-pdf',
                     handler:self.printReport.createDelegate(self,['pdf'])
                 },{
-                    text:'导出html',
+                    text:'导出html', //4
                     iconCls:'admin-tool-edit',
                     handler:self.printReport.createDelegate(self,['html'])
                 },{
-                    text:'导出word',
+                    text:'导出word', //5
                     iconCls:'admin-tool-edit',
                     handler:self.printReport.createDelegate(self,['word'])
                 },{
-                    text:'图表',
+                    text:'图表', //6
                     iconCls:'admin-tool-chart',
                     handler:self.printReport.createDelegate(self,['chart'])
                 },{
-                    text:'复制订单',
+                    text:'复制订单', //7
                     iconCls:'admin-tool-copy',
                     handler:self.printReport.createDelegate(self,['copy'])
                 },{
-                    text:'查询',
+                    text:'查询', //8
                     iconCls:'admin-tool-query',
                     handler:self.printReport.createDelegate(self,['query'])
                 },{
-                    text:'播出证明',
+                    text:'播出证明', //9
                     iconCls:'admin-tool-prove',
                     handler:self.printReport.createDelegate(self,['prove'])
+                },{
+                    text:'提交', // 10
+                    iconCls:'admin-tool-check',
+                    handler:self.printReport.createDelegate(self,['submit'])
+                },{
+                    text:'通过', // 11
+                    iconCls:'admin-tool-check',
+                    handler:self.printReport.createDelegate(self,['pass'])
+                },{
+                    text:'退回', //12
+                    iconCls:'admin-tool-return',
+                    handler:self.printReport.createDelegate(self,['return'])
                 }                  
                 ];	
 }

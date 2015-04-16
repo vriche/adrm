@@ -42,8 +42,9 @@ function init(){
 	config_autoPriceTypeParam =  _app_params.sysParam.autoPriceTypeParam;
 	config_useLanmuSingleParam= _app_params.sysParam.useLanmuSingleParam;
 	config_moreChannelParam = _app_params.sysParam.moreChannelParam;
-	
+	config_resourceUseCustomerCatelog = _app_params.sysParam.resourceUseCustomerCatelog;
 
+	loginUser =   _app_params.user.username;
 	
 	winHeight = self.innerHeight*0.93; 
 	winWidth  = self.innerWidth*0.98;
@@ -66,23 +67,7 @@ function init(){
 	
     _make_org_select("orgId",120,"getResourceTree");	
 	 
-	//alert($("resource_year").value);	
-//	initResourceTree();
-	
-//	org.makeSelect(org.obj,"orgId","getResourceTree",callBackFun);	
-	
-	 
-//	priceType.makeSelectFromMap(priceType.obj,"resourcePriceType","145","onResourceChange",function(){
-//		if(config_autoPriceTypeParam > 0){
-//			$("resourcePriceType").value = config_autoPriceTypeParam;
-//		}else{
-//			$("resourcePriceType").value = 1;
-//		}
-//
-//	});
-	
-	
-//	function callBackFun(){
+
 		    initResourceTree();
 		    
 			buttonEventFill(); 
@@ -96,15 +81,7 @@ function init(){
 			
 			
 			resourceSort.makeSelectFromMap5("resourceSortId",50,"",function(){});
-			
-//			channel.obj.orgId = $('orgId').value;
-//			channel.makeSelectItemAnalyze(channel.obj,"channelId","");
-			
-//				$('orgId_td').hide();
-//			if(config_useMoreCarrierSortParam == 0|| $('orgId').options.length<2){
-//				$('orgId_td').hide();
-//			}
-			
+
 			
 	
 			$('td4').hide();
@@ -140,6 +117,12 @@ function init(){
 			
 			if(config_useLanmuSingleParam !=1){
 				$('mediaOrgId').disabled = true;
+			}
+			
+		
+			
+			if(config_resourceUseCustomerCatelog == 0){
+				 $("Btn_setUserResourceUseRate").hide();
 			}
 	
 			resetHeigth();
@@ -660,7 +643,8 @@ function buttonEventFill(){
 	 Bt_ckeck_all_time111.removeAttribute("disabled");
 	 Bt_ckeck_all_time111.onclick = check_all_adTimes;	  
 
-	
+	var Btn_setUserResourceUseRate = $("Btn_setUserResourceUseRate");
+	Btn_setUserResourceUseRate.onclick = setUserResourceUseRate;	
 	
 //	$("memo").onblur = button_compareMemo;
 }
@@ -1289,7 +1273,7 @@ function doOnBeforeDrop(id,parentId){
 				}
 				
 				var func = function(){
-					if(tvNameParam != 'fztv'){
+//					if(tvNameParam != 'fztv'){
 						var resourceIdsOnly=new Array();
 						var resourceIds=obj_tree.getAllLeafs().split(',');
 						for(var i=0;i<resourceIds.length;i++){
@@ -1299,13 +1283,13 @@ function doOnBeforeDrop(id,parentId){
 							resourceIdsOnly.push(getRealIdByTreeId(resourceIds[i],3));
 						}
 						resource.updateDisplayNo(resourceIdsOnly);
-					} 
+//					} 
 					getPriceNameByYear();
 				}
-				if(tvNameParam=='fztv'){ 
-					resource.obj.displayNo = $("overTime").value;
-					resource.obj.propertiyTime = $("keepTime").value;
-				}     
+//				if(tvNameParam=='fztv'){ 
+//					resource.obj.displayNo = $("overTime").value;
+//					resource.obj.propertiyTime = $("keepTime").value;
+//				}     
 				resource.obj.enable = $("isValidate").checked;
 				resource.obj.resourceSortId = $("resourceSortId").value;
 				resource.saveResource(func,resourceObj);
@@ -1538,10 +1522,10 @@ function loadResourceDetails(resourceId){
 		
 		$("beforehand").value = resourceInfo.beforehand;
 
-		if(tvNameParam=='fztv'){
-			$("overTime").value = resourceInfo.displayNo;
-			$("keepTime").value = resourceInfo.propertiyTime;
-		}
+//		if(tvNameParam=='fztv'){
+//			$("overTime").value = resourceInfo.displayNo;
+//			$("keepTime").value = resourceInfo.propertiyTime;
+//		}
 		
 		$("resourceId").value = resourceInfo.id;
 		if(resourceInfo.enable){
@@ -1797,7 +1781,7 @@ function button_saveResource(){
 			doUpdateItemResource(newId);
 			$("resourceId").value = newId;
 				   //全体排序---开始---
-				   if(tvNameParam !='fztv'){
+//				   if(tvNameParam !='fztv'){
 				   		if($("displayNo").value==0){
 							var obj_tree = carrierType.tree.dhtmlTree;
 							var resourceIdsOnly=new Array();
@@ -1811,7 +1795,7 @@ function button_saveResource(){
 							resource.updateDisplayNo(resourceIdsOnly);
 							
 				   		}
-				   }
+//				   }
 
 					//全体排序---结束---
 			//判断有效信息是否处于编辑状态,新添有效信息
@@ -1898,10 +1882,10 @@ function button_saveResource(){
 	
 	resource.obj.id = $("resourceId").value;
 	resource.obj.displayNo = $("displayNo").value;
-	if(tvNameParam=='fztv'){ 
-		resource.obj.displayNo = $("overTime").value;
-		resource.obj.propertiyTime = $("keepTime").value;
-	}
+//	if(tvNameParam=='fztv'){ 
+//		resource.obj.displayNo = $("overTime").value;
+//		resource.obj.propertiyTime = $("keepTime").value;
+//	}
 	resource.obj.createDate = myDate.parseDate(getFormatDay(config_serviceDate,"yyyy-mm-dd"));
 	resource.obj.version = resource_year;
 	resource.obj.enable = $("isValidate").checked;
@@ -2036,10 +2020,10 @@ function saveAddandEditWorkspan(event){
 		resource.obj.beforehand = $("beforehand").value;
 		resource.obj.id = $("resourceId").value;
 		resource.obj.version = resource_year;
-		if(tvNameParam=='fztv'){ 
-			resource.obj.displayNo = $("overTime").value;
-			resource.obj.propertiyTime = $("keepTime").value;
-		}
+//		if(tvNameParam=='fztv'){ 
+//			resource.obj.displayNo = $("overTime").value;
+//			resource.obj.propertiyTime = $("keepTime").value;
+//		}
 		
 		
 		var func = function(newId){
@@ -2066,7 +2050,7 @@ function saveAddandEditWorkspan(event){
 		        	
 					var funct = function(){
 //						loadWorkSpances(newId);
-						if(tvNameParam != 'fztv'){
+//						if(tvNameParam != 'fztv'){
 							//全体排序---开始---
 							var obj_tree = carrierType.tree.dhtmlTree;
 							var resourceIdsOnly=new Array();
@@ -2080,7 +2064,7 @@ function saveAddandEditWorkspan(event){
 							resource.updateDisplayNo(resourceIdsOnly);
 							
 							//全体排序---结束---
-						} 
+//						} 
 						getPriceNameByYear();
 					}
 //					if(config_withBroPoint != 1){
@@ -2391,4 +2375,52 @@ function button_priceDetail_delete(deleteImg){
 	var id = deleteImg.getAttribute("paraId");
 
 	priceDetail.removePriceDetailById(id,func);
+}
+
+function setUserResourceUseRate(){
+
+
+	var dialogcontent = $("dialogcontentDiv");
+	var dialogcontentW = dialogcontent.offsetWidth;
+	var dialogcontentH = dialogcontent.offsetHeight;
+	var winW= dialogcontentW * 0.9;
+	var winH = dialogcontentH*0.99;
+	var title = "资源使用比率";
+	var theme = "leopard"; //vista mac_os_x lighting black_hud leopard window
+	var draggable = false;
+	var minimize = false;
+	var maximize = false;
+	var close =  'destroy';
+	var resizable = false;
+	var dialogcontentHeight = $("dialogcontentDiv").offsetHeight;
+	var urlStr = 'selectPopup/setUserResourceUseRate.html?winW='+winW+'&winH='+winH+"&resource_year="+resource_year+"&dialogcontentHeight="+dialogcontentHeight;
+//	queryAdresChart.jsp
+//	var okBtn ={text: '搜索',handler: function(){document.getElementById('resiframe').contentWindow.getFusionChartObjects();}};	
+	var closeBtn ={text: '关闭',handler: function(){win.hide();}};
+  
+        
+	 var win = new Ext.Window({
+	   title : '资源使用比率',
+	   //maximizable : true,
+	   // maximized : true,
+	   width : winW,
+	   height : winH,
+	   // autoScroll : true,
+	   // bodyBorder : true,
+	   // draggable : true,
+	   isTopContainer : true,
+	   modal : true,
+	   resizable : false,
+	    buttons: [closeBtn],
+	   contentEl : Ext.DomHelper.append(document.body, {
+	    tag : 'iframe',
+	     id : 'resiframe',
+	    style : "border 0px none;scrollbar:true",
+	    src : urlStr,
+	    height : "100%",
+	    width : "100%"
+	   })
+	  })
+	  win.show(); 
+	
 }

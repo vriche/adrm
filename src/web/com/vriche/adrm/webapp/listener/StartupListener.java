@@ -1,6 +1,5 @@
 package com.vriche.adrm.webapp.listener;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,6 +24,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.vriche.adrm.Constants;
+import com.vriche.adrm.model.CarrierType;
 import com.vriche.adrm.model.Org;
 import com.vriche.adrm.model.SysParam;
 import com.vriche.adrm.service.LookupManager;
@@ -245,27 +245,31 @@ public class StartupListener extends ContextLoaderListener
 //        Org org = mgr.getOrg();
         System.out.println("getOrgs ......................");
         List orgLs = mgr.getOrgs();
+        System.out.println("getOrgs .....orgLs.size()................."+orgLs.size());
         Map orgMap = new HashMap();
         String pressText ="";
     	for(Iterator it = orgLs.iterator();it.hasNext();){
-    		Org org  = (Org)it.next();
-    		String tarFile = Constants.FILE_SEP+"images"+ Constants.FILE_SEP +org.getId()+ Constants.FILE_SEP + "logo.jpg" ;
-    		String tarFileRel = context.getRealPath("/")+tarFile;
-    		org.setLogFile(tarFile);
-    		org.setLogFileRel(tarFileRel);
+    		Org org2 = (Org)it.next();
     		
-    		mgr.saveOrgLogoToFile(tarFileRel,org.getLogo());
-    		orgMap.put(org.getId().toString(),org);
+//    		System.out.println("getOrgs  ............6666666666666666666666666666666 Org.........."+ org2);
+    		
+    		String tarFile = Constants.FILE_SEP+"images"+ Constants.FILE_SEP +org2.getId()+ Constants.FILE_SEP + "logo.jpg" ;
+    		String tarFileRel = context.getRealPath("/")+tarFile;
+    		org2.setLogFile(tarFile);
+    		org2.setLogFileRel(tarFileRel);
+    		
+    		mgr.saveOrgLogoToFile(tarFileRel,org2.getLogo());
+    		orgMap.put(org2.getId().toString(),org2);
     		
 //    		if(org.getId().longValue() == 1) pressText = org.getName()+"广告经营管理系统 V"+org.getVersion();
 //    		if(org.getId().longValue() == 1) pressText = org.getName()+"广告经营管理系统";
-    		if(org.getId().longValue() == 1){
-    			pressText = org.getName();
+    		if(org2.getId().longValue() == 1){
+    			pressText = org2.getName();
     			config.put("LOGO_ORG_NAME", pressText);
-    			config.put("SOFT_VERSION", org.getVersion());
+    			config.put("SOFT_VERSION", org2.getVersion());
     			
     			 Constants.APPLACTION_MAP.put(Constants.LOGO_ORG_NAME,pressText);
-    			 Constants.APPLACTION_MAP.put(Constants.SOFT_VERSION,org.getVersion());
+    			 Constants.APPLACTION_MAP.put(Constants.SOFT_VERSION,org2.getVersion());
     		}
         
      	}
@@ -554,6 +558,12 @@ public class StartupListener extends ContextLoaderListener
         Constants.APPLACTION_MAP.put(Constants.REPORTS_TEMPLE_PATH,reportsTemplePath);
         
         
+        Constants.APPLACTION_MAP.remove(Constants.REPORTS_TEMPLE_PATH2);
+        String reportsTemplePath2 = rootRealPath  +  Constants.FILE_GRID_REPORT_DIR + fileSep +"grf" +fileSep; 
+        Constants.APPLACTION_MAP.put(Constants.REPORTS_TEMPLE_PATH2,reportsTemplePath2);
+        
+        System.out.println("REPORTS_TEMPLE_PATH2 ......................"+reportsTemplePath2);
+        
 //        List lsOrgs = mgr.getUserOrgs();
 //        Constants.APPLACTION_MAP.remove(Constants.GLOBAL_CUSRUSER_ORGS);
 //    	Constants.APPLACTION_MAP.put(Constants.GLOBAL_CUSRUSER_ORGS,lsOrgs.get(0));
@@ -561,7 +571,13 @@ public class StartupListener extends ContextLoaderListener
         Constants.APPLACTION_MAP.remove(Constants.GLOBAL_CUSRUSER_ORGS_OBJ);
     	Constants.APPLACTION_MAP.put(Constants.GLOBAL_CUSRUSER_ORGS_OBJ, mgr.getUserOrgs());
     	
-       
+    	
+    	
+//        System.out.println("getresourceUseRateTable ......................");
+//        Constants.APPLACTION_MAP.remove(Constants.RESOURCE_USE_RATE_TABLE);
+//    	Constants.APPLACTION_MAP.put(Constants.RESOURCE_USE_RATE_TABLE, mgr.getUserOrgs());
+    	
+    
 
     	
         System.out.println("getFitterOrderSubCate ......................start ");
@@ -583,6 +599,13 @@ public class StartupListener extends ContextLoaderListener
       
         Constants.APPLACTION_MAP.remove(Constants.FITTER_INCOME_POURS);
     	Constants.APPLACTION_MAP.put(Constants.FITTER_INCOME_POURS,lsFitter.get(4));    	
+    	
+    	
+    	 Constants.APPLACTION_MAP.remove(Constants.AVAILABLE_CARRIER_RESOURCE_TREE);
+    	 
+    	
+        	
+
     	
     	 System.out.println("getFitterOrderSubCate ......................end ");
     	
@@ -956,14 +979,41 @@ public class StartupListener extends ContextLoaderListener
     	 mgr.saveSysParams(Constants.ARRANGE_WITH_BRAND_PARAM,arrangeWithBrandParam,ls);
     	 config.put(Constants.ARRANGE_WITH_BRAND_PARAM,arrangeWithBrandParam);  
     	 
+    	 
+    	 
+    	 // 新签订单广告排期默认月份,默认当前月份+2
+    	 String orderArrangDefaultMonths = sysParam.getOrderArrangDefaultMonths();
+    	 mgr.saveSysParams(Constants.ORDER_ARRANG_DEFAULT_MONTHS,orderArrangDefaultMonths,ls);
+    	 config.put(Constants.ORDER_ARRANG_DEFAULT_MONTHS,orderArrangDefaultMonths);  
+    	 
+    	 
+     	
+ 	    // 出串联单限制排期的修改
+    	 String outLimitBroarrang = sysParam.getOutLimitBroarrang();
+      	 mgr.saveSysParams(Constants.OUT_LIMIT_BROARRANG,outLimitBroarrang,ls);
+         Constants.APPLACTION_MAP.put(Constants.OUT_LIMIT_BROARRANG,outLimitBroarrang);
+         
+     	
+         // 使用客户广告投放的时间比率
+         String resourceUseCustomerCatelog = sysParam.getResourceUseCustomerCatelog();
+    	 mgr.saveSysParams(Constants.RESOURCE_USE_CUSTOMER_CATELOG,resourceUseCustomerCatelog,ls);
+         Constants.APPLACTION_MAP.put(Constants.RESOURCE_USE_CUSTOMER_CATELOG,resourceUseCustomerCatelog);
+    	 
   
 //    	 log.info("orderDisplayIncomeParam>>>>>>>>>>>>>>>>>>"+orderCalculateModel);
     
          Constants.APPLACTION_MAP.remove(Constants.GLOBAL_SYS_PARAMS);
      	 Constants.APPLACTION_MAP.put(Constants.GLOBAL_SYS_PARAMS,mgr.getGlobalParamsMap(ls));
      	 
-     	 
-     	 
+   
+     	config.put(Constants.FILE_GRID_REPORT_DIR,Constants.FILE_GRID_REPORT_DIR);  
+     	
+     	
+     	
+     	
+     	
+   
+     	
     	 
     	 
 //     	String[] args=new String[{"-database.0","file:mydb","-dbname.0","xdb"}];  

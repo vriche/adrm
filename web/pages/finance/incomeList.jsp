@@ -202,7 +202,13 @@ $("searchArea").show();
 		         titleKey="incomeForm.customerId"/>       <!--付款单位-->
 		               
 
-		     
+		     <c:set var="channelModelParam" value='${appConfig["channelModelParam"]}'/>
+		     <c:if test="${channelModelParam == '1'}">
+			     <display:column sortable="true" headerClass="sortable" titleKey="resourceChannelForm.name" media="html" >
+			     		 <c:out value="${incomeList.incomePublic.carrierName}"/>
+			     </display:column>       <!--频道名称-->   
+			</c:if>
+			
 		     
 		     <c:set var="isSignUserBalance" value='${appConfig["isSignUserBalance"]}'/>
 			 <c:if test="${isSignUserBalance == '0'}">
@@ -211,6 +217,8 @@ $("searchArea").show();
 				      	 <c:out value="${incomeList.user.lastName}"/>
 			     </display:column>       <!--业务员-->   
 			</c:if>
+			
+			
 			<c:if test="${isSignUserBalance == '1'}">
 			     <display:column sortable="true" headerClass="sortable" titleKey="moneyIn.name" media="html" >
 			     		 <c:out value="${incomeList.user.firstName}"/>

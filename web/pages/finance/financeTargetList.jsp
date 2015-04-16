@@ -41,6 +41,8 @@ function init(){
 	$("tarForm").src = 'selectPopup/financeTarget.html?year='+ year +'&orgId=' +orgId;
 	//getTable();
 	
+	resetHeigth();
+	
 
 	
 }
@@ -73,6 +75,12 @@ function printReport(mode){
 	
 	   
 }
+
+function resetHeigth(){
+   	//var dialogcontent = $("dialogcontentDiv");
+   	var dialogcontent = parent.document.getElementById("dialogcontentDiv");
+   	$("tarForm").style.height = dialogcontent.offsetHeight*0.8+"px";
+} 
 
 function getTable(){
 		var year = $("target_year").value;

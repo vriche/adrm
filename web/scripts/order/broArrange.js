@@ -1194,82 +1194,38 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
 		}
 	  //afterLeaveTimes = dayObj.rsReleave - adLength * (t*1 + curValue*1-oldValue*1);
 	}
-	if(dayObj.dayShort ==0) groupLeaveTimes=100000;
-	//alert(dayObj.rsReleave);
-	//alert(afterLeaveTimes);
-    if(tvNameParam=='fztv' ){
-    	
-    	var overTime= dayObj.rsAlert-0;
-//    	alert(groupLeaveTimes);
-//    	alert(dayObj.rsAlert);
-//    	alert(dayObj.isLimit);
-//    	alert(afterLeaveTimes);
-//    	alert(rsTotalTime);
-    	if(isFree) overTime=0;   
-
-    	if(dayObj.isLimit && (afterLeaveTimes+overTime < 0||groupLeaveTimes<0)&& rsTotalTime > 0){ 
-				//alert(getFormatDay(dayDate,"yyyy-mm-dd")+"的广告超时!");
-				//注释了上面一行
-				//下面两个if语句是为了实现根据个人选择来决定是否继续提示"广告超时".
-				//isAlert,isConfirm这两个字段在最上面定义了.
-				
-//				if(broArrange.isAlert){
-					if(!isKeypress){
-						if(groupLeaveTimes<0){
-							rt =  false;         
-							alert("该时段组"+getFormatDay(dayDate,"yyyy-mm-dd")+"的广告可用时间只有"+(groupLeaveTimes+overTime+adLength*1)+"秒");
-						}else if(afterLeaveTimes+overTime < 0&&groupLeaveTimes==100000){
-							rt =  false;
-							alert("该时段"+getFormatDay(dayDate,"yyyy-mm-dd")+"的广告可用时间只有"+(afterLeaveTimes+overTime+adLength*1)+"秒");
-						}
-					}else{
-						if(groupLeaveTimes<0){
-							rt =  false;         
-						}else if(afterLeaveTimes+overTime < 0&&groupLeaveTimes==100000){
-							rt =  false;
-						}
-					}
-
-//				}
-//				if(broArrange.isConfirm){
-//					broArrange.isAlert = confirm("是否继续提示广告超时？");
-//					broArrange.isConfirm = false;
-//				}
-		}
-//    	if(dayObj.isLimit && (afterLeaveTimes+overTime < 0||groupLeaveTimes<0)&& rsTotalTime > 0){
+	
+	
+	
+	
+//	if(dayObj.dayShort ==0) groupLeaveTimes=100000;
+//
+//    if(tvNameParam=='fztv' ){
+//    	var overTime= dayObj.rsAlert-0;
+//    	if(isFree) overTime=0;   
+//    	if(dayObj.isLimit && (afterLeaveTimes+overTime < 0||groupLeaveTimes<0)&& rsTotalTime > 0){ 
 //				//alert(getFormatDay(dayDate,"yyyy-mm-dd")+"的广告超时!");
 //				//注释了上面一行
 //				//下面两个if语句是为了实现根据个人选择来决定是否继续提示"广告超时".
 //				//isAlert,isConfirm这两个字段在最上面定义了.
-//				if(broArrange.isAlert){
-//					if(groupLeaveTimes < 0){
-//						alert("该时段组"+getFormatDay(dayDate,"yyyy-mm-dd")+"的广告可用时间只有"+(groupLeaveTimes+adLength*1)+"秒");  
-//					}else if(afterLeaveTimes+overTime < 0){    
-//						alert("该时段"+getFormatDay(dayDate,"yyyy-mm-dd")+"的广告可用时间只有"+(afterLeaveTimes+overTime+adLength*1)+"秒");
+//					if(!isKeypress){
+//						if(groupLeaveTimes<0){
+//							rt =  false;         
+//							alert("该时段组"+getFormatDay(dayDate,"yyyy-mm-dd")+"的广告可用时间只有"+(groupLeaveTimes+overTime+adLength*1)+"秒");
+//						}else if(afterLeaveTimes+overTime < 0&&groupLeaveTimes==100000){
+//							rt =  false;
+//							alert("该时段"+getFormatDay(dayDate,"yyyy-mm-dd")+"的广告可用时间只有"+(afterLeaveTimes+overTime+adLength*1)+"秒");
+//						}
+//					}else{
+//						if(groupLeaveTimes<0){
+//							rt =  false;         
+//						}else if(afterLeaveTimes+overTime < 0&&groupLeaveTimes==100000){
+//							rt =  false;
+//						}
 //					}
-//				}   
-//				if(broArrange.isConfirm){
-//					broArrange.isAlert = confirm("是否继续提示广告超时？");
-//					broArrange.isConfirm = false;
-//				}
-//		  
-//				if(!BroArrange.isTimeOutRight&&changeTimes>0){  
-//					 rt =  false;
-//				}
-//		}else if(!dayObj.isLimit&&afterLeaveTimes< 0&& rsTotalTime > 0){
-//				if(broArrange.isAlert){
-//					alert("该时段"+getFormatDay(dayDate,"yyyy-mm-dd")+"的广告超时!");
-//				}   
-//				if(broArrange.isConfirm){
-//					broArrange.isAlert = confirm("是否继续提示广告超时？");
-//					broArrange.isConfirm = false;
-//				}
-//		  
-//				if(!BroArrange.isTimeOutRight&&changeTimes>0){
-//					 rt =  false;  
-//				}
 //		}
-    }else{
+//
+//    }else{
     	      	
     	  if(dayObj.isLimit && afterLeaveTimes< 0 && rsTotalTime > 0){
 				//alert(getFormatDay(dayDate,"yyyy-mm-dd")+"的广告超时!");
@@ -1302,7 +1258,7 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
 					 rt =  false;
 				}
 		}		
-	}
+//	}
 
 
 		

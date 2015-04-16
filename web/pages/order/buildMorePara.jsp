@@ -21,7 +21,6 @@
 
 <script type="text/javascript" src="<c:url value='/scripts/global.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/generic.js'/>"></script>
-
 <script type="text/javascript" src="<c:url value='/scripts/common/hashMap.js'/>"></script>
 
 
@@ -91,6 +90,7 @@
 <script type="text/javascript" src="<c:url value='/scripts/class/matter.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/matterType.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/orderCategory.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/brand.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/class/order.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/orderDetail.js'/>"></script>
@@ -107,6 +107,8 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/OrderManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/UserManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/OrderDayInfoManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/BrandManager.js'/>"></script>
+
 
 <script type="text/javascript" src="<c:url value='/scripts/common/page.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common/date.js'/>"></script>
@@ -293,16 +295,16 @@
                      </td>
                      
    
-                      <td  width="1px">
+                      <td  width="1px" style="display:none">
                      <input  type="checkbox" value="1"  width="100px" id="isDisplayMonDetail">
                       </td>
-                      <td  width="60px">
+                      <td  width="60px" style="display:none">
                      <label  class="myLable1"  for="isDisplayMonDetail">拆分月份</label>
                      </td> 
                   
       
 					 <td  width="1px">   <input type="button"    class="button" id="cleanBroArrange" value='清除排期'></td>
-                     <td  width="1px"> <input type="button"    class="button" id="addNextMonthBroArrange" value='顺延一个月'></td>
+                     <td  width="1px" style="display:none"> <input type="button"    class="button" id="addNextMonthBroArrange" value='顺延一个月'></td>
 					<td  width="1px"> <input type="button"    class="button" id="rebackBroArrange" value='恢复排期'></td>
                     
                    

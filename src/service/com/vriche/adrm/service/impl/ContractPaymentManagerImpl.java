@@ -1995,19 +1995,19 @@ public class ContractPaymentManagerImpl extends BaseManager implements ContractP
 		}	
 		
 //		List uIdList = new ArrayList();
-        if(SysParamUtil.isFZTVParam(tvName))	{
-   		   Map userRelsMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_RELS);
-            List userList = new ArrayList();
-            List ls=(List)userRelsMap.get(userIds[0]);
-            CollectionUtils.addAll(userList,ConvertUtil.getColFromList(ls,"id"));	
-            contractPayment.setUserIdList(userList); 
-        }else{
+//        if(SysParamUtil.isFZTVParam(tvName))	{
+//   		   Map userRelsMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_RELS);
+//            List userList = new ArrayList();
+//            List ls=(List)userRelsMap.get(userIds[0]);
+//            CollectionUtils.addAll(userList,ConvertUtil.getColFromList(ls,"id"));	
+//            contractPayment.setUserIdList(userList); 
+//        }else{
         	  List userList = new ArrayList();
         	  CollectionUtils.addAll(userList,userIds);	
         	  contractPayment.setUserIdList(userList); 
         	  
 //              System.out.println(">>>>>>>> userList: "+userList);
-        }
+//        }
         
   
         
@@ -2176,13 +2176,13 @@ public class ContractPaymentManagerImpl extends BaseManager implements ContractP
 		
 		List uIdList = new ArrayList();
 		
-      if(SysParamUtil.isFZTVParam(tvName))	{
- 		 Map userRelsMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_RELS);
-          List userList = new ArrayList();
-          List ls=(List)userRelsMap.get(userIds[0]);
-          CollectionUtils.addAll(userList,ConvertUtil.getColFromList(ls,"id"));	
-          contractPayment.setUserIdList(userList); 
-      }
+//      if(SysParamUtil.isFZTVParam(tvName))	{
+// 		 Map userRelsMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_RELS);
+//          List userList = new ArrayList();
+//          List ls=(List)userRelsMap.get(userIds[0]);
+//          CollectionUtils.addAll(userList,ConvertUtil.getColFromList(ls,"id"));	
+//          contractPayment.setUserIdList(userList); 
+//      }
 
 		List cusIdList = new ArrayList();
 		String cutId = ""+contractPayment.getCustomerId();
@@ -2871,11 +2871,11 @@ public class ContractPaymentManagerImpl extends BaseManager implements ContractP
 			matterName = StringUtil.getNullValue(matterName,"");
 			
 			String rowId = "0";
-			if(SysParamUtil.isFZTVParam(tvName)){
-				rowId = paymentId +"_"+ orderId ;
-			}else{
+//			if(SysParamUtil.isFZTVParam(tvName)){
+//				rowId = paymentId +"_"+ orderId ;
+//			}else{
 				rowId = paymentId;
-			}
+//			}
 			
 			
 //			double pullMoney = payment.getMoneyPay().doubleValue();

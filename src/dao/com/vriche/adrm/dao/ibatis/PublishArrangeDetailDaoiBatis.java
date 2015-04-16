@@ -12,6 +12,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 import com.ibatis.common.util.PaginatedList;
 import com.vriche.adrm.dao.PublishArrangeDetailDao;
 import com.vriche.adrm.model.PublishArrangeDetail;
+import com.vriche.adrm.util.StringUtil;
 
 public class PublishArrangeDetailDaoiBatis extends BaseDaoiBATIS implements PublishArrangeDetailDao {
 
@@ -130,6 +131,7 @@ public class PublishArrangeDetailDaoiBatis extends BaseDaoiBATIS implements Publ
 				for(int i = 0 ;i<publishArrangeDetails.length;i++){
 					PublishArrangeDetail publishArrangeDetail = publishArrangeDetails[i];
 					publishArrangeDetail.setPublishArrangeId(publishArrangeId);
+					publishArrangeDetail.setCtrBroSort(Integer.valueOf(StringUtil.null2String(publishArrangeDetail.getCtrBroSort())));
 					
 //					 System.out.println("savePublishArrangeDetails getMatterEdit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ publishArrangeDetail.getMatterEdit());
 					 

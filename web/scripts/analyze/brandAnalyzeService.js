@@ -569,7 +569,7 @@ function button_print(model){
 	if(customer2.tree){
 		$("customerIdsForm").value = customer2.tree.getAllCheckedBranches(customer2.IdPrefix);
 	}else{
-		$("customerIdsForm").value ='';
+		$("customerIdsForm").value ="";
 	}
 	
 	$("matterNamesForm").value = Ext.getCmp('matterName').getCheckedDisplay();	

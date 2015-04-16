@@ -248,7 +248,7 @@ public class publishArrangeTimesServlet extends HttpServlet{
 
 	   public Collection  getPulishArrangeFormColl(String publishDate , String carrierId, String dayOrNeit)
 	 	{	
-		    String tvname = SysParamUtil.getTvNameParam();
+//		    String tvname = SysParamUtil.getTvNameParam();
 //		    boolean isCatv = "catv".equals(tvname);
 		    Collection colle = new ArrayList();
 			Map carrierMap = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER);

@@ -148,8 +148,9 @@ function displaySave(){
 }
 
 
+
   function checkTapeCode(){
-  	
+
    isBug = true;
    
 
@@ -180,7 +181,7 @@ function displaySave(){
 	matter.obj.length = $("length").value;
 	matter.obj.orgId = $("orgId").value;
 	
-
+    
 	
 	if(curtapeCode != null){
 			
@@ -201,12 +202,15 @@ function displaySave(){
 		}
 	}
 	
-	
+
+   
 	return isBug;
 }
 
 function saveMatterForm(){
 	
+
+
 	var isd = isDigit($("length").value);
 	if(!isd){
 		$("length").value="";

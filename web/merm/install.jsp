@@ -137,6 +137,25 @@
    			MatterManager.saveMattersAll2dayang2_test();
    				
    }   
+       
+       
+      function saveDayinfoByWorkspan(){
+
+  			var tagYear = prompt("请输入要年份","2008");
+   			if(tagYear==null || tagYear=="") return false;
+   			
+   			if(confirm("真的要处理"+ tagYear +"数据么？")){
+	   			var callBack=function(){
+	   				$("btn_saveDayinfoByWorkspan").disabled=false;
+	   				alert("结束");
+	   			}
+	   			$("btn_saveDayinfoByWorkspan").disabled=true;
+	   			WorkspanManager.saveDayinfoByWorkspan(tagYear,callBack);   			
+   			}			
+
+  }     
+       
+       
    
    
    
@@ -172,6 +191,9 @@
 <input id="btn_saveBrandHelpCode" type="button" value="初始化品牌助记码" onclick="javascript:saveBrandHelpCode()">
 
 <input id="btn_clearOrderByYear" type="button" value="清空某一年的订单" onclick="javascript:cearOrderByYear()">
+
+<input id="btn_saveDayinfoByWorkspan" type="button" value="根据段位批量保存日信息" onclick="javascript:saveDayinfoByWorkspan()">
+
 
 
 </body>

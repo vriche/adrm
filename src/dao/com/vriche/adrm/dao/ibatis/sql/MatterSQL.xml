@@ -530,6 +530,10 @@
 							mt.tape_code = #tapeCodeList[]#
 			  </iterate>
 			</isNotNull> 
+			
+			
+ 			
+			
 			 
 		</dynamic>
 		
@@ -862,13 +866,28 @@
 		,ci.customer_category_id      
          from tb_adver_matter MT 
          
-       left outer join tb_customer_info ci on MT.customer_id = ci.customer_id       
+       left outer join tb_customer_info ci 
+       			on MT.customer_id = ci.customer_id       
  	 	  <dynamic prepend="WHERE"> 
-	      <isNotNull property="MatterIdList">
-       	  <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
-		   			 MT.adver_matter_id = #MatterIdList[]#
-		  </iterate>
-		  </isNotNull> 
+ 	 	  
+		      <isNotNull property="MatterIdList">
+		       	  <iterate prepend="AND" property="MatterIdList" open="(" close=")" conjunction="OR">
+				   			 MT.adver_matter_id = #MatterIdList[]#
+				  </iterate>
+			  </isNotNull> 
+			  
+			<isNotNull prepend="AND" property="matterType">
+					  		 (MT.adver_matter_type = #matterType#)         
+			</isNotNull>			  
+						
+			<isNotNull property="matterTypeList">
+								 <iterate prepend="AND" property="matterTypeList" open="(" close=")" conjunction="OR">
+									   MT.adver_matter_type = #matterTypeList[]#
+							  </iterate>
+			</isNotNull> 			  
+			  
+			  
+			  
           </dynamic>  
           
               
@@ -1322,6 +1341,11 @@
 			</isNotNull> 
 		</dynamic>
    </update>
+   
+   
+   
+   
+	
 	
 	
 	

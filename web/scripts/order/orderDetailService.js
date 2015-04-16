@@ -17,7 +17,7 @@ function initGrid(){
 	mygrid.setImagePath("image/grid/");
 	
 	var flds = "序,品牌,版本,磁带号,载体,时段,指定,长度,月份,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,总次数";
-	if(tvNameParam=='fztv') flds = "频道,时段,广告内容,版本,应付,指定,长度,月份,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,总次数";
+//	if(tvNameParam=='fztv') flds = "频道,时段,广告内容,版本,应付,指定,长度,月份,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,总次数";
 	mygrid.setHeader(flds);  
 
 	var columnIds = "ind,advName,tapCode,carrier,resource,memo,specific,length,month," 
@@ -29,11 +29,11 @@ function initGrid(){
 					+"day26,day27,day28,day29,day30,"
 					+"day31,monthTimes";
 	mygrid.setColumnIds(columnIds);
-	if(tvNameParam=='fztv'){       
-		mygrid.setInitWidthsP("5,7,7,7,5,3,3,3,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4");
-	}else{    
+//	if(tvNameParam=='fztv'){       
+//		mygrid.setInitWidthsP("5,7,7,7,5,3,3,3,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4");
+//	}else{    
 		mygrid.setInitWidthsP("2,4,6,4,4,7,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4");
-	}
+//	}
 	
 //    mygrid.setInitWidths("90,40,40,50,30,30,40,30,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,40");
 	mygrid.setColAlign("center,left,center,left,left,left,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,center,right");

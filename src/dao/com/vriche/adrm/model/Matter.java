@@ -15,6 +15,8 @@ import java.util.List;
 
 
 
+
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -31,7 +33,7 @@ import com.vriche.adrm.model.BaseObject;
  * @hibernate.class table="tb_adver_matter"
  * 
  */
-public class Matter extends BaseObjectWithoutNestedFormValidation {
+public class Matter extends BaseObjectWithoutNestedFormValidation implements Comparable{
 
 
 	private static final long serialVersionUID = -8934210964391333994L;
@@ -85,9 +87,23 @@ public class Matter extends BaseObjectWithoutNestedFormValidation {
     
     protected String save2dayang = "";
     
+    protected Integer sort ;
+    
       
  
-    public Matter(){};
+    /**
+	 * @return the sort
+	 */
+	public Integer getSort() {
+		return sort;
+	}
+	/**
+	 * @param sort the sort to set
+	 */
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+	public Matter(){};
     public Matter(String name) {
         this.name = name;
     }
@@ -572,6 +588,15 @@ public class Matter extends BaseObjectWithoutNestedFormValidation {
 		}
 		public void setBrand(Brand brand) {
 			this.brand = brand;
+		}
+		
+		
+		public int compareTo(Object o) {
+			
+			Matter other = (Matter)o;
+
+		       return sort.intValue() - other.sort.intValue();
+		
 		}
 	
 }

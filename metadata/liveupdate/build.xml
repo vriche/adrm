@@ -73,7 +73,7 @@
 	
 	
 	<target name="all">
-	    <sshexec host="121.28.83.134" username="root" password="stvay6598,." trust="true" command="ls"></sshexec>
+	    <sshexec host="124.239.193.195" username="root" password="stvay6598,." trust="true" command="ls"></sshexec>
    </target>
 	
 	
@@ -91,7 +91,7 @@
 	</target>	
 	
 	<target name="getRemoteFile" >
-		<scp file="root:stvay6598,.@121.28.83.134:/home/temp/${webapp.name}.war" todir="${tmp}"  trust="true"></scp>
+		<scp file="root:stvay6598,.@124.239.193.195:/home/temp/${webapp.name}.war" todir="${tmp}"  trust="true"></scp>
 	</target>
 	
 	<target name="copy-app-war" depends="undeploy-app">

@@ -308,7 +308,13 @@ function queryResourceAdver(){
 
 
 
+
 function printReport(model){
+
+	if(model =="excel"){
+		model = "export";
+	}
+	
 	$("model").value = model;
 	$("reportType").value = "resourceAdverAnalyze_report";
 //	var customerName =$("customer_name").value;

@@ -2098,8 +2098,8 @@ function editIncomeInfo(isNew,type){
 ////	                baseChars:'1234567890'                   //输入数字范围   
 //	            };    
 	               
-          
-          var comYear = utils.getComYear('cuikuan_year','归属年份',180,curYear);  
+//          var dataArray = _app_params.serviceDate.adrmSysYear.split(",");
+          var comYear = utils.getComYear('cuikuan_year','归属年份',180,curYear,null,_app_params.serviceDate.adrmSysYear);  
 	      var yyyy = comYear.getValue();
 	      
 //	      var channelCmd = channel.getLovCombo('channel_id',180,'local',false);    

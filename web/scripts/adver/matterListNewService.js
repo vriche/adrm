@@ -19,6 +19,9 @@
  var customerId = 0;
  var customerName = '';
 
+ var orderId = 0;
+ var adlength = 0;
+ 
 
     
 callOnLoad(init);	
@@ -60,6 +63,19 @@ callOnLoad(init);
      customerId = getParamFromUrl(srcStr,"customerId");	
      version = getParamFromUrl(srcStr,"version");	
      customerName = getParamFromUrl(srcStr,"customerName");	
+     orderCkeckState = getParamFromUrl(srcStr,"orderCkeckState");	
+     adLength = getParamFromUrl(srcStr,"adLength");	
+     
+     
+//     orderId = getParamFromUrl(srcStr,"orderId");	
+//     adlength = getParamFromUrl(srcStr,"adlength");	
+//     alert(adlength);
+//     if(adlength>0){
+//    	 tb.getComponent('search_adver_len').disabled = true;
+//     }
+
+
+  
 
 
 //     alert(customerName)
@@ -78,6 +94,22 @@ callOnLoad(init);
  	initGrid();	
  	
  	resetHeigth();
+ 	
+ 	
+    var tb = parent.search_adver_win.getTopToolbar();
+//  alert(orderCkeckState)
+    
+
+  
+   if(adLength >0){
+ 	  tb.getComponent('search_adver_len').setRawValue(adLength);
+ 	  tb.getComponent('search_adver_len').setValue(adLength);
+ 	  tb.getComponent('search_adver_len').onTriggerClick();
+   }
+  
+  if(orderCkeckState ==1 || orderCkeckState ==3){
+ 	 tb.getComponent('search_adver_len').setDisabled(true);
+  }
  	
 // 	var params =  (new Matter()).obj; 
 // 	params.customerName = customerName==''?null:customerName;
@@ -170,12 +202,9 @@ callOnLoad(init);
 
 
 
- function getLoadDataParams(){
-	 var tb = parent.search_adver_win.getTopToolbar();
-     
-//    var brandId =  Ext.getCmp("customer_name").getValue();
-	 
-	var brandId2 =  Ext.getCmp("search_brand_cmd").getValue();
+ function getLoadDataParams(i){
+	var tb = parent.search_adver_win.getTopToolbar();
+	var brandId2 = tb.getComponent('search_brand_cmd').getValue();
     var name = tb.getComponent('search_adver_name').getRawValue();
     var edit = tb.getComponent('search_adver_edit').getRawValue();
     var length = tb.getComponent('search_adver_len').getRawValue();
@@ -187,30 +216,35 @@ callOnLoad(init);
 //	var customer_name =   tb.getComponent('search_adver_customer').getRawValue();
 	var initCustomer =false;
     var cutid = customerId;
-//	alert('customerId>>url>>'+cutid);
-	
-//	if(cutid == null || cutid == '' || cutid == '0'){
-//		cutid =   tb.getComponent('search_adver_customer').getValue();
-//		initCustomer = true; 
-//	}
-	
-
-
-	var paramObj = {
+    var paramObj = {};
+	if(i ==1){
+			 paramObj = {
 					orgId:orgId,
 					customerId:cutid,
 					brandId2:brandId2,
-//					customerName:customer_name,
 			        tapeCode:tapeCode,
 			        matterType:matterType,
 				 	name: name,
-	                edit: edit,
-	                length:length,
-	                brandId:brandId,
-	                industryName:industryName,
-	                initCustomer:initCustomer,
-	                industryTreeNodeLevel:industryTreeNodeLevel
-	};	
+		            edit: edit,
+		            length:length,
+		            brandId:brandId,
+		            industryName:industryName,
+		            initCustomer:initCustomer,
+		            industryTreeNodeLevel:industryTreeNodeLevel
+		};	
+	}else{
+			 paramObj = {
+					orgId:orgId,
+					brandId2:brandId2,
+			        tapeCode:tapeCode,
+			        matterType:matterType,
+				 	name: name,
+		            edit: edit,
+		            length:length,
+		            brandId:brandId
+		};	
+	}
+
 
 	return paramObj;
 
@@ -223,36 +257,14 @@ function checkTapeCode(params){
 //	var cutid = params.customerId;
 //	var customer_name = params.customerName;
 	var brandId = params.brandId;
+	var brandId2 = params.brandId2;
 	var length = params.length;
 	var name = params.name;
 	var matterType = params.matterType;
 	var industryTreeNodeLevel = params.industryTreeNodeLevel;
 	
 	curtapeCode = curtapeCode == ""?null:curtapeCode;
-	
 
-	
-
-
-	
-	if(config_industryLevelParam == 1){
-		if(industryTreeNodeLevel == 1){
-			extjMessage('请选择行业类别的子类!');isBug = true;
-		}
-	}
-	
-	if(brandId ==null || brandId ==0 || brandId ==''){
-		extjMessage('新选择行业类别!');isBug = true;
-	}	
-	
-	if(name ==null || name ==0 || name ==''){
-		extjMessage('新输入广告名称!');isBug = true;
-	}		
-	
-
-	if(!(length >=0)){
-		extjMessage('新输入广告长度!');isBug = true;
-	}	
 	
 	if(matterType ==null || matterType ==0 || matterType ==''){
 		extjMessage('新选素材分类!');isBug = true;
@@ -264,16 +276,28 @@ function checkTapeCode(params){
 		}	
 	}
 	
-//	if(cutid ==null || cutid ==0 || cutid ==''||customer_name ==cutid){
-//
-//		if(customerName == '' ){
-//				extjMessage('新添素材前,客户名称!');isBug = true;
-//		}else{
-//			parent.checkCustomer(2);isBug = true;
-//		}
-//	}else{
-//		customerId = cutid;
-//	}
+	if(!(length >=0)){
+		extjMessage('新输入广告长度!');isBug = true;
+	}	
+	
+	if(name ==null || name ==0 || name ==''){
+		extjMessage('新输入广告名称!');isBug = true;
+	}	
+	
+	
+	if(config_industryLevelParam == 1){
+		if(industryTreeNodeLevel == 1){
+			extjMessage('请选择行业类别的子类!');isBug = true;
+		}
+	}
+	
+	if(brandId ==null || brandId ==0 || brandId ==''){
+		extjMessage('新选择行业类别!');isBug = true;
+	}	
+	
+	if(brandId2 ==null || brandId2 ==0 || brandId2 ==''){
+		extjMessage('新选择品牌分类!');isBug = true;
+	}	
 		
 	
 
@@ -309,7 +333,7 @@ function checkTapeCode(params){
 }
 
 function save_new_matter(){
-	var params = getLoadDataParams();
+	var params = getLoadDataParams(1);
 
 	function callBackFun(obj){
 		params.id = obj.id;
@@ -324,6 +348,9 @@ function save_new_matter(){
 		params.createBy = loginUserId;
 		params.modifyBy = loginUserId;
 		
+//		alert(params.brandId)
+//		alert(params.brandId2)
+		
 		Ext.MessageBox.confirm('系统提示', '请确认是否注册此新广告素材？', function(btn) {
  			  if (btn == 'yes') {
  				 matter.saveMatter3(params,callBackFun);
@@ -337,16 +364,19 @@ function save_new_matter(){
  
 
  function loadGridData(params){ 
-	 
+	  var params = getLoadDataParams(2);
 //	 alert( params.brandId2)
 
 // 	    var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null|| params.customerName !=null;
  	   var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null|| params.brandId2 !=null;
 
  	   if(params.brandId2 == 0) params.brandId2 = null;
- 	   
+
+// 	    alert(fid)
  	    mygrid.clearAll();
  	    if(!fid) return false;
+ 	    
+ 	   
         var loadDataURL = ctxPath + "servlet/matterListServlet?" + $H(params).toQueryString();	
 		mygrid.enableSmartRendering(true);
 //		mygrid.setSortImgState(true,0,"ASC"); 

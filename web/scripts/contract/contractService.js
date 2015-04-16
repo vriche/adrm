@@ -27,16 +27,11 @@
  var regCustomerWin;
 
  var subTableType;
- 
- 
- 
- 
+
  callOnLoad(init);	
  
  function init(){
- 	
 
- 	
 	orderCodeModelParam = _app_params.sysParam.orderCodeModelParam;
 	channelModelParam = _app_params.sysParam.channelModelParam;
 	config_serviceDate = _app_params.serviceDate.def;	
@@ -51,14 +46,13 @@
 	orgId  = getParamFromUrl(srcStr,"orgId");	
 	contractSort  = getParamFromUrl(srcStr,"contractSort");	
 	
-     
-		
+
 	_make_org_select("orgId",120,"");	
 	
 	if(orgId > 0 ){
- 			  $("orgId").value = orgId;
+ 		$("orgId").value = orgId;
  	}else{
- 			orgId =  $("orgId").value;
+ 		orgId =  $("orgId").value;
  	}
 	 
 
@@ -71,47 +65,23 @@
 
  	
  	
- 	
-// 	alert($("categoryId").value);
-// 	alert($("customerCategoryId").value);
- 
- 	
-
-
- 	
-// 	alert($("customer.customerName").value);
- 	 	
- 	
-// 	alert($("contractSort").value);
- 	
  	orderMainType = $("contractSort").value;
  	
  	if(onfig_withResourceSort == 1){
  		 $("xmtvBranch").style.display ="block"; 
  	}
- 	
-// 	if(tvNameParam == 'xmtv' ){
 
        resourceType.obj.orgId = orgId;
        resourceType.obj.space = true;
  	   resourceType.makeSelectItemAnalyze(resourceType.obj,"resourceType",null);
 
-
-// 	}
-// 	
- 
  	get_cur_year();
  	
  	if(orderCodeModelParam != 1){
  		$("code").disabled = false;
  	}
  	
-// 	if(channelModelParam == 1){
-// 	    initCarrier();
-// 	}else{
-// 	    $("carrierName").hide();
-//	}
- 	
+
  	
  	setUserPara(user);
  	setPayMentPara(payment); 	//…Ë÷√≥£¡ø
@@ -151,12 +121,6 @@
 	getDate_new();
 	
 
-//	getCustomerAutoComplt();
-//	alert($("customerName").value);
-
-        //$("contract_year").value = $("version").value;
-        
-   
         user.uddi1 = $("owner").value;
         user.uddi2 = $("orderRelation").value;
         user.makeSelectFromMapLimit("owner","",138);
@@ -586,9 +550,7 @@ function goNextPage(pageIndex,pageInfoName){
 	}
 }
 function savePayment(){
-       
-        
-       
+
 		var Btn_SavePayment = $("btn_SavePayment");
 		var paymentId = Btn_SavePayment.getAttribute("paraId");
 	    var mode = Btn_SavePayment.getAttribute("mode");
@@ -638,24 +600,7 @@ function savePayment(){
 		
 		
 		function fnct(contractId){
-//			var customerId = $("customerId").value;
-//			customerId = customerId ==''|| customerId == 0 ?null:customerId;
-//			var func = function(obj){
-////				alert(obj.id);
-//				$("customerId").value = obj.id;
-////				customerId = obj.id;
-//				save();
-//			}
-//			
-//	
-//			if(customerId==null){ 
-//				customer.reset();
-//				customer.obj.orgId = $("orgId").value;
-//				customer.obj.customerName = $("customerName").value;
-//				customer.getCustomerByObject(customer.obj,func);
-//			}else{
-//				save();
-//			}
+
 
 			save();
 		
@@ -689,13 +634,17 @@ function savePayment(){
 		//				payment.getContractPayments(payment.obj);
 //						getPayMentTable(payment);
 					}	
-		//				alert(payment.obj.id);
-		//				alert(payment.obj.contractId);
-		//				alert(payment.obj.customerId);
-		//				alert(payment.obj.moneyIn);
-		//				alert(payment.obj.incomePurposeId);
-		//				alert(payment.obj.payDate);
-		//				alert(payment.obj.payNumber);
+//						alert(payment.obj.id);
+//						alert(payment.obj.contractId);
+//						alert(payment.obj.customerId);
+//						alert(payment.obj.moneyIn);
+//						alert(payment.obj.incomePurposeId);
+//						alert(payment.obj.payDate);
+//						alert(payment.obj.payNumber);
+//						console.log(payment.obj);
+//						alert(333333)
+						
+						if(payment.obj.id =="null") payment.obj.id =null;
 		
 						
 					payment.savePayMentCallBackFun(payment,fnct);
@@ -721,6 +670,8 @@ function savePayment(){
 			payment.obj.payDate = getFormatDay($("payDate").value,'ymd')*1; 
 //			payment.obj.payDate = getFormatDay(payment.obj.payDate,'ymd')*1; 
 
+		
+			
 			payment.savePayMent(payment.obj,mode);
 			
 			var trs = payment.tBody.getElementsByTagName("tr");

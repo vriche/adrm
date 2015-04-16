@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.vriche.adrm.model.Carrier;
 import com.vriche.adrm.model.ContractPayment;
@@ -130,12 +131,12 @@ public class OrderDetailUtil {
 	public static void setOrderDetailColl(OrderDetailColl orderDetailColl,OrderDetail orderDetail,int startMonth, int curMonth,Object[] dayTimes,Object[]  monthMonths,String carrierName,String resourceName,String broStartEndTime,String specificName,int mode){
 		
 		 String tvName = SysParamUtil.getTvNameParam();
-		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
-		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
+//		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
+//		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
 		 boolean catv = SysParamUtil.isCATVParam(tvName);
 		 boolean sjz = SysParamUtil.isSJZTVParam(tvName);
-		 boolean qztv = SysParamUtil.isQZTVParam(tvName);
-		 boolean hntv = SysParamUtil.isHNTVParam(tvName);
+//		 boolean qztv = SysParamUtil.isQZTVParam(tvName);
+//		 boolean hntv = SysParamUtil.isHNTVParam(tvName);
 		 
 		orderDetailColl.setMonth(String.valueOf(curMonth));
 		orderDetailColl.setMonthSysPrice( String.valueOf(monthMonths[0]));
@@ -235,7 +236,7 @@ public class OrderDetailUtil {
  
 	public static synchronized void makeTreeGridXML(StringBuffer sb,List all,String orgId){
 		 String tvName = SysParamUtil.getTvNameParam();
-		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
+//		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
 		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
 		 boolean catv = SysParamUtil.isCATVParam(tvName);
 		 boolean sjz = SysParamUtil.isSJZTVParam(tvName);
@@ -282,7 +283,7 @@ public class OrderDetailUtil {
 			
 			System.out.println(">>>checkState>>>");
 			
-			if(!hntv && !sjz){
+			if(!hntv && !sjz && !fztv){
 				
 				if("hbtv".equals(tvName)){
 					sb.append("<cell><![CDATA["+ checkState +"]]></cell>");
@@ -290,23 +291,8 @@ public class OrderDetailUtil {
 					sb.append("<cell><![CDATA["+ index +"]]></cell>");
 				}
 
-				
-
-				
-				
 				sb.append("<cell><![CDATA["+ orderDetailColl.getCarrier() +"]]></cell>");
-				
-//				if(xmtv){
-//					if("1".equals(orgId)){
-//						sb.append("<cell><![CDATA["+ orderDetailColl.getResource()+ " "+ orderDetailColl.getBroStartEndTime() +"]]></cell>"); 	
-//					}else{
-//						sb.append("<cell><![CDATA["+ orderDetailColl.getBroStartEndTime()+" "+orderDetailColl.getResource()+"]]></cell>"); 	
-//					}
-//								
-//				}else{
-					sb.append("<cell><![CDATA["+ orderDetailColl.getResource()+"]]></cell>"); 
-//				}
-
+				sb.append("<cell><![CDATA["+ orderDetailColl.getResource()+"]]></cell>"); 
 				sb.append("<cell><![CDATA["+ orderDetailColl.getTapCode()  +"]]></cell>");
 				sb.append("<cell><![CDATA["+ orderDetailColl.getAdvName()  +"]]></cell>");
 				sb.append("<cell><![CDATA["+ orderDetailColl.getAdvVer()  +"]]></cell>");
@@ -328,7 +314,6 @@ public class OrderDetailUtil {
 //				sb.append("<cell><![CDATA["+ orderDetailColl.getMeno()  +"]]></cell>");
 //				sb.append("<cell><![CDATA["+ orderDetailColl.getOrderSubCate()  +"]]></cell>");
 				sb.append("<cell><![CDATA["+ orderDetailColl.getSpecific()  +"]]></cell>");
-				
 				sb.append("<cell><![CDATA["+ orderDetailColl.getLength()  +"]]></cell>");
 			}
 
@@ -373,7 +358,7 @@ public class OrderDetailUtil {
 
 			sb.append("<cell><![CDATA["+ orderDetailColl.getMonthTimes() +"]]></cell>");
 			
-			if(!hntv && !sjz){
+			if(!hntv && !sjz && !fztv){
 				sb.append("<cell><![CDATA["+ StringUtil.doubleFormat(orderDetailColl.getMonthRelPrice())  +"]]></cell>");
 			}
 
@@ -512,10 +497,10 @@ public class OrderDetailUtil {
 		//广告资源显示备注或名称
 
 		 String tvName = SysParamUtil.getTvNameParam();
-		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
-		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
+//		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
+//		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
 		 boolean hbtv = SysParamUtil.isHBTVParam(tvName);
-		 boolean isMeno = SysParamUtil.getResourceDisplay();
+//		 boolean isMeno = SysParamUtil.getResourceDisplay();
 		 boolean rightSave = UserUtil.isGrandedRes(loginUser,"tag_orderDetail_save");
 		 
 		 Map orderDetailChangedTimeMap = ServiceLocator.getOrderLogDao().getOrderLogLastModifyDate(orderId);
@@ -754,8 +739,8 @@ public class OrderDetailUtil {
 //		boolean isChann = (sysParam.getChannelModelParam().equals("0")|| sysParam.getChannelModelParam() == null)?false:true;
 		//广告资源显示备注或名称
 		 String tvName = SysParamUtil.getTvNameParam();
-		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
-		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
+//		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
+//		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
 		 boolean isMeno = SysParamUtil.getResourceDisplay();
 		 
 		int skip =Integer.parseInt(pageIndex)  * Integer.parseInt(pageSize) ;
@@ -1375,7 +1360,7 @@ public class OrderDetailUtil {
 	}
 	
 	
-	public static void  resetResList(List ls1,List ls2){
+	public static void  resetResList(List ls1,List ls2,double rate){
 		Map dayTimeMap = new HashMap();
 		Map dayPosMap = new HashMap();
 		for(Iterator it = ls2.iterator();it.hasNext();){
@@ -1399,10 +1384,18 @@ public class OrderDetailUtil {
 		for(Iterator it = ls1.iterator();it.hasNext();){
 			DayInfo dayInfo = (DayInfo)it.next();
 			Integer publishDate = dayInfo.getPublishDate();
+			
 			if(dayTimeMap.containsKey(publishDate)){
 				dayInfo.setUsed(((Double)dayTimeMap.get(publishDate)).toString());
 				String spec = StringUtil.getNullValue(dayPosMap.get(publishDate),"");
 				if(!"".equals(spec)) dayInfo.setSpecific(spec);
+			}
+			
+			if(rate >0){
+				double total1 = Double.valueOf(dayInfo.getTotal());
+				double total2 = total1*rate;
+//				System.out.println("getResourceInfoMoid>>>>>QQQQQQQQQQQQQQQQQQQQ>>>>>>>>>>>>>>>>>" +total1 +">>" +total2);
+				dayInfo.setTotal(String.valueOf(StringUtil.round1(total2,0)));
 			}
 			
 		}

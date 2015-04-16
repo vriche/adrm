@@ -321,15 +321,13 @@ callOnLoad(init);
 // 	}
 
 
- 	if(tvNameParam =='fztv'){
- 		$('selectOrder').show();
-// 		$('Btn_myOrder').show();   	
-// 		span1.setAttribute("id","span1");
- 	 	var func=function(userId){
-			curSessionId = userId;
-		}
-		user.getCurUserId(userName,func)	
- 	}
+// 	if(tvNameParam =='fztv'){
+// 		$('selectOrder').show();
+// 	 	var func=function(userId){
+//			curSessionId = userId;
+//		}
+//		user.getCurUserId(userName,func)	
+// 	}
 
 	if(useLanmuSingleParam =='1'){
 		$('TDcarrierType').show();
@@ -1441,10 +1439,10 @@ function buttonEventFill(){
 		Btn_addNewOrder.onclick = addNewOrder;
 	}
 	
-	if(tvNameParam =='fztv'){
-		var Btn_selectOrder = $("selectOrder");
-		Btn_selectOrder.onchange = loadGridData;
-	} 
+//	if(tvNameParam =='fztv'){
+//		var Btn_selectOrder = $("selectOrder");
+//		Btn_selectOrder.onchange = loadGridData;
+//	} 
 	
 	
 	var change_order_year = $("order_year");

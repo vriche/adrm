@@ -1036,7 +1036,7 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 
 		 if(model == 0) return "";
 
-//		  返回的状态标志 0、不修改  1、是新添  2、修改订单日信息及资源信息  3、修改资源信息（只修改指定）
+//		  返回的状态标志 0、不修改  1、是新添  2、修改订单日信息及资源信息  3、修改资源信息（只修改指定） 4、修改订单日信,资源信息不动，可能是广告时长为0
 		 if(model == 1){
 			 getResourceInfo(model,orderDetail,orderDayInfoMapCur, newResMap,resChangedMap,timLimitMap,specMap);
 		 }else{
