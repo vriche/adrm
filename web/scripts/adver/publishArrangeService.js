@@ -20,6 +20,7 @@ var treeObj;
 var rowIds=[];
 var userName;
 var report = new MyPrint();
+var localStore_key = "publish_arramge";
 
 
 callOnLoad(init);
@@ -35,8 +36,8 @@ function init(){
     config_specArowMoveParam =  _app_params.sysParam.specArowMoveParam;
     config_piblishModelParam =  _app_params.sysParam.piblishModelParam;
     
-    	tag_publish_arrange =  _app_params.rights.tag_publish_arrange;
-    	tag_publish_arrangeforce =  _app_params.rights.tag_publish_arrangeforce;
+    tag_publish_arrange =  _app_params.rights.tag_publish_arrange;
+    tag_publish_arrangeforce =  _app_params.rights.tag_publish_arrangeforce;
     
 	config_serviceDate = _app_params.serviceDate.def;
 	userName =   _app_params.user.fullName;
@@ -64,7 +65,18 @@ function init(){
 //			$("buttonImport").show();
 //	}else{
 		$("buttonImport").hide();
+		$("Btn_reference").hide();
+		$("reference_date").hide();  
 //	}
+		
+		localStore_key = localStore_key+""+curUserId;
+		var arrange_table_str = store.get(localStore_key);
+		if(arrange_table_str){
+			$("Btn_build_bro_backup").show();
+		}else{
+			$("Btn_build_bro_backup").hide();
+		}
+		
 	
 //	if(tvNameParam ='fztv' ){
 //		$("buttonImport").style="display:block";
@@ -105,7 +117,7 @@ function init(){
 //    }
     
     
-     if(tvNameParam !='hntv' || tvNameParam !='fztv'){
+     if(tvNameParam !='hntv' && tvNameParam !='fztv'){
      	$('Btn_removeRow').show(); 
      }
     
@@ -228,6 +240,7 @@ function loadCarrTree(){
 	var obj_tree = obj.tree.dhtmlTree;	
 	var publishDate = getFormatDay($("bro_date").value,'ymd');
 	
+	
 	obj.reset();
 	obj.obj.orgId = $("orgId").value;
 	obj.obj.parentId = 0;
@@ -238,6 +251,8 @@ function loadCarrTree(){
 			obj_tree.deleteChildItems(0);	
 		}
 		obj_tree.loadXMLString(xml);
+		if(mygrid) mygrid.clearAll();
+		
 //		if(tvNameParam =='fztv' &&srcStr.indexOf("publishDate")>0){ 
 //			var carrierId = getParamFromUrl(srcStr,"carrierId");
 //			if(carrierId!=''){				               
@@ -259,6 +274,7 @@ function doOnSelect(itemId){
 	if(itemId == "root") return false;
 	var isItemChecked = carrierType.tree.dhtmlTree.isItemChecked(itemId);
 	carrierType.tree.dhtmlTree.setSubChecked(itemId,!isItemChecked);
+	if(mygrid) mygrid.clearAll();
 }
 //function doOnDblClick(itemId){
 //	        var isOpenState = this.getOpenState(itemId);
@@ -347,11 +363,23 @@ function printReport(mode){
 function buttonEventFill(){
 
 	var Btn_build_bro = $("Btn_build_bro");
-	Btn_build_bro.onclick = button_build_bro;
+	Btn_build_bro.onclick = function(){
+		button_build_bro();
+	}
+	
+	var Btn_build_bro_backup = $("Btn_build_bro_backup");
+	Btn_build_bro_backup.onclick = getLocalStore;
+	
+	
 	
 	var Btn_save_bro = $("Btn_save_bro");
 	if(!isUndefined(Btn_save_bro)){
-		Btn_save_bro.onclick = savePublishArrange;
+		Btn_save_bro.onclick = function(){
+			var fnct = store.remove(localStore_key);
+			$("Btn_build_bro_backup").hide();
+			savePublishArrange(fnct);
+		}
+		
 	}
 	
 	
@@ -701,6 +729,8 @@ function initGrid(){
 	//mygrid.enableLightMouseNavigation(true);
 	mygrid.setOnEditCellHandler(do_onEditCell);
 	
+//	mygrid.setOnGridReconstructedHandler(onGridReconstructed)
+	
 //	if(tvNameParam =='fztv'){
 //			mygrid.enableDragAndDrop(false);
 //			mygrid.setOnRightClick(do_rightClick);
@@ -714,6 +744,20 @@ function initGrid(){
 	mygrid.enableAlterCss("even","uneven"); 
 	mygrid.setSkin("modern2");
 	//  mygrid.lockRow(3,true);
+	
+//	mygrid.setSerializationLevel (userData, selectedAttr, config, changedAttr, onlyChanged, asCDATA)
+	//参数： 
+	//userData：true/false  是否使用当前数据序列化
+	//selectedAttr：true/false 在被选中的xml节点中包含selected属性标识被选中 
+	//如<row id="null" selected="1">
+	//config：true/false  是否包含<head>节点，罗列各列配置信息
+	//changedAttr：true/false 是否修改的单元格中，在<cell>节点中包含是否修改属性
+	//onlyChanged：true/false 是否仅包含修改过的row节点
+	//asCDATA：true/false 是否使用CDATA格式，避免无效字符
+	//用途：设置grid序列化配置
+	//参考实例：
+	mygrid.setSerializationLevel(true,true,false,true,false,true);	
+		
 	mygrid.init();	 
 	
 	
@@ -724,9 +768,9 @@ function initGrid(){
 
 }
 
-var sortFunction =function(a,b){  
-	return a.firstChild.textContent-b.firstChild.textContent;
-}
+//var sortFunction =function(a,b){  
+//	return a.firstChild.textContent-b.firstChild.textContent;
+//}
 
 
 
@@ -748,22 +792,66 @@ var sortFunction =function(a,b){
 
 
 function do_rightClick(id){
+//	var sortFunction =function(a,b){  
+//		return a.firstChild.textContent-b.firstChild.textContent;
+//	}
 	 var row  = mygrid.getRowById(id);
 	 if(row.childNodes.length>0) mygrid.doClick(row.childNodes[0],true,2);
-	 rowIds= mygrid.selectedRows;
-	 rowIds.sort(sortFunction);
+	 rowIds = mygrid.selectedRows;
+//	 rowIds.sort(sortFunction);
+	 
+//	 var parId_rel = getParentId(id,detail.col_resourceId);
+//	 var pid = resource.IdPrefix +""+ parId_rel;
+//	 mygrid.deleteSelectedItem();
+//	 changeUsedTime(pid);
+//	 setResourceAdverOrder(pid,detail.col_publishSort,detail.col_resourceId);
 }
-function do_dblClick(id){
-	var row2 = mygrid.getRowById(id);
+function do_dblClick(r2){
+	var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
+	
+	var row2 = mygrid.getRowById(r2);
+	var r1 = 0;
 	for(var i=0;i<rowIds.length;i++){
 		var row = rowIds[i]; 
-		if(handleBefore(row.idd,row2.idd)){  
+
+		if(do_drag(row.idd,r2)){  
 			row.parentNode.insertBefore(row,row2);
-			handleAfter(row.idd,row2.idd);    
+			r1 = row.idd;
+			handleAfter(r1,r2);   
+
+			if(config_stridePositionParam == 1){
+				mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
+				mygrid.changeRowId(r1,resource.IdPrefix+dragInParId_rel+'_'+arrange.IdPrefix +(new Date()).getTime());
+			}
 		}
 	}
-	mygrid.clearSelection();
-	rowIds.clear();
+	
+//	var sortFunction =function(a,b){  
+//		return a.firstChild.textContent-b.firstChild.textContent;
+//	}
+	
+	if(r1 != 0){
+		var type =  treeObj.getUserData(r1,"type"); 
+	    var isFromTree = checkIsFomTree(type);
+		var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
+		var dragParId = resource.IdPrefix +"" + dragParId_rel;
+		var dragInParId = resource.IdPrefix +"" + dragInParId_rel;
+
+		if(config_stridePositionParam == 1){
+			changeUsedTime(dragParId);
+			setResourceAdverOrder(dragParId,detail.col_publishSort,detail.col_resourceId,true);
+		}
+
+		changeUsedTime(dragInParId);
+		setResourceAdverOrder(dragInParId,detail.col_publishSort,detail.col_resourceId,true);
+		
+		mygrid.clearSelection();
+
+		rowIds.clear();
+		//保存到localStroe
+		writeLocalStore();
+	}
+
 }
 function handleBefore(r1,r2){
 	var type =  treeObj.getUserData(r1,"type"); 
@@ -805,8 +893,46 @@ function handleBefore(r1,r2){
 	
 	return true;
 }
+//function handleAfter(r1,r2){
+//	
+//	alert(r1+"|||||||||||||"+r2)
+//		
+//	var type =  treeObj.getUserData(r1,"type"); 
+//    var isFromTree = checkIsFomTree(type);	
+//
+//
+//	//垫片广告时，不需要处理
+//	var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
+//	var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
+//
+//	if(isFromTree){
+//		mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
+//		var seconds = (new Date()).getSeconds();
+//		var r1_new  =  dragInParId_rel +"_" + arrange.IdPrefix + seconds;
+//		mygrid.changeRowId(r1,r1_new);
+//		r1 = r1_new;
+//	}
+//
+//
+// 	var dragParId = resource.IdPrefix +"" + dragParId_rel;
+//	var dragInParId = resource.IdPrefix +"" + dragInParId_rel;
+//	//var is2AdverMove = (dragParId == dragInParId);
+//    
+//	//如果是跨段调整，需要改变两个资源的信息
+//	if(config_stridePositionParam == 1){
+//		mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
+//		mygrid.changeRowId(r1,resource.IdPrefix+dragInParId_rel+'_'+arrange.IdPrefix +(new Date()).getTime());
+//		
+//		setResourceAdverOrder(dragParId,detail.col_publishSort,detail.col_resourceId);
+//		changeUsedTime(dragParId);
+//	}
+//	
+//	changeUsedTime(dragInParId);
+//	setResourceAdverOrder(dragInParId,detail.col_publishSort,detail.col_resourceId);
+//}
 function handleAfter(r1,r2){
-		
+	
+
 	var type =  treeObj.getUserData(r1,"type"); 
     var isFromTree = checkIsFomTree(type);	
 
@@ -832,13 +958,12 @@ function handleAfter(r1,r2){
 	if(config_stridePositionParam == 1){
 		mygrid.cells(r1,detail.col_resourceId).setValue(dragInParId_rel);
 		mygrid.changeRowId(r1,resource.IdPrefix+dragInParId_rel+'_'+arrange.IdPrefix +(new Date()).getTime());
-		
-		setResourceAdverOrder(dragParId,detail.col_publishSort,detail.col_resourceId);
 		changeUsedTime(dragParId);
+		setResourceAdverOrder(dragParId,detail.col_publishSort,detail.col_resourceId);
 	}
 	
-	changeUsedTime(dragInParId);
-	setResourceAdverOrder(dragInParId,detail.col_publishSort,detail.col_resourceId);
+//	changeUsedTime(dragInParId);
+//	setResourceAdverOrder(dragInParId,detail.col_publishSort,detail.col_resourceId);
 }
 function addNewRowFromTree(gridRowId){
 	//var treeObj = matterType.tree.dhtmlTree;	
@@ -859,29 +984,31 @@ function do_drag(r1,r2){
     	if(isUndefined(r1)) return false;
     	if(isUndefined(r2)) return false;
     	
+//    	alert(r1+">>"+r2)
+    	
     	var r1s = r1.split(",");
     	for(var i =0;i<r1s.length;i++)
     	r1 = r1s[i];
-	var type =  treeObj.getUserData(r1,"type"); 
+    	var type =  treeObj.getUserData(r1,"type"); 
         var isFromTree = checkIsFomTree(type);
         if(type == 0||type == 1) return false;
       
         
         if(isFromTree) r1 = r1+ arrange.IdPrefix;
-	var r1_isAdver = isAdverNode(r1);
-	var r2_isAdver = isAdverNode(r2);
+		var r1_isAdver = isAdverNode(r1);
+		var r2_isAdver = isAdverNode(r2);
 
-	//源和目标都是段位
-	if(!r1_isAdver && !r2_isAdver) return false;
-	//源是段位目标是广告
-	if(!r1_isAdver && r2_isAdver) return false;
-	    
-	//不能跨段位调整!
-	var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
-	var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
-	if(config_stridePositionParam == 0){
-		if(dragParId_rel != dragInParId_rel) return false;
-	}
+		//源和目标都是段位
+		if(!r1_isAdver && !r2_isAdver) return false;
+		//源是段位目标是广告
+		if(!r1_isAdver && r2_isAdver) return false;
+		    
+		//不能跨段位调整!
+		var dragInParId_rel =  getParentId(r2,detail.col_resourceId);
+		var dragParId_rel = isFromTree?dragInParId_rel:getParentId(r1,detail.col_resourceId);
+		if(config_stridePositionParam == 0){
+			if(dragParId_rel != dragInParId_rel) return false;
+		}
 	
 	    
  	//源或是指定广告不能拖动  alert("指定位置的广告，不能调整位置");
@@ -893,13 +1020,13 @@ function do_drag(r1,r2){
         	v1 = getCellValue(r1,detail.col_specificValue);
         }
         v2 = getCellValue(r2,detail.col_isLocked);
-	v1 = (v1 == '' || v1 == null || isUndefined(v1))? "&":v1.Trim();
-	v2 = (v2 == '' || v2 == null || isUndefined(v2))? "&":v2.Trim();
+		v1 = (v1 == '' || v1 == null || isUndefined(v1))? "&":v1.Trim();
+		v2 = (v2 == '' || v2 == null || isUndefined(v2))? "&":v2.Trim();
 
 //	if(tvNameParam !='fztv' && myComparator(v1,"123456789ABCDEFGHI"))return false;  
-	if(myComparator(v1,"123456789ABCDEFGHI"))return false;  
-			
-	if(myComparator(v2,"true"))return false;	
+		if(myComparator(v1,"123456789ABCDEFGHI"))return false;  
+				
+		if(myComparator(v2,"true"))return false;	
 	
 				
 
@@ -914,6 +1041,9 @@ function do_drop(r1,r2){
 	//var isInsertRow = $("radiobutton2").checked;
 	if(isUndefined(r1)) return false;
 	if(isUndefined(r2)) return false;
+	
+//	alert(r1+">>"+r2)
+	
 
     	var r1s = r1.split(",");
     	for(var i =0;i<r1s.length;i++)
@@ -951,6 +1081,10 @@ function do_drop(r1,r2){
 
 	changeUsedTime(dragInParId);
 	setResourceAdverOrder(dragInParId,detail.col_publishSort,detail.col_resourceId);
+	
+	
+	//保存到localStroe
+	writeLocalStore();
    
 	return true;
 }
@@ -1001,9 +1135,8 @@ function setResourceRowCss(rowId,resourceLeave){
 	mygrid.setRowTextStyle(rowId,cssText);
 }
 
-function setResourceAdverOrder(rowId,col_order,col_resourceId){
-	var itemIds = getChiledByParentId(rowId,col_resourceId);
-	
+function setResourceAdverOrder(rowId,col_order,col_resourceId,isDoubleClick){
+	var itemIds = getChiledByParentId(rowId,col_resourceId,isDoubleClick);
 	var cssText ="cursor: pointer;";
 
 	for(var i = 0; i< itemIds.length;i++){
@@ -1014,22 +1147,22 @@ function setResourceAdverOrder(rowId,col_order,col_resourceId){
 	}
 }
 
-function getChiledByParentId(parentId,col_resourceId){
+function getChiledByParentId(parentId,col_resourceId,isDoubleClick){
 	var rows = mygrid.getRowsNum();
     var ids = new Array();
-//    if(tvNameParam =='fztv'){
-//		var itemIds =mygrid.getRowById(parentId).parentNode.childNodes; 
-//		for(var i=1;i<itemIds.length;i++){    
-//			var id = itemIds[i].idd;
-//			if(id.indexOf(parentId+"_")>-1) ids.push(id);
-//		}
-//	}else{ 
+    if(isDoubleClick){
+		var itemIds = mygrid.getRowById(parentId).parentNode.childNodes; 
+		for(var i=1;i<itemIds.length;i++){    
+			var id = itemIds[i].idd;
+			if(id.indexOf(parentId+"_")>-1) ids.push(id);
+		}
+	}else{ 
 		for(var i=0;i<rows;i++){
 		var pid = resource.IdPrefix +""+ mygrid.cells2(i,col_resourceId).getValue();
 		var id = mygrid.getRowId(i);
 		if( pid == parentId && id.indexOf("_")>-1) ids.push(mygrid.getRowId(i));
 		}
-//	}
+	}
 
 	return ids;
 }
@@ -1097,7 +1230,11 @@ function removeRow(){
     	 setResourceAdverOrder(pid,detail.col_publishSort,detail.col_resourceId);
 //    	 window.setTimeout("mygrid.deleteRow("+data[0]+");",200);
     	 window.setTimeout("mygrid.deleteSelectedItem();",200);
+    	 
     	 //changeUsedTime(parentId);
+    	 
+    		//保存到localStroe
+    		writeLocalStore();
     }
 //  }else{
 //  
@@ -1411,6 +1548,8 @@ function button_build_bro(){
 	var isContinued=false;
 	
 	var callback=function(obj){
+
+		
 		if(obj.length>0){
 			var dialogcontent = $("dialogcontentDiv");
 			var dialogcontentW = dialogcontent.offsetWidth;
@@ -1469,6 +1608,8 @@ function button_build_bro(){
 //			mygrid.clearAll();
 
 //			getArrangeType(resourceIds,dateStr,callBackFun);
+			 
+		
 			
 			if(!tag_publish_arrangeforce){ 
 				isContinued=true;
@@ -1557,6 +1698,7 @@ function button_build_bro(){
 					}
 				Ext.getBody().unmask();
 				}
+			
 			mygrid.loadXMLString(xml,fnc);
 			
 //			Ext.getBody().unmask();
@@ -1683,7 +1825,7 @@ function checkArrangeLocked(arrange,callBackFun){
 		arrange.getPublishArrangesByIdListFromHistory(arrange.obj,func);	
 }
 
-function savePublishArrange(){
+function savePublishArrange(callBak){
 	
 	Ext.getBody().mask('数据加载中……', 'x-mask-loading');
 	
@@ -1727,6 +1869,7 @@ function savePublishArrange(){
 			var callBackFun =function(){Btn_save_bro.disabled= false;}
 			function getFun(xml){loadGridXML(xml,callBackFun);Ext.getBody().unmask();Ext.MessageBox.hide(); extjMessage('保存完毕!');}
 			arrange.getTreeGrid(arrange.obj,resource.IdPrefix,arrange.IdPrefix,rebuid,isRoll,onlyHistory,getFun);	
+			if(callBak) callBak();
 		}
 //		DWREngine.setOrdered(true);
 //	    DWREngine.beginBatch(); 
@@ -2101,4 +2244,88 @@ function getReportURL(model){
 			url = url +"reports/printServlet?"+ encodeURI(h.toQueryString());	
 			return url;
 	    }
+}
+
+
+
+//function onGridReconstructed(){
+////	alert(1);
+//	writeLocalStore();
+//}
+
+function writeLocalStore(){
+	//以上即为localStorage调用的方法。下面介绍存储JSON对象的方法。
+	//要存储的JSON对象 xmlDoc
+	var dhtmlGrid = mygrid.serialize();//将JSON对象转化成字符串
+	var obj_tree = carrierType.tree.dhtmlTree;
+	var selectId = obj_tree.getSelectedItemId();
+	var carrierName = obj_tree.getSelectedItemText();
+	var publishDate = $("bro_date").value;
+	var orgId =  $('orgId').value;
+
+	var allCheckedIds =  carrierType.tree.getAllCheckedBranches2(resource.IdPrefix,true).join(",");
+	var arrange_table ={'orgId':orgId,'tree':{'selectId':selectId,'allCheckedIds':allCheckedIds},'carrierName':carrierName,'publishDate':publishDate,'grid':dhtmlGrid};
+	var arrange_table_str = JSON.stringify(arrange_table);//把JSON对象换成字符串转
+	store.set(localStore_key, arrange_table_str);
+	$("Btn_build_bro_backup").show();
+}
+
+function getLocalStore(){
+	var arrange_table_str = store.get(localStore_key);
+	var bak = JSON.parse(arrange_table_str);//把字符串转换成JSON对象
+	var carrierName = bak.carrierName; 
+	var publishDate = bak.publishDate;
+	var msg = '是否加载加载： '+ carrierName +' '+ publishDate +' 的串联单';	
+	
+	 Ext.MessageBox.show({
+	        title: '系统提示!',
+	        msg: msg,
+	        buttons: Ext.MessageBox.YESNO,
+	        buttonText: {
+	            yes: "是",
+	            no: "否"
+	        },
+	        fn:evtAfterClick
+	    });
+	 
+	 
+	 function evtAfterClick(rt){
+		 if(rt == 'yes'){
+			 Ext.getBody().mask('数据加载中……', 'x-mask-loading');
+			 window.setTimeout(function(){getLocalStore2(bak);},1000);
+		 }
+	 }
+}
+
+function getLocalStore2(bak){
+	//上面即可保存JSON对象，接下来我们在要使用的时候再将存储好的students变量取回
+
+//	var arrange_table_str = store.get(localStore_key);
+	
+//	if(arrange_table_str){
+//		Ext.getBody().mask('数据加载中……', 'x-mask-loading');
+//		var bak = JSON.parse(arrange_table_str);//把字符串转换成JSON对象
+//		var carrierName = bak.carrierName; 
+//		var publishDate = bak.publishDate;
+//		alert('即将加载： '+ carrierName +' '+ publishDate +' 的串联单');	
+//		console.log(bak)
+
+		$("bro_date").value = bak.publishDate;
+		$('orgId').value = bak.orgId;
+		var grid = bak.grid;
+		var obj_tree = carrierType.tree.dhtmlTree;
+		var selectId = bak.tree.selectId;
+		var ids = bak.tree.allCheckedIds.split(",");
+		obj_tree.openItem(selectId);
+		obj_tree.selectItem(selectId,true);
+		carrierType.tree.loadDataTreeArray(ids);
+		
+		mygrid.clearAll();
+		mygrid.loadXMLString(grid,function(){Ext.getBody().unmask();});
+		
+//	}else{
+//		alert("找不到历史数据");
+//	}
+
+
 }

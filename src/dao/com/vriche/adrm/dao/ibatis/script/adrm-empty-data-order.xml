@@ -3,6 +3,8 @@
  清空订单数据，只保存系统基本信息
 
 ***********************************/
+SET FOREIGN_KEY_CHECKS=0;
+
 truncate table tb_oa_work_flow_result_apply;
 truncate table tb_oa_work_flow_result_order;
 truncate table tb_oa_work_flow_result_contract;
@@ -16,22 +18,17 @@ truncate table tb_contract_payment;
 truncate table tb_pro_finance;
 truncate table tb_contract_target_month;
 truncate table tb_contract_target;
-
 truncate table tb_published_arrang_detail;
 truncate table tb_published_arrang;
-truncate table tb_pro_publish_plan;
-truncate table tb_pro_publish_plan_detail;
 
 truncate table tb_order_log;
 truncate table tb_order_day_info;
 truncate table tb_order_detail;
 truncate table tb_order;
-truncate table tb_order_test;
-truncate table tb_pro_order;
 truncate table tb_contract;
 truncate table tb_adver_matter;
 
 update  tb_ad_resource_day_info set used=0,ad_resource_specific=null;
 truncate table tb_sys_sequence;
 truncate table tb_oa_info;
-
+SET FOREIGN_KEY_CHECKS=1;

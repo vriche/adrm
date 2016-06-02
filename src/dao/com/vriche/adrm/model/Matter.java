@@ -89,9 +89,17 @@ public class Matter extends BaseObjectWithoutNestedFormValidation implements Com
     
     protected Integer sort ;
     
+    protected Integer pos ;//指定位序  最前 sort =  0 ，最后sort =9999
+    
       
  
-    /**
+    public Integer getPos() {
+		return pos;
+	}
+	public void setPos(Integer pos) {
+		this.pos = pos;
+	}
+	/**
 	 * @return the sort
 	 */
 	public Integer getSort() {

@@ -19,6 +19,14 @@ var myprint =new MyPrint();
 var queryWindow;
 var ctxPath;
 var search_brand_win;
+var utils = {
+	    setParam : function (name,value){
+	        localStorage.setItem(name,value)
+	    },
+	    getParam : function(name){
+	        return localStorage.getItem(name)
+	    }
+	};
 
 
 
@@ -149,8 +157,59 @@ function init(){
 // 	new dhtmlXGridFromTable('customerAnalyzeTable');
 
    show_cut_win();	
+ 
  	
 }
+
+
+
+
+
+
+function writeLocalStore(dhhtnlGrid){
+	//以上即为localStorage调用的方法。下面介绍存储JSON对象的方法。
+	//要存储的JSON对象
+//	var students = 
+//	{
+//		liyang:{name:"liyang",age:17},
+//		lilei:{name:"lilei",age:18}
+//	}
+	
+//	var students ={grid_table_string:dhhtnlGrid};
+	
+//	students = JSON.stringify(students);//将JSON对象转化成字符串
+//	localStorage.setItem("students",students);//用localStorage保存转化好的的字符串
+	dhhtnlGrid = $("gridbox").innerHTML;
+	store.set('students', dhhtnlGrid);
+}
+
+function getLocalStore(){
+	//上面即可保存JSON对象，接下来我们在要使用的时候再将存储好的students变量取回
+//	var students = localStorage.getItem("students");//取回students变量
+//	students = JSON.parse(students);//把字符串转换成JSON对象
+//	console.log(students)
+	
+	var grid_table_string = store.get('students');
+	console.log(grid_table_string);
+	
+//	mygrid.clearAll();
+//	mygrid.loadXMLString(grid_table_string);
+	 $("gridbox").innerHTML = grid_table_string;
+	
+	store.remove('students');
+	
+}
+
+
+
+
+
+
+
+
+
+
+
 
  function resetStore(){
  	 var orgId = $("orgId").value;
@@ -1096,6 +1155,8 @@ function getAllMonthInfosByStartAndend(){
 //		 	incomePull.incomeMoneyFillTalbe(objs);
 				mygrid.clearAll();
 				mygrid.loadXMLString(xml);
+				
+				writeLocalStore(xml);
 				//if(mygrid.ftr.rows[0]) mygrid.ftr.rows[0].remove();
 				//alert(mygrid.getRowsNum());
                                 //  alert(mygrid.getRowId(mygrid.getRowsNum()-1));

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.dao.CarrierDao;
@@ -413,6 +414,11 @@ public class ResourceUtil {
     		String resourceType = StringUtil.getNullValue(resource.getResourceType(),"");
     		String resourceName = resource.getResourceName();
     		String memo = resource.getMemo();
+    		Carrier carrier = resource.getCarrier();
+    		String carrierName = carrier.getCarrierName();
+    		
+    		carrierName = !StringUtils.isEmpty(carrierName)?carrierName:"";
+    		if(carrierName.length()>0) carrierName = carrierName.substring(0, 2);
     		
     		String broTime ="";
     		String broTimeStar = "";
@@ -590,7 +596,11 @@ public class ResourceUtil {
 	   	   		}
 
     		}    
+    		
+    		lable = !StringUtils.isEmpty(carrierName)?carrierName+" "+lable:lable;
     	}
+    	
+    
 		return lable;
 		
 	}

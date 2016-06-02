@@ -72,7 +72,8 @@ var config_serviceDate;
 var config_orderModCategoryParam;
 var config_isOpenOrderOrgParam;
 var withoutSubmit;
-var alertStr='该时段超时日期:\n'; 
+var alertStr1='该时段播出单已出的日期:\n'; 
+var alertStr2='该时段超时日期:\n'; 
 var orgId = 1;
 var orgIdRel = 1;
 //var orgType =1;
@@ -123,6 +124,8 @@ function init(){
 	config_orderCalculateModel=  _app_params.sysParam.orderCalculateModel;
 	config_orderArrangDefaultMonths=  _app_params.sysParam.orderArrangDefaultMonths*1;
 	config_resourceUseCustomerCatelog = _app_params.sysParam.resourceUseCustomerCatelog;
+	config_outLimitBroarrang=  _app_params.sysParam.outLimitBroarrang =="1"?true:false;
+	
 
 
 	tag_time_out =  _app_params.rights.tag_time_out;
@@ -4850,7 +4853,7 @@ function disableContrlGlobal(){
     	$("Btn_save").hide();
     	$("Btn_save_order_memo").hide();
     	$("Btn_change_matter_brotime").hide();
-
+    	
     }
     
 
@@ -4971,6 +4974,9 @@ function lockDestopOrderDetail(forceUnlock){
    	    $("Btn_addAndPost2").show();
      		 $("Btn_save").show();
      		 $("Btn_change_matter_brotime").show();
+     		 
+     		
+     		
 
   	    var orderSumTimes = $("resourcePriceType").value;
         if(orderSumTimes == 0){$("categoryId").disabled= false; }
@@ -5026,7 +5032,7 @@ function lockDestopOrderDetail(forceUnlock){
    }else{
 
    	   	$("Btn_addNewAdver1").hide();
-   	   	$("Btn_addNewAdver2").hide();
+   	   
    	   	$("Btn_addAndPost1").hide();
    	    $("Btn_addAndPost2").hide();
    	    
@@ -5034,6 +5040,7 @@ function lockDestopOrderDetail(forceUnlock){
    	  
 
  	   if(config_permitModAdverParam != "1" ||!tag_orderDetail_save) {
+ 			$("Btn_addNewAdver2").hide();
  	  	 	$("Btn_change_matter_brotime").hide();
  	  	 	$("Btn_save").hide();
  	   }
@@ -5149,20 +5156,25 @@ function lockedByState(state){
 	//		alert(tag_order_force_modify)
 	//		if(tag_order_force_modify) return false;
 			$("Btn_addNewAdver1").hide();
-			$("Btn_addNewAdver2").hide();
+//			$("Btn_addNewAdver2").hide();
 			$("Btn_addAndPost1").hide();
 			$("Btn_addAndPost2").hide();
 	//		$("Btn_submit").hide();
 			//$("orderMeno").disabled= true;
 			orderDetail.enableDel = false;
 			//$("orderDetailImgAdd").onclick = function(){return false};
-			if(config_permitModAdverParam =="0"||!tag_orderDetail_save ){$("Btn_change_matter_brotime").hide();}
+			if(config_permitModAdverParam =="0"||!tag_orderDetail_save ){
+				$("Btn_addNewAdver2").hide();
+				$("Btn_change_matter_brotime").hide();
+				
+			}
 			
 
 			
 		}else{
 //			$("Btn_addNewAdver1").show();
 //			$("Btn_addNewAdver2").show();
+			
 	  	    if(config_fastSignOrderParam == 1){
 	   	    	$("Btn_addNewAdver2").show();
 	   	    }		
@@ -6864,6 +6876,7 @@ function changeMatterEdit(){
   var matterType = mygrid.getUserData(rowId,"matterType");
   var brandId = mygrid.getUserData(rowId,"brandId"); 
   var resourceInfoId = mygrid.getUserData(rowId,"resourceInfoId"); 
+//  var orderCkeckState = $("isCkecked").value;
   
 
   var num = mygrid.cells(rowId,8).getValue();
@@ -6875,8 +6888,7 @@ function changeMatterEdit(){
   urlStr = urlStr +"&order_state_name=" +$("orderDetail_mod_states").value;
   urlStr = urlStr +"&order_id=" +order.obj.id; 
   urlStr = urlStr +"&edit=" +edit; 
-  
-   urlStr = urlStr +"&resource_info_id=" +resourceInfoId;  
+  urlStr = urlStr +"&resource_info_id=" +resourceInfoId;  
   
   urlStr = encodeURI(urlStr +"&cnt=" +cont);
   

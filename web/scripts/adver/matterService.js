@@ -23,7 +23,7 @@ function init(){
 //	org.makeSelect(org.obj,"orgId","getMatterTable1",callBackFun);	
 	_make_org_select("orgId",143,"onOrgChanged");
 	
-	getMatterTable1();
+//	getMatterTable1();
 	
 //	function callBackFun(){	
 //		
@@ -45,6 +45,8 @@ function init(){
  	this.report.buildButtons(this,"printReportDiv",[0,1,2],80);
  	
      getcustomerCmd(true);
+     
+     search();
 
 	
 }
@@ -184,6 +186,8 @@ function setCustomerPara(obj){
 function getMatterTable1(){
 //	matter.obj.orgId = $("orgId").value;
 	matter.getMattersSearch(matter,null,null,null,null);
+	
+	
 	
 //	customer.obj.orgId = $("orgId").value;
 //	customer.getCustomerAutoComplet(payCustomerAutoComplet,customer.obj);	
@@ -457,7 +461,8 @@ function search(){
 //	matter.obj.matterType = matterType;
 //	matter.getMatters(matter);
 	matter.obj.orgId = $("orgId").value;
-	matter.getMattersSearch(matter,matterName,customerName,matterEdit,matterType);
+//	matter.getMattersSearch(matter,matterName,customerName,matterEdit,matterType);
+	matter.getMattersSearch(matter,matterName,null,matterEdit,matterType);
 }
 
 function button_view_order(){button_print('view');}	

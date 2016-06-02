@@ -229,7 +229,7 @@ public class OrderListServlet extends HttpServlet
 		boolean isOrderDisplayIncomeParam = SysParamUtil.getOrderDisplayIncomeParam();
 		
 		Document xmldoc = new DocumentImpl();
-		 Element head,afterInit,call,param,param1,param2,row,cell,userdata;
+		 Element head,afterInit,call,param,param1,param2,param3,row,cell,userdata;
 //		 Node n;
 		 
 	     String strQueryString = request.getQueryString();
@@ -329,6 +329,9 @@ public class OrderListServlet extends HttpServlet
 			call = xmldoc.createElementNS(null,"call");
 //			call.setAttribute("command","attachFooter");
 			call.setAttribute("command","attachHeader");
+//			call.setAttribute("command","_onHeaderClick");
+			
+			
 			
 			afterInit.appendChild(call);
 			
@@ -373,6 +376,12 @@ public class OrderListServlet extends HttpServlet
 			param2 = xmldoc.createElementNS(null,"param");
 			param2.appendChild(xmldoc.createTextNode("_aFoot"));
 			call.appendChild(param2);
+			
+//			param3 = xmldoc.createElementNS(null,"param");
+//			param3.appendChild(xmldoc.createTextNode("sort"));
+//			call.appendChild(param3);
+			
+			
 		}
 		
 		

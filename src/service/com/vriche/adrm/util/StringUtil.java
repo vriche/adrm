@@ -1578,4 +1578,24 @@ public class StringUtil {
 		        strData = replace(strData, "&amp;", "&");
 		        return strData;
 		    }
+		    
+		    
+			public static Map<String,String> string2Map(String s){
+				
+//			    System.out.println("StringUtilsv >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>printMap>>>>>>>>>>>>>>>>start>>>>>>> ");
+			    
+				Map<String,String> mp = new HashMap<String,String>();
+				
+			    String[] s1 = s.split(",");
+			    
+			    for(int i = 0;i< s1.length;i++){
+			    	 String[] s2 = s1[i].split(":");
+			    	 String   key   =  s2[0]  ;
+			    	 String   value   = s2[1];
+			    	 mp.put(key, value);
+			    }
+		       
+			    return mp;
+		}
+			
 }

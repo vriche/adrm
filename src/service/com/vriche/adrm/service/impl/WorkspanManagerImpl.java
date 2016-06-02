@@ -214,7 +214,7 @@ public class WorkspanManagerImpl extends BaseManager implements WorkspanManager 
 	       
 	       conn.setAutoCommit(false);  
 //	       sql = "update tb_ad_resource_day_info set ad_resource_specific=?,used=? where ad_resource_info_id=? and  publish_date=?";
-	       sql = "update tb_ad_resource_day_info set ad_resource_specific=?,used=? where ad_resource_day_info_id=? ";
+	       sql = "update tb_ad_resource_day_info set ad_resource_specific=?,used=?,is_lock=? where ad_resource_day_info_id=? ";
 	       PreparedStatement pst = conn.prepareStatement(sql);
 	       
 	      
@@ -236,6 +236,7 @@ public class WorkspanManagerImpl extends BaseManager implements WorkspanManager 
 				endDate =  Integer.valueOf(rs.getString("end_date"));
 				Map orderDayTimeSpecMap = dao.getOrderDayTimeSpec(startDate,endDate,resourceId); 
 				Map orderDayTimeUsedMap = dao.getOrderDayTimeUsed(startDate,endDate,resourceId);
+				Map orderDayLockStateMap = dao.getPublishLockState(startDate,endDate,resourceId);
 				
 //				System.out.println("resourceId startDate endDate >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+resourceId +"||"+startDate+"||"+endDate);
 				
@@ -248,11 +249,15 @@ public class WorkspanManagerImpl extends BaseManager implements WorkspanManager 
 					used  =    StringUtil.getNullValue(orderDayTimeUsedMap.get(date),"0");
 					used  =  "".equals(used)?"0":used;
 					
+					String bislock  =    StringUtil.getNullValue(orderDayLockStateMap.get(date),"0");
+					bislock = "true".equals(bislock)?"1":"0";
+					
 					pst.setString(1, specific);  
 					pst.setString(2, ""+Math.round(Double.valueOf(used).floatValue()));  
+					pst.setString(3, bislock);  
 					key = StringUtil.null2String(mp.get(resourceId.toString()+date.toString()));
 					key = key == "" ?"0":key;
-					pst.setInt(3, Integer.parseInt(key));  
+					pst.setInt(4, Integer.parseInt(key));  
 //					pst.setInt(4, date.intValue());  
 //					System.out.println("ad_resource_day_info_id  >>>>>>>>>>>>>>>>>> "+String.valueOf(mp.get(resourceId.toString()+date.toString())));
 					pst.addBatch();

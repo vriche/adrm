@@ -281,12 +281,12 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
     	
     	System.out.println("saveMatter matter:>>>>>>>>11111111111 333333333    55555555555 dfsdf>>" + matter.getBrandId2());
     	
-    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2()).getId().toString();
+    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2(),matter.getPos()).getId().toString();
     }
     
     
     public Matter saveMatter3(Matter matter) {
-    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2());
+    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2(),matter.getPos());
   }
     
     public String saveMatter2(Matter matter) {
@@ -296,6 +296,7 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
     
     public String saveMatterForm(Matter matter) {
 //      return dao.saveMatter(matter).toString();
+//    	matter.setCustomerId(new Long(0));
   	return saveFiter(matter).toString();
   }
     
@@ -444,7 +445,14 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
 		   if(isEnable){
 			 String adName =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getName()));
 			 String edit =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getEdit()));
-		     String name =  "["+ adName +"] "+ edit;
+			 String len =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getLength()));
+			 String pos =  StringUtil.null2String(mat.getPos());
+			 
+//			 System.out.println("pos:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>77777777777777777777 >>>>>>" + pos);
+			 
+			 pos = "0".endsWith(pos)||"".endsWith(pos)?"": ("1".endsWith(pos)?"首一":"尾一");
+			 
+		     String name =  "["+ adName +"] "+ edit + "["+ len +"]秒 " +" "+pos;
 		 
 		     
 //		      name =  "&lt;/wrer/&gt;";
@@ -542,7 +550,7 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 	                   
 	int importOption = (isNew)?1:2;
 	if(isNew){
-		Matter newMatter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId);
+		Matter newMatter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,0);
 		getHelpCodeEdit(newMatter);
 		newMatter = fiter(newMatter);
 		
@@ -610,7 +618,7 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 
 
 //没有传递组织编号
-public Matter saveMatter(Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,Long brandId) {
+public Matter saveMatter(Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,Long brandId,Integer pos) {
 	Long matterId = new Long(0);
 	Long orgId = new Long(1);
 	 
@@ -628,7 +636,7 @@ public Matter saveMatter(Long customerId, String tapeCode, String name, String e
 	int importOption = (isNew)?1:2;
 	
 	if(isNew){
-		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId);
+		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,pos);
 		
 //		System.out.println(">>>>>>>>>>>isNew 2>>>>>>>>>"+matter.getTapeCode());
 		
@@ -690,7 +698,7 @@ public Matter saveMatter(Long customerId, String tapeCode, String name, String e
 	return matter;
 }
 
-public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,String save2dayang,Long brandId) {
+public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,String save2dayang,Long brandId,Integer pos) {
 	Long matterId = new Long(0);
 //	Long orgId = new Long(1);
 	 
@@ -708,7 +716,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 	
 	int importOption = (isNew)?1:2;
 	
-
+//	System.out.println("0000000000000000000000000>>>>>>>>>>>pos>>>>>>>>>"+pos);
 	
 //	System.out.println(">>>>>>>>>>>isNew >>>>>>>>>"+isNew);
 	
@@ -728,7 +736,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		
 		
 		
-		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId);
+		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,pos);
 		
 //		System.out.println(">>>>>>>>>>>isNew 2>>>>>>>>>"+matter.getTapeCode());
 		
@@ -767,6 +775,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		matter.setEnable(new Boolean(enable));
 		matter.setMatterType(type); 
 		matter.setCustomerId(customerId);
+		matter.setPos(pos);
 		
 		String rep ="\n\r\t";
 		tapeCode = StringUtil.String2kenizer(matter.getTapeCode(),rep);
@@ -777,6 +786,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		getHelpCodeEdit(matter);
 		
 		if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
+		if(matter.getPos() == null) matter.setPos(new Integer(0));
 		
 //		System.out.println(">>>>>>>>>>>orgId>>>>>>>>>"+orgId);
 //		System.out.println(">>>>>>>>>>>customerId>>>>>>>>>"+customerId);
@@ -786,6 +796,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 //		System.out.println(">>>>>>>>>>>createBy>>>>>>>>>"+createBy);
 //		System.out.println(">>>>>>>>>>>type>>>>>>>>>"+type);
 //		System.out.println(">>>>>>>>>>>meno>>>>>>>>>"+meno);
+//		System.out.println("11111111111111111111111111>>>>>>>>>>>pos>>>>>>>>>"+pos);
 		
 		
 		
@@ -794,7 +805,8 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		Matter obj = new Matter();
 		ConvertUtil.copyBeanProperties2(obj,matter);
 		
-		System.out.println(">>>>>>>>11111111111 666          7777 >>>(matter.getBrandId2()>>>>>>>>>"+matter.getBrandId2());		
+		System.out.println(">>>>>>>>11111111111 666          7777 >>>(matter.getBrandId2()>>>>>>>>>"+matter.getBrandId2());	
+//		System.out.println(">>>>>>>>11111111111 666          7777 >>>(matter.getBrandId2()>>>>>>>>>"+matter.getBrandId2());	
 
 		matterId = dao.saveMatter(matter);
 		matter.setId(matterId);
@@ -885,7 +897,7 @@ private Matter getMatterOrg(Long orgId,String name, String eidt, String length,L
 //	return matter;
 //}
 
-private Matter getNewMatterOrg(Long orgId,Long customerId,String tapeCode, String name, String version, String length,Long createBy,Integer type,String meno,Long industryType,Long brandId){
+private Matter getNewMatterOrg(Long orgId,Long customerId,String tapeCode, String name, String version, String length,Long createBy,Integer type,String meno,Long industryType,Long brandId,Integer pos){
 	Matter matter = new Matter();
 	
 	matter.setId(null);
@@ -901,7 +913,7 @@ private Matter getNewMatterOrg(Long orgId,Long customerId,String tapeCode, Strin
 	matter.setBrandId(industryType);
 	matter.setBrandId2(brandId);
 	matter.setOrgId(orgId);
-	
+	matter.setPos(pos);
 
 	
 	//设置磁带编号 0 表示手动 1自动

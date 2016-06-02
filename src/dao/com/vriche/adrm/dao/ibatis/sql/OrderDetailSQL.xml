@@ -939,6 +939,9 @@
 		<result property="resource.resourceType" column="resource_type2"/>
 		<result property="resource.workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
 		<result property="resource.workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
+		
+		<result property="resource.carrier.carrierName" column="carrierParentName"/>
+		
 	    <result property="matter.helpCodeName" column="matter_help_code_name"/>
 	    <result property="matter.helpCodeEdit" column="matter_help_code_edit"/>
 	    <result property="order.orderCode" column="order_code"/>
@@ -965,6 +968,8 @@
 		     WP.broadcast_start_time,
 			 WP.broadcast_end_time,
 		
+		
+			 CA_PARENT.carrier_name as  carrierParentName, 
 			 CA.carrier_name as  carrierName, 
 			 CA.ad_resource_carrier_id as  carrierId, 
 			 SP.name as  specificName,
@@ -988,7 +993,10 @@
 						on WP.ad_resource_info_id = RS.ad_resource_info_id and OD.publish_start >=  WP.begin_date AND OD.publish_start <=WP.end_date
 	
 				 left outer join  tb_ad_resource_carrier CA 
-				 on RS.ad_resource_carrier_id = CA.ad_resource_carrier_id
+					 on RS.ad_resource_carrier_id = CA.ad_resource_carrier_id
+				 
+				 left outer join  tb_ad_resource_carrier CA_PARENT 
+					 on CA_PARENT.ad_resource_carrier_id = CA.parent_id
 				
 				 left outer join  tb_ad_resource_specific SP 
 				 on OD.ad_resource_specific_id = SP.ad_resource_specific_id

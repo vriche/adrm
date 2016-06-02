@@ -144,12 +144,14 @@ public final class MatterAction extends BaseAction {
 	        }
         }
         
-        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getIndustryType());
-        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getBrandId());
-        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getBrandId2());
+//        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getIndustryType());
+//        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getBrandId());
+//        System.out.println(" matterID>>>>>>>>>>>>>>  my   my  my   " +matter.getBrandId2());
+//        System.out.println(" pos>>>>>>>>>>>>>>  my   my  my   " +matter.getPos());
         
         
         matter.setSave2dayang("1");
+        matter.setCustomerId(new Long(0));
         mgr.saveMatter(matter);
         // add success messages
         if (isNew) {

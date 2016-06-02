@@ -256,15 +256,32 @@
 		<result property="orgId" column="sys_org_id" nullValue="1"/>
     </resultMap>	
 	
-    <select id="getResources" resultMap="resourceResult_extends">
+    <select id="getResources" resultMap="resourceResult_OrderbyBroStartTime">
     <![CDATA[
-        select R.*,RT.name as restypename,RT.value as restypevalue
+                select R.*,
+		RT.name as restypename,RT.value as restypevalue,rctpy.sys_org_id,
+		wp.begin_date,wp.broadcast_start_time,wp.broadcast_end_time  
+			,wp.sun_length,wp.mon_length,wp.tue_length,wp.thi_length,wp.wen_length,wp.fri_length,wp.sat_length 
 		
 		 from tb_ad_resource_info R 
 
 		left outer join tb_ad_resource_type RT 
 			 on RT.ad_ad_resource_type_id = R.ad_resource_type 
-    ]]>
+			 
+			 	left outer join tb_ad_resource_carrier as rc
+		 	on R.ad_resource_carrier_id = rc.ad_resource_carrier_id
+
+			left outer join tb_ad_resource_carrier_type as rctpy
+		 on rctpy.ad_resource_carrier_type_id = rc.ad_resource_carrier_type_id				 
+
+		    	 
+		left outer join tb_ad_resource_workspan as wp 
+			on wp.ad_resource_info_id = R.ad_resource_info_id 
+              and wp.ad_resource_workspan_id = (select max(ad_resource_workspan_id) from tb_ad_resource_workspan where  ad_resource_info_id =  R.ad_resource_info_id )
+			    
+			    
+			    ]]> 
+
  	 	<dynamic prepend="WHERE"> 
 			<isNotEmpty prepend="AND" property="carrierId">
 			(R.ad_resource_carrier_id = #carrierId#)
@@ -330,7 +347,24 @@
 			(R.enable = #enable#)
 			</isNotEmpty>
 		</dynamic>
-		order by R.display_no asc
+		
+		
+			<isEqual  property="orderBy" compareValue="0">	
+			      order by R.display_no asc
+			</isEqual>
+		 
+			<isEqual  property="orderBy" compareValue="1">	
+						order by wp.broadcast_start_time asc
+			</isEqual> 	 
+		 
+			<isEqual property="orderBy" compareValue="2">	
+			<![CDATA[  order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time) ]]>	 
+			</isEqual> 
+			
+		
+	
+   
+		
     </select>
 	
 	
@@ -609,9 +643,22 @@
 			</isNotEmpty>				  
 			  
 		</dynamic>
-		<![CDATA[   
-		 order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time)
-		 ]]>
+		
+
+			<isEqual  property="orderBy" compareValue="0">	
+			      order by R.display_no asc
+			</isEqual>
+		 
+		 
+			<isEqual  property="orderBy" compareValue="1">	
+						order by wp.broadcast_start_time asc
+			</isEqual> 	 
+		 
+			<isEqual property="orderBy" compareValue="2">	
+			<![CDATA[  order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time) ]]>	 
+			</isEqual> 	 
+		 
+		 
     </select>
 	
 	
@@ -1013,9 +1060,23 @@
 			<![CDATA[ (wp.end_date >= #inPublishDate#) ]]> 
 			</isNotEmpty>
 		</dynamic>
-		 <![CDATA[   
-		 order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time)
-		 ]]>
+		
+	
+		 
+			<isEqual  property="orderBy" compareValue="0">	
+			      order by ri.display_no asc
+			</isEqual>
+		 
+			<isEqual  property="orderBy" compareValue="1">	
+				  order by wp.broadcast_start_time asc
+			</isEqual> 	 
+		 
+			<isEqual property="orderBy" compareValue="2">	
+			<![CDATA[  order by if(wp.broadcast_start_time < arc.value,wp.broadcast_start_time+86400,wp.broadcast_start_time) ]]>	 
+			</isEqual> 		 
+		 
+		 
+	
     </select>    
 	
 	<select id="getResourcesByCompagesId" resultMap="resourceResult">

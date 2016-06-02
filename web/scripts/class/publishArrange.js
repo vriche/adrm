@@ -263,7 +263,7 @@ PublishArrange.prototype.downloadAdvers = function(obj,type,callBackFun){
 	PublishArrangeManager.downloadAdvers(callBackFun,obj,type);
 }
 
-PublishArrange.prototype.uploadFiles = function(server,user,pass,publishDate,callBackFun){
-	PublishArrangeManager.uploadFiles(callBackFun,server,user,pass,publishDate);  
+PublishArrange.prototype.uploadFiles = function(server,prot,user,pass,publishDate,callBackFun){
+	PublishArrangeManager.uploadFiles(server,prot,user,pass,publishDate,callBackFun);  
 }
 

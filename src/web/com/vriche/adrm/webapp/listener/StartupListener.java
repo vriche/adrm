@@ -24,11 +24,12 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.vriche.adrm.Constants;
-import com.vriche.adrm.model.CarrierType;
 import com.vriche.adrm.model.Org;
 import com.vriche.adrm.model.SysParam;
 import com.vriche.adrm.service.LookupManager;
 import com.vriche.adrm.util.HandlePropertiesUtil;
+import com.vriche.adrm.util.JsonUtil2;
+import com.vriche.adrm.util.StringUtil;
 
 /**
  * <p>StartupListener class used to initialize and database settings
@@ -603,6 +604,13 @@ public class StartupListener extends ContextLoaderListener
     	
     	 Constants.APPLACTION_MAP.remove(Constants.AVAILABLE_CARRIER_RESOURCE_TREE);
     	 
+    	 
+    	 
+    	 
+         
+//         Constants.APPLACTION_MAP.remove(Constants.FTP_SERVVICE_CONFIG);
+//         Constants.APPLACTION_MAP.put(Constants.FTP_SERVVICE_CONFIG,"");
+    	 
     	
         	
 
@@ -998,7 +1006,25 @@ public class StartupListener extends ContextLoaderListener
          String resourceUseCustomerCatelog = sysParam.getResourceUseCustomerCatelog();
     	 mgr.saveSysParams(Constants.RESOURCE_USE_CUSTOMER_CATELOG,resourceUseCustomerCatelog,ls);
          Constants.APPLACTION_MAP.put(Constants.RESOURCE_USE_CUSTOMER_CATELOG,resourceUseCustomerCatelog);
-    	 
+         
+         
+         //公益广告自动添加
+         String publicAdAutoFill = sysParam.getPublicAdAutoFill();
+    	 mgr.saveSysParams(Constants.PUBLIC_AD_AUTO_FILL,publicAdAutoFill,ls);
+         Constants.APPLACTION_MAP.put(Constants.PUBLIC_AD_AUTO_FILL,publicAdAutoFill);
+         
+         // ftp服务器 把字符串组成map  "ip:172.16.1.249,port:21,user:new,pass:123456"
+         String ftpConfig = sysParam.getFtpConfig();
+    	 mgr.saveSysParams(Constants.FTP_SERVVICE_CONFIG,ftpConfig,ls);
+         Constants.APPLACTION_MAP.put(Constants.FTP_SERVVICE_CONFIG,StringUtil.string2Map(ftpConfig));
+         
+         
+         
+         //时段维护根据时间排序
+         String resconfigOrderbyTime = sysParam.getResconfigOrderbyTime();
+    	 mgr.saveSysParams(Constants.RESCONFIG_ORDER_BY_TIME,resconfigOrderbyTime,ls);
+         Constants.APPLACTION_MAP.put(Constants.RESCONFIG_ORDER_BY_TIME,resconfigOrderbyTime);
+
   
 //    	 log.info("orderDisplayIncomeParam>>>>>>>>>>>>>>>>>>"+orderCalculateModel);
     

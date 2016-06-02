@@ -76,24 +76,44 @@ public class UploadUtil {
  /**
   * 上传文件到FTP
   */
- public static void putFtpFile(String server,String user,String pass,String publishDate) {
+//	 public static void putFtpFile(String server,String port,String user,String pass,String publishDate) {
+//		  String path = "";     
+//		  String fileName = FileUtil.getDateDir(new Integer(publishDate)); 
+//	 }
+	 
+	 
+ public static void putFtpFile(String server,String port,String user,String pass,String publishDate) {
   String path = "";     
   String fileName = FileUtil.getDateDir(new Integer(publishDate));
   try {
    FtpClient ftpClient = new FtpClient(); 
-   ftpClient.openServer(server);
+//   org.apache.commons.net.ftp.FTPClient  ftpClient = new  org.apache.commons.net.ftp.FTPClient(); 
+//   ftpClient.setControlEncoding("GBK");
+   
+   System.out.println(server+"00000000000000>>"+user+">>"+pass+"*****"+publishDate);  
+   if(port == null || "".equals(port)){
+	   ftpClient.openServer(server);
+   }else{
+	   ftpClient.openServer(server, Integer.parseInt(port));
+   }
+	
    ftpClient.login(user, pass);
+//   ftpClient.openServer(arg0, arg1);
+	System.out.println(server+"1111111111111111111>>"+user+">>"+pass+"*****"+publishDate);  
    if (path.length() >0)  
 	   ftpClient.cd(path);                
    ftpClient.binary();
+	System.out.println(server+"2222222222222222>>"+user+">>"+pass+"*****"+publishDate);  
      
    File file_in = new File(fileName);  
    File[] file = file_in.listFiles();
    
-   for(int i=0;i<file.length;i++){System.out.println("!@!@="+file[i].getAbsolutePath()+">>"+file[i].getCanonicalPath());  
+   for(int i=0;i<file.length;i++){
+	   System.out.println("!@!@="+file[i].getAbsolutePath()+">>"+file[i].getCanonicalPath());  
 	   TelnetOutputStream os = ftpClient.put(file[i].getName());                  
 	   System.out.println("XXX="+file[i].getName());   
-	   FileInputStream is = new FileInputStream(file[i]); System.out.println("sss="+is.available());     
+	   FileInputStream is = new FileInputStream(file[i]);
+	   System.out.println("sss="+is.available());     
 	   byte[] bytes = new byte[1024];            
 	   int c;
 	   while ((c = is.read(bytes)) != -1) { 

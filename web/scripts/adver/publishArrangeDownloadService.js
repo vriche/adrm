@@ -209,6 +209,7 @@ function setLockState(e){
 		publishArrange.savePublishArrangeLock(obj);
 	}
 	publishArrange.obj.id = e.value;
+
 	publishArrange.getPublishArrange(publishArrange.obj.id,callBackFun);
 }
 	
@@ -322,22 +323,34 @@ function saveFile(carrierName,publishDate,type,isLast){
 }	
 
 function downLoadFiles(carr){
-	if(tvNameParam =='fztv'){
-		var publishDate = getFormatDay($("publisDate").value,'ymd');     
-		var server = "172.17.6.99";  
-		var user = "linux";
-		var pass = "linux";
-		var callback = function(){ 
-//			alert("上传完毕!");
-				extjMessage('上传完毕！');
-		}
-		publishArrange.uploadFiles(server,user,pass,publishDate,callback);  
-	}else{
-		var base = $("downloadurl").value;
-		var fileName = getFormatDay($("publisDate").value,'ymd') +".zip";
-	    window.location.href=base + "/"+ fileName;
-	}
+//	if(tvNameParam =='fztv'){
+//		var publishDate = getFormatDay($("publisDate").value,'ymd');     
+////		var server = "172.17.6.99";  
+////		var server = "127.0.0.1";  
+////		var port ="21";
+////		var user = "linux";
+////		var pass = "linux";
+//		var server = "172.16.1.249";  
+//		var port ="21";
+//		var user = "new";
+//		var pass = "123456";
+//		
+//		var callback = function(){ 
+////			alert("上传完毕!");
+//				extjMessage('上传完毕！');
+//		}
+//	
+//		publishArrange.uploadFiles(server,port,user,pass,publishDate,callback);  
+//	}else{
+//		var base = $("downloadurl").value;
+//		var fileName = getFormatDay($("publisDate").value,'ymd') +".zip";
+//	    window.location.href=base + "/"+ fileName;
+//	}
 
+	var base = $("downloadurl").value;
+	var fileName = getFormatDay($("publisDate").value,'ymd') +".zip";
+    window.location.href=base + "/"+ fileName;
+	
 }	
 
 function formPrintView(){

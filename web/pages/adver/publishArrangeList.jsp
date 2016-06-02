@@ -60,6 +60,7 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/PublishArrangeDetailManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/WorkspanManager.js'/>"></script>  
 
+<script type="text/javascript" src="<c:url value='/scripts/localStorage/store.min.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/adver/publishArrangeService.js'/>"></script>
 
@@ -103,6 +104,9 @@
                          <tr>
 		     
 		                     <td width="1px"> <input class="button" name="Btn_build_bro" id="Btn_build_bro" type="button" value='建立'></td>   
+		                      <td width="1px"> <input class="button" name="Btn_build_bro_backup" id="Btn_build_bro_backup" type="button" value='载入备份'></td>
+		     
+		                      
 		                     <adrm_order:authorizeTag res="tag_publish_arrange">  
 		 					 <td width="1px"> <input class="button" name="Btn_save_bro" id="Btn_save_bro" type="button" value='保存'></td>   
 		                     </adrm_order:authorizeTag>  

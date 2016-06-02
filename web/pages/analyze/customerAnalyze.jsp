@@ -50,6 +50,10 @@
 <script type="text/javascript" src="<c:url value='/scripts/class/resourceType.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/ResourceTypeManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/ext/3.2.0/plus/ComboBoxTree.js'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/scripts/localStorage/store.min.js'/>"></script>
+
+
 <script type="text/javascript" src="<c:url value='/scripts/analyze/customerAnalyzeService.js'/>"></script>
 
 
@@ -247,8 +251,10 @@
                           <td  width="1px" align="left" valign="left"><div id="printReportDiv" name="printReportDiv"/></td>
                           
                           
+  						                     
+                          <td>&nbsp</td>
                           
-                          <td>&nbsp</td>	 
+                           
                   </tr>
                 </tbody>
              

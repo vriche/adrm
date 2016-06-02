@@ -447,8 +447,8 @@ function load_data(id){
 }
  function initGrid(){
 	mygrid = new dhtmlXGridObject('gridbox');
-mygrid.selMultiRows = false;
-		mygrid.delim ="*"
+	mygrid.selMultiRows = true;
+	mygrid.delim ="*"
 	mygrid.setImagePath("image/grid/");
 	var displayRelcode = (config_orderDisplayRelcodeParam ==1);
 	var displayIncomeParam = (config_orderDisplayIncomeParam ==1);
@@ -519,7 +519,6 @@ mygrid.selMultiRows = false;
 	}
 
 	
-	
 
 	mygrid.setEditable(false);
 	//mygrid.setOnRowSelectHandler(onRowSelectd,true);
@@ -534,6 +533,9 @@ mygrid.selMultiRows = false;
 	mygrid.setOnRowSelectHandler(onRowSelected,true);
 	mygrid.setOnRowDblClickedHandler(onRowDblClicked,true);
 //	mygrid.enableAutoSizeSaving();
+	
+  
+//	mygrid.setSortImgState(true,1,"ASC"); 
 	
 	
 //	mygrid.enableBlockSelection(true);
@@ -576,12 +578,14 @@ mygrid.selMultiRows = false;
 
 
 	attachHeaderNew(mygrid,"<input type='checkBox' id='allSelect' value='' >,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan,#rspan");
-	
+    mygrid.setSortImgState(true,1,"ASC"); 
 	
 //			mygrid.setColumnHidden(0,true);
 //			mygrid.setInitWidthsP("11,9,8,16,13,8,8,8,8,6,5");
 
 	loadGridData(posStart);
+	
+	
 	
 	
 }
@@ -594,6 +598,8 @@ function resetHeigth(){
     	gridbox.style.height = dialogcontent.offsetHeight * 0.86 +"px";	
     	mygrid.setSizes();
     }
+    
+    
 } 
  function selectCheckBoxAll(){
  	var v = $("allSelect").checked;
@@ -736,6 +742,8 @@ function attachHeaderNew(grid,htm){
 	$("allSelect").onclick  = selectCheckBoxAll;
 	
 }
+
+
 
 
 

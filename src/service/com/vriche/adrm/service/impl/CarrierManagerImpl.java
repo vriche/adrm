@@ -1445,6 +1445,8 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 							+ "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" text=\""
 							+ carrier.getCarrierName().toString() + "\">");
 			sb.append("<userdata name=\"type\">2</userdata>");
+			
+			sb.append("<userdata name=\"carrierName\">"+ carrier.getCarrierName().toString()+"</userdata>");
 	
 			  resourceManager.getResourceItemsByCarrierId(sb,carrier.getId().toString(),resourceIdPrefix);
 			  getCarriersByParentId(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix);
@@ -1543,6 +1545,8 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 								+ carrier.getCarrierName().toString() + "\">");
 				sb.append("<userdata name=\"type\">2</userdata>");
 				
+				sb.append("<userdata name=\"carrierName\">"+ carrier.getCarrierName().toString() + "</userdata>");
+				
 				boolean orderCarrierLevelOne = false;
 				
 				if(isWithResourceSort && resourceType!=null && resourceType.intValue() !=999) orderCarrierLevelOne = true;
@@ -1563,6 +1567,8 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 						+ "' im0=\"magazines_close.gif\" im1=\"magazines_open.gif\" im2=\"magazines_close.gif\" text=\""
 								+ carrier.getCarrierName().toString() + "\">");
 				sb.append("<userdata name=\"type\">2</userdata>");
+				
+				sb.append("<userdata name=\"carrierName\">"+ carrier.getCarrierName().toString() + "</userdata>");
 				
 				boolean orderCarrierLevelOne = false;
 				
@@ -1594,6 +1600,8 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 							+ "' im0=\"magazines_close.gif\" im1=\"magazines_open.gif\" im2=\"magazines_close.gif\" text=\""
 									+ carrier.getCarrierName().toString() + "\">");
 					sb.append("<userdata name=\"type\">2</userdata>");
+					
+					sb.append("<userdata name=\"carrierName\">"+ carrier.getCarrierName().toString() + "</userdata>");
 					
 					boolean orderCarrierLevelOne = false;
 					

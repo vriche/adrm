@@ -216,6 +216,9 @@ public class ArrangeUtil3 {
 	  public static void getAdverList(PublishArrange publishArrange ,List details,List adverList,Long resourceId,Integer publishDate,int state,boolean isRoll){
 		  
 		      boolean arrangeWithBrandParam = SysParamUtil.getArrangeWithBrandParamParam();
+		      
+		      boolean publicAdAutoFillParamParam =  SysParamUtil.getPublicAdAutoFillParamParam();
+		      
 
 			  for(Iterator it = adverList.iterator();it.hasNext();){
 				  PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)it.next();
@@ -272,7 +275,7 @@ public class ArrangeUtil3 {
 				  //如果有多次，需要串开的广告 把它与没指定的广告进行串开
 //				  middleAdver = resetMiddleAdverByspaceAdvers(middleAdver1, spaceAdvers);
 
-				  decomposeAdverByTimes2(publishArrange,objs,beforeSpecific,afterSpecific,middleAdver,spaceAdvers);
+				  decomposeAdverByTimes2(publishArrange,objs,beforeSpecific,afterSpecific,middleAdver,spaceAdvers,publicAdAutoFillParamParam);
 
 				  
 //				  //修改有指定的序号
@@ -945,12 +948,12 @@ public class ArrangeUtil3 {
 	 
 	     } 
 	   
-	   public static  void decomposeAdverByTimes2(PublishArrange publishArrange,Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver,List spaceAdvers){
+	   public static  void decomposeAdverByTimes2(PublishArrange publishArrange,Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver,List spaceAdvers,boolean publicAdAutoFillParamParam){
 	    	 int index =1;
 	         String destBefo="123456789"; 
            String destAfter="ABCDEFGHI"; 
            
-           System.out.println("decomposeAdverByTimes2 >>>>>>>>>>>>>>>>>>>>>>>>>> objs.length>>>>>>>>>   "+  objs.length);
+//           System.out.println("decomposeAdverByTimes2 >>>>>>>>>>>>>>>>>>>>>>>>>> objs.length>>>>>>>>>   "+  objs.length);
 
 	    	 double resourceUsedTimes = 0;
 	    	 for (int i = 0; i< objs.length; i++){
@@ -1002,18 +1005,60 @@ public class ArrangeUtil3 {
 	    	 
 	    	 }
 	    	
-	    	 long aa = Math.round(resourceUsedTimes);
-	
-	    	 //自动填冲公益广告
-	    	 publishArrange.setResourceUsedTimes(Integer.valueOf(aa+""));
-	    	 getPublicSerAdver(publishArrange,middleAdver);
+	    	 
+	    	 if(publicAdAutoFillParamParam){
+		    	 long aa = Math.round(resourceUsedTimes);
+		    	 //自动填冲公益广告
+		    	 publishArrange.setResourceUsedTimes(Integer.valueOf(aa+""));
+		    	 getPublicSerAdver(publishArrange,beforeSpecific,middleAdver,afterSpecific);
+	    	 }
+
 	 
 	     } 
 	   
+	   private static void getPublishArrangeDetailByMatter(PublishArrangeDetail detail, Matter mat){
+		   Object obj = mat.getEnable();
+			 Long matterId = mat.getId();
+			 boolean isEnable = obj==null?false:mat.getEnable().booleanValue();
+		     String tapeCode =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getTapeCode()));
+			 String matterName =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getName()));
+			 String matterEdit =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getEdit()));
+			 String matterLength = mat.getLength();
+			 Long brandId = mat.getBrandId();
+			 Long brandId2 = mat.getBrandId2();
+
+			 detail.setPublishSort(new Integer(0));
+			 detail.setResourceId(new Long(0));
+			 detail.setTapeCode(tapeCode);
+			 detail.setMatterName(matterName);
+			 detail.setMatterId(matterId);
+			 detail.setMatterEdit(matterEdit);
+			 detail.setMatterLength(matterLength);
+			 detail.setAdverTimes(new Integer(1));
+			 detail.setSpecificName("");
+			 detail.setSpecificValue("");
+			 detail.setOrderDayId(new Long(0));
+			 detail.setOrderDetailId(new Long(0));
+			 detail.setOrderId(new Long(0));
+			 detail.setBrandId(brandId);
+	   }
+	   
+	   private static double pushMidleAd(double resourceLeave,List<Matter> ls,List<PublishArrangeDetail> middleAdver){
+			for(Matter mat:ls){
+				 PublishArrangeDetail detail = new PublishArrangeDetail();
+				 getPublishArrangeDetailByMatter(detail,mat);
+				 double pushTimes = Double.parseDouble(mat.getLength());
+				 if(resourceLeave >= pushTimes){
+					 middleAdver.add(detail);
+				 }
+				 resourceLeave = resourceLeave - pushTimes;
+			}
+		   return resourceLeave;
+	   }
 	   
 	
-	   //公益广告自动填
-	   public static void getPublicSerAdver(PublishArrange publishArrange,List<PublishArrangeDetail> middleAdver){
+	   //公益广告自动填 beforeSpecific,middleAdver,afterSpecific
+	   public static void getPublicSerAdver(PublishArrange publishArrange,List<PublishArrangeDetail> beforeSpecific,List<PublishArrangeDetail> middleAdver,List<PublishArrangeDetail> afterSpecific){
 			SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
 			String[] matterTypeList = sysParam.getDianpianParam().split(","); //垫片广告类型
 			Map mp = new HashMap();
@@ -1021,69 +1066,69 @@ public class ArrangeUtil3 {
 			mp.put("matterTypeList",matterTypeList);
 
 			List<Matter> ls = ServiceLocator.getMatterDao().getMattersByIdList(mp);
-			setPublicSerAdveRoll(ls,publishArrange.getPublishDate());
+			Map<String,Matter> mpp = new HashMap<String,Matter>();
+			List<Matter> lsNormalAd = new ArrayList<Matter>();
+			
+			
+			System.out.println("getPublicSerAdver 666666666666666666666666666666    >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
+			
+			int kk = 0;
+			for(Matter mat:ls){
+				int pos = Integer.parseInt(StringUtil.getNullValue(mat.getPos(),"0")) ;
+				if(pos == 1){
+					mpp.put("F", mat);
+				}else if(pos == 2){
+					mpp.put("L", mat);
+				}else{
+					mpp.put(String.valueOf(kk++), mat);
+					lsNormalAd.add(mat);
+				}
+				
+			}
+			
+			System.out.println("getPublicSerAdver dddddddddd    >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+lsNormalAd.size());
+			
+			 double resourceLeave = Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceTotalTimes(),"0"))- Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
+			 double pushTimes = 0;  
+			//正一 公益 
+			 if(mpp.containsKey("F")){
+				 PublishArrangeDetail detail = new PublishArrangeDetail();
+				 Matter mat = mpp.get("F");
+				 getPublishArrangeDetailByMatter(detail,mat);
+				 detail.setSpecificValue("0");
+//				 detail.setPublishSort(new Integer(0));
+				 pushTimes = Double.parseDouble(mat.getLength());
+				 if(resourceLeave >= pushTimes){
+					 beforeSpecific.add(detail);
+					 resourceLeave = resourceLeave - pushTimes;
+				 }
+			 }
+			//倒一 公益
+			 if(mpp.containsKey("L")){
+				 PublishArrangeDetail detail = new PublishArrangeDetail();
+				 Matter mat = mpp.get("L");
+				 getPublishArrangeDetailByMatter(detail,mat);
+				 detail.setSpecificValue("Z");
+				 pushTimes = Double.parseDouble(mat.getLength());
+				 if(resourceLeave >= pushTimes){
+					 afterSpecific.add(detail);
+					 resourceLeave = resourceLeave - pushTimes;
+				 }
+			 }
+			
+			//没指定的公益广告或宣传片
+			 while(resourceLeave >=0 && lsNormalAd.size() >0 ){
+				 resourceLeave =  pushMidleAd(resourceLeave,lsNormalAd,middleAdver);
+			 }
+			
+//			setPublicSerAdveRoll(ls,publishArrange.getPublishDate());
 //			System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
 			
 //			getOneResUsedTimes(publishArrange);
 //			System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>>getResourceUsedTimes>>>>>>>>>   "+ StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
-		    double resourceLeave = Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceTotalTimes(),"0"))- Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
-			   
 
-			double pushTimes = 0;
-			PublishArrangeDetail detail = new PublishArrangeDetail();
-			if(ls.size() >0){
-				Matter mat = (Matter)ls.get(0);
-				 Object obj = mat.getEnable();
-				 Long matterId = mat.getId();
-				 boolean isEnable = obj==null?false:mat.getEnable().booleanValue();
-			     String tapeCode =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getTapeCode()));
-				 String matterName =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getName()));
-				 String matterEdit =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getEdit()));
-				 String matterLength = mat.getLength();
-				 Long brandId = mat.getBrandId();
-				 Long brandId2 = mat.getBrandId2();
-				 pushTimes = Double.parseDouble(matterLength);
-	
-				 detail.setPublishSort(new Integer(0));
-				 detail.setResourceId(new Long(0));
-				 detail.setTapeCode(tapeCode);
-				 detail.setMatterName(matterName);
-				 detail.setMatterId(matterId);
-				 detail.setMatterEdit(matterEdit);
-				 detail.setMatterLength(matterLength);
-				 detail.setAdverTimes(new Integer(1));
-				 detail.setSpecificName("");
-				 detail.setSpecificValue("");
-				 detail.setOrderDayId(new Long(0));
-				 detail.setOrderDetailId(new Long(0));
-				 detail.setOrderId(new Long(0));
-				 detail.setBrandId(brandId);
-			}
-			
-			
-		
-			
-			 while(resourceLeave >= pushTimes){
-				 
-//					System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>>resourceLeave>>>>>>>>>   "+ resourceLeave);
-					
-				 PublishArrangeDetail det = new PublishArrangeDetail();
-				 try {
-	    				org.apache.commons.beanutils.BeanUtils.copyProperties(det,detail);
-	    			 } catch (IllegalAccessException e) {
-	    				// TODO Auto-generated catch block
-	    				e.printStackTrace();
-	    			 } catch (InvocationTargetException e) {
-	    				// TODO Auto-generated catch block
-	    				e.printStackTrace();
-	    			 }
-				 middleAdver.add(det);
-				 resourceLeave = resourceLeave - pushTimes;
-			 }
-			
-				
-			
-//		  
+//			 org.apache.commons.beanutils.BeanUtils.copyProperties(det,detail);
+	  
 	   }
 	   
 	   //设置滚动播出

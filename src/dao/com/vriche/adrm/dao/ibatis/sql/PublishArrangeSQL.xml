@@ -421,7 +421,8 @@
 				 		   left outer join tb_ad_resource_info RES 
 		on ARR.resource_id = RES.ad_resource_info_id
 				 		   left outer join tb_ad_resource_workspan ARW
-		on ARW.ad_resource_info_id = RES.ad_resource_info_id
+		on ARW.ad_resource_info_id = RES.ad_resource_info_id and ARW.ad_resource_workspan_id =  
+		(select max(ad_resource_workspan_id) from tb_ad_resource_workspan where  ad_resource_info_id =  RES.ad_resource_info_id)
 		
          where ARR.arrange_id = #value#
     ]]>

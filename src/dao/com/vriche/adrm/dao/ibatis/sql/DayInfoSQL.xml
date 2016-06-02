@@ -15,6 +15,7 @@
 	</cacheModel>
 	
     <parameterMap id="addParam" class="dayInfo">
+        <parameter property="isLocked" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
         <parameter property="carrierId" jdbcType="VARCHAR" javaType="java.lang.String" nullValue="0"/>
         <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
         <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="19990101"/>
@@ -28,6 +29,7 @@
     </parameterMap>
 
     <parameterMap id="updateParam" class="dayInfo">
+    	 <parameter property="isLocked" jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
         <parameter property="carrierId" jdbcType="VARCHAR" javaType="java.lang.String" nullValue=""/>
         <parameter property="propertiyTime" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
         <parameter property="publishDate" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="19991231"/>
@@ -52,6 +54,7 @@
 	
 
     <resultMap id="dayInfoResult" class="dayInfo">
+     	<result property="isLocked" column="is_locked"/>
 		<result property="modifyTime" column="modify_time" nullValue="0"/>
         <result property="carrierId" column="ad_resource_carrier_id" nullValue="0"/>
         <result property="id" column="ad_resource_day_info_id" nullValue="0"/>
@@ -68,6 +71,7 @@
 	
 	
     <resultMap id="dayInfoResultWithResource" class="dayInfo">
+     	<result property="isLocked" column="is_locked"/>
 		<result property="modifyTime" column="modify_time" nullValue="0"/>        
         <result property="carrierId" column="ad_resource_carrier_id" nullValue="0"/>
         <result property="id" column="ad_resource_day_info_id" nullValue="0"/>
@@ -181,7 +185,8 @@
 		]]>	
 	</statement>	
 	
-	
+
+
 
 		
 	
@@ -445,14 +450,15 @@
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
         <![CDATA[
-            insert into tb_ad_resource_day_info (ad_resource_carrier_id,ad_resource_propertiy_time,publish_date,ad_resource_info_id,ad_resource_type,ad_resource_specific,total,used,ad_resource_workspan_id,version)
-            values ( ?,?,?,?,?,?,?,?,?,? )
+            insert into tb_ad_resource_day_info (is_locked,ad_resource_carrier_id,ad_resource_propertiy_time,publish_date,ad_resource_info_id,ad_resource_type,ad_resource_specific,total,used,ad_resource_workspan_id,version)
+            values ( ?,?,?,?,?,?,?,?,?,?,? )
         ]]>
     </insert>
 
     <update id="updateDayInfo" parameterMap="updateParam">
     <![CDATA[
         update tb_ad_resource_day_info set
+        		   is_locked = ?,
                    ad_resource_carrier_id = ?,
                    ad_resource_propertiy_time = ?,
                    publish_date = ?,
@@ -573,14 +579,44 @@
 		  </isNotEmpty> 	
 			  
 		    <isNotEmpty prepend="AND" property="workspanId">
-		   			  ad_resource_workspan_id = #workspanId# 
+		   			  ad_resource_workspan_id = #workspanId#  
 		  </isNotEmpty> 		  
 			
 		</dynamic>
 	 
  </select>	
 	
+	<update id="updateDayInfoLock" parameterClass="java.util.Map">
+ 
+        update tb_ad_resource_day_info set is_locked = #isLocked# 
+  
+		<dynamic prepend="WHERE"> 
+		
+		 <isNotNull prepend="AND" property="publishDate">
+		   		publish_date =  #publishDate#
+		</isNotNull>		
+		
+		
+		<isNotNull property="idList">
+		  <iterate   prepend="AND" property="idList" open="(" close=")" conjunction="OR">
+		   			 ad_resource_info_id = #idList[]#
+		  </iterate>
+		</isNotNull> 
+
+		</dynamic> 
+    </update>	
 	
 	
+	
+	 <statement id="getPublishLockState" parameterClass="map" resultClass="dayInfo">
+		<![CDATA[
+          select  publish_date as publishDate,is_locked as isLocked      
+          from	 tb_published_arrang 
+                where resource_id =#resourceId# 
+           	    	and publish_date >= #startDate# 
+					and publish_date <= #endDate# 
+			order by publish_date 
+		]]>	
+	</statement>	
 	
 </sqlMap>

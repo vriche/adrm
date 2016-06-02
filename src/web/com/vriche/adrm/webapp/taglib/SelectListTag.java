@@ -704,7 +704,13 @@ public class SelectListTag extends TagSupport {
                     LabelValue lb45 = new LabelValue(org.getName(),org.getId().toString());
                     rt.add(lb45);
                 }             	    
-        		break;            		
+        		break;  
+        		
+          	case 46: //组织类型
+          		rt.add( new LabelValue("","0"));  
+                rt.add( new LabelValue("首一","1"));  
+                rt.add( new LabelValue("尾一","2"));  
+    		break;  
         }
         
         

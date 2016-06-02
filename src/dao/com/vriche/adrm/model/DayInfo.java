@@ -56,9 +56,13 @@ public class DayInfo extends BaseObject {
     protected String  modifyTime;     //时间戳
     
     protected Resource resource = new Resource();
+    
+    protected Boolean isLocked;        //播出单已出 将被锁定
 
     
-    public Resource getResource() {
+ 
+
+	public Resource getResource() {
 		return resource;
 	}
 
@@ -78,6 +82,7 @@ public class DayInfo extends BaseObject {
     	this.resourceType= new Integer("0");
     	this.workspanId= new Long("0");  	
     	this.publishDate = publishDate;
+    	this.isLocked = new Boolean(false);
     	this.specific ="";
     	this.total = "0";
     	this.used = "0";
@@ -88,6 +93,7 @@ public class DayInfo extends BaseObject {
     	this.resource.setIsSeralized(new Boolean(false));
     	this.resource.setIsValidate(new Boolean(false));
     	this.resource.setEnable(new Boolean(false));
+    	
     };
     
     /**
@@ -383,5 +389,11 @@ public class DayInfo extends BaseObject {
 		this.changedValue = changedValue;
 	}
 
+	   public Boolean getIsLocked() {
+			return isLocked;
+		}
 
+		public void setIsLocked(Boolean isLocked) {
+			this.isLocked = isLocked;
+		}
 }

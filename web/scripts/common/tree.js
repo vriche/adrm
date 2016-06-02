@@ -31,6 +31,17 @@ Tree.prototype.refreshTree = function(){
 		this.dhtmlTree.setCheck(parentId,0);	
 }
 
+Tree.prototype.loadDataTreeArray = function(array1){
+	
+	this.refreshTree();
+
+	
+	for (var i = 0; i < array1.length; i++){
+
+		this.dhtmlTree.setCheck(array1[i],1);					
+	}	
+}
+
 Tree.prototype.loadDataTreeArray1 = function(IdPrefix,array1){
 		
 		this.refreshTree();
@@ -140,6 +151,32 @@ Tree.prototype.setCurSelectItemId = function(IdPrefix){
 	var id = this.getSelectedItemId(IdPrefix);
 	this.curSelectItemId = id;
 }	
+
+
+Tree.prototype.getAllCheckedBranches2 = function(IdPrefix,isArray){
+	var idStr =  this.dhtmlTree.getAllCheckedBranches();
+	var newIds = new Array();
+	
+	if(idStr.substring(idStr.length-1,idStr.length) == ","){
+		idStr = idStr.substring(0,idStr.length-1);
+	}
+	var ids = idStr.split(",");
+
+	if (ids.length > 0){
+		for(var i =0;i<ids.length;i++){
+			var source = ids[i];
+			var index = source.indexOf(IdPrefix);
+			if(index > -1) newIds.push(source);
+		}
+	}
+	if(isArray){
+		return newIds;
+	}else{
+		return newIds.join(",");
+	}
+	
+	
+}
 
 Tree.prototype.getAllCheckedBranches = function(IdPrefix){
 	var idStr=  this.dhtmlTree.getAllCheckedBranches();

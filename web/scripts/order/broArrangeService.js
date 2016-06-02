@@ -43,11 +43,17 @@ function getBroArrange(appParams,detailBackUp,broArr,callFun){
 		fillBroArrange(broArr,times,mode,selectValue);
 		broArr.getBroArrangeStarEndDate(appParams);
 
-		if(alertStr.indexOf('-')!=-1){
-//			alert(alertStr);
-			extjMessage(alertStr); 
-			alertStr='该时段超时日期:\n\r';
+		if(alertStr1.indexOf('-')!=-1){
+			extjMessage(alertStr1); 
+			alertStr1='该时段播出单已出的日期:\n\r';
 		}
+		
+		if(alertStr2.indexOf('-')!=-1){
+			extjMessage(alertStr2); 
+			alertStr2='该时段超时日期:\n\r';
+		}		
+		
+		
 	}
 	
 	closeBroArrangeDiv();	
@@ -84,9 +90,15 @@ function fillBroArrange(broArr,times,mode,selectValue){
 			      		 if(broArr.isEnableCellClick(el,ev)){
 			      		 	 broArr.cellClick(el,ev);
 			      		 }else{
-			      		 	if(el.dayObj.rsTotalTime > 0){
-			      		 		alertStr+=getFormatDay(el.dayObj.dayDate,"yyyy-mm-dd")+'\n\r';	
-			      		 	}
+				      		 if(el.dayObj.isLocked && config_outLimitBroarrang){
+				      		 		alertStr1+=getFormatDay(el.dayObj.dayDate,"yyyy-mm-dd")+'\n\r';	
+				      		 }else{
+					      		 	if(el.dayObj.rsTotalTime > 0){
+					      		 		alertStr2+=getFormatDay(el.dayObj.dayDate,"yyyy-mm-dd")+'\n\r';	
+					      		 	}
+				      		 }
+			      			 
+
 			      		 }
 		      		}	
 	
@@ -235,7 +247,7 @@ function autoBroArrange(appParams,orderYear,oDiv,selectMonthCmd,startEl,endEl,de
  		}
 
 		
-		start =  broArrange.broArrangeStartDate.value;
+		 start =  broArrange.broArrangeStartDate.value;
   		 end =   broArrange.broArrangeEndDate.value;
 		start = (start == null||start == 0)? newstart:start;
 		end = (end == null||end == 0)? newstart:end;
@@ -250,7 +262,7 @@ function autoBroArrange(appParams,orderYear,oDiv,selectMonthCmd,startEl,endEl,de
 				nextMonth = nextMonth + 1;
 			}
 		}else{
-			nextMonth = broArr.myDate.getMonth(start)*1 + 2;
+			nextMonth = broArr.myDate.getMonth(start)*1 + config_orderArrangDefaultMonths;
 		}
 		if(nextMonth*1 > 12){
 			 nextMonth = 12;

@@ -23,6 +23,7 @@ var resource_year;
 var config_serviceDate;
 var ctxPath;
 var mygrid;
+var mygrid2;
 
 callOnLoad(init);
 
@@ -43,6 +44,8 @@ function init(){
 	config_useLanmuSingleParam= _app_params.sysParam.useLanmuSingleParam;
 	config_moreChannelParam = _app_params.sysParam.moreChannelParam;
 	config_resourceUseCustomerCatelog = _app_params.sysParam.resourceUseCustomerCatelog;
+	config_resconfigOrderbyTime = _app_params.sysParam.resconfigOrderbyTime;
+	
 
 	loginUser =   _app_params.user.username;
 	
@@ -1002,10 +1005,15 @@ function initResourceTree(){
 	obj_tree.enableCheckBoxes(false);
 	obj_tree.enableThreeStateCheckboxes(true);
 	obj_tree.enableItemEditor(false);
-	obj_tree.enableDragAndDrop(true);
 //	obj_tree.enableKeyboardNavigation(true); //this need dhtmlxtree_kn.js
 	obj_tree.setOnClickHandler(doOnSelect);//set function to call on dbl click
-	obj_tree.setDragHandler(doOnBeforeDrop);
+	
+
+	if(config_resconfigOrderbyTime == 0){
+		obj_tree.enableDragAndDrop(true);
+		obj_tree.setDragHandler(doOnBeforeDrop);
+	}
+
 	
 	getResourceTree(carrierType);
 }
@@ -1274,6 +1282,7 @@ function doOnBeforeDrop(id,parentId){
 				
 				var func = function(){
 //					if(tvNameParam != 'fztv'){
+					if(config_resconfigOrderbyTime == 0){
 						var resourceIdsOnly=new Array();
 						var resourceIds=obj_tree.getAllLeafs().split(',');
 						for(var i=0;i<resourceIds.length;i++){
@@ -1282,7 +1291,9 @@ function doOnBeforeDrop(id,parentId){
 							}
 							resourceIdsOnly.push(getRealIdByTreeId(resourceIds[i],3));
 						}
-						resource.updateDisplayNo(resourceIdsOnly);
+						resource.updateDisplayNo(resourceIdsOnly);					
+					}
+
 //					} 
 					getPriceNameByYear();
 				}
@@ -1782,6 +1793,7 @@ function button_saveResource(){
 			$("resourceId").value = newId;
 				   //全体排序---开始---
 //				   if(tvNameParam !='fztv'){
+					if(config_resconfigOrderbyTime == 0){
 				   		if($("displayNo").value==0){
 							var obj_tree = carrierType.tree.dhtmlTree;
 							var resourceIdsOnly=new Array();
@@ -1794,7 +1806,9 @@ function button_saveResource(){
 							}
 							resource.updateDisplayNo(resourceIdsOnly);
 							
-				   		}
+				   		}						
+					}
+
 //				   }
 
 					//全体排序---结束---
@@ -2052,6 +2066,7 @@ function saveAddandEditWorkspan(event){
 //						loadWorkSpances(newId);
 //						if(tvNameParam != 'fztv'){
 							//全体排序---开始---
+						if(config_resconfigOrderbyTime == 0){
 							var obj_tree = carrierType.tree.dhtmlTree;
 							var resourceIdsOnly=new Array();
 							var resourceIds=obj_tree.getAllLeafs().split(',');
@@ -2062,6 +2077,8 @@ function saveAddandEditWorkspan(event){
 								resourceIdsOnly.push(getRealIdByTreeId(resourceIds[i],3));
 							}
 							resource.updateDisplayNo(resourceIdsOnly);
+						}
+	
 							
 							//全体排序---结束---
 //						} 

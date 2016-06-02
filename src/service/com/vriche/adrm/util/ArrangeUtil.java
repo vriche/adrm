@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.model.FusionChartObject;
 import com.vriche.adrm.model.Income;
+import com.vriche.adrm.model.Matter;
 import com.vriche.adrm.model.PublishArrange;
 import com.vriche.adrm.model.PublishArrangeDetail;
 import com.vriche.adrm.model.PublishedInfo;
@@ -264,6 +265,7 @@ public class ArrangeUtil {
 		  sb.append("<cell><![CDATA["+ publishArrange.getIsLocked()  +"]]></cell>");
 //		  sb.append("<cell><![CDATA["+ publishArrangeDetail.getOwnerUserId()  +"]]></cell>");
 		  String orderId = StringUtil.null2String(publishArrangeDetail.getOrderId());
+//		  sb.append("<cell></cell>");
 		  sb.append("<cell><![CDATA[" +  StringUtil.null2String(publishArrangeDetail.getOrderCode()) +"^editOrder.html?id=" + orderId + "&orgId="+ orgId +"]]></cell>");
 		  sb.append("</row>");	
 		  
@@ -458,7 +460,7 @@ public class ArrangeUtil {
 //			  System.out.println("<<<<<<<getState   <<<<<<<" +state);
 			  
 			  List details = new ArrayList();
-			  getAdverList(details,adverList,resourceId,publishDate,state,isRoll);
+			  getAdverList(publishArrange,details,adverList,resourceId,publishDate,state,isRoll);
 			  
 
 			  publishArrange.setPublishArrangeDetails(details);
@@ -495,7 +497,7 @@ public class ArrangeUtil {
 		  return i++;
 	  }
 	  
-	  public static void getAdverList(List details,List adverList,Long resourceId,Integer publishDate,int state,boolean isRoll){
+	  public static void getAdverList(PublishArrange publishArrange,List details,List adverList,Long resourceId,Integer publishDate,int state,boolean isRoll){
 		  
 //		  for(Iterator it = adverList.iterator();it.hasNext();){
 //			  
@@ -560,7 +562,10 @@ public class ArrangeUtil {
 				  }
 			  }
 		  }
-		  if(details.size() > 0){
+		  
+		  boolean publicAdAutoFillParamParam =  SysParamUtil.getPublicAdAutoFillParamParam();
+		  
+		  if(details.size() > 0 || publicAdAutoFillParamParam){
 			  //编排过或锁定
 			  if(state == 0){
 //				  if(getFztvSpecialParam()){
@@ -579,7 +584,7 @@ public class ArrangeUtil {
 				  List middleAdver = new ArrayList();
 				  Object[] objs = details.toArray();
 				  
-				  getSortAdvers(objs,beforeSpecific,afterSpecific,middleAdver);
+				  getSortAdvers(publishArrange,objs,beforeSpecific,afterSpecific,middleAdver);
 
 				  int i = 1;
 				  //指定正位置  如 正一、正二...
@@ -680,17 +685,21 @@ public class ArrangeUtil {
 	  
 	  
 	  //把一个段位下广告分成三部分
-     public static void getSortAdvers(Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver){
+     public static void getSortAdvers(PublishArrange publishArrange,Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver){
     	 Map decomposeAdvers =  new HashMap();
     	 Map otherList =  new HashMap();
     	 int index = 0;
     	 
+    	 double resourceUsedTimes = 0;
     	 for (int i = 0; i< objs.length; i++){
     		 PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)objs[i];
     		 String specificValue = publishArrangeDetail.getSpecificValue();
     		 specificValue = specificValue == null|| "".equals(specificValue)?"0":specificValue;
     		 int times = publishArrangeDetail.getAdverTimes().intValue();
     		 boolean isSpaceAdver = publishArrangeDetail.getSpaceAdver().booleanValue();
+
+	    	 double length = Double.parseDouble( publishArrangeDetail.getMatterLength());
+	    	 resourceUsedTimes +=  times*length;
 //    		 List spaceAdverList = new ArrayList();
              
              String destBefo="123456789"; 
@@ -720,12 +729,135 @@ public class ArrangeUtil {
 		 int decomposeStep = 1;
 		 otherList.putAll(decomposeAdvers);
 		 decomposeAdver(decomposeAdvers,otherList,middleAdver,decomposeStep);
+		 
+		 
+		 
+	      boolean publicAdAutoFillParamParam =  SysParamUtil.getPublicAdAutoFillParamParam();
+    	 if(publicAdAutoFillParamParam){
+	    	 long aa = Math.round(resourceUsedTimes);
+	    	 //自动填冲公益广告
+	    	 publishArrange.setResourceUsedTimes(Integer.valueOf(aa+""));
+	    	 getPublicSerAdver(publishArrange,beforeSpecific,middleAdver,afterSpecific);
+    	 }
+    	 
 
 //    	 Collections.sort(middleAdver, new MiddleSpaceComparator());
     	 
      }
      
+     //公益广告自动填 beforeSpecific,middleAdver,afterSpecific
+	   public static void getPublicSerAdver(PublishArrange publishArrange,List<PublishArrangeDetail> beforeSpecific,List<PublishArrangeDetail> middleAdver,List<PublishArrangeDetail> afterSpecific){
+			SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+			String[] matterTypeList = sysParam.getDianpianParam().split(","); //垫片广告类型
+			Map mp = new HashMap();
+//			mp.put("matterType","3");
+			mp.put("matterTypeList",matterTypeList);
 
+			List<Matter> ls = ServiceLocator.getMatterDao().getMattersByIdList(mp);
+			Map<String,Matter> mpp = new HashMap<String,Matter>();
+			List<Matter> lsNormalAd = new ArrayList<Matter>();
+			
+			
+			System.out.println("getPublicSerAdver 666666666666666666666666666666    >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
+			
+			int kk = 0;
+			for(Matter mat:ls){
+				int pos = Integer.parseInt(StringUtil.getNullValue(mat.getPos(),"0")) ;
+				if(pos == 1){
+					mpp.put("F", mat);
+				}else if(pos == 2){
+					mpp.put("L", mat);
+				}else{
+					mpp.put(String.valueOf(kk++), mat);
+					lsNormalAd.add(mat);
+				}
+				
+			}
+			
+			System.out.println("getPublicSerAdver dddddddddd    >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+lsNormalAd.size());
+			
+			 double resourceLeave = Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceTotalTimes(),"0"))- Double.parseDouble(StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
+			 double pushTimes = 0;  
+			//正一 公益 
+			 if(mpp.containsKey("F")){
+				 PublishArrangeDetail detail = new PublishArrangeDetail();
+				 Matter mat = mpp.get("F");
+				 getPublishArrangeDetailByMatter(detail,mat);
+				 detail.setSpecificValue("0");
+//				 detail.setPublishSort(new Integer(0));
+				 pushTimes = Double.parseDouble(mat.getLength());
+				 if(resourceLeave >= pushTimes){
+					 beforeSpecific.add(detail);
+					 resourceLeave = resourceLeave - pushTimes;
+				 }
+			 }
+			//倒一 公益
+			 if(mpp.containsKey("L")){
+				 PublishArrangeDetail detail = new PublishArrangeDetail();
+				 Matter mat = mpp.get("L");
+				 getPublishArrangeDetailByMatter(detail,mat);
+				 detail.setSpecificValue("Z");
+				 pushTimes = Double.parseDouble(mat.getLength());
+				 if(resourceLeave >= pushTimes){
+					 afterSpecific.add(detail);
+					 resourceLeave = resourceLeave - pushTimes;
+				 }
+			 }
+			
+			//没指定的公益广告或宣传片
+			 while(resourceLeave >=0 && lsNormalAd.size() >0 ){
+				 resourceLeave =  pushMidleAd(resourceLeave,lsNormalAd,middleAdver);
+			 }
+			
+//			setPublicSerAdveRoll(ls,publishArrange.getPublishDate());
+//			System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
+			
+//			getOneResUsedTimes(publishArrange);
+//			System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>>getResourceUsedTimes>>>>>>>>>   "+ StringUtil.getNullValue(publishArrange.getResourceUsedTimes(),"0"));
+
+//			 org.apache.commons.beanutils.BeanUtils.copyProperties(det,detail);
+	  
+	   }
+	   
+	   private static void getPublishArrangeDetailByMatter(PublishArrangeDetail detail, Matter mat){
+		   Object obj = mat.getEnable();
+			 Long matterId = mat.getId();
+			 boolean isEnable = obj==null?false:mat.getEnable().booleanValue();
+		     String tapeCode =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getTapeCode()));
+			 String matterName =  StringUtil.encodeStringXML(StringUtil.getResourceName(mat.getName()));
+			 String matterEdit =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getEdit()));
+			 String matterLength = mat.getLength();
+			 Long brandId = mat.getBrandId();
+			 Long brandId2 = mat.getBrandId2();
+
+			 detail.setPublishSort(new Integer(0));
+			 detail.setResourceId(new Long(0));
+			 detail.setTapeCode(tapeCode);
+			 detail.setMatterName(matterName);
+			 detail.setMatterId(matterId);
+			 detail.setMatterEdit(matterEdit);
+			 detail.setMatterLength(matterLength);
+			 detail.setAdverTimes(new Integer(1));
+			 detail.setSpecificName("");
+			 detail.setSpecificValue("");
+			 detail.setOrderDayId(new Long(0));
+			 detail.setOrderDetailId(new Long(0));
+			 detail.setOrderId(new Long(0));
+			 detail.setBrandId(brandId);
+	   }
+	   
+	   private static double pushMidleAd(double resourceLeave,List<Matter> ls,List<PublishArrangeDetail> middleAdver){
+			for(Matter mat:ls){
+				 PublishArrangeDetail detail = new PublishArrangeDetail();
+				 getPublishArrangeDetailByMatter(detail,mat);
+				 double pushTimes = Double.parseDouble(mat.getLength());
+				 if(resourceLeave >= pushTimes){
+					 middleAdver.add(detail);
+				 }
+				 resourceLeave = resourceLeave - pushTimes;
+			}
+		   return resourceLeave;
+	   }
 
      
      //把需要串开的广告从MAP中取出，从所有广告中依次取出间隔放进， 所有=需要串开的广告+其它

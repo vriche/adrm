@@ -99,7 +99,7 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
     	String date = DateUtil.getDate();
     	String autoCode ="";
     	String tvName = SysParamUtil.getTvNameParam();
-//    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
+    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
 //    	boolean xmtv = SysParamUtil.isXMTVParam(tvName);
 		int startNo = 5;
 		String nextIncomeCode = "1";
@@ -128,6 +128,11 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
     	
     	//如果有前缀
 //    	if(prefix!=null) datecode = prefix;
+    	
+//    	if(fztv){
+//    		datecode = year;
+//    		startNo = 4;
+//    	}
    
 
     	if(currentNext == null){
@@ -196,7 +201,7 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
     	String mm="";
     	
     	String tvName = SysParamUtil.getTvNameParam();
-//    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
+    	boolean fztv = SysParamUtil.isFZTVParam(tvName);
     	boolean xmtv = SysParamUtil.isXMTVParam(tvName);
     	boolean qztv = SysParamUtil.isQZTVParam(tvName);
     	boolean hbtv = SysParamUtil.isHBTVParam(tvName);
@@ -231,10 +236,10 @@ public class SysSequenceManagerImpl extends BaseManager implements SysSequenceMa
 		
 //    	String datecode = date.substring(2,6);
     	String datecode = yy + mm;
-//    	if(fztv){
-//    		datecode = year;
-//    		startNo = 8;
-//    	}
+    	if(fztv){
+    		datecode = yy;
+    		startNo = 4;
+    	}
     	
     	if((xmtv||qztv||hbtv||sxtv)){
     		if(Constants.SEQUENCE_TB_INCOME.equals(name)){

@@ -65,6 +65,9 @@ public interface DayInfoDao extends Dao {
     
     public void saveDayInfo2(final Map newResMap);
     
+    public void updateDayInfoLock(final Map newResMap);
+    
+    
   
 }
 

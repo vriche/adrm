@@ -183,6 +183,13 @@ public class ResourceManagerImpl extends BaseManager implements ResourceManager 
 		boolean isMeno = SysParamUtil.getResourceDisplay();
 		Resource res = new Resource();
 		res.setCarrierId(new Long(carrierId));
+		
+		if(SysParamUtil.getResconfigOrderbyTimeParam()){
+			res.setOrderBy(new Integer(1));
+		}else{
+			res.setOrderBy(new Integer(0));
+		}
+		
 		List ls = dao.getResources(res);
 		
 		
@@ -1270,6 +1277,13 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		if(!typeId.equals("0")){
 			res.setResourceType(new Integer(typeId));
 		}
+		
+		if(SysParamUtil.getResconfigOrderbyTimeParam()){
+			res.setOrderBy(new Integer(1));
+		}else{
+			res.setOrderBy(new Integer(0));
+		}
+		
 		List ls = dao.getResources(res);
 
 		
@@ -1308,6 +1322,12 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		Resource res = new Resource();
 		res.setCarrierId(new Long(carrierId));
 		res.setVersion(new Integer(year));
+		
+		if(SysParamUtil.getResconfigOrderbyTimeParam()){
+			res.setOrderBy(new Integer(1));
+		}else{
+			res.setOrderBy(new Integer(0));
+		}
 		
 		if(resType != null){
 			if(resType.intValue() !=999 ) res.setResourceType(resType);
@@ -1370,7 +1390,13 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		res.setCarrierId(new Long(carrierId));
 		res.setVersion(new Integer(year));
 		
-//		System.out.println("getResourceItemsByCarrierIdByYearTest>>>>>kkkkkkkkkkkkkk>>>>>>>>>>enable = " +enable);
+		if(SysParamUtil.getResconfigOrderbyTimeParam()){
+			res.setOrderBy(new Integer(1));
+		}else{
+			res.setOrderBy(new Integer(0));
+		}
+		
+		System.out.println("SysParamUtil.getResconfigOrderbyTimeParam()>>>>>kkkkkkkkkk = " +SysParamUtil.getResconfigOrderbyTimeParam());
 		
 		if(enable){
 			res.setEnable(new Boolean(true));
@@ -1465,6 +1491,17 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		if(resourceType !=null){ 
 			if(resourceType.intValue() > 0) res.setResourceType(resourceType);
 		}  
+		
+		
+		if(SysParamUtil.getResconfigOrderbyTimeParam()){
+			res.setOrderBy(new Integer(1));
+		}else{
+			res.setOrderBy(new Integer(2));
+		}
+		
+
+		
+		
 		List ls2 = dao.getResourcesOrderbyBroStartTime(res);
 		
 		List ls = StringUtilsv.singleElement(ls2);
@@ -1676,16 +1713,18 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //		StringUtilsv.printMap(searchMap);
 //		System.out.println("version>>>>yyyyyyyyyyyyyyyyyyyyyyyy>>>>>>>>>>"+version) ;
 		System.out.println("getTree nodeType>>>>yyyyyyyyyyyyyyyyyyyyyyyy>>>>>>>>>>"+nodeType) ;
-		System.out.println("getTree nodeId>>>>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>>>>>>>>>>"+nodeId) ;
+//		System.out.println("getTree nodeId>>>>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>>>>>>>>>>"+nodeId) ;
 	
 		if("0".equals(nodeType)&& "0".equals(nodeId)){
-			System.out.println("getTree orgId>>>>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>>>>>>>>>>"+orgId) ;
+			
 			CarrierType cType = new CarrierType();
 //			cType.setOrgId(new Long(org.getId().toString()));
 			cType.setOrgId(new Long(orgId));
 			cType.setParentId(new Long("0"));
+//			System.out.println("getTree orgId>>>>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>>>>>>>>>>"+orgId) ;
+//			System.out.println("getTree orgId>>>>888888888888888888888888888888>>>>>>>>>>"+orgId) ;
 			List ls3 = ServiceLocator.getCarrierTypeDao().getCarrierTypes(cType);
-//			System.out.println("ls3>>>>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>>>>>>>>>>"+ls3.size()) ;
+			System.out.println("ls3  3333333333333 >>>>zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>>>>>>>>>>"+ls3.size()) ;
 		
 			Iterator it = ls3.iterator();
 			while (it.hasNext()) {
@@ -1711,7 +1750,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //					isLeaf = true;
 //				}
 		
-                if(!"hntv".equals(tvName)&&!"fztv".equals(tvName)){
+//                if(!"hntv".equals(tvName)&&!"fztv".equals(tvName)){
     				map.put("id", "carrierType_"+ ct.getId());
     				map.put("text", ct.getName());
     				map.put("leaf", new Boolean(false));
@@ -1722,7 +1761,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
     				map.put("expanded",  new Boolean(true));
 //    				if (!isLeaf) map.put("expanded",  new Boolean(true));
     				trees.add(map);
-                }
+//                }
 
 				
 				getCarrierTypeByParent(ct,version,orgId,trees);
@@ -1796,6 +1835,14 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 			
 			Resource resourcePar= new Resource();
 			resourcePar.setCarrierId(carrier2.getId());
+			
+			if(SysParamUtil.getResconfigOrderbyTimeParam()){
+				resourcePar.setOrderBy(new Integer(1));
+			}else{
+				resourcePar.setOrderBy(new Integer(0));
+			}
+			 
+			
 //			resourcePar.setEnable(new Boolean(true));
 			List ls5 = dao.getResources(resourcePar);
 			boolean isLeaf2 = (ls5.size() == 0);
@@ -1834,13 +1881,19 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //		resourcePar.setEnable(new Boolean(true));
 //		List ls2 = dao.getResources(resourcePar);
 		
+		if(SysParamUtil.getResconfigOrderbyTimeParam()){
+			resourcePar.setOrderBy(new Integer(1));
+		}else{
+			resourcePar.setOrderBy(new Integer(0));
+		}
+		
 		List ls = dao.getResourcesOrderbyBroStartTime(resourcePar);
-		List ls2 = StringUtilsv.singleElement(ls);
+//		List ls2 = StringUtilsv.singleElement(ls);
 
 		
 //		System.out.println("ls2>>>>yyyyyyyyyyyyyyyyyyyyyyyy>>>>>>>>>>"+ls2.size()) ;
 		
-		Iterator it2 = ls2.iterator();
+		Iterator it2 = ls.iterator();
 		while (it2.hasNext()) {
 			Map map = new HashMap();
 			Resource resource = (Resource) it2.next();
@@ -2105,6 +2158,14 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //				resParam.setIsValidate(null);
 
 				resParam.setCarrierId(carId_old);
+				
+				if(SysParamUtil.getResconfigOrderbyTimeParam()){
+					resParam.setOrderBy(new Integer(1));
+				}else{
+					resParam.setOrderBy(new Integer(0));
+				}			
+
+				
 				List lsRes = dao.getResources(resParam);
 				
 				System.out.println("yyyyyyyyyyyyyyyyyyyyyyyy lsRes.size  >>>>>>>>>>" +lsRes.size()) ;
@@ -2403,7 +2464,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 				mp.put("workspanIdList",workspanIdList);
 				mp.put("resourceIdList",resourceIdList);
 			}
-			Collection ls  = dao.getResourcesForQuery2(mp);
+			Collection ls  = dao.getResourcesForQuery2(mp); 
 			
 //			 System.out.println("getResourcesForQuery2<<<<<<<<<!resourceIdList<<<<<<<"+resourceIdList);
 //			 System.out.println("getResourcesForQuery2<<<<<<<<<!workspanIdList<<<<<<<"+workspanIdList);

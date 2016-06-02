@@ -3550,7 +3550,7 @@ public void getOrderDayInfosByOrderDetailId(Order orderCur,Order orderBackUp,Lon
 				}
 //						System.out.println("spec_res>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+ spec_res); 
 				newDayInfosMap.put(day_info.getId(),day_info);	
-				
+				System.out.println("money_in>>>>>>>>>>>>>>333333333333333333>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+ money_in); 
 //				if(!lsCur.contains(new Long(idd))){
 					if(money_in >0){
 						orderDayInfo.setAdDayTimes(new Integer(0));
@@ -3652,11 +3652,13 @@ public void removeOrderDetailByDetailId(Order orderBackUp,String orderDetailId,S
 
 	List lsUpdate = new ArrayList();
 	Map newDayInfosMap = new HashMap(); 
-	boolean isDisplayMonDetail = (orderBackUp.getIsDisplayMonDetail().intValue() == 5);
+	boolean isDisplayMonDetail = (orderBackUp.getIsDisplayMonDetail().intValue() == 5);   //²ğ·ÖÔÂ·İ
 	int model = Integer.parseInt(StringUtil.getNullValue(orderBackUp.getOrderCategoryMain(),"0"));
 	Long id = new Long(orderDetailId);
 	orderBackUp.setTempStr(year_month);
 	getOrderDayInfosByOrderDetailId(null,orderBackUp,id,newDayInfosMap,lsUpdate,0,isDisplayMonDetail);
+	
+//	System.out.println("lsUpdate.size()>>>>>>>>>>>>>>333333333333333333>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+ lsUpdate.size()); 
 	
 	Map orderDetailMap =  getOrderDetailMap(orderBackUp);
 	double sumMoney = orderBackUp.getOrderPublic().getMoneyRealpay().doubleValue();
@@ -3683,10 +3685,15 @@ public void removeOrderDetailByDetailId(Order orderBackUp,String orderDetailId,S
    			orderDayInfos[bb] = orderDayInfo;
    		}
    	
-   		orderDayInfoDao.saveOrderDayInfosNew(orderDayInfos); 
-   		
-   		orderDetailDao.removeOrderDetail(id);
-   		
+
+		if(orderDayInfos.length >0){
+			orderDayInfoDao.saveOrderDayInfosNew(orderDayInfos); 
+		}else{
+			orderDayInfoDao.removeOrderDayInfoByOrderDetailId(id);
+			orderDetailDao.removeOrderDetail(id);
+		}
+		
+   
    		
    		System.out.println("removeOrderDetailByDetailId model >>>>>>>>>>>>>>>>>>>>>>>  "+model);
    		System.out.println("removeOrderDetailByDetailId sumMoney >>>>>>>>>>>>>>>>>>>>>>>  "+sumMoney);

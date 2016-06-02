@@ -377,14 +377,23 @@ Matter.prototype.fillTalbe = function(objs){
 					function(obj){ return obj.length},
 					function(obj){ return encode_data_xml(obj.tapeCode)},
 					function(obj){return encode_data_xml(obj.matType.name)},
-					function(obj){ return encode_data_xml(obj.customer.customerName)},
+//					function(obj){ return encode_data_xml(obj.customer.customerName)},
 					
 					function(obj){ 
 						var v =  obj.industry.parentName!=''&& obj.industry.parentName != null?obj.industry.parentName+'/'+obj.industry.name:obj.industry.name
 						return encode_data_xml(v);
 						},
 						
-					function(obj){ return encode_data_xml(obj.memo)},
+					function(obj){
+							var i = obj.pos;
+							if(i == 1){
+								return encode_data_xml("Ê×Ò»");
+							}else if(i == 2){
+								return encode_data_xml("Î²Ò»");
+							}else{
+								return ""
+;							}
+						},
 						
 					function(obj){ return formatDateGlobal3(obj.createDate)},
 					

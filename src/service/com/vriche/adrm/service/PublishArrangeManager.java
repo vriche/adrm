@@ -70,7 +70,7 @@ public interface PublishArrangeManager extends Manager {
     
     public Map getPublishArrangeSelect(PublishArrange publishArrange) ;
     
-    public void uploadFiles(String server,String user,String pass,String fileName);
+    public void uploadFiles(String server,String port,String user,String pass,String fileName);
     public void downloadAdvers(PublishArrange publishArrange,int type);
     
     public Collection getReportColl(PublishArrange publishArrange, boolean rebuild,boolean isRoll,boolean onlyHistory);

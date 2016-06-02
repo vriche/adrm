@@ -44,6 +44,7 @@ import org.apache.commons.lang.StringUtils;
 import com.ibatis.common.resources.Resources;
 import com.ibatis.common.util.PaginatedList;
 import com.vriche.adrm.Constants;
+import com.vriche.adrm.dao.DayInfoDao;
 import com.vriche.adrm.dao.IndustryDao;
 import com.vriche.adrm.dao.MatterDao;
 import com.vriche.adrm.dao.PublishArrangeDao;
@@ -67,6 +68,7 @@ import com.vriche.adrm.util.ArrangeUtil3;
 import com.vriche.adrm.util.CarrierUtil;
 import com.vriche.adrm.util.ConvertUtil;
 import com.vriche.adrm.util.DateUtil;
+import com.vriche.adrm.util.FTP;
 import com.vriche.adrm.util.FileUtil;
 import com.vriche.adrm.util.RequestUtil;
 import com.vriche.adrm.util.ResourceUtil;
@@ -74,7 +76,6 @@ import com.vriche.adrm.util.ServiceLocator;
 import com.vriche.adrm.util.StringUtil;
 import com.vriche.adrm.util.StringUtilsv;
 import com.vriche.adrm.util.SysParamUtil;
-import com.vriche.adrm.util.UploadUtil;
 import com.vriche.adrm.util.UserUtil;
 
 public class PublishArrangeManagerImpl extends BaseManager implements PublishArrangeManager {
@@ -84,9 +85,11 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
     private MatterDao matterDao;
     private IndustryDao industryDao;
     private WorkspanDao workspanDao;
+    private DayInfoDao dayInfoDao;
     
 
-    /**
+  
+	/**
 	 * Set the Dao for communication with the data layer.
 	 * 
 	 * @param dao
@@ -123,6 +126,13 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 	public void setWorkspanDao(WorkspanDao workspanDao) {
 		this.workspanDao = workspanDao;
 	}
+	
+	  public void setDayInfoDao(DayInfoDao dayInfoDao) {
+			this.dayInfoDao = dayInfoDao;
+		}
+	  
+	  
+	  
    /**
 	 * @see com.vriche.adrm.service.PublishArrangeManager#getPublishArranges(com.vriche.adrm.model.PublishArrange)
 	 */
@@ -163,6 +173,17 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 	 *      publishArrange)
 	 */
     public String savePublishArrange(PublishArrange publishArrange) {
+    	//改变资源日信息的锁定状态
+    	Long resId = publishArrange.getResourceId();
+    	List idListRes = new ArrayList();
+    	idListRes.add(resId);
+    	
+    	Map mp = new HashMap();
+       	mp.put("isLocked",publishArrange.getIsLocked());
+        mp.put("publishDate",publishArrange.getPublishDate());
+        mp.put("idList",idListRes);
+        dayInfoDao.updateDayInfoLock(mp); 
+
         return dao.savePublishArrange(publishArrange).toString();
     }
 
@@ -186,6 +207,7 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
     	boolean isLockb=true;
     	Map mp = new HashMap();
     	List idList = new ArrayList();
+    	List idListRes = new ArrayList();
     	PublishArrange publish =new PublishArrange();
     	publish.setCarrierId(carrierId);
     	publish.setPublishDate(publishDate);
@@ -197,11 +219,21 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
     		PublishArrange publishArr = (PublishArrange)it.next();
 //    		publish.setIsLocked(new Boolean(isLockb));
     		idList.add(publishArr.getId());
+    		idListRes.add(publishArr.getResourceId());
     	}
-    	if(ls.size()==0) idList.add(new Integer(-1));
+    	if(ls.size()==0) {
+    		idList.add(new Integer(-1));
+    		idListRes.add(new Integer(-1));
+    	}
     	mp.put("isLocked",new Boolean(isLockb));
     	mp.put("idList",idList);
         dao.updatePublishArrangeLock(mp);
+        //修改资源日信息的锁定状态
+        mp.put("idList",idListRes);
+        mp.put("publishDate",publishDate);
+        dayInfoDao.updateDayInfoLock(mp); 
+        
+       
     }
     
     
@@ -338,7 +370,7 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 			
 // System.out.println(">>>>>>listResource.size>>>>>>>>>"+listResource.size());
 // System.out.println(">>>>>>listAdver.size>>>>>>>>>"+listAdver.size());
-			if("catv".equals(tvname)){
+			if("catv".equals(tvname) || "fztv".equals(tvname)){
 				ArrangeUtil.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
 			}else{
 				ArrangeUtil3.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
@@ -399,7 +431,7 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 //			System.out.println(">>>>>>> resArranged.size()>>>>>>>" + resArranged.size());
 //			System.out.println(">>>>>>> noLocked.size()>>>>>>>" + noLocked.size());
 			
-			if("catv".equals(tvname)){
+			if("catv".equals(tvname)|| "fztv".equals(tvname)){
 				ArrangeUtil.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
 			}else{
 				ArrangeUtil3.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
@@ -581,9 +613,37 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 		return  dao.getPublishArrangesByIdListFromHistory(mp);
 	}
 
-	public void uploadFiles(String server,String user,String pass,String publishDate) {
-		System.out.println(server+">>"+user+">>"+pass+"*****"+publishDate);  
-		UploadUtil.putFtpFile(server,user,pass,publishDate);  
+	public void uploadFiles(String server,String prot,String user,String pass,String publishDate) {
+		
+		System.out.println("ftp start.................");  
+		
+		System.out.println(server+">>"+prot+">>"+user+">>"+pass+"*****"+publishDate);  
+		
+//		UploadUtil.putFtpFile(server,prot,user,pass,publishDate);  
+		
+		
+		  FTP ftp = new FTP(user,pass,server,Integer.valueOf(prot));
+		  ftp.connectServer();
+//		  ftp.listRemoteAllFiles("/");
+		  System.out.println(server+">>3>>"+user+">>"+pass+"*****"+publishDate);  
+		
+		  String path = "";     
+		  String fileName = FileUtil.getDateDir(new Integer(publishDate));
+//		  System.out.println(fileName+">>>4>>");  
+		  
+		   File file_in = new File(fileName);  
+		   File[] file = file_in.listFiles();
+
+		   for(int i=0;i<file.length;i++){
+			   String f = fileName+Constants.FILE_SEP+ file[i].getName();
+//			   System.out.println(f+">>>>>"+i);Constants.FILE_SEP+
+			   ftp.upFile(Constants.FILE_SEP, file[i].getName(), file[i].getAbsolutePath());
+			
+		   }
+		
+		//  ftp.downFile("/测试报告", "测试报告.mmap", "D:\development\workspace\swing");
+		  
+		  ftp.closeConnect();
 	}  	
 	
 public void downloadAdvers(PublishArrange publishArrange,int type) {
@@ -688,10 +748,13 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				List advTypels = industryDao.getIndustrys(new Industry());
 				List advsegls = workspanDao.getWorkspansByIdList(mps);  
 				mps.put("enable","1");          
-				mps.put("resourceType","3");
+//				mps.put("resourceType","3");
 				mps.put("version",publishDate.toString().substring(0,4));
 				mps.put("PublishDate",publishDate);
 				List advsfgls = workspanDao.getWorkspansByIdList(mps);
+				
+				System.out.println("advsfgls  ttttttttttttttttttttt>>>advsfgls.size()>>>>>>"+advsfgls.size());
+				
 				
 				String fileString1  = this.fileContent1(matterls);
 				String fileString2  = this.fileContent2(advTypels);
@@ -835,7 +898,10 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)it.next();
 //				PublishArrange publishArrange = this.getPublishArrange(publishArrangeDetail.getPublishArrangeId().toString());
 				String playTime = DateUtil.formatTime(publishArrangeDetail.getPublishDate().longValue()*1000,"h:m:s");
-				String  matterId=publishArrangeDetail.getMatterId().toString();
+				playTime = StringUtils.trim(playTime);
+//				String  matterId=publishArrangeDetail.getMatterId().toString();
+				String  matterId=publishArrangeDetail.getTapeCode();
+				
 				String  resourceId=publishArrangeDetail.getResourceId().toString();
 				for(int j=8-matterId.length();j>0;j--){
 					matterId="0"+matterId;
@@ -845,9 +911,8 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				}
 				if(resId.equals(resourceId)) {playTime=DateUtil.formatTime((publishArrangeDetail.getPublishDate().longValue()+matterLength)*1000,"h:m:s");matterLength+=Long.parseLong(publishArrangeDetail.getMatterLength());}
 				if(!resId.equals(resourceId)) {resId=resourceId;matterLength=Long.parseLong(publishArrangeDetail.getMatterLength());}
-
 				str.append("<detail advseg_name=\""+ StringUtil.null2String(publishArrangeDetail.getSpecificValue())  +"\"");   
-				str.append(" startplaytime=\""+StringUtil.null2String(playTime) +"\"");  
+				str.append(" startplaytime=\""+StringUtil.null2String(StringUtils.trim(playTime)) +"\"");  
 				str.append(" play_index=\""+StringUtil.null2String(publishArrangeDetail.getPublishSort()) +"\"");
 				str.append(" mat_id=\""+StringUtil.null2String(matterId) +"\"");
 				str.append(" adv_edition=\""+StringUtil.null2String(publishArrangeDetail.getMatterName()+"("+publishArrangeDetail.getMatterEdit()+")") +"\"");
@@ -944,10 +1009,14 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 			while(it.hasNext()){
 
 				Matter matter = (Matter)it.next();
-				String  matterId=matter.getId().toString();
+//				String  matterId=matter.getId().toString();
+				String  matterId=matter.getTapeCode();
+				
 				for(int j=8-matterId.length();j>0;j--){
 					matterId="0"+matterId;
-				}                   		
+				}     
+				
+				
 				String edit  = matter.getEdit();
 				String name = matter.getName();
 
@@ -983,7 +1052,13 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				String typeId=matterType.getId().toString().length()==1?"0"+matterType.getId():matterType.getId().toString();
 				if(!typeId.equals("00")){ 
 					str.append("<detail type_id=\""+ StringUtil.null2String(typeId)  +"\"");
-					str.append(" type_name=\""+StringUtil.null2String(matterType.getName()) +"\"/>");
+					int byteSize = StringUtil.byteLength(StringUtil.null2String(matterType.getName()));
+					if(byteSize >18){
+						str.append(" type_name=\""+ StringUtil.substring(StringUtil.null2String(matterType.getName()), 18)  +"\"/>");
+					}else{
+						str.append(" type_name=\""+ StringUtil.null2String(matterType.getName()) +"\"/>");
+					}
+					
 				}
 
 			}
@@ -1001,50 +1076,52 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				Workspan workspan = (Workspan)it.next();
 				String weekdayLength="";
 				String length = "";         
-				if(workspan.getMonLength()!=null&&!workspan.getMonLength().equals("")){
+				if(workspan.getMonLength()!=null && ! "".equals(workspan.getMonLength())){
 					weekdayLength="1";  
-					length = ""+(Integer.parseInt(workspan.getMonLength())+workspan.getPropertiyTime().intValue()); 
+					length = ""+(Integer.parseInt(workspan.getMonLength())); 
 				}else{
 					weekdayLength="0";
 				}
-				if(workspan.getTueLength()!=null&&!workspan.getTueLength().equals("")){
+				if(workspan.getTueLength()!=null && !"".equals(workspan.getTueLength())){
 					weekdayLength+="1";
-					length = ""+(Integer.parseInt(workspan.getTueLength())+workspan.getPropertiyTime().intValue());
+					length = ""+(Integer.parseInt(workspan.getTueLength()));
 				}else{
 					weekdayLength+="0";
 				}
-				if(workspan.getWenLength()!=null&&!workspan.getWenLength().equals("")){
+				if(workspan.getWenLength()!=null && !"".equals(workspan.getWenLength())){
 					weekdayLength+="1";
-					length = ""+(Integer.parseInt(workspan.getWenLength())+workspan.getPropertiyTime().intValue());
+					length = ""+(Integer.parseInt(workspan.getWenLength()));
 				}else{
 					weekdayLength+="0";
 				}
-				if(workspan.getThiLength()!=null&&!workspan.getThiLength().equals("")){
+				if(workspan.getThiLength()!=null && !"".equals(workspan.getThiLength())){
 					weekdayLength+="1";
-					length = ""+(Integer.parseInt(workspan.getThiLength())+workspan.getPropertiyTime().intValue());
+					length = ""+(Integer.parseInt(workspan.getThiLength()));
 				}else{
 					weekdayLength+="0";
 				}
-				if(workspan.getFriLength()!=null&&!workspan.getFriLength().equals("")){
+				if(workspan.getFriLength()!=null && !"".equals(workspan.getFriLength())){
 					weekdayLength+="1";
-					length = ""+(Integer.parseInt(workspan.getFriLength())+workspan.getPropertiyTime().intValue());
+					length = ""+(Integer.parseInt(workspan.getFriLength()));
 				}else{
 					weekdayLength+="0";
 				}
-				if(workspan.getSatLength()!=null&&!workspan.getSatLength().equals("")){
+				if(workspan.getSatLength()!=null && !"".equals(workspan.getSatLength())){
 					weekdayLength+="1";
-					length = ""+(Integer.parseInt(workspan.getSatLength())+workspan.getPropertiyTime().intValue());
+					length = ""+(Integer.parseInt(workspan.getSatLength()));
 				}else{
 					weekdayLength+="0";
 				}
-				if(workspan.getSunLength()!=null&&!workspan.getSunLength().equals("")){
+				if(workspan.getSunLength()!=null && ! "".equals(workspan.getSunLength())){
 					weekdayLength+="1";   
-					length = ""+(Integer.parseInt(workspan.getSunLength())+workspan.getPropertiyTime().intValue());
+					length = ""+(Integer.parseInt(workspan.getSunLength()));
 				}else{
 					weekdayLength+="0";
 				}    
 
 				String playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
+				playTime = StringUtils.trim(playTime);
+				
 				String  spanId=workspan.getResourceId().toString();
 				for(int j=8-spanId.length();j>0;j--){
 					spanId="0"+spanId;
@@ -1057,9 +1134,10 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 //					if(workspan.getResourceId().intValue()==1424) 
 //					if(channel.getId().intValue()==workspan.getId().intValue()){
 //						channelId=channel.getChannelId().toString();
-//					}
+//					} 
 //							
-//				}                        
+//				}              
+				
 				if(channelId.length()<10) channelId="0"+channelId;
 				String  cancelFlag = workspan.getResourceType().intValue()==1?"0":"1";
 				str.append("<detail advseg_name=\""+ StringUtil.null2String(workspan.getMemo())  +"\"");
@@ -1077,6 +1155,85 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 	
 		return str.toString();
 	}
+	
+	
+//	private String fileContent3(List oneResourceAdvers){  
+//		Iterator it = oneResourceAdvers.iterator();
+//
+//		StringBuffer str= new StringBuffer();
+//			str.append("<advseglist>"); 
+//			while(it.hasNext()){
+//				Workspan workspan = (Workspan)it.next();
+//				String weekdayLength="";
+//				String length = "";         
+//				if(workspan.getMonLength()!=null&&!workspan.getMonLength().equals("")){
+//					weekdayLength="1";  
+//					length = ""+(Integer.parseInt(workspan.getMonLength())+workspan.getPropertiyTime().intValue()); 
+//				}else{
+//					weekdayLength="0";
+//				}
+//				if(workspan.getTueLength()!=null&&!workspan.getTueLength().equals("")){
+//					weekdayLength+="1";
+//					length = ""+(Integer.parseInt(workspan.getTueLength())+workspan.getPropertiyTime().intValue());
+//				}else{
+//					weekdayLength+="0";
+//				}
+//				if(workspan.getWenLength()!=null&&!workspan.getWenLength().equals("")){
+//					weekdayLength+="1";
+//					length = ""+(Integer.parseInt(workspan.getWenLength())+workspan.getPropertiyTime().intValue());
+//				}else{
+//					weekdayLength+="0";
+//				}
+//				if(workspan.getThiLength()!=null&&!workspan.getThiLength().equals("")){
+//					weekdayLength+="1";
+//					length = ""+(Integer.parseInt(workspan.getThiLength())+workspan.getPropertiyTime().intValue());
+//				}else{
+//					weekdayLength+="0";
+//				}
+//				if(workspan.getFriLength()!=null&&!workspan.getFriLength().equals("")){
+//					weekdayLength+="1";
+//					length = ""+(Integer.parseInt(workspan.getFriLength())+workspan.getPropertiyTime().intValue());
+//				}else{
+//					weekdayLength+="0";
+//				}
+//				if(workspan.getSatLength()!=null&&!workspan.getSatLength().equals("")){
+//					weekdayLength+="1";
+//					length = ""+(Integer.parseInt(workspan.getSatLength())+workspan.getPropertiyTime().intValue());
+//				}else{
+//					weekdayLength+="0";
+//				}
+//				if(workspan.getSunLength()!=null&&!workspan.getSunLength().equals("")){
+//					weekdayLength+="1";   
+//					length = ""+(Integer.parseInt(workspan.getSunLength())+workspan.getPropertiyTime().intValue());
+//				}else{
+//					weekdayLength+="0";
+//				}    
+//
+//				String playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
+//				String  spanId=workspan.getResourceId().toString();
+//				for(int j=8-spanId.length();j>0;j--){
+//					spanId="0"+spanId;
+//				}
+//				String channelId=workspan.getCarrierId();      
+//
+//                   
+//				if(channelId.length()<10) channelId="0"+channelId;
+//				String  cancelFlag = workspan.getResourceType().intValue()==1?"0":"1";
+//				str.append("<detail advseg_name=\""+ StringUtil.null2String(workspan.getMemo())  +"\"");
+//				str.append(" chan_id=\""+StringUtil.null2String(channelId) +"\"");
+//				str.append(" startplaytime=\""+StringUtil.null2String(playTime.trim()) +"\"");
+//				str.append(" seg_len=\""+StringUtil.null2String(length) +"\""); 
+//				str.append(" date_limit=\""+StringUtil.null2String("1") +"\"");
+//				str.append(" startdate=\""+StringUtil.null2String(workspan.getBeginDate()) +"\"");
+//				str.append(" enddate=\""+StringUtil.null2String(workspan.getEndDate()) +"\"");
+//				str.append(" weekday=\""+StringUtil.null2String(weekdayLength) +"\"");
+//				str.append(" cancel_flag=\""+StringUtil.null2String(cancelFlag) +"\""); 
+//				str.append(" adv_segid=\""+StringUtil.null2String(spanId) +"\"/>");
+//				}
+//			str.append("</advseglist>");  
+//	
+//		return str.toString();
+//	}
 	private String fileContent4(List oneResourceAdvers){
 		Iterator it = oneResourceAdvers.iterator();
 		StringBuffer str= new StringBuffer();
@@ -1094,6 +1251,8 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				if(workspan.getFriLength()!=null&&!workspan.getFriLength().equals("")) {length=workspan.getFriLength();}
 				if(workspan.getSatLength()!=null&&!workspan.getSatLength().equals("")) {length=workspan.getSatLength();}   
 				String playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
+				
+				playTime = StringUtils.trim(playTime);
 				
 				String  spanId=workspan.getResourceId().toString();
 				for(int j=8-spanId.length();j>0;j--){

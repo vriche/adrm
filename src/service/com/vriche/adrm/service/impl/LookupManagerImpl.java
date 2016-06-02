@@ -76,6 +76,7 @@ import com.vriche.adrm.util.OrderCateFitterUtil;
 import com.vriche.adrm.util.ScriptRunner;
 import com.vriche.adrm.util.ServiceLocator;
 import com.vriche.adrm.util.StringUtil;
+import com.vriche.adrm.util.SysParamUtil;
 
 
 
@@ -610,6 +611,30 @@ private void getBranchByParnetId(Long branchId,List BranchParentList){
 				param.setResourceUseCustomerCatelog(v); 
 			}	
 			
+
+		    //ftp服务器
+				if(sysParam.getName().equals(Constants.FTP_SERVVICE_CONFIG)){
+					String v = sysParam.getValue();
+					v = v ==null|| "".equals(v)?"ip:172.16.1.249,port:21,user:new,pass:123456":v;
+					param.setFtpConfig(v);
+				}	
+				
+				
+			    // 公益广告自动添加
+				if(sysParam.getName().equals(Constants.PUBLIC_AD_AUTO_FILL)){
+					String v = sysParam.getValue();
+					v = v ==null|| "".equals(v)?"0":v;
+					param.setPublicAdAutoFill(v);
+				}
+				
+			    //时段维护根据时间排序
+				if(sysParam.getName().equals(Constants.RESCONFIG_ORDER_BY_TIME)){
+					String v = sysParam.getValue();
+					v = v ==null|| "".equals(v)?"0":v;
+					param.setResconfigOrderbyTime(v);
+				}
+				
+			
 		}
 		return param;
 		
@@ -672,6 +697,16 @@ public Map getResourceMap() {
 		Carrier carrierRes = (Carrier)it.next();
 		Resource resource = new Resource();
 		resource.setCarrierId(carrierRes.getId());
+		
+		if(SysParamUtil.getResconfigOrderbyTimeParam()){
+			resource.setOrderBy(new Integer(1));
+		}else{
+			resource.setOrderBy(new Integer(0));
+		}		
+		
+		
+//		 System.out.println("lookup  *************SysParamUtil.getResconfigOrderbyTimeParam()     >>>>>>>>>>>>>>>>>>" +SysParamUtil.getResconfigOrderbyTimeParam());
+		 
 		mp.put(carrierRes.getId(),resourceDao.getResources(resource));
 	}
 	return mp;
@@ -900,6 +935,13 @@ public Map getSpecificMap(){
 public List getResourceNameList(){
 //	List list=new ArrayList();
 	Resource resource = new Resource();
+	
+	if(SysParamUtil.getResconfigOrderbyTimeParam()){
+		resource.setOrderBy(new Integer(1));
+	}else{
+		resource.setOrderBy(new Integer(0));
+	}	
+	
 	return resourceDao.getResourcesNameByIdList(resource);
 	
 }
@@ -1761,6 +1803,20 @@ public void excuteSql() {
 			excuteSql(sb2.toString(),curVer);  	
 			excuteSql("update tb_sys_org set version = "+curVer,curVer); 
 		}		
+		
+		if(curVersion < 38 ){
+			int curVer = 38; 
+			excuteSql("alter table tb_adver_matter add column pos int(2) DEFAULT 0",curVer);
+			excuteSql("alter table tb_ad_resource_day_info add column is_locked char(1) DEFAULT 0",curVer);
+			excuteSql("alter table tb_adver_matter drop index fk_tb_adver_matter_customer_id",curVer);
+			excuteSql("update tb_sys_org set version = "+ curVer,curVer);  
+		}	
+		
+//		if(curVersion < 38 ){
+//			int curVer = 38; 
+//			excuteSql("alter table tb_published_arrang_detail add column matter_id   bigint(20) DEFAULT 0",curVer);
+//			excuteSql("update tb_sys_org set version = "+ curVer,curVer);  
+//		}
 
 		//临时注释   
 //		mody_matter_helpcode(20);	
@@ -2190,7 +2246,24 @@ public void saveSysParams(String target,String value,List ls) {
 		if(target.equals(Constants.RESOURCE_USE_CUSTOMER_CATELOG)){
 			sysParam.setValue("0");
 		}
-
+		
+		  // 使用客户广告投放的时间比率
+		if(target.equals(Constants.FTP_SERVVICE_CONFIG)){
+			sysParam.setValue("ip:172.16.1.249,port:21,user:new,pass:123456");
+		}
+		
+		 // 使用客户广告投放的时间比率
+		if(target.equals(Constants.PUBLIC_AD_AUTO_FILL)){
+				sysParam.setValue("0");
+		}
+		
+		 //时段维护根据时间排序
+		if(target.equals(Constants.RESCONFIG_ORDER_BY_TIME)){
+				sysParam.setValue("0");
+		}
+		
+		value = sysParam.getValue();
+		
 		sysParam.setMemo(sysParam.getMenoByName(target));
 		
 		sysParamDao.saveSysParamByTarger(sysParam);

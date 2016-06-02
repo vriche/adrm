@@ -35,7 +35,7 @@
 <html:hidden property="brandId" styleId="brandId"/>
 <html:hidden property="brandId2" styleId="brandId2"/>
 <html:hidden property="orgId" styleId="orgId"/>
-<html:hidden property="customerId" styleId="customerId"/>
+<html:hidden property="customerId" styleId="customerId" />
 
 <ul>
 
@@ -80,7 +80,7 @@
  			<td width="1%" id="orgId_td"> <select id="org_Id"></select></td>
 		</tr> 
 
-  		<tr> 
+  		<tr style="display:none"> 
 		    <td nowrap="nowrap" class="requiredInput">
         		<adrm_order:label styleClass="" key="matterForm.customerId"/>:       	
 	        </td>
@@ -94,7 +94,7 @@
 				<span style="margin-left:100px;width:18px;overflow:hidden;">
 				  	  <adrm_order:selectList name="customers" key="8" toScope="page"/> 
                       <html:select property="customerId" styleId="customerId" style="width:145px;margin-left:-100px"> 
-                      	<html:option value=""/> 
+                      	<html:option value="0"/> 
                       	<html:options collection="customers" property="value" labelProperty="label"/> 
 				      </html:select> 								
 				</span>
@@ -180,14 +180,36 @@
 					<span style="margin-left:100px;width:18px;overflow:hidden;">
 					  	<adrm_order:selectList name="matterTypes" key="41"  toScope="page"/> 
 					     <html:select property="matterType" styleId="matterType"  style="width:145px;margin-left:-100px"> 
-					     <html:option value=""/> <html:options collection="matterTypes"  property="value" labelProperty="label"/> 
+					    <html:options collection="matterTypes"  property="value" labelProperty="label"/> 
 					     </html:select> 								
 					</span>
 				</div>
             </td>
+            
+            
+            
+            
+
            
            
 		</tr>
+		    <tr> 
+		    
+				     <td width="50%" nowrap="nowrap" class="dataLabel">
+				    	²¥³öÎ»ÖÃ:        	
+			        </td>
+	        
+		            <td> 
+		         	  <div style="position:relative;">			
+							<span style="margin-left:100px;width:18px;overflow:hidden;">
+							  	<adrm_order:selectList name="poss" key="46"  toScope="page"/> 
+							     <html:select property="pos" styleId="pos"  style="width:145px;margin-left:-100px"> 
+							     <html:options collection="poss"  property="value" labelProperty="label"/> 
+							     </html:select> 								
+							</span>
+						</div>
+		            </td>
+			</tr>
 	    <tr> 
 		    <td width="50%" nowrap="nowrap" class="dataLabel">
 		    	<fmt:message key="matterForm.enable"/>:       	

@@ -51,7 +51,7 @@ public class PublishArrangeDetailDaoiBatis extends BaseDaoiBATIS implements Publ
     }
     
     /**
-     * @see com.vriche.adrm.dao.PublishArrangeDetailDao#getPublishArrangeDetailsByIdLists4(com.vriche.adrm.model.PublishArrangeDetail)
+     * @see com.vriche.adrm.dao.PublishArrangeDetailDao#getPublishArrangeDetailsByIdLists3(com.vriche.adrm.model.PublishArrangeDetail)
      */
     public List getPublishArrangeDetailsByIdLists3(final Map idList) {
           return getSqlMapClientTemplate().queryForList("getPublishArrangeDetailsByIdLists3", idList);

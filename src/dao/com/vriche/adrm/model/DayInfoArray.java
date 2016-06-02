@@ -85,7 +85,16 @@ public class DayInfoArray extends BaseObject {
 //  ÆôÓÃ
     protected Boolean resEnable;
     
-    protected Double dayRelIncome;
+//  ²¥³öËø¶¨
+    protected Boolean isLocked;
+    
+    public Boolean getIsLocked() {
+		return isLocked;
+	}
+	public void setIsLocked(Boolean isLocked) {
+		this.isLocked = isLocked;
+	}
+	protected Double dayRelIncome;
     protected Double dayRelPuton;
 	
 

@@ -1110,12 +1110,15 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
  	
   	var curValue = (el.innerHTML >0) ? el.innerHTML*1 : 0;
 //  	el.innerHTML = (curValue + step) > 0 ? curValue + step :"&nbsp";
+  	
+  	//播出单已出
+  	var isLocked = dayObj.isLocked;
+//  	alert(isLocked);
+  	if(isLocked && config_outLimitBroarrang)  rt =  false;
 
-	
 
 	if(ev.type == "keydown"  || ev.type == "keypress"){
-  
-       
+
 		if(K >=96 && K<=105)  K = K-48;
 		if(K == 32 ||K == 8 || K == 110) K = 48;
 		
@@ -1145,7 +1148,6 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
 		if(dayObj.curSpecificed && !dayObj.isResSpecificed && !dayObj.isAdSpecificed && (t + curValue) >1  )  rt =  false;
 		
 
-		
 	}
 	
 	

@@ -1,6 +1,5 @@
 package com.vriche.adrm.dao.ibatis;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import com.opensymphony.oscache.util.StringUtil;
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.dao.WorkspanDao;
 import com.vriche.adrm.model.DayInfo;
-import com.vriche.adrm.model.OrderDayInfo;
 import com.vriche.adrm.model.SysParam;
 import com.vriche.adrm.model.Workspan;
 
@@ -128,6 +126,7 @@ public class WorkspanDaoiBatis extends BaseDaoiBATIS implements WorkspanDao {
     	if (beginDate == null || endDate == null) return ;
     	Map orderDayTimeUsedMap = getOrderDayTimeUsed(beginDate,endDate,resourceId);
     	Map orderDayTimeSpecMap = getOrderDayTimeSpec(beginDate,endDate,resourceId);
+    	Map orderDayLockStateMap = getPublishLockState(beginDate,endDate,resourceId);
     	
 //    	System.out.println("StringUtilsv.printMap beginDate>>>>>>>>>>>> " +beginDate);
 //    	System.out.println("StringUtilsv.printMap endDate>>>>>>>>>>>> "+endDate);
@@ -179,6 +178,7 @@ public class WorkspanDaoiBatis extends BaseDaoiBATIS implements WorkspanDao {
 
            		double o_used = 0;
            		String o_spec ="";
+           		Boolean is_lock = false;
            		
            		if (!orderDayTimeUsedMap.isEmpty()){
            			if (orderDayTimeUsedMap.containsKey(publishDate)){
@@ -192,11 +192,19 @@ public class WorkspanDaoiBatis extends BaseDaoiBATIS implements WorkspanDao {
            			}
            		}
            		
+           		if (!orderDayLockStateMap.isEmpty()){
+           			if (orderDayTimeSpecMap.containsKey(publishDate)){
+           				is_lock= Boolean.valueOf(getNullValue(orderDayLockStateMap.get(publishDate),"0"));
+           			}
+           		}
+           		
+           		
            		double total = getDayTotalTimes(date,totals);
     			dayInfo.setPublishDate(publishDate);
 				dayInfo.setTotal(String.valueOf(total));
 				dayInfo.setUsed(getResUsed(total,o_used));
 				dayInfo.setSpecific(o_spec);
+				dayInfo.setIsLocked(is_lock);
 				dayInfo.setVersion(version);
 //				dayInfo.setBroadcastStartTime(new Integer(broadcastEndTime.intValue()+total));
 //				if(total > 0){
@@ -324,6 +332,28 @@ public class WorkspanDaoiBatis extends BaseDaoiBATIS implements WorkspanDao {
         
 		return orderDay;
 	}
+	
+	//查找订单指定信息
+		public Map getPublishLockState(Integer startDate,Integer endDate,Long resourceId) {
+			Map orderDay = new HashMap();
+	        Map resourceParameter = new HashMap();
+	        resourceParameter.put("startDate",startDate);
+	        resourceParameter.put("endDate",endDate);
+	        resourceParameter.put("resourceId",resourceId);
+	        List ls = getSqlMapClientTemplate().queryForList("getPublishLockState",resourceParameter);
+	        Iterator it =ls.iterator();
+	        
+	        while(it.hasNext()){
+	        	DayInfo dayInfo = (DayInfo) it.next(); 
+	        	Integer date = dayInfo.getPublishDate();
+//	        	Object obj = dayInfo.getIsLocked();
+//	        	String lock = (obj == null ||"".equals(obj))?"0":"1";
+	        	Boolean isLock =  Boolean.valueOf( dayInfo.getIsLocked());
+	        	orderDay.put(date,isLock);
+	        }
+	        
+			return orderDay;
+		}
 	
 	
 	private String[] setTotalArray(Workspan workspan){

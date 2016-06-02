@@ -1025,6 +1025,7 @@ public class StringUtilsv {
  
 	}
 	
+
 	public static List singleElement(List l) {
 	    	List ls = new ArrayList();
 	    	for(int i = 0; i < l.size(); i++) {

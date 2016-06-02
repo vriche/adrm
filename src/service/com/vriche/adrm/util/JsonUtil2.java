@@ -4,11 +4,14 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import net.sf.json.JSONObject;
 
 
 
@@ -262,5 +265,29 @@ public class JsonUtil2 {
       }  
     }  
     return sb.toString();  
+  }  
+  
+  
+  
+  
+  /** 
+   * 将json格式的字符串解析成Map对象 <li> 
+   * json格式：{"name":"admin","retries":"3fff","testname" 
+   * :"ddd","testretries":"fffffffff"} 
+   */  
+  public static HashMap<String, String> toHashMap(Object object)  
+  {  
+      HashMap<String, String> data = new HashMap<String, String>();  
+      // 将json字符串转换成jsonObject  
+      JSONObject jsonObject = JSONObject.fromObject(object);  
+      Iterator it = jsonObject.keys();  
+      // 遍历jsonObject数据，添加到Map对象  
+      while (it.hasNext())  
+      {  
+          String key = String.valueOf(it.next());  
+          String value = (String) jsonObject.get(key);  
+          data.put(key, value);  
+      }  
+      return data;  
   }  
 } 

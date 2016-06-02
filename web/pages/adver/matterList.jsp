@@ -56,7 +56,7 @@
 	                 
 		<tr><td align="left" colspan="3">&nbsp</td></tr>
 		
-		<tr>	
+		<tr style="display:none">	
 		    <td align="left" width="70px"><fmt:message key="customer.info"/>:</td>
 		    <td width="1px"><div id="customerCmd" name="customerCmd"/><!-- select id="customerCmd" name="customerCmd" --></td>
 			<td >&nbsp;</td>
@@ -152,12 +152,10 @@
 			                  <TH><fmt:message key="matterForm.tapeCode"/></TH>
 			                  <!--类型-->
 			                  <TH><fmt:message key="matterForm.matterType"/></TH>
-			                  <!--客户-->
-			                  <TH><fmt:message key="matterForm.customerId"/></TH>
 			                  <!--行业-->
 			                  <TH><fmt:message key="customerForm.industryTypeId"/></TH>
 			                  <!--备注-->
-			                  <TH><fmt:message key="matterForm.memo"/></TH>
+			                  <TH>播出位置</TH> 
 			                  
 			                   <TH>创建日期</TH>
 			                   

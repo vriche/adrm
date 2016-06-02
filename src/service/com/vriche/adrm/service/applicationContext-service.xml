@@ -334,6 +334,7 @@
 		<property name="matterDao" ref="matterDao"/>
 		<property name="industryDao" ref="industryDao"/>
 		<property name="workspanDao" ref="workspanDao"/>
+		 <property name="dayInfoDao" ref="dayInfoDao"/>
     </bean>
     <!--PublishArrange-END-->
     <!--PublishArrangeDetail-START-->    

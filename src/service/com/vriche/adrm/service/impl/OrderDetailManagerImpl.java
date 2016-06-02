@@ -610,7 +610,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
         String meno = orderDetail.getMatter().getMemo();
         Long industryType = orderDetail.getMatter().getBrandId();
         Long brandId = orderDetail.getMatter().getBrandId2();
-        Matter matter = matterManager.saveMatter(customerId,tapeCode,name,version,Length,createBy,type,meno,true,industryType,brandId);
+        Matter matter = matterManager.saveMatter(customerId,tapeCode,name,version,Length,createBy,type,meno,true,industryType,brandId,new Integer(0));
         orderDetail.getMatter().setId(matter.getId());
         orderDetail.getMatter().setTapeCode(matter.getTapeCode());  
  
@@ -2094,7 +2094,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 				DayInfoArray days[] = new DayInfoArray[31];
 
 				setMonthInfoByRes(resMap,days,year,nextMonth,specific,isCompages,displayOverDate,groupLeftTimeMp);
-				
+				 
 				if(dayMap.size() > 0){
 					setMonthInfoByDays(dayMap,monthInfo,days,year,nextMonth);					
 				}
@@ -2302,6 +2302,12 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
         
         
 //		来源资源信息
+        
+//      播出单已出，锁定
+        Boolean isLocked = resDayInfo.getIsLocked();
+        isLocked = isLocked == null?new Boolean(false):isLocked;
+        dayInfoArray.setIsLocked(isLocked);
+        
 //      超时封签
         Boolean isClosed = resDayInfo.getResource().getIsClosed(); 
         isClosed = isClosed == null?new Boolean(false):isClosed;

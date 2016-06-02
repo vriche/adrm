@@ -280,10 +280,10 @@
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
   <tr>
      				 <td  width="2px"></td>
-                     <td  width="1px">
+                     <td  width="1px" style="display:none">
                      <input  type="checkbox" value="1"  width="100px" id="displayAllBroArray">
                       </td>
-                      <td  width="80px">
+                      <td  width="80px" style="display:none">
                      <label  class="myLable1"  for="displayAllBroArray">显示全部排期</label>
                      </td> 
               

@@ -234,10 +234,25 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
    // 使用客户广告投放的时间比率
    protected String resourceUseCustomerCatelog;
    
+   
+	//公益广告自动添加
+   protected String publicAdAutoFill;
 
+//ftp服务器
+   protected String ftpConfig;
+   
+   
+ //时段维护根据时间排序
+   protected String resconfigOrderbyTime;
 
+   
 
-
+public String getResconfigOrderbyTime() {
+	return resconfigOrderbyTime;
+}
+public void setResconfigOrderbyTime(String resconfigOrderbyTime) {
+	this.resconfigOrderbyTime = resconfigOrderbyTime;
+}
 /**
  * @param resourceUseCustomerCatelog the resourceUseCustomerCatelog to set
  */
@@ -1011,8 +1026,14 @@ public void setResourceUseCustomerCatelog(String resourceUseCustomerCatelog) {
 			meno = "新签订单广告排期默认月份,默认当前月份+2";	
 		}else if(name.equals(Constants.OUT_LIMIT_BROARRANG)){
 			meno = "出串联单限制排期的修改";	
+		}else if(name.equals(Constants.PUBLIC_AD_AUTO_FILL)){
+			meno = "公益广告自动添加";	
 		}else if(name.equals(Constants.RESOURCE_USE_CUSTOMER_CATELOG)){
 			meno = "使用客户广告投放的时间比率";	
+		}else if(name.equals(Constants.FTP_SERVVICE_CONFIG)){
+			meno = "ftp服务器";	
+		}else if(name.equals(Constants.RESCONFIG_ORDER_BY_TIME)){
+			meno = "时段维护根据时间排序";	
 		}
 		
 		
@@ -1074,5 +1095,17 @@ public void setOutLimitBroarrang(String outLimitBroarrang) {
 public String getResourceUseCustomerCatelog() {
 	return resourceUseCustomerCatelog;
 }
+public String getPublicAdAutoFill() {
+	return publicAdAutoFill;
+}
+public void setPublicAdAutoFill(String publicAdAutoFill) {
+	this.publicAdAutoFill = publicAdAutoFill;
+}
 
+public String getFtpConfig() {
+	return ftpConfig;
+}
+public void setFtpConfig(String ftpConfig) {
+	this.ftpConfig = ftpConfig;
+}
 }

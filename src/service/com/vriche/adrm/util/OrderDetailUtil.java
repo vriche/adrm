@@ -283,7 +283,7 @@ public class OrderDetailUtil {
 			
 			System.out.println(">>>checkState>>>");
 			
-			if(!hntv && !sjz && !fztv){
+			if(!hntv && !sjz ){
 				
 				if("hbtv".equals(tvName)){
 					sb.append("<cell><![CDATA["+ checkState +"]]></cell>");
@@ -358,7 +358,7 @@ public class OrderDetailUtil {
 
 			sb.append("<cell><![CDATA["+ orderDetailColl.getMonthTimes() +"]]></cell>");
 			
-			if(!hntv && !sjz && !fztv){
+			if(!hntv && !sjz){
 				sb.append("<cell><![CDATA["+ StringUtil.doubleFormat(orderDetailColl.getMonthRelPrice())  +"]]></cell>");
 			}
 
@@ -498,7 +498,7 @@ public class OrderDetailUtil {
 
 		 String tvName = SysParamUtil.getTvNameParam();
 //		 boolean xmtv = SysParamUtil.isXMTVParam(tvName);
-//		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
+		 boolean fztv = SysParamUtil.isFZTVParam(tvName);
 		 boolean hbtv = SysParamUtil.isHBTVParam(tvName);
 //		 boolean isMeno = SysParamUtil.getResourceDisplay();
 		 boolean rightSave = UserUtil.isGrandedRes(loginUser,"tag_orderDetail_save");

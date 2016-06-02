@@ -18,6 +18,7 @@
 
 	
     <parameterMap id="addParam" class="matter">
+        <parameter property="pos" jdbcType="INTEGER" javaType="java.lang.Integer" nullValue="0"/>
    	    <parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long"/>
 		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
@@ -40,6 +41,7 @@
 
 
     <parameterMap id="updateParam" class="matter">
+    	<parameter property="pos" jdbcType="INTEGER" javaType="java.lang.Integer"/>
      	<parameter property="brandId2" jdbcType="INTEGER" javaType="java.lang.Long"/>
 		<parameter property="helpCodeName" jdbcType="VARCHAR" javaType="java.lang.String"/>
 		<parameter property="helpCodeEdit" jdbcType="VARCHAR" javaType="java.lang.String"/>
@@ -85,7 +87,7 @@
 		<result property="customer.customerName" column="customer_name" />
 		<result property="customer.customerCategoryId" column="customer_category_id" />
 		<result property="customer.id" column="customer_id" />		
-		
+		<result property="pos" column="pos"/>
 		
     </resultMap>
 	
@@ -121,6 +123,7 @@
     </resultMap>
 	
     <resultMap id="matterResultTest2" class="matter">
+     	<result property="pos" column="pos"/>
         <result property="orgId" column="sys_org_id"/>
 		<result property="id" column="adver_matter_id"/>
 		
@@ -448,7 +451,8 @@
 		mt.memo,		
 		mt.sys_org_id,
 		mt.adver_product_brand_id,		
-		mt.brand_id,		
+		mt.brand_id,
+		mt.pos,		
 		
 		ci.customer_name,
 		ci.customer_id,
@@ -629,7 +633,8 @@
 		mt.memo,		
 		mt.sys_org_id,
 		mt.adver_product_brand_id,		
-		mt.brand_id,		
+		mt.brand_id,	
+		mt.pos,		
 		
 		ci.customer_name,
 		ci.customer_id,
@@ -1032,8 +1037,8 @@
             SELECT SEQ_adver_matter_id.NextVal AS id FROM DUAL
         </selectKey-->
         <![CDATA[
-            insert into tb_adver_matter (brand_id,help_code_name,help_code_edit,sys_org_id,tape_code,adver_product_brand_id,create_by,create_date,customer_id,edit,enable,length,adver_matter_type,memo,modify_by,modify_date,name)
-            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
+            insert into tb_adver_matter (pos,brand_id,help_code_name,help_code_edit,sys_org_id,tape_code,adver_product_brand_id,create_by,create_date,customer_id,edit,enable,length,adver_matter_type,memo,modify_by,modify_date,name)
+            values ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )
         ]]>
 		
 		<selectKey resultClass="java.lang.Long" keyProperty="id">
@@ -1044,6 +1049,7 @@
     <update id="updateMatter" parameterMap="updateParam">
     <![CDATA[
         update tb_adver_matter set 
+         		   pos = ?,
         		   brand_id = ?,
 				   help_code_name = ?,
 				   help_code_edit = ?,
@@ -1185,6 +1191,7 @@
 		<result property="customer.customerCategoryId" column="customer_category_id" nullValue="0"/>
 		<result property="customer.id" column="customer_id" nullValue="0"/>
 		<result property="endDate" column="adver_matter_id" select="getMatterPublishEnd"/>
+		<result property="pos" column="pos"/>
     </resultMap>		
 	
 	 <select id="getMattersNew"  resultMap="matterResult_new">
@@ -1206,7 +1213,8 @@
 		    INDU.name as industry_name,
 		    INDUPARENT.name as industy_parent_name,
 		 	TY.name as matType_name,
-			MT.create_date
+			MT.create_date,
+			MT.pos 
 		 
 			FROM tb_adver_matter MT  
 		 

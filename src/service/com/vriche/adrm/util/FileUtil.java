@@ -5,16 +5,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
-import org.apache.commons.net.ftp.FTPClient;
-
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.model.Carrier;
@@ -106,11 +103,21 @@ public class FileUtil {
 			
 			File file = new File(dir,fileName+".xml");
 
+			Map<String,String> ftpConf = (Map<String,String>) Constants.APPLACTION_MAP.get(Constants.FTP_SERVVICE_CONFIG);
+			
+			System.out.println("ftpConf.get(ip)>>>>>>>>>>>>>" +ftpConf.get("ip"));
+			
+			String server = ftpConf.get("ip");  
+			String port = ftpConf.get("port");
+			String user = ftpConf.get("user");
+			String pass = ftpConf.get("pass");	
+			
+			System.out.println("ftpConf>>>>>>>>>>>>>" + server +">>"+port+">>"+user+">>"+pass);
+
 				try {
 					BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
 					for(Iterator it = advers.iterator();it.hasNext();){    
 						String adverStr = (String)it.next();
-
 //						for(int j = 0; j < adverStr.length; j++){
 							bw.write(adverStr);
 //							bw.write(newline);
@@ -118,6 +125,14 @@ public class FileUtil {
 					}
 					bw.flush();
 					bw.close();
+					
+					
+					FTP ftp = new FTP(user, pass, server, Integer.valueOf(port));
+					ftp.connectServer();
+					System.out.println(">>>>>"+file.getAbsolutePath());  
+					ftp.upFile(Constants.FILE_SEP, file.getName(), file.getAbsolutePath());
+					ftp.closeConnect();
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -125,6 +140,9 @@ public class FileUtil {
 				}
 
 		}	
+		
+		
+		
 		
 		public static void saveFile4(String dir,String fileName,List advers){
 			

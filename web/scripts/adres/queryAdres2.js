@@ -983,8 +983,8 @@ function showSearchWin(){
 	       
 
 
- var weekCmd = this.myprint.getWeekCheckBox(null,"weekCheckBox","星期",180,"");
- weekCmd.on("focus" , function(box){close_res_list()});
+	 var weekCmd = this.myprint.getWeekCheckBox(null,"weekCheckBox","星期",180,"");
+	 weekCmd.on("focus" , function(box){close_res_list()});
  
 
 	orderCategory.obj.orgId = config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value;	
@@ -998,6 +998,8 @@ function showSearchWin(){
 	var comboxGrid = getComBoxGrid();
 	
 	resource.obj.version = comYear.getValue();
+
+	
     var comboxGrid2 = resource.getResourceCmdTree(orderCategory.obj.orgId,resource.obj,'search_resource_cmd','search_resource_tree',true,null,'resourceId','选时段...',180,true,false,true,function callFunction(){});
 	
 //	items.push(comTimeSort);

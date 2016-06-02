@@ -490,7 +490,14 @@ public class Constants {
 	 //广告资源树缓存
 	 public static final String AVAILABLE_CARRIER_RESOURCE_TREE = "available_carrier_resource_tree"; 
 	 
+	 //公益广告自动添加
+	 public static final String PUBLIC_AD_AUTO_FILL = "public_ad_auto_fill"; 
 	 
+	 //ftp服务器 "ip:172.16.1.249,port:21,user:new,pass:123456"
+	 public static final String FTP_SERVVICE_CONFIG = "ftp_service_config"; 
+	 
+	 //时段维护根据时间排序
+	 public static final String RESCONFIG_ORDER_BY_TIME = "resconfigOrderbyTime"; 
 
 //    public static final String AVAILABLE_CARRIER_ORG_MAP = "availableCarrierOrgMap";
    

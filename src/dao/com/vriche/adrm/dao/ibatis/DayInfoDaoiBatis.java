@@ -174,6 +174,12 @@ public class DayInfoDaoiBatis extends BaseDaoiBATIS implements DayInfoDao {
   }
 
 
+	public void updateDayInfoLock(Map mp) {
+		// TODO Auto-generated method stub
+		getSqlMapClientTemplate().update("updateDayInfoLock", mp);
+	}
+
+
 
 	
 	

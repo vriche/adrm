@@ -465,7 +465,9 @@ function initLengthCom(){
 		    matterLengthCommand.on("change",resetCmd,this);	
 		    
 		    
-		    if(tvNameParam =='hntv') matterLengthCommand.disable();
+		    if(order_ckecked == 1 || order_ckecked == 3)  matterLengthCommand.disable();
+		    
+//		    if(tvNameParam =='hntv') matterLengthCommand.disable();
 		    
 //		     matterLengthCommand.on("select",resetCmd,this);	
    	    
