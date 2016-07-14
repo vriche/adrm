@@ -1,2 +1,7 @@
 826819493  hntv
-697482867 fztv
+887941388 catv
+583602535 
+697482867 
+ 
+
+echo "your password"|passwd --stdin root

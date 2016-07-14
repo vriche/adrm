@@ -48,6 +48,7 @@ import com.vriche.adrm.model.PublishArrangeDetail;
 import com.vriche.adrm.model.RequestObject;
 import com.vriche.adrm.model.Resource;
 import com.vriche.adrm.model.ResourceChannel;
+import com.vriche.adrm.model.Specific;
 import com.vriche.adrm.model.User;
 import com.vriche.adrm.model.Workspan;
 import com.vriche.adrm.service.CarrierManager;
@@ -73,6 +74,7 @@ import com.vriche.adrm.util.ResDayUtil;
 import com.vriche.adrm.util.ResourceUtil;
 import com.vriche.adrm.util.ServiceLocator;
 import com.vriche.adrm.util.StringUtil;
+import com.vriche.adrm.util.StringUtilsv;
 import com.vriche.adrm.util.SysParamUtil;
 import com.vriche.adrm.util.UserUtil;
 
@@ -241,11 +243,11 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 //    	System.out.println("getIndustryLevel2Param vvvvvvvvvvvvvvvvvv>>>>>>>>>>>>>>>" + industryLevel2);	
 //    	System.out.println("id vvvvvvvvvvvvvvvvvv>>>>>>>>>>>>>>>" + id);
     	
-    	System.out.println("saveOrderDetail>*****************************************>>>>saveOrderDetail>>>>>go>>>>>saveOrderDetail>>>>>>>  33 44 55 " );	
+    	System.out.println("getOrderDetail>>>>id>>123 321 123 321>>>>>"+id );	
     	  
     	OrderDetail orderDetail = dao.getOrderDetail(new Long(id));
     	
-    	System.out.println("saveOrderDetail>*****************************************>>>>saveOrderDetail>>>>>go>>>>>saveOrderDetail>>>>>>>  33 44 55 66" );	
+//    	System.out.println("saveOrderDetail>*****************************************>>>>saveOrderDetail>>>>>go>>>>>saveOrderDetail>>>>>>>  33 44 55 66" );	
     	  
     	
 //    	System.out.println("getOrderDetail 8888888888888888888888888888>>>>>>>>>>>>>>>" + orderDetail.toString());	
@@ -378,19 +380,24 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		String tvName = SysParamUtil.getTvNameParam();
 		String loginUser =orderDetail.getLoginUser();
 		String orgId = orderDetail.getOrgId();
-		String tableModel = StringUtil.getNullValue(orderDetail.getTableModel(),"0");
+		
+		// tableModel
+		// 0 、1 订单批处理 
+		// 4 快速下单
+		String tableModel = StringUtil.getNullValue(orderDetail.getTableModel(),"0"); 
 		String orderId = orderDetail.getOrderId().toString();
 		String detail_Ids = StringUtil.getNullValue(orderDetail.getDetailIds(),"");
 		
 		if(!"".equals(detail_Ids)){
 			String[] detailIds = detail_Ids.split(",");
-		  List detailIdsIdList = new ArrayList();
-			CollectionUtils.addAll(detailIdsIdList,detailIds);
+			List detailIdsIdList = new ArrayList();
+			CollectionUtils.addAll(detailIdsIdList, detailIds);
 			orderDetail.setDetailIdsIdList(detailIdsIdList);
 		}
 		
 
-		
+		System.out.println("getOrderDetailsPageXML  mmmmmmmmmmmmmmmmmmmmmmmmm##############vvvvvvvvvvvvvv tableModel >>>>>>>>>>>>>>>" + tableModel);	
+			
 		
 		
 		if("5".equals(tableModel)){
@@ -471,23 +478,29 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 						mp.put("orderDayIdList",orderDayIdList);
 						mp.put("publishDateStart",publishDateStart);
 						mp.put("publishDateEnd",publishDateEnd);
+						
 				   List lsArray1 = ServiceLocator.getPublishArrangeDetailDao().getArrangedPublishForWebService(mp);
 				   
 				   
 				
 			    	Iterator it1 = lsArray1.iterator();
-			    	    
-			    	while(it1.hasNext()){
-					    	    	PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)it1.next();
-											Integer publishDate = publishArrangeDetail.getPublishArrange().getPublishDate();	
-											Integer ctrBroTime = publishArrangeDetail.getCtrBroTime();
-//											System.out.println("vvvvvvvvvvvvvvvvvv publishDate >>>>>>>>>>>>>>" + publishDate);	
-//											System.out.println("vvvvvvvvvvvvvvvvvv ctrBroTime >>>>>>>>>>>>>>" + ctrBroTime);	
-											if(ctrBroTime == null){
-												lsArray.add(publishDate);
-											}
-											array_dates.add(publishDate);
-			    	  }
+
+					while (it1.hasNext()) {
+						PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail) it1
+								.next();
+						Integer publishDate = publishArrangeDetail
+								.getPublishArrange().getPublishDate();
+						Integer ctrBroTime = publishArrangeDetail
+								.getCtrBroTime();
+						// System.out.println("vvvvvvvvvvvvvvvvvv publishDate >>>>>>>>>>>>>>"
+						// + publishDate);
+						// System.out.println("vvvvvvvvvvvvvvvvvv ctrBroTime >>>>>>>>>>>>>>"
+						// + ctrBroTime);
+						if (ctrBroTime == null) {
+							lsArray.add(publishDate);
+						}
+						array_dates.add(publishDate);
+					}
 //			    	System.out.println("vvvvvvvvvvvvvvvvvv lsArray >>>>>>>>>>>>>>>" + lsArray);	
 			    	
 //			    	System.out.println("vvvvvvvvvvvvvvvvvv array_dates >>>>>>>>>>>>>>>" + array_dates.size());	
@@ -543,6 +556,37 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 				
 		}else{
 			ls = dao.getOrderDetailsPage(orderDetail,Integer.parseInt(pageIndex),Integer.parseInt(pageSize));
+			
+//			 boolean outLimitBroarrang = SysParamUtil.getOutLimitBroarrangParam();
+//			 if(outLimitBroarrang){
+//				 Iterator it = ls.iterator();
+//				 while(it.hasNext()){
+//						OrderDetail od = (OrderDetail)it.next();
+						
+						//废订单会有问题
+//						 String resourceId = od.getResourceInfoId().toString();
+//						 String startDate = od.getOrderPublic().getPublishStartDate().toString();
+//						 String endDate = od.getOrderPublic().getPublishEndDate().toString();
+//						
+//								
+//						Map mp = new HashMap();
+//						mp.put("resourceInfoId", resourceId);
+//						mp.put("publishDateStart", startDate);
+//						mp.put("publishDateEnd", endDate);
+//						mp.put("isLocked", "1");
+							
+//						 System.out.println("getOrderDetailsPageX444444444444444444>555555555555555555555resourceInfoId>>   "+ resourceId+"条");
+//						 System.out.println("getOrderDetailsPageX444444444444444444>555555555555555555555 publishDateStart>>   "+ startDate+"条");
+//						 System.out.println("getOrderDetailsPageX444444444444444444>555555555555555555555 publishDateEnd>>   "+ endDate +"条");
+//				 }
+				 
+				
+				 
+
+				 
+		
+//			 }
+//			moidType
 		}
 
 //    	Iterator it = ls.iterator();
@@ -610,7 +654,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
         String meno = orderDetail.getMatter().getMemo();
         Long industryType = orderDetail.getMatter().getBrandId();
         Long brandId = orderDetail.getMatter().getBrandId2();
-        Matter matter = matterManager.saveMatter(customerId,tapeCode,name,version,Length,createBy,type,meno,true,industryType,brandId,new Integer(0));
+        Matter matter = matterManager.saveMatter(customerId,tapeCode,name,version,Length,createBy,type,meno,true,industryType,brandId,new Integer(0),new Long(0));
         orderDetail.getMatter().setId(matter.getId());
         orderDetail.getMatter().setTapeCode(matter.getTapeCode());  
  
@@ -1088,7 +1132,57 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
      */
    
    
-  
+   public String getDayInfosLockedByResourceIds(String[] ids,Integer startDate,Integer endDate) throws OrderDetailUnableSaveException{ 
+	   Map map = new HashMap();
+	   List resourceIdList = new ArrayList();
+	   CollectionUtils.addAll(resourceIdList,ids);
+	   
+	   map.put("startDate",startDate);
+	   map.put("endDate",endDate);
+	   map.put("ResourceIdList",resourceIdList);
+	   map.put("isLocked",1);
+	   
+	   System.out.println("getDayInfosLockedByResourceIds>>>>startDate>>>>>"+ startDate);
+	   System.out.println("getDayInfosLockedByResourceIds>>>>endDate>>>>>"+ endDate);
+	   System.out.println("getDayInfosLockedByResourceIds>>>>startDate>>>>>"+ ids);
+	   
+
+	   List dayInfoList = dayInfoDao.getDayInfosByIdList(map);
+	   
+	   System.out.println("getDayInfosLockedByResourceIds>>>>dayInfoList>>>>>"+ dayInfoList.size());
+
+	 
+		   if(dayInfoList.size()>0){
+			   
+			   StringBuffer sb = new StringBuffer();
+			   
+			   Iterator it = dayInfoList.iterator();
+			   while(it.hasNext()){
+//				   System.out.println("getDayInfosLockedByResourceIds>>>>0>>>>>"+ "");
+				   DayInfo dayInfo = (DayInfo)it.next();
+//				   System.out.println("getDayInfosLockedByResourceIds>>>>1>>>>>"+ "");
+				   Integer date = dayInfo.getPublishDate();
+//				   System.out.println("getDayInfosLockedByResourceIds>>>>2>>>>>"+ "");
+				   String resMemo = dayInfo.getResource().getMemo();
+//				   System.out.println("getDayInfosLockedByResourceIds>>>>3>>>>>"+ "");
+				   String publishDate = DateUtil.SetDateFormat(date+"",DateUtil.getDatePattern());
+//				   System.out.println("getDayInfosLockedByResourceIds>>>>4>>>>>"+ "");
+				   
+//				   sb.append("{");
+				   sb.append(resMemo+"  "+publishDate+"");
+				   sb.append(",");
+				   
+//				   System.out.println("getDayInfosLockedByResourceIds>>>>5>>>>>"+ sb.toString());
+			   }
+			   return  sb.toString();
+//			   throw new OrderDetailUnableSaveException(sb.toString());
+		   }else{
+			   return "";
+		   }
+		  
+	 
+	 
+   }
  
    
    
@@ -1963,6 +2057,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 			List monthList = new ArrayList();
 			List resList = new ArrayList();
 			List resList2 = new ArrayList();
+			List resList3 = new ArrayList();
 			List dayList = new ArrayList();
 	
 			Integer startDate = orderDetail.getPublishStartDate();
@@ -2019,26 +2114,48 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 				
 				//从资源信息表里查
 				resList = dayInfoDao.getDayInfos(resDayInfo);	
-				//由于时间日信息不准，所以重新订单日信息查询
-				resList2 = dayInfoDao.getDayInfosFromOrder(resDayInfo);	
+				
+				
 				
 				//是否启用客户使用时间比率
 				boolean isResourceUseCustomerCatelog = SysParamUtil.getResourceUseCustomerCatelogParam();
+				//由于时间日信息不准，所以重新订单日信息查询
+				resList2 = dayInfoDao.getDayInfosFromOrder(resDayInfo);	
+				
+				//根据不同客户类型，给客户不同的时间比率
+				if(isResourceUseCustomerCatelog){
+					resDayInfo.setTotal2(orderDetail.getResourceSortId().toString());
+					resList3 = dayInfoDao.getDayInfosFromOrder(resDayInfo);	
+				}
+				
+//				System.out.println("+ orderDetail.getResourceSortId 9999999999999  ccccccccc ====================>>>>>>"+ orderDetail.getResourceSortId().toString());   
+//				System.out.println("resList2 9999999999999  ccccccccc ====================>>>>>>"+ resList2.size());   
 				double rate = 1;
+				
+//				System.out.println("isResourceUseCustomerCatelog 9999999999999    77777777777        66666666666====================>>>>>>"+ isResourceUseCustomerCatelog);    
+				
 				if(isResourceUseCustomerCatelog){
 					Map mp = new HashMap();
 					mp.put("resourceid", resourceId.toString());
 					mp.put("uid", orderDetail.getResourceSortId().toString()); //客户类别
+					
+//					System.out.println("CustomerCateId 9999999999999    77777777777        66666666666====================>>>>>>"+ orderDetail.getResourceSortId().toString());   
+//					System.out.println("resourceid 9999999999999    77777777777        66666666666====================>>>>>>"+ resourceId.toString()); 
 					List all = resourceDao.getResourceIdsByYearUser(mp);
+					
+//					System.out.println("all 9999999999999    77777777777        66666666666 ====================>>>>>>"+ all.size());   
+					
 					for(Iterator it = all.iterator();it.hasNext();){
 						FusionChartObject obj = (FusionChartObject)it.next();
 						rate = Double.parseDouble(obj.getValue5());
+//						System.out.println("rate 9999999999999    77777777777        66666666666====================>>>>>>"+ rate);    
 					}
+					
 				}
-
-				System.out.println("rate 9999999999999    77777777777        66666666666====================>>>>>>"+ rate);    
+//				System.out.println("isResourceUseCustomerCatelog 9999999999999    77777777777        66666666666====================>>>>>>"+ isResourceUseCustomerCatelog);  
+//				System.out.println("rate 9999999999999    77777777777        66666666666====================>>>>>>"+ rate);    
 				
-				OrderDetailUtil.resetResList(resList,resList2,rate);
+				OrderDetailUtil.resetResList(resList,resList2,resList3,isResourceUseCustomerCatelog,rate);
 
 //				long end = System.currentTimeMillis();System.out.println("dayInfoDao.getDayInfos >>>>>>>>>>>>>>>>>>>>>>>===="+(end-start));  
 			}else{
@@ -2103,6 +2220,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 				monthInfo.setMonth(new Integer(nextMonth));
 				monthInfo.setDays(days);
 				monthInfo.setYear(new Integer(year));
+				monthInfo.setSpecificPos(specific); 
 				
 				monthList.add(monthInfo);            
 			}	
@@ -2209,6 +2327,26 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 	
 	
 	private void setDayInfoArrayByResDayInfo(DayInfoArray dayInfoArray,DayInfo resDayInfo,String specific,boolean isCompages,boolean displayOverDate){
+		//是否启用客户使用时间比率
+		boolean isResourceUseCustomerCatelog = SysParamUtil.getResourceUseCustomerCatelogParam();
+		
+		if(isResourceUseCustomerCatelog){
+
+			String t = StringUtils.isEmpty(resDayInfo.getTotal2())? "0":resDayInfo.getTotal2();
+	        dayInfoArray.setRsTotalTime2(new Double(t));
+	        double rsTotalTimes2 = Double.parseDouble(t);
+	        
+			String used = StringUtils.isEmpty(resDayInfo.getUsed2())? "0":resDayInfo.getUsed2();
+	        dayInfoArray.setRsUsedTime2(new Double(used));	
+	        double rsUsedTimes2 = Double.parseDouble(used);
+	        
+	        dayInfoArray.setRsReleave2(new Double(rsTotalTimes2 - rsUsedTimes2));
+	        
+//	        System.out.println(" rsTotalTimes2 AAAAAAAAAAAAAAAAA            BBBBBBBBBBB            CCCCCCCCCCCC>>>>>>>>>>>>>><<<<<<<<<<<"+rsTotalTimes2);
+		}
+		
+		
+
 		
 		String  rsColor = ResDayUtil.getDayColor(resDayInfo,specific,dayInfoArray,isCompages,displayOverDate); //资源单元格背景色
 		
@@ -2235,7 +2373,6 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		}
 //		if(resDayInfo.getTotal() !=null){
 			String t = StringUtils.isEmpty(resDayInfo.getTotal())? "0":resDayInfo.getTotal();
-//			String t = resDayInfo.getTotal(); if(t == null || t == "" || StringUtils.isEmpty(t)) t = "0";
 	        dayInfoArray.setRsTotalTime(new Double(t));
 	        rsTotalTimes = Double.parseDouble(t);
 //		}
@@ -2249,11 +2386,24 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 		}else{
 			dayInfoArray.setRsReleave(new Double(rsTotalTimes + rsUsedTimes));
 		}
+		
+		
+		if(!isResourceUseCustomerCatelog){
+			 dayInfoArray.setRsUsedTime2(dayInfoArray.getRsUsedTime());	
+			 dayInfoArray.setRsReleave2(dayInfoArray.getRsReleave());
+			 dayInfoArray.setRsTotalTime2(dayInfoArray.getRsTotalTime());
+		}
 
 		
 //		if(resDayInfo.getSpecific() !=null){
-			String resSpec = StringUtils.isEmpty(resDayInfo.getSpecific())? "":resDayInfo.getSpecific();
-			dayInfoArray.setRsSpecific(resSpec);	
+//			String resSpec = StringUtils.isEmpty(resDayInfo.getSpecific())? "":resDayInfo.getSpecific();
+//			dayInfoArray.setRsSpecific(resSpec);	
+			
+			
+			String spec_res = StringUtil.getNullValue(resDayInfo.getSpecific(),"");
+			dayInfoArray.setRsSpecific(spec_res);	
+			
+			 String[] spec_res_array = spec_res.split(","); 
 			
 //			  System.out.println(" specific AAAAAAAAAAAAAAAAA            BBBBBBBBBBB            CCCCCCCCCCCC>>>>>>>>>>>>>><<<<<<<<<<<"+specific);
 			
@@ -2264,9 +2414,10 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 				dayInfoArray.setCurSpecificed(Boolean.valueOf(false));
 			}
 			
-			if(resSpec !=""){
+			if(spec_res !=""){
 				if(specific !="") {
-					if(resSpec.indexOf(specific)>-1){
+					 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,specific);
+					if(inStr){
 						dayInfoArray.setIsResSpecificed(Boolean.valueOf(true));
 					}else{
 						dayInfoArray.setIsResSpecificed(Boolean.valueOf(false));
@@ -4390,9 +4541,11 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
             			}
             			
             			
-            			String rsSpec = StringUtil.getNullValue(dayInfo.getSpecific(),"");
+            			String spec_res = StringUtil.getNullValue(dayInfo.getSpecific(),"");
+            			 String[] spec_res_array = spec_res.split(","); 
+            			 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,detailSpec);
             			
-            			if(!"".equals(rsSpec) && !"".equals(detailSpec)  && rsSpec.equals(detailSpec)){
+            			if(!"".equals(spec_res) && !"".equals(detailSpec)  && inStr){
 //            				 System.out.println("rsSpec>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +rsSpec );	
             				returnStrSpec+="【"+dayInfo.getResource().getMemo() + "  "+ publishDate +"   "+ adDayTimes +"次】\n\r<br/>";
             				times-=adDayTimes;
@@ -4618,8 +4771,6 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 			 
 			if(orderDetails.length >0){
 
-				
-             
 				for(int i = 0 ;i< orderDetails.length;i++){
 					
 					orderDetails[i].setCreateDate(now_date);
@@ -4646,7 +4797,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 				DayInfo dayInfo = new DayInfo();
 				
 				
-				
+				//订单明细的原有信息
 				for(Iterator it = ls.iterator();it.hasNext();){
 					OrderDetail obj = (OrderDetail)it.next();
 					
@@ -4667,7 +4818,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 					 ConvertUtil.copyBeanProperties2(orderDetailBak2,obj);
 //					 log.info("orderDetail_id>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + orderDetail_id);
 					 
-				
+				     //循环中如果是素材改变，或者段位信息改变
 					if(idsList.contains(orderDetail_id.toString()) && (matter_id.longValue() != matterId.longValue()||resourceInfo_id.longValue() != resourceInfoId.longValue())){
 						
 						 Map mp = new HashMap();
@@ -4756,13 +4907,34 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 						 if(ls_targ.size() > 0 && ls_targ.size() == size_source_bak ){
 							 
 							 if(isRes){
+								 //matterLength 新版本长度  matter_length旧版本长度
 								 double changeResInfo2 = -Double.parseDouble(StringUtil.getNullValue(matterLength,"0"));
 								 double changeResInfo3 = Double.parseDouble(StringUtil.getNullValue(matter_length,"0"));
-
+								 String specificValue = getSpecificNameById(obj.getResourceSpecificId().toString()); //指定信息
+								 
 								 OrderDayInfoUtil.getNewOrderDetailByDayInfos(obj, ls_targ,changeResInfo2,resMap1,newDayInfosMap);
 								 OrderDayInfoUtil.getNewOrderDetailByDayInfos(obj, ls_targ,changeResInfo3,resMap2,newDayInfosMap);
 								 
 								 obj.setResourceInfoId(resourceInfoId);
+								 
+								 //如果换段位，需要删除指定信息，否则会有冲突
+								 if(!"".equals(specificValue)){
+									 obj.setResourceSpecificId(new Long("0"));
+									   Iterator itDayinfo = newDayInfosMap.values().iterator();
+										while (itDayinfo.hasNext()) {
+											DayInfo day_info = (DayInfo) itDayinfo.next();
+//											String spec_res = day_info.getSpecific();
+											
+											String spec_res = StringUtil.getNullValue(day_info.getSpecific(),"");
+											
+											   //1 包含  2 不包含 3、追加  4 其它排除空的
+											 spec_res = StringUtil.selectStr(spec_res,specificValue,2);
+											 day_info.setSpecific(spec_res);
+										}
+									 
+								 }
+								
+								 
 							 }else{
 								 OrderDayInfoUtil.getNewOrderDetailByDayInfos(obj, ls_targ,changeResInfo,resMap1,newDayInfosMap);
 								 obj.setMatterId(matterId);
@@ -4802,6 +4974,7 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 							 if(isRes){
 								 double changeResInfo2 = -Double.parseDouble(StringUtil.getNullValue(matterLength,"0"));
 								 double changeResInfo3 = Double.parseDouble(StringUtil.getNullValue(matter_length,"0"));
+								 String specificValue = getSpecificNameById(obj.getResourceSpecificId().toString()); //指定信息
 
 								 OrderDayInfoUtil.getNewOrderDetailByDayInfos(obj, ls_targ,changeResInfo2,resMap1,newDayInfosMap);
 								 OrderDayInfoUtil.getNewOrderDetailByDayInfos(obj, ls_targ,changeResInfo3,resMap2,newDayInfosMap);
@@ -4814,6 +4987,22 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 								
 								 obj.setCreateDate(now_date);
 								 obj.setModifyDate(now_date);
+								 
+								 
+								 //如果换段位，需要删除指定信息，否则会有冲突
+								 if(!"".equals(specificValue)){
+									  obj.setResourceSpecificId(new Long("0"));
+									   Iterator itDayinfo = newDayInfosMap.values().iterator();
+										while (itDayinfo.hasNext()) {
+											DayInfo day_info = (DayInfo) itDayinfo.next();
+//											String spec_res = day_info.getSpecific();
+											String spec_res = StringUtil.getNullValue(day_info.getSpecific(),"");
+											   //1 包含  2 不包含 3、追加  4 其它排除空的
+											 spec_res = StringUtil.selectStr(spec_res,specificValue,2);
+											 day_info.setSpecific(spec_res);
+										}
+									 
+								 }
 								 
 								  Long idd = obj.getId();
 					    		  if (idd == null || idd.toString().equals("0")) {
@@ -5598,7 +5787,16 @@ public class OrderDetailManagerImpl extends BaseManager implements OrderDetailMa
 
 	
 
-	
+	public static String getSpecificNameById(String id){
+		Map mp = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_SOECUFUC_MAP);
+		Object obj = mp.get(id);
+		if(obj != null){
+			Specific specific = (Specific)mp.get(id);
+			return specific.getName();
+		}else{
+			return "";
+		}
+	}
 
 	
 	

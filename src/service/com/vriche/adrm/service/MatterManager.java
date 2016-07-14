@@ -64,7 +64,7 @@ public interface MatterManager extends Manager {
     
     public String saveMatterForm(Matter matter) ;
     
-    public Matter saveMatter(Long customerId,String tapeCode,String name,String version,String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,Long brandId,Integer pos);
+    public Matter saveMatter(Long customerId,String tapeCode,String name,String version,String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,Long brandId,Integer pos,Long carrierId);
 
     public Matter saveMatter3(Matter matter);
     

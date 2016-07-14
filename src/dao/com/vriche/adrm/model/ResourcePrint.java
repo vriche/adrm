@@ -26,7 +26,17 @@ public class ResourcePrint extends BaseObject {
     protected Integer displayNo;
     
     protected Integer beforehand;
+    
+    protected Workspan workspan =new Workspan();
 	
+	public Workspan getWorkspan() {
+		return workspan;
+	}
+
+	public void setWorkspan(Workspan workspan) {
+		this.workspan = workspan;
+	}
+
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;

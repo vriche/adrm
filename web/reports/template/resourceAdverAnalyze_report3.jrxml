@@ -3,10 +3,10 @@
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="resourceAdverAnalyze_report3" language="java" pageWidth="842" pageHeight="595" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
-	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
-	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
-	<property name="com.jasperassistant.designer.Rulers" value="true"/>
 	<property name="com.jasperassistant.designer.HGuides" value="2"/>
+	<property name="com.jasperassistant.designer.Rulers" value="true"/>
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
 	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
 	<property name="com.jasperassistant.designer.Margins" value="true"/>
 	<property name="com.jasperassistant.designer.Grid" value="false"/>
@@ -62,7 +62,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="宋体" size="14" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[广告版本]]></text>
+				<text><![CDATA[3广告版本]]></text>
 			</staticText>
 			<staticText>
 				<reportElement positionType="Float" mode="Opaque" x="404" y="1" width="58" height="25"/>
@@ -134,74 +134,74 @@
 		<band height="20">
 			<elementGroup>
 			</elementGroup>
-			<textField>
-				<reportElement positionType="Float" x="0" y="0" width="57" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="57" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(0)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="57" y="0" width="58" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="57" y="0" width="58" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(1)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="115" y="0" width="116" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="115" y="0" width="116" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(4)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="231" y="0" width="114" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="231" y="0" width="114" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(5)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="346" y="0" width="58" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="0" width="58" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[" "+(String)$F{obj}.get(6)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="404" y="0" width="58" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="404" y="0" width="58" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(7)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="696" y="0" width="49" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="696" y="0" width="49" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(13)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="638" y="0" width="58" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="638" y="0" width="58" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(12)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="580" y="0" width="58" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="580" y="0" width="58" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(11)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="522" y="0" width="58" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="522" y="0" width="58" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(10)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="464" y="0" width="58" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="464" y="0" width="58" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(9)]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="745" y="0" width="57" height="20"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="745" y="0" width="57" height="20"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[(String)$F{obj}.get(2)]]></textFieldExpression>

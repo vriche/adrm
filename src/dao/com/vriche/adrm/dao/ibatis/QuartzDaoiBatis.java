@@ -31,9 +31,9 @@ public class QuartzDaoiBatis  implements QuartzDao {
     private static final String ADD_JOBDETAIL_SQL = "insert into QRTZ_INSTALLED_JOBS(JOB_NAME,JOB_GROUP,APP_PATH) values(?,?,?)";
     private static final String DEL_JOBDETAIL_SQL = "delete from QRTZ_INSTALLED_JOBS WHERE JOB_NAME=? AND JOB_GROUP=?";
     private static final String GET_JOBDETAIL_SQL = "select * from QRTZ_INSTALLED_JOBS WHERE APP_PATH=?";
-    private static final String GET_TRIGGERS_SQL = "select A.*,B.CRON_EXPRESSION  from QRTZ_TRIGGERS A left outer join qrtz_cron_triggers B on A.TRIGGER_NAME =B.TRIGGER_NAME order by A.start_time";
+    private static final String GET_TRIGGERS_SQL = "select A.*,B.CRON_EXPRESSION  from QRTZ_TRIGGERS A left outer join QRTZ_CRON_TRIGGERS B on A.TRIGGER_NAME =B.TRIGGER_NAME order by A.START_TIME";
 //    private static final String GET_CON_TRIGGERS_SQL = "select TRIGGER_NAME,TRIGGER_GROUP,CRON_EXPRESSION,TIME_ZONE_ID from qrtz_cron_triggers";
-    private static final String UPDATE_CRON_EXPRESSION_SQL = "update qrtz_cron_triggers set CRON_EXPRESSION =? WHERE TRIGGER_NAME=?";
+    private static final String UPDATE_CRON_EXPRESSION_SQL = "update QRTZ_CRON_TRIGGERS set CRON_EXPRESSION =? WHERE TRIGGER_NAME=?";
 
     private DataSource dataSource;
 
@@ -62,7 +62,7 @@ public class QuartzDaoiBatis  implements QuartzDao {
 
 	public List getQrtzTriggers2() {
 
-		List  results = getJdbcTemplate().queryForList("select * from QRTZ_TRIGGERS order by start_time");
+		List  results = getJdbcTemplate().queryForList("select * from QRTZ_TRIGGERS order by START_TIME");
 
 		long val = 0;
 		String temp = null;

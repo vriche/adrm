@@ -4,7 +4,8 @@
 <title><fmt:message key="matterDetail.title"/></title>
 <content tag="heading"><fmt:message key="matterDetail.heading"/></content>
 
-
+<script type="text/javascript" src="<c:url value='/scripts/class/carrier.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/CarrierManager.js'/>"></script>
 
 
 <script type="text/javascript" src="<c:url value='/scripts/class/matter.js'/>"></script>
@@ -36,7 +37,7 @@
 <html:hidden property="brandId2" styleId="brandId2"/>
 <html:hidden property="orgId" styleId="orgId"/>
 <html:hidden property="customerId" styleId="customerId" />
-
+<html:hidden property="memo" styleId="memo" />
 <ul>
 
 
@@ -138,15 +139,7 @@
 		        <html:text property="length" styleId="length"/>
 			</td>
 		</tr>
-	    <tr> 
-		    <td width="50%" nowrap="nowrap" class="dataLabel">
-		    	<fmt:message key="matterForm.memo"/>:       	
-	        </td>
-	        <td>
-		        <html:errors property="memo"/>
-		        <html:text property="memo" styleId="memo"/>
-			</td>
-		</tr>
+
 	    <tr> 
 		    <td width="50%" nowrap="nowrap" class="dataLabel">
 		    	<fmt:message key="matterForm.tapeCode"/>:       	
@@ -193,6 +186,7 @@
            
            
 		</tr>
+		  
 		    <tr> 
 		    
 				     <td width="50%" nowrap="nowrap" class="dataLabel">
@@ -210,6 +204,25 @@
 						</div>
 		            </td>
 			</tr>
+			
+		 <tr> 
+		    
+				     <td width="50%" nowrap="nowrap" class="dataLabel">
+				    	ÆµµÀ:        	
+			        </td>
+	        
+		            <td> 
+		         	  <div style="position:relative;">			
+							<span style="margin-left:100px;width:18px;overflow:hidden;">
+							  	<adrm_order:selectList name="carriers" key="3"  level="1" toScope="page"/> 
+							     <html:select property="carrierForm.id" styleId="carrierForm.id"  style="width:145px;margin-left:-100px"> 
+							     <html:options collection="carriers"  property="value" labelProperty="label"/> 
+							     </html:select> 								
+							</span>
+						</div>
+		            </td>
+			</tr>	
+			
 	    <tr> 
 		    <td width="50%" nowrap="nowrap" class="dataLabel">
 		    	<fmt:message key="matterForm.enable"/>:       	
@@ -237,25 +250,25 @@
 			<adrm_order:authorizeTag res="tag_matter_button1">
 			
 		        <html:submit styleClass="" property="method.save" onclick="bCancel=false; return checkTapeCode()" styleId="save1">
-		            <fmt:message key="button.save"/>
+		            &nbsp;&nbsp;<fmt:message key="button.save"/>&nbsp;&nbsp;
 		        </html:submit>
 		
 		        <html:submit styleClass="" property="method.delete" onclick="bCancel=true; return confirmDelete('Matter')" styleId="delete">
-		            <fmt:message key="button.delete"/>
+		             &nbsp;&nbsp;<fmt:message key="button.delete"/> &nbsp;&nbsp;
 		        </html:submit>
 		
 		        <html:button styleClass="" property="method.save" styleId="save2">
-		            <fmt:message key="button.save"/>
+		             &nbsp;&nbsp;<fmt:message key="button.save"/> &nbsp;&nbsp;
 		        </html:button>
 		      </adrm_order:authorizeTag>
 		      
 		        <html:cancel styleClass="" onclick="bCancel=true">
-		            <fmt:message key="button.cancel"/>
+		             &nbsp;&nbsp;<fmt:message key="button.cancel"/> &nbsp;&nbsp;
 		        </html:cancel>
 		        
 		     <adrm_order:authorizeTag res="tag_matter_button2">
 		        <html:button styleClass="" property="method.save" styleId="save">
-		            <fmt:message key="button.forcesave"/>
+		             &nbsp;&nbsp;<fmt:message key="button.forcesave"/> &nbsp;&nbsp;
 		        </html:button>
 		    </adrm_order:authorizeTag> 
 	        </div>

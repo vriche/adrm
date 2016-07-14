@@ -868,7 +868,7 @@ public class SchedulerManagerImp implements SchedulerManager {
 
 			  String serviceType = StringUtil.getNullValue(ps.getProperty("serviceType"),"ftp");
 			  String targ_hostname = StringUtil.getNullValue(ps.getProperty("targ_hostname"),"127.0.0.1");
-			  String targ_path = StringUtil.getNullValue(ps.getProperty("targ_path"),"/");
+			  String targ_path = StringUtil.getNullValue(ps.getProperty("targ_path"),"");
 			  String targ_username = StringUtil.getNullValue(ps.getProperty("targ_username"),"test");
 			  String targ_password = StringUtil.getNullValue(ps.getProperty("targ_password"),"test");
 			  String existDate = StringUtil.getNullValue(ps.getProperty("existDate"),"5");

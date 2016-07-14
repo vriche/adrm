@@ -233,8 +233,8 @@ Order.prototype.getOrder = function(id,getFun){
 Order.prototype.getOrderForEdit = function(id,getFun){
 	OrderManager.getOrderForEdit(id,getFun);
 }
-Order.prototype.saveOrderClone = function(id,loginUserId,getFun){
-	OrderManager.saveOrderClone(id,loginUserId,getFun);
+Order.prototype.saveOrderClone = function(orderId,model,loginUserId,getFun){
+	OrderManager.saveOrderClone(orderId,model,loginUserId,getFun);
 }
 
 
@@ -377,7 +377,9 @@ Order.prototype.fillTalbeReport= function(objs){
 						function(obj){return getFormatDay(obj.orderPublic.publishStartDate+"",'y/m/d');},
 						function(obj){return getFormatDay(obj.orderPublic.publishEndDate+"",'y/m/d');},
 						function(obj){ return obj.orderPublic.moneyRealpay;},
-						function(obj){ return obj.orderPublic.moneyIn;},
+//						function(obj){ return obj.orderPublic.moneyIn;},
+						function(obj){ return obj.user.fullName;},
+						
 						function(obj){ return obj.orderState.name;},
 //					    function(obj) {
 ////					    	var view = makeInputButtonTd(obj.id,"button","18","‘§¿¿","button_view_bro");

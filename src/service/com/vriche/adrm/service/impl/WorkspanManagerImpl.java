@@ -214,7 +214,7 @@ public class WorkspanManagerImpl extends BaseManager implements WorkspanManager 
 	       
 	       conn.setAutoCommit(false);  
 //	       sql = "update tb_ad_resource_day_info set ad_resource_specific=?,used=? where ad_resource_info_id=? and  publish_date=?";
-	       sql = "update tb_ad_resource_day_info set ad_resource_specific=?,used=?,is_lock=? where ad_resource_day_info_id=? ";
+	       sql = "update tb_ad_resource_day_info set ad_resource_specific=?,used=?,is_locked=? where ad_resource_day_info_id=? ";
 	       PreparedStatement pst = conn.prepareStatement(sql);
 	       
 	      

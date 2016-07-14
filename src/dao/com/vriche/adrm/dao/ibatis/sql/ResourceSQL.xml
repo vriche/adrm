@@ -158,25 +158,7 @@
         <result property="workspan.satLength" column="sat_length"/>
     </resultMap>
 	
-	<resultMap id="resourcePrintResult" class="resourcePrint">
-		<result property="beforehand" column="before_hand"/>
-		<result property="resourceId" column="ad_resource_info_id"/>
-		<result property="resourceName" column="resource_name"/>
-		<result property="carrierId" column="ad_resource_carrier_id"/>
-		<result property="parentId" column="parent_id"/>
-		<result property="carrierName" column="carrier_name"/>
-		<result property="memo" column="memo"/>
-		<result property="length" column="length"/>
-		<result property="price" column="price"/>
-		<result property="sunLength" column="sun_length"/>
-		<result property="monLength" column="mon_length"/>
-		<result property="tueLength" column="tue_length"/>
-		<result property="thiLength" column="thi_length"/>
-		<result property="wenLength" column="wen_length"/>
-		<result property="friLength" column="fri_length"/>
-		<result property="satLength" column="sat_length"/>
-		<result property="displayNo" column="display_no"/>
-    </resultMap>
+	
 
 	<select id="getPriceLength" parameterClass="java.util.Map" resultClass="java.lang.String">
     <![CDATA[
@@ -277,8 +259,8 @@
 		    	 
 		left outer join tb_ad_resource_workspan as wp 
 			on wp.ad_resource_info_id = R.ad_resource_info_id 
-              and wp.ad_resource_workspan_id = (select max(ad_resource_workspan_id) from tb_ad_resource_workspan where  ad_resource_info_id =  R.ad_resource_info_id )
-			    
+
+			  and wp.begin_date = (select max(begin_date) from tb_ad_resource_workspan where  ad_resource_info_id =  R.ad_resource_info_id )  
 			    
 			    ]]> 
 
@@ -1103,6 +1085,32 @@
     ]]>
     </select>	
 	
+	
+	<resultMap id="resourcePrintResult" class="resourcePrint">
+		<result property="beforehand" column="before_hand"/>
+		<result property="resourceId" column="ad_resource_info_id"/>
+		<result property="resourceName" column="resource_name"/>
+		<result property="carrierId" column="ad_resource_carrier_id"/>
+		<result property="parentId" column="parent_id"/>
+		<result property="carrierName" column="carrier_name"/>
+		<result property="memo" column="memo"/>
+		<result property="length" column="length"/>
+		<result property="price" column="price"/>
+		<result property="sunLength" column="sun_length"/>
+		<result property="monLength" column="mon_length"/>
+		<result property="tueLength" column="tue_length"/>
+		<result property="thiLength" column="thi_length"/>
+		<result property="wenLength" column="wen_length"/>
+		<result property="friLength" column="fri_length"/>
+		<result property="satLength" column="sat_length"/>
+		<result property="displayNo" column="display_no"/>
+		<result property="workspan.beginDate" column="begin_date" nullValue="0"/>
+		<result property="workspan.endDate" column="end_date" nullValue="0"/>
+		<result property="workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
+		<result property="workspan.monLength" column="mon_length" nullValue="0"/>
+
+    </resultMap>
+    
 	<select id="getResourcePrint" parameterClass="java.util.Map" resultMap="resourcePrintResult">
     <![CDATA[
 		SELECT ri.ad_resource_info_id,ri.resource_name,ri.before_hand,
@@ -1110,13 +1118,15 @@
 				rc.ad_resource_carrier_id,rc.carrier_name,
 				ri.memo,rpd.length,rpd.price,rw.sun_length,
 				rw.mon_length,rw.tue_length,rw.thi_length,
-				rw.wen_length,rw.fri_length,rw.sat_length
+				rw.wen_length,rw.fri_length,rw.sat_length,
+				rw.begin_date, rw.end_date,rw.broadcast_start_time 
 		FROM tb_ad_resource_info ri 
 		left outer join tb_ad_resource_price_rel rpr on ri.ad_resource_info_id = rpr.ad_resource_info_id
 		left outer join tb_ad_resource_price_detail_rel rpdr on rpdr.ad_resource_price_id = rpr.ad_resource_price_id
 		left outer join tb_ad_resource_price_detail rpd on rpdr.ad_resource_price_detail_id = rpd.ad_resource_price_detail_id
 		left outer join tb_ad_resource_carrier rc on rc.ad_resource_carrier_id = ri.ad_resource_carrier_id
-		left outer join tb_ad_resource_workspan rw on ri.ad_resource_info_id = rw.ad_resource_info_id
+		left outer join tb_ad_resource_workspan rw on ri.ad_resource_info_id = rw.ad_resource_info_id  
+		 and  rw.begin_date = (select max(begin_date) from tb_ad_resource_workspan where  ad_resource_info_id =  ri.ad_resource_info_id )
     ]]>
 		<dynamic prepend="WHERE"> 
 	      <isNotNull property="carrierIds">
@@ -1125,7 +1135,7 @@
 		  </iterate>
 		  </isNotNull> 
           </dynamic>      
-		order by ri.display_no
+		order by rw.broadcast_start_time 
     </select>	
 	
 	
@@ -1409,21 +1419,9 @@
 					
 						 FROM  tb_ad_resource_info  RS  
 								
-								LEFT OUTER JOIN  (
-								SELECT  
-					MAX(WS2.ad_resource_workspan_id) as ad_resource_workspan_id, 
-					WS2.ad_resource_info_id,
-					WS2.broadcast_start_time, 
-					WS2.sun_length,
-					WS2.mon_length,
-					WS2.tue_length,
-					WS2.thi_length,
-					WS2.wen_length,
-					WS2.fri_length,
-					WS2.sat_length  FROM tb_ad_resource_workspan  WS2
-								GROUP BY  WS2.ad_resource_info_id
-								) AS    WS 
-								 ON  WS.ad_resource_info_id =RS.ad_resource_info_id
+						LEFT OUTER JOIN tb_ad_resource_workspan WS 
+						
+						on  WS.begin_date = (select max(begin_date) from tb_ad_resource_workspan where  ad_resource_info_id =  RS.ad_resource_info_id )  and  WS.ad_resource_info_id = RS.ad_resource_info_id 
 
 						<dynamic prepend="WHERE"> 
 							 <isNotNull property="resourceIdList">
@@ -1720,6 +1718,30 @@
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
     </insert>
+    
+    
+    
+    
+    <select id="getArrangedOrderByRes" resultClass="resource"  parameterClass="map">
+			SELECT 
+			DISTINCT 
+			tb_order.order_id as id, 
+			tb_order.order_code as memo 
+			FROM tb_order
+			INNER JOIN tb_order_detail ON tb_order_detail.order_id = tb_order.order_id
+			INNER JOIN tb_order_day_info ON tb_order_day_info.order_detail_id = tb_order_detail.order_detail_id
+
+			<dynamic prepend="WHERE"> 
+							<isNotEmpty property="resourceId" prepend="AND">
+									<![CDATA[  tb_order_detail.ad_resource_info_id = #resourceId# ]]>
+							 </isNotEmpty> 
+					
+							<isNotEmpty property="startDate" prepend="AND">
+									<![CDATA[ tb_order_day_info.publish_date > #startDate# ]]>
+							 </isNotEmpty>  					 		 
+			</dynamic>	
+			
+		</select>	
 
 
 	

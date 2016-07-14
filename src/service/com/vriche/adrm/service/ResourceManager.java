@@ -130,5 +130,7 @@ public interface ResourceManager extends Manager {
 	
 	public void removeResourceIdsYearUser(String ids);
 	
+	public String getArrangedOrderByRes(String resourceId,String endDay);
+	
 }
 

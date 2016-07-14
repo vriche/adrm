@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1039,4 +1040,59 @@ public class StringUtilsv {
 			}
 		return ls;
 	}
+	
+	
+	public static boolean ByForLoop(String[] arr, String targetValue) {
+		for (String s : arr) {
+			if (s.equals(targetValue))
+				return true;
+		}
+		return false;
+	}
+
+	public static boolean ByArraysBinarySearch(String[] arr, String targetValue) {
+		int a = Arrays.binarySearch(arr, targetValue);
+		if (a > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	 public static boolean ByList(String[] arr, String targetValue) {
+		  return Arrays.asList(arr).contains(targetValue);
+	 }
+	 
+	 
+//	 public static void main(String[] args) {
+//	        int arr[] = { 49, 38, 65, 97, 76, 13, 27, 49 };
+//	        int len = 8;
+//	        int i;
+//	        System.out.printf("before sort\n");
+//	        for (i = 0; i < len; i++)
+//	            System.out.printf("%d  ", arr[i]);
+//	        System.out.printf("\n");
+//	 
+//	        QuickSort(arr, 0, len - 1);
+//	 
+//	        System.out.printf("after sorted\n");
+//	        for (i = 0; i < len; i++)
+//	            System.out.printf("%d  ", arr[i]);
+//	    }
+	 public static void QuickSort(int e[], int first, int end) {
+	        int i = first, j = end, temp = e[first];
+	        while (i < j) {
+	            while (i < j && e[j] >= temp)
+	                j--;
+	            e[i] = e[j];
+	            while (i < j && e[i] <= temp)
+	                i++;
+	            e[j] = e[i];
+	        }
+	        e[i] = temp;
+	        if (first < i - 1)
+	            QuickSort(e, first, i - 1);
+	        if (end > i + 1)
+	            QuickSort(e, i + 1, end);
+	    }
+	 
 }

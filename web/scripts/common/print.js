@@ -45,7 +45,7 @@ MyPrint.prototype.getDatas = function(){
                     iconCls:'admin-tool-chart',
                     handler:self.printReport.createDelegate(self,['chart'])
                 },{
-                    text:'复制订单', //7
+                    text:'复制订单(全部)', //7
                     iconCls:'admin-tool-copy',
                     handler:self.printReport.createDelegate(self,['copy'])
                 },{
@@ -68,6 +68,14 @@ MyPrint.prototype.getDatas = function(){
                     text:'退回', //12
                     iconCls:'admin-tool-return',
                     handler:self.printReport.createDelegate(self,['return'])
+                },{
+                    text:'复制订单(不带排期)', //13
+                    iconCls:'admin-tool-copy',
+                    handler:self.printReport.createDelegate(self,['copy2'])
+                },{
+                    text:'复制订单(到下一年度，不带排期)', //13
+                    iconCls:'admin-tool-copy',
+                    handler:self.printReport.createDelegate(self,['copy3'])
                 }                  
                 ];	
 }

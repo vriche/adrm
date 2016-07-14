@@ -142,7 +142,7 @@ public interface OrderDetailManager extends Manager {
     
     
 
- 
+	public String getDayInfosLockedByResourceIds(String[] ids,Integer startDate,Integer endDate) throws OrderDetailUnableSaveException;
 
 
     

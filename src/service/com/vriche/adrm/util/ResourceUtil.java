@@ -137,6 +137,8 @@ public class ResourceUtil {
 		boolean withBroPoint = SysParamUtil.getwithBroPoint();
     	boolean withResourceSort= SysParamUtil.getWithResourceSort();
 		boolean isMeno = SysParamUtil.getResourceDisplay();
+		boolean isOrderMoreCarrier = SysParamUtil.getorderMoreCarrierParam();
+		
 
 		int orgId = Integer.parseInt(StringUtil.getNullValue(resource.getOrgId(),"1"));
 		int orgType = Integer.parseInt(SysParamUtil.getOrgTypeById(String.valueOf(orgId)));
@@ -166,19 +168,19 @@ public class ResourceUtil {
     		//订单时段
     		if(type == 1){
 	        	if("hntv".equals(tvName)){
-	        		 lable = memo +" "+ resourceName+ " ["  + broTime +"]";
+	        		 lable = memo +" "+ resourceName+ " ["  + broTimeStar +"]";
 	   	   		}else if("fztv".equals(tvName)){
 //	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
 	   	   			 if(memo.trim().equals(resourceName)){
-	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+"]";
 	   	   			 }else{
-	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+" ]"+ resourceName;
 	   	   			 }
 
 	   	   		}else if("qztv".equals(tvName)){
-	   	   			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
+	   	   			 lable = broTimeStar+" ["+ memo+" "+ resourceName+"]";
 	   	   		}else if("sjz".equals(tvName)){
-	   	   		     lable =  resourceName+ "["+ broTime+"]";
+	   	   		     lable =  resourceName+ "["+ broTimeStar+"]";
 	   	   		}else if("xmtv".equals(tvName)){
 	   	   			 if(orgType == 1){
 	   	   				  lable = broTimeStar+" ["+ resourceName+" "+  memo+"]";
@@ -188,11 +190,11 @@ public class ResourceUtil {
 	   	   				 lable = broTime+" ["+ memo+" "+ resourceName+"]";
 	   	   			 }
 	   	   		}else if("catv".equals(tvName)){
-	   	   			 lable = broTime+"  "+ resourceName;
+	   	   			 lable = broTimeStar+"  "+ resourceName;
 	   	   		}else if("hbtv".equals(tvName)){
 	   	   			 lable = broTimeStar+" ["+ memo +" "+  resourceName+"]";
 	   	   		}else{
-	   	   			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
+	   	   			 lable = broTimeStar+" ["+ memo+" "+ resourceName+"]";
 	   	   		}
 	       		
 	       		if(withResourceSort && !"".equals(resourceType)) lable = lable+ "||" +resourceType;
@@ -205,9 +207,9 @@ public class ResourceUtil {
 //	   	   			 lable =  memo+"["+ resourceName+"]";
 	   	   			 
 		   	   		 if(memo.trim().equals(resourceName)){
-	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+"]";
 	   	   			 }else{
-	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+" ]"+ resourceName;
 	   	   			 }			 
 	   	   			 
 	   	   			 
@@ -239,9 +241,9 @@ public class ResourceUtil {
 //	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
 	   	   			 
 		   	   		 if(memo.trim().equals(resourceName)){
-	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+"]";
 	   	   			 }else{
-	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+" ]"+ resourceName;
 	   	   			 }
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			 lable = broTime+" ["+ memo+" "+ resourceName+"]";
@@ -258,16 +260,16 @@ public class ResourceUtil {
 	   	   		}else if("hbtv".equals(tvName)){
 	   	   			 lable = broTimeStar+" ["+ memo +" "+  resourceName+"]";
 	   	   		}else if("catv".equals(tvName)){
-	   	   			 lable = broTime+"  "+ resourceName;
+	   	   			 lable = broTimeStar+"  "+ resourceName;
 	   	   		}else{
-	   	   			lable = broTime+" ["+ resourceName+" "+  memo+"]";
+	   	   			lable = broTimeStar+" ["+ resourceName+" "+  memo+"]";
 	   	   		}
     		}  	
     		
     		
     		
     		
-//    		统计分析
+//    		统计分析 快速下单
     		if(type == 4){
 //    			 System.out.println("orgType>>>>>>>>33333      666666666666666            7777777777777777>>>>>>>>" + type);
     			
@@ -277,9 +279,9 @@ public class ResourceUtil {
 //	   	   			 lable =  "["+ memo+" "+ resourceName+"]";
 	   	   			 
 		   	   		 if(memo.trim().equals(resourceName)){
-	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+"]";
 	   	   			 }else{
-	   	   				 lable =  memo+"["+ resourceName+"]";
+	   	   				 lable =  memo+"["+ broTimeStar +"]" +resourceName;
 	   	   			 }
 	   	   		 
 	   	   		}else if("qztv".equals(tvName)){
@@ -289,18 +291,18 @@ public class ResourceUtil {
 	   	   		}else if("xmtv".equals(tvName)){
 		   	   		 if(orgType == 1){
 		   	   			 lable = broTimeStar+" ["+ resourceName+" "+  memo+"]";
-							   	   		 }
-							   	   		 if(orgType == 2){
-							   	   			 lable = broTime + " ["+ memo+" "+ resourceName+"]";
-							   	   		 }		   	   		 
+					 }
+					if(orgType == 2){
+						lable = broTime + " ["+ memo+" "+ resourceName+"]";
+					}		   	   		 
 
 	   	   		}else if("catv".equals(tvName)){
-	   	   			 lable = resourceName + " "+ broTime+"";
+	   	   			 lable = resourceName + " "+ broTimeStar+"";
 	   	   		 
 	   	   		}else if("hbtv".equals(tvName)){
 	   	   			 lable = broTimeStar+" ["+ memo +" "+  resourceName+"]";
 	   	   		}else{
-	   	   			lable = broTime+" ["+ resourceName+" "+  memo+"]";
+	   	   			lable = broTimeStar+" ["+ resourceName+" "+  memo+"]";
 	   	   		}
     		}  
     		
@@ -311,16 +313,21 @@ public class ResourceUtil {
 	        	if("hntv".equals(tvName)){
 	        		 lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
 //	      			 lable = broTime+" ["+ lable +"]";
-	      			 lable = lable+" ["+ broTime +"]";
+	      			 lable = lable+" ["+ broTimeStar +"]";
 	   	   		}else if("fztv".equals(tvName)){
-	   	   			lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
-	   	   			lable = broTime+" ["+ lable +"]";
+		   	   		 if(memo.trim().equals(resourceName)){
+//	   	   				 lable =  broTimeStar+" ["+ memo +"]";
+	   	   				 lable =  memo+"["+ broTimeStar +"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTimeStar +"]" +resourceName;
+	   	   			 }
+	 
 	   	   		}else if("qztv".equals(tvName)){
 	   	   			lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
-	   	   			lable = broTime+" ["+ lable +"]";
+	   	   			lable = broTimeStar+" ["+ lable +"]";
 	   	   		}else if("sjz".equals(tvName)){
 	   	   			lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
-	   	   			lable = broTime+" ["+ lable +"]";
+	   	   			lable = broTimeStar+" ["+ lable +"]";
 	   	   		}else if("xmtv".equals(tvName)){
 	   	   			lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
 	   	   			
@@ -334,13 +341,13 @@ public class ResourceUtil {
 	   	   			
 	   	   		}else if("catv".equals(tvName)){
 	   	   			lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
-	   	   			lable = broTime+" ["+ lable +"]";
+	   	   			lable = broTimeStar+" ["+ lable +"]";
 	   	   		}else if("hbtv".equals(tvName)){
 	   	   			lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
 	   	   			lable = broTimeStar+" ["+ lable +"]";
 	   	   		}else{
 	   	   		     lable = isMeno?resource.getResourceName().toString():resource.getMemo().toString();
-	   	   			lable = broTime+" ["+ lable +"]";
+	   	   			lable = broTimeStar+" ["+ lable +"]";
 	   	   		}        	
 	        	
     		}  		
@@ -353,9 +360,15 @@ public class ResourceUtil {
        				if(orgType == 2){
        					lable = broTime+" ["+ resource.getResourceName().toString() +"]";
        				}
-       			}if("hbtv".equals(tvName)){
+       			}else if("hbtv".equals(tvName)){
        				lable = broTime+" ["+ resource.getMemo().toString() +"]";
-       			}else{
+       			}else if("fztv".equals(tvName)){
+		   	   		 if(memo.trim().equals(resourceName)){
+		   	   			 lable =  memo+"["+ broTimeStar +"]";
+	   	   			 }else{
+	   	   				 lable =  memo+"["+ broTimeStar +"]" +resourceName;
+	   	   			 }
+	   	   		}else{
        			
        				lable = broTime+" ["+ resource.getResourceName().toString() +"]";
        			}
@@ -373,14 +386,14 @@ public class ResourceUtil {
     		}    
        		
        		
-       			     //时段维护
+       	   //时段维护
        		if(type == 8){
        		
        				if("xmtv".equals(tvName)){
            				lable =  !isMeno?resource.getResourceName().toString():resource.getMemo().toString();
            				lable +=  isMeno?"["+resource.getResourceName().toString()+"]":"["+resource.getMemo().toString()+"]";
        				}else if("hntv".equals(tvName)||"hbtv".equals(tvName)||"fztv".equals(tvName)){
-       					lable = resource.getMemo().toString();
+       					lable = resource.getMemo().toString()+ " "+broTimeStar;
        				}else if("catv".equals(tvName)||"sjz".equals(tvName)){
        					lable = resource.getResourceName().toString();
        				}else{
@@ -403,7 +416,7 @@ public class ResourceUtil {
 		
 		boolean withBroPoint = SysParamUtil.getwithBroPoint();
     	boolean withResourceSort= SysParamUtil.getWithResourceSort();
-    	
+    	boolean isOrderMoreCarrier = SysParamUtil.getorderMoreCarrierParam();
     	
 		int orgType = Integer.parseInt(SysParamUtil.getOrgTypeById(String.valueOf(orgId)));
 		
@@ -415,7 +428,7 @@ public class ResourceUtil {
     		String resourceName = resource.getResourceName();
     		String memo = resource.getMemo();
     		Carrier carrier = resource.getCarrier();
-    		String carrierName = carrier.getCarrierName();
+    		String carrierName =isOrderMoreCarrier?carrier.getCarrierName():"";
     		
     		carrierName = !StringUtils.isEmpty(carrierName)?carrierName:"";
     		if(carrierName.length()>0) carrierName = carrierName.substring(0, 2);
@@ -440,9 +453,10 @@ public class ResourceUtil {
 //	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
 	   	   			 
 		   	   		 if(memo.trim().equals(resourceName)){
-	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+"]";
 	   	   			 }else{
-	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+//	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   				 lable =  memo+"["+ broTimeStar +"]" +resourceName;
 	   	   			 } 
 	   	   			 
 	   	   		}else if("qztv".equals(tvName)){
@@ -462,7 +476,7 @@ public class ResourceUtil {
 	   	   		}else if("catv".equals(tvName)){
 //	   	   		     broTime = org.apache.commons.lang.StringUtils.upperCase(broTime);
 //	   	   		     broTime = StringUtil.truncateString(broTime,18,true);
-	   	   			 lable = broTime+"  "+ resourceName;
+	   	   			 lable = broTimeStar+"  "+ resourceName;
 	   	   		}else{
 	   	   			 if(orgType == 1){
 	   	   				 lable = broTimeStar +" ["+ resourceName+" "+  memo+"]";
@@ -484,9 +498,9 @@ public class ResourceUtil {
 //	   	   			 lable =  memo+"["+ resourceName+"]";
 	   	   			 
 		   	   		 if(memo.trim().equals(resourceName)){
-	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+"]";
 	   	   			 }else{
-	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   				 lable =  memo+"["+ broTimeStar +"]" +resourceName;
 	   	   			 } 
 		   	   		 
 	   	   		}else if("qztv".equals(tvName)){
@@ -519,9 +533,9 @@ public class ResourceUtil {
 //	   	   			 lable =  memo+"["+ broTime+" "+ resourceName+"]";
 	   	   			 
 		   	   		 if(memo.trim().equals(resourceName)){
-	   	   				 lable =  memo+"["+ broTime+"]";
+	   	   				 lable =  memo+"["+ broTimeStar+"]";
 	   	   			 }else{
-	   	   				 lable =  memo+"["+ broTime+" "+ resourceName+"]";
+	   	   				 lable =  memo+"["+ broTimeStar +"]" +resourceName;
 	   	   			 } 
 		   	   		 
 	   	   		}else if("qztv".equals(tvName)){
@@ -652,6 +666,12 @@ public class ResourceUtil {
 		DayInfoDao dayInfoDao = ServiceLocator.getDayInfoDao();
 		dayInfoDao.saveDayInfo2(newResMap);
 	}
+	
+//	public static void updateDayInfos3(Map newResMap) {
+//		DayInfoDao dayInfoDao = ServiceLocator.getDayInfoDao();
+//		dayInfoDao.saveDayInfo3(newResMap);
+//	}
+	
 	
 
 	public static Map getDayInfosMap(DayInfo dayInfo) {
@@ -1229,12 +1249,15 @@ public class ResourceUtil {
 			sb.append("<row  id=\""+ obj.getId()  +"\"" +">");
 
 //			System.out.println(" makeXmlForResourcesForQuery<<<<<<<<! obj.getId()+++++++++++++++++++<<<<<<<<<<"+ obj.getId());
-			String tooltip = "22222222222222222222222222";
+			String tooltip = "22222222222222222222222222 777777777777777777777 888888888888888888888";
+			
+			System.out.println(" makeXmlForResourcesForQuery<<<<<<<<! obj.getId()+++++++++++++++++++<<<<<<<<<<"+tooltip);
+			
 			String lbale = obj.getLable();
-			if(lbale != null) sb.append("<cell title=\""+ tooltip +"\"><![CDATA["+ lbale  +"]]></cell>");
+			if(lbale != null) sb.append("<cell tooltip=\""+ tooltip +"\"><![CDATA["+ lbale  +"]]></cell>");
 			
 			String value1 = obj.getValue1();
-			if(value1 != null) sb.append("<cell  title=\""+ tooltip +"\"><![CDATA["+ value1  +"]]></cell>");
+			if(value1 != null) sb.append("<cell  tooltip=\""+ tooltip +"\"><![CDATA["+ value1  +"]]></cell>");
 
 			String value2 = obj.getValue2();
 			if(value2 != null) sb.append("<cell  tooltip=\""+ tooltip +"\"><![CDATA["+ value2  +"]]></cell>");
@@ -1499,8 +1522,36 @@ public class ResourceUtil {
 		return weekStr;
 	}
 	
-	
-	
+	//只保留最新版本的段位
+	public static Collection getLasterVersionResources(List resourceList){
+		Map mp = new HashMap();
+		List lsNew = new ArrayList();
+		Iterator it = resourceList.iterator();
+		while (it.hasNext()) {
+			Resource resource = (Resource) it.next();
+			Long resId = resource.getId();
+	 		Workspan workspan = resource.getWorkspan();
+	 		Integer broTimeStar = workspan.getBeginDate();
+//	 		Integer broTimeEnd = workspan.getEndDate();
+	 		
+	 		if(mp.containsKey(resId)){
+	 			Resource res = (Resource)mp.get(resId);
+	 			Workspan workspan2 = res.getWorkspan();
+		 		Integer broTimeStar2 = workspan2.getBeginDate();
+//		 		Integer broTimeEnd2 = workspan2.getEndDate();
+		 		if(broTimeStar > broTimeStar2){
+		 			mp.put(resId, resource);
+		 		}
+	 		}else{
+	 			mp.put(resId, resource);
+	 		}
+	 		
+		}
+		
+		CollectionUtils.addAll(lsNew, mp.values().iterator());
+		
+		return lsNew;
+	}
 	
 	
 	

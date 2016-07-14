@@ -11,6 +11,7 @@ package com.vriche.adrm.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.Random;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.tools.ant.util.DateUtils;
 
 import com.vriche.adrm.model.Carrier;
 import com.vriche.adrm.model.ContractPayment;
@@ -503,10 +505,13 @@ public class OrderDetailUtil {
 //		 boolean isMeno = SysParamUtil.getResourceDisplay();
 		 boolean rightSave = UserUtil.isGrandedRes(loginUser,"tag_orderDetail_save");
 		 
+		 
+		
+		 
 		 Map orderDetailChangedTimeMap = ServiceLocator.getOrderLogDao().getOrderLogLastModifyDate(orderId);
 
 			
-//		System.out.println("isXMTVParam"+ isXMTV);
+		System.out.println("tableModel>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ tableModel);
 		
 		int skip =Integer.parseInt(pageIndex)  * Integer.parseInt(pageSize) ;
 		
@@ -522,6 +527,9 @@ public class OrderDetailUtil {
 			
 			OrderDetail orderDetail = (OrderDetail)it.next();
 //			String id = orderDetail.getId().toString();
+			
+			String orderCheckState = orderDetail.getOrder().getIsCkecked().toString();
+			boolean removeEnable = !"1".equals(orderCheckState) && !"2".equals(orderCheckState) && !"3".equals(orderCheckState);
 			
 			Matter matter = orderDetail.getMatter();
 			Resource resource = orderDetail.getResource();
@@ -612,6 +620,10 @@ public class OrderDetailUtil {
 //			}		
 
 			
+			if("4".equals(tableModel)){
+				sb.append("<cell></cell>");
+			}
+			
 			
 			if(!"4".equals(tableModel) && !"5".equals(tableModel)){
 				sb.append("<cell><![CDATA["+ i++  +"]]></cell>");
@@ -675,7 +687,7 @@ public class OrderDetailUtil {
 //			sb.append("<cell><![CDATA["+"<img src=image/button_delete.gif onclick=\"javascript:deleteOrderDetail("+ id.longValue() +");\" >"+"]]></cell>");
 			
 			if(!"4".equals(tableModel) && !"5".equals(tableModel)){
-				if(rightSave){
+				if(rightSave && removeEnable){
 					sb.append("<cell><![CDATA["+"<img src=image/button_delete.gif \" >"+"]]></cell>");
 				}else{
 					sb.append("<cell></cell>");
@@ -697,6 +709,8 @@ public class OrderDetailUtil {
 				sb.append("<userdata name=\"resourceId\">"+  orderDetail.getResourceInfoId()+"</userdata>");
 				sb.append("<userdata name=\"pos\">"+ pos2+"</userdata>");
 				sb.append("<userdata name=\"id\">"+ id +"</userdata>");
+				sb.append("<userdata name=\"length\">"+ orderDetail.getMatterLength()+"</userdata>");
+				
 				if( "5".equals(tableModel)){
 					sb.append("<userdata name=\"year_month\">"+ StringUtil.null2String(orderPublic.getPublishStartDate()).substring(0,6) +"</userdata>");
 				}
@@ -718,6 +732,15 @@ public class OrderDetailUtil {
 				
 				sb.append("<userdata name=\"times\">"+ times+"</userdata>");
 				sb.append("<userdata name=\"useTime\">"+ useTime+"</userdata>");
+				
+				int lockedLasterDate = Integer.valueOf(StringUtil.null2String(orderDetail.getLockedLasterDate()));
+				String d = DateUtil.convertDateToString("yyyyMMdd", new Date());
+				if(lockedLasterDate>0){
+					 d = DateUtil.convertDateToString("yyyyMMdd",String.valueOf(lockedLasterDate),1);
+				}
+				
+				sb.append("<userdata name=\"lockedLasterDate\">"+ d+"</userdata>");
+				System.out.println("makeTreeGridXML2########################################### lockedLasterDate>>>>>>>>   "+ d +"  ");
 			}
   	    
 			
@@ -1360,9 +1383,11 @@ public class OrderDetailUtil {
 	}
 	
 	
-	public static void  resetResList(List ls1,List ls2,double rate){
+	public static void  resetResList(List ls1,List ls2,List ls3,boolean isResourceUseCustomerCatelog,double rate){
 		Map dayTimeMap = new HashMap();
+		Map dayTimeMap2 = new HashMap();
 		Map dayPosMap = new HashMap();
+		
 		for(Iterator it = ls2.iterator();it.hasNext();){
 			DayInfo dayInfo = (DayInfo)it.next();
 			Integer publishDate = dayInfo.getPublishDate();
@@ -1380,6 +1405,21 @@ public class OrderDetailUtil {
 			}
 		}
 		
+		if(isResourceUseCustomerCatelog){
+			for(Iterator it = ls3.iterator();it.hasNext();){
+				DayInfo dayInfo = (DayInfo)it.next();
+				Integer publishDate = dayInfo.getPublishDate();
+				double used =  Double.valueOf(StringUtil.getNullValue(dayInfo.getUsed(),"0")).doubleValue();
+				if(dayTimeMap2.containsKey(publishDate)){
+					double u =  ((Double)dayTimeMap2.get(publishDate)).doubleValue();
+					dayTimeMap2.put(publishDate,new Double(used+u));
+				}else{
+					dayTimeMap2.put(publishDate,new Double(used));
+				}
+			}
+		}
+		
+		
 		
 		for(Iterator it = ls1.iterator();it.hasNext();){
 			DayInfo dayInfo = (DayInfo)it.next();
@@ -1389,13 +1429,30 @@ public class OrderDetailUtil {
 				dayInfo.setUsed(((Double)dayTimeMap.get(publishDate)).toString());
 				String spec = StringUtil.getNullValue(dayPosMap.get(publishDate),"");
 				if(!"".equals(spec)) dayInfo.setSpecific(spec);
+			}else{
+				dayInfo.setUsed("0");
+				dayInfo.setSpecific("");
 			}
 			
-			if(rate >0){
+			
+			if(isResourceUseCustomerCatelog && rate >0){
 				double total1 = Double.valueOf(dayInfo.getTotal());
 				double total2 = total1*rate;
+				
 //				System.out.println("getResourceInfoMoid>>>>>QQQQQQQQQQQQQQQQQQQQ>>>>>>>>>>>>>>>>>" +total1 +">>" +total2);
-				dayInfo.setTotal(String.valueOf(StringUtil.round1(total2,0)));
+				
+				dayInfo.setTotal2(String.valueOf(StringUtil.round1(total2,0)));
+				
+				if(dayTimeMap2.containsKey(publishDate)){
+					dayInfo.setUsed2(((Double)dayTimeMap2.get(publishDate)).toString());
+				}else{
+					dayInfo.setUsed2("0");
+				}
+				
+				
+			}else{
+				dayInfo.setTotal2(dayInfo.getTotal());
+				dayInfo.setUsed2(dayInfo.getUsed());
 			}
 			
 		}

@@ -127,11 +127,12 @@
         <result property="parentId" column="parent_id" nullValue="0"/>
         <result property="version" column="version"/>
 	    <result property="orgId" column="sys_org_id"/>
+	    <result property="resourceChannel.memo" column="resourceChannel_memo"/>
     </resultMap>
 
     <select id="getCarriers" resultMap="carrierResult_for_getCarriers"  >
     <![CDATA[
-        select A.* ,C.sys_org_id 
+        select A.* ,C.sys_org_id,D.memo AS  resourceChannel_memo
 		
 		from tb_ad_resource_carrier A 
 		
@@ -139,6 +140,8 @@
 			on C.ad_resource_carrier_type_id = A.ad_resource_carrier_type_id 
 		
 			left outer join tb_sys_org B on B.sys_org_id  = C.sys_org_id  
+			
+			left outer join tb_ad_resource_channel D on D.resource_mediaorg_id  = A.ad_resource_channel_id  
     ]]>
  	 	<dynamic prepend="WHERE"> 
 			<isNotEmpty prepend="AND" property="carrierTypeId">
@@ -204,12 +207,16 @@
 	
 	<select id="getCarrierForChannel" resultMap="carrierResult_for_getCarriers" >
 
-        select A.*,C.sys_org_id  from tb_ad_resource_carrier A 
+        select A.*,C.sys_org_id ,D.memo AS  resourceChannel_memo 
+        
+         from tb_ad_resource_carrier A  
 
 				left outer join tb_ad_resource_carrier_type C
 			on C.ad_resource_carrier_type_id = A.ad_resource_carrier_type_id 
 		
 			left outer join tb_sys_org B on B.sys_org_id  = C.sys_org_id  
+			
+				left outer join tb_ad_resource_channel D on D.resource_mediaorg_id  = A.ad_resource_channel_id  
 		
 		where A.node_level=#value# 
 		

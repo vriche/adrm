@@ -102,10 +102,14 @@
 		<result property="publishSort" column="publish_sort"/>
     </resultMap>
 	
+	
+	
+	 
 	 <resultMap id="publishArrangeDetailResult_extends" extends="publishArrangeDetailResult" class="publishArrangeDetail">
 		<result property="orderCode" column="order_code"/>
 		<result property="spaceAdver" column="is_space_adver"/>
 		<result property="orgId" column="sys_org_id"/> 
+		<result property="workSpanSort" column="ad_resource_type"/> 
     </resultMap>
 	
     <select id="getPublishArrangeDetailsCount" resultClass="java.lang.Integer">
@@ -662,12 +666,18 @@
 					
           </dynamic>      
   </update>  
+  
+  
+   <resultMap id="publishArrangeDetailResult_extends2" extends="publishArrangeDetailResult" class="publishArrangeDetail"> 
+		<result property="workSpanSort" column="ad_resource_type"/> 
+    </resultMap>
 		
-    <select id="getPublishArrangeDetailsByIdLists3" parameterClass="java.util.Map" resultMap="publishArrangeDetailResult">
+    <select id="getPublishArrangeDetailsByIdLists3" parameterClass="java.util.Map" resultMap="publishArrangeDetailResult_extends2">
      <![CDATA[  
       
 		 select AR.resource_meno AS specific_value,
 		        AR.resource_id,
+		        ARW.ad_resource_workspan_id as contract_id,
 		        ARW.broadcast_start_time as publish_date,
 				AD.*,
 		        CN.contract_id AS contract_id,
@@ -679,18 +689,23 @@
 		        DT.is_space_adver AS is_space_adver,
 		        USER.id AS owner_user_id,
 		 		USER.first_name as first_name,
-		        USER.last_name as last_name
+		        USER.last_name as last_name,
+		        ARW.ad_resource_type  as ad_resource_type 
 		 		  
 		 from tb_published_arrang_detail AD
 		 
 		 		left outer join  tb_published_arrang AR
          on  AD.arrange_id = AR.arrange_id
-		 
+
 		 left outer join tb_ad_resource_workspan ARW
-		     on AR.resource_id=ARW.ad_resource_info_id
+		     on AR.resource_id=ARW.ad_resource_info_id   and ARW.begin_date <= #PublishDate#  and ARW.end_date >= #PublishDate#
 		 
 		 left outer join  tb_ad_resource_carrier CARR
 			 on  CARR.ad_resource_carrier_id = ARW.ad_resource_carrier_id
+			 
+	     left outer join tb_ad_resource_info RES 
+		     on AR.resource_id = RES.ad_resource_info_id and RES.ad_resource_carrier_id = 	CARR.ad_resource_carrier_id 	 
+			 
 		 
 		 left outer join  tb_ad_resource_channel C
              on  CARR.ad_resource_channel_id = C.resource_mediaorg_id
@@ -717,6 +732,16 @@
 		 <isNotNull prepend="AND" property="PublishDate">
 			   (AR.publish_date = #PublishDate#)
 		 </isNotNull>
+		 
+		<isNotNull prepend="AND" property="PublishDate">
+				<![CDATA[  (ARW.end_date >= #PublishDate#)]]> 
+		</isNotNull>	
+				 
+		<isNotNull prepend="AND" property="publishDateEnd">
+			    <![CDATA[  (ARW.begin_date <= #PublishDate#)]]> 
+		</isNotNull>		 
+		 
+		 
 		
 		<!-- isNotEmpty prepend="AND" property="PublishDate">
 			(DT.need_publish = 1)
@@ -726,9 +751,18 @@
 			(O.is_ckecked = 3)
 		</isNotEmpty -->	
 						
-		<isNotNull prepend="AND" property="carrierId">
+		<!--isNotNull prepend="AND" property="carrierId">
 			   (AR.carrier_id = #carrierId#)         
-		 </isNotNull>
+		 </isNotNull-->
+		 
+		 
+		<isNotNull prepend="AND" property="carrierId" >
+			   (CARR.ad_resource_carrier_id = #carrierId# or CARR.parent_id  = #carrierId#)     
+		 </isNotNull> 
+		  
+		  
+		  
+		
 						
 	    </dynamic>
 		<![CDATA[  	
@@ -757,12 +791,17 @@
 				CUT.sys_org_id,
 		        USER.id AS owner_user_id,
 		 		USER.first_name as first_name,
-		        USER.last_name as last_name
+		        USER.last_name as last_name,
+		        ARW.ad_resource_type  as ad_resource_type 
 		 		  
 		 from tb_published_arrang_detail AD
 		 
 		 		left outer join  tb_published_arrang AR
          on  AD.arrange_id = AR.arrange_id
+         
+          left outer join tb_ad_resource_workspan ARW
+		     on AR.resource_id = ARW.ad_resource_info_id and ARW.begin_date <= #PublishDate#  and ARW.end_date >= #PublishDate#
+	 
 		 
 		        left outer join  tb_order_day_info ODD
          on  AD.order_day_info_id = ODD.order_day_info_id
@@ -929,6 +968,10 @@
 			
 			 inner join   tb_published_arrang AR
          on  AD.arrange_id = AR.arrange_id
+         
+         
+         	   left outer join tb_ad_resource_info RES 
+		on AR.resource_id = RES.ad_resource_info_id
 			
 		        left outer join  tb_order_day_info ODD
          on  AD.order_day_info_id = ODD.order_day_info_id
@@ -945,11 +988,11 @@
 
 				
 				 left outer join tb_ad_resource_workspan ARW
-		     on AR.resource_id=ARW.ad_resource_info_id
+		     on AR.resource_id=ARW.ad_resource_info_id 
 		 
 		 				left outer join  tb_ad_resource_carrier CARR
-			 	on  CARR.ad_resource_carrier_id = ARW.ad_resource_carrier_id
-		 
+			 	on  CARR.ad_resource_carrier_id = ARW.ad_resource_carrier_id and  CARR.ad_resource_carrier_id =  RES.ad_resource_carrier_id 
+		
 		 			left outer join  tb_ad_resource_channel C
              on  CARR.ad_resource_channel_id = C.resource_mediaorg_id
 			
@@ -980,9 +1023,14 @@
 				 
 				 		
 						 
-						<isNotNull prepend="AND" property="carrierId">
-					   (AR.carrier_id = #carrierId#)         
-				 </isNotNull>		 			 
+						  <!--  isNotNull prepend="AND" property="carrierId">
+					   		(AR.carrier_id = #carrierId#)         
+				 		  </isNotNull -->		
+				 		  
+				 		  
+				 		  <isNotNull prepend="AND" property="carrierId" >
+							   (CARR.ad_resource_carrier_id = #carrierId# or CARR.parent_id  = #carrierId#)     
+						 </isNotNull>  			 
 				 
 						 
 							<isNotNull  property="opt">

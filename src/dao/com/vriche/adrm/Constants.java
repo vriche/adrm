@@ -60,6 +60,10 @@ public class Constants {
     public static final String DAYANG_WEBSERVER_IMPORT_PROLIST_URL =  "http://10.77.82.121:88/ADPINF/services/ImportProgramListService";
     public static final String DAYANG_WEBSERVER_IMPORT_PROLIST_URL_TEST =  "http://10.77.82.91:8892/ADPINF/services/ImportProgramListService";
     
+    
+
+    public static final  String[] SPECIF_DEST_BEFO = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"};
+    public static final  String[] SPECIF_DEST_AFTER = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
 
 
     
@@ -498,6 +502,10 @@ public class Constants {
 	 
 	 //时段维护根据时间排序
 	 public static final String RESCONFIG_ORDER_BY_TIME = "resconfigOrderbyTime"; 
+	 
+	 
+	 //订单多频道
+	 public static final String ORDER_MORE_CARRIER = "orderMoreCarrier"; 
 
 //    public static final String AVAILABLE_CARRIER_ORG_MAP = "availableCarrierOrgMap";
    

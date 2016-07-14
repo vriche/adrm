@@ -72,7 +72,7 @@ public class ArrangeUtil3 {
      }
      
  
-	  public static void resetList(List newList ,List resList,List adverList,boolean rebuild,boolean isRoll,String parentName,String orgId){
+	  public static void resetList(List newList ,List resList,List adverList,boolean rebuild,boolean isRoll,PublishArrange parr,String orgId){
 		  
 		  boolean withBroPoint = SysParamUtil.getwithBroPoint();
 		  boolean resourceDisplayParam = SysParamUtil.getResourceDisplay();
@@ -85,6 +85,8 @@ public class ArrangeUtil3 {
 //		  System.out.println("isArrangeOrderOrEntry >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ isArrangeOrderOrEntry);	  
 //		  System.out.println("resetList parentName >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ parentName);
 		  
+		   String parentName = parr.getCarrierName();
+		  
            //第二级按序号
 			if(parentName.startsWith("carrierId")){
 				Collections.sort(resList,new PublishArrangeComparator());
@@ -95,6 +97,9 @@ public class ArrangeUtil3 {
 
 		  for(Iterator it = resList.iterator();it.hasNext();){    
 			  PublishArrange publishArrange = (PublishArrange)it.next();
+			  
+			  publishArrange.setCarrierId(parr.getCarrierId()); //设置频道一级id,目的是公益广告自动添，需要频道判断
+			  
 			  Long resourceId = publishArrange.getResourceId();
 			  Integer publishDate = publishArrange.getPublishDate();
 
@@ -891,8 +896,11 @@ public class ArrangeUtil3 {
 	  
 	   public static  void decomposeAdverByTimes(Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver,List spaceAdvers){
 	    	 int index =1;
-	         String destBefo="123456789"; 
-             String destAfter="ABCDEFGHI"; 
+//	         String destBefo="123456789"; 
+//             String destAfter="ABCDEFGHI"; 
+             
+         	  String[] destBefo= Constants.SPECIF_DEST_BEFO;
+              String[] destAfter= Constants.SPECIF_DEST_AFTER;
 
 	    	 
 	    	 for (int i = 0; i< objs.length; i++){
@@ -901,8 +909,12 @@ public class ArrangeUtil3 {
 	    		 String specificValue = publishArrangeDetail.getSpecificValue();
 	    		 boolean isSpaceAdver = publishArrangeDetail.getSpaceAdver().booleanValue();
 	    		 specificValue = specificValue == null|| "".equals(specificValue)?"0":specificValue;
-	             int j = destBefo.indexOf(specificValue);
-	             int k = destAfter.indexOf(specificValue);
+	    		 
+//	             int j = destBefo.indexOf(specificValue);
+//	             int k = destAfter.indexOf(specificValue);
+	             
+	             boolean j =  StringUtilsv.ByForLoop(destBefo,specificValue);
+	             boolean k =  StringUtilsv.ByForLoop(destAfter,specificValue);
 
 		    	 int times = publishArrangeDetail.getAdverTimes().intValue();
 		
@@ -931,8 +943,8 @@ public class ArrangeUtil3 {
 		    		 }	 
 		    	 }else{
 //		    		 publishArrangeDetail.setPublishSort(index);
-		    		 if(j >- 1 ||k > -1){
-		    			 if(j >- 1){
+		    		 if(j ||k ){
+		    			 if(j ){
 		    				 beforeSpecific.add(publishArrangeDetail);
 		    			 }else{
 		    				 afterSpecific.add(publishArrangeDetail);
@@ -950,8 +962,13 @@ public class ArrangeUtil3 {
 	   
 	   public static  void decomposeAdverByTimes2(PublishArrange publishArrange,Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver,List spaceAdvers,boolean publicAdAutoFillParamParam){
 	    	 int index =1;
-	         String destBefo="123456789"; 
-           String destAfter="ABCDEFGHI"; 
+//	         String destBefo="123456789"; 
+//             String destAfter="ABCDEFGHI"; 
+             
+	    	  String[] destBefo= Constants.SPECIF_DEST_BEFO;
+	          String[] destAfter= Constants.SPECIF_DEST_AFTER;
+
+       
            
 //           System.out.println("decomposeAdverByTimes2 >>>>>>>>>>>>>>>>>>>>>>>>>> objs.length>>>>>>>>>   "+  objs.length);
 
@@ -962,8 +979,13 @@ public class ArrangeUtil3 {
 	    		 String specificValue = publishArrangeDetail.getSpecificValue();
 	    		 boolean isSpaceAdver = publishArrangeDetail.getSpaceAdver().booleanValue();
 	    		 specificValue = specificValue == null|| "".equals(specificValue)?"0":specificValue;
-	             int j = destBefo.indexOf(specificValue);
-	             int k = destAfter.indexOf(specificValue);
+	    		 
+	    		 
+//	             int j = destBefo.indexOf(specificValue);
+//	             int k = destAfter.indexOf(specificValue);
+	             
+	             boolean j =  StringUtilsv.ByForLoop(destBefo,specificValue);
+	             boolean k =  StringUtilsv.ByForLoop(destAfter,specificValue);
 
 		    	 int times = publishArrangeDetail.getAdverTimes().intValue();
 		    	 double length = Double.parseDouble( publishArrangeDetail.getMatterLength());
@@ -990,8 +1012,8 @@ public class ArrangeUtil3 {
 		    		 }	 
 		    	 }else{
 //		    		 publishArrangeDetail.setPublishSort(index);
-		    		 if(j >- 1 ||k > -1){
-		    			 if(j >- 1){
+		    		 if(j || k ){
+		    			 if(j){
 		    				 beforeSpecific.add(publishArrangeDetail);
 		    			 }else{
 		    				 afterSpecific.add(publishArrangeDetail);
@@ -1207,8 +1229,15 @@ public class ArrangeUtil3 {
 	   
 	   public static List getIndexBySepcValue(int befSize,int midSize,int afterSize,List specificList,List specBefoIndexs,List specNoPlay,int sepBeforPayNum){
 		   int totalSize = befSize +midSize+afterSize;
-	       String destBefo="123456789"; 
-           String destAfter="ABCDEFGHI"; 
+//	       String destBefo="123456789"; 
+//           String destAfter="ABCDEFGHI"; 
+           
+           
+      	  String[] destBefo= Constants.SPECIF_DEST_BEFO;
+          String[] destAfter= Constants.SPECIF_DEST_AFTER;
+
+         
+      
            List specIndex = new ArrayList();
            
            List specIndexTemp = new ArrayList();
@@ -1223,11 +1252,15 @@ public class ArrangeUtil3 {
 	      	   PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)it.next();
 	           String specificValue = publishArrangeDetail.getSpecificValue();
 			   specificValue = specificValue == null|| "".equals(specificValue)?"0":specificValue;
-			   int j = destBefo.indexOf(specificValue);
-			   int k = destAfter.indexOf(specificValue);
+//			   int j = destBefo.indexOf(specificValue);
+//			   int k = destAfter.indexOf(specificValue);
+			   
+				boolean j = StringUtilsv.ByForLoop(destBefo, specificValue);
+				boolean k =  StringUtilsv.ByForLoop(destAfter,specificValue);
+			      
 			   int publishSort = 0;
 			   int specAfnum = 0;
-			   if(j>-1){
+			   if(j){
 				   publishSort = Integer.parseInt(specificValue);
 //				   System.out.println(">>>>>>publishSort>>>>>>>>>"+publishSort+"__"+ (publishSort< midSize+specIndexTemp.size()));  
 				   if(publishSort > midSize+specIndexTemp.size()+1 && publishSort !=1 ){
@@ -1239,7 +1272,7 @@ public class ArrangeUtil3 {
 //				   if(publishSort > befosepcMidRows){
 //					   publishSort = publishSort -befosepcMidRows;
 //				   }
-			   }else if(k > -1){
+			   }else if(k){
 
 				  if("A".equals(specificValue)){
 					  publishSort = totalSize;
@@ -1267,6 +1300,54 @@ public class ArrangeUtil3 {
 				  }else if("I".equals(specificValue)){
 					  publishSort = totalSize-8;
 					  specAfnum =8;
+				  }else if("J".equals(specificValue)){
+					  publishSort = totalSize-9;
+					  specAfnum =9;
+				  }else if("K".equals(specificValue)){
+					  publishSort = totalSize-10;
+					  specAfnum =10;
+				  }else if("L".equals(specificValue)){
+					  publishSort = totalSize-11;
+					  specAfnum =11;
+				  }else if("M".equals(specificValue)){
+					  publishSort = totalSize-12;
+					  specAfnum =12;
+				  }else if("N".equals(specificValue)){
+					  publishSort = totalSize-13;
+					  specAfnum =13;
+				  }else if("O".equals(specificValue)){
+					  publishSort = totalSize-14;
+					  specAfnum =14;
+				  }else if("P".equals(specificValue)){
+					  publishSort = totalSize-15;
+					  specAfnum =15;
+				  }else if("Q".equals(specificValue)){
+					  publishSort = totalSize-16;
+					  specAfnum =16;
+				  }else if("R".equals(specificValue)){
+					  publishSort = totalSize-17;
+					  specAfnum =17;
+				  }else if("S".equals(specificValue)){
+					  publishSort = totalSize-18;
+					  specAfnum =18;
+				  }else if("T".equals(specificValue)){
+					  publishSort = totalSize-19;
+					  specAfnum =19;
+				  }else if("U".equals(specificValue)){
+					  publishSort = totalSize-20;
+					  specAfnum =20;
+				  }else if("V".equals(specificValue)){
+					  publishSort = totalSize-21;
+					  specAfnum =21;
+				  }else if("W".equals(specificValue)){
+					  publishSort = totalSize-22;
+					  specAfnum =22;
+				  }else if("X".equals(specificValue)){
+					  publishSort = totalSize-23;
+					  specAfnum =23;
+				  }else if("Y".equals(specificValue)){
+					  publishSort = totalSize-24;
+					  specAfnum =24;
 				  }
 				  
 //				  System.out.println(">>>>>>specBefoMaxNum>>>>>>>>>"+specBefoMaxNum);
@@ -1290,12 +1371,12 @@ public class ArrangeUtil3 {
 //				   System.out.println("1111>>>>>>specBefoMaxNum>>>>>>>>>"+specBefoMaxNum);
 //				   System.out.println("2222>>>>>>sepBeforNoPayNum>>>>>>>>>"+sepBeforNoPayNum);
 				   
-				   if(j>-1){
+				   if(j){
 					   if(publishSort<= midSize+specIndexTemp.size()+1){
 						   specIndex.add(publishSort);
 					   }
 					  
-				   }if(k>-1 && specAfnum<= midSize-(specBefoMaxNum -sepBeforPayNum)){
+				   }if(k && specAfnum<= midSize-(specBefoMaxNum -sepBeforPayNum)){
 					   
 //					   System.out.println("1111>>>>>>specificValue>>>>>>>>>"+specificValue);
 					   specIndex.add(publishSort);
@@ -1438,6 +1519,9 @@ public class ArrangeUtil3 {
     	 Map otherList =  new HashMap();
     	 int index = 0;
     	 
+     	  String[] destBefo= Constants.SPECIF_DEST_BEFO;
+          String[] destAfter= Constants.SPECIF_DEST_AFTER;
+    	 
     	 for (int i = 0; i< objs.length; i++){
     		 PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)objs[i];
     		 String specificValue = publishArrangeDetail.getSpecificValue();
@@ -1446,14 +1530,19 @@ public class ArrangeUtil3 {
     		 boolean isSpaceAdver = publishArrangeDetail.getSpaceAdver().booleanValue();
 //    		 List spaceAdverList = new ArrayList();
              
-             String destBefo="123456789"; 
-             String destAfter="ABCDEFGHI"; 
-             int j = destBefo.indexOf(specificValue);
-             int k = destAfter.indexOf(specificValue);
+//             String destBefo="123456789"; 
+//             String destAfter="ABCDEFGHI"; 
+//             int j = destBefo.indexOf(specificValue);
+//             int k = destAfter.indexOf(specificValue);
              
-    		 if(j >- 1) beforeSpecific.add(publishArrangeDetail);
+             
+ 
+          boolean j =  StringUtilsv.ByForLoop(destBefo,specificValue);
+          boolean k =  StringUtilsv.ByForLoop(destAfter,specificValue);
+             
+    		 if(j) beforeSpecific.add(publishArrangeDetail);
    
-    		 if(j ==- 1 && k == -1) {
+    		 if(j ==false && k == false) {
     			 //取得所有中间的广告，需要串开的多次广告已分解，不需要串开的多次广告只有一条，
     			 //最后才去分解联播的多次广告
 //    			 decomposeAdverByTimes(isSpaceAdver,index,allMiddleAdver,publishArrangeDetail);
@@ -1466,7 +1555,7 @@ public class ArrangeUtil3 {
     			 }
     		 } 
     		 
-    		 if(k > -1) afterSpecific.add(publishArrangeDetail);
+    		 if(k) afterSpecific.add(publishArrangeDetail);
     	 }
     	 
     	 //间隔的步长

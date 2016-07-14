@@ -221,6 +221,18 @@
 								
 								
 						         <tr><td align="left" colspan="5">&nbsp</td></tr>		
+						         
+						         <tr>
+								
+					                  <td align="left" colspan="5">欠款统计方式:
+											<select name="select_qiankuan" id="select_qiankuan"  style="CURSOR: pointer;" > 
+												<option value="0" >欠款 = 投放-分配</option>
+												<option value="1" >欠款 = 投放-到帐</option>
+											</select>	
+					                 </td>
+				                 </tr>
+						         
+						     <tr><td align="left" colspan="5">&nbsp</td></tr>		     
 								
 				                 <tr>
 					                  <td align="left" colspan="5">
@@ -233,7 +245,7 @@
 				                 </tr>
 								 
 				                 					
-								
+		
 								
 								
 			

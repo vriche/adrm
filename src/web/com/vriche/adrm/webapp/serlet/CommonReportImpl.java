@@ -91,7 +91,7 @@ public class CommonReportImpl  extends HttpServlet{
 		
 		
 //		 System.out.println("title>>>>>>>>"+title[0]);
-		
+//		 System.out.println(">>>>999999999999999999999999999999999999999999999999999999999>>>>>"+coll.size());
 		JasperPrint jasperPrint = null;
 
 		try
@@ -160,8 +160,13 @@ public class CommonReportImpl  extends HttpServlet{
 	             exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,Boolean.TRUE); 
 	             exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
 	             exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
-//	             exporter.setParameter(JRXlsExporterParameter.IS_FONT_SIZE_FIX_ENABLED,Boolean.TRUE);
 	             exporter.setParameter(JRXlsExporterParameter.IS_FONT_SIZE_FIX_ENABLED,Boolean.TRUE);
+	             
+//	             exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, reportType);  
+//	             exporter.setParameter(JRXlsExporterParameter.CHARACTER_ENCODING, "GB2312");  
+
+//	             System.out.println("1111111111>>>>999999999999999999999999999999999999999999999999999999999>>>>>"+coll.size());
+	             
 	             try {
 	            	 exporter.exportReport();
 	             }catch (JRException ex) {
@@ -174,6 +179,7 @@ public class CommonReportImpl  extends HttpServlet{
 	             if (bytes != null && bytes.length > 0) {
 	                     response.reset();
 	                     response.setContentType("application/vnd.ms-excel");
+//	                     response.addHeader("Content-Disposition", new String(("attachment; filename=" + reportType + ".xls").getBytes("GBK"), "ISO-8859-1"));
 	                     response.setContentLength(bytes.length);
 	                     ServletOutputStream ouputStream = response.getOutputStream();
 	                     ouputStream.write(bytes, 0, bytes.length);
@@ -229,7 +235,7 @@ public class CommonReportImpl  extends HttpServlet{
     		ResourceManager mgr = (ResourceManager) getBean("resourceManager");
     		coll = mgr.getCollections(queryString,"report");
     		
-    		System.out.println(">>>>999999999999999999999999999999999999999999999999999999999>>>>>"+coll.size());
+//    		System.out.println(">>>>999999999999999999999999999999999999999999999999999999999>>>>>"+coll.size());
     		
         }
         

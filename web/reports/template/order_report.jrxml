@@ -3,10 +3,10 @@
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="order_report" language="java" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="812" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20">
-	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
 	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
-	<property name="com.jasperassistant.designer.Grid" value="false"/>
 	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
+	<property name="com.jasperassistant.designer.Grid" value="false"/>
 	<reportFont name="detail" isDefault="false" fontName="宋体" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
@@ -190,7 +190,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="宋体" size="12" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[公司名称]]></text>
+				<text><![CDATA[公司名称0]]></text>
 			</staticText>
 			<textField>
 				<reportElement positionType="Float" x="108" y="54" width="188" height="25"/>
@@ -757,9 +757,9 @@
 		<band height="15">
 			<elementGroup>
 			<textField>
-				<reportElement positionType="Float" x="2" y="0" width="106" height="15"/>
+				<reportElement positionType="Float" x="2" y="0" width="106" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
-				<textElement verticalAlignment="Middle">
+				<textElement>
 					<font fontName="宋体"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["" +$F{advName}+new String($F{advVer}.equals("")?"":"/"+$F{advVer})]]></textFieldExpression>

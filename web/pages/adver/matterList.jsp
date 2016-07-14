@@ -142,6 +142,7 @@
 			          	<table id="matterList" class=ListShort width="100%" cellpadding="0" >
 			              <thead>
 			                <TR class=Header> 
+			                  <TH>Æ·ÅÆ</TH>
 			                  <!--ËØ²ÄÃû³Æ-->
 			                  <TH><fmt:message key="matterForm.name"/></TH>
 			                  <!--°æ±¾-->

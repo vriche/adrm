@@ -11,12 +11,16 @@ package com.vriche.adrm.util;
 
 import java.util.Comparator;
 
+import com.vriche.adrm.Constants;
 import com.vriche.adrm.model.PublishArrangeDetail;
 
 public class SpecificComparator implements Comparator {
 
 	public int compare(Object a, Object b) {
 		boolean isDesc = false;
+//		String[] destAfter = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y"};
+		String[] destAfter = Constants.SPECIF_DEST_AFTER;
+
 		
 		PublishArrangeDetail left = (PublishArrangeDetail) a;
 		PublishArrangeDetail right = (PublishArrangeDetail) b;
@@ -28,9 +32,9 @@ public class SpecificComparator implements Comparator {
 	    
 	    //
 	    if (left.getSpecificValue() == null || right.getSpecificValue() == null) {
-//	    	System.out.println("Error: left.adv, right.adv = " +
-//	                    left.getSpecificValue() + "," +
-//	                    right.getSpecificValue());
+	    	System.out.println("Error: left.adv, right.adv = " +
+	                    left.getSpecificValue() + "," +
+	                    right.getSpecificValue());
 	      return 0;
 	    }
 	    
@@ -42,9 +46,16 @@ public class SpecificComparator implements Comparator {
 		 String right_T = right.getSpecificValue();
 
 
-		 if("ABCDEFGHI".indexOf(left_T) > -1 && "ABCDEFGHI".indexOf(right_T)>-1) isDesc = true;
+//		 if("ABCDEFGHI".indexOf(left_T) > -1 && "ABCDEFGHI".indexOf(right_T)>-1) isDesc = true;
+		 
+//		 if("ABCDEFGHI".indexOf(left_T) > -1 && "ABCDEFGHI".indexOf(right_T)>-1) isDesc = true;
+		 
+		 if(StringUtilsv.ByForLoop(destAfter,left_T)  &&   StringUtilsv.ByForLoop(destAfter,right_T)) isDesc = true;
 
-		 int res = isDesc?right_T.compareTo(left_T):left_T.compareTo(right_T);
+//		 System.out.println("Error: left, isDesc = " + isDesc);
+		 
+		 int res = isDesc?right_T.compareTo(left_T): Integer.valueOf(left_T).compareTo(Integer.valueOf(right_T));
+//		 int res = isDesc?right_T.compareTo(left_T):left_T.compareTo(right_T);
 		 
 		 return res;
 		

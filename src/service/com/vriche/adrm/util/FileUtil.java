@@ -15,6 +15,7 @@ import org.apache.tools.zip.ZipOutputStream;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.model.Carrier;
+import com.vriche.adrm.model.ResourceChannel;
 import com.vriche.adrm.model.SysParam;
 
 public class FileUtil {
@@ -99,20 +100,13 @@ public class FileUtil {
 //	}	
 //	
 	  
-		public static void saveFile3(String dir,String fileName,List advers){
+		public static boolean saveFile3(String dir,String fileName,List advers){
 			
 			File file = new File(dir,fileName+".xml");
 
 			Map<String,String> ftpConf = (Map<String,String>) Constants.APPLACTION_MAP.get(Constants.FTP_SERVVICE_CONFIG);
 			
-			System.out.println("ftpConf.get(ip)>>>>>>>>>>>>>" +ftpConf.get("ip"));
-			
-			String server = ftpConf.get("ip");  
-			String port = ftpConf.get("port");
-			String user = ftpConf.get("user");
-			String pass = ftpConf.get("pass");	
-			
-			System.out.println("ftpConf>>>>>>>>>>>>>" + server +">>"+port+">>"+user+">>"+pass);
+			boolean ftpEnable = Boolean.valueOf(StringUtil.getNullValue(ftpConf.get("enable"), "false")).booleanValue();  
 
 				try {
 					BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
@@ -126,17 +120,30 @@ public class FileUtil {
 					bw.flush();
 					bw.close();
 					
+					boolean isOpen = true;
 					
-					FTP ftp = new FTP(user, pass, server, Integer.valueOf(port));
-					ftp.connectServer();
-					System.out.println(">>>>>"+file.getAbsolutePath());  
-					ftp.upFile(Constants.FILE_SEP, file.getName(), file.getAbsolutePath());
-					ftp.closeConnect();
+					System.out.println("ftpEnable>>>>>>>>>>>>>" + ftpEnable);
 					
+					if(ftpEnable){
+						String server = ftpConf.get("ip");  
+						String port = ftpConf.get("port");
+						String user = ftpConf.get("user");
+						String pass = ftpConf.get("pass");	
+						System.out.println("ftpConf>>>>>>>>>>>>>" + server +">>"+port+">>"+user+">>"+pass);
+						FTP ftp = new FTP(user, pass, server, Integer.valueOf(port));
+						isOpen = ftp.connectServer();	
+						if(isOpen){
+							ftp.upFile(Constants.FILE_SEP, file.getName(), file.getAbsolutePath());
+							ftp.closeConnect();
+						}
+					}
+
+					return isOpen;
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					
+					return false;
 				}
 
 		}	
@@ -290,26 +297,57 @@ public class FileUtil {
 		return fileName + publishDate.toString().substring(2,8);
 	}
 	
+	public static String getChannelCodeByName(String carrierName,int model){
+		String channeCode = "";
+		List carriers = (List)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_ALL);
+		for(Iterator it = carriers.iterator();it.hasNext();){
+			Carrier car= (Carrier)it.next();
+			
+//			if(carrierName.equals("1")){
+//				if(car.getId().toString().equals(carrierName)){
+//					ResourceChannel resourceChannel = car.getResourceChannel();
+//					System.out.println("resourceChannel.toString()  ttttttttttttttttttttt>>6666666 >>>>>>"+carrierName+"_" +car.getCarrierName()+"_" +resourceChannel.getMemo());
+//				}
+//
+//			}
+			
+			
+			if(model == 1){
+				if(car.getCarrierName().equals(carrierName)){
+					ResourceChannel resourceChannel = car.getResourceChannel();
+					channeCode= resourceChannel.getMemo();
+					break;
+				}
+			}else{
+				if(car.getId().toString().equals(carrierName)){
+					ResourceChannel resourceChannel = car.getResourceChannel();
+					channeCode= resourceChannel.getMemo();
+					break;
+				}
+			}
+
+		}
+		return channeCode;
+	}
+	
+
+	
 	public static String  getFileName3(String carrierName, Object[] resources, Integer publishDate){
+		
+//		System.out.println("carrierName>>>>>>>>>>>>>"+carrierName); 
 		//SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
 		//int carrierNodeLevel = sysParam.getCarrierNodeLevelParam()==null?0:new Integer(sysParam.getCarrierNodeLevelParam()).intValue();
 		String fileName ="TB";
-		String channelId="";
-		List carriers = (List)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_ALL);
-		for(Iterator it=carriers.iterator();it.hasNext();){
-			Carrier channel=(Carrier)it.next();
-			if(channel.getCarrierName().equals(carrierName))
-					channelId=channel.getChannelId().toString();
-		}
-			if(channelId.length()<10) channelId="0"+channelId;
-//			String carriers[] = carrier.split("_");
-////            String level1 = carriers[0];   //频道名称
-////            String level2 = carriers[1];   //类别一 如 白天
-////            String level3 = carriers[2];   //类别一 如 平播
-//            for(int i=1;i<carrierNodeLevel;i++){
-//            	 fileName += carriers[i];
-//            }
-		
+		String channelId= getChannelCodeByName(carrierName,1);
+//		List carriers = (List)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_ALL);
+//		for(Iterator it=carriers.iterator();it.hasNext();){
+//			Carrier channel=(Carrier)it.next();
+//			
+//			ResourceChannel resourceChannel = channel.getResourceChannel();
+//			
+//			if(channel.getCarrierName().equals(carrierName))
+//					channelId= resourceChannel.getMemo();
+//			}
 
 		return fileName + publishDate.toString()+channelId;
 	}

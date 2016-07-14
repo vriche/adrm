@@ -101,8 +101,10 @@ public class ResDayUtil {
 //		int releave = total - Integer.parseInt(resDayInfo.getUsed());
 		double releave = total > 0 ? total - Double.parseDouble(u):total + Double.parseDouble(u);
        
-		
-
+//	      播出单已出，锁定
+	   Boolean isLocked = resDayInfo.getIsLocked();
+	   isLocked = isLocked == null?new Boolean(false):isLocked;
+	   boolean isOutLimitBroarrangParam = SysParamUtil.getOutLimitBroarrangParam();
 		 
 		 
 		 
@@ -121,7 +123,9 @@ public class ResDayUtil {
 //		System.out.println(">>>>>>>>>>>curYear>>>>>>>>>>d>>>>>>>>>>>>>>" +curYear);
 //		System.out.println(">>>>>>>>>>>resYear>>>>>>>>>>d>>>>>>>>>>>>>>" +resYear);
 		
-		String rsSpecific = StringUtils.isEmpty(resDayInfo.getSpecific())? "":resDayInfo.getSpecific();
+//		String rsSpecific = StringUtils.isEmpty(resDayInfo.getSpecific())? "":resDayInfo.getSpecific();
+		String spec_res = StringUtil.getNullValue(resDayInfo.getSpecific(),"");
+		String[] spec_res_array = spec_res.split(","); 
 		
 //		if(d == 20120226 ||d == 20120227 ){
 //		 System.out.println(">>>>>>>>>>>1122>>>>>>>>>>d>>>>>>>>>>>>>>" +d);
@@ -149,7 +153,9 @@ public class ResDayUtil {
 	        if (StringUtils.isNotEmpty(ObjectUtils.toString(curSpecific))){
 //       		 System.out.println(">>>>>>>>>>>1122>>>>>>>>>>curSpecific>>>>>>>>>>>>>>" +curSpecific);
 //    		 System.out.println(">>>>>>>>>>>1122>>>>>>>>>>rsSpecific>>>>>>>>>>>>>>" +rsSpecific);
-	            if(StringUtils.contains(rsSpecific.toLowerCase(),curSpecific.toLowerCase())) {
+	        	 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,curSpecific.toLowerCase());
+	        	if(inStr) { 
+//	            if(StringUtils.contains(rsSpecific.toLowerCase(),curSpecific.toLowerCase())) {
 //	            	 System.out.println(">>>>>>>>>>>1122>>>>>>>>>>d>>>>>>>>>>>>>>" +d);
 //	        		 System.out.println(">>>>>>>>>>>1122>>>>>>>>>>curSpecific>>>>>>>>>>>>>>" +curSpecific);
 //	        		 System.out.println(">>>>>>>>>>>1122>>>>>>>>>>rsSpecific>>>>>>>>>>>>>>" +rsSpecific);
@@ -174,9 +180,23 @@ public class ResDayUtil {
 //			if(d < today) displayClor = ResourceColor.FORE_TIME;
 //		}
 		
-		 if(displayOverDate){
-			if(displayOverDate && d < today) displayClor = ResourceColor.FORE_TIME;
-		}		
+//		if(displayOverDate){
+//			if(displayOverDate && d < today) displayClor = ResourceColor.FORE_TIME;
+//		}		
+		 
+//	      播出单已出，锁定
+//	   if(isOutLimitBroarrangParam){
+		   if(isLocked){
+			   displayClor = ResourceColor.FORE_TIME;
+		   }
+//	   }else{
+//		   //过期
+//			if(displayOverDate){
+//				if(displayOverDate && d < today) displayClor = ResourceColor.FORE_TIME;
+//			}	
+//	   }
+	        
+	        
 		
 		
 		//无效日期
@@ -184,6 +204,8 @@ public class ResDayUtil {
 			displayClor = ResourceColor.IS_NOT_DATE;
 			dayInfoArray.setDisabled(Boolean.valueOf(true));
 		}
+		
+		
     
 		return displayClor;
     }	

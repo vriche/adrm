@@ -203,7 +203,10 @@ public class OrderDayInfoManagerImpl extends BaseManager implements OrderDayInfo
 		String  tvName  = SysParamUtil.getTvNameParam();
 
 		boolean isResourceSort = SysParamUtil.getWithResourceSort();
-		boolean arrearagemode = SysParamUtil.getArrearageMode();
+//		boolean arrearagemode = SysParamUtil.getArrearageMode();
+		boolean arrearagemode = channelModelParam==1? true:false;
+		
+		boolean channelModel = SysParamUtil.getChannelModelPara();
 		
 	  	Map incMap =  new HashMap();
     	Map inputonMap  =  new HashMap();

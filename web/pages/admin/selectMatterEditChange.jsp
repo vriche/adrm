@@ -39,8 +39,9 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/CustomerManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/IndustryManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/SpecificManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/BrandManager.js'/>"></script>
 
-
+<script type="text/javascript" src="<c:url value='/scripts/class/brand.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/address.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/user.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/carrierType.js'/>"></script>

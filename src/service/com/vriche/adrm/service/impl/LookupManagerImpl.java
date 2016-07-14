@@ -634,7 +634,12 @@ private void getBranchByParnetId(Long branchId,List BranchParentList){
 					param.setResconfigOrderbyTime(v);
 				}
 				
-			
+			    //订单多频道
+				if(sysParam.getName().equals(Constants.ORDER_MORE_CARRIER)){
+					String v = sysParam.getValue();
+					v = v ==null|| "".equals(v)?"0":v;
+					param.setOrderMoreCarrier(v);
+				}
 		}
 		return param;
 		
@@ -1812,6 +1817,14 @@ public void excuteSql() {
 			excuteSql("update tb_sys_org set version = "+ curVer,curVer);  
 		}	
 		
+		if(curVersion < 39 ){
+			int curVer = 39; 
+			excuteSql("alter table tb_adver_matter add column carrier_id  bigint(20) DEFAULT 0",curVer);
+			excuteSql("update tb_sys_org set version = "+ curVer,curVer);  
+		}		
+		
+		
+		
 //		if(curVersion < 38 ){
 //			int curVer = 38; 
 //			excuteSql("alter table tb_published_arrang_detail add column matter_id   bigint(20) DEFAULT 0",curVer);
@@ -2259,6 +2272,11 @@ public void saveSysParams(String target,String value,List ls) {
 		
 		 //时段维护根据时间排序
 		if(target.equals(Constants.RESCONFIG_ORDER_BY_TIME)){
+				sysParam.setValue("0");
+		}
+		
+		 //订单多频道
+		if(target.equals(Constants.ORDER_MORE_CARRIER)){
 				sysParam.setValue("0");
 		}
 		

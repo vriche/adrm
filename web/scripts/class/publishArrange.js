@@ -84,9 +84,9 @@ PublishArrange.prototype.reset = function(){
   	
 }
 
-PublishArrange.prototype.saveAllLock = function(carrierId,publishDate,callbackFunc){
+PublishArrange.prototype.saveAllLock = function(carrierId,publishDate,isLock,callbackFunc){
 //	alert(objs.length);
-	PublishArrangeManager.saveAllLock(setFun,carrierId,publishDate);
+	PublishArrangeManager.saveAllLock(carrierId,publishDate,isLock,setFun);
 	function setFun(){callbackFunc();} 
 }
 
@@ -214,17 +214,29 @@ PublishArrange.prototype.fillTalbe = function(objs){
 	//先删除 tbody		
 	DWRUtil.removeAllRows(tBody);
 	//再重新构造新的表
+	
+	var cellIndex = 0;
 	DWRUtil.addRows(tBody,objs,cellTable,{
 				rowCreator:function(options) {  
 						   var row = document.createElement("tr"); 
 				           putRowDataInHidden(row,options.rowData);
+				           cellIndex = 0;
 //				           row.setAttribute("onclick","javascript:editInfo("+ options.rowData.id +"," + options.rowData.customerCategoryId+ ")");
 						   return row;  
 					  },  
 					  
 				cellCreator:function(options) {  
 						    var td = document.createElement("td"); 
-						    td.setAttribute("style","text-align:right;");
+						    cellIndex ++;
+
+						    if(cellIndex == 2){
+						    	 td.setAttribute("style","text-align:left;");
+						    }else if(cellIndex == 2 || cellIndex == 6){
+						    	 td.setAttribute("style","text-align:right;");
+						    }else{
+						    	 td.setAttribute("style","text-align:center;");
+						    }
+	    
 						    return td;  
 					  }  
 				});
@@ -260,7 +272,7 @@ PublishArrange.prototype.getFileInfo = function(id,date){
 
 
 PublishArrange.prototype.downloadAdvers = function(obj,type,callBackFun){
-	PublishArrangeManager.downloadAdvers(callBackFun,obj,type);
+	 PublishArrangeManager.downloadAdvers(obj,type,callBackFun);
 }
 
 PublishArrange.prototype.uploadFiles = function(server,prot,user,pass,publishDate,callBackFun){

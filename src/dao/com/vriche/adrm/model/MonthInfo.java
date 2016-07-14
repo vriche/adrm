@@ -30,8 +30,11 @@ public class MonthInfo extends BaseObject {
     protected Integer month;
     protected Integer monthDate;
     protected String monthStr;
+    protected String specificPos;
     
-    protected Boolean isCurMonth;    //是否当前月
+    
+
+	protected Boolean isCurMonth;    //是否当前月
     protected Integer adStartDate;   //开始日期
     protected Integer adEndDate;     //结束日期
     protected Integer monthResTotal; //月资源累计
@@ -77,6 +80,16 @@ public class MonthInfo extends BaseObject {
     protected DayInfoArray days[] = new DayInfoArray[31];
     
     public MonthInfo() {}
+    
+    
+    
+    public String getSpecificPos() {
+		return specificPos;
+	}
+	public void setSpecificPos(String specificPos) {
+		this.specificPos = specificPos;
+	}
+	
     /**
      * 
      * Returns the adEndDate

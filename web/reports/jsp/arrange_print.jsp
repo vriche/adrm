@@ -18,7 +18,9 @@
  String importType = request.getParameter("importType");
  String startTime = request.getParameter("startTime");
  String endTime = request.getParameter("endTime");
-   String orgId = request.getParameter("printOrgid");
+ String orgId = request.getParameter("printOrgid");
+ String version = request.getParameter("version");
+ 
    
  request.getSession().setAttribute("carrierId",carrierId);  
  request.getSession().setAttribute("carrierName",carrierName);
@@ -31,6 +33,7 @@
  request.getSession().setAttribute("startTime",startTime); 
  request.getSession().setAttribute("endTime",endTime); 
  request.getSession().setAttribute("orgId",orgId);
+ request.getSession().setAttribute("version",version);
 %>
 
 <%if(model.equals("print")){%>

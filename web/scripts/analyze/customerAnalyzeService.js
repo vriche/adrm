@@ -62,10 +62,16 @@ function init(){
 	config_useCarrierAliname = _app_params.sysParam.useCarrierAliname;
     config_useMoreCarrierSortParam = _app_params.sysParam.useMoreCarrierSortParam;
     config_withResourceSort = _app_params.sysParam.withResourceSort;//是否启用播出入点(启用1,不启用0)系统参数默认是0;
+    config_arrearageMode = _app_params.sysParam.arrearageMode;//欠款统计方式(0{投放-分配},1{投放-到帐})
+    
+//    alert(config_arrearageMode)
+    
 	
  	_make_adrm_sys_year_select("order_year",_app_params.serviceDate.adrmSysYear, _app_params.serviceDate.year);
     _make_org_select("orgId",120,"resetStore");	
     
+
+    $('select_qiankuan').value = config_arrearageMode;
     
     
     config_oneOrgMoreSuborgsParam= _app_params.sysParam.oneOrgMoreSuborgsParam;
@@ -190,7 +196,7 @@ function getLocalStore(){
 //	console.log(students)
 	
 	var grid_table_string = store.get('students');
-	console.log(grid_table_string);
+//	console.log(grid_table_string);
 	
 //	mygrid.clearAll();
 //	mygrid.loadXMLString(grid_table_string);
@@ -876,6 +882,8 @@ function button_print(model){
 				 }              
                 
                 var weekStr = Ext.getCmp('weekCheckBox').getCheckedValue();
+                
+                var arrearageMode = $("select_qiankuan").value;
 	   
 		var a = {
 				 	model: model,
@@ -893,7 +901,7 @@ function button_print(model){
 	            
 	                resourceTypeId:orderdayinfo.obj.resourceType,
 	                nowUser:loginUser,
-	                channelModeId:channelModeId,
+	                channelModeId:arrearageMode,
 	                customerId:customerId,
 	                startDate:beginDate,
 	                endDate:endDate,
@@ -1150,6 +1158,7 @@ function getAllMonthInfosByStartAndend(){
 	userId = $('userOwner1').value;
 	var carrierName = $("carrierName").value==null||$("carrierName").value==''?0:$("carrierName").value;
 	var customerId = $("customerName").value;	 
+	var arrearageMode = $("select_qiankuan").value;
 	
 	 var func = function(xml){
 //		 	incomePull.incomeMoneyFillTalbe(objs);
@@ -1178,7 +1187,7 @@ function getAllMonthInfosByStartAndend(){
 		alert("请先选择日期");
 	}else{
 		Ext.getBody().mask('数据加载中……', 'x-mask-loading');
-		orderdayinfo.getOrderDayInfosXML(orderdayinfo.obj,userId,carrierName,customerId,channelModelParam,loginUser,func);
+		orderdayinfo.getOrderDayInfosXML(orderdayinfo.obj,userId,carrierName,customerId,arrearageMode,loginUser,func);
 	}
 }
 
@@ -1291,7 +1300,7 @@ function getFusionChartObjs(){
     userId = $('userOwner1').value;              
 	var carrierName = $("carrierName").value==null||$("carrierName").value==''?0:$("carrierName").value;
 	var customerId = $("customerName").value;
-	
+    var arrearageMode = $("select_qiankuan").value;
 
 	
 	function func(objs){
@@ -1314,7 +1323,7 @@ function getFusionChartObjs(){
                 userId: userId,
                 carrierName: carrierName,
                 customerId: customerId,
-                channelModelParam: channelModelParam,
+                channelModelParam: arrearageMode,
                 theUser: loginUser,
                 incomPurs: orderdayinfo.obj.toaccountTotal,
                 returnValue: orderdayinfo.obj.businessLastName,

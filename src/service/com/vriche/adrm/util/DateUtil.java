@@ -765,6 +765,9 @@ public class DateUtil {
 		   
 	} 
 	
+	
+	
+	
 	public static String formatTime(long ms,String strFormat) {//将毫秒数换算成x天x时x分x秒x毫秒
 		   int ss = 1000;
 		   int mi = ss * 60;
@@ -899,6 +902,30 @@ public class DateUtil {
 	        
 
 	        return str;
+	    }
+	 
+	 public static String formatLongToTimeStr3(Long l) {
+	        String str = "";
+	        long day = 0;
+	        long hour = 0;
+	        long minute = 0;
+	        long second = 0;
+
+	        second = l.longValue() / 1000;
+
+	        if (second > 60) {
+	            minute = second / 60;
+	            second = second % 60;
+	        }
+	        if (minute > 60) {
+	            hour = minute / 60;
+	            minute = minute % 60;
+	        }
+
+	        String shour = hour < 10 ? "0" + hour : "" + hour;
+	
+
+	        return shour;
 	    }
 
     public String getSelectedDate(int days) {

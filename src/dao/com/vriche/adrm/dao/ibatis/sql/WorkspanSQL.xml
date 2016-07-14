@@ -165,7 +165,14 @@
     </select>
     <select id="getWorkspansByIdList" parameterClass="java.util.Map" resultMap="workspanResult">
      <![CDATA[              
-      select arc.parent_id  ad_resource_workspan_id,ari.ad_resource_propertiy_time,arc.ad_resource_channel_id ad_resource_carrier_id,ari.enable as ad_resource_type,arw.* from tb_ad_resource_workspan arw
+      select 
+      ari.memo as memo,
+	  ari.ad_resource_propertiy_time,
+	  ari.enable as ad_resource_type,
+      arc.parent_id ad_resource_carrier_id,
+      arw.* 
+      
+      from tb_ad_resource_workspan arw
 		 left outer join tb_ad_resource_carrier arc
 			 on arw.ad_resource_carrier_id=arc.ad_resource_carrier_id
 		 left outer join tb_ad_resource_info ari
@@ -198,7 +205,7 @@
 				<![CDATA[ (arw.end_date >= #PublishDate#)]]>         
 			</isNotEmpty>
           </dynamic>
-		order by  arc.ad_resource_channel_id
+		order by  arc.ad_resource_channel_id,arw.begin_date 
   </select>     
 
     <select id="getWorkspan" resultMap="workspanResult">

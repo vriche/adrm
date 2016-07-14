@@ -1371,5 +1371,9 @@ OrderDetail.prototype.saveOrderDetailMore = function(queryStr,orderDetail_objs,c
 	OrderDetailManager.saveOrderDetailMore(queryStr,orderDetail_objs,callbakFun);
 }
 
+OrderDetail.prototype.getDayInfosLockedByResourceIds = function(resIds, startDate, endDates,callBackFun){
+	function callbakFun(s){ callBackFun(s);} 
+	OrderDetailManager.getDayInfosLockedByResourceIds(resIds,startDate,endDates,callbakFun);
+}
 
 

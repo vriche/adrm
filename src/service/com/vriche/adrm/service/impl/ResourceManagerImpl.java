@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.tools.ant.util.DateUtils;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.dao.CarrierDao;
@@ -35,6 +36,7 @@ import com.vriche.adrm.model.Resource;
 import com.vriche.adrm.model.ResourcePrint;
 import com.vriche.adrm.model.Workspan;
 import com.vriche.adrm.service.ResourceManager;
+import com.vriche.adrm.util.CarrierComparator;
 import com.vriche.adrm.util.CarrierUtil;
 import com.vriche.adrm.util.ConvertUtil;
 import com.vriche.adrm.util.DateUtil;
@@ -554,57 +556,69 @@ private String getWeeks(ResourcePrint ws){
 private void convertNullToEmtpy(String[] priceLengths,FusionChartObject fObject){
 	switch(priceLengths.length){
 	case 1:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
 		break;
 	case 2:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
-		if(fObject.getValue5()==null) fObject.setValue5("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
 		break;
 	case 3:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
-		if(fObject.getValue5()==null) fObject.setValue5("0");
-		if(fObject.getValue6()==null) fObject.setValue6("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
+		if(fObject.getValue6()==null) fObject.setValue6("");
 		break;
 	case 4:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
-		if(fObject.getValue5()==null) fObject.setValue5("0");
-		if(fObject.getValue6()==null) fObject.setValue6("0");
-		if(fObject.getValue7()==null) fObject.setValue7("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
+		if(fObject.getValue6()==null) fObject.setValue6("");
+		if(fObject.getValue7()==null) fObject.setValue7("");
 		break;
 	case 5:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
-		if(fObject.getValue5()==null) fObject.setValue5("0");
-		if(fObject.getValue6()==null) fObject.setValue6("0");
-		if(fObject.getValue7()==null) fObject.setValue7("0");
-		if(fObject.getValue8()==null) fObject.setValue8("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
+		if(fObject.getValue6()==null) fObject.setValue6("");
+		if(fObject.getValue7()==null) fObject.setValue7("");
+		if(fObject.getValue8()==null) fObject.setValue8("");
 		break;
 	case 6:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
-		if(fObject.getValue5()==null) fObject.setValue5("0");
-		if(fObject.getValue6()==null) fObject.setValue6("0");
-		if(fObject.getValue7()==null) fObject.setValue7("0");
-		if(fObject.getValue8()==null) fObject.setValue8("0");
-		if(fObject.getValue9()==null) fObject.setValue9("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
+		if(fObject.getValue6()==null) fObject.setValue6("");
+		if(fObject.getValue7()==null) fObject.setValue7("");
+		if(fObject.getValue8()==null) fObject.setValue8("");
+		if(fObject.getValue9()==null) fObject.setValue9("");
 		break;
 	case 7:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
-		if(fObject.getValue5()==null) fObject.setValue5("0");
-		if(fObject.getValue6()==null) fObject.setValue6("0");
-		if(fObject.getValue7()==null) fObject.setValue7("0");
-		if(fObject.getValue8()==null) fObject.setValue8("0");
-		if(fObject.getValue9()==null) fObject.setValue9("0");
-		if(fObject.getValue10()==null) fObject.setValue10("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
+		if(fObject.getValue6()==null) fObject.setValue6("");
+		if(fObject.getValue7()==null) fObject.setValue7("");
+		if(fObject.getValue8()==null) fObject.setValue8("");
+		if(fObject.getValue9()==null) fObject.setValue9("");
+		if(fObject.getValue10()==null) fObject.setValue10("");
+
 		break;
 	case 8:
-		if(fObject.getValue4()==null) fObject.setValue4("0");
-		if(fObject.getValue5()==null) fObject.setValue5("0");
-		if(fObject.getValue6()==null) fObject.setValue6("0");
-		if(fObject.getValue7()==null) fObject.setValue7("0");
-		if(fObject.getValue8()==null) fObject.setValue8("0");
-		if(fObject.getValue9()==null) fObject.setValue9("0");
-		if(fObject.getValue10()==null) fObject.setValue10("0");
-		if(fObject.getValue11()==null) fObject.setValue11("0");
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
+		if(fObject.getValue6()==null) fObject.setValue6("");
+		if(fObject.getValue7()==null) fObject.setValue7("");
+		if(fObject.getValue8()==null) fObject.setValue8("");
+		if(fObject.getValue9()==null) fObject.setValue9("");
+		if(fObject.getValue10()==null) fObject.setValue10("");
+		if(fObject.getValue11()==null) fObject.setValue11("");
 		break;
+	case 9:
+		if(fObject.getValue4()==null) fObject.setValue4("");
+		if(fObject.getValue5()==null) fObject.setValue5("");
+		if(fObject.getValue6()==null) fObject.setValue6("");
+		if(fObject.getValue7()==null) fObject.setValue7("");
+		if(fObject.getValue8()==null) fObject.setValue8("");
+		if(fObject.getValue9()==null) fObject.setValue9("");
+		if(fObject.getValue10()==null) fObject.setValue10("");
+		if(fObject.getValue11()==null) fObject.setValue11("");
+		if(fObject.getValue12()==null) fObject.setValue12("");
+		break;		
 }
 }
 public List getPriceLength(String[] carrierIds){
@@ -618,18 +632,24 @@ public List getPriceLength(String[] carrierIds){
 }
 public Collection getCollections(final String queryString,String type) {
 	
-	String carrierName = StringUtil.getParamFromUrl(queryString,"carrierName");
-	String carrierId = StringUtil.getParamFromUrl(queryString,"carrierIds");
+	String carrierName =  StringUtil.getURLDecoderStr(StringUtil.getParamFromUrl(queryString,"carrierName"));
+	String carrierId = StringUtil.getURLDecoderStr(StringUtil.getParamFromUrl(queryString,"carrierIds"));
 	String[] carrierIds = carrierId.split(",");
-	String priceLength = StringUtil.getParamFromUrl(queryString,"priceLengths");
+	String priceLength = StringUtil.getURLDecoderStr(StringUtil.getParamFromUrl(queryString,"priceLengths"));
 //	if(priceLength.equals("undefined")){
 //		priceLength = "";
 //	}
-	String[] priceLengths=new String[priceLength.length()];
-
-	if(priceLength.length()!=0){
-		priceLengths = priceLength.split(",");
-	}
+	
+//	 System.out.println("priceLength 6666 88>>>0000000000>>>>   "+ priceLength);
+	 
+//	String[] priceLengths=new String[priceLength.length()];
+//
+//	if(priceLength.length()!=0){
+//		priceLengths = priceLength.split(",");
+//	}
+	
+	String[] priceLengths= priceLength.split(",");
+	
 
 	Map childMap = new HashMap();
 	List carrierIdls = new ArrayList();
@@ -641,16 +661,20 @@ public Collection getCollections(final String queryString,String type) {
 
 	String resourceOldId="";
 	String weeks="";
-	FusionChartObject fObject=null;
+	FusionChartObject fObject = null;
 	List valuecoll = new ArrayList();
 	
 	for(Iterator it = ls.iterator();it.hasNext();){
-		ResourcePrint ws=(ResourcePrint)it.next();
-		String length=ws.getLength();
-		String price=ws.getPrice();
-//		if(length!=null){
-//			length = length.equals("")?"0":ws.getLength();
-//		}
+		ResourcePrint ws = (ResourcePrint)it.next();
+		String length = ws.getLength();
+		String price = ws.getPrice() ;
+		Workspan workspan =ws.getWorkspan();
+		String startDate = DateUtil.SetDateFormat(workspan.getBeginDate().toString(), "yyyy/MM/dd");
+		String endDate = DateUtil.SetDateFormat(workspan.getEndDate().toString(), "yyyy/MM/dd");
+		String startTime = workspan.getBroadcastTimeFormatStart();
+		String startLength = StringUtilsv.getNullValue(workspan.getMonLength(), "");
+//		 System.out.println("price >>1111111111111111111111>>>>   "+ );
+
 		
 		if(!resourceOldId.equals(ws.getResourceId())){
 			if(resourceOldId!=""){
@@ -658,16 +682,33 @@ public Collection getCollections(final String queryString,String type) {
 				valuecoll.add(fObject);
 			}
 			fObject = new FusionChartObject();
-			weeks=getWeeks(ws);
-			if(carrierIds.length==1){
-				fObject.setValue1(carrierName);
+			weeks = getWeeks(ws);
+//			if(carrierIds.length==1){
+//				fObject.setValue1(carrierName);
+//			}else{
+//				fObject.setValue1(carrierName+"/"+ws.getCarrierName());
+//			}
+			
+			String name =ws.getMemo();
+			String memo =   ws.getResourceName();
+			if(name.equals(memo)){
+				memo = "";
 			}else{
-				fObject.setValue1(carrierName+"/"+ws.getCarrierName());
+				name =name+" ";
 			}
-			fObject.setValue2(ws.getResourceName());
-			fObject.setValue3(ws.getMemo());
+			
+			fObject.setLable(carrierName);
+			fObject.setValue1(startTime +" "+name + memo);
+//			fObject.setValue2(ws.getMemo());
+			fObject.setValue2(startDate+"至"+endDate);
+			fObject.setValue3(startLength);
+			
 			resourceOldId=ws.getResourceId();
 		}
+		
+		
+//		 System.out.println("priceLengths.length 6666 88>>>1111111111111111111111>>>>   "+priceLengths.length);
+		 
 		switch(priceLengths.length){
 			case 0:
 				fObject.setValue4(weeks);
@@ -1799,6 +1840,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 	public List getTree2(List trees,String nodeType,String nodeId,String version,String orgId){
 //		List trees = new ArrayList();
 		Carrier carrier = new Carrier();
+		boolean channelPull =  SysParamUtil.getChannelModelPara(); 
 		
 		if("1".equals(nodeType)){
 			carrier.setCarrierTypeId(new Long(nodeId));
@@ -1812,8 +1854,24 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 			carrier.setVersion(new Integer(version));
 		}
 
-		List ls2 = carrierDao.getCarriers(carrier);
+		carrier.setEnable(true);
+		List ls2 = new ArrayList();
 		
+		
+		if("1".equals(nodeType)&&channelPull && !UserUtil.isSuperUser()){
+//			Map userCarrierRelsIdsMap  = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_CARRIER_RELS_ID);
+//			String loginUser = UserUtil.getCurrentPrincipalUser();
+//			List carIds = (List)userCarrierRelsIdsMap.get(loginUser);
+//			ls2 = carrierDao.getCarriers(carrier);
+			
+			Map map  = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_CARRIER_RELS);
+		    String currentUser = UserUtil.getCurrentPrincipalUser();
+		    ls2 = (List)map.get(currentUser); 
+		}else{
+			ls2 = carrierDao.getCarriers(carrier);
+		}
+		
+		Collections.sort(ls2,new CarrierComparator());
 //		System.out.println("ls2>>>>yyyyyyyyyyyyyyyyyyyyyyyy>>>>>>>>>>"+ls2.size()) ;
 		
 		Iterator it2 = ls2.iterator();
@@ -1842,7 +1900,7 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 				resourcePar.setOrderBy(new Integer(0));
 			}
 			 
-			
+//			resourcePar.setIsOverweight(true);
 //			resourcePar.setEnable(new Boolean(true));
 			List ls5 = dao.getResources(resourcePar);
 			boolean isLeaf2 = (ls5.size() == 0);
@@ -1887,9 +1945,15 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 			resourcePar.setOrderBy(new Integer(0));
 		}
 		
+		//资源统计
+		resourcePar.setIsOverweight(true);
+		
 		List ls = dao.getResourcesOrderbyBroStartTime(resourcePar);
 //		List ls2 = StringUtilsv.singleElement(ls);
-
+		//处理后只保留有效信息的最新开始日期
+		ls = (List)ResourceUtil.getLasterVersionResources(ls);
+		
+		 Collections.sort(ls,new ResourceBrostartTimeComparator());
 		
 //		System.out.println("ls2>>>>yyyyyyyyyyyyyyyyyyyyyyyy>>>>>>>>>>"+ls2.size()) ;
 		
@@ -2121,6 +2185,9 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		Carrier carParm = new Carrier();
 		carParm.setVersion(new Integer(sourceYear));
 		
+		//20161222增加了频道有效
+		carParm.setEnable(new Boolean(true));
+		
 		List carList = carrierDao.getCarriers(carParm);
 		Iterator it1 = carList.iterator();
 		
@@ -2191,14 +2258,43 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 					}
 
 					
-					
+					Map mpTemp = new HashMap();
 					Workspan workspan = new Workspan();
 					workspan.setResourceId(resId_old);
+					
+					Map mpNewWorkSpan = new HashMap();
+					
+					
 					List lsWorkSpan = workspanDao.getWorkspans(workspan);
 					
-					System.out.println("yyyyyyyyyyyy"+ lsWorkSpan.size() +"yyyyyyyyyyyy save res "+ resId_old +">>>>>>>>>>" +resId) ;
+					Iterator it32 = lsWorkSpan.iterator();
+					while (it32.hasNext()) {
+						Workspan wspan =(Workspan)it32.next();
+						Integer beging_date = wspan.getBeginDate();
+						
+//						System.out.println("yyyyyyyyyy 9999 >>>>>>>>" + resId+"_"+beging_date) ;
+						
 					
-					Iterator it3 = lsWorkSpan.iterator();
+						if(mpTemp.containsKey(resId)){
+							Integer beging_date2 = (Integer)mpTemp.get(resId);
+							if(beging_date.intValue() > beging_date2.intValue()){
+								mpNewWorkSpan.put(resId, wspan);
+								mpTemp.put(resId, beging_date2);
+							}
+						}else{
+							mpNewWorkSpan.put(resId, wspan);
+							mpTemp.put(resId, beging_date);
+						}
+					}
+					
+					
+					
+					
+					System.out.println("yyyyyyyyyyyy"+ mpNewWorkSpan.size() +"yyyyyyyyyyyy save res "+ resId_old +">>>>>>>>>>" +resId) ;
+					
+//					Iterator it3 = lsWorkSpan.iterator();
+					Iterator it3 = mpNewWorkSpan.values().iterator();
+					
 					while (it3.hasNext()) {
 						Workspan wspan =(Workspan)it3.next();
 						Long wspId_old = wspan.getId();
@@ -2209,6 +2305,12 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 						wspan.setBeginDate(new Integer(tagYear+"0101"));
 						wspan.setEndDate(new Integer(tagYear+"1231"));
 						wspan.setId(null);
+						
+						
+//						if(mpTemp.containsKey(resId)) continue;
+//						mpTemp.put(resId, resId);
+						
+						
 						
 						Long wspId = workspanDao.saveWorkspan(wspan);
 						
@@ -2390,7 +2492,8 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 					 System.out.println("userIdList<<<<<<< loginUser <<!222222222<<<<<<<<<<"+loginUser);
 					List userIdList =  UserUtil.getOwnerUsersList(loginUser,2);
 					System.out.println("userIdList<<<<<< size <<<!222222222<<<<<<<<<<"+userIdList.size());
-					mp.put("userIdList",userIdList);
+//					mp.put("userIdList",userIdList);520
+					mp.put("userIdList",null);
 				}
 				
 				if(!"".equals(customerStr)  && customerStr!=null){
@@ -2516,10 +2619,26 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 //					String bro_pos = objectRes.getValue1()+objectRes.getValue2();
 					String bro_pos ="";
 					if("hntv".equals(tvName) || "fztv".equals(tvName)){
-						 bro_pos = objectRes.getValue2()+objectRes.getValue1();
+//						 bro_pos = objectRes.getValue2()+objectRes.getValue1();
+						 bro_pos = objectRes.getValue2();
+//						 String memo = objectRes.getValue2();
+//						 String name = objectRes.getValue1();
+
+//						 if(memo.equals(name)){
+//							 bro_pos = memo;
+//						 }else{
+//							 bro_pos
+//						 }
+						 
+						 
 					}else{
-						 bro_pos = objectRes.getValue1()+objectRes.getValue2();
+//						 bro_pos = objectRes.getValue1()+objectRes.getValue2();
+						 bro_pos = objectRes.getValue1();
 					}
+					
+					
+					
+					
 					
 					String total = objectRes.getValue36();
 					object.setId(key_workSpanId);
@@ -2982,6 +3101,42 @@ public Collection getResourcesPrint(String carrierId,Map carrierMap){
 		mp.put("IdList", IdList);
 		dao.removeResourceUserRate(mp);
 	}  
+	
+	//检测从当前日期及之后的日期是否存在已下订单
+	public String getArrangedOrderByRes(String resourceId,String endDay){
+		Map mp = new HashMap();
+		StringBuffer sb = new StringBuffer();
+		String startDate =(endDay !=null && !"null".equals(endDay) &&  !"".equals(endDay))? endDay: DateUtils.format(new Date(), "yyyyMMdd");
+		
+		
+		System.out.println("getArrangedOrderByRes>>>>> startDate>>>>>>>>:"+startDate);
+		
+		mp.put("resourceId", resourceId);
+		mp.put("startDate", startDate);
+		
+		//return  key ="id",  value = "code"
+		Map resMap = dao.getArrangedOrderByRes(mp);
+		
+		int size = resMap.size();
+		
+//		System.out.println("getArrangedOrderByRes>>>>> size>>>>>>>>:"+size);
+		
+		Iterator it = resMap.keySet().iterator();
+		if(size >0){
+			while(it.hasNext()){
+				Long key = (Long)it.next();
+				String value = (String)resMap.get(key);
+//				System.out.println("getArrangedOrderByRes>>>>> value>>>>>>>>:"+value);
+				sb.append(value);
+				sb.append(",");
+			}
+			return sb.toString();
+		}else{
+			return "";
+		}
+		
+		
+	}
 	
 	
 

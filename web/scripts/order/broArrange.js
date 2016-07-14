@@ -1100,6 +1100,7 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
 	var dayObj = el.dayObj;
 	var dayDate = ''+dayObj.dayDate;
 	var rsTotalTime =  dayObj.rsTotalTime == null || dayObj.rsTotalTime == "" ? 0: dayObj.rsTotalTime; //资源标准
+	var rsTotalTime2 =  dayObj.rsTotalTime2 == null || dayObj.rsTotalTime2 == "" ? 0: dayObj.rsTotalTime2; //资源标准
 //	var afterLeaveTimes = 0;
 	var rt = true;
 	var K =  (ev.type == "keydown" || ev.type == "keypress")? ev.keyCode : ev.which;
@@ -1162,25 +1163,35 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
 	var changeTimes =0;//添加该变量是为了实现：就算该资源已经超时,但是没有超时权限的人依然可以编辑订单（占用的时间只能改小或不变）.
 	var afterLeaveTimes =0;
 	var groupLeaveTimes = 0;
+	var afterLeaveTimes2 = 0;
 	var oldValue = dayObj.adTimes*1;
 	if(dayObj.dayShort ==null) dayObj.dayShort = 0;
+	
+	//alert(dayObj.rsReleave);
+//	alert(dayObj.rsReleave2);
+	
+	dayObj.rsReleave2 =  (dayObj.rsReleave < dayObj.rsReleave2)?dayObj.rsReleave:dayObj.rsReleave2;
+	
 	if(isKeypress){
 		
 		//alert(isResChangedOnEdit);
 		//alert(adLength);
 	  afterLeaveTimes = dayObj.rsReleave - adLength * (t*1 -oldValue*1);
 	  groupLeaveTimes = dayObj.dayShort - adLength * (t*1 -oldValue*1);
+	  afterLeaveTimes2 = dayObj.rsReleave2 - adLength * (t*1 -oldValue*1);
 	  
 	  if(!isResChangedOnEdit){
 	  	changeTimes = t*adLength -oldValue*dayObj.adLength;
 	  	afterLeaveTimes = dayObj.rsReleave - (t*adLength -oldValue*dayObj.adLength);
 	  	groupLeaveTimes = dayObj.dayShort - (t*adLength -oldValue*dayObj.adLength);
+	  	afterLeaveTimes2 = dayObj.rsReleave2 - (t*adLength -oldValue*dayObj.adLength);
 	  }
 	  
 	  if(isResChangedOnEdit){ 
 	  	changeTimes = adLength * t;
 	  	afterLeaveTimes = dayObj.rsReleave - adLength * t;
 	  	groupLeaveTimes = dayObj.dayShort - adLength * t;
+	 	afterLeaveTimes2 = dayObj.rsReleave2 - adLength * t;
 	   }
 	  
 	
@@ -1188,11 +1199,13 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
 	    if(isResChangedOnEdit){
 			  changeTimes = adLength * (t*1 + curValue*1)
 			  afterLeaveTimes = dayObj.rsReleave - adLength * (t*1 + curValue*1);
-			  groupLeaveTimes = dayObj.dayShort - adLength * (t*1 + curValue*1);			
+			  groupLeaveTimes = dayObj.dayShort - adLength * (t*1 + curValue*1);	
+			  afterLeaveTimes2 = dayObj.rsReleave2 - adLength * (t*1 + curValue*1);
 		}else{
 	 		  changeTimes = adLength * (t*1 + curValue*1)-dayObj.adLength*oldValue*1;
 	  		  afterLeaveTimes = dayObj.rsReleave - adLength * (t*1 + curValue*1)+dayObj.adLength*oldValue*1;
 	  		  groupLeaveTimes = dayObj.dayShort - adLength * (t*1 + curValue*1)+dayObj.adLength*oldValue*1;
+	  		  afterLeaveTimes2 = dayObj.rsReleave2 - adLength * (t*1 + curValue*1)+dayObj.adLength*oldValue*1;
 		}
 	  //afterLeaveTimes = dayObj.rsReleave - adLength * (t*1 + curValue*1-oldValue*1);
 	}
@@ -1228,8 +1241,12 @@ BroArrange.prototype.isEnableCellClick = function(el,ev){
 //		}
 //
 //    }else{
-    	      	
-    	  if(dayObj.isLimit && afterLeaveTimes< 0 && rsTotalTime > 0){
+	
+	//alert('afterLeaveTimes_'+afterLeaveTimes)
+	
+	//alert('afterLeaveTimes2_'+afterLeaveTimes2)
+	
+    	  if(dayObj.isLimit && (afterLeaveTimes < 0 || afterLeaveTimes2 < 0) && rsTotalTime > 0){
 				//alert(getFormatDay(dayDate,"yyyy-mm-dd")+"的广告超时!");
 				//注释了上面一行
 				//下面两个if语句是为了实现根据个人选择来决定是否继续提示"广告超时".
@@ -1445,7 +1462,7 @@ BroArrange.prototype.getBroArrangeStarEndDate = function(appParams){
 				nextMonth = nextMonth + 1;
 			}
 		}else{
-			nextMonth = broArrange.myDate.getMonth(min)*1 + 2;
+			nextMonth =  broArrange.myDate.getMonth(min)*1 + config_orderArrangDefaultMonths;
 		}
 		max = broArrange.myDate.getNewDayEndDay(min,nextMonth);   	
    }

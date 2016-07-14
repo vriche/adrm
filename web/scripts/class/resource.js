@@ -493,7 +493,7 @@ Resource.prototype.getTree =function(id,params,checkBox,orgId,version,singleExpa
 
 
 Resource.prototype.getResourceCmdTree = function (orgId,paras,cmdId,treeId,allowUnLeafClick,renderTo,filterFiled,emptyText,width,checkBox,singleExpand,onSelected,callFunction){
-	       var OBJ = this;
+	         var OBJ = this;
 	     	 OBJ.obj.parentId = 0;
 	     	 var params = [{}]; //tree dataIn¡£;
 	     	 var tree = OBJ.getTree(treeId,params,checkBox,orgId,OBJ.obj.version,singleExpand);
@@ -800,4 +800,9 @@ Resource.prototype.saveResourceIdsYearUser = function(resourceIds,uid,rate,callB
 Resource.prototype.removeResourceIdsYearUser = function(ids,callBackFun){
 	ResourceManager.removeResourceIdsYearUser(ids,callBackFun);
 }
+Resource.prototype.getArrangedOrderByRes = function(resid,endDay,callBackFun){
+	ResourceManager.getArrangedOrderByRes(resid,endDay,callBackFun);
+}
+
+
 

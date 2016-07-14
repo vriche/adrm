@@ -98,7 +98,7 @@
 	
 	
 	<statement id="getResDayInfosByOrderDetail" parameterClass="map" resultMap="dayInfoResultWithResource">
-       <![CDATA[		
+        <![CDATA[		
 		select RSD.* ,RS.memo,
 		RS.is_closed as res_is_closed,
 		RS.is_manual as res_is_manual,
@@ -115,7 +115,39 @@
 		     and RSD.publish_date >=  #startDate#
 		     and RSD.publish_date <=  #endDate#
 			 and RS.ad_resource_info_id = #resourceId#
-	    ]]>			   
+	   ]]>		
+			 
+	</statement>
+	
+	
+	
+	<statement id="getResDayInfosByOrderDetail2" parameterClass="map" resultMap="dayInfoResultWithResource">
+       
+		select RSD.* ,RS.memo,
+		RS.is_closed as res_is_closed,
+		RS.is_manual as res_is_manual,
+		RS.is_overweight as res_is_overweight,
+		RS.is_seralized as res_is_seralized,
+		RS.is_validate as res_is_validate,
+		RS.enable as res_enable,
+		RS.display_no
+		from tb_ad_resource_info RS,
+        	 tb_ad_resource_day_info RSD,
+			 tb_ad_resource_workspan WS 
+		where RSD.ad_resource_workspan_id = WS.ad_resource_workspan_id 
+			 and RS.ad_resource_info_id = WS.ad_resource_info_id  
+			 <![CDATA[		
+		     and RSD.publish_date >=  #startDate#
+		     and RSD.publish_date <=  #endDate#
+		        ]]>		
+			 and RS.ad_resource_info_id = #resourceId#
+	 	  
+	    
+	    
+	    	<isNotEmpty prepend="AND" property="isLocked">
+			(RSD.is_locked = #isLocked#)
+			</isNotEmpty>		
+			 
 	</statement>
 	
 	<statement id="getOrderDayTimeUsedForFztv" parameterClass="map" resultClass="dayInfo">
@@ -261,6 +293,12 @@
 			<isNotEmpty prepend="AND" property="workspanId">
 			(RSD.ad_resource_workspan_id = #workspanId#)
 			</isNotEmpty>
+			
+			<!--  isNotEmpty prepend="AND" property="isLocked">
+			(RSD.is_locked = #isLocked#)
+			</isNotEmpty -->		
+			
+			
 			<isNotEmpty prepend="AND" property="startDate">
 			<![CDATA[
 			(RSD.publish_date >= #startDate# and RSD.publish_date <= #endDate#)
@@ -292,6 +330,10 @@
 		Inner Join tb_ad_resource_info ON tb_order_detail.ad_resource_info_id = tb_ad_resource_info.ad_resource_info_id AND tb_order_detail.ad_resource_info_id = tb_ad_resource_info.ad_resource_info_id
 		Inner Join tb_adver_matter ON tb_order_detail.adver_matter_id = tb_adver_matter.adver_matter_id
 		Left Outer Join tb_ad_resource_specific ON tb_order_detail.ad_resource_specific_id = tb_ad_resource_specific.ad_resource_specific_id
+		
+		Inner Join  tb_order on tb_order.order_id = tb_order_detail.order_id 
+
+	    Inner Join  tb_customer_info on tb_customer_info.customer_id = tb_order.customer_id 
 		  	  
 		<dynamic prepend="WHERE"> 	
 			<isNotEmpty prepend="AND" property="resourceId">
@@ -302,7 +344,14 @@
 			<![CDATA[
 			(tb_order_day_info.publish_date >= #startDate# and tb_order_day_info.publish_date <= #endDate#)
 			]]>
-			</isNotEmpty>			
+			</isNotEmpty>	
+			
+			<!-- customerCateId -->
+			<isNotEmpty prepend="AND" property="total2"> 
+			(tb_customer_info.customer_category_id = #total2#)
+			</isNotEmpty>		
+			
+					
 		</dynamic>	  
 		  
 	  </select>	  
@@ -397,7 +446,12 @@
 			(RSD.publish_date >= #startDate# and RSD.publish_date <= #endDate#)
 			]]>
 		</isNotNull>
-								
+		
+		
+		<isNotEmpty prepend="AND" property="isLocked">
+				RSD.is_locked = #isLocked# 
+		</isNotEmpty>
+				
           </dynamic>      
   </select>     
 

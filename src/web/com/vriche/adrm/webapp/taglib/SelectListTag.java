@@ -268,6 +268,7 @@ public class SelectListTag extends TagSupport {
           	case 3: //диЬх
           	    selects = mgr.getCarrier(level,user);
                 Iterator it3 = selects.iterator();
+                rt.add( new LabelValue("",""));  
                 while (it3.hasNext()){
                     Carrier carrier = (Carrier)it3.next();
                     LabelValue lb = new LabelValue(carrier.getCarrierName(),carrier.getId().toString());

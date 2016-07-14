@@ -102,7 +102,7 @@ public class OrderDetailDaoiBatis extends BaseDaoiBATIS implements OrderDetailDa
 		 int max =  pageSize;
 //		 System.out.println("skip>>>>>>>>>>>>"+ skip);
 //		 System.out.println("max>>>>>>>>>>>>"+ max);
-	   List pageList = getSqlMapClientTemplate().queryForList("getOrderDetails",orderDetail,skip,max);  
+	     List pageList = getSqlMapClientTemplate().queryForList("getOrderDetails",orderDetail,skip,max);  
 	   	 
 //	   	 System.out.println("getOrderDetailsPage pageList.size()>>>>>>>>>>>>"+ pageList.size());
 //	   	 System.out.println("orderDetail paramObj >>>>>>>>>>>>"+ orderDetail.toString());

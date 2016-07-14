@@ -15,6 +15,12 @@
 <script type="text/javascript" src="<c:url value='/scripts/global.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/generic.js'/>"></script>
 
+
+<script type="text/javascript" src="<c:url value='/dwr/interface/SysParamUtil.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/admin/sysParams.js'/>"></script>    
+
+
+
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/scripts/calendar/skins/theme.css'/>" />
 
 <script type="text/javascript" src="<c:url value='/scripts/dhtmlxTree/dhtmlXCommon.js'/>"></script>

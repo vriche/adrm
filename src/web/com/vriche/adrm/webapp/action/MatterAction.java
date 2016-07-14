@@ -120,7 +120,7 @@ public final class MatterAction extends BaseAction {
 
         MatterManager mgr = (MatterManager) getBean("matterManager");
         
-   
+//        System.out.println(" matterForm.getCarrier().getId()>>>>>>>>>>>>>>>>>>>>>>> 999 888 777 >>>>   "+matterForm.getCarrierForm().getId());
         
         Matter matter = (Matter) convert(matterForm);
        
@@ -128,7 +128,7 @@ public final class MatterAction extends BaseAction {
         mattapcode.setTapeCode(matter.getTapeCode());
 //        if(matter.getBrandId2() == null) matter.setBrandId2(new Long(0));
         
-//        System.out.println(" matterID   "+matter.getId());
+        System.out.println(" matter.getCarrier().getId()>>>>>>>>>>>>>>>>>>>>>>> 999 888 777 >>>>   "+matter.getCarrier().getId());
 //        System.out.println(" matterID   "+matter.getEnable().booleanValue());
         
         SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);

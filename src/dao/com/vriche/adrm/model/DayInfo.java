@@ -41,9 +41,15 @@ public class DayInfo extends BaseObject {
     protected Integer publishDate;
     protected String  specific;
     protected String total;
-    protected String used;
+    protected String total2;
+
+
+	protected String used;
+	protected String used2;
     
-    protected Double changedValue;   
+  
+
+	protected Double changedValue;   
     
     protected Integer startDate;
     protected Integer endDate;   
@@ -85,7 +91,9 @@ public class DayInfo extends BaseObject {
     	this.isLocked = new Boolean(false);
     	this.specific ="";
     	this.total = "0";
+    	this.total2 = "0";
     	this.used = "0";
+    	this.used2 = "0";
     	
     	this.resource.setIsClosed(new Boolean(false));
     	this.resource.setIsManual(new Boolean(false));
@@ -396,4 +404,21 @@ public class DayInfo extends BaseObject {
 		public void setIsLocked(Boolean isLocked) {
 			this.isLocked = isLocked;
 		}
+		
+		
+	    public String getTotal2() {
+			return total2;
+		}
+
+		public void setTotal2(String total2) {
+			this.total2 = total2;
+		}
+		
+		  public String getUsed2() {
+				return used2;
+			}
+
+			public void setUsed2(String used2) {
+				this.used2 = used2;
+			}
 }

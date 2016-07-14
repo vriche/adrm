@@ -337,16 +337,6 @@ Matter.prototype.fillTalbe = function(objs){
 	 //把行的数据放到行的属性里
 	 //row 是创建的行对象  options是行数据
 	 function putRowDataInHidden(row,rowData){
-//	 	row.setAttribute("id",OBJ.IdPrefix + rowData.id);
-//	 	row.setAttribute("paraId", rowData.id);
-//	 	row.setAttribute("name", rowData.name);
-//	 	row.setAttribute("customerId", rowData.customerId);
-//	 	row.setAttribute("matterType", rowData.matterType);
-//	 	row.setAttribute("edit", rowData.edit);
-//	 	row.setAttribute("length", rowData.length);
-//	 	row.setAttribute("tapeCode", rowData.tapeCode);
-//	 	row.setAttribute("memo", rowData.memo);
-//	 	row.setAttribute("enable", rowData.enable);
 	 	row.setAttribute("rowData", rowData);
 	 }	
 	 
@@ -372,6 +362,7 @@ Matter.prototype.fillTalbe = function(objs){
 	
 	//一行中，各单元格返回的内容
 	var cellTable=[
+					function(obj){ return encode_data_xml(obj.brand.name)},
 					function(obj){ return '<a href="javascript:void 0" onClick="editInfo('+ obj.id +')">' + encode_data_xml(obj.name) +'</a>'},
 					function(obj){ return encode_data_xml(obj.edit)},
 					function(obj){ return obj.length},
@@ -386,13 +377,22 @@ Matter.prototype.fillTalbe = function(objs){
 						
 					function(obj){
 							var i = obj.pos;
-							if(i == 1){
-								return encode_data_xml("首一");
-							}else if(i == 2){
-								return encode_data_xml("尾一");
+							var carrierName= obj.carrier.carrierName;
+							if(!carrierName){
+								carrierName ="";
 							}else{
-								return ""
+								carrierName = carrierName +"  "
+							}
+						
+							if(i == 1){
+								return carrierName + encode_data_xml("首一");
+							}else if(i == 2){
+								return carrierName + encode_data_xml("尾一");
+							}else{
+								return carrierName + ""
 ;							}
+							
+							
 						},
 						
 					function(obj){ return formatDateGlobal3(obj.createDate)},
@@ -840,7 +840,7 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
 //	   }	 
 	 
 	 
-	 var cmd = new Ext.form.ClearableComboBox(conf);  
+	 var cmd = new Ext.form.ComboBox(conf);  
 	 
 	 function func(){
 	 	 var filterFiled = cmd.filterFiled;
@@ -864,7 +864,7 @@ Matter.prototype.getStoreMatterLengthByName = function(mode,paramObj){
  var q = qe.query;  
  var minChars = combo.minChars;
  eval("params."+ filterFiled +" =q"); 
-   
+ 
  var forceAll = qe.forceAll;  
 
  var search = q.length >= combo.minChars && combo.lastQuery !== q;

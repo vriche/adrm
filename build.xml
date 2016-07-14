@@ -273,6 +273,12 @@
         	<fileset dir="${webapp.target}/reports" includes="**"/>
         </copy>	
 		
+		<copy todir="${tomcat.home}/webapps/${webapp.name}/grid_report">
+			<fileset dir="${basedir}/web/grid_report" includes="**"/>
+        </copy>		
+		
+		
+		
 		
     </target>	
 	

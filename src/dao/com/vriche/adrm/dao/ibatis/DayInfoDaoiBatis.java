@@ -105,6 +105,11 @@ public class DayInfoDaoiBatis extends BaseDaoiBATIS implements DayInfoDao {
 			e.printStackTrace();
 		}
     }
+    
+    
+    
+    
+    
     private  String getNullValue(Object obj,String def) {
 		try {
 			String i = String.valueOf (obj);
@@ -128,15 +133,15 @@ public class DayInfoDaoiBatis extends BaseDaoiBATIS implements DayInfoDao {
 //				 if(used == 0)
 				 day.setUsed(String.valueOf(used));
 				 String changeValue = getNullValue(day.getChangedValue(),"0");
-				 if(!"0".equals(changeValue) && !"0.0".equals(changeValue) || !"".equals(day.getSpecific())){
+//				 if(!"0".equals(changeValue) && !"0.0".equals(changeValue) || !"".equals(day.getSpecific())){
 					 getSqlMapClientTemplate().getSqlMapClient().update("updateDayInfo-saveOrderDetail", day); 
-				 }
-				 System.out.println("saveResourceInfo getResourceId>>>>>>>>>>>>>>>>>>>>>>"+day.getResourceId());
-				 System.out.println("saveResourceInfo getPublishDate>>>>>>>>>>>>>>>>>>>>>>"+day.getPublishDate());
-				 System.out.println("saveResourceInfo getUsed>>>>>>>>>>>>>>>>>>>>>>"+day.getUsed());
-				 System.out.println("saveResourceInfo getSpecific>>>>>>>>>>>>>>>>>>>>>>"+day.getSpecific());
-				 System.out.println("saveResourceInfo getChangedValue>>>>>>>>>>>>>>>>>>>>>>"+day.getChangedValue());
-				 System.out.println("saveResourceInfo xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>>>>>>>>>>>>>>>>>>>>>>");
+//				 }
+//				 System.out.println("saveResourceInfo getResourceId>>>>>>>>>>>>>>>>>>>>>>"+day.getResourceId());
+//				 System.out.println("saveResourceInfo getPublishDate>>>>>>>>>>>>>>>>>>>>>>"+day.getPublishDate());
+//				 System.out.println("saveResourceInfo getUsed>>>>>>>>>>>>>>>>>>>>>>"+day.getUsed());
+//				 System.out.println("saveResourceInfo getSpecific>>>>>>>>>>>>>>>>>>>>>>"+day.getSpecific());
+//				 System.out.println("saveResourceInfo getChangedValue>>>>>>>>>>>>>>>>>>>>>>"+day.getChangedValue());
+//				 System.out.println("saveResourceInfo xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>>>>>>>>>>>>>>>>>>>>>>");
 			 }				
 
 			getSqlMapClientTemplate().getSqlMapClient().executeBatch();
@@ -145,6 +150,29 @@ public class DayInfoDaoiBatis extends BaseDaoiBATIS implements DayInfoDao {
 			e.printStackTrace();
 		}
     } 
+    
+    
+//    public void saveDayInfo3(final Map newResMap) {
+//    	try {
+//			getSqlMapClientTemplate().getSqlMapClient().startBatch();
+//			Iterator it = newResMap.values().iterator();
+//
+//			while(it.hasNext()){
+//				 DayInfo day = (DayInfo)it.next();
+//				 double used = Double.parseDouble(day.getUsed())+day.getChangedValue().doubleValue();
+////				 if(used == 0)
+//				 day.setUsed(String.valueOf(used));
+//				 String changeValue = getNullValue(day.getChangedValue(),"0");
+//				 getSqlMapClientTemplate().getSqlMapClient().update("updateDayInfo-saveOrderDetail", day); 
+//			 }				
+//
+//			getSqlMapClientTemplate().getSqlMapClient().executeBatch();
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//    }  
+    
     
 
     /**
@@ -180,7 +208,11 @@ public class DayInfoDaoiBatis extends BaseDaoiBATIS implements DayInfoDao {
 	}
 
 
-
+	public List getResDayInfosByOrderDetail2(Map mp) {
+		// TODO Auto-generated method stub
+		return getSqlMapClientTemplate().queryForList("getResDayInfosByOrderDetail2", mp);
+	}
+	
 	
 	
 }

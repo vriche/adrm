@@ -941,15 +941,22 @@
 		<result property="resource.workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
 		
 		<result property="resource.carrier.carrierName" column="carrierParentName"/>
-		
 	    <result property="matter.helpCodeName" column="matter_help_code_name"/>
 	    <result property="matter.helpCodeEdit" column="matter_help_code_edit"/>
 	    <result property="order.orderCode" column="order_code"/>
+	    <result property="order.isCkecked" column="order_is_ckecked"/>
+	    
+	    <result property="lockedLasterDate" column="locked_laster_date"/>
+	    
+	    
     </resultMap>	
 	
     <select id="getOrderDetails"  resultMap="orderDetailResult_for_getOrderDetails">  
     <![CDATA[
         select 
+            
+             PD.publish_date AS locked_laster_date,
+        
 		     OD.*, 
 	         AM.adver_matter_id as matterId, 
 			 AM.tape_code as matterTapeCode,
@@ -960,6 +967,9 @@
 		
 			 AM.help_code_name as matter_help_code_name,
 			 AM.help_code_edit as matter_help_code_edit,
+			 
+			 O.is_ckecked as order_is_ckecked,
+			 
 
 		     RS.resource_name as  resourceName,
 			 RS.memo as  resourceMemo,
@@ -1002,7 +1012,12 @@
 				 on OD.ad_resource_specific_id = SP.ad_resource_specific_id
 		
 				 left outer join  tb_ad_resource_compages CP 
-				 on OD.compages_id = CP.ad_resource_compages_id
+				 on OD.compages_id = CP.ad_resource_compages_id 
+				 
+				 
+				 LEFT OUTER JOIN ( SELECT MAX(DDD.publish_date) publish_date,DDD.ad_resource_info_id FROM tb_ad_resource_day_info  DDD 
+								WHERE DDD.is_locked=1  GROUP BY DDD.ad_resource_info_id ) AS PD
+         		  ON PD.ad_resource_info_id = OD.ad_resource_info_id
 
     ]]> 
 		
@@ -2219,20 +2234,22 @@ Inner Join (
 	
 	  <resultMap id="orderDetailResult_for_bro_prove"  class="orderDetail">
 		  
-		  	<result property="id" column="order_detail_id"/>
+		  		<result property="id" column="order_detail_id"/>
+		  		
+		  		<result property="order.isCkecked" column="order_is_ckecked"/>
 		  
-		  	<result property="resource.resourceName" column="resource_name"  nullValue=""/>
+		  		<result property="resource.resourceName" column="resource_name"  nullValue=""/>
 				<result property="resource.memo" column="resource_meno"  nullValue=""/>
 				<result property="resource.workspan.broadcastStartTime" column="broadcast_start_time" nullValue="0"/>
 				<result property="resource.workspan.broadcastEndTime" column="broadcast_end_time" nullValue="0"/>
 				  
-		   <result property="matter.id" column="matter_id"  nullValue=""/>
+		   		<result property="matter.id" column="matter_id"  nullValue=""/>
 				<result property="matter.name" column="matter_name"  nullValue=""/>
 				<result property="matter.edit" column="matter_edit"  nullValue=""/>
 				<result property="matter.length" column="matter_len" nullValue=""/>
-		  	<result property="matterLength" column="matter_len"  nullValue=""/>
+		  		<result property="matterLength" column="matter_len"  nullValue=""/>
 		   
-		  	<result property="specific.name" column="specific_name"/>
+		  		<result property="specific.name" column="specific_name"/>
 				<result property="specific.position" column="specific_position"/>
 		  
 				<result property="orderPublic.publishStartDate"  column="broDateStart" nullValue="0"/>
@@ -2252,10 +2269,12 @@ Inner Join (
 		select 
 		
 			DT.order_detail_id,
-		  DT.ad_resource_info_id as resourceId,
-		  DT.adver_matter_id as matter_id,
+		  	DT.ad_resource_info_id as resourceId,
+		 	DT.adver_matter_id as matter_id,
+		 	 
+		    OD.is_ckecked as order_is_ckecked,
 		  
-		  RI.resource_name as resource_name,
+		  	RI.resource_name as resource_name,
 			RI.memo as resource_meno,
 
 			MT.name as matter_name,
@@ -2379,6 +2398,8 @@ Inner Join (
 	    <result property="matter.helpCodeName" column="matter_help_code_name"/>
 	    <result property="matter.helpCodeEdit" column="matter_help_code_edit"/>
 	    <result property="order.orderCode" column="order_code"/>
+	    <result property="order.isCkecked" column="order_is_ckecked"/>
+	    
 		 
 		 
 		<result property="orderPublic.publishStartDate" column="publish_start_date_month"/>
@@ -2425,6 +2446,8 @@ Inner Join (
 			 SP.position as  specificPosition, 
 		     CP.name as  compagesName,
 			 O.order_code as order_code,
+			 O.is_ckecked as order_is_ckecked,
+			 
 		
 			substring(d.publish_date,5,2)*1 as publish_month,
 			min(d.publish_date) as publish_start_date_month, 

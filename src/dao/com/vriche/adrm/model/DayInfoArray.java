@@ -48,6 +48,10 @@ public class DayInfoArray extends BaseObject {
 	protected Long    resourceDayId;  //资源日信息编号
 	protected Double rsTotalTime; //资源总时长
 	protected Double rsUsedTime;  //资源已使用时间
+	
+	protected Double rsTotalTime2; //资源总时长
+	protected Double rsUsedTime2;  //资源已使用时间
+	
 	protected String  rsSpecific;  //资源已指定信息
 	protected String  rsAlert;     //资源提示信息
 	protected String  rsColor;     //资源单元格背景色
@@ -70,7 +74,10 @@ public class DayInfoArray extends BaseObject {
 	protected Boolean curSpecificed; 
 //  资源剩余时间 
 	protected Double rsReleave;  
-//  无效 
+	
+	protected Double rsReleave2;  
+
+	//  无效 
 	protected Boolean disabled;    
 //  超时封签 
 	
@@ -114,8 +121,24 @@ public class DayInfoArray extends BaseObject {
 //	    
 //	}
 
-   
-
+	public Double getRsTotalTime2() {
+		return rsTotalTime2;
+	}
+	public void setRsTotalTime2(Double rsTotalTime2) {
+		this.rsTotalTime2 = rsTotalTime2;
+	}
+	public Double getRsUsedTime2() {
+		return rsUsedTime2;
+	}
+	public void setRsUsedTime2(Double rsUsedTime2) {
+		this.rsUsedTime2 = rsUsedTime2;
+	}
+	public Double getRsReleave2() {
+		return rsReleave2;
+	}
+	public void setRsReleave2(Double rsReleave2) {
+		this.rsReleave2 = rsReleave2;
+	}
 	/**
      * 
      * Returns the adPrice

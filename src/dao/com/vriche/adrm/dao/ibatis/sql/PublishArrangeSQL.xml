@@ -99,6 +99,12 @@
     <select id="getPublishArrangesCount" resultClass="java.lang.Integer">
     <![CDATA[
         select count(*) from tb_published_arrang 
+        
+         left outer join tb_ad_resource_info RES 
+		on tb_published_arrang.resource_id = RES.ad_resource_info_id
+		
+		left outer join  tb_ad_resource_carrier CARR
+			 on  CARR.ad_resource_carrier_id =  RES.ad_resource_carrier_id
 			
     ]]>
  	 	<dynamic prepend="WHERE"> 
@@ -152,9 +158,14 @@
 			(resource_used_times = #resourceUsedTimes#)
 			</isNotEmpty>
 			  
-			<isNotEmpty prepend="AND" property="carrierId">
+			<!--  isNotEmpty prepend="AND" property="carrierId">
 			(carrier_id = #carrierId#)
-			</isNotEmpty>
+			</isNotEmpty -->
+			
+			
+			<isNotNull prepend="AND" property="carrierId" >
+			   (CARR.ad_resource_carrier_id = #carrierId#  or CARR.parent_id  = #carrierId#)     
+			</isNotNull> 	
 			
 			<isNotEmpty prepend="AND" property="isArranged">
 			(is_arranged = #isArranged#)
@@ -166,8 +177,10 @@
     <select id="getPublishArranges" resultClass="publishArrange">
     <![CDATA[
         select 1 as isArranged,
-		        ARR.carrier_id as carrierId,
-		        ARR.carrier_name as carrierName,		
+        
+		        CARR.ad_resource_carrier_id as carrierId,
+		        CARR.carrier_name as carrierName,	
+		        	
 		        ARR.create_by as createBy,
 		        ARR.create_date as createDate,	
 		
@@ -192,13 +205,14 @@
 		        ARR.version as version,	
 		        ARR.before_hand as beforehand	
 		
-		
-		
-		
+
 		 from tb_published_arrang ARR
 		
 		   left outer join tb_ad_resource_info RES 
 		on ARR.resource_id = RES.ad_resource_info_id
+		
+		left outer join  tb_ad_resource_carrier CARR
+			 on  CARR.ad_resource_carrier_id =  RES.ad_resource_carrier_id
 		
 		
     ]]>
@@ -253,14 +267,21 @@
 			</isNotEmpty>
 			  
 			  
-			<isNotEmpty prepend="AND" property="carrierId">
+			<!-- isNotEmpty prepend="AND" property="carrierId">
 			(ARR.carrier_id = #carrierId#)
-			</isNotEmpty>
+			</isNotEmpty -->
+			
+			<isNotNull prepend="AND" property="carrierId" >
+			   (CARR.ad_resource_carrier_id = #carrierId#  or CARR.parent_id  = #carrierId#)     
+			</isNotNull> 			
+
 			  
 			<isNotEmpty prepend="AND" property="isArranged">
 			(ARR.is_arranged = #isArranged#)
 			</isNotEmpty>
 		</dynamic>
+		
+		order by CARR.ad_resource_carrier_id
     </select>
 	
         

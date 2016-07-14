@@ -105,6 +105,9 @@ public class PublishArrangeServlet  extends HttpServlet{
 		   String endTime =  (String)session.getAttribute("endTime");
 		   
 		   String orgId =  (String)session.getAttribute("orgId");
+		   String version =  (String)session.getAttribute("version");
+		   
+		   
 		   
 //		   String name = user.getFullName();
 //		   System.out.println(">>>>>>parentName>>>>>" +parentName);
@@ -153,6 +156,8 @@ public class PublishArrangeServlet  extends HttpServlet{
             publishArrange.setCarrierName(parentName);
             publishArrange.setPublishDate(new Integer(publishDate));
             publishArrange.setIsArranged(new Boolean(isArranged));
+            publishArrange.setVersion(new Integer(version));
+            
 //            if(fztv && importType.equals("2")){    
 //                publishArrange.setResourceMeno(startTime);
 //                publishArrange.setResourceName(endTime);

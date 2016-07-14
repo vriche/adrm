@@ -1,4 +1,5 @@
 <%@ include file="/common/taglibs.jsp"%>
+<%@ page language="java" errorPage="/error.jsp" pageEncoding="gbk" contentType="text/html;charset=gbk" %>
 <%@ page import="java.io.*"%> 
 <title><fmt:message key="publishArrangeDownload.title"/></title>
 <content tag="heading"><fmt:message key="publishArrangeDownload.heading"/></content>
@@ -16,9 +17,11 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/PublishArrangeManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/PublishArrangeDetailManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/CarrierManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/OrderManager.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/class/publishArrange.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/carrier.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/order.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/adver/publishArrangeDownloadService.js'/>"></script>
 
@@ -41,6 +44,7 @@
 								<input name="publisDate" type="text" id="publisDate"  size="18" readonly="true">
     							<a id="query"  class="button">&nbsp;&nbsp;<fmt:message key="publishArrangeDownload.query"/>&nbsp;&nbsp;</a> 
 								<a id="saveFiles"  class="button">&nbsp;&nbsp;<fmt:message key="button.save"/>&nbsp;&nbsp;</a>  
+								<a id="unLockAll"  class="button">&nbsp;&nbsp;È«²¿½âËø&nbsp;&nbsp;</a>  
 	                            <a id="downlaod"  class="button">&nbsp;&nbsp;<fmt:message key="publishArrangeDownload.downLoad"/>&nbsp;&nbsp;</a> 
 								
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

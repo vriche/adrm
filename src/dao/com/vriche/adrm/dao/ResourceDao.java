@@ -92,6 +92,7 @@ public interface ResourceDao extends Dao {
     public List getResourceIdsByYearUser(Map mp);
     public void removeResourceUserRate(final Map mp);
     public Long saveResourceUserRate(final Map mp);
+    public Map getArrangedOrderByRes(final Map mp);
     
     
     

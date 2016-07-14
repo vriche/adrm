@@ -150,7 +150,7 @@ function doOnCellEdit(stat,rowId,col){
      var isNewRow = false;
 	 if((rowId+'').indexOf("new_")== 0){isNewRow = true}
 	 
-//	 alert(stat)
+
 	             
     if(stat == 2){
     	if(col >1 && col< 12){
@@ -158,11 +158,31 @@ function doOnCellEdit(stat,rowId,col){
 	    	var totalTime = myCell.getValue();
 	    	var isNum = isDigit(totalTime);
 	    	if(isNum){
-			   if(col == 5 && isNewRow){
-					for(var j =col;j<col+7;j++){
-						mygrid.cells(rowId,j).setValue(totalTime);
-					}
-				}		
+	    		if(col == 5){
+	    			    
+	    			
+						for(var j =col+1;j<col+7;j++){
+							if(isNewRow){
+							    if(mygrid.getRowsNum()>1){
+							    	var v = mygrid.cells(rowId,j).getValue();
+									if(v >0){
+										mygrid.cells(rowId,j).setValue(totalTime);
+									}
+							    }else{
+							    	mygrid.cells(rowId,j).setValue(totalTime);
+							    }
+
+							}else{
+								var v = mygrid.cells(rowId,j).getValue();
+								if(v >0){
+									mygrid.cells(rowId,j).setValue(totalTime);
+								}
+							}
+							
+						}
+				}
+
+			   
 	    	}else{
 	    		myCell.setValue('');
 	    	}
@@ -363,9 +383,13 @@ function grid_wspand_save(callBakFun){
 	
 	    
 	
+//	alert(99)
+	
 	if (!checkEndTime())return false;
 	
 	var rowCount= mygrid.getRowsNum();
+	
+	var workspan_end_day_colum_index = mygrid.getColIndexById("end");
 
 	function func(){
 		
@@ -450,7 +474,37 @@ function grid_wspand_save(callBakFun){
 			
 //					if(wasChanged || id == null){
 	                    if(rowCount == i+1){
-	                    	workspan.saveWorkspan(workspan.obj,callbak);
+	                    	
+	                    	//在保存最后一条的时候，需要检测结束时间外是否还包含着广告
+	                    
+	                    	var endDayWasChanged = mygrid.cells(rowId,workspan_end_day_colum_index).wasChanged();
+	                    	var end_day = mygrid.cells(rowId,workspan_end_day_colum_index).getValue();
+	                    	end_day = getFormatDay(end_day,'ymd')*1;
+	                    	
+//	                    	alert('endDayWasChanged>>>'+endDayWasChanged);
+//	                    	alert('end_day>>>'+end_day);
+	                    	
+	                    	if(endDayWasChanged){
+		                    	function callbakFun(orderCodes){
+		                			var msg = '此段已有排期的订单号是：'+ orderCodes +'无法修改，请联系订单录入人员<br>';
+
+		                			if(orderCodes != ""){
+		                				Ext.MessageBox.alert('系统提示',msg,function(){});     
+		                			}else{
+//		                				alert(494);
+		    	                    	workspan.saveWorkspan(workspan.obj,callbak);
+		                			}
+		                		}            	
+		                    
+		                    	//alert('workspan.obj.resourceId>>'+workspan.obj.resourceId);
+		                    	
+		                		resource.getArrangedOrderByRes(workspan.obj.resourceId,end_day,callbakFun);
+	                    	}else{
+	                    		//alert(499);
+	                    		workspan.saveWorkspan(workspan.obj,callbak);
+	                    	}
+
+	                    	
 	                    }else{
 	                    	workspan.saveWorkspan(workspan.obj,function(){});
 	                    }
@@ -461,15 +515,14 @@ function grid_wspand_save(callBakFun){
 				
 	}	
 	
-					
-			
-				
-				
+								
 }
 
 function _remove_work_span(){
 	
 	            var id = mygrid.getSelectedId();
+	            
+	            var workspan_end_day_colum_index = mygrid.getColIndexById("end");
 	            
 	    		Ext.MessageBox.confirm('系统提示', '请确认是否删除这条记录？', function(btn) {
 	    		 
@@ -477,7 +530,30 @@ function _remove_work_span(){
 	// 				 remove_orderDetail_fun(id);
 	                 var id_temp = id+'';
 	                 if(id_temp.indexOf("new_")==-1){
-	                 	 workspan.remove_workspan(id,function(){mygrid.deleteRow(id);});
+	                	    var rowCount= mygrid.getRowsNum();
+	                		var max_end_day = mygrid.cells2(rowCount-1,workspan_end_day_colum_index).getValue();
+	                		max_end_day = getFormatDay(max_end_day,'ymd')*1;
+	                		var cur_end_day = mygrid.cells(id,workspan_end_day_colum_index).getValue();
+	                		cur_end_day = getFormatDay(cur_end_day,'ymd')*1;
+	                		
+	                		
+	                		
+	                		var end_day = cur_end_day<max_end_day?max_end_day:cur_end_day;
+
+	                		
+	                    
+	                    function callbakFun(orderCodes){
+                			var msg = '此段已有排期的订单号是：'+ orderCodes +'无法修改，请联系订单录入人员<br>';
+                			if(orderCodes != ""){
+                				Ext.MessageBox.alert('系统提示',msg,function(){});     
+                			}else{
+//                				alert(494);
+                				workspan.remove_workspan(id,function(){mygrid.deleteRow(id);});
+                			}
+                		}            	
+                    
+                		resource.getArrangedOrderByRes(workspan.obj.resourceId,end_day,callbakFun);	                    
+	                 	 	                 	 
 	                 }else{
 	                 	mygrid.deleteRow(id);
 	                 }
@@ -560,7 +636,39 @@ function get_cur_year(){
 	$("resource_price_year").value = resource_year; 
 }
 
+
+
+function change_isValidate(){
+	var Btn_isValidate = $("isValidate");
+	var checked = Btn_isValidate.checked;
+	if(!checked){
+		var resourceId = $("resourceId").value;
+
+		function callbakFun(orderCodes){
+			var msg = '已有排期订单号：'+ orderCodes +'无法修改<br>';
+
+			if(orderCodes != ""){
+				Btn_isValidate.checked = true;
+				Ext.MessageBox.alert('系统提示',msg,function(){});     
+			}else{
+				button_saveEnable();
+			}
+		}
+		resource.getArrangedOrderByRes(resourceId,null,callbakFun);
+	}else{
+		button_saveEnable();
+	}
+	
+	
+}
+
+
 function buttonEventFill(){
+	
+	
+	var Btn_isValidate = $("isValidate");
+	Btn_isValidate.onchange = change_isValidate;
+
 	//保存载体
 	var Bt_saveCarrierInfo = $("Bt_saveCarrierInfo");
 	Bt_saveCarrierInfo.onclick=button_saveCarrier;
@@ -622,7 +730,7 @@ function buttonEventFill(){
 	
 	
 	
-	$("isValidate").onclick = button_saveEnable;   
+//	$("isValidate").onclick = button_saveEnable;   
 	
 	var btn_config = $("btn_config");
 	btn_config.onclick = selectCarrTreeResTypeRel;
@@ -736,7 +844,8 @@ function button_print_resource(){
 }	
 function button_print_export(){
 		var carrierid = $("carrierIdForm").value;
-		if(carrierid.indexOf("d")>-1||carrierid==""){
+	  
+		if(carrierid.indexOf("d")>-1||carrierid==""||carrierid== 0){
 			alert("请选择载体!");
 			return false;
 		}
@@ -801,8 +910,8 @@ function getReportURL(model,isChart){
 	var obj_tree = carrierType.tree.dhtmlTree;
 	var carrierId = obj_tree.getSelectedItemId();
 	var parentId=obj_tree.getParentId(carrierId);
-	var carrierName = obj_tree.getSelectedItemText();
-	var parentName = obj_tree.getItemText(parentId);
+	var carrierName = obj_tree.getSelectedItemText().substring(0,2);
+	var parentName = obj_tree.getItemText(parentId).substring(0,2);
 	if(parentId=="carrierTypeId1"){
 		var str=obj_tree.getSubItems(carrierId).split(",");
 		for(var i=0;i<str.length;i++)
@@ -811,12 +920,15 @@ function getReportURL(model,isChart){
 		carrierIds.push(carrierid);
 		carrierName = parentName+"/"+carrierName;
 	}
-	var priceLengths=resource.getPriceLength(carrierIds);
-	var headers="频道/载体,位置,备注,";
-	var displaySumColum="0,0,0,";
-	var colAlignSum = "left,right,right,"
-	var widthsPSum = "10,15,15,"
-	var colWidth = 45/priceLengths.length;
+	var priceLengths = resource.getPriceLength(carrierIds);
+	
+
+	
+	var headers="频道/载体,位置,开始日期,时长,";
+	var displaySumColum="0,0,0,0,";
+	var colAlignSum = "left,left,center,center,"
+	var widthsPSum = "10,25,20,5,"
+	var colWidth = 35/priceLengths.length;
 	var priceStr = "";
 	for(var i=0;i<priceLengths.length;i++){
 		if(i>=8) {break;}
@@ -835,9 +947,12 @@ function getReportURL(model,isChart){
 	}
 	headers+="周几有效";
 	displaySumColum += "0";
-	colAlignSum += "left";
-	var leaveW = 60 - colWidth*priceLengths.length;
+	colAlignSum += "center";
+	var leaveW = 40 - colWidth*priceLengths.length;
   widthsPSum+= leaveW+"";
+  
+  
+
 
 	if(priceLengths.length>8){
 		var price="";
@@ -853,18 +968,20 @@ function getReportURL(model,isChart){
 //		alert("因为页面限制,无法列出下列数据:"+price.substring(0,price.length-1));
 		var msg = "因为页面限制,无法一次列出全部数据\n\n点击<确定>显示 "+headers.substring(12,headers.length-5)+"\n点击<取消>显示 "+price.substring(0,price.length-1);
 		var isHeader=confirm(msg);
+		
+		
+		
 		if(!isHeader){
-			headers = "频道/载体,位置,备注,"+price+"周几有效";
-			displaySumColum = "0,0,0,"+displaySum+"0";
+			headers = "频道/载体,位置,开始日期,时长,"+price+"周几有效";
+			displaySumColum = "0,0,0,0,"+displaySum+"0";
 			priceStr = priceLength;
 		}
 	}
 	
 	
-	
 
-		                
 	
+     
 		var a = {
 //			 	model: model,
 //                reportType: "resource_report",
@@ -882,17 +999,20 @@ function getReportURL(model,isChart){
 	                displaySumColum:displaySumColum,
 	                
 	                colAlign:colAlignSum,
-	            			widthsP:widthsPSum, 
+	            	widthsP:widthsPSum, 
 	            	
-	                isSum:true,
+	                isSum:false,
 	                isVertical:false,	   
                 
                 
-                carrierIds:carrierIds.toString(),
-                priceLengths:priceStr.substring(0,priceStr.length-1),
-                carrierName:carrierName
+	                carrierIds:carrierIds.toString(),
+	                priceLengths:priceStr.substring(0,priceStr.length-1),
+	                carrierName:carrierName
 		};
 		
+		
+//		alert(a.priceLengths)
+//		alert(a.carrierName)
 
 //		if(priceStr=="") a.priceLengths="undefined";
 		var h = $H(a);	
@@ -1563,8 +1683,22 @@ function loadWorkSpances(id){
 //	workspan.reset();
 	
 //	workspan.getWorkspansByResId(id,func);
+	function hiddenRowFuc(){
+		var  displayMode = $("carrier_displayMode").value;
+		if(displayMode == 1){ //显示启用，最多显示两行
+			var count = mygrid.getRowsNum();
+			if(count >2){
+				for(i=0;i<count-2;i++){
+					var rowId = mygrid.getRowByIndex(i).idd;
+					mygrid.setRowHidden(rowId,true);
+				}
+
+			}
+			
+		}
+	}
 	
-	workspan.getWorkspansByResId2(mygrid,id);
+	workspan.getWorkspansByResId2(mygrid,id,hiddenRowFuc);
 }
 
 function loadPrices(id){
@@ -1891,6 +2025,7 @@ function button_saveResource(){
 	
 
 	DWRUtil.getValues(resource.obj);
+
 	resource.obj.beforehand = $("beforehand").value;
 //	alert(resource.obj.beforehand);
 	

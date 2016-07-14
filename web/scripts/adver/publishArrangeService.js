@@ -14,6 +14,7 @@ var curUserName;
 var config_stridePositionParam; //是否跨段位调整广告
 var config_specArowMoveParam;   //有指定也允许调整
 var config_piblishModelParam;   //编播出单格式	
+var config_publicAdAutoFill;   //自动公益	
 var config_serviceDate;
 var right_brosave = 0;
 var treeObj;
@@ -35,6 +36,16 @@ function init(){
     config_stridePositionParam =  _app_params.sysParam.stridePositionParam;
     config_specArowMoveParam =  _app_params.sysParam.specArowMoveParam;
     config_piblishModelParam =  _app_params.sysParam.piblishModelParam;
+    config_publicAdAutoFill =  _app_params.sysParam.public_ad_auto_fill;
+    
+//    alert(config_publicAdAutoFill)
+//    alert( _app_params.sysParam.public_ad_auto_fill)
+    
+    if(config_publicAdAutoFill !=1){
+    	$('div_auto_publicAD_auto').hide(); 
+    }
+    
+    
     
     tag_publish_arrange =  _app_params.rights.tag_publish_arrange;
     tag_publish_arrangeforce =  _app_params.rights.tag_publish_arrangeforce;
@@ -56,7 +67,7 @@ function init(){
 	
 	$("bro_date").value =  _app_params.serviceDate.format1;
 	$("bro_date_history").value = _app_params.serviceDate.format1;
-	
+	$("Checkbox_publicAdAutoFill").checked = config_publicAdAutoFill==1?true:false;
 	
 
 //	if(tvNameParam =='fztv' && srcStr.indexOf("publishDate")>0){
@@ -69,13 +80,15 @@ function init(){
 		$("reference_date").hide();  
 //	}
 		
-		localStore_key = localStore_key+""+curUserId;
-		var arrange_table_str = store.get(localStore_key);
-		if(arrange_table_str){
-			$("Btn_build_bro_backup").show();
-		}else{
-			$("Btn_build_bro_backup").hide();
-		}
+//		localStore_key = localStore_key+""+curUserId;
+//		var arrange_table_str = store.get(localStore_key);
+//		if(arrange_table_str){
+//			$("Btn_build_bro_backup").show();
+//		}else{
+//			$("Btn_build_bro_backup").hide();
+//		}
+		
+//		$("Btn_build_bro_backup").show();
 		
 	
 //	if(tvNameParam ='fztv' ){
@@ -125,6 +138,10 @@ function init(){
 	this.report.buildButtons(this,"printReportDiv",[0,1,2],70); 
     
     document.oncontextmenu=function stop(){return false;};
+    
+    $("radiobutton1").checked =true; 
+//    swiitchTree()
+    
 }
    function reload(){
     	loadCarrTree();
@@ -361,11 +378,22 @@ function printReport(mode){
 }
 
 function buttonEventFill(){
+	
+	
+	var Btn_publicAdAutoFill = $("Btn_publicAdAutoFill");
+	Btn_publicAdAutoFill.onclick = function(){
+		var v =  $("Checkbox_publicAdAutoFill").checked;
+		 $("Checkbox_publicAdAutoFill").checked = !v;
+	}
 
 	var Btn_build_bro = $("Btn_build_bro");
 	Btn_build_bro.onclick = function(){
-		button_build_bro();
+		checkOrderState(button_build_bro);
 	}
+	
+	
+	
+	
 	
 	var Btn_build_bro_backup = $("Btn_build_bro_backup");
 	Btn_build_bro_backup.onclick = getLocalStore;
@@ -375,9 +403,36 @@ function buttonEventFill(){
 	var Btn_save_bro = $("Btn_save_bro");
 	if(!isUndefined(Btn_save_bro)){
 		Btn_save_bro.onclick = function(){
-			var fnct = store.remove(localStore_key);
-			$("Btn_build_bro_backup").hide();
-			savePublishArrange(fnct);
+			
+			var rows = mygrid.getRowsNum();
+			
+			if(rows == 0){
+				 alert("没有需要保存的数据");
+				 return false;
+			}
+
+			function save_fnct(isStop){
+				
+		
+			
+				if(!isStop){
+					
+					function save(isSave){
+						if(isSave){
+							var key = getStoreKey();
+							var fnct = store.remove(key);
+							//$("Btn_build_bro_backup").hide();
+							savePublishArrange(fnct);	
+						}
+					}
+
+					getTimeUseDialog(save);
+				}
+			}
+            
+		
+			
+			checkOrderState(save_fnct);
 		}
 		
 	}
@@ -462,10 +517,7 @@ function buttonEventFill(){
 }
 
 function swiitchTree(){
-	
 
-	
-	
 	if($("radiobutton1").checked){
 		 $("matterTypeTreebox").hide();
 		 $("carrierTypeTreebox").show();
@@ -476,6 +528,7 @@ function swiitchTree(){
 		 $("carrierTypeTreebox").hide();
 		 $("buttonTable").hide();
 		 $("matterTypeTreebox").show();
+		 fitterMatterTree();
 	}	
 }
 
@@ -577,7 +630,7 @@ function deleteImport(){
 	var publishDate =  getFormatDay($("bro_date").value,'ymd');
 	var carrierName = carrierType.tree.dhtmlTree.getSelectedItemText();
 	var func = function(){
-		button_build_bro();
+		checkOrderState(button_build_bro);
 		$("btn_deleteImport").disabled=false;
 	}
 	if(carrierName.indexOf('频道')==-1){
@@ -627,6 +680,17 @@ function getDate(name,btn){
 		//ifFormat	: "%Y%m%d",	  // the date format
 		singleClick	  : true,
 		onClose : reLoadTree,
+		button	  : btn	// id of the button
+	});
+	
+}
+
+function getDate2(name,btn){
+	Calendar.setup({
+		inputField  : name,	  // id of the input field
+		//ifFormat	: "%Y%m%d",	  // the date format
+		singleClick	  : true,
+		//onClose : reLoadTree,
 		button	  : btn	// id of the button
 	});
 	
@@ -1135,6 +1199,24 @@ function setResourceRowCss(rowId,resourceLeave){
 	mygrid.setRowTextStyle(rowId,cssText);
 }
 
+function setResourceRowCss2(){
+	var rows = mygrid.getRowsNum();
+	var cssText = "font-weight:bold;";
+	for(var i=0;i<rows;i++){
+		var rowId = mygrid.getRowId(i);
+		var resourceLeave = mygrid.cells(rowId,arrange.col_resLeave).getValue();
+//		alert(rowId)
+		if(rowId.indexOf("arrangeId") == -1){
+			if(resourceLeave =="") resourceLeave = 0;
+			if(resourceLeave == 0) cssText = "font-weight:bold;" +" background-color: #CCCCCC;";
+			if(resourceLeave > 0) cssText = "font-weight:bold;" +" background-color: #99FF66;";
+			if(resourceLeave < 0) cssText = "font-weight:bold;" +" background-color: #FFFF00;";
+			mygrid.setRowTextStyle(rowId,cssText);
+		}
+	}
+
+}
+
 function setResourceAdverOrder(rowId,col_order,col_resourceId,isDoubleClick){
 	var itemIds = getChiledByParentId(rowId,col_resourceId,isDoubleClick);
 	var cssText ="cursor: pointer;";
@@ -1219,28 +1301,61 @@ function getRowCellData(row_id,col){
 
 function removeRow(){
 //  if(tvNameParam !='fztv'){
-    var id = mygrid.getSelectedId();
-     //alert(id);
-    var id_isAdver = isAdverNode(id);	
-    if(id_isAdver){
-    	 var parId_rel = getParentId(id,detail.col_resourceId);
-    	 var pid = resource.IdPrefix +""+ parId_rel;
-    	 mygrid.deleteSelectedItem();
-    	 changeUsedTime(pid);
-    	 setResourceAdverOrder(pid,detail.col_publishSort,detail.col_resourceId);
-//    	 window.setTimeout("mygrid.deleteRow("+data[0]+");",200);
-    	 window.setTimeout("mygrid.deleteSelectedItem();",200);
-    	 
-    	 //changeUsedTime(parentId);
-    	 
-    		//保存到localStroe
-    		writeLocalStore();
+	
+	Ext.getBody().mask('数据加载中……', 'x-mask-loading');
+	
+	
+	
+	
+	var msgs = new Array();
+
+    var ids = mygrid.getSelectedId().split(',');
+    
+    for(var i =0;i<ids.length;i++){
+    	
+    	var id = ids[i];
+	    var id_isAdver = isAdverNode(id);	
+	    var isFromTree = (id.indexOf("resourceId")== -1);
+		var isLocked = (getCellValue(id,arrange.col_isLocked) == "true");
+		
+		if(id_isAdver && isLocked ){
+//			alert("被锁定的广告无法删除!");
+			msgs.push("被锁定");
+			continue;
+		}
+		if(id_isAdver && !isFromTree ){
+//			alert("不是垫片的广告无法删除!");
+			msgs.push("非垫片");
+			continue;
+		}
+	
+	   
+		
+		
+	    if(id_isAdver && isFromTree && !isLocked){
+	    	 var parId_rel = getParentId(id,detail.col_resourceId);
+	    	 var pid = resource.IdPrefix +""+ parId_rel;
+//	    	 mygrid.deleteSelectedItem();
+	    	 
+	    	 mygrid.deleteRow(id);
+	    	 
+	    	 changeUsedTime(pid);
+	    	 setResourceAdverOrder(pid,detail.col_publishSort,detail.col_resourceId);
+//	    	 window.setTimeout("mygrid.deleteSelectedItem();",200);
+	    	 
+	    }
+
+    } // end for
+    
+	//保存到localStroe
+    if(ids.length > 0) writeLocalStore();
+    
+	Ext.getBody().unmask();
+	
+    if(msgs.length > 0){
+    	alert(msgs.join(",")+"的广告无法删除!");
     }
-//  }else{
-//  
-//     removeRowFZTV();
-//  
-//  }
+
 }
 function removeRowFZTV(){
 	var usedTimes=getRowCellData(-1,arrange.col_resUsedTimes)-0;
@@ -1332,10 +1447,10 @@ function resetResourceIds(callBackFun){
 
 function load_history(){
 	var historyDate = $("bro_date_history").value;
-//	if(historyDate == null || historyDate == ''){
-//	   alert("请选择参照日期!");
-//	   return false;
-// 	}
+	if(historyDate == null || historyDate == ''){
+	   alert("请选择参照日期!");
+	   return false;
+ 	}
 	mygrid.clearAll();
 	
 	
@@ -1353,6 +1468,9 @@ function load_history(){
 	    var selectId =  carrierType.tree.dhtmlTree.getSelectedItemId();
 	    arrange.obj.carrierName =  carrierType.tree.dhtmlTree.getParentId(selectId);
 		arrange.obj.orgId = $('orgId').value;
+		
+		 var isAutoPublicAdFill =  $("Checkbox_publicAdAutoFill").checked;
+		 arrange.obj.version  = isAutoPublicAdFill ==true?1:0;
 		
 		function loadXmlFun(){
 			
@@ -1402,7 +1520,6 @@ function load_history(){
 					if(curModifyResorceIds.indexOf(resourceId) >-1 ){
 						var rowId = resource.IdPrefix + resourceId;
 						var arrangeId = objs[i].id;
-						
 //						alert("arrangeId" +arrangeId);
 						mygrid.cells(rowId,arrange.col_id).setValue(arrangeId);
 					}
@@ -1448,6 +1565,9 @@ function load_history(){
 	    var selectId =  carrierType.tree.dhtmlTree.getSelectedItemId();
 	    arrange.obj.carrierName =  carrierType.tree.dhtmlTree.getParentId(selectId);
 		arrange.obj.orgId = $('orgId').value;
+		
+		 var isAutoPublicAdFill =  $("Checkbox_publicAdAutoFill").checked;
+		 arrange.obj.version  = isAutoPublicAdFill ==true?1:0;
 		
 		function loadXmlFun(){
             var changeArrangeIdFun = function(objs){}
@@ -1526,54 +1646,29 @@ function getBuildResourceIds(){
 //	alert("4   "+resourceIds);
 	return resourceIds;
 }
-	
-//建立前先判断是否已经编排过，如果有则提示是否重新编排	
-function button_build_bro(){
-	var dateStr =  getFormatDay($("bro_date").value,'ymd');
-	var rebuild = false
-	var isRoll = true;
-//	if(tvNameParam =='fztv') isRoll=false;
-	var onlyHistory = false;	
-	//判断是否选择建立级别
-	if(isBuildLevel() == false) return false;
-	
-	var Btn_save_bro = $("Btn_save_bro");
-	if(!isUndefined(Btn_save_bro)){
-	    	Btn_save_bro.disabled= true;	
-	}
 
-     
+
+function checkOrderState(build_fnc){
+	var isStop =false;
 	var resourceIds = getBuildResourceIds();
-	
-	var isContinued=false;
+	var dateStr =  getFormatDay($("bro_date").value,'ymd');
+	var orgId =  $('orgId').value;
 	
 	var callback=function(obj){
-
-		
 		if(obj.length>0){
 			var dialogcontent = $("dialogcontentDiv");
 			var dialogcontentW = dialogcontent.offsetWidth;
 			var dialogcontentH = dialogcontent.offsetHeight;
 			var winW= dialogcontentW * 0.6;
 			var winH = dialogcontentH*0.8;
-			var title = "下面列出了今天需要播出但还没有审核的订单:";
-			  
-			var urlStr = "selectPopup/checkForm.html?dateStr="+dateStr+"&resourceIds="+resourceIds+"&orgId="+ $('orgId').value;
-//			openWindow(urlStr,title,'width='+winW+',height='+winH);	  
-			
-			
+			var title = "下面列出了今天需要播出但还没有审核的订单:"; 
+			var urlStr = "selectPopup/checkForm.html?dateStr="+dateStr+"&resourceIds="+resourceIds+"&orgId="+ orgId;
 			var closeBtn ={text: '关闭',handler: function(){win.hide();}};
-			  
-			        
+    
 			 var win = new Ext.Window({
 			   title : '下面列出了今天需要播出但还没有审核的订单',
-			   //maximizable : true,
-			   // maximized : true,
 			   width : winW,
 			   height : winH,
-			   // autoScroll : true,
-			   // bodyBorder : true,
-			   // draggable : true,
 			   isTopContainer : true,
 			   modal : true,
 			   resizable : false,
@@ -1587,76 +1682,52 @@ function button_build_bro(){
 			   })
 			  })
 			  
-
 				win.show(); 					
-			
-			 
-			
-			
-			
-			
-			
-			
-			
-			
-			 
-//			var str="下列订单审批后该载体才能编排:	"+obj[0].orderCode;
-//			for(var i=1;i<obj.length;i++){
-//				str=str+","+obj[i].orderCode;
-//			}
-//			alert(str);isContinued=true;
-//			mygrid.clearAll();
 
-//			getArrangeType(resourceIds,dateStr,callBackFun);
-			 
-		
-			
 			if(!tag_publish_arrangeforce){ 
-				isContinued=true;
+//				isStop=true;
 				mygrid.clearAll();
 				Ext.getBody().unmask();
+				if(build_fnc) build_fnc(true);
 			}else{
-				getArrangeType(resourceIds,dateStr,callBackFun);
-			}
-			
-			
-//			if(tvNameParam !='fztv'){
-//				isContinued=true;
-//				mygrid.clearAll();
-//				Ext.getBody().unmask();
-//			}else{
+				if(build_fnc) build_fnc(false);
 //				getArrangeType(resourceIds,dateStr,callBackFun);
-//			}
+			}
+
 		}else{
-			getArrangeType(resourceIds,dateStr,callBackFun);
+			if(build_fnc) build_fnc(false);
+//			getArrangeType(resourceIds,dateStr,callBackFun);
 		}
 	}
-	if(resourceIds=="") resourceIds =0;
+	if(resourceIds=="") resourceIds = 0;
 	
-	Ext.getBody().mask('数据加载中……', 'x-mask-loading');
+	//Ext.getBody().mask('数据加载中……', 'x-mask-loading');
 	
-	order.getOrderCodeByCheckState1(1,dateStr,resourceIds,callback);
-	
-//	if(!tag_publish_arrangeforce){ 
-//			order.getOrderCodeByCheckState1(1,dateStr,resourceIds,callback);
-//	}else{
-//		getArrangeType(resourceIds,dateStr,callBackFun);
-//	}
-	
-	
-//	if(tag_publish_arrange){
-//			order.getOrderCodeByCheckState1(1,dateStr,resourceIds,callback);
-//	}else{
-//			isContinued=true;
-//			mygrid.clearAll();
-//			getArrangeType(resourceIds,dateStr,callBackFun);
-//	}
-	
-	
+	order.getOrderCodeByCheckState1(1,dateStr,resourceIds,callback);	
 
+}
+	
+//建立前先判断是否已经编排过，如果有则提示是否重新编排	
+function button_build_bro(isStop){
 
-	if(isContinued) {        
+	var resourceIds = getBuildResourceIds();
+	var dateStr =  getFormatDay($("bro_date").value,'ymd');
+	var rebuild = false
+	var isRoll = true;
+//	var isAutoPublicAdFill =  $("Checkbox_publicAdAutoFill").checked;
+	var orgId =  $('orgId').value;
+//	if(tvNameParam =='fztv') isRoll=false;
+	var onlyHistory = false;	
+	//判断是否选择建立级别
+	if(isBuildLevel() == false) return false;
+	
+	var Btn_save_bro = $("Btn_save_bro");
+	if(!isUndefined(Btn_save_bro)) Btn_save_bro.disabled= true;	
+
+	
+	if(isStop) {        
 		if(!isUndefined(Btn_save_bro)) {Btn_save_bro.disabled= false;}		
+		Ext.getBody().unmask();
 		return false;				
 	}
 	
@@ -1670,6 +1741,8 @@ function button_build_bro(){
 	function callBackFun(type){
 		arrange.obj.isEnable = false;//福州台要求保存后的编排不能变，故借用这个变量。
 
+		
+		
 		if(type == 0) return false;
 		if(type == 1){
 			  arrange.obj.isArranged = false;
@@ -1688,34 +1761,40 @@ function button_build_bro(){
 			Ext.getBody().unmask();	
 			if(xml ==''||isUndefined(xml)){
 			   extjMessage('这一天没有广告播出!');
-//			   Ext.getBody().unmask();	
 			   return false;	
 			}
 			
 			var fnc = function(){
-					if(!isUndefined(Btn_save_bro)){
-					    	Btn_save_bro.disabled= false;	
-					}
+				if(!isUndefined(Btn_save_bro)) Btn_save_bro.disabled= false;	
 				Ext.getBody().unmask();
-				}
-			
+			}
 			mygrid.loadXMLString(xml,fnc);
-			
-//			Ext.getBody().unmask();
 		}
 		var selectId =  carrierType.tree.dhtmlTree.getSelectedItemId();
 		arrange.obj.carrierName =  carrierType.tree.dhtmlTree.getParentId(selectId);
+
+		//增加频道目的是公益广告自动添需要判断频道
+	    var carrierOneId =  carrierType.tree.dhtmlTree.getUserData(selectId,"carrierOneId");
+	    arrange.obj.carrierId = carrierOneId;
+
 		arrange.obj.resourceIds = resourceIds;
 		arrange.obj.publishDate = dateStr;
-		arrange.obj.orgId = $('orgId').value;
+		arrange.obj.orgId =  $('orgId').value;
 //		arrange.obj.createBy = 0;
 //		arrange.obj.modifyBy = 0;
-	  arrange.obj.arrangeforce= tag_publish_arrangeforce == true?"1":"0";
-//	    alert(arrange.obj.isArranged);
+		arrange.obj.arrangeforce= tag_publish_arrangeforce == true?"1":"0";
+		
+		 var isAutoPublicAdFill =  $("Checkbox_publicAdAutoFill").checked;
+		 arrange.obj.version  = isAutoPublicAdFill ==true?1:0;
+		
+//		alert(arrange.obj.version)
+		
+	
+	
 		arrange.getTreeGrid(arrange.obj,resource.IdPrefix,arrange.IdPrefix,rebuild,isRoll,onlyHistory,func);	
 	}
 		
-
+	getArrangeType(resourceIds,dateStr,callBackFun);
 }
 
 function getArrangeType(resourceIds,publishDate,callBackFun){
@@ -1845,6 +1924,7 @@ function savePublishArrange(callBak){
        
 	 var resourceIds = getBuildResourceIds();
 	 var publishDate =  getFormatDay($("bro_date").value,'ymd');
+	
 	 var isRoll = true; 
 //	 if(tvNameParam =='fztv') isRoll=false;
 	 var rebuid = false;
@@ -1857,6 +1937,9 @@ function savePublishArrange(callBak){
 	 arrange.obj.publishDate = publishDate;
 	 arrange.obj.carrierName =  carrierType.tree.dhtmlTree.getParentId(selectId);
 	 arrange.obj.orgId = $('orgId').value;
+	 
+	 var isAutoPublicAdFill =  $("Checkbox_publicAdAutoFill").checked;
+	 arrange.obj.version  = isAutoPublicAdFill ==true?1:0;
 
 	//检测资源是否锁定
 	checkArrangeLocked(arrange,callBackFun);
@@ -2157,7 +2240,12 @@ function button_print(){
         $("resourceIds").value= resourceIds; 
         $("publishDate").value = publishDate;
         $("bianpainame").value = userName;
-					 $("printOrgid").value = $("orgId").value;
+		$("printOrgid").value = $("orgId").value; 
+		
+		
+		var isAutoPublicAdFill =  $("Checkbox_publicAdAutoFill").checked;
+		$("version").value =  isAutoPublicAdFill ==true?1:0;
+		
 					 
 //					 $("arrangeforce").value = $("orgId").value;
 					
@@ -2253,6 +2341,15 @@ function getReportURL(model){
 //	writeLocalStore();
 //}
 
+
+function getStoreKey(){
+	var selectId =  carrierType.tree.dhtmlTree.getSelectedItemId();
+    var carrierOneId =  carrierType.tree.dhtmlTree.getUserData(selectId,"carrierOneId"); 
+	var key = localStore_key+"_"+carrierOneId+"_"+curUserId;
+//	alert(key)
+	return key;
+}
+
 function writeLocalStore(){
 	//以上即为localStorage调用的方法。下面介绍存储JSON对象的方法。
 	//要存储的JSON对象 xmlDoc
@@ -2266,17 +2363,26 @@ function writeLocalStore(){
 	var allCheckedIds =  carrierType.tree.getAllCheckedBranches2(resource.IdPrefix,true).join(",");
 	var arrange_table ={'orgId':orgId,'tree':{'selectId':selectId,'allCheckedIds':allCheckedIds},'carrierName':carrierName,'publishDate':publishDate,'grid':dhtmlGrid};
 	var arrange_table_str = JSON.stringify(arrange_table);//把JSON对象换成字符串转
-	store.set(localStore_key, arrange_table_str);
-	$("Btn_build_bro_backup").show();
+	var key = getStoreKey();
+	store.set(key, arrange_table_str);
+	//$("Btn_build_bro_backup").show();
 }
 
 function getLocalStore(){
-	var arrange_table_str = store.get(localStore_key);
+	var key = getStoreKey();
+	var arrange_table_str = store.get(key);
+	
+	if(!arrange_table_str || arrange_table_str==""){
+		alert("没有历史数据")
+		return false;
+	}
+	
 	var bak = JSON.parse(arrange_table_str);//把字符串转换成JSON对象
 	var carrierName = bak.carrierName; 
 	var publishDate = bak.publishDate;
-	var msg = '是否加载加载： '+ carrierName +' '+ publishDate +' 的串联单';	
+	var msg = '是否加载： '+ carrierName +' '+ publishDate +' 的串联单';	
 	
+
 	 Ext.MessageBox.show({
 	        title: '系统提示!',
 	        msg: msg,
@@ -2321,11 +2427,121 @@ function getLocalStore2(bak){
 		carrierType.tree.loadDataTreeArray(ids);
 		
 		mygrid.clearAll();
-		mygrid.loadXMLString(grid,function(){Ext.getBody().unmask();});
+		mygrid.loadXMLString(grid,function(){
+			setResourceRowCss2();
+			Ext.getBody().unmask();});
 		
 //	}else{
 //		alert("找不到历史数据");
 //	}
 
 
+}
+
+//给数字字符串补零，不支持负数
+function padNumber(num, fill) {
+    //改自：http://blog.csdn.net/aimingoo/article/details/4492592
+    var len = ('' + num).length;
+    return (Array(
+        fill > len ? fill - len + 1 || 0 : 0
+    ).join(0) + num);
+}
+//福州台需要在保存前判断，超时及剩余时间的段位
+function getTimeUseDialog(save_fun){
+	
+	if(tvNameParam !='fztv'){
+		save_fun(true);	
+		return false;
+	}
+
+	var resourceIds = getBuildResourceIds();
+	var msg = "", msg1 = "", msg2 = "";
+	
+	for(var i =0;i< resourceIds.length;i++){
+		var resourceRowId = resource.IdPrefix + resourceIds[i];
+		var resLeave = mygrid.cells(resourceRowId,arrange.col_resLeave).getValue()*1;
+		var resName = mygrid.cells(resourceRowId,arrange.col_resMeno).getValue(); //col_resName
+		var resTotalTimes = mygrid.cells(resourceRowId,arrange.col_resTotalTimes).getValue()*1;
+		
+		
+		var midlStr = resLeave<0?"  超出:  ":(resLeave>0?"  剩余:  ":"");
+		midlStr = "  标准:"+ resTotalTimes + midlStr;
+		
+
+		if(resLeave<0){
+			var row_txt =  midlStr + (-resLeave)+"   段位:" +resName ;
+			msg1 += "<font color='red'>" +row_txt +"</font><br>";
+		}
+		
+		if(resLeave>0){
+			var row_txt =  midlStr  + resLeave + "   段位:" +resName ;
+			msg2 += "<font color='green'>" +row_txt +"</font><br>"; 
+		}
+		
+		
+	}
+	 
+	   if(msg1.length >0)  msg = msg1;
+	   
+	   if(msg2.length >0)  msg += msg2;
+       
+ 	
+      
+		var msg3 ="<div style='width:280px;height:300px;OVERFLOW-y:auto;OVERFLOW-x:hidden;OVERFLOW: scroll;'>"+msg+"<div>";
+
+		if(msg.length>0){
+			Ext.MessageBox.hide(); 
+			Ext.getBody().unmask();
+			Ext.MessageBox.show(
+						{title:'超时或有剩余时间的段位,是否继续保存?',msg:msg3,width:350,heigth:300,buttons: Ext.MessageBox.YESNO,icon: Ext.MessageBox.QUESTION,
+							fn: function(btn){
+									if(btn == 'yes') {
+										save_fun(true);	
+									}else{
+										save_fun(false);
+									}
+							}
+						
+						}
+			); 
+		}else{
+			save_fun(true);
+		}
+
+}
+
+
+function fitterMatterTree(){
+	var obj_tree = carrierType.tree.dhtmlTree;	
+	var obj_tree2 = matterType.tree.dhtmlTree;	
+	var selectId =  obj_tree.getSelectedItemId();
+    var carrierOneId =  obj_tree.getUserData(selectId,"carrierOneId");
+    var myIds = obj_tree2.getAllSubItems("0"); 
+	var all = myIds.split(",");
+  
+     if(carrierOneId){
+    		for(var i = 0; i< all.length;i++){
+    			   var id = all[i];
+    			   var carrierId =  obj_tree2.getUserData(id,"carrierId");
+    			  
+    			   	var temp=obj_tree2._globalIdStorageFind(id);
+
+    			    var Nodes=temp.htmlNode.childNodes[0].childNodes;
+    			    
+    			   if(carrierId >0 && carrierOneId != carrierId) {
+    				   //alert(id+"_"+carrierOneId+"_"+carrierId)
+    				  
+    				   Nodes[0].style.display ="none";
+    			   }else{
+    				   Nodes[0].style.display ="";
+    				  // obj_tree2._HideShow(temp,2);
+    				  // obj_tree2.openItem(id);
+    			   }
+    		} 
+     }
+
+     
+
+    
+   
 }

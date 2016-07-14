@@ -65,6 +65,8 @@ public interface DayInfoDao extends Dao {
     
     public void saveDayInfo2(final Map newResMap);
     
+//    public void saveDayInfo3(final Map newResMap); //不管长度是否变化都修改
+    
     public void updateDayInfoLock(final Map newResMap);
     
     

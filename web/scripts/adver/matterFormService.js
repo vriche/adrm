@@ -1,5 +1,6 @@
 var matter = new Matter();
 var customer = new Customer();
+var carrier = new Carrier();
 
 var industry = new Industry(); 
 var brand = new Brand();
@@ -242,6 +243,10 @@ function saveMatterForm(){
 				matter.obj.id= getIdByURL();
 				matter.obj.orgId = $("org_Id").value;
 				matter.obj.save2dayang = "1";
+				
+				matter.obj.carrier =(new Carrier()).obj; 
+				matter.obj.carrier.id =  $("carrierForm.id").value;
+				
 //				matter.obj.brandId = brandId;
 				
 //				alert(matter.obj.brandId);
@@ -258,6 +263,8 @@ function saveMatterForm(){
 			matter.obj.orgId = $("org_Id").value;
 			matter.obj.save2dayang = "1";
 
+			matter.obj.carrier =(new Carrier()).obj; 
+			matter.obj.carrier.id =  $("carrierForm.id").value;
 			
 //			matter.obj.brandId = brandId;
 			var func = function(){
@@ -340,7 +347,7 @@ function initBrand(){
 		 var brandId2 = $("brandId2").value;
 		 Ext.getCmp('search_brand').setValue(brandId2);
 	}
-	var brandCmd = brand.getBrandCmd(brand.obj,'extBrandIdDiv','search_brand',null,120,'Æ·ÅÆ...',callbak);
+	var brandCmd = brand.getBrandCmd(brand.obj,'extBrandIdDiv','search_brand',null,150,'Æ·ÅÆ...',callbak);
 	
 	function setValue(cmd){
 		$("brandId2").value = brandCmd.getValue();
@@ -418,34 +425,7 @@ function initIndustry(){
  
            
          
-           
-
-
-//           industry.treecombo.tree.on('load', function(node){if(brandId>0){
-//           	
-//           	   
-//           	
-//           	    alert(brandId);
-//           	  
-//	  			var name  ='';
-//               	if(config_industryLevelParam == '1'){
-//               		    var parentNode = node.parentNode;
-//               		    name = parentNode.text + '/' +node.text;
-//               	}else{
-//               		 name = node.text;  	
-//               	}
-//                industry.treecombo.passField.value = node.id;
-//                industry.treecombo.setValue(name);  
-//           	
-//           };}); 
-//            var store =  industry.treecombo.store;
-//            store.load();
-            
-//            var store =  industry.treecombo.tree.loader.load(tree.root);
-            
-//            industry.treecombo.tree.getLoader().load(tree.root);
-           
-           
+    
     
              
 }

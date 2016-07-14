@@ -45,11 +45,11 @@ public class Resource extends BaseObject {
     protected Integer displayNo;
 //  超时封签
     protected Boolean isClosed; 
-//  指定加收
+//  资源统计
     protected Boolean isOverweight;
-//  超时封签
+//  
     protected Boolean isValidate;
-//  启用
+//  出串联单
     protected Boolean isSeralized;
 //  手动价格
     protected Boolean isManual;

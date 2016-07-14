@@ -1024,6 +1024,12 @@ public class StartupListener extends ContextLoaderListener
          String resconfigOrderbyTime = sysParam.getResconfigOrderbyTime();
     	 mgr.saveSysParams(Constants.RESCONFIG_ORDER_BY_TIME,resconfigOrderbyTime,ls);
          Constants.APPLACTION_MAP.put(Constants.RESCONFIG_ORDER_BY_TIME,resconfigOrderbyTime);
+         
+         
+         //时段维护根据时间排序
+         String orderMoreCarrier = sysParam.getOrderMoreCarrier();
+    	 mgr.saveSysParams(Constants.ORDER_MORE_CARRIER,orderMoreCarrier,ls);
+         Constants.APPLACTION_MAP.put(Constants.ORDER_MORE_CARRIER,orderMoreCarrier);
 
   
 //    	 log.info("orderDisplayIncomeParam>>>>>>>>>>>>>>>>>>"+orderCalculateModel);

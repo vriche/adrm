@@ -236,6 +236,11 @@ public class ResourceDaoiBatis extends BaseDaoiBATIS implements ResourceDao {
 	public Long saveResourceUserRate(Map mp) {
 		return (Long) getSqlMapClientTemplate().insert("addResourceUserRate", mp);
 	}
+
+	public Map getArrangedOrderByRes(Map mp) {
+//		return getSqlMapClientTemplate().queryForList("getArrangedOrderByRes", mp);
+		return getSqlMapClientTemplate().queryForMap("getArrangedOrderByRes", mp, "id", "memo");
+	}
    
 	
     

@@ -27,6 +27,24 @@
   </tr>
   
   <tr> 
+  <td width="10%"><div align="center">3-1</div></td>
+  <td><a href="<%=request.getContextPath()%>/reports/template/order_report1.jrxml">order_report1</a></td>
+  <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=order_report1">执行</a></td>
+</tr>
+
+  <tr> 
+    <td width="10%"><div align="center">3-2</div></td>
+    <td><a href="<%=request.getContextPath()%>/reports/template/order_report2.jrxml">order_report2</a></td>
+    <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=order_report2">执行</a></td>
+  </tr>
+    <tr> 
+    <td width="10%"><div align="center">3-3</div></td>
+    <td><a href="<%=request.getContextPath()%>/reports/template/order_report3.jrxml">order_report3</a></td>
+    <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=order_report3">执行</a></td>
+  </tr>
+  
+  
+  <tr> 
     <td><div align="center">3</div></td>
     <td><a href="<%=request.getContextPath()%>/reports/template/order_report_xmtv.jrxml">bro_report_xmtv</a></td>
     <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=bro_report_xmtv">执行</a></td>
@@ -223,16 +241,8 @@
     <td><a href="<%=request.getContextPath()%>/reports/template/resource_report.jrxml">resource_report</a></td>
     <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=resource_report">执行</a></td>
   </tr>
-  <tr> 
-    <td width="10%"><div align="center">27</div></td>
-    <td><a href="<%=request.getContextPath()%>/reports/template/order_report2.jrxml">order_report2</a></td>
-    <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=order_report2">执行</a></td>
-  </tr>
-    <tr> 
-    <td width="10%"><div align="center">27</div></td>
-    <td><a href="<%=request.getContextPath()%>/reports/template/order_report3.jrxml">order_report3</a></td>
-    <td><a href="<%=request.getContextPath()%>/reports/tools/compile.jsp?fileName=order_report3">执行</a></td>
-  </tr>
+  
+ 
     <tr> 
     <td width="10%"><div align="center">28</div></td>
     <td><a href="<%=request.getContextPath()%>/reports/template/analyCarrierMatter_report.jrxml">analyCarrierMatter_report</a></td>

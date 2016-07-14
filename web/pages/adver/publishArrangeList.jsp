@@ -96,14 +96,24 @@
                      <td width="1px"> <input  type="text" value="编排"  width="30px" class="myLable2" style="cursor: pointer;" id="Lable_radiobutton1"></td> 
                      <td width="1px"> <input style="cursor: pointer;" name="radiobutton" id="radiobutton2" type="radio" value="radiobutton"></td>     
                      <td width="1px"><input  type="text" value="垫片"  width="30px" class="myLable2" style="cursor: pointer;" id="Lable_radiobutton2"></td> 
-                     <td width="1px"> <input style="cursor:" size=12 name="bro_date" id="bro_date" type="text" readonly="true" ></td>   
+                     <td width="1px"> <input style="cursor:" size=10 name="bro_date" id="bro_date" type="text" readonly="true" ></td>   
                      
                      <td width="1px" id="buttonTable">   
           
                          <table border="0" cellpadding="0" cellspacing="0" width="1px">
                          <tr>
-		     
-		                     <td width="1px"> <input class="button" name="Btn_build_bro" id="Btn_build_bro" type="button" value='建立'></td>   
+                          <td width="1px" id="div_auto_publicAD_auto">
+                              <table border="0" cellpadding="0" cellspacing="0" width="1px" >
+                                <tr>
+    		                      <td width="1px"><input style="cursor: pointer;" name="Checkbox_publicAdAutoFill" id="Checkbox_publicAdAutoFill" type="checkbox"  value="0" checked> </td> 
+    		                      <td width="1px"><label for="Btn_publicAdAutoFill" style="cursor: pointer;" >
+    		                      <input name="Btn_publicAdAutoFill" id="Btn_publicAdAutoFill"  type="text" value="自动公益"  style="width:56px;cursor: pointer;" class="myLable2" >
+    		                      </label></td>
+    		                      </tr>
+    		                      </table>
+		                       </td>   
+		                     
+		                      <td width="1px"> <input class="button" name="Btn_build_bro" id="Btn_build_bro" type="button" value='建立'></td>   
 		                      <td width="1px"> <input class="button" name="Btn_build_bro_backup" id="Btn_build_bro_backup" type="button" value='载入备份'></td>
 		     
 		                      
@@ -130,8 +140,8 @@
 		                      
 		                       <td width="1px"> <input name="Btn_move_up" id="Btn_move_up" type="hidden" value='move up'></td> 
 		                       <td width="1px"> <input  name="Btn_move_down" id="Btn_move_down" type="hidden" value='move down'></td> 
-		                       <td width="1px"> <input  name="bro_date_history" id="bro_date_history" type="hidden" onclick="getDate('bro_date_history')" value='bro_date_history'></td>   
-		                       <td width="1px"> <input  name="Btn_load_history" id="Btn_load_history" type="hidden" onclick="getDate('bro_date_history')" value='Btn_load_history'></td>  
+		                       <td width="1px"> <input  name="bro_date_history" id="bro_date_history" type="hidden" onclick="getDate2('bro_date_history')" size='12'></td>   
+		                       <td width="1px"> <input  name="Btn_load_history" id="Btn_load_history" type="hidden"  value='参考历史'></td>  
 		                        
 		                     
 		                        <!-- td width="1px"> <input  class="button" name="displayTree" id="displayTree" type="hidden" value="隐藏"></td -->   
@@ -297,6 +307,7 @@
 <input type="hidden" name="startTime" id="startTime" value="">
 <input type="hidden" name="endTime" id="endTime" value="">
 <input type="hidden" name="printOrgid" id="printOrgid" value="">
+<input type="hidden" name="version" id="version" value="">
 
 </form>
 

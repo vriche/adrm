@@ -12,12 +12,12 @@ package com.vriche.adrm.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.model.FusionChartObject;
-import com.vriche.adrm.model.Income;
 import com.vriche.adrm.model.Matter;
 import com.vriche.adrm.model.PublishArrange;
 import com.vriche.adrm.model.PublishArrangeDetail;
@@ -65,7 +64,10 @@ public class ArrangeUtil {
 			for(Iterator it = all.iterator();it.hasNext();){
 			
 				PublishArrange publishArrange = (PublishArrange)it.next();
+		
+			
 				String resId = resIdPrefix+ "" +publishArrange.getResourceId().toString();
+				 
 				makeOneResouce(sb,publishArrange,resId,adverIdPrefix,rebuild,orgType);
 				
 				lineNums+=publishArrange.getPublishArrangeDetails().size();
@@ -228,6 +230,9 @@ public class ArrangeUtil {
 //		  if(getFztvSpecialParam()&&publishArrangeDetail.getSpaceAdver().booleanValue()) style = " style=\"color: #F00;\"";
 		  if(isLocked) style = " style=\"background-color: #CCCCCC;\"";  
 		  
+		  String orderId = StringUtil.null2String(publishArrangeDetail.getOrderId());
+//		  System.out.println("orderId>>>>>>>>>>>>>>>>.666 88 s99 >>>>"+orderId);
+		  if("".equals(orderId) || "0".equals(orderId)) advId = advId.replace("resourceId", "");
 		  
 		  sb.append("<row id=\""+ advId +"\"" + style +">");
 
@@ -264,7 +269,7 @@ public class ArrangeUtil {
 		  sb.append("<cell><![CDATA["+ convertBoolean(publishArrange.getIsArranged().booleanValue())   +"]]></cell>");	
 		  sb.append("<cell><![CDATA["+ publishArrange.getIsLocked()  +"]]></cell>");
 //		  sb.append("<cell><![CDATA["+ publishArrangeDetail.getOwnerUserId()  +"]]></cell>");
-		  String orderId = StringUtil.null2String(publishArrangeDetail.getOrderId());
+		
 //		  sb.append("<cell></cell>");
 		  sb.append("<cell><![CDATA[" +  StringUtil.null2String(publishArrangeDetail.getOrderCode()) +"^editOrder.html?id=" + orderId + "&orgId="+ orgId +"]]></cell>");
 		  sb.append("</row>");	
@@ -279,7 +284,7 @@ public class ArrangeUtil {
      }
      
  
-	  public static void resetList(List newList ,List resList,List adverList,boolean rebuild,boolean isRoll,String parentName,String orgId){
+	  public static void resetList(List newList ,List resList,List adverList,boolean rebuild,boolean isRoll,PublishArrange parr,String orgId){
 		  
 		  boolean withBroPoint = SysParamUtil.getwithBroPoint();
 		  boolean resourceDisplayParam = SysParamUtil.getResourceDisplay();
@@ -290,67 +295,38 @@ public class ArrangeUtil {
 		  
 		  
 //		  System.out.println("isArrangeOrderOrEntry >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ isArrangeOrderOrEntry);
-		  
-		  
 //		  System.out.println("resetList parentName >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ parentName);
-		  
-//		if(parentName.startsWith("carrierId")){
-//			if(isArrangeOrderOrEntry){
-//				Collections.sort(resList,new PublishArrangeEntryComparator());
-//			}else{
-//				Collections.sort(resList,new PublishArrangeComparator());
-//			}
-//		}else{
-////			    //按播出入点
-//			    if(isArrangeOrderOrEntry){
-//					 Collections.sort(resList,new PublishArrangeEntryComparator());
-//				}else{
-//				//按序号
-//					 Collections.sort(resList,new PublishArrangeComparator());
-//				}
-//		}
+
 		
-           //第二级按序号
-		 
-		  
-		  
+		   String parentName = parr.getCarrierName();
+		   Integer version = parr.getVersion();
+		   
+		   
+		  //第二级按序号、频道一级按时间顺序
 			if(parentName.startsWith("carrierId")){
-//				 System.out.println("resetList parentName 第二级按序号>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>>>>>>>>>>>>>>>>>"+ parentName);
-//				if(isArrangeOrderOrEntry){
-//					Collections.sort(resList,new PublishArrangeEntryComparator());
-//				}else{
-					Collections.sort(resList,new PublishArrangeComparator());
-//				}
-				
+				Collections.sort(resList,new PublishArrangeComparator());
 			}else{
-//				 System.out.println("resetList parentName 频道一级按时间顺序>>>>>>>>>>>>>>>>>>777777777777777777777777777777777777777777>>>>>>>>>>>>>>>>>>>>>>>"+ parentName);
-			//频道一级按时间顺序
-//				if(isArrangeOrderOrEntry){
-					Collections.sort(resList,new PublishArrangeEntryComparator());
-//				}else{
-//					Collections.sort(resList,new PublishArrangeComparator());
-//				}
-				
+				Collections.sort(resList,new PublishArrangeEntryComparator());		
 			}
-				
-
-
-		
-		
+			
+			  //全部修改成按时间排序
+//			  Collections.sort(resList,new PublishArrangeEntryComparator());
+			  
 		
 
 		  for(Iterator it = resList.iterator();it.hasNext();){    
 			  PublishArrange publishArrange = (PublishArrange)it.next();
+			  
+			  publishArrange.setVersion(version);
+			  
+			  publishArrange.setCarrierId(parr.getCarrierId()); //设置频道一级id,目的是公益广告自动添，需要频道判断
+			  
 			  Long resourceId = publishArrange.getResourceId();
 			  Integer publishDate = publishArrange.getPublishDate();
 
-			  
-			  
-			  
 //			  System.out.println("name >>>>>>>>>>>>>getResourceName>>>>>>>>>>>>>>>>>>>>>"+ publishArrange.getResourceName());
 //			  System.out.println("name >>>>>>>>>>>>>getResourceMeno>>>>>>>>>>>>>>>>>>>>>"+ publishArrange.getResourceMeno());
-			  
-			  
+
 			  if(withBroPoint ){
 				  String broPoint = "";
 				  String broStartTime = StringUtil.second2HMS3(publishArrange.getBroadcastStartTime().longValue()*1000,true);
@@ -365,27 +341,9 @@ public class ArrangeUtil {
 			
 				  
 //				  
-//				  System.out.println("name >>>>>>>>>>>>>broStartTime>>>>>>>>>>>>>>>>>>>>>"+broStartTime);
-//				  System.out.println("name >>>>>>>>>>>>>broEndTime>>>>>>>>>>>>>>>>>>>>>"+ broEndTime);
-				  
-//				  if(!"00:00:00".equals(broStartTime)){
-//					  broStartTime = broStartTime +"-"+broEndTime;
-//					  if("catv".equals(tvname)){
-//						  broPoint = broStartTime +" "+ name;
-//					  }else if("hntv".equals(tvname)){
-//						  broPoint = broStartTime +" "+ name;
-//					  }else if("sjz".equals(tvname)){
-//						  broPoint = broStartTime +" "+ name;
-//					  }else if("qztv".equals(tvname)){
-//						  broPoint = broStartTime +" "+ name;
-//					  }else if("xmtv".equals(tvname)){
-//						  broPoint = broStartTime +" "+ name;
-//					  }else{
-//						  broPoint = broStartTime +" "+ name;
-//					  }
-//				  }
-				  
-//				  publishArrange.setResourceName(broPoint);
+				  System.out.println("name >>>>7777>>>>>>>>>name>>>>>>>>>>>>>>>>>>>>>"+publishArrange.getResourceName());
+				  System.out.println("name >>>>>7777>>>>>>>>memo>>>>>>>>>>>>>>>>>>>>>"+ publishArrange.getResourceMeno());
+
 				  
 				  if(!"00:00:00".equals(broStartTime)){
 
@@ -393,28 +351,36 @@ public class ArrangeUtil {
 					  if("2".equals(orgType)){
 						  broStartTime = broStartTime +"-"+broEndTime;
 					  }
-					 
+					  
+//					  System.out.println("name >>>>7777>>>>>>>>>broStartTime>>>>>>>>>>>>>>>>>>>>>"+broStartTime);
+//					  System.out.println("name >>>>>7777>>>>>>>>resourceDisplayParam>>>>>>>>>>>>>>>>>>>>>"+ resourceDisplayParam);
+//					  System.out.println("name >>>>7777>>>>>>>>>name>>>>>>>>>>>>>>>>>>>>>"+name);
+//					  System.out.println("name >>>>>7777>>>>>>>>memo>>>>>>>>>>>>>>>>>>>>>"+ memo);
 					  
 					  if(resourceDisplayParam){
-//						  String name = publishArrange.getResourceName();
-//						  String memo = publishArrange.getResourceMeno();
-//						  if("qztv".equals(tvname)){
-//							  name = memo +" " +name;
-//						  }else{
-//							  name = name +" " +memo;
-//						  }
-						  
-						  if(name.indexOf(':')==-1 && name.indexOf("：")==-1){
-							   broPoint = broStartTime +" "+ name ;
-						  }else{
-							  broPoint = name;
-						  }	  					  
-	
 
-						  publishArrange.setResourceName(broPoint);
-//						  System.out.println("name >>>>>>>>>>>>>>>>>>>"+name.indexOf("：")+">>>>>>>>>>>>>>>>>>>>>>"+ name);
-//						  broPoint = StringUtil.second2HMS2(publishArrange.getArrangeType()*1000,true)+ " "+publishArrange.getResourceName();
-//						  publishArrange.setResourceName(StringUtil.second2HMS(publishArrange.getArrangeType())+publishArrange.getResourceName());
+//						  if("fztv".equals(tvname)){
+//							 
+//							  
+//							  String res_name = StringUtil.getNullValue(publishArrange.getResourceMeno(),"");
+//							  String res_memo =  StringUtil.getNullValue(publishArrange.getResourceName(),"");
+//							  if(res_name.trim().equals(res_memo)) res_memo ="";
+//							  if(res_memo.indexOf(':')==-1 && res_memo.indexOf("：")==-1){
+//								  publishArrange.setResourceName(broStartTime+" "+res_name +" "+res_memo);
+//							  }
+//							
+//							  publishArrange.setResourceMeno("");
+//						  }	else{
+							  if(name.indexOf(':')==-1 && name.indexOf("：")==-1){
+								   broPoint = broStartTime +" "+ name ;
+							  }else{
+								  broPoint = name;
+							  }	  		
+							  
+							  publishArrange.setResourceName(broPoint);
+//						  }
+
+
 					  }else{
 
 						  if("catv".equals(tvname)||"sjz".equals(tvname)){
@@ -427,7 +393,20 @@ public class ArrangeUtil {
 							  publishArrange.setResourceName(name);
 							  publishArrange.setResourceMeno(broPoint);
 							  
-						  }else{
+						  }
+//						  else if("fztv".equals(tvname)){
+//							  String  res_name = StringUtil.getNullValue(publishArrange.getResourceMeno(),"");
+//							  String res_memo =  StringUtil.getNullValue(publishArrange.getResourceName(),"");
+//							  
+//							  
+//							  
+//							  if(res_name.trim().equals(res_memo)) res_memo ="";
+//							  if(res_memo.indexOf(':')==-1 && res_memo.indexOf("：")==-1){
+//								  publishArrange.setResourceName(broStartTime+" "+res_name );
+//							  }
+//							  publishArrange.setResourceMeno("");
+//						  }
+						  else{
 							  if(memo.indexOf(':')==-1 && memo.indexOf("：")==-1) {
 								  broPoint = broStartTime +" "+ memo;
 							  }else{
@@ -436,10 +415,8 @@ public class ArrangeUtil {
 							  publishArrange.setResourceName(broPoint);
 						  }
 						  
-						
-//						  System.out.println("memo >>>>>>>>>>>>>>>>>>>"+memo.indexOf("：")+">>>>>>>>>>>>>>>>>>>>>>>"+ memo);
-//						  broPoint =StringUtil.second2HMS2(publishArrange.getArrangeType()*1000,true)+" "+publishArrange.getResourceMeno();
-//						  publishArrange.setResourceName(StringUtil.second2HMS(publishArrange.getArrangeType())+publishArrange.getResourceMeno());
+	
+
 					  }
 					  
 					  
@@ -498,6 +475,9 @@ public class ArrangeUtil {
 	  }
 	  
 	  public static void getAdverList(PublishArrange publishArrange,List details,List adverList,Long resourceId,Integer publishDate,int state,boolean isRoll){
+		  
+		  
+		  String tvname = SysParamUtil.getTvNameParam();
 		  
 //		  for(Iterator it = adverList.iterator();it.hasNext();){
 //			  
@@ -563,7 +543,13 @@ public class ArrangeUtil {
 			  }
 		  }
 		  
-		  boolean publicAdAutoFillParamParam =  SysParamUtil.getPublicAdAutoFillParamParam();
+		  
+		  //自动添加公益广告
+//		  boolean publicAdAutoFillParamParam =  SysParamUtil.getPublicAdAutoFillParamParam();
+		  
+		  boolean publicAdAutoFillParamParam =  publishArrange.getVersion().intValue() ==1?true:false;
+		  System.out.println("8888888888888 hhhhhhhhhhhhhh  99999999999999 >>>>>> publishArrange.getVersion()>>>>>>>>>"+ publishArrange.getVersion());
+		  System.out.println("8888888888888 hhhhhhhhhhhhhh  99999999999999 >>>>>>publicAdAutoFillParamParam>>>>>>>>>"+publicAdAutoFillParamParam);
 		  
 		  if(details.size() > 0 || publicAdAutoFillParamParam){
 			  //编排过或锁定
@@ -597,7 +583,7 @@ public class ArrangeUtil {
 				  //没指定的广告
 				  if(middleAdver.size()>0){
 					  //是否需要滚动
-					  if(isRoll) setMiddleAdveRoll(middleAdver,publishDate);
+					  if(isRoll && !"fztv".equals(tvname)) setMiddleAdveRoll(middleAdver,publishDate);
 					  i = setAdverOrder(middleAdver,i);
 					  oneResourceAdvers.addAll(middleAdver);
 				  }
@@ -618,7 +604,7 @@ public class ArrangeUtil {
   
 	  }
 	  
-	  //设置滚动播出
+	  //设置滚动播出(根据日期滚动)
 	  public static void setMiddleAdveRoll(List adverList,Integer publishDate){
 		  List positiveList = new ArrayList();
 		  List negativeList = new ArrayList();
@@ -683,12 +669,15 @@ public class ArrangeUtil {
 	  }
 	  
 	  
-	  
+
 	  //把一个段位下广告分成三部分
      public static void getSortAdvers(PublishArrange publishArrange,Object[] objs,List beforeSpecific,List afterSpecific,List middleAdver){
     	 Map decomposeAdvers =  new HashMap();
     	 Map otherList =  new HashMap();
     	 int index = 0;
+    	 
+    	  String[] destBefo= Constants.SPECIF_DEST_BEFO;
+          String[] destAfter= Constants.SPECIF_DEST_AFTER;
     	 
     	 double resourceUsedTimes = 0;
     	 for (int i = 0; i< objs.length; i++){
@@ -702,14 +691,25 @@ public class ArrangeUtil {
 	    	 resourceUsedTimes +=  times*length;
 //    		 List spaceAdverList = new ArrayList();
              
-             String destBefo="123456789"; 
-             String destAfter="ABCDEFGHI"; 
-             int j = destBefo.indexOf(specificValue);
-             int k = destAfter.indexOf(specificValue);
+//             String destBefo="123456789"; 
+//             String destAfter="ABCDEFGHI"; 
+	    	 
+//	    	   int j = destBefo.indexOf(specificValue);
+//	             int k = destAfter.indexOf(specificValue);
              
-    		 if(j >- 1) beforeSpecific.add(publishArrangeDetail);
+//             String[] destBefo={"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
+//             String[] destAfter={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y"};
+	    	
+
+             boolean j =  StringUtilsv.ByForLoop(destBefo,specificValue);
+             boolean k =  StringUtilsv.ByForLoop(destAfter,specificValue);
+             
+//             System.out.println("getSortAdvers  StringUtilsv.ByForLoop(destBefo,specificValue)<<<<<<<<<<<<<<<<<<<<<<"+specificValue+"_"+j+"_"+k);
+           
+             
+    		 if(j) beforeSpecific.add(publishArrangeDetail);
    
-    		 if(j ==- 1 && k == -1) {
+    		 if(j  == false && k == false) {
     			 //取得所有中间的广告，需要串开的多次广告已分解，不需要串开的多次广告只有一条，
     			 //最后才去分解联播的多次广告
 //    			 decomposeAdverByTimes(isSpaceAdver,index,allMiddleAdver,publishArrangeDetail);
@@ -722,7 +722,7 @@ public class ArrangeUtil {
     			 }
     		 } 
     		 
-    		 if(k > -1) afterSpecific.add(publishArrangeDetail);
+    		 if(k) afterSpecific.add(publishArrangeDetail);
     	 }
     	 
     	 //间隔的步长
@@ -732,7 +732,10 @@ public class ArrangeUtil {
 		 
 		 
 		 
-	      boolean publicAdAutoFillParamParam =  SysParamUtil.getPublicAdAutoFillParamParam();
+//	      boolean publicAdAutoFillParamParam =  SysParamUtil.getPublicAdAutoFillParamParam();
+	      
+	      boolean publicAdAutoFillParamParam =  publishArrange.getVersion().intValue() ==1?true:false;
+	      
     	 if(publicAdAutoFillParamParam){
 	    	 long aa = Math.round(resourceUsedTimes);
 	    	 //自动填冲公益广告
@@ -757,21 +760,44 @@ public class ArrangeUtil {
 			Map<String,Matter> mpp = new HashMap<String,Matter>();
 			List<Matter> lsNormalAd = new ArrayList<Matter>();
 			
+			long carrierId = publishArrange.getCarrierId().longValue();			
 			
-			System.out.println("getPublicSerAdver 666666666666666666666666666666    >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
+//			System.out.println("getPublicSerAdver 666666666666666666666666666666    >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
+			
+			int rotateIndex = (int)(Math.random()*ls.size());
+			Collections.rotate(ls, rotateIndex);
 			
 			int kk = 0;
 			for(Matter mat:ls){
 				int pos = Integer.parseInt(StringUtil.getNullValue(mat.getPos(),"0")) ;
-				if(pos == 1){
-					mpp.put("F", mat);
-				}else if(pos == 2){
-					mpp.put("L", mat);
-				}else{
-					mpp.put(String.valueOf(kk++), mat);
-					lsNormalAd.add(mat);
-				}
+				long carId = Long.parseLong(StringUtil.getNullValue(mat.getCarrier().getId(),"0"));
 				
+//				System.out.println("getPublicSerAdver 77    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>   "+mat.getName()+">>"+mat.getEdit());
+				
+				//如果素材指定频道
+				if(carId >0){
+					if(carrierId == carId){
+						if(pos == 1){
+							mpp.put("F", mat);
+						}else if(pos == 2){
+							mpp.put("L", mat);
+						}else{
+							mpp.put(String.valueOf(kk++), mat);
+							lsNormalAd.add(mat);
+						}
+					}
+					
+				}else{
+					if(pos == 1){
+						mpp.put("F", mat);
+					}else if(pos == 2){
+						mpp.put("L", mat);
+					}else{
+						mpp.put(String.valueOf(kk++), mat);
+						lsNormalAd.add(mat);
+					}
+				}
+
 			}
 			
 			System.out.println("getPublicSerAdver dddddddddd    >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+lsNormalAd.size());
@@ -805,9 +831,12 @@ public class ArrangeUtil {
 			 }
 			
 			//没指定的公益广告或宣传片
-			 while(resourceLeave >=0 && lsNormalAd.size() >0 ){
+	
+			 if(resourceLeave >=0 && lsNormalAd.size() >0){
 				 resourceLeave =  pushMidleAd(resourceLeave,lsNormalAd,middleAdver);
 			 }
+			 
+		
 			
 //			setPublicSerAdveRoll(ls,publishArrange.getPublishDate());
 //			System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>> ls.size()>>>>>>>>>   "+ls.size());
@@ -847,15 +876,68 @@ public class ArrangeUtil {
 	   }
 	   
 	   private static double pushMidleAd(double resourceLeave,List<Matter> ls,List<PublishArrangeDetail> middleAdver){
-			for(Matter mat:ls){
+		   
+		   int rotateIndex = (int)(Math.random()*ls.size());
+		   Collections.rotate(ls, rotateIndex);
+			
+		   List lsTemp = new ArrayList();
+			for(Matter mat:ls){ 
 				 PublishArrangeDetail detail = new PublishArrangeDetail();
 				 getPublishArrangeDetailByMatter(detail,mat);
 				 double pushTimes = Double.parseDouble(mat.getLength());
 				 if(resourceLeave >= pushTimes){
 					 middleAdver.add(detail);
+					 String key = mat.getId().toString();
+//					 mp.put(key, key);
+					 lsTemp.add(key);
+					 resourceLeave = resourceLeave - pushTimes;
 				 }
-				 resourceLeave = resourceLeave - pushTimes;
 			}
+			
+			
+			
+			if(resourceLeave > 0){
+				List<Matter> ls2 = new ArrayList<Matter>();
+				for(Matter mat:ls){
+					 double push_times = Double.parseDouble(mat.getLength());
+					 String key = mat.getId().toString();
+//					 System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>key 1111  >>>>>>>>>   "+ key);
+					 
+//					 System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>push_times>>>>>>>>>   "+ push_times);
+//					 if(push_times <= resourceLeave){
+//						 ls2.add(mat);
+//					 }
+					 
+
+//					 if(push_times <= resourceLeave && !mp.containsKey(key)){
+//						 ls2.add(mat);
+//					 }
+					 
+					 if(lsTemp.size() >0){
+						 String lastKey = (String)lsTemp.get(lsTemp.size()-1);
+						 if(push_times <= resourceLeave && !key.equals(lastKey)){
+							 ls2.add(mat);
+						 }
+					 }else{
+						 if(push_times <= resourceLeave){
+							 ls2.add(mat);
+						 }
+					 }
+		
+					 
+					 
+				}
+				
+//				System.out.println("getPublicSerAdver >>>>>>>>>>>>>>>>>>>>>>>>>> lsNormalAd.size() 2>>>>>>>>>   "+ls.size());
+				
+				if(ls2.size() >0){
+					pushMidleAd(resourceLeave,ls2,middleAdver);
+				}
+
+			}
+		
+			
+
 		   return resourceLeave;
 	   }
 
@@ -1323,5 +1405,12 @@ public class ArrangeUtil {
 	    		coll.addAll(adverColl);    
 	    	}
 	    }   
+	    
+	    
+	    //  swap the elements
+	    //	Collections.swap(vector, 0, 4);
+	    
+	    
+	    
 		
 }

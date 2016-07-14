@@ -71,7 +71,7 @@ public interface PublishArrangeManager extends Manager {
     public Map getPublishArrangeSelect(PublishArrange publishArrange) ;
     
     public void uploadFiles(String server,String port,String user,String pass,String fileName);
-    public void downloadAdvers(PublishArrange publishArrange,int type);
+    public int downloadAdvers(PublishArrange publishArrange,int type);
     
     public Collection getReportColl(PublishArrange publishArrange, boolean rebuild,boolean isRoll,boolean onlyHistory);
     	
@@ -79,7 +79,7 @@ public interface PublishArrangeManager extends Manager {
     
     public Collection getCollections(final String queryString);   
     
-    public void saveAllLock(Long carrierId,Integer publishDate);
+    public void saveAllLock(Long carrierId,Integer publishDate,boolean isLock);
     
     public void deleteArrangeAndDetail(Long id);
     
@@ -88,7 +88,7 @@ public interface PublishArrangeManager extends Manager {
     public void moveArrangeAndDetailsToBak(final Integer curDate) throws IOException;
     
     
-    public String getAdversByResourceId(String resourceId,String  publishDate,String  orgId);
+    public String getAdversByResourceId(String resourceId,String  publishDate,String  orgId,String userStr);
     
     public String getArrangedAdversByResourceId(String queryString);
     

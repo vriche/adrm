@@ -244,8 +244,13 @@ public class SysParam extends BaseObjectWithoutNestedFormValidation {
    
  //时段维护根据时间排序
    protected String resconfigOrderbyTime;
+   
+	 //订单多频道
+   protected String orderMoreCarrier;
+   
 
    
+
 
 public String getResconfigOrderbyTime() {
 	return resconfigOrderbyTime;
@@ -884,6 +889,9 @@ public void setResourceUseCustomerCatelog(String resourceUseCustomerCatelog) {
 		this.arrangeWithBrandParam = arrangeWithBrandParam;
 	}
 
+	
+
+	
 	public String getMenoByName(String name){
 		
 		String meno = name;
@@ -1034,6 +1042,8 @@ public void setResourceUseCustomerCatelog(String resourceUseCustomerCatelog) {
 			meno = "ftp服务器";	
 		}else if(name.equals(Constants.RESCONFIG_ORDER_BY_TIME)){
 			meno = "时段维护根据时间排序";	
+		}else if(name.equals(Constants.ORDER_MORE_CARRIER)){
+			meno = "订单多频道";	
 		}
 		
 		
@@ -1107,5 +1117,12 @@ public String getFtpConfig() {
 }
 public void setFtpConfig(String ftpConfig) {
 	this.ftpConfig = ftpConfig;
+}
+
+public String getOrderMoreCarrier() {
+	return orderMoreCarrier;
+}
+public void setOrderMoreCarrier(String orderMoreCarrier) {
+	this.orderMoreCarrier = orderMoreCarrier;
 }
 }

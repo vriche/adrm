@@ -13,6 +13,7 @@ var config_serviceDate;
 var report = new MyPrint();
 var ctxPath;
 var report = new MyPrint();
+var user = new User();
 
 callOnLoad(init);	
   
@@ -55,6 +56,8 @@ callOnLoad(init);
 // 	getOrderTable(order);
 
 	 buildcustomerCommand();
+	 
+	 user.getUsersFromOrder("signUserDiv","userOwner",100,function(){});	
 	 
 	 search();
 	 
@@ -401,6 +404,12 @@ function search(){
 //	order.obj.customer.customerName = customerName;
 	order.obj.orgId =  $("orgIdCmd").value;
 	
+
+
+	order.obj.userId =  Ext.getCmp('userOwner').getValue();
+	
+//	alert('408_'+order.obj.userId)
+
 	order.obj.customerIds = customerName;
 	
 

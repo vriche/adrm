@@ -61,6 +61,7 @@ import com.vriche.adrm.model.Resource;
 import com.vriche.adrm.model.ResourceChannel;
 import com.vriche.adrm.model.ResourceSort;
 import com.vriche.adrm.model.SysParam;
+import com.vriche.adrm.model.User;
 import com.vriche.adrm.model.Workspan;
 import com.vriche.adrm.service.PublishArrangeManager;
 import com.vriche.adrm.util.ArrangeUtil;
@@ -203,8 +204,8 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
         dao.removePublishArranges(idList);
     }
     
-    public void saveAllLock(Long carrierId,Integer publishDate) {
-    	boolean isLockb=true;
+    public void saveAllLock(Long carrierId,Integer publishDate,boolean isLockb) {
+//    	boolean isLockb=true;
     	Map mp = new HashMap();
     	List idList = new ArrayList();
     	List idListRes = new ArrayList();
@@ -290,12 +291,14 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 		String orgId = StringUtil.getNullValue(publishArrange.getOrgId(),"1");
 		String tvname = SysParamUtil.getTvNameParam();
 		
+		
 		// 所有选中的段位
 		Set resourceIds = publishArrange.getResourceIds();
 		Object[] objs = resourceIds.toArray();
 		
 		
-		System.out.println(">>>>>>referenceDate>>〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉>>>>>>>"+ referenceDate);
+//		System.out.println(">>>>>>referenceDate>>〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉>>>>>>>"+ referenceDate);
+		System.out.println(">>>>>>getArrangedPublish getVersion>> TDK 〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉>>>>>>>"+ publishArrange.getVersion());
 		
 //		System.out.println(">>>>>>objs.size>>〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉〉>>>>>>>"+objs.length);
 		
@@ -303,6 +306,7 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 		List checkedList = new ArrayList();
 		CollectionUtils.addAll(checkedList,objs);
 		Integer publishDate = publishArrange.getPublishDate();
+		Long carrierId = publishArrange.getCarrierId();
 		
 		//被锁定的段位
 		List resLocked = new ArrayList();
@@ -342,6 +346,8 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 //				listAdver = publishArrangeDetailDao.getPublishArrangeDetailsByIdListFromHistory(mp);  
 //			}
 			
+			System.out.println(">>>>>publishArrange.getIsEnable().booleanValue()>>>>>>>>"+ publishArrange.getIsEnable().booleanValue());
+			
 			if(publishArrange.getIsEnable().booleanValue()&& resLocked.size()==0){   
 				listAdver = publishArrangeDetailDao.getPublishArrangeDetailsByIdListForPublishSort(mp);
 			}else{
@@ -371,9 +377,9 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 // System.out.println(">>>>>>listResource.size>>>>>>>>>"+listResource.size());
 // System.out.println(">>>>>>listAdver.size>>>>>>>>>"+listAdver.size());
 			if("catv".equals(tvname) || "fztv".equals(tvname)){
-				ArrangeUtil.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
+				ArrangeUtil.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange,orgId);
 			}else{
-				ArrangeUtil3.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);
+				ArrangeUtil3.resetList(all,listResource,listAdver,rebuild,isRoll,publishArrange,orgId);
 			}
 
 //			 System.out.println(">>>>>>all.size>>>>>>>>>"+all.size());
@@ -432,9 +438,9 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 //			System.out.println(">>>>>>> noLocked.size()>>>>>>>" + noLocked.size());
 			
 			if("catv".equals(tvname)|| "fztv".equals(tvname)){
-				ArrangeUtil.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
+				ArrangeUtil.resetList(all,resource,adver,rebuild,isRoll,publishArrange,orgId);	
 			}else{
-				ArrangeUtil3.resetList(all,resource,adver,rebuild,isRoll,publishArrange.getCarrierName(),orgId);	
+				ArrangeUtil3.resetList(all,resource,adver,rebuild,isRoll,publishArrange,orgId);	
 			}
 			
 		}	
@@ -646,18 +652,19 @@ public class PublishArrangeManagerImpl extends BaseManager implements PublishArr
 		  ftp.closeConnect();
 	}  	
 	
-public void downloadAdvers(PublishArrange publishArrange,int type) {
+public int downloadAdvers(PublishArrange publishArrange,int type) {
 	
 //		SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
 //	//	多频道或单频道
 //		int mode = (sysParam.getPiblishModelParam().equals("0")|| sysParam.getChannelModelParam() == null)?1:Integer.parseInt(sysParam.getChannelModelParam());
 	
-		saveFileBroFile(publishArrange,type);
+		return saveFileBroFile(publishArrange,type);
 	
 	}  
 
 	
-	public void saveFileBroFile(PublishArrange publishArrange,int type) {  
+	public int saveFileBroFile(PublishArrange publishArrange,int type) {  
+		    int state = 0;
 			List advers = new ArrayList();
 			Integer publishDate = publishArrange.getPublishDate();
 			String carrierName = publishArrange.getCarrierName();
@@ -746,27 +753,33 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				
 				List matterls = matterDao.getMattersByIdList(mps);
 				List advTypels = industryDao.getIndustrys(new Industry());
+				//如果加此参数，对方无法接收，会导致无效后对方依然出现
+//				mps.put("enable","1"); 
 				List advsegls = workspanDao.getWorkspansByIdList(mps);  
-				mps.put("enable","1");          
+				         
 //				mps.put("resourceType","3");
 				mps.put("version",publishDate.toString().substring(0,4));
 				mps.put("PublishDate",publishDate);
 				List advsfgls = workspanDao.getWorkspansByIdList(mps);
 				
-				System.out.println("advsfgls  ttttttttttttttttttttt>>>advsfgls.size()>>>>>>"+advsfgls.size());
+//				System.out.println("advsfgls  ttttttttttttttttttttt>>>advsfgls.size()>>>>>>"+advsfgls.size());
 				
 				
-				String fileString1  = this.fileContent1(matterls);
-				String fileString2  = this.fileContent2(advTypels);
-				String fileString3  = this.fileContent3(advsegls);
-				String fileString4  = this.fileContent4(advsfgls); 
+				String fileString1  = this.fileContent1(matterls);  //  广告节目库 最大 50 字节
+				String fileString2  = this.fileContent2(advTypels); // 广告类型库 18字节
+				String fileString3  = this.fileContent3(advsegls); //广告时段库
+				String fileString4  = this.fileContent4(advsfgls); //时段配置表
 				
 				matter.add(fileString1);
 				advType.add(fileString2);
 				advseg.add(fileString3);
 				advcfg.add(fileString4);
 				
-				FileUtil.saveFile3(myDir,"广告节目库",matter);
+				boolean success = FileUtil.saveFile3(myDir,"广告节目库",matter);
+				
+				System.out.println("saveFileBroFile success  ttttttttttttttttttttt>>>>>>"+ success);
+				
+				if(!success) state = 1; //ftp 连接出错
 				FileUtil.saveFile3(myDir,"广告类型库",advType);
 				FileUtil.saveFile3(myDir,"广告时段库",advseg);
 				FileUtil.saveFile3(myDir,"时段配置表",advcfg);
@@ -780,8 +793,11 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				String fileString  = this.fileContent(null,oneResourceAdvers,type);
 				advers.add(fileString);
 				
-				myFile =FileUtil.getFileName3(carrierName,resourceIds,publishDate);
-
+				myFile  = FileUtil.getFileName3(carrierName,resourceIds,publishDate);
+				
+				
+//				System.out.println("saveFileBroFile myFile  ttttttttttttttttttttt>>>>>>>"+ myFile);
+				
 				FileUtil.saveFile3(myDir,myFile,advers);
 			}
 			
@@ -826,9 +842,37 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 			
 			// 压缩文件
 			FileUtil.zipFile(myDateDir,publishDate.toString());
+			
+			return state;
 
 	}
 
+	/*福州电视台排除新闻频道 
+	B3 1637
+	B4 1638
+	特A1 1653
+	特A2 1654
+	特A3 1768
+	TA7 1662
+	TA8 1663
+	1637,1638,1653,1654,1768,1662,1663*/
+	private boolean checkIsWithOutRes(String res_id){
+
+		String[] withoutIds = new String[]{"1637","1638","1653","1654","1768","1662","1663"};
+		Collection coll = new ArrayList<String>();  
+		CollectionUtils.addAll(coll, withoutIds);
+		
+		return  coll.contains(String.valueOf(res_id));
+	}
+	private boolean checkIsWithOutRes2(String res_id){
+
+		String[] withoutIds = new String[]{"1637","1638","1653","1654","1768","1662","1663"};
+		Collection coll = new ArrayList<String>();  
+		CollectionUtils.addAll(coll, withoutIds);
+		
+		return  coll.contains(String.valueOf(res_id));
+	}
+	
 
 
 	private String fileContent(PublishArrange publish,List oneResourceAdvers,int type){
@@ -887,38 +931,113 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 					str.append(newline);
 				}
 		}
-		//litu
+		/*福州电视台排除新闻频道 
+		B3 1637
+		B4 1638
+		特A1 1653
+		特A2 1654
+		特A3 1768
+		TA7 1662
+		TA8 1663
+		1637,1638,1653,1654,1768,1662,1663*/
+		
 		if(type == 3){
-			String resId="";
+	
+//			String[] withoutIds = new String[]{"1637","1638","1653","1654","1768","1662","1663"};
+//			Collection coll = new ArrayList<String>();  
+//			CollectionUtils.addAll(coll, withoutIds);
+
+			String spanId="";
 			long matterLength=0;
 			str.append("<playlist>"); 
 			while(it.hasNext()){
 //				StringBuffer str= new StringBuffer();
 
 				PublishArrangeDetail publishArrangeDetail = (PublishArrangeDetail)it.next();
-//				PublishArrange publishArrange = this.getPublishArrange(publishArrangeDetail.getPublishArrangeId().toString());
-				String playTime = DateUtil.formatTime(publishArrangeDetail.getPublishDate().longValue()*1000,"h:m:s");
-				playTime = StringUtils.trim(playTime);
-//				String  matterId=publishArrangeDetail.getMatterId().toString();
-				String  matterId=publishArrangeDetail.getTapeCode();
 				
-				String  resourceId=publishArrangeDetail.getResourceId().toString();
-				for(int j=8-matterId.length();j>0;j--){
-					matterId="0"+matterId;
+				int res_id =  publishArrangeDetail.getResourceId().intValue(); 
+				int span_id =  publishArrangeDetail.getContractId().intValue(); //实际上是 wokspan_id
+				int span_sort_id =  Integer.valueOf(StringUtil.getNullValue(publishArrangeDetail.getWorkSpanSort(),"0")); //实际上是 wokspan_id
+//				if(checkIsWithOutRes(String.valueOf(res_id))) continue;
+//				System.out.println("fileContent>>>>>>> 89898989   span_sort_id rrrrrrrrrr >>>>>>>"+res_id+"  <>   "+ span_sort_id);
+				System.out.println("fileContent>>>>>>> 89898989   span_sort_id rrrrrrrrrr >>>>>>>"+res_id+"  <>   "+ publishArrangeDetail.getWorkSpanSort());
+				if(span_sort_id == 2) continue;
+				
+				
+//				PublishArrange publishArrange = this.getPublishArrange(publishArrangeDetail.getPublishArrangeId().toString());
+//				System.out.println("publishArrangeDetail.getPublishDate().longValue() rrrrrrrrrr >>>>>>>"+ publishArrangeDetail.getPublishDate());
+				
+				String playTime = "";
+				long startTime = Long.valueOf(StringUtil.getNullValue(publishArrangeDetail.getPublishDate(), "0")).longValue();
+				
+//				System.out.println("startTime rrrrrrrrrr >>>>>>>"+ startTime);
+				
+				if(startTime>86400){
+					String playTime1 = DateUtil.formatLongToTimeStr3(startTime*1000);
+					String playTime2 = DateUtil.formatTime(startTime*1000,"m:s");
+					playTime = StringUtils.trim(playTime1+":"+playTime2);
+				}else{
+					 playTime = DateUtil.formatTime(startTime*1000,"h:m:s");
+					 playTime = StringUtils.trim(playTime);
 				}
-				for(int j=8-resourceId.length();j>0;j--){
-					resourceId="0"+resourceId;       
+				
+				
+				
+//				String playTime = DateUtil.formatTime(Long.valueOf(StringUtilsv.getNullValue(publishArrangeDetail.getPublishDate(), "0")).longValue()*1000,"h:m:s");
+//				playTime = StringUtils.trim(playTime);
+//				String  matterId=publishArrangeDetail.getMatterId().toString();
+//				String  matterId=publishArrangeDetail.getTapeCode();
+				long id1 = Long.valueOf(publishArrangeDetail.getTapeCode())+50000;
+				String matterId = String.format("%08d", id1);   
+				
+				
+//				String  resourceId=publishArrangeDetail.getResourceId().toString();
+			
+				
+				long id2 = span_id + 7000;
+				String work_span_id = String.format("%08d", id2);   
+				
+				
+//				long playId = publishArrangeDetail.getId()+5000000; //4013931
+				long playId = publishArrangeDetail.getId()+6000000; //4013931
+				
+//				for(int j=8-matterId.length();j>0;j--){
+//					matterId="0"+matterId;
+//				}
+//				for(int j=8-resourceId.length();j>0;j--){
+//					resourceId="0"+resourceId;       
+//				}
+				if(spanId.equals(work_span_id)) {
+					long startTime2 = Long.valueOf(StringUtil.getNullValue(publishArrangeDetail.getPublishDate(), "0")).longValue();
+					
+					if(startTime2>86400){
+						String playTime1 = DateUtil.formatLongToTimeStr3(startTime2*1000);
+						String playTime2 = DateUtil.formatTime(startTime2*1000,"m:s");
+						playTime = StringUtils.trim(playTime1+":"+playTime2);
+					}else{
+						 playTime = DateUtil.formatTime(startTime2*1000,"h:m:s");
+						 playTime = StringUtils.trim(playTime);
+					}
+					
+					
+					
+//				    playTime = DateUtil.formatTime((Long.valueOf(StringUtilsv.getNullValue(publishArrangeDetail.getPublishDate(), "0")).longValue()+matterLength)*1000,"h:m:s");
+//					playTime=DateUtil.formatTime((publishArrangeDetail.getPublishDate().longValue()+matterLength)*1000,"h:m:s");
+					matterLength+=Long.parseLong(publishArrangeDetail.getMatterLength());
 				}
-				if(resId.equals(resourceId)) {playTime=DateUtil.formatTime((publishArrangeDetail.getPublishDate().longValue()+matterLength)*1000,"h:m:s");matterLength+=Long.parseLong(publishArrangeDetail.getMatterLength());}
-				if(!resId.equals(resourceId)) {resId=resourceId;matterLength=Long.parseLong(publishArrangeDetail.getMatterLength());}
+				if(!spanId.equals(work_span_id)) {spanId=work_span_id;matterLength=Long.parseLong(publishArrangeDetail.getMatterLength());}
 				str.append("<detail advseg_name=\""+ StringUtil.null2String(publishArrangeDetail.getSpecificValue())  +"\"");   
+				
+//				System.out.println("publishArrangeDetail.getSpecificValue() rrrrrrrrrr >>>>>>>"+playTime+"_"+ publishArrangeDetail.getSpecificValue());
+				
 				str.append(" startplaytime=\""+StringUtil.null2String(StringUtils.trim(playTime)) +"\"");  
 				str.append(" play_index=\""+StringUtil.null2String(publishArrangeDetail.getPublishSort()) +"\"");
 				str.append(" mat_id=\""+StringUtil.null2String(matterId) +"\"");
 				str.append(" adv_edition=\""+StringUtil.null2String(publishArrangeDetail.getMatterName()+"("+publishArrangeDetail.getMatterEdit()+")") +"\"");
 				str.append(" adv_len=\""+Integer.parseInt(StringUtil.null2String(publishArrangeDetail.getMatterLength()))*25 +"\"");
-				str.append(" play_id=\""+StringUtil.null2String(publishArrangeDetail.getId()) +"\"");
-				str.append(" adv_segid=\""+StringUtil.null2String(resourceId) +"\"/>");
+//				str.append(" play_id=\""+StringUtil.null2String(publishArrangeDetail.getId()) +"\"");
+				str.append(" play_id=\""+ playId +"\"");
+				str.append(" adv_segid=\""+StringUtil.null2String(work_span_id) +"\"/>");
 			}
 			str.append("</playlist>"); 
 	}
@@ -1010,11 +1129,15 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 
 				Matter matter = (Matter)it.next();
 //				String  matterId=matter.getId().toString();
-				String  matterId=matter.getTapeCode();
+//				String  matterId=matter.getTapeCode();
+//				long id = matter.getId().longValue()+50000;
+				long id = Long.valueOf(matter.getTapeCode())+50000; 
+				String matterId = String.format("%08d", id);    
+//				String matterId = String.format("%08d", matter.getTapeCode());    
 				
-				for(int j=8-matterId.length();j>0;j--){
-					matterId="0"+matterId;
-				}     
+//				for(int j=8-matterId.length();j>0;j--){
+//					matterId="0"+matterId;
+//				}     
 				
 				
 				String edit  = matter.getEdit();
@@ -1032,8 +1155,24 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 					typeId = matter.getBrandId().toString().length()==1?"0"+matter.getBrandId():matter.getBrandId().toString();
 				}
 				str.append("<mat mat_id=\""+ StringUtil.null2String(matterId)  +"\"");
-				str.append(" adv_edition=\""+StringUtil.null2String(name+"("+edit+")") +"\"");  
-				str.append(" adv_len=\""+StringUtil.null2String(new Integer((int)Double.parseDouble(matter.getLength())*25)) +"\"");
+				
+				if(name.equals(edit)) name = "";
+				
+				name = StringUtil.null2String(name+"("+edit+")");
+				
+				int byteSize = StringUtil.byteLength(name);
+				int maxLen = 50 ;
+				if(byteSize > maxLen){
+					name = StringUtil.substring(name, maxLen);
+				}
+				
+				str.append(" adv_edition=\""+ name +"\"");  
+				String len = StringUtil.getNullValue(matter.getLength(),"0");
+//				if("0".equals(len)){
+//					System.out.println("matterId  ttttttttttttttttttttt>>6666666 >>>>>>"+ matterId);
+//				}
+//				str.append(" adv_len=\""+StringUtil.null2String(new Integer((int)Double.parseDouble(matter.getLength())*25)) +"\"");
+				str.append(" adv_len=\""+StringUtil.null2String(new Integer((int)Double.parseDouble(len)*25)) +"\"");
 				str.append(" type_id=\""+StringUtil.null2String(typeId) +"\"/>");  
 			}
 			str.append("</mat_info>");
@@ -1119,14 +1258,40 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 					weekdayLength+="0";
 				}    
 
-				String playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
-				playTime = StringUtils.trim(playTime);
-				
-				String  spanId=workspan.getResourceId().toString();
-				for(int j=8-spanId.length();j>0;j--){
-					spanId="0"+spanId;
+				Long startTime = workspan.getBroadcastStartTime().longValue();
+				String playTime ="";
+				if(startTime>86400){
+					String playTime1 = DateUtil.formatLongToTimeStr3(workspan.getBroadcastStartTime().longValue()*1000);
+					String playTime2 = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"m:s");
+					playTime = StringUtils.trim(playTime1+":"+playTime2);
+				}else{
+					 playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
+					 playTime = StringUtils.trim(playTime);
 				}
-				String channelId=workspan.getCarrierId();      
+				
+			
+				
+//				String  spanId =workspan.getResourceId().toString();
+//				long id = workspan.getResourceId().longValue()+5000;
+				long id = workspan.getId().longValue()+7000;
+				String spanId = String.format("%08d", id);    
+//				String spanId = String.format("%08d", workspan.getResourceId());    
+				
+//				System.out.println("spanId2  ttttttttttttttttttttt>>6666666 >>>>>>"+ spanId2);
+				
+				 
+//				for(int j=8-spanId.length();j>0;j--){
+//					spanId="0"+spanId;
+//				}
+//				
+//				System.out.println("spanId1  ttttttttttttttttttttt>>6666666 >>>>>>"+ spanId);
+				
+				String channelId = workspan.getCarrierId().toString();    
+//				System.out.println("workspan.getCarrierId()  ttttttttttttttttttttt>>6666666 >>>>>>"+ channelId);
+				
+				String channelCode= FileUtil.getChannelCodeByName(channelId,2);
+				
+				
 
 //				List carriers = (List)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_ALL);
 //				for(Iterator its=carriers.iterator();its.hasNext();){
@@ -1138,18 +1303,26 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 //							
 //				}              
 				
-				if(channelId.length()<10) channelId="0"+channelId;
-				String  cancelFlag = workspan.getResourceType().intValue()==1?"0":"1";
-				str.append("<detail advseg_name=\""+ StringUtil.null2String(workspan.getMemo())  +"\"");
-				str.append(" chan_id=\""+StringUtil.null2String(channelId) +"\"");
-				str.append(" startplaytime=\""+StringUtil.null2String(playTime.trim()) +"\"");
-				str.append(" seg_len=\""+StringUtil.null2String(length) +"\""); 
-				str.append(" date_limit=\""+StringUtil.null2String("1") +"\"");
-				str.append(" startdate=\""+StringUtil.null2String(workspan.getBeginDate()) +"\"");
-				str.append(" enddate=\""+StringUtil.null2String(workspan.getEndDate()) +"\"");
-				str.append(" weekday=\""+StringUtil.null2String(weekdayLength) +"\"");
-				str.append(" cancel_flag=\""+StringUtil.null2String(cancelFlag) +"\""); 
-				str.append(" adv_segid=\""+StringUtil.null2String(spanId) +"\"/>");
+				if(!"".equals(channelCode)){
+					String  cancelFlag = workspan.getResourceType().intValue()==1?"0":"1";
+					
+					System.out.println("FileUtil.getChannelCodeByName  ttttttttttttttttttttt>>6666666 >>>>>>"+ channelId+" "+channelCode);
+					
+					str.append("<detail advseg_name=\""+ StringUtil.null2String(workspan.getMemo())  +"\"");
+					str.append(" chan_id=\""+StringUtil.null2String(channelCode) +"\"");
+					str.append(" startplaytime=\""+StringUtil.null2String(playTime.trim()) +"\"");
+					str.append(" seg_len=\""+StringUtil.null2String(length) +"\""); 
+					str.append(" date_limit=\""+StringUtil.null2String("1") +"\"");
+					str.append(" startdate=\""+StringUtil.null2String(workspan.getBeginDate()) +"\"");
+					str.append(" enddate=\""+StringUtil.null2String(workspan.getEndDate()) +"\"");
+					str.append(" weekday=\""+StringUtil.null2String(weekdayLength) +"\"");
+					str.append(" cancel_flag=\""+StringUtil.null2String(cancelFlag) +"\""); 
+					str.append(" adv_segid=\""+StringUtil.null2String(spanId) +"\"/>");
+				}
+				
+//				if(channelId.length()<10) channelId="0"+channelId;
+//				String  cancelFlag = workspan.getResourceType().intValue()==1?"0":"1";
+
 				}
 			str.append("</advseglist>");  
 	
@@ -1250,15 +1423,41 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 				if(workspan.getThiLength()!=null&&!workspan.getThiLength().equals("")) {length=workspan.getThiLength();}
 				if(workspan.getFriLength()!=null&&!workspan.getFriLength().equals("")) {length=workspan.getFriLength();}
 				if(workspan.getSatLength()!=null&&!workspan.getSatLength().equals("")) {length=workspan.getSatLength();}   
-				String playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
+//				String playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
 				
-				playTime = StringUtils.trim(playTime);
+//				playTime = StringUtils.trim(playTime);
 				
-				String  spanId=workspan.getResourceId().toString();
-				for(int j=8-spanId.length();j>0;j--){
-					spanId="0"+spanId;
-				}  
-				String channelId=workspan.getCarrierId();  
+				
+				
+				Long startTime = workspan.getBroadcastStartTime().longValue();
+				String playTime ="";
+				if(startTime>86400){
+					String playTime1 = DateUtil.formatLongToTimeStr3(workspan.getBroadcastStartTime().longValue()*1000);
+					String playTime2 = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"m:s");
+					playTime = StringUtils.trim(playTime1+":"+playTime2);
+				}else{
+					 playTime = DateUtil.formatTime(workspan.getBroadcastStartTime().longValue()*1000,"h:m:s");
+					 playTime = StringUtils.trim(playTime);
+				}
+				
+				
+				
+//				String  spanId=workspan.getResourceId().toString();
+				long id = workspan.getId().longValue()+7000;
+				String spanId = String.format("%08d", id);    
+//				String spanId = String.format("%08d", workspan.getResourceId());    
+				
+//				for(int j=8-spanId.length();j>0;j--){
+//					spanId="0"+spanId;
+//				}  
+				
+//				String channelId=workspan.getCarrierId();  
+//				channelId= FileUtil.getChannelCodeByName(channelId,2);
+				
+				
+				String channelId = workspan.getCarrierId().toString();    
+				String channelCode= FileUtil.getChannelCodeByName(channelId,2);
+				
 //				List carriers = (List)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_CARRIER_ALL);
 //				
 //				for(Iterator its=carriers.iterator();its.hasNext();){
@@ -1266,14 +1465,18 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
 //					if(channel.getId().intValue()==workspan.getId().intValue())        
 //							channelId=channel.getChannelId().toString();
 //				}
-				if(channelId.length()<10) channelId="0"+channelId;
-				for(int i =1;i<=7;i++){
-					str.append("<detail adv_segid=\""+ StringUtil.null2String(spanId)  +"\"");
-					str.append(" chan_id=\""+StringUtil.null2String(channelId) +"\"");
-					str.append(" startplaytime=\""+StringUtil.null2String(playTime) +"\"");
-					str.append(" seg_len=\""+StringUtil.null2String(length) +"\"");
-					str.append(" playday=\""+StringUtil.null2String(new Integer(i)) +"\"/>");
+//				if(channelId.length()<10) channelId="0"+channelId;
+				
+				if(!"".equals(channelCode)){
+					for(int i =1;i<=7;i++){
+						str.append("<detail adv_segid=\""+ StringUtil.null2String(spanId)  +"\"");
+						str.append(" chan_id=\""+StringUtil.null2String(channelCode) +"\"");
+						str.append(" startplaytime=\""+StringUtil.null2String(playTime) +"\"");
+						str.append(" seg_len=\""+StringUtil.null2String(length) +"\"");
+						str.append(" playday=\""+StringUtil.null2String(new Integer(i)) +"\"/>");
+					}
 				}
+
 
 			}
 			str.append("</advseg_cfglist>"); 
@@ -1335,8 +1538,17 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
         }   		
     	}
     }
-    public String getAdversByResourceId(String resourceId,String  publishDate,String  orgId) {
+    public String getAdversByResourceId(String resourceId,String  publishDate,String  orgId,String loginUser) {
     	System.out.println(">>>>>>> getAdversByResourceId 8888888888888888888888888 resourceId>>>>>>>" +resourceId ); 
+    	
+    	//为了判断是否归属自己订单
+    	List userList =  UserUtil.getOwnerUsersList(loginUser,1);
+    	List userNames = new ArrayList();
+    	for(Iterator it=userList.iterator();it.hasNext();){
+			User user = (User)it.next();
+			userNames.add(user.getFullName());
+		}
+    	
     	List checkedList =new ArrayList();
     	Map mp = new HashMap();
 		 String ctxpath =RequestUtil.getReqInfo().getCtxPath();
@@ -1364,19 +1576,23 @@ public void downloadAdvers(PublishArrange publishArrange,int type) {
         		  }
     		  }
     		  
+    		  String userFullName = StringUtil.null2String(publishArrangeDetail.getOwnerUserName());
     		  sb.append("<row id=\""+i+"\">");   
 	          sb.append("<cell image='leaf.gif'>"+ (i++) +"</cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getMatterName())+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getMatterEdit())+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getMatterLength()+"*"+publishArrangeDetail.getAdverTimes())+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getSpecificName())+"]]></cell>");
-	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getOwnerUserName())+"]]></cell>");
+	  		  sb.append("<cell><![CDATA["+ userFullName+"]]></cell>");
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(publishArrangeDetail.getCustomerName())+"]]></cell>");
 //	  		  sb.append("<cell><![CDATA[" +  StringUtil.null2String(publishArrangeDetail.getOrderCode()) + "]]></cell>");
 	  		  
-	  		  
-	  		  sb.append("<cell><![CDATA[ <a target=_blank href="+ ctxpath +"/editOrder.html?id="+ publishArrangeDetail.getOrderId().toString()+"&orgId="+ orgId+">" +publishArrangeDetail.getOrderCode() +"</a>]]></cell>");
-	  		  
+	  		  if(userNames.contains(userFullName)){
+	  			 sb.append("<cell><![CDATA[ <a target=_blank href="+ ctxpath +"/editOrder.html?id="+ publishArrangeDetail.getOrderId().toString()+"&orgId="+ orgId+">" +publishArrangeDetail.getOrderCode() +"</a>]]></cell>");
+	  		  }else{
+	  			 sb.append("<cell><![CDATA[ " +publishArrangeDetail.getOrderCode() +"]]></cell>");
+	  		  }
+	  		 
 	  		  sb.append("<cell><![CDATA["+ StringUtil.null2String(checkStr)+"]]></cell>");
 	  		  sb.append("</row>");
     	}					

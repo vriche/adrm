@@ -135,6 +135,8 @@ function init(){
 	tag_orderDetail_save =  _app_params.rights.tag_orderDetail_save;
 	tag_order_leadmemo =  _app_params.rights.tag_order_leadmemo;
 	tag_order_force_modify =  _app_params.rights.tag_order_force_modify;
+	tag_order_returnbtn =  _app_params.rights.tag_order_returnbtn;
+	
 	
 	if(tag_order_force_modify) config_allowModiyPassedOrderParam =1;
 	
@@ -144,6 +146,7 @@ function init(){
 	_make_adrm_sys_year_select("order_year",_app_params.serviceDate.adrmSysYear);
 	
 	var brandCmd = brand.getBrandCmd(brand.obj,'extBrandIdDiv','search_brand',null,89,'品牌...',null);
+
 //	brandCmd.on('expand', function(comboBox) {
 //	        comboBox.list.setWidth('240px'); //auto
 //	        comboBox.innerList.setWidth('auto');
@@ -271,13 +274,22 @@ function init(){
 	
 	if(orderDetailStates != 2||tag_orderDetail_save){
 		btns.push(7);
+		btns.push(13);
 	}
 	
 	 
 	if(tag_check_right){
 		btns.push(11);
 		btns.push(12);
-	};
+	}else{
+		if(tag_order_returnbtn){
+			btns.push(12);
+		};
+	}
+	
+
+	
+	
 //	if(orderDetailStates == 2||!tag_orderDetail_save){
 //		this.report.buildButtons(this,"printReportDiv",[0,1,2],70);
 //	}else{
@@ -616,6 +628,8 @@ function initGrid(){
 	mygrid.setColTypes("ed,ed,ed,ed,ed,ed,ed,ed,ed,ed");
 	mygrid.setEditable(false);
 	mygrid.setOnRowSelectHandler(onRowSelectd,true);
+	mygrid.setOnRowDblClickedHandler(onRowDblClicked,true);
+	
 //	mygrid.enableAutoSizeSaving();
 	mygrid.setSkin("modern2");
 //	mygrid.enableAlterCss("even","uneven");
@@ -697,6 +711,7 @@ function initGrid1(){
 	mygrid1.setHeader(flds);  				
 	mygrid1.setColumnIds(columnIds);
 
+
 	
 //	1.5*10 =15 + 2 =17
 //	23*2 = 46
@@ -751,7 +766,8 @@ function initGrid1(){
 	
 	
 	mygrid1.footer2 = new Array();
-  for(var i = 0;i<42;i++){
+	mygrid1.footer2.push("<div id='grid1_total_rows'/>");
+	for(var i = 1;i<42;i++){
 		mygrid1.footer2.push("<span/>");
 	}
 	mygrid1.footer2.push("<div id='grid1_total_times'/>");
@@ -762,6 +778,10 @@ function initGrid1(){
 
 	
 	mygrid1.init();
+	
+	
+	mygrid1.setColSorting(",str,str,str,str,str,int,str,str,str,int") ;
+	mygrid1.setSortImgState(true,1,"ASC"); 
 
 	$("orderDetail2_grid_title_flt0").appendChild(document.getElementById("grid2_flt_box0").childNodes[0]);	
 	$("orderDetail2_grid_title_flt1").appendChild(document.getElementById("grid2_flt_box1").childNodes[0]);
@@ -925,6 +945,12 @@ function resetMygrid1RowClass(orderDetailId,type){
 								row.setAttribute("class",s);
 }
 
+
+
+function onRowDblClicked(rowId,colIndex){
+	var  orderDetailId = orderDetail.obj.id;
+    if(config_isOpenOrderOrgParam == 1) showOrderLog(orderDetailId);
+}
 function onRowSelectd(rowId,colIndex){
     selected_OrderDetails_grid(rowId);
 	var colName = mygrid.getColumnId(colIndex);
@@ -1572,7 +1598,10 @@ function resetDetailsTableSumBland1(){
 	  	} catch (e) {
 	    	
 	    }
-	    
+	  	
+	  	
+	  	
+	  		DWRUtil.setValue("grid1_total_rows", grid.getRowsNum());
 	    	DWRUtil.setValue("grid1_total_times", sum_times);
 	    	DWRUtil.setValue("grid1_month_relplay", sum_price);
 
@@ -2828,6 +2857,8 @@ function getOrder(orderId,orderDetailId){
 				}else{
 					orderDetailStates = 2;
 				}	
+				
+				
 			}else{ 
 				orderDetailStates = 2;
 //				init_order_cate_main(orderId);
@@ -2929,9 +2960,7 @@ function getOrderDetail(orderDetailId,colIndex){
 			var specificValue = o.specific.position;
 			var isLock = false;
 	         if(tag_orderDetail_save && isEdit){
-	         	  
 	         	  editOrderInfo(); 
-	         	   
 	         	  lockDestopOrderDetail(true);
 	         }else{
 	         	  lockDestopOrderDetail(false);
@@ -2944,7 +2973,8 @@ function getOrderDetail(orderDetailId,colIndex){
 		    if(isRemove){deleteOrderDetail(orderDetailId);};
 	}
      orderDetail.getOrderDetail(orderDetailId,getOrderDetailFun);
-     if(colIndex == 0 && config_isOpenOrderOrgParam == 1) showOrderLog(orderDetailId);
+
+//     if(colIndex == 0 && config_isOpenOrderOrgParam == 1) showOrderLog(orderDetailId);
 };
 
 
@@ -3007,6 +3037,10 @@ function getOrderDetailTable(orderDetail,callBackFun){
 	function getOrderDetailsForFztv_callBackFun(){
 		if(callBackFun) callBackFun();
 		orderDetail.restHeadComnand(mygrid,selObjs,resetDetailsTableSumBland);
+//		alert(3019)
+		
+		 if(config_resourceUseCustomerCatelog == 1 && mygrid.getRowsNum()>0 ) Ext.getCmp("customerName").disable();
+//		alert(mygrid.getRowsNum())
 //		resetDetailsTableSumBland();
 	} 
 	
@@ -4051,6 +4085,8 @@ function save_order_detail(orderId,isPass,isOrderChanged,isNewOder){
 	 function saveDetailFnc(detailId,orderDetail_obj){save_orderDetail_fun(isPackeg,orderId,detailId,isNewOder,orderDetail_obj); };
 
    
+//	 alert(orderDetail_obj.publishStartDate)   
+//	 alert(orderDetail_obj.publishEndDate)
 
 	 if(isOrderDetailChanged) {
 		 orderDetail.saveOrderDetail(orderDetail_obj,isPackeg,
@@ -4440,7 +4476,13 @@ if(config_financeBalanceModelParam == 0){
 		
 		Ext.MessageBox.confirm('系统提示', '请确认是否删除这条记录？', function(btn) {
  			  if (btn == 'yes') {
- 				 		remove_orderDetail_fun(orderDetailId);
+ 				       if(state != 0 && state != 4){
+ 				    	   alert('当前订单已处于审核中，不允许删除')
+ 				    	  return false; 	
+ 				       }
+ 				       
+ 				      remove_orderDetail_fun(orderDetailId);
+ 				 		
 				}else{
 //              editOrderInfo(); 
 //         	  	lockDestopOrderDetail(true); 
@@ -4898,17 +4940,32 @@ function lockOrderDestop(unlock,catMain){
             Ext.getCmp("customerName").disable();
         }else{
         	if(unlock){
-        		Ext.getCmp("customerName").enable(); 
+        		if(config_resourceUseCustomerCatelog == 1 && mygrid.getRowsNum()>0 ){
+        			Ext.getCmp("customerName").disable();
+        		}else{
+        			Ext.getCmp("customerName").enable(); 
+        		}
+        		
         		$("categoryId").disabled= false;
         	}else{
         		Ext.getCmp("customerName").disable();
         		$("categoryId").disabled= true;
         	}
         }
+
+        
     }else{
     	    
         	if(unlock){
-        		Ext.getCmp("customerName").enable(); 
+//        		Ext.getCmp("customerName").enable(); 
+        		
+        		if(config_resourceUseCustomerCatelog == 1 && mygrid.getRowsNum()>0 ){
+        			Ext.getCmp("customerName").disable();
+        		}else{
+        			Ext.getCmp("customerName").enable(); 
+        		}       		
+        		
+        		
         		$("categoryId").disabled= false;
         		$("contract.code").disabled= false;
         	}else{
@@ -5283,6 +5340,8 @@ function getMonthInfos(isLock,rsId,specificValue,startDate,endDate,func,isFirstL
 	
 //	 var customerCategoryId  = getValueFromStoreById(Ext.getCmp('customerName'),"customerCategoryId");
 	orderDetail_obj.resourceSortId = getValueFromStoreById(Ext.getCmp('customerName'),"customerCategoryId");
+	
+//	alert('5300>>>getMonthInfos>>>customerCategoryId>>'+orderDetail_obj.resourceSortId)
 
 	
 	if(resourceSort == 2){
@@ -6055,6 +6114,7 @@ function getCustomerAutoCompltByName(){
 }
 
 function inti_set_customer(cmd,i,id,customerName,customerCategoryId){
+//	alert('6071>>>>inti_set_customer>>customerCategoryId>>>'+customerCategoryId)
 	if(cmd == null) cmd = customer.customerCommand;
 	var rc1 = Ext.data.Record.create(customer.fileds);
     var rc = new rc1({
@@ -6181,9 +6241,15 @@ function printReport(mode){
 		button_print_export();
 	}
 	if(mode =="copy"){
-		button_print_copy();
+		button_print_copy(1);
+	}	
+	if(mode =="copy2"){
+		button_print_copy(2);
 	}	
 	
+	if(mode =="copy3"){
+		button_print_copy(3);
+	}	
 	
 
 	if(order.obj.id >0){
@@ -6272,7 +6338,7 @@ function button_print_export(){
 
 
 
-function button_print_copy(){ 
+function button_print_copy(model){ 
 
 		    Ext.MessageBox.confirm('系统提示', '请确认是否复制？', function(btn) {
  			  if (btn == 'yes') {
@@ -6286,7 +6352,8 @@ function button_print_copy(){
 							paramObj.set("id",orderId);
 							self.location =   ctxPath + "editOrder.html?" + paramObj.toQueryString();
 						}
-						order.saveOrderClone(orderId,loginUserId,reload);
+					
+						order.saveOrderClone(orderId,model,loginUserId,reload);
 					}
               }	    	
 		     });	
@@ -6734,7 +6801,7 @@ function getEditCom(adv_name,adv_length){
       matter.reset();
       matter.obj.orgId = orgId;
       matter.obj.name = adv_name ;
-      matter.obj.length = adv_length;
+      matter.obj.length = adv_length; 
       matter.obj.orderId = orderId;
 
       var mode = 'remote';
@@ -6877,12 +6944,19 @@ function changeMatterEdit(){
   var brandId = mygrid.getUserData(rowId,"brandId"); 
   var resourceInfoId = mygrid.getUserData(rowId,"resourceInfoId"); 
 //  var orderCkeckState = $("isCkecked").value;
+//  var brandId2 = mygrid.getUserData(rowId,"brandId2"); 
+  var brandId2 = Ext.getCmp('search_brand').getValue();	
+  
+//  alert(brandId2)
+
+
+  
   
 
   var num = mygrid.cells(rowId,8).getValue();
   var cont = rowId+","+ name+","+ edit+","+ length+","+ start+","+ end +","+ num+","+ matterId;
   var urlStr="selectPopup/selectMatterEditChange.html?mode=1&orgId="+orgId+"&order_year="+order_year +"&ctxPath="+ ctxPath +"&orderDetailId="+rowId;
-  var urlStr= urlStr + "&brandId="+brandId +"&customerId="+customerId +"&matterType="+matterType+"&advname="+name+"&advlength="+length+"&createBy="+loginUserId;
+  var urlStr= urlStr + "&brandId="+brandId + "&brandId2="+brandId2 +"&customerId="+customerId +"&matterType="+matterType+"&advname="+name+"&advlength="+length+"&createBy="+loginUserId;
   
   urlStr =urlStr +"&order_ckecked=" +$("isCkecked").value;
   urlStr = urlStr +"&order_state_name=" +$("orderDetail_mod_states").value;
@@ -6908,6 +6982,8 @@ function changeMatterEdit(){
 //  	getOrder(order.obj.id,rowId);
         mygrid.setSelectedRow(rowId);
         getOrderDetail(rowId);
+      
+       
   }
 
   var closeFun = function(s,isStop){
@@ -6918,12 +6994,11 @@ function changeMatterEdit(){
  			var state = s.substring(0,1);
  			if(state == 0){
  				 var msg = s.substring(1);
- 				 
  				 msg="<div style='width:280px;height:300px;OVERFLOW-y:auto;OVERFLOW: scroll;'>"+ msg +"<div>";
-									Ext.MessageBox.hide(); 
-									Ext.MessageBox.show(
-									 	{title:'指定冲突提示',msg:msg,width:380,heigth:300,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
-									); 						 
+				 Ext.MessageBox.hide(); 
+				 Ext.MessageBox.show(
+					{title:'指定冲突提示',msg:msg,width:380,heigth:300,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
+				 ); 						 
  				 
 // 				 return false;
 // 				 Ext.MessageBox.alert('指定冲突信息',msg,function(){});     
@@ -6980,16 +7055,16 @@ function changeMatterEdit(){
   	
   var okBtn ={text: '确定',handler: function(){
   	
-  	    var rdv1 = Ext.getCmp('rb-auto1').getValue();
+//  	    var rdv1 = Ext.getCmp('rb-auto1').getValue();
   	    var rdv2 = Ext.getCmp('rb-auto2').getValue();
   	    var rdv3 = Ext.getCmp('rb-auto3').getValue();
   	    var rdv4 = Ext.getCmp('rb-auto4').getValue();
   	    var rdv5 = Ext.getCmp('rb-auto5').getValue();
   	    var rdv6 = Ext.getCmp('rb-auto6').getValue();
   	    
-		if(rdv1){
-  	     	document.getElementById('userReliframe').contentWindow.save(false,closeFun);
-  	     }
+//		if(rdv1){
+//  	     	document.getElementById('userReliframe').contentWindow.save(false,closeFun);
+//  	     }
 		if(rdv2){
   	     	document.getElementById('userReliframe').contentWindow.save_more_paragraph(false,orderId,closeFun);
   	     }
@@ -6997,26 +7072,24 @@ function changeMatterEdit(){
   	     	document.getElementById('userReliframe').contentWindow.save_more_paragraph(true,orderId,closeFun);
   	     }
 		if(rdv4){
-						var ord = order.obj;
-						getOrderValue(ord,false);
-						ord.loginUser = loginUserName;
-						var orderCategoryMain = getSelectParamFromAttribute($("categoryId"),"calculateauto");//根据付款分配应收
-						ord.orderCategory.value = orderCategoryMain;
+			var ord = order.obj;
+			getOrderValue(ord,false);
+			ord.loginUser = loginUserName;
+			var orderCategoryMain = getSelectParamFromAttribute($("categoryId"),"calculateauto");//根据付款分配应收
+			ord.orderCategory.value = orderCategoryMain;
   	     	document.getElementById('userReliframe').contentWindow.save_stop_bro(ord,closeFun);
   	     }   
    		if(rdv5){
-   				var ord = order.obj;
-						getOrderValue(ord,false);
-						ord.loginUser = loginUserName;
-						var orderCategoryMain = getSelectParamFromAttribute($("categoryId"),"calculateauto");//根据付款分配应收
-						ord.orderCategory.value = orderCategoryMain;
+   			var ord = order.obj;
+			getOrderValue(ord,false);
+			ord.loginUser = loginUserName;
+			var orderCategoryMain = getSelectParamFromAttribute($("categoryId"),"calculateauto");// 根据付款分配应收
+			ord.orderCategory.value = orderCategoryMain;
   	     	document.getElementById('userReliframe').contentWindow.save_moid_spec(ord,closeFun);
-
   	     } 	    
   	     
   	     
     	if(rdv6){
-
    				var ord = order.obj;
 						(ord,false);
 						ord.loginUser = loginUserName;
@@ -7025,17 +7098,15 @@ function changeMatterEdit(){
   	     	document.getElementById('userReliframe').contentWindow.save_moid_price(ord,closeFun);
 
   	     }  	     
-  	      
-  	       
-  	    
   	}};	
+  
   var closeBtn ={text: '关闭',handler: function(){removeWin();}}; 
   
   var editCom = getEditCom(name,length);
   var resourceCom = getResourceCom(orderId);
 
 
-  editCom.hide();
+//  editCom.hide();
   resourceCom.hide();
   
   
@@ -7044,23 +7115,16 @@ function changeMatterEdit(){
   
   var listener = {check : function(checkbox, checked) {
   						if (checked) {
+  							
   							var i = checkbox.inputValue;
   							
-  								document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").show();
-  								
-  								
-  								
+  										document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").show();
   										document.getElementById('userReliframe').contentWindow.document.getElementById("change_time").show();
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end").show();
-											 		
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_td").show();
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end_td").show();
-											 		
-								 		
-				 		
+										document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end").show();	
+										document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_td").show();
+										document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end_td").show();
+
     						    		document.getElementById('userReliframe').contentWindow.specCommand.hide();
-    						    		
-    						    		
     						    		document.getElementById('userReliframe').contentWindow.document.getElementById("sysPrice_td").hide();
 										document.getElementById('userReliframe').contentWindow.document.getElementById("sysPrice").hide();
 			   							document.getElementById('userReliframe').contentWindow.document.getElementById("execPrice_td").hide();
@@ -7069,9 +7133,7 @@ function changeMatterEdit(){
 										document.getElementById('userReliframe').contentWindow.document.getElementById("favourRate").hide();
 										document.getElementById('userReliframe').contentWindow.document.getElementById("appRate_td").hide();
 										document.getElementById('userReliframe').contentWindow.document.getElementById("appRate").hide();  	 
-							 				 		
-											 		
-											 		
+	 		
   							
   							if(i == 2||i == 3||i == 4||i == 5||i == 6){
   								
@@ -7082,7 +7144,7 @@ function changeMatterEdit(){
 		  								 	document.getElementById('userReliframe').contentWindow.matterCommand.show();
 		  								 	document.getElementById('userReliframe').contentWindow.matterCommandImgSearch.show();
 		  								 	document.getElementById('userReliframe').contentWindow.matterLengthCommand.show();
-												document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
+											document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
   									 	};
   							
 		  							if(i == 3){
@@ -7090,8 +7152,8 @@ function changeMatterEdit(){
 		  								 	 resourceCom.show();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommand.hide();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommandImgSearch.hide();
-		  								 	 	document.getElementById('userReliframe').contentWindow.matterLengthCommand.show();
-											 		document.getElementById('userReliframe').contentWindow.resourceCommandTree.show();
+		  								 	 document.getElementById('userReliframe').contentWindow.matterLengthCommand.show();
+											 document.getElementById('userReliframe').contentWindow.resourceCommandTree.show();
 		  								 };
   								 
   								 
@@ -7100,9 +7162,9 @@ function changeMatterEdit(){
 		  								 	 resourceCom.hide();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommand.hide();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommandImgSearch.hide();
-											 		document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
-											 		document.getElementById('userReliframe').contentWindow.matterLengthCommand.hide();
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").hide();
+											 document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
+											 document.getElementById('userReliframe').contentWindow.matterLengthCommand.hide();
+											 document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").hide();
 		  								 };
 		  								 
 		  							if(i == 5){
@@ -7111,9 +7173,9 @@ function changeMatterEdit(){
 		  								 	 document.getElementById('userReliframe').contentWindow.specCommand.show();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommand.hide();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommandImgSearch.hide();
-											 		document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
-											 		document.getElementById('userReliframe').contentWindow.matterLengthCommand.hide();
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").hide();
+											 document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
+											 document.getElementById('userReliframe').contentWindow.matterLengthCommand.hide();
+											 document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").hide();
 		  								 };	 
 		  								 
 		  							if(i == 6){
@@ -7121,27 +7183,24 @@ function changeMatterEdit(){
 		  								 	 resourceCom.hide();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommand.hide();
 		  								 	 document.getElementById('userReliframe').contentWindow.matterCommandImgSearch.hide();
-											 		document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
-											 		document.getElementById('userReliframe').contentWindow.matterLengthCommand.hide();
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").hide();
+											 document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
+											 document.getElementById('userReliframe').contentWindow.matterLengthCommand.hide();
+											 document.getElementById('userReliframe').contentWindow.document.getElementById("matterLength_td").hide();
 											 		
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("change_time").hide();
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end").hide();
+											 document.getElementById('userReliframe').contentWindow.document.getElementById("change_time").hide();
+											 document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end").hide();
 											 		
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_td").hide();
-											 		document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end_td").hide();
-											 		
-											 		
-											 		
-											 		
-//											 		document.getElementById('userReliframe').contentWindow.document.getElementById("sysPrice_td").show();
-//													document.getElementById('userReliframe').contentWindow.document.getElementById("sysPrice").show();
-													document.getElementById('userReliframe').contentWindow.document.getElementById("execPrice_td").show();
-													document.getElementById('userReliframe').contentWindow.document.getElementById("execPrice").show();
-													document.getElementById('userReliframe').contentWindow.document.getElementById("favourRate_td").show();
-													document.getElementById('userReliframe').contentWindow.document.getElementById("favourRate").show();
-													document.getElementById('userReliframe').contentWindow.document.getElementById("appRate_td").show();
-													document.getElementById('userReliframe').contentWindow.document.getElementById("appRate").show();										 		
+											 document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_td").hide();
+											 document.getElementById('userReliframe').contentWindow.document.getElementById("change_time_end_td").hide();
+
+//											 document.getElementById('userReliframe').contentWindow.document.getElementById("sysPrice_td").show();
+//											document.getElementById('userReliframe').contentWindow.document.getElementById("sysPrice").show();
+											document.getElementById('userReliframe').contentWindow.document.getElementById("execPrice_td").show();
+											document.getElementById('userReliframe').contentWindow.document.getElementById("execPrice").show();
+											document.getElementById('userReliframe').contentWindow.document.getElementById("favourRate_td").show();
+											document.getElementById('userReliframe').contentWindow.document.getElementById("favourRate").show();
+											document.getElementById('userReliframe').contentWindow.document.getElementById("appRate_td").show();
+											document.getElementById('userReliframe').contentWindow.document.getElementById("appRate").show();										 		
 											 		
 											 		
 		  								 };		 
@@ -7150,12 +7209,14 @@ function changeMatterEdit(){
   								 
   								 function callBackFun(){
 //  								 	unSelectdGrid1();
+  									  var ds = document.getElementById('userReliframe').contentWindow.getStartEndDateFromGiid1();
+  									  document.getElementById('userReliframe').contentWindow.getDate_change_time(ds[0],ds[1],2);
   								 	};
   								 document.getElementById('userReliframe').contentWindow.getOrderDetailTable(orderId,detailIds,callBackFun);
   							}else{
   								 editCom.hide();
   								 resourceCom.hide();
-  								 	document.getElementById('userReliframe').contentWindow.matterLengthCommand.show();
+  								 document.getElementById('userReliframe').contentWindow.matterLengthCommand.show();
   								 document.getElementById('userReliframe').contentWindow.matterCommand.show();
   								 document.getElementById('userReliframe').contentWindow.matterCommandImgSearch.show();
 								 document.getElementById('userReliframe').contentWindow.resourceCommandTree.hide();
@@ -7169,12 +7230,12 @@ function changeMatterEdit(){
   var radiogroup ={
             xtype: 'radiogroup',
             items: [
-                {boxLabel: '单段换版 ', id: 'rb-auto1',name: 'rb-auto',  width:100,inputValue: 1, checked: true,listeners:listener},
-                {boxLabel: '多段换版 ', id: 'rb-auto2',name: 'rb-auto', inputValue: 2,listeners:listener},
-                {boxLabel: '更换段位 ', id: 'rb-auto3',name: 'rb-auto', inputValue: 3,listeners:listener},
-                {boxLabel: '停播 ', id: 'rb-auto4',name: 'rb-auto', inputValue: 4,listeners:listener},
-                {boxLabel: '更换指定 ', id: 'rb-auto5',name: 'rb-auto',  width:100, inputValue: 5,listeners:listener},
-                {boxLabel: '更换价格 ', id: 'rb-auto6',name: 'rb-auto',  width:100, inputValue: 6,listeners:listener}
+               // {boxLabel: '单段换版 ', id: 'rb-auto1',name: 'rb-auto',  width:100,inputValue: 1,listeners:listener},
+                {boxLabel: '换 版 ', id: 'rb-auto2',name: 'rb-auto', inputValue: 2, checked: true,listeners:listener},
+                {boxLabel: '换段位 ', id: 'rb-auto3',name: 'rb-auto', inputValue: 3,listeners:listener},
+                {boxLabel: '停 播 ', id: 'rb-auto4',name: 'rb-auto', inputValue: 4,listeners:listener},
+                {boxLabel: '换指定 ', id: 'rb-auto5',name: 'rb-auto',  width:100, inputValue: 5,listeners:listener},
+                {boxLabel: '换价格 ', id: 'rb-auto6',name: 'rb-auto',  width:100, inputValue: 6,listeners:listener}
             ]
         };
 
@@ -7288,7 +7349,12 @@ function search_adver_cont(model){
    
 
    function callFunction(params){
-   	   	   document.getElementById('matteriframe').contentWindow.loadGridData(params);	        
+
+   	   	   document.getElementById('matteriframe').contentWindow.loadGridData(params);	     
+
+   	      var search_brand_cmd = search_adver_win.getTopToolbar().getComponent('search_brand_cmd');
+   	      search_brand_cmd.collapse();
+//   		 combo.list.hide();
    	}  
    
 
@@ -7338,7 +7404,7 @@ function search_adver_cont(model){
    	   
    	   
 //    	var brandCmd = brand.getBrandCmd(brand.obj,null,'search_brand_cmd',null,80,'品牌...',null);
-    	var brandCmd = brand.getCommandForSelect(brand.obj,null,'search_brand_cmd','brandId2',110,'品牌...',callFunction);
+    	var brandCmd2 = brand.getCommandForSelect3(brand.obj,null,'search_brand_cmd','brandId2',110,'品牌...',callFunction);
 //   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
    	   var nameCmd = matter_fin.getCommandForSelect('search_adver_name','广告名称...','name',1,110,callFunction);
    	   var editCmd = matter_fin.getCommandForSelect('search_adver_edit','请输入广告版本...','edit',1,190,callFunction);
@@ -7360,7 +7426,7 @@ function search_adver_cont(model){
 //			tbar:[tapecodeCmd,'-',nameCmd,'-',nameCmd,'-',editCmd,'-',lengthCmd,'-',industryCmd],
 //			tbar:[customerCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
 //			tbar:[nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
-			tbar:[brandCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+			tbar:[brandCmd2,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
 			buttons: [addNewBtn,'-',closeBtn], 
 //			buttons: [closeBtn], 
 			contentEl : Ext.DomHelper.append(document.body, {
@@ -7380,13 +7446,23 @@ function search_adver_cont(model){
 		 
    }else{
 	   var adver_len_cmd = search_adver_win.getTopToolbar().getComponent('search_adver_len');
+	   var search_brand_cmd = search_adver_win.getTopToolbar().getComponent('search_brand_cmd');
 	   adver_len_cmd.setRawValue(ad_length);
 	   adver_len_cmd.setValue(ad_length);
+	   search_brand_cmd.setValue(brandId2);
 //	   alert(adver_len_cmd.superclass.un)
 //	   adver_len_cmd.un("click",adver_len_cmd.onTrigger2Click);
 	   
-	   var params={length:ad_length};
-	   document.getElementById('matteriframe').contentWindow.loadGridData(params);
+	
+	
+	   var params={length:ad_length,brandId2:brandId2};
+	   
+	   if(ad_length>0 || brandId2>0){
+		   document.getElementById('matteriframe').contentWindow.loadGridData(params);
+	   }else{
+		   document.getElementById('matteriframe').contentWindow.mygrid.clearAll();
+	   }
+	 
    }
    
 //   else{
@@ -7420,8 +7496,13 @@ function add_new_OrderDetail_more(){
 	var sumMoney = $("orderPublic.moneyRealpay").value;
 	var sumTimes = $("orderPublic.times").value;
 	var orderCode = $("orderCode").value;
-	var customerCategoryId = $("customerCategoryId").value;
+//	var customerCategoryId = $("customerCategoryId").value;
+	var customerCategoryId  = getValueFromStoreById(Ext.getCmp('customerName'),"customerCategoryId");
 	var paymentId = $("paymentId").value;
+
+	var relationCode = $("relationCode").value;
+	
+
 //	var adLength = $("matterLength").value;
 //	var orderCheckState =  $("paymentId").value;
 //	var isEdit = getEditOrderStates(colIndex,$("isCkecked").value);
@@ -7445,6 +7526,7 @@ function add_new_OrderDetail_more(){
 			sumMoney:sumMoney,
 			sumTimes:sumTimes,
 			orderCode:orderCode,
+			relationCode:relationCode,
 			orderCkeckState:$("isCkecked").value,
 			customerCategoryId:customerCategoryId,
 			paymentId:paymentId,
@@ -7456,4 +7538,47 @@ function add_new_OrderDetail_more(){
 }
 
 
+//检测设定时间范围内是否有被锁定的日期
+function check_locked(callFun){
+	var startDate =  getFormatDay($("change_time").value,'ymd')*1;  
+	var endDate =  getFormatDay($("change_time_end").value,'ymd')*1;  
+	var grid = mygrid1;
+	for(var i=0; i< grid.getRowsNum();i++){
+		var v = grid.cells2(i,0).getValue();
+		if(v == 1){
+			var det = (new OrderDetail()).obj;
+			det.id = grid.getRowId(i)*1;
 
+			var resourceInfoId = grid.getUserData(det.id,"resourceInfoId");
+			resIdArray.push(resourceInfoId);
+
+		}
+	}	
+	
+	if(resIdArray.length >0){
+//		 extjMessage('"版本已存在!'); 
+		function callBack(s){
+			if(s.length == 0){
+				callFun();
+			}else{
+				var msgArray = s.split(",");
+				var errorString ="";
+				for(var i = 0;i<msgArray.length;i++){
+					errorString += msgArray[i]+"<br>";
+				}
+				
+				 var msg="<div style='width:300px;height:300px;OVERFLOW-y:auto;OVERFLOW: scroll;'>"+errorString+"<div>";
+					Ext.MessageBox.hide(); 
+					Ext.MessageBox.show(
+							 	{title:'系统提示，被锁定信息',msg:msg,width:380,heigth:300,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
+					); 						
+				
+				return false;
+			}
+		}
+		orderDetail.getDayInfosLockedByResourceIds(resIdArray,startDate,endDate,callBack);
+		
+	}
+	
+	
+}

@@ -281,12 +281,12 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
     	
     	System.out.println("saveMatter matter:>>>>>>>>11111111111 333333333    55555555555 dfsdf>>" + matter.getBrandId2());
     	
-    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2(),matter.getPos()).getId().toString();
+    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2(),matter.getPos(),matter.getCarrier().getId()).getId().toString();
     }
     
     
     public Matter saveMatter3(Matter matter) {
-    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2(),matter.getPos());
+    	return saveMatter(matter.getOrgId(),matter.getCustomerId(), matter.getTapeCode(), matter.getName(), matter.getEdit(), matter.getLength(),matter.getCreateBy(),matter.getMatterType(),matter.getMemo(),matter.getEnable().booleanValue(),matter.getBrandId(),matter.getSave2dayang(),matter.getBrandId2(),matter.getPos(),matter.getCarrier().getId());
   }
     
     public String saveMatter2(Matter matter) {
@@ -432,6 +432,7 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
 	
 
 	public void getMattersByAdvMatterType(Integer advType,StringBuffer sb,String IdPrefix){
+//		String tvname = SysParamUtil.getTvNameParam();
 	   Matter matter = new Matter();
 	   matter.setMatterType(advType);
 	   Iterator it = this.getMatters(matter).iterator();
@@ -447,12 +448,24 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
 			 String edit =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getEdit()));
 			 String len =  StringUtil.encodeStringXML( StringUtil.getResourceName(mat.getLength()));
 			 String pos =  StringUtil.null2String(mat.getPos());
-			 
+			 String carrierName =  StringUtil.getNullValue(mat.getCarrier().getCarrierName(), "");
+			 String carrierId =  StringUtil.getNullValue(mat.getCarrier().getId(), "0");
+			 String name ="";
 //			 System.out.println("pos:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>77777777777777777777 >>>>>>" + pos);
 			 
 			 pos = "0".endsWith(pos)||"".endsWith(pos)?"": ("1".endsWith(pos)?"首一":"尾一");
 			 
-		     String name =  "["+ adName +"] "+ edit + "["+ len +"]秒 " +" "+pos;
+//		     String name =  "["+ adName +"] "+ edit + "["+ len +"]秒 " +" "+pos;
+		       if(adName.equals(edit)){
+		    	   name = len+ " "+ adName +" " +" "+pos;
+		       }else{
+		    	   name = len+ " ["+ adName +"] "+ edit  +" "+pos;
+		       }
+		    
+		     
+		     
+		     
+		     if(!"".equals(carrierName)) name = name +" " +carrierName;
 		 
 		     
 //		      name =  "&lt;/wrer/&gt;";
@@ -467,8 +480,9 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
 //						+ "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" text=\"/*"
 //						+ "["+ mat.getName().toString() +"] "+ mat.getEdit()+ "*/\">"); tooltip
 			   
-				+ "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" tooltip=\"\"  text=\""+ name + "\">");
-//			   + "["+ mat.getEdit().toString() +"]\">"); 
+				+ "'   open='" + mat.getId().toString() + "' tooltip=\""+ name+"\"  text=\""+ name + "\">");
+//				+ "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" open='" + mat.getId().toString() + "' tooltip=\""+ name+"\"  text=\""+ name + "\">");
+			   //			   + "["+ mat.getEdit().toString() +"]\">"); 
 			   
 			    sb.append("<userdata name=\"type\">2</userdata>");
 				sb.append("<userdata name=\"id\">" + mat.getId().toString()+ "</userdata>");
@@ -490,7 +504,7 @@ public class MatterManagerImpl extends BaseManager implements MatterManager {
 				sb.append("<userdata name=\"id\">0</userdata>");	
 				sb.append("<userdata name=\"isArranged\">0</userdata>");	
 				sb.append("<userdata name=\"isLocked\">false</userdata>");	
-				
+				sb.append("<userdata name=\"carrierId\">"+ carrierId +"</userdata>");	
 				
 //				getMattersByAdvMatterType(mat.getMatterType(), sb,IdPrefix);
 				sb.append("</item>");	   
@@ -550,7 +564,7 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 	                   
 	int importOption = (isNew)?1:2;
 	if(isNew){
-		Matter newMatter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,0);
+		Matter newMatter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,0,Long.valueOf(0));
 		getHelpCodeEdit(newMatter);
 		newMatter = fiter(newMatter);
 		
@@ -618,7 +632,7 @@ public Matter saveMatterTest(OrderDetail orderDetail) {
 
 
 //没有传递组织编号
-public Matter saveMatter(Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,Long brandId,Integer pos) {
+public Matter saveMatter(Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,Long brandId,Integer pos,Long carrierId) {
 	Long matterId = new Long(0);
 	Long orgId = new Long(1);
 	 
@@ -636,7 +650,7 @@ public Matter saveMatter(Long customerId, String tapeCode, String name, String e
 	int importOption = (isNew)?1:2;
 	
 	if(isNew){
-		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,pos);
+		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,pos,carrierId);
 		
 //		System.out.println(">>>>>>>>>>>isNew 2>>>>>>>>>"+matter.getTapeCode());
 		
@@ -698,7 +712,7 @@ public Matter saveMatter(Long customerId, String tapeCode, String name, String e
 	return matter;
 }
 
-public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,String save2dayang,Long brandId,Integer pos) {
+public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String name, String edit, String length,Long createBy,Integer type,String meno,boolean enable,Long industryType,String save2dayang,Long brandId,Integer pos,Long carrierId) {
 	Long matterId = new Long(0);
 //	Long orgId = new Long(1);
 	 
@@ -736,7 +750,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		
 		
 		
-		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,pos);
+		matter = getNewMatterOrg(orgId, customerId, tapeCode,name,edit,length,createBy,type,meno,industryType,brandId,pos,carrierId);
 		
 //		System.out.println(">>>>>>>>>>>isNew 2>>>>>>>>>"+matter.getTapeCode());
 		
@@ -776,6 +790,7 @@ public Matter saveMatter(Long orgId,Long customerId, String tapeCode, String nam
 		matter.setMatterType(type); 
 		matter.setCustomerId(customerId);
 		matter.setPos(pos);
+		matter.setCarrier(new Carrier(carrierId));
 		
 		String rep ="\n\r\t";
 		tapeCode = StringUtil.String2kenizer(matter.getTapeCode(),rep);
@@ -897,7 +912,7 @@ private Matter getMatterOrg(Long orgId,String name, String eidt, String length,L
 //	return matter;
 //}
 
-private Matter getNewMatterOrg(Long orgId,Long customerId,String tapeCode, String name, String version, String length,Long createBy,Integer type,String meno,Long industryType,Long brandId,Integer pos){
+private Matter getNewMatterOrg(Long orgId,Long customerId,String tapeCode, String name, String version, String length,Long createBy,Integer type,String meno,Long industryType,Long brandId,Integer pos,Long carrierId){
 	Matter matter = new Matter();
 	
 	matter.setId(null);
@@ -914,7 +929,7 @@ private Matter getNewMatterOrg(Long orgId,Long customerId,String tapeCode, Strin
 	matter.setBrandId2(brandId);
 	matter.setOrgId(orgId);
 	matter.setPos(pos);
-
+	matter.setCarrier(new Carrier(carrierId));
 	
 	//设置磁带编号 0 表示手动 1自动
 

@@ -103,7 +103,7 @@ callOnLoad(init);
 	tag_order_leadmemo =  _app_params.rights.tag_order_leadmemo;
  	tag_order_paymentbtn =  _app_params.rights.tag_order_paymentbtn;
  	tag_bro_prove =  _app_params.rights.tag_bro_prove;
- 	
+ 	tag_order_returnbtn =  _app_params.rights.tag_order_returnbtn;
 
  	config_channelModelParam = _app_params.sysParam.channelModelParam;
  	config_orderDisplayRelcodeParam = _app_params.sysParam.orderDisplayRelcodeParam;
@@ -130,7 +130,7 @@ callOnLoad(init);
     
  	
     this.ctxPath = ctxPath;
-	this.report.buildButtons(this,"printReportDiv",[0,1,2,7],80);
+	this.report.buildButtons(this,"printReportDiv",[0,1,2,7,13],80);
  	
  	setRelationCodePara(order);
  	setOrderPara(order);
@@ -1288,18 +1288,23 @@ function checkOrg(func){
 
 
 function buttonEventFill(){
-
-	if(!tag_orderList_new || !tag_orderDetail_save) $("Btn_addNewOrder").hide();
-	if(!tag_order_submitbtn) $("btn_no_submitOrder").hide();
-	if(!order_check_right) $("btn_no_checkedOrder").hide();
-	if(!tag_order_paymentbtn){$("search_order_rate_table").hide();}
-	if(!tag_bro_prove){$("Btn_printProve").hide();}
 	
 	if(config_fastSignOrderParam == 1){
 		$("add_new_OrderDetail_more").show();
 	}else{
 		$("add_new_OrderDetail_more").hide();
 	}
+
+	if(!tag_orderList_new || !tag_orderDetail_save) {
+		$("Btn_addNewOrder").hide();
+		$("add_new_OrderDetail_more").hide();
+	}
+	if(!tag_order_submitbtn) $("btn_no_submitOrder").hide();
+	if(!order_check_right) $("btn_no_checkedOrder").hide();
+	if(!tag_order_paymentbtn){$("search_order_rate_table").hide();}
+	if(!tag_bro_prove){$("Btn_printProve").hide();}
+	
+
 	
 
  	
@@ -1643,7 +1648,28 @@ function buttonEventFill(){
 		            handler:function(){updateOrderStates(this,0);}  
 		        };	
 		 }		    
-   };
+   }else{
+	   
+	   if(tag_order_returnbtn){
+		   	
+			 if(withoutSubmit == 0){
+		        items[items.length] = {  
+			            text:"ÍË»Ø",  
+			            iconCls:'admin-tool-return',
+			            handler:function(){updateOrderStates(this,4);}  
+			        };	
+			 }else{
+		        items[items.length] = {  
+			            text:"ÍË»Ø",  
+			            iconCls:'admin-tool-return',
+			            handler:function(){updateOrderStates(this,0);}  
+			        };	
+			 }		    
+	 };
+   }
+   
+   
+
    
 		
 	var menu = new Ext.menu.Menu({  
@@ -1673,10 +1699,17 @@ function printReport(mode){
 		button_print_export();
 	}
 	
+
+	
 	if(mode =="copy"){
-		button_print_copy();
-	}
-	   
+		button_print_copy(1);
+	}	
+	if(mode =="copy2"){
+		button_print_copy(2);
+	}	
+	if(mode =="copy3"){
+		button_print_copy(3);
+	}	   
 }
 
 function displayCarrierTree2(){
@@ -1823,7 +1856,7 @@ function button_print_export(){
 	 button_print("export");
 }
 
-function button_print_copy(){
+function button_print_copy(model){
 	
 	var checkeds = [];
 	if(mygrid.getSelectedId() != null){
@@ -1842,7 +1875,8 @@ function button_print_copy(){
 		      
  			  if (btn == 'yes') {
 				if(checkeds.length ==1){
-					order.saveOrderClone(checkeds[0],loginUserId,refrshOrderList);
+//					order.saveOrderClone(checkeds[0],loginUserId,refrshOrderList);
+					order.saveOrderClone(checkeds[0],model,loginUserId,refrshOrderList);
 				} 			  	
               }	    	
 	});		

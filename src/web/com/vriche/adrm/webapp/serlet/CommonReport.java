@@ -855,7 +855,7 @@ public class CommonReport extends HttpServlet
 	             exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
 	             exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
 	             exporter.setParameter(JRExporterParameter.OUTPUT_FILE, "export.xls");
-
+//	             System.out.println("1111111111>>>>999999999999999999999999999999999999999999999999999999999>>>>>"+coll.size());
 	             try {
 	            	 exporter.exportReport();
 	             }catch (JRException ex) {

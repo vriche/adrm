@@ -772,6 +772,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 							+ "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" text=\""
 							+ carrier.getCarrierName().toString() + "\">");
 					sb.append("<userdata name=\"type\">2</userdata>");
+					sb.append("<userdata name=\"carrierOneId\">"+ carrier.getId() +"</userdata>");
 			//		oneCarrResListByCarrierId
 					resourceManager.getResourceItemsByCarrierIdFromMapByYear2(sb,carrier.getId().toString(),resourceIdPrefix,year,isAccountRes);
 					getCarriersByParentIdFromMapByYear2(carrier.getId().toString(),sb,carrierIdPrefix,resourceIdPrefix,year,isAccountRes);
@@ -827,6 +828,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 						+ carrier.getCarrierName().toString() + "\">");
 				sb.append("<userdata name=\"type\">2</userdata>");
 				sb.append("<userdata name=\"carrierIdFist\">"+  carrier.getId().toString() +"</userdata>");
+				sb.append("<userdata name=\"carrierOneId\">"+ carrier.getId().toString() +"</userdata>");
 		//		oneCarrResListByCarrierId
 
 				resourceManager.getResourceItemsByCarrierIdFromMap(sb,carrier.getId().toString(),resourceIdPrefix,publishDate,resourceTypeId);
@@ -886,6 +888,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 					sb.append("<userdata name=\"id\">" + carr.getId().toString()
 							+ "</userdata>");
 					sb.append("<userdata name=\"type\">2</userdata>");
+					sb.append("<userdata name=\"carrierOneId\">"+ id +"</userdata>");
 //				}
 				resourceManager.getResourceItemsByCarrierIdFromMap(sb,carr.getId().toString(),resourceIdPrefix,publishDate,resourceTypeId);
 				getCarriersByParentIdFromMap(carr.getId().toString(), sb,IdPrefix,resourceIdPrefix,publishDate,resourceTypeId);
@@ -959,6 +962,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 				sb.append("<userdata name=\"id\">" + carr.getId().toString()
 						+ "</userdata>");
 				sb.append("<userdata name=\"type\">2</userdata>");
+				sb.append("<userdata name=\"carrierOneId\">"+ id +"</userdata>");
 				
 				resourceManager.getResourceItemsByCarrierIdFromMapByYear2(sb,carr.getId().toString(),resourceIdPrefix,year,isAccountRes);
 				getCarriersByParentIdFromMapByYear2(carr.getId().toString(), sb,IdPrefix,resourceIdPrefix,year,isAccountRes);
@@ -2120,7 +2124,7 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 	
 	
 	public List getCarrierWithChannel2(Carrier carrier){
-		
+		boolean channelPull =  SysParamUtil.getChannelModelPara(); 
 		
 //		 System.out.println("=======1111111111111111111111111111111111111111111111111111111111======="+carrier.getEnable());
 		 
@@ -2130,14 +2134,41 @@ private List getCarrier2(String resource_sort, List sourList,Map userCarrierRels
 		  if(!Boolean.valueOf(StringUtil.getNullValue(carrier.getEnable(),"0")).booleanValue())  carrier.setEnable(null);
 		
 		   List ls =  dao.getCarrierWithChannel(carrier);
-			Collections.sort(ls,new CarrierComparator());
+		   
+		   if(channelPull && !UserUtil.isSuperUser()){
+			   List ls2 = new ArrayList();
+//			   List carIds = (List)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_CARRIER_RELS_ID);
+				Map userCarrierRelsIdsMap  = (Map)Constants.APPLACTION_MAP.get(Constants.AVAILABLE_USER_CARRIER_RELS_ID);
+				String loginUser = UserUtil.getCurrentPrincipalUser();
+				List carIds = (List)userCarrierRelsIdsMap.get(loginUser);
+				
+				for(Iterator it = ls.iterator();it.hasNext();){
+					Carrier carr = (Carrier) it.next();
+					String carrId = carr.getId().toString();
+					if(carIds.contains(carrId)){
+						ls2.add(carr);
+					}
+				}
+				Collections.sort(ls2,new CarrierComparator());
+				  return ls2;
+		   }else{
+			   Collections.sort(ls,new CarrierComparator());
+				  return ls;
+		   }
+		   
+
+		   
+		   
+		   
+//			Collections.sort(ls,new CarrierComparator());
+//			Collections.sort(ls2,new CarrierComparator());
 		   
 //		   for(Iterator it = ls.iterator();it.hasNext();){
 //			   Carrier carr = (Carrier) it.next();
 //			   carr.setCarrierName(carr.getCarrierName()+StringUtil.getNullValue(carr.getResourceChannel().getName(),""));
 //		   }
 
-		  return ls;
+//		  return ls2;
 		   
 	}
 	

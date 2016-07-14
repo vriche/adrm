@@ -105,8 +105,6 @@ Brand.prototype.comboFilterBy2 = function(qe){
 	 var q = qe.query;  
 	 var minChars = combo.minChars;
 
-
-	 
 	//  if(q.length < minChars) return false;
 	  eval("params."+ filterFiled +" =q");
 	  eval("params."+ filterFiled2 +" =q");
@@ -386,7 +384,7 @@ Brand.prototype.getCommandForSelect =  function(paramObj,renderTo,elname,searchF
 	        displayField:'name',
 	         valueField:'id',
 //	        typeAhead: true,
-	        forceSelection: true,
+	        forceSelection: false,
 	        triggerAction: 'all',
 	        emptyText:emptyText,
 	        selectOnFocus:true,
@@ -418,6 +416,7 @@ Brand.prototype.getCommandForSelect =  function(paramObj,renderTo,elname,searchF
 	 	 var searchFilterFiled = cmd.searchFilterFiled;
 	 	 var params = cmd.params;
 	 	 var value = cmd.getValue();
+//	 	 alert('value'+value)
 	 	 eval("params."+ searchFilterFiled +" =value");
 	 	 cmd.callFunction(params);
 	 }
@@ -435,3 +434,91 @@ Brand.prototype.getCommandForSelect =  function(paramObj,renderTo,elname,searchF
 	return cmd;
 
  };
+ 
+ 
+ 
+ Brand.prototype.comboFilterBy3 = function(qe){
+	 var combo = qe.combo;  
+	 var filterFiled = combo.searchFilterFiled;
+	 var params = combo.params;
+	 var value = combo.getValue();
+	 var q = combo.getRawValue();  
+//	 var q = qe.query;  
+	 var minChars = combo.minChars;
+	 eval("params."+ filterFiled +" = value"); 
+	 var search = q.length >= combo.minChars && combo.lastQuery !== q;
+	 combo.callFunction(params);
+	 combo.collapse();
+//	 combo.list.hide();
+//	 alert(111)
+//	 alert(combo.collapse)
+	 
+//	 console.log(combo)
+	 return false;  
+};
+ 
+ Brand.prototype.getCommandForSelect3 =  function(paramObj,renderTo,elname,searchFilterFiled,width,emptyText,callFunction){
+		var OBJ = this;
+		var store = OBJ.getStoreBrands('remote',OBJ.obj);
+	         
+		var conf ={
+		        store: store,
+		        id:elname,
+		        name:elname,
+		        listWidth: 200,
+		        width:width,
+		        lazyRender: true,
+		        displayField:'name',
+		         valueField:'id',
+//		        typeAhead: true,
+		        forceSelection: false,
+		        triggerAction: 'all',
+		        emptyText:emptyText,
+		        selectOnFocus:true,
+		         mode: 'local',
+		         minChars:1,
+		         params:paramObj,
+				 filterFiled:'name',
+				 filterFiled2:'helpCode'
+//		         ,listeners:{beforequery:this.comboFilterBy3.createDelegate(this)}	
+
+	    };  
+
+	    if(renderTo) conf.renderTo = renderTo;
+	    if(searchFilterFiled) conf.searchFilterFiled = searchFilterFiled;
+	    if(callFunction) conf.callFunction = callFunction;
+	    
+		var cmd = new Ext.form.ClearableComboBox(conf);
+
+//	 	cmd.getEl().on("mousedown",function(){cmd.onTriggerClick();});
+	     
+		 function clear(){
+		 	 var searchFilterFiled = cmd.searchFilterFiled;
+		 	 var params = cmd.params;
+		 	 eval("params."+ searchFilterFiled +" =null");
+		 	 cmd.callFunction(params);
+		 }
+		 
+		function select(){
+		 	 var searchFilterFiled = cmd.searchFilterFiled;
+		 	 var params = cmd.params;
+		 	 var value = cmd.getValue();
+//		 	 alert('value'+value)
+		 	 eval("params."+ searchFilterFiled +" =value");
+		 	 cmd.callFunction(params);
+		 }
+		
+//		function beforequery(){
+//			 alert(99)
+//		}
+		
+
+	     cmd.on("clear",clear,this);	 
+	     cmd.on("select",select,this);	
+//	     cmd.on("beforequery",this.comboFilterBy2,this);	
+
+	     
+		return cmd;
+
+	 };
+ 

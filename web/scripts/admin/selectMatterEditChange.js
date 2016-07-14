@@ -1,6 +1,7 @@
 
 
 var org = new SysOrg();
+var brand = new Brand();
 var matter = new Matter();
 var matterType = new MatterType();
 var orderDetail = new OrderDetail();
@@ -32,6 +33,7 @@ var customer_id = 0;
 var matter_type =1;
 var matter_id = 0;
 var brand_id = 0;  
+var brand_Id2 = 0;
 var orgId =1;
 var create_by = 1;
 var calStart;
@@ -42,6 +44,9 @@ var order_id;
 var resource_info_id;
 
 var search_adver_win;
+
+var ds = new Array();
+
 
 
 //Ext.onReady(function(){
@@ -77,39 +82,32 @@ function init(){
 //     ctxPath =  getParamFromUrl(src,"ctxPath");
      order_year =    getParamFromUrl(src,"order_year");
      orderDetailId = getParamFromUrl(src,"orderDetailId");
-     
-
 	 customer_id =  getParamFromUrl(src,"customerId");
 	 matter_type = getParamFromUrl(src,"matterType");
 	 brand_id =  getParamFromUrl(src,"brandId");
+	 brand_Id2 =  getParamFromUrl(src,"brandId2");
+	 
+	 
 	 adv_name=  decodeURI(getParamFromUrl(src,"advname"));
 	 adv_edit=  decodeURI(getParamFromUrl(src,"edit"));
 	 adv_length =  getParamFromUrl(src,"advlength");
 	 create_by =  getParamFromUrl(src,"createBy");
-	 
 	 order_ckecked =  getParamFromUrl(src,"order_ckecked");	 
-	 order_state_name =  getParamFromUrl(src,"order_state_name");	
-	 
+	 order_state_name =  getParamFromUrl(src,"order_state_name");
 	 order_id=  getParamFromUrl(src,"order_id");	
-		resource_info_id =   getParamFromUrl(src,"resource_info_id");	
-	 
-	 
-	 
-	 tvNameParam =  _app_params.sysParam.tvNameParam;
+	 resource_info_id =   getParamFromUrl(src,"resource_info_id");	
+
+	tvNameParam =  _app_params.sysParam.tvNameParam;
+	
 	config_adverCodeModelParam =  _app_params.sysParam.adverCodeModelParam;
 	config_permitModAdverParam = _app_params.sysParam.permitModAdverParam; //协议合同类型
     config_allowModiyPassedOrderParam =  _app_params.sysParam.allowModiyPassedOrderParam; 
     config_industryLevelParam =  _app_params.sysParam.industryLevelParam;
-    
     config_serviceDate = _app_params.serviceDate.def;
-    
     config_yearFirstDate = _app_params.serviceDate.yearFirstDate;
     config_yearLastDate = _app_params.serviceDate.yearLastDate;
+    config_outLimitBroarrang=  _app_params.sysParam.outLimitBroarrang =="1"?true:false;
   
-           
-
-    
-    
     ctxPath = _app_params.ctxPath;	
 	loginUserName =  _app_params.user.username;
 	loginUserFullName =  _app_params.user.fullName;
@@ -125,10 +123,7 @@ function init(){
      var winW = parent.change_edit_win.getInnerWidth()-13;   
      var winH = parent.change_edit_win.getInnerHeight()-31;
 
-//	 $("gridbox_div").style.height = window.innerHeight*0.9  +"px";	
-//	 $("gridbox_div1").style.height = window.innerHeight*0.9  +"px";	
-	
-	 
+
   	 $("gridbox_div").style.width = winW +"px";	
    	 $("gridbox_div").style.height = winH+"px";  		 
 	 
@@ -138,14 +133,15 @@ function init(){
      var s = cnt.split(",");
      
      matter_id = s[7];
-		initSpecCom();
+	
+    initSpecCom();
     initLengthCom();
     initEditCom();
     initResourceComTree();
-	initGrid(s);
+//	initGrid(s);
 	
 	initGrid1();
-	showGrid(1);
+	showGrid(2);
 	
 	buttonEventFill();
 	
@@ -191,18 +187,16 @@ function initEditCom(){
       matter.obj.orgId = orgId;
       
       if(tvNameParam !='hbtv'){
-      	 matter.obj.name = adv_name ;
-                }
+      		matter.obj.name = adv_name ;
+      }
      
       matter.obj.length = adv_length;
-//      var length =  Ext.fly('lengthcmd').dom.value; 
-      
-//      alert(length);
-//      matter.obj.length = length;
-      
+
        var mode = 'remote';
 //      matter.storeOrderCategory =  new Ext.data.Store();
        var store = matter.getStoreMatterEditByName(mode,matter.obj);    
+       
+       
         
 //		Ext.namespace('ux');  
 //		Ext.ux.DefaultingComboBox = function(config) {  
@@ -282,10 +276,7 @@ function initEditCom(){
 					  filterFiled:'edit',
 					  filterFiled2:'helpCodeEdit',
 					  params:matter.obj,
-					  listeners:{
-					  	beforequery:matter.comboFilterBy2.createDelegate(this)}
-					  	
-				 });		    
+					  listeners:{ beforequery:matter.comboFilterBy2.createDelegate(this)} });		    
 	 	 }
 		    
 	
@@ -394,6 +385,8 @@ function initSpecCom(){
 //				,listeners:{ beforequery:matter.comboFilterBy2.createDelegate(this)} 
 		    });
 	 }
+	 
+	specCommand.hide();
 
 }
 
@@ -498,6 +491,7 @@ function checkedit(callBackFun){
 	var edit =  Ext.fly('editcmd').dom.value; 
 	var id =  Ext.getCmp('editcmd').getValue();	
 	var length =  matterLengthCommand.getValue(); 
+//	var brandId2 = Ext.fly('search_brand_cmd').dom.value; 
 	
 //	var edtCmd = Ext.getCmp('editcmd');
 //    var index = edtCmd.store.find('id', id); 
@@ -555,10 +549,15 @@ function checkedit(callBackFun){
 				   }
 			}		
 			
+			
+//			alert(brandId2);
+			
 			cut.id = 0;
 			cut.enable = true;
 			cut.version = order_year*1;
 			cut.brandId = brand_id*1;
+			cut.brandId2 = brand_Id2*1;
+
 			cut.customerId = customer_id*1;
 			cut.matterType = matter_type*1;
 			cut.createBy =  create_by*1;
@@ -566,10 +565,17 @@ function checkedit(callBackFun){
 			cut.createDate =  new Date();
 			cut.modifyDate =  new Date();
 			cut.memo =  '';
+			
+			
+//			alert('560>>>>'+brand_id);
+//			alert('561>>>>'+brandId2); 
+		
 	
 //			if(!confirm("此版本为新版本，是否注册")) return false;
-
-	        
+			
+			
+		
+	 
 		    Ext.MessageBox.confirm('系统提示', '此版本为新版本，是否注册？', function(btn) {
 		    	
  			  if (btn == 'yes') {
@@ -691,6 +697,16 @@ function initGrid1(){
 	mygrid1.enableAlterCss("even","uneven");
 	mygrid1.init();	
     attachHeaderNew(mygrid1);
+    
+    
+    function callBackFun(){
+		  ds = getStartEndDateFromGiid1();
+		  getDate_change_time(ds[0],ds[1],2);
+	 	};
+	 	
+//    var detailIds = getdetailIds(mygrid1).join(",");
+
+    getOrderDetailTable(order_id,null,callBackFun);
 }
 
 
@@ -755,7 +771,48 @@ function unSelectdGrid1(){
 }
 
 
+function getStartEndDateFromGiid1(){
+	var grid = mygrid1;
+//	var start_cindex = mygrid1.getColIndexById('start');
+//	var end_cindex = mygrid1.getColIndexById('end');
+	
+//	var ds = new Array();
+	var min = 1;
+	var max = 10000000;
 
+	
+	
+	var ids = grid.getAllItemIds(grid.delim).split(grid.delim);
+	var rows = ids.length;
+	for(var i=0; i< rows;i++){
+//		var c1 =  grid.cells2(i,start_cindex);
+//		var c2 =  grid.cells2(i,end_cindex);
+		var rowId = ids[i];
+		
+		//var startDate = grid.getUserData(rowId,"startDate") ;
+		
+		var startDate = grid.getUserData(rowId,"lockedLasterDate") ;
+		
+		var endDate = grid.getUserData(rowId,"endDate") ;
+		
+		
+		if(startDate>min) min = startDate;
+		if(endDate>max) max = endDate;
+	}	
+	
+	
+	
+	if(rows ==0){
+		min = _app_params.serviceDate.def;
+		max = _app_params.serviceDate.def;
+	}
+	
+
+	ds.push(min);
+	ds.push(max);
+	
+	return ds;
+}	
 
 function showGrid(i){
     var start = _app_params.serviceDate.def;
@@ -768,6 +825,8 @@ function showGrid(i){
 //      $("change_time").blur();
 
 //    window.calendar.hide();
+    
+
 
 	if(i == 1){
 		$("gridbox_div").show();
@@ -780,9 +839,15 @@ function showGrid(i){
 		$("gridbox_div").hide();
 		$("btn_add").hide();
 		$("gridbox_div1").show();
-
-		 start = config_yearFirstDate;
-  		 end = config_yearLastDate;
+//		var ds =  getStartEndDateFromGiid1();
+//		 start = config_yearFirstDate;
+//  		 end = config_yearLastDate;
+		
+		 start = ds[0];
+  		 end = ds[1];
+//  		alert(start)
+//  		alert(end)
+  		
   		 model = 2;
 	}
 	getDate_change_time(start,end,model);
@@ -800,6 +865,7 @@ function getOrderDetailTable(orderId,detailIds,callBackFun){
 		mygrid1.loadXMLString(xml,callBackFun);
 //		unSelectdGrid1();
 		Ext.getBody().unmask(); 
+
 //		mygrid.loadSizeFromCookie();
 	}	
 
@@ -879,11 +945,18 @@ function search_adver_cont(){
    
 
    function callFunction(params){
-   	   	   document.getElementById('matteriframe2').contentWindow.loadGridData(params);	        
+   	   	   document.getElementById('matteriframe2').contentWindow.loadGridData(params);	   
+   	   
+//   	       var search_brand_cmd = search_adver_win.getTopToolbar().getComponent('search_brand_cmd');
+//
+//   	       search_brand_cmd.collapse();
+   	   	
    	}  
    
    if(!search_adver_win){
-
+  
+	 
+	   
        var urlStr= ctxPath + "selectPopup/selectMatters.html?orgId="+orgId+"&customerId="+customerId+"&version="+ order_year;
        urlStr = urlStr + "&customerName="+customerName;
        
@@ -906,7 +979,8 @@ function search_adver_cont(){
    	   customer_fin.obj.orgId = orgId;
    	   matter_fin.obj.orgId = orgId;
    	   
-   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
+//   	   var customerCmd = customer_fin.initCustomerCmd(matter_fin.obj,'search_adver_customer',null,'remote',null,'customerName',1,133,300,'请选择客户...',callFunction);
+   	   var brandCmd = brand.getBrandCmd2(brand.obj,null,'search_brand_cmd',null,89,'品牌...','local',callFunction); 
    	   var nameCmd = matter_fin.getCommandForSelect('search_adver_name','广告名称...','name',1,110,callFunction);
    	   var editCmd = matter_fin.getCommandForSelect('search_adver_edit','请输入广告版本...','edit',1,190,callFunction);
    	   var lengthCmd = matter_fin.getCommandForSelect('search_adver_len','长度...','length',1,70,callFunction);
@@ -925,7 +999,7 @@ function search_adver_cont(){
 			width : 750,
 			height : 390, 
 //			tbar:[tapecodeCmd,'-',nameCmd,'-',nameCmd,'-',editCmd,'-',lengthCmd,'-',industryCmd],
-			tbar:[customerCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,industryCmd,matterTypeCmd],
+			tbar:[brandCmd,industryCmd,nameCmd,editCmd,lengthCmd,tapecodeCmd,matterTypeCmd],
 			buttons: [addNewBtn,'-',closeBtn], 
 			contentEl : Ext.DomHelper.append(document.body, {
 			    tag : 'iframe',
@@ -948,8 +1022,16 @@ function search_adver_cont(){
 //   	   		 Ext.getCmp("search_adver_tapecode").params.customerName = customerName;
 //   	    }
    	    callFunction(Ext.getCmp("search_adver_tapecode").params);
-   	   	search_adver_win.show(this);
+//   	   	search_adver_win.show(this);
+	   
+//		   var adver_len_cmd = search_adver_win.getTopToolbar().getComponent('search_adver_len');
+//		   adver_len_cmd.setRawValue(ad_length);
+//		   adver_len_cmd.setValue(ad_length);
+//		   var params={length:ad_length};
+//		   document.getElementById('matteriframe').contentWindow.loadGridData(params);
    }
+   
+   search_adver_win.show(this);
 
 
 }
@@ -977,7 +1059,7 @@ function close_search_adver_winWin(p,my_grid_matter){
 		inti_set_edit(rowId,name,edit,length);
 		
 		matterLengthCommand.setValue(length); 
-   matterLengthCommand.setRawValue(length); 
+		matterLengthCommand.setRawValue(length); 
 
 
 
@@ -1359,6 +1441,8 @@ function getOrderDetailBak(orderDetailId,matterId,resourceInfoId,start,end,edit,
 }
 
 function save_more(isRes,orderId,closeFun){
+	
+
 	var grid = mygrid1;
 	var startDate =  getFormatDay($("change_time").value,'ymd');  
 	var endDate =  getFormatDay($("change_time_end").value,'ymd');  
@@ -1439,7 +1523,57 @@ function save_more(isRes,orderId,closeFun){
 
 }
 
+
+
+//检测设定时间范围内是否有被锁定的日期
+function check_locked(callFun){
+	var startDate =  getFormatDay($("change_time").value,'ymd')*1;  
+	var endDate =  getFormatDay($("change_time_end").value,'ymd')*1;  
+	var grid = mygrid1;
+	var resIdArray = new Array();
+	
+	for(var i=0; i< grid.getRowsNum();i++){
+		var v = grid.cells2(i,0).getValue();
+		if(v == 1){
+			var det = (new OrderDetail()).obj;
+			det.id = grid.getRowId(i)*1;
+
+			var resourceInfoId = grid.getUserData(det.id,"resourceInfoId");
+			resIdArray.push(resourceInfoId);
+
+		}
+	}	
+	
+	if(resIdArray.length >0){
+//		 extjMessage('"版本已存在!'); 
+		function callBack(s){
+			if(s.length == 0){
+				callFun();
+			}else{
+				var msgArray = s.split(",");
+				var errorString ="";
+				for(var i = 0;i<msgArray.length;i++){
+					errorString += msgArray[i]+"<br>";
+				}
+				
+				 var msg="<div style='width:300px;height:300px;OVERFLOW-y:auto;OVERFLOW: scroll;'>"+errorString+"<div>";
+					Ext.MessageBox.hide(); 
+					Ext.MessageBox.show(
+							 	{title:'系统提示，被锁定信息',msg:msg,width:380,heigth:300,buttons: Ext.MessageBox.OK, icon: Ext.MessageBox.INFO}
+					); 						
+				
+				return false;
+			}
+		}
+		orderDetail.getDayInfosLockedByResourceIds(resIdArray,startDate,endDate,callBack);
+		
+	}
+	
+	
+}
+
 function save_more_paragraph(isRes,orderId,closeFun){
+	
 	
 	var ids = mygrid1.getCheckedRows(0).split(",");
 
@@ -1450,11 +1584,25 @@ function save_more_paragraph(isRes,orderId,closeFun){
 			save_more(isRes,orderId,closeFun);
 		}
 		
+		function callFun(){
+			checkedit(save);
+		}
+		
 	//	Ext.getCmp('editcmd').fireEvent('blur',this); 
 	    if(isRes){
-	    	save();
+	    	if(config_outLimitBroarrang){
+	    		check_locked(save);
+	    	}else{
+	    		save();
+	    	}
 	    }else{
-	    	checkedit(save);
+	    	if(config_outLimitBroarrang){
+	    		check_locked(callFun);
+	    	}else{
+	    		checkedit(save); 
+	    	}
+	    	
+	    	
 	    }
 		
 	}else{
@@ -1463,127 +1611,28 @@ function save_more_paragraph(isRes,orderId,closeFun){
 	}
 
 }
+
+
+
+
+function save_stop_bro(ord,closeFun){
 	
-
-function save_stop_bro(ord,closeFun){
-
-	var ids = mygrid1.getCheckedRows(0).split(",");
-	var startDate =  getFormatDay($("change_time").value,'ymd')+'';  
-	var endDate =  getFormatDay($("change_time_end").value,'ymd')+'';  
 	
+	function test(){
+		var ids = mygrid1.getCheckedRows(0).split(",");
+		var startDate =  getFormatDay($("change_time").value,'ymd')+'';  
+		var endDate =  getFormatDay($("change_time_end").value,'ymd')+'';  
 
-
-	if(ids[0] > 0){
-		
-		function func(s){
-			closeFun(s,true);Ext.getBody().unmask();
-		}
-		Ext.getBody().mask('数据处理中……', 'x-mask-loading'); 
-
-
-
-//		order.saveOrderStopBro(obj,ids,startDate,endDate,func);
-
-
-		var order2 = new Order();
-		
-		order2.setObject2(ord);
-
-			parent.getOrderValue(order2.obj,false);
-
-    order2.obj.orderCategory = (new OrderCategory()).obj;
-    order2.obj.orderCategory.value = ord.orderCategory.value;
-    
-    order2.obj.orderPublic = (new OrderPublic()).obj;
-    order2.obj.orderPublic.moneyRealpay = ord.orderPublic.moneyRealpay;
-
-    
-    order2.obj.orderState = (new OaWorkFlowCheckState()).obj;
-    order2.obj.orderState.name = ord.orderState.name;  
-
-		
-//		order.saveOrderStopBro2(order2.obj,func);
-		
-		order.saveOrderStopBro(order2.obj,ids,startDate,endDate,func);
-
-		
-	}else{
-		extjMessage('"请选择需要停播的记录!');
-		return false;
-	}
-
-}
-
-
-function save_moid_spec(ord,closeFun){
-
-	var ids = mygrid1.getCheckedRows(0).split(",");
-	var startDate =  getFormatDay($("change_time").value,'ymd')+'';  
-	var endDate =  getFormatDay($("change_time_end").value,'ymd')+'';  
-	var specValue = getValueFromStoreById(Ext.getCmp("specComman"),"position");
-	var specId = Ext.getCmp('specComman').getValue();	
-  var specTXT = Ext.getCmp('specComman').getRawValue();
-  if(specValue == '') specTXT ="";
- 
-	if(ids[0] > 0){
-		
-		function func(s){
-			closeFun(s,true);Ext.getBody().unmask();
-		}
-		Ext.getBody().mask('数据处理中……', 'x-mask-loading'); 
-
-
-
-//		order.saveOrderStopBro(obj,ids,startDate,endDate,func);
-
-
-		var order2 = new Order();
-		
-		order2.setObject2(ord);
-
-			parent.getOrderValue(order2.obj,false);
-
-    order2.obj.orderCategory = (new OrderCategory()).obj;
-    order2.obj.orderCategory.value = ord.orderCategory.value;
-    
-    order2.obj.orderPublic = (new OrderPublic()).obj;
-    order2.obj.orderPublic.moneyRealpay = ord.orderPublic.moneyRealpay;
-
-    
-    order2.obj.orderState = (new OaWorkFlowCheckState()).obj;
-    order2.obj.orderState.name = ord.orderState.name;  
-
-//		order.saveOrderStopBro2(order2.obj,func);
-
-	
-		order.saveOrderSpec(order2.obj,ids,startDate,endDate,specValue,specId,specTXT,func);
-
-		
-	}else{
-		extjMessage('"请选择需要停播的记录!');
-		return false;
-	}
-
-}
-
-
-
-function save_moid_price(ord,closeFun){
-	
-	var ids = mygrid1.getCheckedRows(0).split(",");
-	var startDate =  getFormatDay($("change_time").value,'ymd')+'';  
-	var endDate =  getFormatDay($("change_time_end").value,'ymd')+'';  
-	var specValue = getValueFromStoreById(Ext.getCmp("specComman"),"position");
-	var specId = Ext.getCmp('specComman').getValue();	
-	var specTXT = Ext.getCmp('specComman').getRawValue();
-	if(specValue == '') specTXT ="";
- 
-	if(ids[0] > 0){
-		
+		if(ids[0] > 0){
+			
 			function func(s){
 				closeFun(s,true);Ext.getBody().unmask();
 			}
 			Ext.getBody().mask('数据处理中……', 'x-mask-loading'); 
+
+
+
+//			order.saveOrderStopBro(obj,ids,startDate,endDate,func);
 
 
 			var order2 = new Order();
@@ -1591,34 +1640,166 @@ function save_moid_price(ord,closeFun){
 			order2.setObject2(ord);
 
 			parent.getOrderValue(order2.obj,false);
-		
+
 		    order2.obj.orderCategory = (new OrderCategory()).obj;
 		    order2.obj.orderCategory.value = ord.orderCategory.value;
 		    
 		    order2.obj.orderPublic = (new OrderPublic()).obj;
 		    order2.obj.orderPublic.moneyRealpay = ord.orderPublic.moneyRealpay;
-		
+	
 		    
 		    order2.obj.orderState = (new OaWorkFlowCheckState()).obj;
 		    order2.obj.orderState.name = ord.orderState.name;  
 
-//		order.saveOrderStopBro2(order2.obj,func);
+			
+//			order.saveOrderStopBro2(order2.obj,func);
+			
+			order.saveOrderStopBro(order2.obj,ids,startDate,endDate,func);
 
-          var execPrice = $("execPrice").value;
-          execPrice = execPrice==''?0:execPrice;
-          var favourRate = $("favourRate").value;
-          favourRate = favourRate==''?0:favourRate/100;
-          var appRate = $("appRate").value;
-          appRate = appRate==''?0:appRate/100;
-          
-		  order.saveOrderPrice(order2.obj,ids,startDate,endDate,execPrice,favourRate,appRate,func);
-
-		
-	}else{
-		extjMessage('"请选择需要修改的记录!');
-		return false;
+			
+		}else{
+			extjMessage('"请选择需要停播的记录!');
+			return false;
+		}
 	}
 
+	
+	
+	
+	if(config_outLimitBroarrang){
+		check_locked(test);
+	}else{
+		test(); 
+	}
+	
+	
+
+}
+
+
+function save_moid_spec(ord,closeFun){
+	
+	function test(){
+		
+		var ids = mygrid1.getCheckedRows(0).split(",");
+		var startDate =  getFormatDay($("change_time").value,'ymd')+'';  
+		var endDate =  getFormatDay($("change_time_end").value,'ymd')+'';  
+		var specValue = getValueFromStoreById(Ext.getCmp("specComman"),"position");
+		var specId = Ext.getCmp('specComman').getValue();	
+		var specTXT = Ext.getCmp('specComman').getRawValue();
+		if(specValue == '') specTXT ="";
+	 
+		if(ids[0] > 0){
+			
+			function func(s){
+				closeFun(s,true);Ext.getBody().unmask();
+			}
+			Ext.getBody().mask('数据处理中……', 'x-mask-loading'); 
+
+
+
+//			order.saveOrderStopBro(obj,ids,startDate,endDate,func);
+
+
+			var order2 = new Order();
+			
+			order2.setObject2(ord);
+
+			parent.getOrderValue(order2.obj,false);
+
+		    order2.obj.orderCategory = (new OrderCategory()).obj;
+		    order2.obj.orderCategory.value = ord.orderCategory.value;
+		    
+		    order2.obj.orderPublic = (new OrderPublic()).obj;
+		    order2.obj.orderPublic.moneyRealpay = ord.orderPublic.moneyRealpay;
+	
+		    
+		    order2.obj.orderState = (new OaWorkFlowCheckState()).obj;
+		    order2.obj.orderState.name = ord.orderState.name;  
+
+//			order.saveOrderStopBro2(order2.obj,func);
+
+		
+			order.saveOrderSpec(order2.obj,ids,startDate,endDate,specValue,specId,specTXT,func);
+
+			
+		}else{
+			extjMessage('"请选择需要停播的记录!');
+			return false;
+		}
+	}
+	
+
+	if(config_outLimitBroarrang){
+		check_locked(test);
+	}else{
+		test(); 
+	}
+}
+
+
+
+function save_moid_price(ord,closeFun){
+	
+	
+	function test(){
+		
+		var ids = mygrid1.getCheckedRows(0).split(",");
+		var startDate =  getFormatDay($("change_time").value,'ymd')+'';  
+		var endDate =  getFormatDay($("change_time_end").value,'ymd')+'';  
+		var specValue = getValueFromStoreById(Ext.getCmp("specComman"),"position");
+		var specId = Ext.getCmp('specComman').getValue();	
+		var specTXT = Ext.getCmp('specComman').getRawValue();
+		if(specValue == '') specTXT ="";
+	 
+		if(ids[0] > 0){
+			
+				function func(s){
+					closeFun(s,true);Ext.getBody().unmask();
+				}
+				Ext.getBody().mask('数据处理中……', 'x-mask-loading'); 
+
+
+				var order2 = new Order();
+				
+				order2.setObject2(ord);
+
+				parent.getOrderValue(order2.obj,false);
+			
+			    order2.obj.orderCategory = (new OrderCategory()).obj;
+			    order2.obj.orderCategory.value = ord.orderCategory.value;
+			    
+			    order2.obj.orderPublic = (new OrderPublic()).obj;
+			    order2.obj.orderPublic.moneyRealpay = ord.orderPublic.moneyRealpay;
+			
+			    
+			    order2.obj.orderState = (new OaWorkFlowCheckState()).obj;
+			    order2.obj.orderState.name = ord.orderState.name;  
+
+//			order.saveOrderStopBro2(order2.obj,func);
+
+	          var execPrice = $("execPrice").value;
+	          execPrice = execPrice==''?0:execPrice;
+	          var favourRate = $("favourRate").value;
+	          favourRate = favourRate==''?0:favourRate/100;
+	          var appRate = $("appRate").value;
+	          appRate = appRate==''?0:appRate/100;
+	          
+			  order.saveOrderPrice(order2.obj,ids,startDate,endDate,execPrice,favourRate,appRate,func);
+
+			
+		}else{
+			extjMessage('"请选择需要修改的记录!');
+			return false;
+		}
+	}
+	
+	
+	if(config_outLimitBroarrang){
+		check_locked(test);
+	}else{
+		test(); 
+	}
 }
 
 
@@ -1664,9 +1845,14 @@ function getDate_change_time(startDate,endDate,model){
    if(startDate == null || startDate == 'null') startDate = config_serviceDate;
    if(endDate == null  || endDate == 'null') endDate = config_serviceDate;
 
-   if(config_serviceDate>startDate && config_serviceDate<=endDate){
-  	 	startDate = config_serviceDate;
+   if(config_outLimitBroarrang){
+	   
+   }else{
+	   if(config_serviceDate>startDate && config_serviceDate<=endDate){
+	  	 	startDate = config_serviceDate;
+	   }
    }
+
    
 
 

@@ -125,7 +125,7 @@ public interface OrderManager extends Manager {
     
     public void updateOrderStates2(String[] ids, int state,String checkUserId,String checkStateIdOld,String defMsg);
 
-    public String  saveOrderClone(String orderId,String loginUserId);
+    public String  saveOrderClone(String orderId,int model,String loginUserId);
 
     public String getSpecificInfo2(String queryStr);
     

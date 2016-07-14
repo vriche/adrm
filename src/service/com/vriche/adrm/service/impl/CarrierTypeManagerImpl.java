@@ -340,7 +340,8 @@ public class CarrierTypeManagerImpl extends BaseManager implements CarrierTypeMa
 			CarrierType ct = (CarrierType) it.next();
 
 			sb.append("<item id='" +IdPrefix
-							+ ct.getId().toString()
+							+ ct.getId().toString()+ "' "
+							+" open='" + ct.getId().toString() 
 							+ "' im0=\"book.gif\" im1=\"books_open.gif\" im2=\"book.gif\" text=\""
 							+ ct.getName().toString() + "\">");
 			sb.append("<userdata name=\"id\">" + ct.getId().toString()

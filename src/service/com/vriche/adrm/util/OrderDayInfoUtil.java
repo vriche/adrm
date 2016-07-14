@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.vriche.adrm.Constants;
 import com.vriche.adrm.dao.OrderDayInfoDao;
@@ -68,21 +69,28 @@ public class OrderDayInfoUtil {
 				String key = resourceInfo_id.toString() +","+dinfo.getPublishDate().toString();
 				DayInfo day_info = (DayInfo)resMap1.get(key);	
 				day_info.setChangedValue(new Double(0));
-				String spec_res = day_info.getSpecific();
-				
-				 System.out.println("getDayInfoFromListByDate_2 specValue  hhhhhhhhhhhhhhhh>>>>>>>>>>>>>>>>>"+specValue);
+//				String spec_res = day_info.getSpecific();
+				String spec_res = StringUtil.getNullValue(day_info.getSpecific(),"");
+				 String[] spec_res_array = spec_res.split(","); 
+				 
+//				 System.out.println("getDayInfoFromListByDate_2 specValue  hhhhhhhhhhhhhhhh>>>>>>>>>>>>>>>>>"+specValue);
 				
 //				1 包含  2 不包含 3、追加  4 、其它排除空的
 				if(!"".equals(specValue) && !"0".equals(specValue)){
 					 if((!"".equals(spec_orderDay) && !specValue.equals(spec_orderDay))){
-						 if(spec_res.indexOf(specValue) == -1){
+						 
+						 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,spec_orderDay);
+						 
+						 if(!inStr){
 //							 spec_res = StringUtil.selectStr(spec_res,specValue,3);
 //							 day_info.setSpecific(spec_res);
 							 tarList1.add(dinfo);
 						 }
 						 
 					 }else{
-						 if("".equals(spec_orderDay) && spec_res.indexOf(specValue) == -1){
+						 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,specValue);
+						 
+						 if("".equals(spec_orderDay) && !inStr){
 //							 spec_res = StringUtil.selectStr(spec_res,specValue,3);
 //							 day_info.setSpecific(spec_res);
 							 tarList1.add(dinfo);
@@ -222,9 +230,9 @@ public class OrderDayInfoUtil {
 //			System.out.println("day_info>>>>>>>>>>>>>>>end_day>>>>>66666666666666666>>>3>>>>>>>" + end_day);
 //			System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>>>"+ changDayInfo +">>>>>>>>>>>" + changeResInfo);
 
-			System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>>changDayInfo >>>>>>>>>>" + changeResInfo);
-			System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>> spec_orderDay>>>>>>>>>>" + spec_orderDay);
-			System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666> specValue >>>>>>>>>>" + specValue);
+//			System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>>changDayInfo >>>>>>>>>>" + changeResInfo);
+//			System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>> spec_orderDay>>>>>>>>>>" + spec_orderDay);
+//			System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666> specValue >>>>>>>>>>" + specValue);
 			
 			
 			
@@ -235,8 +243,11 @@ public class OrderDayInfoUtil {
 	
 				 day_info.setChangedValue(new Double(0));
 				
-				String spec_res = day_info.getSpecific();
-				System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>> spec_res >>>>>>>>>>" + spec_res);
+//				String spec_res = day_info.getSpecific();
+				String spec_res = StringUtil.getNullValue(day_info.getSpecific(),"");
+				String[] spec_res_array = spec_res.split(","); 
+				
+//				System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>> spec_res >>>>>>>>>>" + spec_res);
 				
 				//1 包含  2 不包含 3、追加  4 、其它排除空的
 				if(!"".equals(specValue) && !"0".equals(specValue)){
@@ -250,8 +261,8 @@ public class OrderDayInfoUtil {
 //						 }else{
 //							 
 //						 }
-						 
-						 if(spec_res.indexOf(specValue) == -1){
+						 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,specValue);
+						 if(!inStr){
 							 spec_res = StringUtil.selectStr(spec_res,spec_orderDay,2);
 							 spec_res = StringUtil.selectStr(spec_res,specValue,3);
 							 day_info.setSpecific(spec_res);
@@ -259,7 +270,8 @@ public class OrderDayInfoUtil {
 						 }
 						 
 					 }else{
-						 if("".equals(spec_orderDay) && spec_res.indexOf(specValue) == -1){
+						 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,specValue);
+						 if("".equals(spec_orderDay) && !inStr){
 							 spec_res = StringUtil.selectStr(spec_res,spec_orderDay,2);
 							 spec_res = StringUtil.selectStr(spec_res,specValue,3);
 							 day_info.setSpecific(spec_res);
@@ -332,14 +344,20 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 	
 				 day_info.setChangedValue(new Double(0));
 				
-				String spec_res = day_info.getSpecific();
+//				String spec_res = day_info.getSpecific();
+				String spec_res = StringUtil.getNullValue(day_info.getSpecific(),"");
+				String[] spec_res_array = spec_res.split(",");
+				 
 				System.out.println("changeResInfo>>>>>>>>>>>>>>>>>>>>66666666666666666>> spec_res >>>>>>>>>>" + spec_res);
 				
 				//1 包含  2 不包含 3、追加  4 、其它排除空的
 				if(!"".equals(specValue)){
+					
+					 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,specValue);
+					 
 					 if((!"".equals(spec_orderDay) && !specValue.equals(spec_orderDay))){
 
-						 if(spec_res.indexOf(specValue) == -1){
+						 if(!inStr){
 							 spec_res = StringUtil.selectStr(spec_res,specValue,3);
 							 day_info.setSpecific(spec_res);
 							 newDayInfosMap.put(day_info.getId(),day_info);
@@ -348,7 +366,7 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 						 }
 						 
 					 }else{
-						 if("".equals(spec_orderDay) && spec_res.indexOf(specValue) == -1){
+						 if("".equals(spec_orderDay) && !inStr){
 							 spec_res = StringUtil.selectStr(spec_res,specValue,3);
 							 day_info.setSpecific(spec_res);
 							 newDayInfosMap.put(day_info.getId(),day_info);
@@ -697,6 +715,9 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 //					 System.out.println("saveResourceInfo kkkkkkkkkkkkkkkkkkkk"+ day.getUsed() +"kkkkkkkkkkkkkkkkkkkkkkkkk>>>>>>>>>>>>>>>>>>>>>>"+resUsed);
 					 
 					 String rsSpec = StringUtil.getNullValue(day.getSpecific(),"");
+					 String[] spec_res_array = rsSpec.split(",");
+					 
+						
 					 
 					 
 				
@@ -721,13 +742,14 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 	
 							 String adSpec = StringUtil.getNullValue(orderDayInfo.getResourceSpecific(),"");
 							 
-			
+							
 	
 							 if(model == 1){
 								 changeV = adUsed;
 								 //1 包含  2 不包含 3、追加  4 其它排除空的
 								 if(!"".equals(adSpec)){
-									 if(rsSpec.indexOf(adSpec)>-1){
+									 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,adSpec);
+									 if(inStr){
 //										 System.out.println("getResourceInfo>>>>>>>>>>>>>>>>>>>>>>>>>>>>key2>>adSpec>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + adSpec );
 										 specMap.put(key2,day);
 									 }else{
@@ -750,7 +772,8 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 							 }else{
 								 changeV = -adUsed;
 								 //1 包含  2 不包含 3、追加  4 其它排除空的
-								 if(!"".equals(adSpec) && rsSpec.indexOf(adSpec)>-1)  rsSpec = StringUtil.selectStr(rsSpec,adSpec,2);
+								 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,adSpec);
+								 if(!"".equals(adSpec) && inStr)  rsSpec = StringUtil.selectStr(rsSpec,adSpec,2);
 							 }
 							 
 //							 System.out.println("getResourceInfo>>>>TTTTTTTT>>>>>>>>>>>>>>>>>>>>>>>resUsed>>>>>>>>>>>" + resUsed );
@@ -818,6 +841,8 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 				 double total = Double.parseDouble(StringUtil.getNullValue(day.getTotal(),"0"));
 				 double resUsed = Double.parseDouble(StringUtil.getNullValue(day.getUsed(),"0"));
 				 String rsSpec = StringUtil.getNullValue(day.getSpecific(),"");
+				 String[] spec_res_array = rsSpec.split(",");
+				
 				 
 				 Object obj = OrderDayInfoMapCur.get(key);
 				 if(obj != null){
@@ -851,7 +876,8 @@ public static  void getNewOrderDetailByDayInfos_for_spec2(OrderDetail obj,List l
 			
 					//1 包含  2 不包含 3、追加  4 其它排除空的
 					 if(!"".equals(adSpecCur)){
-						 if(rsSpec.indexOf(adSpecCur)>-1){
+						 boolean inStr =  StringUtilsv.ByForLoop(spec_res_array,adSpecCur);
+						 if(inStr){
 							 specMap.put(key,day);
 						 }else{
 							 rsSpec = StringUtil.selectStr(rsSpec,adSpecCur,3);

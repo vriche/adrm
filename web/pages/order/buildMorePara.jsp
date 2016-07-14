@@ -318,7 +318,7 @@
 						  <TBODY>
 						  <TR> 
 						    
-						   
+						    <TD class="forcetime" align=middle width="1px"><input  type="text" value="锁定"  width="30px" class="myLable2"></TD><!--锁定-->
 						    <TD class="weekend"   align=middle width="1px"><input  type="text" value="周末"  width="30px" class="myLable2"></TD><!--周末-->
 						    <TD class="notday"    align=middle width="1px"><input  type="text" value="无效"  width="30px" class="myLable3"></TD><!--无效-->
 						    <TD class="specific"  align=middle width="1px"><input  type="text" value="指定"  width="30px" class="myLable3"></TD><!--指定-->

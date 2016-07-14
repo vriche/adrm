@@ -537,6 +537,12 @@ public class SysParamUtil {
 		return ("0".equals(sysParam.getAutoRelationCodeParam())|| sysParam.getAutoRelationCodeParam() == null)?false:true;
 	}
 	
+	 //订单多频道
+	public static boolean getorderMoreCarrierParam(){
+		SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+		return ("0".equals(sysParam.getOrderMoreCarrier())|| sysParam.getOrderMoreCarrier() == null)?false:true;
+	}
+	
 	// 新签订单广告排期默认月份,默认当前月份+2
 	public static String getOrderArrangDefaultMonthsParam(){
 	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
@@ -628,7 +634,11 @@ public class SysParamUtil {
 	    return ("0".equals(v)|| "false".equals(v)||v == null)?false:true;
 	}
 	
-	
+	public static boolean getOutLimitBroarrangParam(){
+	    SysParam sysParam = (SysParam)Constants.APPLACTION_MAP.get(Constants.GLOBAL_SYS_PARAM);
+	    String v = sysParam.getOutLimitBroarrang();
+	    return ("0".equals(v)|| "false".equals(v)||v == null)?false:true;
+	}
 	
 	
 	 public  String getGlobalParams(String loginName){

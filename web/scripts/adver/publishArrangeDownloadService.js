@@ -1,6 +1,7 @@
 var publishArrange = new PublishArrange();
 
 var carrier = new Carrier();
+var order = new Order();
 
 var publish_year;
 
@@ -56,12 +57,18 @@ function buttonEventFill(){
 	
 	var Bt_query = $("query");
 	Bt_query.setAttribute("href","javascript:void 0");
-	Bt_query.onclick=getPublishArrangeTable;	
+	Bt_query.onclick = getPublishArrangeTable;	
 	
 	
 	var Bt_saveFiles = $("saveFiles");
 	Bt_saveFiles.setAttribute("href","javascript:void 0");
 	Bt_saveFiles.onclick= saveFiles;
+	
+	
+	var Bt_unLockAll = $("unLockAll");
+	Bt_unLockAll.setAttribute("href","javascript:void 0");
+	Bt_unLockAll.onclick= unLockAll;
+	
 		
 		
 	
@@ -84,6 +91,56 @@ function buttonEventFill(){
 	var change_order_year = $("publisDate");
 	change_order_year.onchange = rest_order_year;
 	
+}
+
+
+
+function checkOrderState(resourceIds,dateStr,build_fnc){
+	var isStop =false;
+	var orgId =  $('orgId').value;
+	
+	var callback=function(obj){
+		if(obj.length>0){
+			var dialogcontent = $("dialogcontentDiv");
+			var dialogcontentW = dialogcontent.offsetWidth;
+			var dialogcontentH = dialogcontent.offsetHeight;
+			var winW= dialogcontentW * 0.6;
+			var winH = dialogcontentH*0.8;
+			var title = "下面列出了今天需要播出但还没有审核的订单:"; 
+			var urlStr = "selectPopup/checkForm.html?dateStr="+dateStr+"&resourceIds="+resourceIds+"&orgId="+ orgId;
+			var closeBtn ={text: '关闭',handler: function(){win.hide();}};
+    
+			 var win = new Ext.Window({
+			   title : '下面列出了今天需要播出但还没有审核的订单',
+			   width : winW,
+			   height : winH,
+			   isTopContainer : true,
+			   modal : true,
+			   resizable : false,
+			    buttons: [closeBtn],
+			   contentEl : Ext.DomHelper.append(document.body, {
+			    tag : 'iframe',
+			    style : "border 0px none;scrollbar:true",
+			    src : urlStr,
+			    height : "100%",
+			    width : "100%"
+			   })
+			  })
+			  
+				win.show(); 					
+
+			if(build_fnc) build_fnc(true);
+		}else{
+			if(build_fnc) build_fnc(false);
+		}
+	};
+	
+	if(resourceIds=="") resourceIds = 0;
+	
+	Ext.getBody().mask('数据加载中……', 'x-mask-loading');
+	
+	order.getOrderCodeByCheckState1(1,dateStr,resourceIds,callback);	 
+
 }
 
 function init_resourceCarrier(){
@@ -213,7 +270,31 @@ function setLockState(e){
 	publishArrange.getPublishArrange(publishArrange.obj.id,callBackFun);
 }
 	
+function unLockAll(){
+	
+	
+    var carrierId = $("carrierName").value;
+    var publishDate = getFormatDay($("publisDate").value,'ymd')
+    var func = function(){
+		var parnetObjName = publishArrange.tableName;
+			var mode = false;
+			var i = [];
+			var j = 0;
+			var inputs = $(parnetObjName).getElementsByTagName("input");
+			inputs = $A(inputs);
+			inputs.each(function(ip){ip.checked  = mode;});	
+			Ext.getBody().unmask();
+	}  
+    if(carrierId > 0 && publishDate >0){
+    	publishArrange.saveAllLock(carrierId,publishDate,false,func);
+    }else{
+    	alert('请选择频道')
+    }
 
+
+    
+
+}
 function saveFiles(){
 			
 	    var carrierId = $("carrierName").value;
@@ -224,51 +305,104 @@ function saveFiles(){
 	    
 	    var type = config_piblishExportModelParam;
 	    
-//	    alert(type);
+//        alert(type);
+	    
+	    
+		
+		
 	    
 	    
 	    //福州电视台只需要频道级别的数据！所以可以不用求出各个resourceIds,从而提高速度！
-	    if(type==3){
-	    	var saveFuc = function(){
-				$("downlaod").show();
+	    if(type == 3){
+
+			function  downloadAdversFun(isStop){
+
+				if(isStop){
+					Ext.getBody().unmask();
+					return false;
+				}
 				
-				var func = function(){
-					var parnetObjName = publishArrange.tableName;
-						
-						var mode = true
-						var i = [];
-						var j = 0;
-						var inputs = $(parnetObjName).getElementsByTagName("input");
+		    	var saveFuc = function(state){
+
+		    		if(state == 1){
+		    			 Ext.getBody().unmask();
+						 throw "FTP 服务器连接失败,无法自动锁定";
+						 return false;
+					}
+		    		
+		    		
+					$("downlaod").show();
 					
-						inputs = $A(inputs);
-					
-						inputs.each(function(ip){
-								ip.checked  = mode;
-							}
-						);	
-				}  
-				publishArrange.saveAllLock(carrierId,publishDate,func);
-			}
+					var func = function(){
+						var parnetObjName = publishArrange.tableName;
+							var mode = true
+							var i = [];
+							var j = 0;
+							var inputs = $(parnetObjName).getElementsByTagName("input");
+							inputs = $A(inputs);
+							inputs.each(function(ip){ip.checked  = mode;});	
+							Ext.getBody().unmask();
+					}  
+					if(state == 0){
+						publishArrange.saveAllLock(carrierId,publishDate,true,func);
+					}
+				}
+		    	
+				publishArrange.reset();
+				publishArrange.obj.publishDate = publishDate;
+				publishArrange.obj.resourceIds = [];
+				publishArrange.obj.carrierName = $("carrierName").options[$("carrierName").selectedIndex].text;
+				publishArrange.obj.carrierId=$("carrierName").value;  
+				
+				try
+				  {
+					publishArrange.downloadAdvers(publishArrange.obj,type,saveFuc);	
+
+				  }
+				catch(err)
+				  {
+				     alert(err)
+				  }
+							
+			}	    	
+
+	    	
+	    	function callBackFun(objs){
+	    		var resArray= new Array();
+	    		var carriers= new Array();
+	    		var carrierNames = getArrayFromObjs(objs,"carrierId","carrierName",carrierId);
+
+	    		for(var i = 0; i<carrierNames.length; i++){
+					if(carriers.indexOf(carrierNames[i]) == -1) carriers.push(carrierNames[i]);
+				} 	
+	    		for(var i = 0; i<carriers.length; i++){
+	    			var resIds = getArrayFromObjs(objs,"carrierName","resourceId",carriers[i]); 
+	    			resArray = resArray.concat(resIds);  
+	    		}
+	    		checkOrderState(resArray,publishDate,downloadAdversFun);
+	    	}
+	    	
+	    	
+	    	Ext.getBody().mask('数据加载中……', 'x-mask-loading');
+	    	
 			publishArrange.reset();
+			publishArrange.obj.carrierId = carrierId;
 			publishArrange.obj.publishDate = publishDate;
-			publishArrange.obj.resourceIds = [];
-			publishArrange.obj.carrierName = $("carrierName").options[$("carrierName").selectedIndex].text;
-			publishArrange.obj.carrierId=$("carrierName").value;  
-			publishArrange.downloadAdvers(publishArrange.obj,type,saveFuc);	
+			publishArrange.getPublishArranges(publishArrange.obj,callBackFun);	
+	    	
+
+			
 	    }else{
 	    	
 			function callBackFun(objs){
 				var carriers= new Array();
 				var carrierNames = getArrayFromObjs(objs,"carrierId","carrierName",carrierId);
-				
-//				alert(carrierNames);
+
 	
 				for(var i = 0; i<carrierNames.length; i++){
 					if(carriers.indexOf(carrierNames[i]) == -1) carriers.push(carrierNames[i]);
 				} 	
-	
-	//			var type = $("config_piblishExportModelParam").value;
-				//alert(type);
+
 				for(var i = 0; i < carriers.length; i++){
 					var isLast = (i== carriers.length-1)?true:false;
 					saveFile(carriers[i],publishDate,type,isLast);
@@ -287,6 +421,8 @@ function saveFiles(){
 								ip.checked  = mode;
 							}
 						);	
+						
+						Ext.getBody().unmask();
 				}
 					publishArrange.saveAllLock(carrierId,publishDate,func);
 			}
@@ -319,6 +455,8 @@ function saveFile(carrierName,publishDate,type,isLast){
 		publishArrange.reset();
 		publishArrange.obj.carrierName = carrierName;
 		publishArrange.obj.publishDate = publishDate;
+		
+		Ext.getBody().mask('数据加载中……', 'x-mask-loading');
 		publishArrange.getPublishArranges(publishArrange.obj,callBackFun);
 }	
 

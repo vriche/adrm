@@ -3,10 +3,10 @@
 <!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 
 <jasperReport name="order_report1" language="java" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="812" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20">
+	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
+	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
 	<property name="com.jasperassistant.designer.SnapToGrid" value="false"/>
 	<property name="com.jasperassistant.designer.Grid" value="false"/>
-	<property name="com.jasperassistant.designer.GridHeight" value="12"/>
-	<property name="com.jasperassistant.designer.GridWidth" value="12"/>
 	<reportFont name="detail" isDefault="false" fontName="宋体" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 	<parameter name="ReportTitle" class="java.lang.String">
 	</parameter>
@@ -190,7 +190,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="宋体" size="12" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[公司名称]]></text>
+				<text><![CDATA[公司名称1]]></text>
 			</staticText>
 			<textField>
 				<reportElement positionType="Float" x="108" y="54" width="188" height="25"/>
@@ -442,7 +442,7 @@
 				<text><![CDATA[载体]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="180" y="0" width="83" height="30" backcolor="#ebebeb"/>
+				<reportElement positionType="Float" mode="Opaque" x="180" y="0" width="80" height="30" backcolor="#ebebeb"/>
 				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
@@ -450,7 +450,7 @@
 				<text><![CDATA[时段]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="263" y="0" width="20" height="30" backcolor="#ebebeb"/>
+				<reportElement positionType="Float" mode="Opaque" x="260" y="0" width="20" height="30" backcolor="#ebebeb"/>
 				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
@@ -458,7 +458,7 @@
 				<text><![CDATA[指定]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="283" y="0" width="20" height="30" backcolor="#ebebeb"/>
+				<reportElement positionType="Float" mode="Opaque" x="280" y="0" width="23" height="30" backcolor="#ebebeb"/>
 				<box topBorder="1Point" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="false"/>
@@ -765,80 +765,80 @@
 	<detail>
 		<band height="15">
 			<elementGroup>
-			<textField>
-				<reportElement positionType="Float" x="2" y="0" width="106" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="2" y="0" width="106" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["" +$F{advName}+new String($F{advVer}.equals("")?"":"/"+$F{advVer})]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="149" y="0" width="31" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="149" y="0" width="31" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[" " +$F{carrier}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="726" y="0" width="33" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="726" y="0" width="33" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{monthSysPrice}.equals("0")||$F{monthSysPrice}.equals("0.0")?"":$F{monthSysPrice}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="779" y="0" width="33" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="779" y="0" width="33" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="1Point"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{monthRelPrice}.equals("0")||$F{monthRelPrice}.equals("0.0")?"":$F{monthRelPrice}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="759" y="0" width="20" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="759" y="0" width="20" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{monthTimes}.equals("0")?"":$F{monthTimes}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="180" y="0" width="83" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="180" y="0" width="80" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[" " +$F{resource}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="283" y="0" width="20" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="280" y="0" width="23" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					<font reportFont="detail" fontName="宋体" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{length}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="263" y="0" width="20" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="260" y="0" width="20" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{specific}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="303" y="0" width="20" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="303" y="0" width="20" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{month}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="108" y="0" width="41" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="108" y="0" width="41" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
@@ -846,248 +846,248 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[" " +$F{tapCode}]]></textFieldExpression>
 			</textField>
 			</elementGroup>
-			<textField>
-				<reportElement positionType="Float" x="323" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="323" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day1}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="336" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="336" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day2}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="414" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="414" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day8}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="388" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="388" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day6}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="362" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="362" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day4}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="349" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="349" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day3}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="375" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="375" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day5}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="401" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="401" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day7}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="427" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="427" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day9}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="440" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="440" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day10}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="453" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="453" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day11}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="466" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="466" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day12}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="479" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="479" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day13}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="492" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="492" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day14}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="505" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="505" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day15}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="518" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="518" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day16}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="531" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="531" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day17}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="544" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="544" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day18}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="622" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="622" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day24}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="596" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="596" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day22}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="570" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="570" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day20}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="557" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="557" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day19}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="583" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="583" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day21}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="609" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="609" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day23}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="635" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="635" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day25}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="648" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="648" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day26}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="661" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="661" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day27}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="674" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="674" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day28}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="687" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="687" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day29}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="700" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="700" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{day30}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="713" y="0" width="13" height="15"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="713" y="0" width="13" height="15" isPrintWhenDetailOverflows="true"/>
 				<box topBorder="None" leftBorder="1Point" bottomBorder="1Point" rightBorder="None"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font reportFont="detail" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
@@ -1099,7 +1099,7 @@
 	<pageFooter>
 		<band height="30">
 			<textField>
-				<reportElement positionType="Float" x="263" y="10" width="138" height="17"/>
+				<reportElement positionType="Float" x="260" y="10" width="141" height="17"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -1168,56 +1168,56 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{CustomerTel}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="229" y="2" width="34" height="17"/>
+				<reportElement positionType="Float" x="229" y="2" width="31" height="17"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[地址:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="229" y="19" width="34" height="17"/>
+				<reportElement positionType="Float" x="229" y="19" width="31" height="17"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[帐户:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="229" y="36" width="34" height="17"/>
+				<reportElement positionType="Float" x="229" y="36" width="31" height="17"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[帐号:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="229" y="53" width="34" height="17"/>
+				<reportElement positionType="Float" x="229" y="53" width="31" height="17"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[邮编:]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="263" y="53" width="138" height="17"/>
+				<reportElement positionType="Float" x="260" y="53" width="141" height="17"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="宋体" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{CustomerPostCode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="263" y="36" width="138" height="17"/>
+				<reportElement positionType="Float" x="260" y="36" width="141" height="17"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="宋体" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{CustomerBankCode}.equals("0")?"":$P{CustomerBankCode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="263" y="19" width="138" height="17"/>
+				<reportElement positionType="Float" x="260" y="19" width="141" height="17"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="宋体" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{CustomerBankName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="263" y="2" width="138" height="17"/>
+				<reportElement positionType="Float" x="260" y="2" width="141" height="17"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="宋体" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -1329,7 +1329,7 @@
 				<text><![CDATA[电话:]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="263" y="72" width="138" height="17"/>
+				<reportElement positionType="Float" x="260" y="72" width="141" height="17"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="宋体" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>

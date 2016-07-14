@@ -72,7 +72,14 @@ public class OrderDetail extends BaseObjectWithoutNestedFormValidation {
     protected Double moneyIn;
     protected Integer publishStartDate;
     protected Integer publishEndDate;
-    protected Boolean isNotInSeries;
+    
+    
+    protected Integer lockedLasterDate; //锁定的最后一天
+
+
+
+
+	protected Boolean isNotInSeries;
     protected Integer needPublish;
     
     protected Integer version;
@@ -1378,6 +1385,14 @@ public class OrderDetail extends BaseObjectWithoutNestedFormValidation {
 	}
 
 
+    public Integer getLockedLasterDate() {
+		return lockedLasterDate;
+	}
+
+
+	public void setLockedLasterDate(Integer lockedLasterDate) {
+		this.lockedLasterDate = lockedLasterDate;
+	}
 
 
 	/**

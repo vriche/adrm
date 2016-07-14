@@ -123,7 +123,7 @@ Workspan.prototype.getWorkspansByResId = function(resId,func){
 }
 
 
-Workspan.prototype.getWorkspansByResId2 = function(grid,resId){
+Workspan.prototype.getWorkspansByResId2 = function(grid,resId,afterCall){
 
      grid.clearAll();
      
@@ -175,8 +175,12 @@ Workspan.prototype.getWorkspansByResId2 = function(grid,resId){
 				sb = sb + "</row>";			    	
 		    }
 		    sb = sb + "</rows>"; 
-		    
-		    grid.loadXMLString(sb);
+		    if(afterCall){
+		    	  grid.loadXMLString(sb,afterCall);
+		    }else{
+		    	  grid.loadXMLString(sb);
+		    }
+		  
 			
 	}
 	

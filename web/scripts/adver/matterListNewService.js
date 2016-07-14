@@ -66,6 +66,10 @@ callOnLoad(init);
      orderCkeckState = getParamFromUrl(srcStr,"orderCkeckState");	
      adLength = getParamFromUrl(srcStr,"adLength");	
      
+     brandId2 = getParamFromUrl(srcStr,"brandId2");	
+     
+     
+     
      
 //     orderId = getParamFromUrl(srcStr,"orderId");	
 //     adlength = getParamFromUrl(srcStr,"adlength");	
@@ -98,8 +102,17 @@ callOnLoad(init);
  	
     var tb = parent.search_adver_win.getTopToolbar();
 //  alert(orderCkeckState)
+  
+ 
     
-
+   if(brandId2 >0){
+	   tb.getComponent('search_brand_cmd').setValue(brandId2);
+	   tb.getComponent('search_brand_cmd').onTriggerClick();
+	   tb.getComponent('search_brand_cmd').collapse();
+//      var search_brand_cmd = search_adver_win.getTopToolbar().getComponent('search_brand_cmd');
+	   //
+//	      	       search_brand_cmd.collapse();
+	}
   
    if(adLength >0){
  	  tb.getComponent('search_adver_len').setRawValue(adLength);
@@ -152,7 +165,7 @@ callOnLoad(init);
 	    var	columnIds =  "customer_name,name,edit,length,tape_code,adver_product_brand_id,adver_matter_type,create_date,use_end_date";  
 		mygrid.setHeader(flds);
 		mygrid.setColumnIds(columnIds);
-	    mygrid.setInitWidthsP("17,15,25,7,8,7,7,10,4");
+	    mygrid.setInitWidthsP("10,15,32,7,8,7,7,10,4");
 //	    mygrid.setColSorting("str,str,str,str,str,str");
 		mygrid.setColAlign("left,left,left,center,center,center,center,center,center");
 		mygrid.setColTypes("ed,ed,ed,ed,ed,ed,ed,ed,img");
@@ -264,6 +277,7 @@ function checkTapeCode(params){
 	var industryTreeNodeLevel = params.industryTreeNodeLevel;
 	
 	curtapeCode = curtapeCode == ""?null:curtapeCode;
+	
 
 	
 	if(matterType ==null || matterType ==0 || matterType ==''){
@@ -276,9 +290,16 @@ function checkTapeCode(params){
 		}	
 	}
 	
-	if(!(length >=0)){
-		extjMessage('新输入广告长度!');isBug = true;
-	}	
+//	if(!(length >=0)){
+//		extjMessage('新输入广告长度!');isBug = true;
+//	}	
+	
+	
+//	if(tvNameParam == 'fztv'){
+		if(length ==''){
+			extjMessage('新输入广告长度!');isBug = true;
+		}
+//	}
 	
 	if(name ==null || name ==0 || name ==''){
 		extjMessage('新输入广告名称!');isBug = true;
@@ -364,6 +385,7 @@ function save_new_matter(){
  
 
  function loadGridData(params){ 
+		Ext.getBody().mask('数据处理中……', 'x-mask-loading'); 	  
 	  var params = getLoadDataParams(2);
 //	 alert( params.brandId2)
 
@@ -371,19 +393,27 @@ function save_new_matter(){
  	   var fid = params.tapeCode !=null || params.name !=null || params.edit !=null  || params.length !=null|| params.brandId !=null|| params.matterType !=null|| params.brandId2 !=null;
 
  	   if(params.brandId2 == 0) params.brandId2 = null;
-
-// 	    alert(fid)
+ 	  
  	    mygrid.clearAll();
  	    if(!fid) return false;
  	    
+ 	
  	   
         var loadDataURL = ctxPath + "servlet/matterListServlet?" + $H(params).toQueryString();	
+        
+//        alert('392>>loadGridData>>'+fid+loadDataURL)
+        
 		mygrid.enableSmartRendering(true);
 //		mygrid.setSortImgState(true,0,"ASC"); 
 		mygrid.loadXML(loadDataURL);
 		
 //		mygrid.setColumnHidden(0,true);
 		mygrid.setSizes();	
+		
+		 window.setTimeout(function(){
+			 Ext.getBody().unmask(); 
+			}, 1000);
+		 
  }
 
 

@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -74,6 +75,11 @@ public class SimpleServiceImpl implements Serializable,SimpleService{
   public String[] getBackCmd(Properties ps) {
 	   String tvName = getTvName();
       String osName = System.getProperty("os.name");
+      String longBit =System.getProperty("sun.arch.data.model");//如果得64，就是64位
+      boolean isLinux = osName.startsWith("Linux");
+      boolean is64 = "64".equals(longBit);
+      
+      System.out.println("longBit  vvvvvvvv   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +longBit);
 
   	
       String host=ps.getProperty("db_host");
@@ -83,6 +89,9 @@ public class SimpleServiceImpl implements Serializable,SimpleService{
       String database=ps.getProperty("db_database");
       String path= SysParamUtil.getDatabaseBackPath();
       if(port==null ||port =="") port ="3306";
+      
+      
+      System.out.println("database>>>>>>>555555555 7777777777 8888888888888>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +database);
       
 	   File db_path = new File(path);
 	    if(!db_path.exists()){  
@@ -97,14 +106,20 @@ public class SimpleServiceImpl implements Serializable,SimpleService{
       
       System.out.println("fileName>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +fileName);
       
-      String binCommand = HandlePropertiesUtil.getInClassBinPath(osName,"mysqldump");
+      String binCommand = isLinux && is64?HandlePropertiesUtil.getInClassBinPath(osName,"mysqldump64"): HandlePropertiesUtil.getInClassBinPath(osName,"mysqldump");
+      
+      System.out.println("binCommand 1111111 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +HandlePropertiesUtil.getInClassBinPath(osName,"mysqldump64"));
+      
+      
 //      String binCommand = HandlePropertiesUtil.path  +"mysqldump";
       
       
-      System.out.println("binCommand>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +binCommand);
+      System.out.println("binCommand 2222222 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +binCommand);
       
-      
-      String parameters = "--default-character-set=gbk -u"+user+" -p"+pass+" -h"+host+" -P"+port+" --opt "+database+" > "+ fileName;
+//      mysqldump:Couldn't execute  ‘SELECT @@GTID_MODE':Unknown system variable 'GTID_MODE' (1193)  
+//      造成此错误的原因是因为5.6引入了Global Transaction Identifiers (GTIDs) 。GTIDs可以让主从结构复制的跟踪和比较变得简单。mysqldump会试图查询这个系统变量，但这个变量在5.6之前的版本中不存在，所以产生错误。的方法很简单。在mysqldump后加上–set-gtid-purged=OFF命令。如：  
+//      mysqldump -h dbHost -u dbuser dbName --set-gtid-purged=OFF >d:/db.sql  
+      String parameters = "--default-character-set=gbk  --set-gtid-purged=OFF -u"+user+" -p"+pass+" -h"+host+" -P"+port+" --opt "+database+" > "+ fileName;
       
       System.out.println("parameters>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +parameters);
       
@@ -226,7 +241,7 @@ private void ssh(Properties ps)  throws JobExecutionException{
 //    String path2 = ps.getProperty("db_path");  
     String path2= SysParamUtil.getDatabaseBackPath();
     
-    String uploadFile = path2+ Constants.FILE_SEP + tvName +"_"+today+".tgz"; 
+//    String uploadFile = path2+ Constants.FILE_SEP + tvName +"_"+today+".tgz"; 
     
    
     System.out.println("targ_hostname>>>>>>>"+ hostname);
@@ -234,19 +249,30 @@ private void ssh(Properties ps)  throws JobExecutionException{
     System.out.println("targ_password>>>>>>>"+ password);
     System.out.println("targ_path>>>>>>>"+ path);
     System.out.println("getDatabaseBackPath>>>>>>>"+ path2);
-    System.out.println("ssh uploadFile>>>>>>>"+ uploadFile);
+//    System.out.println("ssh uploadFile>>>>>>>"+ uploadFile);
     
     
     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
     
+
+    String localFile = path2+ Constants.FILE_SEP +tvName+"_"+today+".tgz";
+    String remoteFile = "";
     
-    File targ_path = new File(uploadFile);
-    boolean isPass = targ_path.exists();
-    System.out.println("isPass>>>>>>>"+ isPass);
+    if("".equals(path)){
+  	  remoteFile = tvName+"_"+today+".tgz";
+    }else{
+  	  remoteFile = path+ Constants.FILE_SEP +tvName+"_"+today+".tgz";
+    }
+    
+    File source_path = new File(localFile);
+    boolean isPass = source_path.exists();
 
 
 //    boolean isPass = zipFile(ps);
-//    
+    
+    if(!isPass) sqlDump();
+    
+ 
     if(isPass){
     	
 	    // Make a client connection
@@ -273,22 +299,12 @@ private void ssh(Properties ps)  throws JobExecutionException{
 //		    	targ_path.mkdir();
 //		    }	
 
-	      System.out.println("mkdir start >>>>>>>"+ path);
-	      sftp.mkdir(path); 
-	      System.out.println("mkdir end >>>>>>>"+ path);
-	      // Change the mode
-//	      sftp.chmod(0755, path);
-	      // Change directory
-	      sftp.cd(path);
+//	      sftp.mkdir(path); 
+//	      sftp.cd(path);
+//	      sftp.mkdir(tvName);   
+//	      sftp.cd(tvName);
 	      
-	      System.out.println("mkdir end >>>>>>>"+ path);
-	      
-	      System.out.println("mkdir start >>>>>>>"+ tvName);
-	      sftp.mkdir(tvName);   
-//	      sftp.chmod(0755, tvName);
-	      sftp.cd(tvName);
-	      
-	      System.out.println("mkdir end >>>>>>>"+ tvName);
+//	      System.out.println("mkdir end >>>>>>>"+ tvName);
 
 	//   	  //remove file
 	      List ls = sftp.ls();
@@ -309,8 +325,8 @@ private void ssh(Properties ps)  throws JobExecutionException{
        
 
 	      // Upload a file
-		      File file=new File(uploadFile);
-		      sftp.put(file.getAbsolutePath());
+//		      File file=new File(uploadFile);
+		      sftp.put(source_path.getAbsolutePath());
 	      // Quit
 	      sftp.quit();
 	      ssh.disconnect();
@@ -364,7 +380,13 @@ private void ftp(Properties ps)  throws JobExecutionException{
     
 
       String localFile = path2+ Constants.FILE_SEP +tvName+"_"+today+".tgz";
-      String remoteFile = path+ Constants.FILE_SEP +tvName+"_"+today+".tgz";
+      String remoteFile = "";
+      
+      if("".equals(path)){
+    	  remoteFile = tvName+"_"+today+".tgz";
+      }else{
+    	  remoteFile = path+ Constants.FILE_SEP +tvName+"_"+today+".tgz";
+      }
     
 
     
@@ -373,13 +395,17 @@ private void ftp(Properties ps)  throws JobExecutionException{
     String preDate = getFileDate(existDate);
     
 
-    File targ_path = new File(localFile);
-    boolean isPass = targ_path.exists();
+    File source_path = new File(localFile);
+    boolean isPass = source_path.exists();
+    
+    if(!isPass) sqlDump();
     
 //  File sour_File = new File(sourFile);
   
   
 //  boolean isPass = zipFile(ps);
+    
+    System.out.println("isPass>>>>>>>"+ isPass);
   
   if(isPass){  
 
@@ -392,7 +418,7 @@ private void ftp(Properties ps)  throws JobExecutionException{
 	int reply;
 	ftp.connect(server);
 	System.out.println("Connected to " + server + ".");
-	System.out.println(ftp.getReplyString());
+	System.out.println("ftp.getReplyString  " +ftp.getReplyString());
 
 //	 After connection attempt, you should check the reply code to verify success.
 	reply = ftp.getReplyCode();
@@ -425,11 +451,9 @@ private void ftp(Properties ps)  throws JobExecutionException{
       // Make a directory
     	 System.out.println("path1>>>>>>>"+ path);
     	 
-    	 path = path+"/"+tvName;
-    	 boolean s = checkPathExist(ftp,path,"/");
-//    	 System.out.println("checkPathExist>>>>>>>"+ s);
-    	 
-    	 ftp.changeWorkingDirectory(path);
+//    	 path = path+"/"+tvName;
+//    	 boolean s = checkPathExist(ftp,path,"/");
+//    	 ftp.changeWorkingDirectory(path);
     	 
     	 //只保留服务器上最近5天的备份，其余删除
     	
@@ -438,9 +462,22 @@ private void ftp(Properties ps)  throws JobExecutionException{
      	 for (int i = 0;i<files.length;i++) {
      		FTPFile file = (FTPFile)files[i];
      		String filename = file.getName();
-     		String fileDate = fullYearDateTime.format(file.getTimestamp());
+     		
+//     		 System.out.println("file.getTimestamp() 777777777777 888888888888 6666666>>>>>>>"+ file.getTimestamp());
+     		Calendar ts  =file.getTimestamp();
+     		Calendar cal= ts.getInstance();  
+     		Date  date = cal.getTime();  
+     		
+     		String fileDate = fullYearDateTime.format(date);
+     		
+     		 System.out.println("fileDate777777777777 888888888888 6666666>>>>>>>"+ fileDate);
+     		
+//     		String fileDate = fullYearDateTime.format(file.getTimestamp());
      		if(Integer.parseInt(preDate)>Integer.parseInt(fileDate) && filename.startsWith(tvName+"_") && file.isFile()){
-     		   ftp.dele(tvName+"_"+ fileDate +".tgz");
+     			
+     			String delFile = tvName+"_"+ fileDate +".tgz";
+     			System.out.println("delFile 888888888888 6666666>>>>>>>"+ delFile);
+     		   ftp.dele(delFile);
      		}
 	     }
 
@@ -531,8 +568,8 @@ private void deleteBackSource(Properties ps){
 	  File sour=new File(sourFile);
 	  if(sour.exists()) sour.delete();
 	  
-	  File zip=new File(zipFile);
-	  if(zip.exists()) zip.delete();	  
+//	  File zip=new File(zipFile);
+//	  if(zip.exists()) zip.delete();	  
 }
 
 private synchronized  boolean zipFile(Properties ps){

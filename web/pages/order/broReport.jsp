@@ -8,12 +8,14 @@
 <script type="text/javascript" src="<c:url value='/dwr/interface/OrderManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/CustomerManager.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/MatterManager.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/dwr/interface/UserManager.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/class/carrier.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/matter.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/customer.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/order.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/class/orderPublic.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/class/user.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/scripts/common/page.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common/autoComplete.js'/>"></script>
@@ -69,8 +71,15 @@
 						                <td  width="1px"><div id="extCustomerDiv" name="extCustomerDiv" /></td>		
 						                				                 
                                   </tr>
+                                   <tr>
+                                       <td width="10px">业务员:</td>
+									   <td><div id="signUserDiv"></td>
+	                    		 </tr>
+	                     			<tr>
 	                                     <td width="10px">频道名称</td>
 										 <td><select name="select" id="carrierName"/></td>
+								 </tr>		 
+										 
  				                  <tr>
 										 <td width="10px"><fmt:message key="brandForm.name"/></td>
 										 <td>
@@ -179,7 +188,7 @@
 			                  <TH><fmt:message key="orderForm.moneySum"/></TH>
 
 			                  <!--备注-->
-			                  <TH><fmt:message key="orderForm.moneyIn"/></TH>
+			                  <TH>业务员</TH>
 			                  <!--有效-->
 			                  <TH><fmt:message key="orderForm.isCkecked"/></TH>
 			                  

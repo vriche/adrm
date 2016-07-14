@@ -78,7 +78,9 @@ public class PublishArrangeDetail extends BaseObject implements Comparable{
     protected Integer ctrBroSort;
 
     
-  
+    protected String workSpanSort;
+    
+   
     protected PublishArrange publishArrange = new PublishArrange();
   
 
@@ -90,6 +92,17 @@ public class PublishArrangeDetail extends BaseObject implements Comparable{
 	public Long getId() {
 		return id;
 	}  
+	
+	
+	 public String getWorkSpanSort() {
+			return workSpanSort;
+	 }
+
+	public void setWorkSpanSort(String workSpanSort) {
+		this.workSpanSort = workSpanSort;
+	}
+	  
+		
 	/**
 	 * 
 	 * Returns the publishArrangeId

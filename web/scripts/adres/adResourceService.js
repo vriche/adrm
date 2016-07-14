@@ -93,7 +93,9 @@ function rest_year(){
  	 mygrid.clearAll();
  	
  	
-	var orgId =   $("orgId").value;
+	//var orgId =   $("orgId").value;
+	var orgId = config_oneOrgMoreSuborgsParam == '1'?1:$("orgId").value;
+	
 	var version =  $("resource_year").value;
 	
 

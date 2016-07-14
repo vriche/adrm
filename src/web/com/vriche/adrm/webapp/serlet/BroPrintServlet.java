@@ -107,6 +107,7 @@ public class BroPrintServlet extends HttpServlet
 		   boolean sjz= SysParamUtil.isSJZTVParam(tvname);
 		   boolean hntv= SysParamUtil.isHNTVParam(tvname);
 		   boolean catv= SysParamUtil.isCATVParam(tvname);
+		   boolean fztv= SysParamUtil.isFZTVParam(tvname);
 
 		
 		   HttpSession session = request.getSession();
@@ -148,6 +149,8 @@ public class BroPrintServlet extends HttpServlet
 				fileName = "bro_report2_xmtv.jasper";
 			}else if(catv||sjz){
 				fileName = isRelPrice?"bro_report_catv.jasper":"bro_report2_catv.jasper";
+			}else if(fztv){
+				fileName = "bro_report2.jasper";
 			}else{
 				fileName = "bro_report2_xmtv.jasper";   
 			}

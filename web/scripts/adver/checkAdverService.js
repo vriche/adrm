@@ -2,11 +2,21 @@
  var winW;
  var winH;
  var orgId =1;
+ 
+ var loginUserName;
+ var loginUserFullName;
+ var loginUserId;
+ 
  callOnLoad(init);	
  
 	
   
   function init(){
+	 loginUserName =  _app_params.user.username;
+	 loginUserFullName =  _app_params.user.fullName;
+	 loginUserId =  _app_params.user.id;
+		
+		
   	var srcStr = window.location.href;
 	 publishDate = getParamFromUrl(srcStr,"publishDate"); 
 	resourceId = getParamFromUrl(srcStr,"resourceId");
@@ -21,7 +31,7 @@
 	
 
 	initGrid();
-		resetHeigth();
+	resetHeigth();
 	getAdversByResourceIdAndPublishDate();
   }
   
@@ -64,12 +74,14 @@ function getAdversByResourceIdAndPublishDate(){
 		mygrid.clearAll();
 		mygrid.loadXMLString(xml);
 	}
-	            
+	 
+//   alert(workSpanId)
 
    if(workSpanId > 0){
    		OrderDayInfoManager.getAdversByWorkSpanId(workSpanId,publishDate,orgId,func);	
    }else{
-   		if(resourceId >0) PublishArrangeManager.getAdversByResourceId(resourceId,publishDate,orgId,func);	
+//   		if(resourceId >0) PublishArrangeManager.getAdversByResourceId(resourceId,publishDate,orgId,func);	
+   		if(resourceId >0) PublishArrangeManager.getAdversByResourceId(resourceId,publishDate,orgId,loginUserName,func);	
    }
 }
 

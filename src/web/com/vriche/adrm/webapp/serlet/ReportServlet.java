@@ -503,6 +503,7 @@ public class ReportServlet  extends HttpServlet{
 //         exporter.setParameter(JRXlsExporterParameter.IS_IGNORE_PAGINATION,Boolean.TRUE); 
          exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,Boolean.FALSE);
          exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
+         exporter.setParameter(JRXlsExporterParameter.IS_FONT_SIZE_FIX_ENABLED,Boolean.TRUE);
 //         exporter.setParameter(JRXlsExporterParameter.IGNORE_PAGE_MARGINS,Boolean.TRUE); 
        
  		//不起作用

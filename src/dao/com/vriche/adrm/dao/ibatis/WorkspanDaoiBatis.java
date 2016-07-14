@@ -193,7 +193,7 @@ public class WorkspanDaoiBatis extends BaseDaoiBATIS implements WorkspanDao {
            		}
            		
            		if (!orderDayLockStateMap.isEmpty()){
-           			if (orderDayTimeSpecMap.containsKey(publishDate)){
+           			if (orderDayLockStateMap.containsKey(publishDate)){
            				is_lock= Boolean.valueOf(getNullValue(orderDayLockStateMap.get(publishDate),"0"));
            			}
            		}

@@ -64,6 +64,10 @@ public class Carrier extends BaseObjectWithoutNestedFormValidation implements Se
     public Carrier(String carrierName) {
         this.carrierName = carrierName;
     }
+    
+    public Carrier(Long carrierId) {
+        this.id = carrierId;
+    }
 
     /**
      * @hibernate.id column="ad_resource_carrier_id" generator-class="native" unsaved-value="null"
